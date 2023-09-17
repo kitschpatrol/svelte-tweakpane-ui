@@ -2,32 +2,38 @@
 	import type { Pane, TabApi } from 'tweakpane';
 	import type { FolderApi, TabPageApi } from '@tweakpane/core';
 	import { onDestroy, getContext, setContext } from 'svelte';
+	import type { Writable } from 'svelte/store';
 
 	export let title: string = 'Tab Page';
 
 	let page: TabPageApi | undefined;
-	let tab: TabApi;
+	let tabStore: Writable<TabApi | null>;
 	let parent: Pane | FolderApi | TabPageApi;
 
 	if (typeof document !== 'undefined') {
-		tab = getContext('tab');
+		tabStore = getContext('tabStore');
 
-		console.log('adding page!');
-		console.log('adding page!');
-		page = tab.addPage({ title });
-		setContext('parent', page);
+		if (!$tabStore) {
+			// create tab if necessary
+			// this will be the tab's parent, not the page's
+			parent = getContext('parent');
 
-		// clean up the placeholder, if applicable...
-		// TODO do this in parent?
-		const placeholderPageIndex = tab.pages.findIndex((p) => {
-			// TODO DRY
-			return p.title === 'Add <Page> child components to this <Tab>!';
-		});
+			$tabStore = parent.addTab({
+				// tabs MUST be created with at least one page
+				// how to handle tabs with no children?
+				// could be cleaner to have children create the tab as needed?
+				pages: [{ title }],
+				disabled: false,
+				hidden: false
+			});
 
-		if (placeholderPageIndex >= 0) {
-			console.log('removing placeholder page!');
-			tab.removePage(placeholderPageIndex);
+			page = $tabStore.pages[0];
+		} else {
+			// add to existing tab
+			page = $tabStore.addPage({ title });
 		}
+
+		setContext('parent', page);
 	}
 
 	onDestroy(() => {

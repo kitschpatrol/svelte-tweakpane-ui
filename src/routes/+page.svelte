@@ -33,13 +33,22 @@
 		<Button title={buttonTitle} onClick={clickFunc} />
 		<Separator />
 		<Tab>
-			<Page title="Page 1">
+			<Page title="1">
 				<Button title="Button in page 1" />
-				<Folder>
-					<Button title="Button in folder" />
-				</Folder>
 			</Page>
-			<Page title="Page 2" />
+			<Page title="2">
+				<Button title="Button in page 2" />
+			</Page>
+			<Page title="3">
+				<Tab>
+					<Page title="A">
+						<Button title="Button in page 1" />
+					</Page>
+					<Page title="B">
+						<Button title="Button in page 2" />
+					</Page>
+				</Tab>
+			</Page>
 		</Tab>
 		<Separator />
 		<Folder>

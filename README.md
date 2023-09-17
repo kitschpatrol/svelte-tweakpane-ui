@@ -1,3 +1,26 @@
+# svelte-tweakpane-ui
+
+## Overview
+
+A [Svelte](https://svelte.dev) component library for [Tweakpane](https://cocopon.github.io/tweakpane/).
+
+## Variations on Tweakpane
+
+- [index](https://tweakpane.github.io/docs/misc/#insert) is not exposed
+
+### Tweakpane resources
+
+- [Documentation](https://tweakpane.github.io/docs/)
+
+### Other projects adapting Tweakpane to Svelte
+
+- [svelte-tweakpane](https://github.com/pierogis/svelte-tweakpane) by [Karl Moore](https://pierogis.live)
+- [svelte-gui](https://github.com/mattcroat/svelte-gui) by [Matija](https://matia.xyz/)
+
+---
+
+_Original Readme_
+
 # create-svelte
 
 Everything you need to build a Svelte library, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
