@@ -5,6 +5,8 @@
 	import type { Writable } from 'svelte/store';
 
 	export let title: string = 'Tab Page';
+	export let disabled: boolean = false;
+	export let selected: boolean = false;
 
 	let page: TabPageApi | undefined;
 	let tabStore: Writable<TabApi | null>;
@@ -23,8 +25,7 @@
 				// how to handle tabs with no children?
 				// could be cleaner to have children create the tab as needed?
 				pages: [{ title }],
-				disabled: false,
-				hidden: false
+				disabled: false
 			});
 
 			page = $tabStore.pages[0];
@@ -32,6 +33,10 @@
 			// add to existing tab
 			page = $tabStore.addPage({ title });
 		}
+
+		$tabStore.on('select', (e) => {
+			page && (selected = page.selected);
+		});
 
 		setContext('parent', page);
 	}
@@ -41,6 +46,8 @@
 	});
 
 	$: page && (page.title = title);
+	$: page && (page.disabled = disabled);
+	$: page && (page.selected = selected);
 </script>
 
 <slot />

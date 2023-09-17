@@ -5,7 +5,6 @@
 
 	let separator: SeparatorBladeApi;
 	let parent: Pane | FolderApi | TabPageApi;
-	export let hidden: boolean = false;
 	export let disabled: boolean = false; // y tho
 
 	if (typeof document !== 'undefined') {
@@ -13,8 +12,7 @@
 
 		separator = parent.addBlade({
 			view: 'separator',
-			disabled,
-			hidden
+			disabled
 		});
 	}
 
@@ -22,6 +20,5 @@
 		separator?.dispose();
 	});
 
-	$: separator && (separator.hidden = hidden);
 	$: separator && (separator.disabled = disabled);
 </script>

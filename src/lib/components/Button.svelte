@@ -5,7 +5,6 @@
 
 	export let title: string = 'Button';
 	export let label: string | undefined = undefined;
-	export let hidden: boolean = false;
 	export let disabled: boolean = false;
 
 	// TODO dispatch proper event?
@@ -20,7 +19,6 @@
 		button = parent.addButton({
 			title,
 			label,
-			hidden,
 			disabled
 		});
 		button.on('click', (e) => {
@@ -30,7 +28,6 @@
 
 	$: button && (button.title = title);
 	$: button && (button.label = label);
-	$: button && (button.hidden = hidden);
 	$: button && (button.disabled = disabled);
 
 	onDestroy(() => {

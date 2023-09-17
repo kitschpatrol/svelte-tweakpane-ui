@@ -5,7 +5,6 @@
 
 	export let title: string = 'Folder';
 	export let expanded: boolean = true;
-	export let hidden: boolean = false;
 	export let disabled: boolean = false;
 
 	let folder: FolderApi;
@@ -16,7 +15,6 @@
 
 		folder = parent.addFolder({
 			title,
-			hidden,
 			disabled,
 			expanded
 		});
@@ -29,7 +27,6 @@
 	}
 
 	$: folder && (folder.title = title);
-	$: folder && (folder.hidden = hidden);
 	$: folder && (folder.disabled = disabled);
 	$: folder && (folder.expanded = expanded);
 

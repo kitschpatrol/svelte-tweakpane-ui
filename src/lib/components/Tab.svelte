@@ -4,7 +4,6 @@
 	import { onDestroy, getContext, setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 
-	export let hidden: boolean = false;
 	export let disabled: boolean = false;
 
 	// pass the tab context down as a store instead of a plain
@@ -32,7 +31,7 @@
 		}
 	});
 
-	// TODO react hidden / disabled?
+	$: $tabStore && ($tabStore.disabled = disabled);
 </script>
 
 <slot />

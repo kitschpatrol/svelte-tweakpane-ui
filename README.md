@@ -6,7 +6,10 @@ A [Svelte](https://svelte.dev) component library for [Tweakpane](https://cocopon
 
 ## Variations on Tweakpane
 
-- [index](https://tweakpane.github.io/docs/misc/#insert) is not exposed
+Certain aspects of the Tweakpane API don't make a ton of sense in the Svelte context.
+
+- [index](https://tweakpane.github.io/docs/misc/#insert) is not exposed. The order of controls appearance matches the component hierarchy.
+- [visibility](https://tweakpane.github.io/docs/misc/#visibility) (e.g. `hidden`) is not exposed. Control the visibility of controls by adding / removing them from the component hierarchy.
 
 ### Tweakpane resources
 
