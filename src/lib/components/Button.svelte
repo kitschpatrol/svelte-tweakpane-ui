@@ -1,14 +1,13 @@
 <script lang="ts">
 	import type { Pane } from 'tweakpane';
 	import type { ButtonApi, FolderApi, TabPageApi, TpEvent } from '@tweakpane/core';
-	import { onMount, onDestroy, getContext } from 'svelte';
+	import { createEventDispatcher, onDestroy, getContext } from 'svelte';
 
 	export let title: string = 'Button';
 	export let label: string | undefined = undefined;
 	export let disabled: boolean = false;
 
-	// TODO dispatch proper event?
-	export let onClick: (ev: TpEvent) => void = () => {};
+	const dispatch = createEventDispatcher();
 
 	let button: ButtonApi;
 	let parent: Pane | FolderApi | TabPageApi;
@@ -21,8 +20,11 @@
 			label,
 			disabled
 		});
-		button.on('click', (e) => {
-			onClick(e);
+		button.on('click', () => {
+			// TODO event types?
+			// Does TpEvent with its target value make
+			// any sense?
+			dispatch('click');
 		});
 	}
 
