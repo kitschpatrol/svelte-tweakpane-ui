@@ -15,12 +15,17 @@
 
 	if (typeof document !== 'undefined') {
 		parent = getContext('parent');
-
 		binding = parent.addBinding(params, key, bindingParams);
+		binding.on('change', () => {
+			// trigger reactivity
+			params = params;
+		});
 	}
 
 	onDestroy(() => {
 		binding?.dispose();
 		binding && parent?.remove(binding);
 	});
+
+	$: params, binding && binding.refresh();
 </script>

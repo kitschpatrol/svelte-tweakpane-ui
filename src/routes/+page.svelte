@@ -8,6 +8,7 @@
 	const clickA = () => {
 		console.log('clicka');
 		clickFunc = clickB;
+		testParams.speed += 100;
 	};
 
 	const clickB = () => {
@@ -34,11 +35,12 @@
 {p1s}
 {p2s}
 {p3s}
+{JSON.stringify(testParams)}
 
 <div class="wrapper">
 	<Pane title="yes" bind:expanded={paneExpanded}>
-		<Binding params={testParams} key="speed" bindingParams={{ label: 'bla' }} />
-		<Button title={buttonTitle} onClick={clickFunc} />
+		<Binding bind:params={testParams} key="speed" bindingParams={{ label: 'bla' }} />
+		<Button title={buttonTitle} on:click={clickFunc} />
 		<Separator />
 		<Tab>
 			<Page title="1" bind:selected={p1s}>
@@ -61,9 +63,9 @@
 		<Separator />
 		<Folder>
 			<Button
-				label="yes"
-				title="Hi"
-				onClick={() => {
+				label="Meta"
+				title="Fold"
+				on:click={() => {
 					paneExpanded = !paneExpanded;
 				}}
 			/>
