@@ -1,33 +1,36 @@
 <script lang="ts">
 	import { onMount, onDestroy, setContext } from 'svelte';
 	import { Pane, type TpPluginBundle } from 'tweakpane';
+	import { writable } from 'svelte/store';
 
 	export let title: string | undefined = undefined;
 	export let expanded: boolean = true;
 	export let plugins: TpPluginBundle[] = [];
+
+	const paneStore = writable<Pane | undefined>(undefined);
+	setContext('parentStore', paneStore);
+
 	let container: HTMLElement;
 
-	let pane: Pane;
-
-	if (typeof document !== 'undefined') {
-		pane = new Pane({ title, expanded });
-		plugins.forEach((plugin) => pane.registerPlugin(plugin));
-		pane.on('fold', () => {
-			expanded = pane.expanded;
-		});
-		setContext('parent', pane);
-	}
-
 	onMount(() => {
-		container.appendChild(pane.element);
+		$paneStore = new Pane({ title, expanded });
+
+		if ($paneStore !== undefined) {
+			plugins.forEach((plugin) => $paneStore?.registerPlugin(plugin));
+			$paneStore.on('fold', () => {
+				$paneStore && (expanded = $paneStore.expanded);
+			});
+		}
+
+		container.appendChild($paneStore.element);
 	});
 
 	onDestroy(() => {
-		pane?.dispose();
+		$paneStore?.dispose();
 	});
 
-	$: pane && (pane.title = title);
-	$: pane && (pane.expanded = expanded);
+	$: $paneStore && ($paneStore.title = title);
+	$: $paneStore && ($paneStore.expanded = expanded);
 
 	// TODO reactive plugins
 	// TODO theme presets

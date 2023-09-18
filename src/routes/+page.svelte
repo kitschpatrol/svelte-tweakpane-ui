@@ -3,16 +3,25 @@
 
 	let buttonTitle = 'yes';
 	let paneExpanded = true;
-	let testParams = { speed: 100 };
+	let testParams = { speed: 'hi', levitch: 100 };
+	let key = 'levitch';
+
+	let viz = false;
+
+	const toggleKey = () => {
+		key = key === 'speed' ? 'levitch' : 'speed';
+	};
+
+	const toggleVisible = () => {
+		viz = !viz;
+	};
 
 	const clickA = () => {
-		console.log('clicka');
 		clickFunc = clickB;
 		testParams.speed += 100;
 	};
 
 	const clickB = () => {
-		console.log('clickb');
 		clickFunc = clickA;
 	};
 
@@ -21,27 +30,43 @@
 	let p1s = true;
 	let p2s = true;
 	let p3s = true;
-
-	$: {
-		console.log(`paneExpanded: ${paneExpanded}`);
-		console.log(`testParams: ${JSON.stringify(testParams, null, 2)}`);
-	}
-
-	$: {
-		console.log(`testParams: ${JSON.stringify(testParams, null, 2)}`);
-	}
 </script>
 
 {p1s}
 {p2s}
 {p3s}
 {JSON.stringify(testParams)}
-
+{key}
 <div class="wrapper">
 	<Pane title="yes" bind:expanded={paneExpanded}>
-		<Binding bind:params={testParams} key="speed" bindingParams={{ label: 'bla' }} />
+		<Button title="Toggle Viz" on:click={toggleVisible} />
+		<Separator />
+
 		<Button title={buttonTitle} on:click={clickFunc} />
 		<Separator />
+
+		<Tab>
+			{#if viz}
+				<Page title="Tab Page 1" bind:selected={p1s}>
+					<Button title="Button in page 1" />
+				</Page>
+				<Page title="Tab Page 2" bind:selected={p2s}>
+					<Button title="Button in page 2" />
+				</Page>
+			{/if}
+		</Tab>
+		{#if viz}
+			<Binding bind:params={testParams} {key} bindingParams={{ label: 'bla' }} />
+		{/if}
+		<Folder>
+			<Button title="Toggle Key" on:click={toggleKey} />
+		</Folder>
+		<Binding bind:params={testParams} {key} bindingParams={{ label: 'bla' }} />
+
+		<!--
+		{#if viz}
+			<Separator />
+		{/if}
 		<Tab>
 			<Page title="1" bind:selected={p1s}>
 				<Button title="Button in page 1" />
@@ -69,7 +94,7 @@
 					paneExpanded = !paneExpanded;
 				}}
 			/>
-		</Folder>
+		</Folder> -->
 	</Pane>
 </div>
 

@@ -2,30 +2,51 @@
 	import type { BindingParams, Pane } from 'tweakpane';
 	import type { Bindable, FolderApi, TabPageApi, BindingApi } from '@tweakpane/core';
 	import { onDestroy, getContext } from 'svelte';
+	import { getElementIndex } from './utils.js';
+	import type { Writable } from 'svelte/store';
 
 	// generic for the bound value type of this input
-	type T = $$Generic;
+	// TODO necessary?
+	// type T = $$Generic;
 
 	export let params: Bindable;
-	export let key: string = 'Binding';
+	export let key: string;
 	export let bindingParams: BindingParams | undefined = undefined;
+	export let disabled: boolean = false;
 
 	let binding: BindingApi;
-	let parent: Pane | FolderApi | TabPageApi;
+	const parentStore: Writable<Pane | FolderApi | TabPageApi | undefined> =
+		getContext('parentStore');
+	let indexElement: HTMLDivElement;
 
-	if (typeof document !== 'undefined') {
-		parent = getContext('parent');
-		binding = parent.addBinding(params, key, bindingParams);
-		binding.on('change', () => {
-			// trigger reactivity
-			params = params;
-		});
+	function create() {
+		// must destroy to allow a reactive `key` parameter
+		destroy();
+		if ($parentStore) {
+			const index = getElementIndex(indexElement);
+			binding = $parentStore.addBinding(params, key, { ...{ index }, ...bindingParams });
+
+			binding.on('change', () => {
+				// trigger reactivity
+				params = params;
+			});
+		}
+	}
+
+	function destroy() {
+		if (binding) {
+			binding.dispose();
+			$parentStore?.remove(binding);
+		}
 	}
 
 	onDestroy(() => {
-		binding?.dispose();
-		binding && parent?.remove(binding);
+		destroy();
 	});
 
 	$: params, binding && binding.refresh();
+	$: binding && (binding.disabled = disabled);
+	$: key, indexElement && $parentStore && create();
 </script>
+
+<div style="display: none;" bind:this={indexElement} />

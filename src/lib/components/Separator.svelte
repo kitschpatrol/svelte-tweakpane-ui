@@ -1,24 +1,40 @@
 <script lang="ts">
 	import type { Pane, SeparatorBladeApi } from 'tweakpane';
 	import type { FolderApi, TabPageApi } from '@tweakpane/core';
-	import { onDestroy, getContext, setContext } from 'svelte';
+	import { onMount, onDestroy, getContext } from 'svelte';
+	import { getElementIndex } from './utils.js';
+	import type { Writable } from 'svelte/store';
 
-	let separator: SeparatorBladeApi;
-	let parent: Pane | FolderApi | TabPageApi;
 	export let disabled: boolean = false; // y tho
 
-	if (typeof document !== 'undefined') {
-		parent = getContext('parent');
+	const parentStore: Writable<Pane | FolderApi | TabPageApi | undefined> =
+		getContext('parentStore');
 
-		separator = parent.addBlade({
-			view: 'separator',
-			disabled
-		});
+	let separator: SeparatorBladeApi;
+	let indexElement: HTMLDivElement;
+
+	function create() {
+		if (!separator && $parentStore && indexElement) {
+			const index = getElementIndex(indexElement);
+
+			separator = $parentStore.addBlade({
+				view: 'separator',
+				disabled,
+				index
+			});
+		}
+	}
+
+	function destroy() {
+		separator?.dispose();
 	}
 
 	onDestroy(() => {
-		separator?.dispose();
+		destroy();
 	});
 
+	$: indexElement && $parentStore && create();
 	$: separator && (separator.disabled = disabled);
 </script>
+
+<div style="display: none;" bind:this={indexElement} />

@@ -2,38 +2,56 @@
 	import type { Pane } from 'tweakpane';
 	import type { FolderApi, TabPageApi } from '@tweakpane/core';
 	import { onMount, onDestroy, getContext, setContext } from 'svelte';
+	import { getElementIndex } from './utils.js';
+	import type { Writable } from 'svelte/store';
+	import { writable } from 'svelte/store';
 
 	export let title: string = 'Folder';
-	export let expanded: boolean = true;
 	export let disabled: boolean = false;
+	export let expanded: boolean = true;
 
-	let folder: FolderApi;
-	let parent: Pane | FolderApi | TabPageApi;
+	// save parent context for ourselves
+	const parentStore: Writable<Pane | FolderApi | TabPageApi | undefined> =
+		getContext('parentStore');
 
-	if (typeof document !== 'undefined') {
-		parent = getContext('parent');
+	// overwrite the context for our children
+	const folderStore = writable<FolderApi | undefined>(undefined);
+	setContext('parentStore', folderStore);
 
-		folder = parent.addFolder({
-			title,
-			disabled,
-			expanded
-		});
+	let indexElement: HTMLDivElement;
 
-		folder.on('fold', () => {
-			expanded = folder.expanded;
-		});
+	function create() {
+		if (!$folderStore && $parentStore) {
+			const index = getElementIndex(indexElement);
 
-		setContext<FolderApi>('parent', folder);
+			$folderStore = $parentStore.addFolder({
+				title,
+				disabled,
+				expanded,
+				index
+			});
+
+			$folderStore.on('fold', () => {
+				$folderStore && (expanded = $folderStore.expanded);
+			});
+		}
 	}
 
-	$: folder && (folder.title = title);
-	$: folder && (folder.disabled = disabled);
-	$: folder && (folder.expanded = expanded);
+	function destroy() {
+		$folderStore?.dispose();
+		$folderStore && $parentStore?.remove($folderStore);
+	}
 
 	onDestroy(() => {
-		folder?.dispose();
-		parent?.remove(folder);
+		destroy();
 	});
+
+	$: indexElement && $parentStore && create();
+	$: $folderStore && ($folderStore.title = title);
+	$: $folderStore && ($folderStore.disabled = disabled);
+	$: $folderStore && ($folderStore.expanded = expanded);
 </script>
 
-<slot />
+<div style="display: none;" bind:this={indexElement}>
+	<slot />
+</div>

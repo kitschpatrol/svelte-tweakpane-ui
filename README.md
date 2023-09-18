@@ -1,5 +1,8 @@
 # svelte-tweakpane-ui
 
+Renderless child ordering...
+https://github.com/sveltejs/svelte/issues/5381#issuecomment-690842511
+
 ## Overview
 
 A [Svelte](https://svelte.dev) component library for [Tweakpane](https://cocopon.github.io/tweakpane/).
