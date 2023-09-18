@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { BindingParams, Pane } from 'tweakpane';
 	import type { Bindable, FolderApi, TabPageApi, BindingApi } from '@tweakpane/core';
-	import { onDestroy, getContext } from 'svelte';
+	import { onMount, onDestroy, getContext } from 'svelte';
 	import { getElementIndex } from './utils.js';
 	import type { Writable } from 'svelte/store';
 
@@ -18,13 +18,18 @@
 	const parentStore: Writable<Pane | FolderApi | TabPageApi | undefined> =
 		getContext('parentStore');
 	let indexElement: HTMLDivElement;
+	let index: number;
+
+	onMount(() => {
+		index = getElementIndex(indexElement);
+	});
 
 	function create() {
 		// must destroy to allow a reactive `key` parameter
 		destroy();
 		if ($parentStore) {
-			const index = getElementIndex(indexElement);
 			binding = $parentStore.addBinding(params, key, { ...{ index }, ...bindingParams });
+			// binding = $parentStore.addBinding(params, key, bindingParams);
 
 			binding.on('change', () => {
 				// trigger reactivity
@@ -46,7 +51,7 @@
 
 	$: params, binding && binding.refresh();
 	$: binding && (binding.disabled = disabled);
-	$: key, indexElement && $parentStore && create();
+	$: key, index !== undefined && $parentStore && create();
 </script>
 
 <div style="display: none;" bind:this={indexElement} />

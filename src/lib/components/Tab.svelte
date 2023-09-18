@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Pane, TabApi } from 'tweakpane';
 	import type { FolderApi, TabPageApi } from '@tweakpane/core';
-	import { onDestroy, getContext, setContext } from 'svelte';
+	import { onMount, onDestroy, getContext, setContext } from 'svelte';
 	import { getElementIndex } from './utils.js';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
@@ -19,16 +19,18 @@
 
 	let indexElement: HTMLDivElement;
 
-	function create() {
+	onMount(() => {
 		// pass the tab context and index down as a store instead of a plain
 		// context, so that the child pages can edit it when needed
 		// that lets us support a childless <Tab /> component, where
 		// the first page to be added handles construction of the tab
 		// this is necessary because the tweakpane tab API can only construct
 		// tab groups with at least one page
-		if (!$tabIndexStore) {
-			$tabIndexStore = getElementIndex(indexElement);
-		}
+		$tabIndexStore = getElementIndex(indexElement);
+	});
+
+	function create() {
+		// nothing to do here, happens in page
 	}
 
 	function destroy() {
@@ -42,7 +44,7 @@
 		destroy();
 	});
 
-	$: indexElement && create();
+	$: $tabIndexStore !== undefined && create();
 	$: $tabStore && ($tabStore.disabled = disabled);
 </script>
 

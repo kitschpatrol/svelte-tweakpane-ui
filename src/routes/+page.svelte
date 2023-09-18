@@ -6,7 +6,7 @@
 	let testParams = { speed: 'hi', levitch: 100 };
 	let key = 'levitch';
 
-	let viz = false;
+	let viz = true;
 
 	const toggleKey = () => {
 		key = key === 'speed' ? 'levitch' : 'speed';
@@ -39,23 +39,23 @@
 {key}
 <div class="wrapper">
 	<Pane title="yes" bind:expanded={paneExpanded}>
+		{#if viz}
+			<Button title="reset" />
+		{/if}
 		<Button title="Toggle Viz" on:click={toggleVisible} />
 		<Separator />
 
 		<Button title={buttonTitle} on:click={clickFunc} />
 		<Separator />
-
-		<Tab>
-			{#if viz}
+		{#if viz}
+			<Tab>
 				<Page title="Tab Page 1" bind:selected={p1s}>
 					<Button title="Button in page 1" />
 				</Page>
 				<Page title="Tab Page 2" bind:selected={p2s}>
 					<Button title="Button in page 2" />
 				</Page>
-			{/if}
-		</Tab>
-		{#if viz}
+			</Tab>
 			<Binding bind:params={testParams} {key} bindingParams={{ label: 'bla' }} />
 		{/if}
 		<Folder>

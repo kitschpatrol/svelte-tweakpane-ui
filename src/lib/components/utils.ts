@@ -4,5 +4,6 @@ export function getElementIndex(element: HTMLElement): number {
 	while ((sibling = sibling.previousElementSibling) !== null) {
 		index++;
 	}
+
 	return index;
 }

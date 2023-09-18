@@ -12,11 +12,14 @@
 
 	let separator: SeparatorBladeApi;
 	let indexElement: HTMLDivElement;
+	let index: number;
+
+	onMount(() => {
+		index = getElementIndex(indexElement);
+	});
 
 	function create() {
-		if (!separator && $parentStore && indexElement) {
-			const index = getElementIndex(indexElement);
-
+		if (!separator && $parentStore) {
 			separator = $parentStore.addBlade({
 				view: 'separator',
 				disabled,
@@ -33,7 +36,7 @@
 		destroy();
 	});
 
-	$: indexElement && $parentStore && create();
+	$: index !== undefined && $parentStore && create();
 	$: separator && (separator.disabled = disabled);
 </script>
 

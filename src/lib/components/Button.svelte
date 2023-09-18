@@ -15,10 +15,14 @@
 
 	let button: ButtonApi;
 	let indexElement: HTMLDivElement;
+	let index: number;
+
+	onMount(() => {
+		index = getElementIndex(indexElement);
+	});
 
 	function create() {
-		if (!button && $parentStore && indexElement) {
-			const index = getElementIndex(indexElement);
+		if (!button && $parentStore) {
 			button = $parentStore.addButton({
 				title,
 				label,
@@ -43,7 +47,7 @@
 		destroy();
 	});
 
-	$: indexElement && $parentStore && create();
+	$: index !== undefined && $parentStore && create();
 	$: button && (button.title = title);
 	$: button && (button.label = label);
 	$: button && (button.disabled = disabled);

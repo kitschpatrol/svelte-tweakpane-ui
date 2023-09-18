@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, onDestroy, setContext } from 'svelte';
+	import { onMount, onDestroy, setContext, tick } from 'svelte';
 	import { Pane, type TpPluginBundle } from 'tweakpane';
 	import { writable } from 'svelte/store';
 

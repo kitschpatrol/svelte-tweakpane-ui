@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Pane, TabApi } from 'tweakpane';
 	import type { FolderApi, TabPageApi } from '@tweakpane/core';
-	import { onDestroy, getContext, setContext } from 'svelte';
+	import { onDestroy, getContext, setContext, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
 	import { getElementIndex } from './utils.js';
@@ -24,6 +24,11 @@
 
 	// index not actually used, page order established by array order on tab
 	let indexElement: HTMLDivElement;
+	let index: number;
+
+	onMount(() => {
+		index = getElementIndex(indexElement);
+	});
 
 	function create() {
 		if (!$tabStore && $parentStore) {
@@ -41,7 +46,6 @@
 			$tabPageStore = $tabStore.pages[0];
 		} else if (!$tabPageStore && $tabStore) {
 			// add to existing tab
-			const index = getElementIndex(indexElement);
 			$tabPageStore = $tabStore.addPage({ title, index });
 		}
 
@@ -58,7 +62,7 @@
 		destroy();
 	});
 
-	$: indexElement && $parentStore && $tabIndexStore && create();
+	$: index !== undefined && $parentStore && $tabIndexStore && create();
 	$: $tabPageStore && ($tabPageStore.title = title);
 	$: $tabPageStore && ($tabPageStore.disabled = disabled);
 	$: $tabPageStore && ($tabPageStore.selected = selected);

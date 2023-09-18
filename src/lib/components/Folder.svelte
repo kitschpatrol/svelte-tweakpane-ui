@@ -19,11 +19,14 @@
 	setContext('parentStore', folderStore);
 
 	let indexElement: HTMLDivElement;
+	let index: number;
+
+	onMount(() => {
+		index = getElementIndex(indexElement);
+	});
 
 	function create() {
 		if (!$folderStore && $parentStore) {
-			const index = getElementIndex(indexElement);
-
 			$folderStore = $parentStore.addFolder({
 				title,
 				disabled,
@@ -46,7 +49,7 @@
 		destroy();
 	});
 
-	$: indexElement && $parentStore && create();
+	$: index !== undefined && $parentStore && create();
 	$: $folderStore && ($folderStore.title = title);
 	$: $folderStore && ($folderStore.disabled = disabled);
 	$: $folderStore && ($folderStore.expanded = expanded);
