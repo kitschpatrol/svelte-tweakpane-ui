@@ -1,39 +1,40 @@
 <script lang="ts">
-	import { onMount, onDestroy, setContext, tick } from 'svelte';
+	import { onMount, onDestroy, setContext } from 'svelte';
 	import { Pane, type TpPluginBundle } from 'tweakpane';
 	import { writable } from 'svelte/store';
+	import type { Writable } from 'svelte/store';
+	import { BROWSER } from 'esm-env';
 
 	export let title: string | undefined = undefined;
 	export let expanded: boolean = true;
 	export let plugins: TpPluginBundle[] = [];
 
-	const paneStore = writable<Pane | undefined>(undefined);
-	setContext('parentStore', paneStore);
-
+	let paneStore: Writable<Pane>;
 	let container: HTMLElement;
-
-	onMount(() => {
-		$paneStore = new Pane({ title, expanded });
-
-		if ($paneStore !== undefined) {
-			plugins.forEach((plugin) => $paneStore?.registerPlugin(plugin));
-			$paneStore.on('fold', () => {
-				$paneStore && (expanded = $paneStore.expanded);
-			});
-		}
-
-		container.appendChild($paneStore.element);
-	});
-
-	onDestroy(() => {
-		$paneStore?.dispose();
-	});
-
-	$: $paneStore && ($paneStore.title = title);
-	$: $paneStore && ($paneStore.expanded = expanded);
 
 	// TODO reactive plugins
 	// TODO theme presets
+	// TODO draggable
+	if (BROWSER) {
+		paneStore = writable<Pane>(new Pane({ title, expanded }));
+		setContext('parentStore', paneStore);
+
+		plugins.forEach((plugin) => $paneStore?.registerPlugin(plugin));
+		$paneStore.on('fold', () => {
+			expanded = $paneStore.expanded;
+		});
+
+		onMount(() => {
+			container.appendChild($paneStore.element);
+		});
+
+		onDestroy(() => {
+			$paneStore.dispose();
+		});
+	}
+
+	$: $paneStore && ($paneStore.title = title);
+	$: $paneStore && ($paneStore.expanded = expanded);
 </script>
 
 <div class="container" bind:this={container}>

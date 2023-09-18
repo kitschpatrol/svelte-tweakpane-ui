@@ -17,11 +17,19 @@ Certain aspects of the Tweakpane API don't make a ton of sense in the Svelte con
 ### Tweakpane resources
 
 - [Documentation](https://tweakpane.github.io/docs/)
+- [API](https://tweakpane.github.io/docs/api/index.html)
+- [Essentials Plugin](https://github.com/tweakpane/plugin-essentials)
 
 ### Other projects adapting Tweakpane to Svelte
 
 - [svelte-tweakpane](https://github.com/pierogis/svelte-tweakpane) by [Karl Moore](https://pierogis.live)
 - [svelte-gui](https://github.com/mattcroat/svelte-gui) by [Matija](https://matia.xyz/)
+
+### Other projects adapting Tweakpane to reactive frameworks
+
+- Solid: [solid-tweakpane](https://github.com/MrFoxPro/solid-tweakpane)
+- React: [react-tweakpane](https://github.com/MelonCode/react-tweakpane)
+- Vue: [v-tweakpane](https://github.com/vinayakkulkarni/v-tweakpane)
 
 ---
 

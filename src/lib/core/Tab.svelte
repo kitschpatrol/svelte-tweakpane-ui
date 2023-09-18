@@ -2,7 +2,7 @@
 	import type { Pane, TabApi } from 'tweakpane';
 	import type { FolderApi, TabPageApi } from '@tweakpane/core';
 	import { onMount, onDestroy, getContext, setContext } from 'svelte';
-	import { getElementIndex } from './utils.js';
+	import { getElementIndex } from '$lib/utils.js';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
 
@@ -10,11 +10,10 @@
 
 	export let disabled: boolean = false;
 
-	const parentStore: Writable<Pane | FolderApi | TabPageApi | undefined> =
-		getContext('parentStore');
-	const tabStore = writable<TabApi | undefined>(undefined);
+	const parentStore: Writable<Pane | FolderApi | TabPageApi> = getContext('parentStore');
+	const tabStore = writable<TabApi>();
 	setContext('tabStore', tabStore);
-	const tabIndexStore = writable<Number | undefined>(undefined);
+	const tabIndexStore = writable<Number>();
 	setContext('tabIndexStore', tabIndexStore);
 
 	let indexElement: HTMLDivElement;
@@ -29,22 +28,10 @@
 		$tabIndexStore = getElementIndex(indexElement);
 	});
 
-	function create() {
-		// nothing to do here, happens in page
-	}
-
-	function destroy() {
-		if ($tabStore) {
-			$parentStore?.remove($tabStore);
-			$tabStore.dispose();
-		}
-	}
-
 	onDestroy(() => {
-		destroy();
+		$tabStore?.dispose();
 	});
 
-	$: $tabIndexStore !== undefined && create();
 	$: $tabStore && ($tabStore.disabled = disabled);
 </script>
 

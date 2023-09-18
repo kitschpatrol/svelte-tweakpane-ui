@@ -2,13 +2,12 @@
 	import type { Pane, SeparatorBladeApi } from 'tweakpane';
 	import type { FolderApi, TabPageApi } from '@tweakpane/core';
 	import { onMount, onDestroy, getContext } from 'svelte';
-	import { getElementIndex } from './utils.js';
+	import { getElementIndex } from '$lib/utils.js';
 	import type { Writable } from 'svelte/store';
 
 	export let disabled: boolean = false; // y tho
 
-	const parentStore: Writable<Pane | FolderApi | TabPageApi | undefined> =
-		getContext('parentStore');
+	const parentStore: Writable<Pane | FolderApi | TabPageApi> = getContext('parentStore');
 
 	let separator: SeparatorBladeApi;
 	let indexElement: HTMLDivElement;
@@ -19,24 +18,18 @@
 	});
 
 	function create() {
-		if (!separator && $parentStore) {
-			separator = $parentStore.addBlade({
-				view: 'separator',
-				disabled,
-				index
-			});
-		}
-	}
-
-	function destroy() {
-		separator?.dispose();
+		separator = $parentStore.addBlade({
+			view: 'separator',
+			disabled,
+			index
+		});
 	}
 
 	onDestroy(() => {
-		destroy();
+		separator?.dispose();
 	});
 
-	$: index !== undefined && $parentStore && create();
+	$: index !== undefined && $parentStore && !separator && create();
 	$: separator && (separator.disabled = disabled);
 </script>
 

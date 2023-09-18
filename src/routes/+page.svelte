@@ -37,66 +37,40 @@
 {p3s}
 {JSON.stringify(testParams)}
 {key}
+
+<hr />
+
 <div class="wrapper">
 	<Pane title="yes" bind:expanded={paneExpanded}>
-		{#if viz}
-			<Button title="reset" />
-		{/if}
-		<Button title="Toggle Viz" on:click={toggleVisible} />
-		<Separator />
-
-		<Button title={buttonTitle} on:click={clickFunc} />
+		<Binding params={testParams} {key} />
 		<Separator />
 		{#if viz}
-			<Tab>
-				<Page title="Tab Page 1" bind:selected={p1s}>
-					<Button title="Button in page 1" />
-				</Page>
-				<Page title="Tab Page 2" bind:selected={p2s}>
-					<Button title="Button in page 2" />
-				</Page>
-			</Tab>
-			<Binding bind:params={testParams} {key} bindingParams={{ label: 'bla' }} />
+			<Button title="hi" />
 		{/if}
-		<Folder>
-			<Button title="Toggle Key" on:click={toggleKey} />
-		</Folder>
-		<Binding bind:params={testParams} {key} bindingParams={{ label: 'bla' }} />
-
-		<!--
+		<Button title="reset" />
 		{#if viz}
-			<Separator />
+			<Folder>
+				<Button title="enfoldered" />
+				<Separator />
+			</Folder>
 		{/if}
+		<Separator />
 		<Tab>
-			<Page title="1" bind:selected={p1s}>
-				<Button title="Button in page 1" />
+			<Page title="A">
+				<Button title="Some button A" />
 			</Page>
-			<Page title="2" bind:selected={p2s}>
-				<Button title="Button in page 2" />
-			</Page>
-			<Page title="3" bind:selected={p3s}>
-				<Tab>
-					<Page title="A">
-						<Button title="Button in page 1" />
-					</Page>
-					<Page title="B">
-						<Button title="Button in page 2" />
-					</Page>
-				</Tab>
+			<Page title="B">
+				<Button title="Some button B" />
 			</Page>
 		</Tab>
+		<Button title="Toggle Viz" on:click={toggleVisible} />
+		<Button title="Toggle Key" on:click={toggleKey} />
 		<Separator />
-		<Folder>
-			<Button
-				label="Meta"
-				title="Fold"
-				on:click={() => {
-					paneExpanded = !paneExpanded;
-				}}
-			/>
-		</Folder> -->
 	</Pane>
 </div>
+
+<hr />
+<p>I am at the bottom</p>
 
 <style>
 	div.wrapper {

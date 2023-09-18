@@ -4,22 +4,21 @@
 	import { onDestroy, getContext, setContext, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
-	import { getElementIndex } from './utils.js';
+	import { getElementIndex } from '$lib/utils.js';
 
 	export let title: string = 'Tab Page';
 	export let disabled: boolean = false;
 	export let selected: boolean = false;
 
 	// get context from tab
-	const tabStore: Writable<TabApi | undefined> = getContext('tabStore');
-	const tabIndexStore: Writable<number | undefined> = getContext('tabIndexStore');
+	const tabStore: Writable<TabApi> = getContext('tabStore');
+	const tabIndexStore: Writable<number> = getContext('tabIndexStore');
 
 	// save parent context for ourselves
-	const parentStore: Writable<Pane | FolderApi | TabPageApi | undefined> =
-		getContext('parentStore');
+	const parentStore: Writable<Pane | FolderApi | TabPageApi> = getContext('parentStore');
 
 	// overwrite the context for our children
-	const tabPageStore = writable<TabPageApi | undefined>(undefined);
+	const tabPageStore = writable<TabPageApi>();
 	setContext('parentStore', tabPageStore);
 
 	// index not actually used, page order established by array order on tab
@@ -31,7 +30,7 @@
 	});
 
 	function create() {
-		if (!$tabStore && $parentStore) {
+		if (!$tabStore) {
 			// create tab if necessary
 			// this will be the tab's parent, not the page's
 			$tabStore = $parentStore.addTab({
@@ -54,12 +53,8 @@
 		});
 	}
 
-	function destroy() {
-		$tabPageStore?.dispose();
-	}
-
 	onDestroy(() => {
-		destroy();
+		$tabPageStore?.dispose();
 	});
 
 	$: index !== undefined && $parentStore && $tabIndexStore && create();
