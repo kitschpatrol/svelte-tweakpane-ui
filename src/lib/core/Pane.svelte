@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { onMount, onDestroy, setContext } from 'svelte';
-	import { Pane, type TpPluginBundle } from 'tweakpane';
+	import type { Pane } from 'tweakpane';
 	import { writable } from 'svelte/store';
 	import type { Writable } from 'svelte/store';
 	import { BROWSER } from 'esm-env';
+	import { createPane } from '$lib/utils.js';
 
 	export let title: string | undefined = undefined;
 	export let expanded: boolean = true;
-	export let plugins: TpPluginBundle[] = [];
 
 	let paneStore: Writable<Pane>;
 	let container: HTMLElement;
@@ -16,14 +16,13 @@
 	// TODO theme presets
 	// TODO draggable
 	if (BROWSER) {
-		paneStore = writable<Pane>(new Pane({ title, expanded }));
+		paneStore = writable<Pane>(createPane({ title, expanded }, true));
 		setContext('parentStore', paneStore);
 
 		// flag so stand-alone components can know if they're in an explicit pane
 		// if not, they will create a containing pane themselves
 		setContext<boolean>('inPane', true);
 
-		plugins.forEach((plugin) => $paneStore?.registerPlugin(plugin));
 		$paneStore.on('fold', () => {
 			expanded = $paneStore.expanded;
 		});
@@ -46,8 +45,8 @@
 </div>
 
 <style>
-	.container {
-		/* --tp-base-background-color: hsla(230, 5%, 90%, 1);
+	/*.container {
+		 --tp-base-background-color: hsla(230, 5%, 90%, 1);
 		--tp-base-shadow-color: hsla(0, 0%, 0%, 0.1);
 		--tp-button-background-color: hsla(230, 7%, 75%, 1);
 		--tp-button-background-color-active: hsla(230, 7%, 60%, 1);
@@ -67,6 +66,6 @@
 		--tp-input-foreground-color: hsla(230, 10%, 30%, 1);
 		--tp-label-foreground-color: hsla(230, 10%, 30%, 0.7);
 		--tp-monitor-background-color: hsla(230, 15%, 30%, 0.1);
-		--tp-monitor-foreground-color: hsla(230, 10%, 30%, 0.5); */
-	}
+		--tp-monitor-foreground-color: hsla(230, 10%, 30%, 0.5); 
+	}*/
 </style>

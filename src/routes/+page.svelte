@@ -16,6 +16,7 @@
 		TextField,
 		FpsGraph
 	} from '$lib/index.js';
+	import { onMount } from 'svelte';
 
 	let buttonTitle = 'yes';
 	let paneExpanded = true;
@@ -54,8 +55,25 @@
 
 	let testNum = 3.14;
 	let testText = 'cosmic manifold';
+
+	let fpsBegin: any;
+	let fpsEnd: any;
+
+	let fpsValue: number = 0;
+
+	onMount(() => {
+		function render() {
+			fpsBegin && fpsBegin();
+			// Rendering
+			fpsEnd && fpsEnd();
+			requestAnimationFrame(render);
+		}
+
+		render();
+	});
 </script>
 
+{fpsValue}
 {p1s}
 {p2s}
 {p3s}
@@ -64,9 +82,22 @@
 
 {testParams.levitch}
 
-<hr />
-
 <div class="wrapper">
+	<hr />
+
+	<FpsGraph label="FPS Internal Clock" />
+
+	<FpsGraph
+		on:change={(e) => {
+			console.log(e.detail);
+		}}
+		bind:begin={fpsBegin}
+		bind:end={fpsEnd}
+		label="FPS External Clock"
+	/>
+
+	<hr />
+
 	<PointPicker expanded={true} picker={'inline'} value={{ x: 50, y: 120, z: 77, w: 34 }} />
 
 	<PointPicker

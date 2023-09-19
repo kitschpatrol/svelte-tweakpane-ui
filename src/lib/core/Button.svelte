@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Pane } from 'tweakpane';
+	import type { Pane } from 'tweakpane';
 	import type { ButtonApi, FolderApi, TabPageApi, TpEvent } from '@tweakpane/core';
 	import { createEventDispatcher, onDestroy, getContext, onMount } from 'svelte';
-	import { getElementIndex } from '$lib/utils.js';
+	import { createPane, getElementIndex } from '$lib/utils.js';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
 
@@ -23,7 +23,7 @@
 		index = getElementIndex(indexElement);
 
 		if (!inPane) {
-			$parentStore = new Pane({ expanded: true });
+			$parentStore = createPane({ expanded: true }, false);
 			indexElement.replaceWith($parentStore.element);
 		}
 	});

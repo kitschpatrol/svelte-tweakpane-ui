@@ -1,23 +1,28 @@
 <script lang="ts">
-	import type { BindingParams } from 'tweakpane';
+	import type { BladeApi, SeparatorBladeParams } from 'tweakpane';
+	import type { FpsGraphBladeParams } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
+	import type { FpsGraphBladeApi } from '@tweakpane/plugin-essentials';
 	import type { Pane } from 'tweakpane';
-	import type { Bindable, FolderApi, TabPageApi, BindingApi } from '@tweakpane/core';
+	import type { FolderApi, TabPageApi } from '@tweakpane/core';
 	import { onMount, onDestroy, getContext, createEventDispatcher } from 'svelte';
 	import { createPane, getElementIndex } from '$lib/utils.js';
 	import { writable, type Writable } from 'svelte/store';
 
-	export let params: Bindable;
-	export let key: string;
+	// TODO templatize types
+	// Slider, list, and text not supported... use Binding or extras
+	export let params: SeparatorBladeParams | FpsGraphBladeParams;
 	export let disabled: boolean = false;
-	export let bindingParams: BindingParams | undefined = undefined;
 
 	const parentStore: Writable<Pane | FolderApi | TabPageApi> =
 		getContext('parentStore') ?? writable();
 	const inPane = getContext('inPane');
 	// const dispatch = createEventDispatcher();
 
+	// dangerous bindable for special cases like fps
+	export let bladeRef: BladeApi | FpsGraphBladeApi | undefined = undefined;
+
 	let indexElement: HTMLDivElement;
-	let binding: BindingApi;
+	let blade: BladeApi | FpsGraphBladeApi;
 	let index: number;
 
 	onMount(() => {
@@ -30,33 +35,25 @@
 	});
 
 	function create() {
-		// must destroy to allow a reactive `key` parameter
-		if (binding) binding.dispose();
+		// must destroy to allow a reactive parameters
+		if (blade) blade.dispose();
 
 		// last one wins
-		binding = $parentStore.addBinding(params, key, {
+		blade = $parentStore.addBlade({
 			...{ index },
-			...bindingParams,
+			...params,
 			...{ disabled }
 		});
-
-		binding.on('change', () => {
-			// todo stick with reactive?
-			// dispatch('change', ev);
-
-			// trigger reactivity
-			params = params;
-		});
+		bladeRef = blade;
 	}
 
 	onDestroy(() => {
-		binding?.dispose();
+		blade?.dispose();
 		!inPane && $parentStore?.dispose();
 	});
 
-	$: key, bindingParams, $parentStore && index !== undefined && create();
-	$: params, binding && binding.refresh();
-	$: binding && (binding.disabled = disabled);
+	$: params, $parentStore && index !== undefined && create();
+	$: blade && (blade.disabled = disabled);
 </script>
 
 <div style="display: none;" bind:this={indexElement} />
