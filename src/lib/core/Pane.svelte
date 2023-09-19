@@ -19,6 +19,10 @@
 		paneStore = writable<Pane>(new Pane({ title, expanded }));
 		setContext('parentStore', paneStore);
 
+		// flag so stand-alone components can know if they're in an explicit pane
+		// if not, they will create a containing pane themselves
+		setContext<boolean>('inPane', true);
+
 		plugins.forEach((plugin) => $paneStore?.registerPlugin(plugin));
 		$paneStore.on('fold', () => {
 			expanded = $paneStore.expanded;

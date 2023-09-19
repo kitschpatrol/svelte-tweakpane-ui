@@ -5,10 +5,15 @@
 	import { getElementIndex } from '$lib/utils.js';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
+	import { BROWSER } from 'esm-env';
 
 	// TODO expose active index?
 
 	export let disabled: boolean = false;
+
+	if (BROWSER && !getContext('inPane')) {
+		console.warn('Tweakpane Tabs must be used inside of a <Pane>');
+	}
 
 	const parentStore: Writable<Pane | FolderApi | TabPageApi> = getContext('parentStore');
 	const tabStore = writable<TabApi>();

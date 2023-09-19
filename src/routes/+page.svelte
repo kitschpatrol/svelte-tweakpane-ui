@@ -41,6 +41,15 @@
 <hr />
 
 <div class="wrapper">
+	<h3>Stand-alone</h3>
+
+	<Binding params={testParams} {key} />
+	<hr />
+	<Button title="hi" />
+	<hr />
+	<Separator />
+	<hr />
+	<h3>Inside a pane</h3>
 	<Pane title="yes" bind:expanded={paneExpanded}>
 		<Binding params={testParams} {key} />
 		<Separator />
@@ -55,14 +64,18 @@
 			</Folder>
 		{/if}
 		<Separator />
-		<Tab>
-			<Page title="A">
-				<Button title="Some button A" />
-			</Page>
-			<Page title="B">
-				<Button title="Some button B" />
-			</Page>
-		</Tab>
+		{#if viz}
+			<Tab>
+				<Page title="A">
+					<Button title="Some button A" />
+					<Binding params={testParams} {key} />
+				</Page>
+				<Page title="B">
+					<Button title="Some button B" />
+					<Binding params={testParams} {key} />
+				</Page>
+			</Tab>
+		{/if}
 		<Button title="Toggle Viz" on:click={toggleVisible} />
 		<Button title="Toggle Key" on:click={toggleKey} />
 		<Separator />

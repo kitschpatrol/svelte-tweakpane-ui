@@ -5,6 +5,7 @@
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
 	import { getElementIndex } from '$lib/utils.js';
+	import { BROWSER } from 'esm-env';
 
 	export let title: string = 'Tab Page';
 	export let disabled: boolean = false;
@@ -13,6 +14,10 @@
 	// get context from tab
 	const tabStore: Writable<TabApi> = getContext('tabStore');
 	const tabIndexStore: Writable<number> = getContext('tabIndexStore');
+
+	if (BROWSER && (!tabStore || !getContext('inPane'))) {
+		console.warn('Tweakpane Pages must be used inside of a <Tab> inside of a <Pane>');
+	}
 
 	// save parent context for ourselves
 	const parentStore: Writable<Pane | FolderApi | TabPageApi> = getContext('parentStore');

@@ -1,13 +1,17 @@
 <script lang="ts">
-	import type { Pane, SeparatorBladeApi } from 'tweakpane';
+	import type { SeparatorBladeApi } from 'tweakpane';
+	import { Pane } from 'tweakpane';
 	import type { FolderApi, TabPageApi } from '@tweakpane/core';
 	import { onMount, onDestroy, getContext } from 'svelte';
 	import { getElementIndex } from '$lib/utils.js';
 	import type { Writable } from 'svelte/store';
+	import { writable } from 'svelte/store';
 
 	export let disabled: boolean = false; // y tho
 
-	const parentStore: Writable<Pane | FolderApi | TabPageApi> = getContext('parentStore');
+	const parentStore: Writable<Pane | FolderApi | TabPageApi> =
+		getContext('parentStore') ?? writable();
+	const inPane = getContext('inPane');
 
 	let separator: SeparatorBladeApi;
 	let indexElement: HTMLDivElement;
@@ -15,6 +19,11 @@
 
 	onMount(() => {
 		index = getElementIndex(indexElement);
+
+		if (!inPane) {
+			$parentStore = new Pane({ expanded: true });
+			indexElement.replaceWith($parentStore.element);
+		}
 	});
 
 	function create() {
@@ -27,6 +36,7 @@
 
 	onDestroy(() => {
 		separator?.dispose();
+		!inPane && $parentStore?.dispose();
 	});
 
 	$: index !== undefined && $parentStore && !separator && create();

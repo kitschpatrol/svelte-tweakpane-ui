@@ -1,9 +1,10 @@
 <script lang="ts">
-	import type { Pane } from 'tweakpane';
+	import { Pane } from 'tweakpane';
 	import type { ButtonApi, FolderApi, TabPageApi, TpEvent } from '@tweakpane/core';
 	import { createEventDispatcher, onDestroy, getContext, onMount } from 'svelte';
 	import { getElementIndex } from '$lib/utils.js';
 	import type { Writable } from 'svelte/store';
+	import { writable } from 'svelte/store';
 
 	export let title: string = 'Button';
 	export let label: string | undefined = undefined;
@@ -13,11 +14,18 @@
 	let button: ButtonApi;
 	let index: number;
 
+	const parentStore: Writable<Pane | FolderApi | TabPageApi> =
+		getContext('parentStore') ?? writable();
+	const inPane = getContext('inPane');
 	const dispatch = createEventDispatcher();
-	const parentStore: Writable<Pane | FolderApi | TabPageApi> = getContext('parentStore');
 
 	onMount(() => {
 		index = getElementIndex(indexElement);
+
+		if (!inPane) {
+			$parentStore = new Pane({ expanded: true });
+			indexElement.replaceWith($parentStore.element);
+		}
 	});
 
 	function create() {
@@ -36,6 +44,7 @@
 
 	onDestroy(() => {
 		button?.dispose();
+		!inPane && $parentStore?.dispose();
 	});
 
 	$: index !== undefined && $parentStore && !button && create();

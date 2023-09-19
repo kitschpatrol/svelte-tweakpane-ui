@@ -5,13 +5,19 @@
 	import { getElementIndex } from '$lib/utils.js';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
+	import { BROWSER } from 'esm-env';
 
 	export let title: string = 'Folder';
 	export let disabled: boolean = false;
 	export let expanded: boolean = true;
 
 	// save parent context for ourselves
-	const parentStore: Writable<Pane | FolderApi | TabPageApi> = getContext('parentStore');
+	const parentStore: Writable<Pane | FolderApi | TabPageApi> =
+		getContext('parentStore') ?? writable();
+
+	if (BROWSER && !getContext('inPane')) {
+		console.warn('Tweakpane Folders must be used inside of a <Pane>');
+	}
 
 	// overwrite the context for our children
 	const folderStore = writable<FolderApi>();
