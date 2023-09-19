@@ -39,10 +39,6 @@
 		label,
 		picker
 	} satisfies ColorInputParams;
-
-	$: {
-		console.log(`bindingParams: ${JSON.stringify(bindingParams, null, 2)}`);
-	}
 </script>
 
 <Binding {disabled} bind:params {key} {bindingParams} />

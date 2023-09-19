@@ -51,6 +51,7 @@
 	let colorValue = { r: 1, g: 25, b: 234 };
 
 	let testNum = 3.14;
+	let testText = 'cosmic manifold';
 </script>
 
 {p1s}
@@ -70,6 +71,8 @@
 	{colorValue} <br />
 
 	{testNum} <br />
+	{testText} <br />
+	<TextField bind:value={testText} />
 	<Slider bind:value={testNum} />
 	<Slider bind:value={testNum} min={0} />
 	<Slider bind:value={testNum} max={100} />
