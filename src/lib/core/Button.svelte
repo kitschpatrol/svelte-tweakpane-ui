@@ -33,7 +33,7 @@
 			title,
 			label,
 			disabled,
-			index: getElementIndex(indexElement)
+			index: index
 		});
 
 		button.on('click', () => {

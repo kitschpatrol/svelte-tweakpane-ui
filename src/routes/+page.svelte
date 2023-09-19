@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Binding, Button, Folder, Page, Pane, Separator, Tab } from '$lib/index.js';
+	import { Binding, Button, Checkbox, Folder, Page, Pane, Separator, Tab } from '$lib/index.js';
 
 	let buttonTitle = 'yes';
 	let paneExpanded = true;
@@ -30,6 +30,9 @@
 	let p1s = true;
 	let p2s = true;
 	let p3s = true;
+
+	let checkLabel = 'I am a checkbox!';
+	let checkValue = false;
 </script>
 
 {p1s}
@@ -37,15 +40,34 @@
 {p3s}
 {JSON.stringify(testParams)}
 {key}
+{testParams.levitch}
 
 <hr />
 
 <div class="wrapper">
 	<h3>Stand-alone</h3>
-
-	<Binding params={testParams} {key} />
+	{checkLabel}<br />
+	{checkValue}<br />
+	<Checkbox label={checkLabel} bind:value={checkValue} />
+	<Button
+		title="Toggle Checkbox"
+		on:click={() => {
+			checkValue = !checkValue;
+		}}
+	/>
+	<Button
+		title="Relabel Checkbox"
+		on:click={() => {
+			checkLabel = checkLabel
+				.split('')
+				.sort(() => 0.5 - Math.random())
+				.join('');
+		}}
+	/>
 	<hr />
-	<Button title="hi" />
+	<Binding bind:params={testParams} {key} />
+	<hr />
+
 	<hr />
 	<Separator />
 	<hr />

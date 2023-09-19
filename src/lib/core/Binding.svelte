@@ -2,7 +2,7 @@
 	import type { BindingParams } from 'tweakpane';
 	import { Pane } from 'tweakpane';
 	import type { Bindable, FolderApi, TabPageApi, BindingApi } from '@tweakpane/core';
-	import { onMount, onDestroy, getContext, tick } from 'svelte';
+	import { onMount, onDestroy, getContext, createEventDispatcher } from 'svelte';
 	import { getElementIndex } from '$lib/utils.js';
 	import { writable, type Writable } from 'svelte/store';
 
@@ -14,6 +14,7 @@
 	const parentStore: Writable<Pane | FolderApi | TabPageApi> =
 		getContext('parentStore') ?? writable();
 	const inPane = getContext('inPane');
+	// const dispatch = createEventDispatcher();
 
 	let indexElement: HTMLDivElement;
 	let binding: BindingApi;
@@ -38,6 +39,9 @@
 		});
 
 		binding.on('change', () => {
+			// todo stick with reactive?
+			// dispatch('change', ev);
+
 			// trigger reactivity
 			params = params;
 		});
@@ -48,7 +52,7 @@
 		!inPane && $parentStore?.dispose();
 	});
 
-	$: key, $parentStore && index !== undefined && create();
+	$: key, bindingParams, $parentStore && index !== undefined && create();
 	$: params, binding && binding.refresh();
 	$: binding && (binding.disabled = disabled);
 </script>
