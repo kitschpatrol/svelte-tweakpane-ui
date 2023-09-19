@@ -34,9 +34,11 @@
 		if (binding) binding.dispose();
 
 		binding = $parentStore.addBinding(params, key, {
-			...{ index },
+			...{ index, disabled },
 			...bindingParams
 		});
+
+		console.log(binding.view);
 
 		binding.on('change', () => {
 			// todo stick with reactive?

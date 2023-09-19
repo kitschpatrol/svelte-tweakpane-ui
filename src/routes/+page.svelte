@@ -1,5 +1,15 @@
 <script lang="ts">
-	import { Binding, Button, Checkbox, Folder, Page, Pane, Separator, Tab } from '$lib/index.js';
+	import {
+		Binding,
+		Button,
+		Checkbox,
+		ColorPicker,
+		Folder,
+		Page,
+		Pane,
+		Separator,
+		Tab
+	} from '$lib/index.js';
 
 	let buttonTitle = 'yes';
 	let paneExpanded = true;
@@ -33,6 +43,8 @@
 
 	let checkLabel = 'I am a checkbox!';
 	let checkValue = false;
+	// let colorValue = '0x00ffd6';
+	let colorValue = { r: 1, g: 25, b: 234 };
 </script>
 
 {p1s}
@@ -48,6 +60,9 @@
 	<h3>Stand-alone</h3>
 	{checkLabel}<br />
 	{checkValue}<br />
+	{colorValue} <br />
+	<ColorPicker bind:value={colorValue} />
+
 	<Checkbox label={checkLabel} bind:value={checkValue} />
 	<Button
 		title="Toggle Checkbox"

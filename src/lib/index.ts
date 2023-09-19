@@ -6,5 +6,6 @@ import Pane from './core/Pane.svelte';
 import Separator from './core/Separator.svelte';
 import Tab from './core/Tab.svelte';
 import Checkbox from './extra/Checkbox.svelte';
+import ColorPicker from './extra/ColorPicker.svelte';
 
-export { Binding, Button, Checkbox, Folder, Page, Pane, Separator, Tab };
+export { Binding, Button, Checkbox, Folder, Page, Pane, Separator, Tab, ColorPicker };
