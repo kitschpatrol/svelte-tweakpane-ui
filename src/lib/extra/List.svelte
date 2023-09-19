@@ -1,10 +1,9 @@
 <script lang="ts">
 	import Binding from '$lib/core/Binding.svelte';
 	import { makeSafeKey } from '$lib/utils.js';
-	import type { PickerLayout } from '@tweakpane/core';
 	import type { ListParamsOptions } from 'tweakpane';
 
-	export let label: string = 'Dropdown';
+	export let label: string = 'List';
 
 	export let value: string | boolean | number;
 

@@ -4,7 +4,7 @@
 		Button,
 		Checkbox,
 		ColorPicker,
-		Dropdown,
+		List,
 		Folder,
 		Page,
 		Pane,
@@ -12,7 +12,7 @@
 		Slider,
 		Tab,
 		TextField,
-		VectorPicker
+		PointPicker
 	} from '$lib/index.js';
 
 	let buttonTitle = 'yes';
@@ -65,12 +65,32 @@
 <hr />
 
 <div class="wrapper">
+	<PointPicker expanded={true} picker={'inline'} value={{ x: 50, y: 120, z: 77, w: 34 }} />
+
+	<PointPicker
+		expanded={true}
+		picker={'inline'}
+		value={{ x: 50, y: 120, z: 77 }}
+		min={-200}
+		max={200}
+		step={5}
+	/>
+
+	<PointPicker
+		expanded={true}
+		picker={'inline'}
+		value={{ x: 50, y: 120 }}
+		min={-200}
+		max={200}
+		step={5}
+	/>
+
 	<h3>Stand-alone</h3>
 	{checkLabel}<br />
 	{checkValue}<br />
 	{colorValue} <br />
 
-	<Dropdown
+	<List
 		value={0}
 		options={{
 			'0': 0,
@@ -79,7 +99,7 @@
 		}}
 	/>
 
-	<Dropdown
+	<List
 		value="0"
 		options={{
 			none: '',

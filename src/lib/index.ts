@@ -8,9 +8,9 @@ import Tab from './core/Tab.svelte';
 import Checkbox from './extra/Checkbox.svelte';
 import ColorPicker from './extra/ColorPicker.svelte';
 import Slider from './extra/Slider.svelte';
-import Dropdown from './extra/Dropdown.svelte';
+import List from './extra/List.svelte';
 import TextField from './extra/TextField.svelte';
-import VectorPicker from './extra/VectorPicker.svelte';
+import PointPicker from './extra/PointPicker.svelte';
 
 // todo break into separate exports...
 // Tweakpane.core...
@@ -20,7 +20,7 @@ export {
 	Button,
 	Checkbox,
 	ColorPicker,
-	Dropdown,
+	List,
 	Folder,
 	Page,
 	Pane,
@@ -28,5 +28,5 @@ export {
 	Slider,
 	Tab,
 	TextField,
-	VectorPicker
+	PointPicker
 };
