@@ -70,6 +70,24 @@
 	{checkValue}<br />
 	{colorValue} <br />
 
+	<Dropdown
+		value={0}
+		options={{
+			'0': 0,
+			'1': 1,
+			'2': 2
+		}}
+	/>
+
+	<Dropdown
+		value="0"
+		options={{
+			none: '',
+			dark: 'dark-theme.json',
+			light: 'light-theme.json'
+		}}
+	/>
+
 	{testNum} <br />
 	{testText} <br />
 	<TextField bind:value={testText} />
