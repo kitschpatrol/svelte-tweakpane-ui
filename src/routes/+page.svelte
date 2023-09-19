@@ -4,11 +4,15 @@
 		Button,
 		Checkbox,
 		ColorPicker,
+		Dropdown,
 		Folder,
 		Page,
 		Pane,
 		Separator,
-		Tab
+		Slider,
+		Tab,
+		TextField,
+		VectorPicker
 	} from '$lib/index.js';
 
 	let buttonTitle = 'yes';
@@ -45,6 +49,8 @@
 	let checkValue = false;
 	// let colorValue = '0x00ffd6';
 	let colorValue = { r: 1, g: 25, b: 234 };
+
+	let testNum = 3.14;
 </script>
 
 {p1s}
@@ -52,6 +58,7 @@
 {p3s}
 {JSON.stringify(testParams)}
 {key}
+
 {testParams.levitch}
 
 <hr />
@@ -61,6 +68,21 @@
 	{checkLabel}<br />
 	{checkValue}<br />
 	{colorValue} <br />
+
+	{testNum} <br />
+	<Slider bind:value={testNum} />
+	<Slider bind:value={testNum} min={0} />
+	<Slider bind:value={testNum} max={100} />
+	<Slider bind:value={testNum} min={0} max={100} />
+	<Slider bind:value={testNum} step={1} />
+	<Slider bind:value={testNum} step={10} min={0} max={100} />
+	<Slider
+		bind:value={testNum}
+		format={(n) => {
+			return `${n}!!!`;
+		}}
+	/>
+
 	<ColorPicker bind:value={colorValue} />
 
 	<Checkbox label={checkLabel} bind:value={checkValue} />

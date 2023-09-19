@@ -38,8 +38,6 @@
 			...bindingParams
 		});
 
-		console.log(binding.view);
-
 		binding.on('change', () => {
 			// todo stick with reactive?
 			// dispatch('change', ev);
