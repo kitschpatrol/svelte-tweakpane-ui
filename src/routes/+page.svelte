@@ -2,17 +2,19 @@
 	import {
 		Binding,
 		Button,
-		Checkbox,
-		ColorPicker,
-		List,
 		Folder,
 		Page,
 		Pane,
 		Separator,
-		Slider,
 		Tab,
+		AutoObject,
+		Checkbox,
+		ColorPicker,
+		List,
+		PointPicker,
+		Slider,
 		TextField,
-		PointPicker
+		FpsGraph
 	} from '$lib/index.js';
 
 	let buttonTitle = 'yes';

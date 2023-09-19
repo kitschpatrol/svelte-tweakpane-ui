@@ -1,32 +1,20 @@
-import Binding from './core/Binding.svelte';
-import Button from './core/Button.svelte';
-import Folder from './core/Folder.svelte';
-import Page from './core/Page.svelte';
-import Pane from './core/Pane.svelte';
-import Separator from './core/Separator.svelte';
-import Tab from './core/Tab.svelte';
-import Checkbox from './extra/Checkbox.svelte';
-import ColorPicker from './extra/ColorPicker.svelte';
-import Slider from './extra/Slider.svelte';
-import List from './extra/List.svelte';
-import TextField from './extra/TextField.svelte';
-import PointPicker from './extra/PointPicker.svelte';
+// core
+export { default as Binding } from './core/Binding.svelte';
+export { default as Button } from './core/Button.svelte';
+export { default as Folder } from './core/Folder.svelte';
+export { default as Page } from './core/Page.svelte';
+export { default as Pane } from './core/Pane.svelte';
+export { default as Separator } from './core/Separator.svelte';
+export { default as Tab } from './core/Tab.svelte';
 
-// todo break into separate exports...
-// Tweakpane.core...
-// Tweakpane.extra...
-export {
-	Binding,
-	Button,
-	Checkbox,
-	ColorPicker,
-	List,
-	Folder,
-	Page,
-	Pane,
-	Separator,
-	Slider,
-	Tab,
-	TextField,
-	PointPicker
-};
+// extra
+export { default as AutoObject } from './extra/AutoObject.svelte';
+export { default as Checkbox } from './extra/Checkbox.svelte';
+export { default as ColorPicker } from './extra/ColorPicker.svelte';
+export { default as List } from './extra/List.svelte';
+export { default as PointPicker } from './extra/PointPicker.svelte';
+export { default as Slider } from './extra/Slider.svelte';
+export { default as TextField } from './extra/TextField.svelte';
+
+// essentials
+export { default as FpsGraph } from './essentials/FpsGraph.svelte';

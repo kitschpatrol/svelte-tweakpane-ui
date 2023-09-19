@@ -1,7 +1,19 @@
 # svelte-tweakpane-ui
 
+## Scratch
+
 Renderless child ordering...
-https://github.com/sveltejs/svelte/issues/5381#issuecomment-690842511
+
+- https://github.com/sveltejs/svelte/issues/5381#issuecomment-690842511
+
+Index files...
+
+- https://github.com/sveltejs/kit/issues/2884
+
+Advanced example...
+
+- https://github.com/shinokada/svelte-lib-helpers
+- https://flowbite-svelte.com
 
 ## Overview
 

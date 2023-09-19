@@ -4,6 +4,10 @@
 	import type { Point2dInputParams, Point3dInputParams, Point4dInputParams } from 'tweakpane';
 	import type { PickerLayout } from '@tweakpane/core';
 
+	import type { Point2dObject } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js';
+	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
+	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d.js';
+
 	export let disabled: boolean = false;
 	export let expanded: boolean = false;
 	export let format: ((value: number) => string) | undefined = undefined;
@@ -14,7 +18,7 @@
 	export let picker: PickerLayout = 'popup';
 	export let pointerScale: number | undefined = undefined;
 	export let step: number | undefined = undefined;
-	export let value: string | boolean | number;
+	export let value: Point2dObject | Point3dObject | Point4dObject;
 
 	// flat, but kinda silly, could pass as objects...
 	export let xFormat: ((value: number) => string) | undefined = undefined;
