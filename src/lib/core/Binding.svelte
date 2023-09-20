@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" generics="T extends Bindable, U extends BindingApi">
 	import type { BindingParams } from 'tweakpane';
 	import type { Pane } from 'tweakpane';
 	import type { Bindable, FolderApi, TabPageApi, BindingApi } from '@tweakpane/core';
@@ -6,10 +6,13 @@
 	import { createPane, getElementIndex } from '$lib/utils.js';
 	import { writable, type Writable } from 'svelte/store';
 
-	export let params: Bindable;
+	export let params: T;
 	export let key: string;
 	export let disabled: boolean = false;
 	export let bindingParams: BindingParams | undefined = undefined;
+
+	// dangerous but allows access when needed
+	export let bindingRef: U | undefined = undefined;
 
 	const parentStore: Writable<Pane | FolderApi | TabPageApi> =
 		getContext('parentStore') ?? writable();
@@ -17,7 +20,7 @@
 	// const dispatch = createEventDispatcher();
 
 	let indexElement: HTMLDivElement;
-	let binding: BindingApi;
+	let binding: U;
 	let index: number;
 
 	onMount(() => {
@@ -38,7 +41,8 @@
 			...{ index },
 			...bindingParams,
 			...{ disabled }
-		});
+		}) as U;
+		bindingRef = binding;
 
 		binding.on('change', () => {
 			// todo stick with reactive?

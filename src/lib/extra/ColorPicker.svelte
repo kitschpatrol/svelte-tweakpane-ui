@@ -4,11 +4,17 @@
 	import type { PickerLayout } from '@tweakpane/core';
 	import type { ColorInputParams } from 'tweakpane';
 
-	export let label: string = 'Color Picker';
-	export let value: string | object;
-	export let disabled: boolean = false;
+	import type {
+		RgbColorObject,
+		RgbaColorObject
+	} from '@tweakpane/core/dist/input-binding/color/model/color.js';
 
+	export let label: string = 'Color Picker';
+	export let value: string | RgbColorObject | RgbaColorObject;
+	export let disabled: boolean = false;
 	export let expanded: boolean = false;
+
+	let bindingParams: ColorInputParams;
 
 	// TODO does this do anyhting?
 	// passing channel like 0x00ffd644 adds alpha automatically
@@ -38,7 +44,7 @@
 		expanded,
 		label,
 		picker
-	} satisfies ColorInputParams;
+	};
 </script>
 
 <Binding {disabled} bind:params {key} {bindingParams} />

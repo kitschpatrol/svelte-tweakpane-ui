@@ -1,13 +1,17 @@
 <script lang="ts">
 	import Binding from '$lib/core/Binding.svelte';
 	import { makeSafeKey } from '$lib/utils.js';
+
+	//
 	import type { BooleanInputParams } from 'tweakpane';
 
 	export let label: string = 'Checkbox';
 	export let value: boolean = false;
 	export let disabled: boolean = false;
 
-	// avoid circular
+	// ToDO Omit<BooleanInputParams, 'options'>;?
+	let bindingParams: BooleanInputParams;
+
 	function getValue() {
 		return value;
 	}
@@ -20,7 +24,7 @@
 	$: params = { [key]: getValue() };
 	$: value = params[key];
 	$: value, setValue();
-	$: bindingParams = { label } satisfies BooleanInputParams;
+	$: bindingParams = { label };
 </script>
 
 <Binding {disabled} bind:params {key} {bindingParams} />

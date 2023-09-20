@@ -1,16 +1,12 @@
-<script lang="ts">
-	import type { BladeApi, SeparatorBladeParams } from 'tweakpane';
-	import type { FpsGraphBladeParams } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
-	import type { FpsGraphBladeApi } from '@tweakpane/plugin-essentials';
+<script lang="ts" generics="T extends BaseBladeParams, U extends BladeApi">
+	import type { BladeApi, BaseBladeParams } from 'tweakpane';
 	import type { Pane } from 'tweakpane';
 	import type { FolderApi, TabPageApi } from '@tweakpane/core';
-	import { onMount, onDestroy, getContext, createEventDispatcher } from 'svelte';
+	import { onMount, onDestroy, getContext } from 'svelte';
 	import { createPane, getElementIndex } from '$lib/utils.js';
 	import { writable, type Writable } from 'svelte/store';
 
-	// TODO templatize types
-	// Slider, list, and text not supported... use Binding or extras
-	export let params: SeparatorBladeParams | FpsGraphBladeParams;
+	export let bladeParams: T;
 	export let disabled: boolean = false;
 
 	const parentStore: Writable<Pane | FolderApi | TabPageApi> =
@@ -18,11 +14,11 @@
 	const inPane = getContext('inPane');
 	// const dispatch = createEventDispatcher();
 
-	// dangerous bindable for special cases like fps
-	export let bladeRef: BladeApi | FpsGraphBladeApi | undefined = undefined;
+	// dangerous but allows access when needed (e.g. fps essentials plugin)
+	export let bladeRef: U | undefined = undefined;
 
 	let indexElement: HTMLDivElement;
-	let blade: BladeApi | FpsGraphBladeApi;
+	let blade: U;
 	let index: number;
 
 	onMount(() => {
@@ -35,15 +31,16 @@
 	});
 
 	function create() {
+		console.log(`creating blade`);
 		// must destroy to allow a reactive parameters
 		if (blade) blade.dispose();
 
 		// last one wins
 		blade = $parentStore.addBlade({
 			...{ index },
-			...params,
+			...bladeParams,
 			...{ disabled }
-		});
+		}) as U; // TODO hmm
 		bladeRef = blade;
 	}
 
@@ -52,7 +49,7 @@
 		!inPane && $parentStore?.dispose();
 	});
 
-	$: params, $parentStore && index !== undefined && create();
+	$: bladeParams, $parentStore && index !== undefined && create();
 	$: blade && (blade.disabled = disabled);
 </script>
 

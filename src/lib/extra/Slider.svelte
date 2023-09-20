@@ -13,7 +13,8 @@
 	export let keyScale: number | undefined = undefined;
 	export let format: ((value: number) => string) | undefined = undefined;
 
-	// avoid circular
+	let bindingParams: NumberInputParams;
+
 	function getValue() {
 		return value;
 	}
@@ -33,7 +34,7 @@
 		pointerScale,
 		keyScale,
 		format
-	} satisfies NumberInputParams;
+	};
 </script>
 
 <Binding {disabled} bind:params {key} {bindingParams} />

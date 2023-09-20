@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Blade from '$lib/core/Blade.svelte';
 	import type { FpsGraphBladeApi } from '@tweakpane/plugin-essentials';
+	import type { FpsGraphBladeParams } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
 	export let disabled: boolean = false;
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
 	export let label: string = 'FPS';
@@ -13,7 +14,7 @@
 	let mounted: boolean = false;
 	let requestId: number;
 
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<{ change: number }>();
 
 	onMount(() => {
 		mounted = true;
@@ -25,6 +26,7 @@
 	});
 
 	// Begin and end can be bound and called externally for explicit timing
+	// TODO expose as functions on the component instead?
 	export const begin = () => {
 		fpsBlade && fpsBlade.begin();
 	};
@@ -96,17 +98,16 @@
 	}
 
 	$: fpsBlade && startObservingMeasuredFpsValue();
-</script>
 
-<Blade
-	{disabled}
-	bind:bladeRef={fpsBlade}
-	params={{
+	let bladeParams: FpsGraphBladeParams;
+	$: bladeParams = {
 		view: 'fpsgraph',
 		label,
 		rows,
 		max,
 		min,
 		interval
-	}}
-/>
+	};
+</script>
+
+<Blade {disabled} bind:bladeRef={fpsBlade} {bladeParams} />

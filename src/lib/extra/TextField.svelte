@@ -7,7 +7,8 @@
 	export let value: string;
 	export let disabled: boolean = false;
 
-	// avoid circular
+	let bindingParams: StringInputParams;
+
 	function getValue() {
 		return value;
 	}
@@ -22,7 +23,7 @@
 	$: value, setValue();
 	$: bindingParams = {
 		label
-	} satisfies StringInputParams;
+	};
 </script>
 
 <Binding {disabled} bind:params {key} {bindingParams} />

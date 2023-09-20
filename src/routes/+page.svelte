@@ -89,7 +89,7 @@
 
 	<FpsGraph
 		on:change={(e) => {
-			console.log(e.detail);
+			fpsValue = e.detail;
 		}}
 		bind:begin={fpsBegin}
 		bind:end={fpsEnd}
@@ -103,7 +103,7 @@
 	<PointPicker
 		expanded={true}
 		picker={'inline'}
-		value={{ x: 50, y: 120, z: 77 }}
+		value={{ x: 50, y: 120, z: 5 }}
 		min={-200}
 		max={200}
 		step={5}
