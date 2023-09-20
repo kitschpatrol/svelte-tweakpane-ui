@@ -45,11 +45,12 @@ Certain aspects of the Tweakpane API don't make a ton of sense in the Svelte con
 ### Bundled & Integrated Plugins
 
 - [Essentials](https://github.com/tweakpane/plugin-essentials)
+- [CameraKit](https://github.com/tweakpane/plugin-camerakit)
 
 ### Plugin Integration Candidates
 
 - https://github.com/0b5vr/tweakpane-plugin-rotation (🎛️v3 ⭐️×65)
-- https://github.com/tweakpane/plugin-camerakit (🎛️v4 ⭐️×34)
+
 - https://github.com/0b5vr/tweakpane-plugin-profiler (🎛️v3 ⭐️×25)
 - https://github.com/donmccurdy/tweakpane-plugin-thumbnail-list (🎛️v3 ⭐️×26)
 - https://github.com/panGenerator/tweakpane-textarea-plugin (🎛️v3 ⭐️×17)
