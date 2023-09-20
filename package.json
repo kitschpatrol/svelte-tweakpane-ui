@@ -27,6 +27,7 @@
 		"@sveltejs/kit": "^1.25.0",
 		"@sveltejs/package": "^2.2.2",
 		"@tweakpane/core": "^2.0.1",
+		"@tweakpane/plugin-camerakit": "^0.3.0",
 		"@tweakpane/plugin-essentials": "^0.2.0",
 		"@typescript-eslint/eslint-plugin": "^6.7.2",
 		"@typescript-eslint/parser": "^6.7.2",

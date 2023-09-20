@@ -42,9 +42,8 @@
 	$: bindingParams = {
 		view: 'color',
 		expanded,
-		label,
 		picker
 	};
 </script>
 
-<Binding {disabled} bind:params {key} {bindingParams} />
+<Binding {label} {disabled} bind:params {key} {bindingParams} />

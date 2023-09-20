@@ -36,7 +36,6 @@
 	$: value = params[key];
 	$: value, setValue();
 	$: bindingParams = {
-		label,
 		min,
 		max,
 		step,
@@ -46,4 +45,4 @@
 	};
 </script>
 
-<Binding {disabled} bind:params {key} {bindingParams} />
+<Binding {label} {disabled} bind:params {key} {bindingParams} />

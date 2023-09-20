@@ -30,7 +30,6 @@ Certain aspects of the Tweakpane API don't make a ton of sense in the Svelte con
 
 - [Documentation](https://tweakpane.github.io/docs/)
 - [API](https://tweakpane.github.io/docs/api/index.html)
-- [Essentials Plugin](https://github.com/tweakpane/plugin-essentials)
 
 ### Other projects adapting Tweakpane to Svelte
 
@@ -42,6 +41,32 @@ Certain aspects of the Tweakpane API don't make a ton of sense in the Svelte con
 - Solid: [solid-tweakpane](https://github.com/MrFoxPro/solid-tweakpane)
 - React: [react-tweakpane](https://github.com/MelonCode/react-tweakpane)
 - Vue: [v-tweakpane](https://github.com/vinayakkulkarni/v-tweakpane)
+
+### Bundled & Integrated Plugins
+
+- [Essentials](https://github.com/tweakpane/plugin-essentials)
+
+### Plugin Integration Candidates
+
+- https://github.com/0b5vr/tweakpane-plugin-rotation (🎛️v3 ⭐️×65)
+- https://github.com/tweakpane/plugin-camerakit (🎛️v4 ⭐️×34)
+- https://github.com/0b5vr/tweakpane-plugin-profiler (🎛️v3 ⭐️×25)
+- https://github.com/donmccurdy/tweakpane-plugin-thumbnail-list (🎛️v3 ⭐️×26)
+- https://github.com/panGenerator/tweakpane-textarea-plugin (🎛️v3 ⭐️×17)
+- https://github.com/metehus/tweakpane-image-plugin (🎛️v3 ⭐️×15)
+- https://github.com/ayamflow/tweakpane-image-plugin (🎛️v3 ⭐️×15)
+- https://github.com/doersino/tweakpane-plugin-infodump (🎛️v3 ⭐️×12)
+- https://github.com/brunoimbrizi/tweakpane-plugin-chromatic (🎛️v3 ⭐️×11)
+- https://github.com/shoedler/tweakpane-plugin-waveform (🎛️v3 ⭐️×7)
+- https://github.com/amir-arad/tweakpane-table (🎛️v3 ⭐️×6)
+- https://github.com/hirohe/tweakpane-plugin-search-list (🎛️v3 ⭐️×6)
+- https://github.com/mollerse/midi-control (🎛️v3 ⭐️×4 👀)
+- https://github.com/leochocolat/tweakpane-plugin-media (🎛️v3 ⭐️×3)
+- https://github.com/LuchoTurtle/tweakpane-plugin-file-import (🎛️v3 ⭐️×3 👀)
+- https://github.com/brunoimbrizi/tweakpane-plugin-audio-player (🎛️v3 ⭐️×3)
+- https://github.com/pierogis/tweakpane-plugin-grouplist (🎛️v3 ⭐️×1)
+- https://github.com/vnvyvu/tweakpane-media (🎛️v3 ⭐️×0)
+- https://github.com/IvanLi-CN/tweakpane-multiple-select-plugin (🎛️v3 ⭐️×0)
 
 ---
 

@@ -1,7 +1,12 @@
 <script lang="ts" generics="T extends Bindable, U extends BindingApi">
-	import type { BindingParams } from 'tweakpane';
 	import type { Pane } from 'tweakpane';
-	import type { Bindable, FolderApi, TabPageApi, BindingApi } from '@tweakpane/core';
+	import type {
+		Bindable,
+		FolderApi,
+		TabPageApi,
+		BindingApi,
+		BaseInputParams
+	} from '@tweakpane/core';
 	import { onMount, onDestroy, getContext, createEventDispatcher } from 'svelte';
 	import { createPane, getElementIndex } from '$lib/utils.js';
 	import { writable, type Writable } from 'svelte/store';
@@ -9,7 +14,8 @@
 	export let params: T;
 	export let key: string;
 	export let disabled: boolean = false;
-	export let bindingParams: BindingParams | undefined = undefined;
+	export let label: string | undefined = undefined;
+	export let bindingParams: object | undefined = undefined;
 
 	// dangerous but allows access when needed
 	export let bindingRef: U | undefined = undefined;
@@ -38,7 +44,7 @@
 
 		// last one wins
 		binding = $parentStore.addBinding(params, key, {
-			...{ index },
+			...{ index, label },
 			...bindingParams,
 			...{ disabled }
 		}) as U;
@@ -61,6 +67,7 @@
 	$: key, bindingParams, $parentStore && index !== undefined && create();
 	$: params, binding && binding.refresh();
 	$: binding && (binding.disabled = disabled);
+	$: binding && (binding.label = label);
 </script>
 
 <div style="display: none;" bind:this={indexElement} />

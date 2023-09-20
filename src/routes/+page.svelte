@@ -16,10 +16,15 @@
 		RadioGrid,
 		Slider,
 		TextField,
+		Wheel,
+		Ring,
 		ButtonGrid,
 		CubicBezier,
 		FpsGraph
 	} from '$lib/index.js';
+
+	import GenericBinding from '$lib/internal/GenericBinding.svelte';
+
 	import { onMount } from 'svelte';
 
 	let buttonTitle = 'yes';
@@ -79,50 +84,57 @@
 		render();
 	});
 
+	let v = false;
+	let va = 5;
+
 	let bz: [number, number, number, number] = [0.25, 0.75, 0.75, 0.25];
 </script>
 
-{bz}
-<CubicBezier label={checkLabel} bind:value={bz} />
-<Button
-	title="Relabel Checkbox"
-	on:click={() => {
-		checkLabel = checkLabel
-			.split('')
-			.sort(() => 0.5 - Math.random())
-			.join('');
-	}}
-/>
-
-<Button
-	title="Reset value"
-	on:click={() => {
-		bz = [0.25, 0.75, 0.75, 0.25];
-	}}
-/>
-
-<ButtonGrid
-	on:click={(e) => {
-		console.log(`e.detail: ${JSON.stringify(e.detail, null, 2)}`);
-	}}
-	buttons={['one', 'two']}
-/>
-
-{radioValue}
-<RadioGrid label={undefined} bind:value={radioValue} values={['A', 'B', 'C']} />
-<Checkbox />
-
-{fpsValue}
-{p1s}
-{p2s}
-{p3s}
-{JSON.stringify(testParams)}
-{JSON.stringify(range)}
-{key}
-
-{testParams.levitch}
-
 <div class="wrapper">
+	{va}
+	<Ring series={2} bind:value={va} disabled={false} />
+
+	<GenericBinding value={v} />
+	{bz}
+	<CubicBezier label={checkLabel} bind:value={bz} />
+	<Button
+		title="Relabel Checkbox"
+		on:click={() => {
+			checkLabel = checkLabel
+				.split('')
+				.sort(() => 0.5 - Math.random())
+				.join('');
+		}}
+	/>
+
+	<Button
+		title="Reset value"
+		on:click={() => {
+			bz = [0.25, 0.75, 0.75, 0.25];
+		}}
+	/>
+
+	<ButtonGrid
+		on:click={(e) => {
+			console.log(`e.detail: ${JSON.stringify(e.detail, null, 2)}`);
+		}}
+		buttons={['one', 'two']}
+	/>
+
+	{radioValue}
+	<RadioGrid label={undefined} bind:value={radioValue} values={['A', 'B', 'C']} />
+	<Checkbox />
+
+	{fpsValue}
+	{p1s}
+	{p2s}
+	{p3s}
+	{JSON.stringify(testParams)}
+	{JSON.stringify(range)}
+	{key}
+
+	{testParams.levitch}
+
 	<hr />
 
 	<Interval label={checkLabel} bind:value={range} min={-1000} max={1000} />
@@ -187,7 +199,7 @@
 	{testText} <br />
 	<TextField bind:value={testText} />
 	<!-- <Slider label="Interval" bind:value={range} min={-1000} max={1000} /> -->
-	<Slider bind:value={testNum} min={0} />
+	<Slider label="adfasdf" bind:value={testNum} min={0} />
 	<Slider bind:value={testNum} max={100} />
 	<Slider bind:value={testNum} min={0} max={100} />
 	<Slider bind:value={testNum} step={1} />

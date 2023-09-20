@@ -21,9 +21,6 @@
 	$: params = { [key]: getValue() };
 	$: value = params[key];
 	$: value, setValue();
-	$: bindingParams = {
-		label
-	};
 </script>
 
-<Binding {disabled} bind:params {key} {bindingParams} />
+<Binding {label} {disabled} bind:params {key} {bindingParams} />

@@ -66,7 +66,6 @@
 	$: value, setValue();
 	$: gridDimensions = getGridDimensions(values.length, columns, rows);
 	$: bindingParams = {
-		label,
 		groupName,
 		view: 'radiogrid',
 		size: [gridDimensions.columns, gridDimensions.rows],
@@ -74,4 +73,4 @@
 	};
 </script>
 
-<Binding {disabled} bind:params {key} {bindingParams} />
+<Binding {label} {disabled} bind:params {key} {bindingParams} />

@@ -50,7 +50,6 @@
 	$: value = params[key];
 	$: value, setValue();
 	$: bindingParams = {
-		label,
 		pointerScale,
 		keyScale,
 		min,
@@ -66,4 +65,4 @@
 	} as PointParams<U>; // Hmm
 </script>
 
-<Binding {disabled} bind:params {key} {bindingParams} />
+<Binding {label} {disabled} bind:params {key} {bindingParams} />

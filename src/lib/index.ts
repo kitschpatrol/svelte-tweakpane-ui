@@ -22,3 +22,7 @@ export { default as Interval } from './essentials/Interval.svelte';
 export { default as RadioGrid } from './essentials/RadioGrid.svelte';
 export { default as ButtonGrid } from './essentials/ButtonGrid.svelte';
 export { default as CubicBezier } from './essentials/CubicBezier.svelte';
+
+// camerakit (1st party plugins)
+export { default as Wheel } from './camerakit/Wheel.svelte';
+export { default as Ring } from './camerakit/Ring.svelte';

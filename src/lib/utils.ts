@@ -2,6 +2,7 @@ import { Pane } from 'tweakpane';
 import type { PaneConfig } from 'tweakpane/dist/types/pane/pane-config.js';
 
 import * as EssentialsPlugin from '@tweakpane/plugin-essentials';
+import * as CamerakitPlugin from '@tweakpane/plugin-camerakit';
 
 export function getElementIndex(element: HTMLElement): number {
 	let index = 0;
@@ -29,7 +30,10 @@ export function makeSafeKey(input: string | undefined, defaultKey: string = 'key
 // then recreate pane to only register as needed?
 export function createPane(config: PaneConfig | undefined = {}, loadPlugins: boolean = true): Pane {
 	const pane = new Pane(config);
-	loadPlugins && pane.registerPlugin(EssentialsPlugin);
+	if (loadPlugins) {
+		pane.registerPlugin(EssentialsPlugin);
+		pane.registerPlugin(CamerakitPlugin);
+	}
 	return pane;
 }
 
