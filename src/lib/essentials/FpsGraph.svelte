@@ -57,13 +57,8 @@
 	function startObservingMeasuredFpsValue() {
 		// clean up if needed
 		stopObservingMeasuredFpsValue();
-
 		const targetNode = fpsBlade.controller.valueController.view.valueElement;
-
-		if (!targetNode || !targetNode.innerHTML) {
-			console.log('Element or innerHTML is not defined');
-			return;
-		}
+		if (!targetNode || !targetNode.innerHTML) return;
 
 		observer = new MutationObserver((mutations) => {
 			for (const mutation of mutations) {
@@ -81,7 +76,6 @@
 	function stopObservingMeasuredFpsValue() {
 		if (observer) {
 			observer.disconnect();
-			console.log('Stopped observing');
 			observer = undefined;
 		}
 	}

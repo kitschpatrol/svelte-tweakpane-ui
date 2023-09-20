@@ -78,7 +78,28 @@
 
 		render();
 	});
+
+	let bz: [number, number, number, number] = [0.25, 0.75, 0.75, 0.25];
 </script>
+
+{bz}
+<CubicBezier label={checkLabel} bind:value={bz} />
+<Button
+	title="Relabel Checkbox"
+	on:click={() => {
+		checkLabel = checkLabel
+			.split('')
+			.sort(() => 0.5 - Math.random())
+			.join('');
+	}}
+/>
+
+<Button
+	title="Reset value"
+	on:click={() => {
+		bz = [0.25, 0.75, 0.75, 0.25];
+	}}
+/>
 
 <ButtonGrid
 	on:click={(e) => {
@@ -187,15 +208,7 @@
 			checkValue = !checkValue;
 		}}
 	/>
-	<Button
-		title="Relabel Checkbox"
-		on:click={() => {
-			checkLabel = checkLabel
-				.split('')
-				.sort(() => 0.5 - Math.random())
-				.join('');
-		}}
-	/>
+
 	<hr />
 	<Binding bind:params={testParams} {key} />
 	<hr />
