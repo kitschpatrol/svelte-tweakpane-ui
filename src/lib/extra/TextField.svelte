@@ -3,7 +3,7 @@
 	import { makeSafeKey } from '$lib/utils.js';
 	import type { StringInputParams } from 'tweakpane';
 
-	export let label: string = 'Text';
+	export let label: string | undefined = undefined;
 	export let value: string;
 	export let disabled: boolean = false;
 

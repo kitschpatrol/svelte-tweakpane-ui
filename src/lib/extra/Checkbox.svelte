@@ -5,7 +5,7 @@
 	//
 	import type { BooleanInputParams } from 'tweakpane';
 
-	export let label: string = 'Checkbox';
+	export let label: string | undefined = undefined;
 	export let value: boolean = false;
 	export let disabled: boolean = false;
 

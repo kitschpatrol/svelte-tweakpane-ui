@@ -12,6 +12,8 @@
 		ColorPicker,
 		List,
 		PointPicker,
+		Interval,
+		RadioGrid,
 		Slider,
 		TextField,
 		FpsGraph
@@ -23,6 +25,7 @@
 	let testParams = { speed: 'hi', levitch: 100 };
 	let key = 'levitch';
 
+	let radioValue = 'A';
 	let viz = true;
 
 	const toggleKey = () => {
@@ -75,17 +78,24 @@
 	});
 </script>
 
+{radioValue}
+<RadioGrid label={undefined} bind:value={radioValue} values={['A', 'B', 'C']} />
+<Checkbox />
+
 {fpsValue}
 {p1s}
 {p2s}
 {p3s}
 {JSON.stringify(testParams)}
+{JSON.stringify(range)}
 {key}
 
 {testParams.levitch}
 
 <div class="wrapper">
 	<hr />
+
+	<Interval label={checkLabel} bind:value={range} min={-1000} max={1000} />
 
 	<FpsGraph label="FPS Internal Clock" />
 
@@ -146,7 +156,7 @@
 	{testNum} <br />
 	{testText} <br />
 	<TextField bind:value={testText} />
-	<Slider label="Interval" bind:value={range} min={-1000} max={1000} />
+	<!-- <Slider label="Interval" bind:value={range} min={-1000} max={1000} /> -->
 	<Slider bind:value={testNum} min={0} />
 	<Slider bind:value={testNum} max={100} />
 	<Slider bind:value={testNum} min={0} max={100} />

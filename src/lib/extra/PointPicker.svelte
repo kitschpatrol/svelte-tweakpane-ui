@@ -21,7 +21,7 @@
 	export let expanded: boolean = false;
 	export let format: ((value: number) => string) | undefined = undefined;
 	export let keyScale: number | undefined = undefined;
-	export let label: string = 'Point Picker';
+	export let label: string | undefined = undefined;
 	export let max: number | undefined = undefined;
 	export let min: number | undefined = undefined;
 	export let picker: PickerLayout = 'popup';

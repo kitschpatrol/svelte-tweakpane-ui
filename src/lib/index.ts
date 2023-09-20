@@ -18,3 +18,5 @@ export { default as TextField } from './extra/TextField.svelte';
 
 // essentials
 export { default as FpsGraph } from './essentials/FpsGraph.svelte';
+export { default as Interval } from './essentials/Interval.svelte';
+export { default as RadioGrid } from './essentials/RadioGrid.svelte';

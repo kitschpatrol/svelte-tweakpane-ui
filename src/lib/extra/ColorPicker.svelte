@@ -9,7 +9,7 @@
 		RgbaColorObject
 	} from '@tweakpane/core/dist/input-binding/color/model/color.js';
 
-	export let label: string = 'Color Picker';
+	export let label: string | undefined = undefined;
 	export let value: string | RgbColorObject | RgbaColorObject;
 	export let disabled: boolean = false;
 	export let expanded: boolean = false;

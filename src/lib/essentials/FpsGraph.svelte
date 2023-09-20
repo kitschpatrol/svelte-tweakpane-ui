@@ -4,7 +4,7 @@
 	import type { FpsGraphBladeParams } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
 	export let disabled: boolean = false;
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
-	export let label: string = 'FPS';
+	export let label: string | undefined = undefined;
 	export let rows: number = 2;
 	export let interval: number | undefined = undefined;
 	export let max: number | undefined = undefined;

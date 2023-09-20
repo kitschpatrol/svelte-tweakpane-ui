@@ -13,7 +13,9 @@ export function getElementIndex(element: HTMLElement): number {
 	return index;
 }
 
-export function makeSafeKey(input: string): string {
+export function makeSafeKey(input: string | undefined, defaultKey: string = 'key'): string {
+	if (input === undefined) return defaultKey;
+
 	// Replace problematic keys and characters with a preceding underscore
 	return input.replace(/(__proto__|constructor|prototype|\s|\.)/g, (match) => {
 		if (match === ' ' || match === '.') {

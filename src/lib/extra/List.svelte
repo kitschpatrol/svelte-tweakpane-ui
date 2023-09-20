@@ -10,7 +10,7 @@
 
 	// TODO something to handle bare arrays and transcribe them into ArrayStyleListOptions<T>
 
-	export let label: string = 'List';
+	export let label: string | undefined = undefined;
 	export let value: T;
 	export let options: ListParamsOptions<T>;
 	export let disabled: boolean = false;
