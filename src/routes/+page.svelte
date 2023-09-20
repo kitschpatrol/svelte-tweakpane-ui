@@ -61,6 +61,8 @@
 
 	let fpsValue: number = 0;
 
+	let range = { min: 0, max: 100 };
+
 	onMount(() => {
 		function render() {
 			fpsBegin && fpsBegin();
@@ -144,7 +146,7 @@
 	{testNum} <br />
 	{testText} <br />
 	<TextField bind:value={testText} />
-	<Slider bind:value={testNum} />
+	<Slider label="Interval" bind:value={range} min={-1000} max={1000} />
 	<Slider bind:value={testNum} min={0} />
 	<Slider bind:value={testNum} max={100} />
 	<Slider bind:value={testNum} min={0} max={100} />
