@@ -31,7 +31,6 @@
 	});
 
 	function create() {
-		console.log(`creating blade`);
 		// must destroy to allow a reactive parameters
 		if (blade) blade.dispose();
 

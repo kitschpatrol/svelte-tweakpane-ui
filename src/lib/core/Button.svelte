@@ -17,7 +17,7 @@
 	const parentStore: Writable<Pane | FolderApi | TabPageApi> =
 		getContext('parentStore') ?? writable();
 	const inPane = getContext('inPane');
-	const dispatch = createEventDispatcher();
+	const dispatch = createEventDispatcher<{ click: null }>();
 
 	onMount(() => {
 		index = getElementIndex(indexElement);

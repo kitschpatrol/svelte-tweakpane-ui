@@ -16,6 +16,8 @@
 		RadioGrid,
 		Slider,
 		TextField,
+		ButtonGrid,
+		CubicBezier,
 		FpsGraph
 	} from '$lib/index.js';
 	import { onMount } from 'svelte';
@@ -77,6 +79,13 @@
 		render();
 	});
 </script>
+
+<ButtonGrid
+	on:click={(e) => {
+		console.log(`e.detail: ${JSON.stringify(e.detail, null, 2)}`);
+	}}
+	buttons={['one', 'two']}
+/>
 
 {radioValue}
 <RadioGrid label={undefined} bind:value={radioValue} values={['A', 'B', 'C']} />

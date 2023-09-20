@@ -32,3 +32,36 @@ export function createPane(config: PaneConfig | undefined = {}, loadPlugins: boo
 	loadPlugins && pane.registerPlugin(EssentialsPlugin);
 	return pane;
 }
+
+// tries to be smart about rows and columns
+// if none are provided, it makes the most square grid possible
+// if one is provided, it lets the undefined axis grow / shrink
+// as needed
+// if both are provided, values may will be clipped
+export function getGridDimensions(
+	itemCount: number,
+	maxColumns?: number,
+	maxRows?: number
+): { rows: number; columns: number } {
+	let rows: number, columns: number;
+
+	if (maxColumns && maxRows) {
+		// No flexing; items can exceed the available slots
+		rows = Math.min(Math.ceil(itemCount / maxColumns), maxRows);
+		columns = Math.min(maxColumns, itemCount);
+	} else if (maxColumns) {
+		// Only maxColumns defined, so rows will flex
+		rows = Math.ceil(itemCount / maxColumns);
+		columns = maxColumns;
+	} else if (maxRows) {
+		// Only maxRows defined, so columns will flex
+		columns = Math.ceil(itemCount / maxRows);
+		rows = maxRows;
+	} else {
+		// Neither maxColumns nor maxRows defined; create a square grid
+		columns = Math.ceil(Math.sqrt(itemCount));
+		rows = Math.ceil(itemCount / columns);
+	}
+
+	return { rows, columns };
+}
