@@ -1,6 +1,5 @@
 <script lang="ts">
-	import Binding from '$lib/core/Binding.svelte';
-	import { makeSafeKey } from '$lib/utils.js';
+	import GenericBinding from '$lib/internal/GenericBinding.svelte';
 	import type { PickerLayout } from '@tweakpane/core';
 	import type { ColorInputParams } from 'tweakpane';
 
@@ -9,12 +8,14 @@
 		RgbaColorObject
 	} from '@tweakpane/core/dist/input-binding/color/model/color.js';
 
+	// re-exported
 	export let label: string | undefined = undefined;
-	export let value: string | RgbColorObject | RgbaColorObject;
 	export let disabled: boolean = false;
-	export let expanded: boolean = false;
 
-	let bindingParams: ColorInputParams;
+	// unique
+	export let value: string | RgbColorObject | RgbaColorObject;
+	export let expanded: boolean = false;
+	export let picker: PickerLayout = 'popup';
 
 	// TODO does this do anyhting?
 	// passing channel like 0x00ffd644 adds alpha automatically
@@ -23,27 +24,11 @@
 	// bindingParams.color.alpha,
 	// bindingParams.color.type
 
-	// inline or popup
-	export let picker: PickerLayout = 'popup';
-
-	// avoid circular
-	function getValue() {
-		return value;
-	}
-
-	function setValue() {
-		params[key] = value;
-	}
-
-	$: key = makeSafeKey(label);
-	$: params = { [key]: getValue() };
-	$: value = params[key];
-	$: value, setValue();
 	$: bindingParams = {
 		view: 'color',
 		expanded,
 		picker
-	};
+	} satisfies ColorInputParams;
 </script>
 
-<Binding {label} {disabled} bind:params {key} {bindingParams} />
+<GenericBinding bind:value {label} {disabled} {bindingParams} />

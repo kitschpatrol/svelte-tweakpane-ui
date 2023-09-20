@@ -1,20 +1,23 @@
 <script lang="ts">
-	import type { ComponentProps } from 'svelte';
-	import type { BindingApi, BaseInputParams } from '@tweakpane/core';
 	import type { RingUnit } from '@tweakpane/plugin-camerakit/dist/types/view/ring.d.ts';
-	import type { RingInputParams, RingSeries } from '@tweakpane/plugin-camerakit/dist/types/util.js';
+	import type { RingSeries } from '@tweakpane/plugin-camerakit/dist/types/util.js';
 	import GenericBinding from '$lib/internal/GenericBinding.svelte';
 
-	interface $$Props
-		extends Omit<
-			ComponentProps<GenericBinding<number, BindingApi>>,
-			'bindingParams' | 'bindingRef'
-		> {}
+	// Would be better, but is broken
+	// Plus omit breaks autocomplete
+	// https://github.com/sveltejs/svelte/issues/8476
+	// interface $$Props
+	// 	extends Omit<
+	// 		ComponentProps<GenericBinding<number, BindingApi>>,
+	// 		'bindingParams' | 'bindingRef'
+	// > {}
 
-	//https://github.com/sveltejs/svelte/issues/8476
-	type test = ComponentProps<$$Self>;
-
+	// re-exported
+	export let disabled: boolean = false;
+	export let label: string | undefined = undefined;
 	export let value: number;
+
+	// unique
 	export let series: RingSeries | undefined = undefined;
 	export let unit: RingUnit | undefined = undefined;
 	export let wide: boolean | undefined = undefined;
@@ -37,10 +40,6 @@
 		keyScale,
 		format
 	};
-
-	console.log($$props);
 </script>
 
-{JSON.stringify($$props)}
-{JSON.stringify($$restProps)}
-<GenericBinding bind:value {bindingParams} {...$$restProps} />
+<GenericBinding bind:value {disabled} {label} {bindingParams} />

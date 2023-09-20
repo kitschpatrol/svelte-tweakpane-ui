@@ -2,13 +2,27 @@
 	import Blade from '$lib/core/Blade.svelte';
 	import type { FpsGraphBladeApi } from '@tweakpane/plugin-essentials';
 	import type { FpsGraphBladeParams } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
-	export let disabled: boolean = false;
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
+
+	// re-exported
+	export let disabled: boolean = false;
 	export let label: string | undefined = undefined;
+
+	//unique
 	export let rows: number = 2;
 	export let interval: number | undefined = undefined;
 	export let max: number | undefined = undefined;
 	export let min: number | undefined = undefined;
+
+	// Begin and end can be bound and called externally for explicit timing
+	// TODO expose as functions on the component instead?
+	export const begin = () => {
+		fpsBlade && fpsBlade.begin();
+	};
+
+	export const end: () => void = () => {
+		fpsBlade && fpsBlade.end();
+	};
 
 	let fpsBlade: FpsGraphBladeApi;
 	let mounted: boolean = false;
@@ -24,16 +38,6 @@
 		stopInternalLoop();
 		stopObservingMeasuredFpsValue();
 	});
-
-	// Begin and end can be bound and called externally for explicit timing
-	// TODO expose as functions on the component instead?
-	export const begin = () => {
-		fpsBlade && fpsBlade.begin();
-	};
-
-	export const end: () => void = () => {
-		fpsBlade && fpsBlade.end();
-	};
 
 	function startInternalLoop() {
 		loop();

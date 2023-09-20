@@ -5,15 +5,17 @@
 	import type { CubicBezierBladeParams } from '@tweakpane/plugin-essentials/dist/types/cubic-bezier/plugin.d.ts';
 	import type { PickerLayout } from '@tweakpane/core';
 
+	// re-exported
 	export let disabled: boolean = false;
-	export let expanded: boolean = true;
 	export let label: string | undefined = undefined;
+
+	// unique
+	export let expanded: boolean = true;
+	export let value: [number, number, number, number];
+	export let picker: PickerLayout = 'inline';
 
 	let bladeParams: CubicBezierBladeParams;
 	let cubicBezierBlade: CubicBezierApi;
-
-	export let value: [number, number, number, number];
-	export let picker: PickerLayout = 'inline';
 
 	function getValue() {
 		return value;
@@ -23,6 +25,12 @@
 		cubicBezierBlade.value = new CubicBezier(value[0], value[1], value[2], value[3]);
 	}
 
+	function addEvent() {
+		cubicBezierBlade.on('change', (ev) => {
+			value = [ev.value.x1, ev.value.y1, ev.value.x2, ev.value.y2];
+		});
+	}
+
 	$: bladeParams = {
 		view: 'cubicbezier',
 		label,
@@ -30,15 +38,7 @@
 		value: getValue(),
 		expanded
 	};
-
-	function addEvent() {
-		cubicBezierBlade.on('change', (ev) => {
-			value = [ev.value.x1, ev.value.y1, ev.value.x2, ev.value.y2];
-		});
-	}
-
 	$: cubicBezierBlade && addEvent();
-
 	$: value, cubicBezierBlade && setValue();
 </script>
 

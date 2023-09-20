@@ -5,8 +5,11 @@
 	import { getGridDimensions } from '$lib/utils.js';
 	import type { ButtonGridBladeParams } from '@tweakpane/plugin-essentials/dist/types/button-grid/plugin.d.ts';
 
+	// re-exported
 	export let disabled: boolean = false;
 	export let label: string | undefined = undefined;
+
+	// unique
 	export let columns: number | undefined = undefined;
 	export let rows: number | undefined = undefined;
 	export let buttons: string[] = [];

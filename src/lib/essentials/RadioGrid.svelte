@@ -1,23 +1,10 @@
 <script lang="ts" generics="T extends number | string | boolean">
-	import Binding from '$lib/core/Binding.svelte';
-	import { getGridDimensions, makeSafeKey } from '$lib/utils.js';
-	import { onMount } from 'svelte';
-	import type { BaseInputParams } from '@tweakpane/core';
-
-	export let groupName: string = 'Group Name';
-	export let label: string | undefined = undefined;
-	export let value: T;
-	export let values: T[] = [value];
-	export let disabled: boolean = false;
-
-	export let columns: number | undefined = undefined;
-	export let rows: number | undefined = undefined;
-	export let suffix: string | undefined = undefined;
-	export let prefix: string | undefined = undefined;
+	import GenericBinding from '$lib/internal/GenericBinding.svelte';
+	import { getGridDimensions } from '$lib/utils.js';
 
 	// /@tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
 	// it's not exported...
-	interface RadioGridInputParams<T> extends BaseInputParams {
+	interface RadioGridInputParams<T> {
 		cells: (
 			x: number,
 			y: number
@@ -30,17 +17,18 @@
 		view: 'radiogrid';
 	}
 
-	let bindingParams: RadioGridInputParams<T>;
+	// re-exported
+	export let disabled: boolean = false;
+	export let label: string | undefined = undefined;
 
-	onMount(() => {});
-
-	function getValue() {
-		return value;
-	}
-
-	function setValue() {
-		params[key] = value;
-	}
+	// unique
+	export let groupName: string = 'Group Name';
+	export let value: T;
+	export let values: T[] = [value];
+	export let columns: number | undefined = undefined;
+	export let rows: number | undefined = undefined;
+	export let suffix: string | undefined = undefined;
+	export let prefix: string | undefined = undefined;
 
 	function cells(
 		x: number,
@@ -60,17 +48,13 @@
 		return { title: '', value: values[0] };
 	}
 
-	$: key = makeSafeKey(label);
-	$: params = { [key]: getValue() };
-	$: value = params[key];
-	$: value, setValue();
 	$: gridDimensions = getGridDimensions(values.length, columns, rows);
 	$: bindingParams = {
 		groupName,
 		view: 'radiogrid',
 		size: [gridDimensions.columns, gridDimensions.rows],
 		cells
-	};
+	} satisfies RadioGridInputParams<T>;
 </script>
 
-<Binding {label} {disabled} bind:params {key} {bindingParams} />
+<GenericBinding bind:value {label} {disabled} {bindingParams} />

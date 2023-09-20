@@ -92,7 +92,9 @@
 
 <div class="wrapper">
 	{va}
-	<Ring series={2} bind:value={va} disabled={false} />
+	<Wheel wide={false} amount={100} bind:value={va} disabled={false} />
+
+	<Ring wide={false} series={1} bind:value={va} disabled={false} />
 
 	<GenericBinding value={v} />
 	{bz}

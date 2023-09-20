@@ -1,38 +1,23 @@
 <script lang="ts" generics="T extends string | boolean | number">
-	import Binding from '$lib/core/Binding.svelte';
-	import { makeSafeKey } from '$lib/utils.js';
-	import type { BaseInputParams } from '@tweakpane/core';
+	// TODO something to handle bare arrays and transcribe them into ArrayStyleListOptions<T>
+	import GenericBinding from '$lib/internal/GenericBinding.svelte';
 	import type { ListParamsOptions } from 'tweakpane';
 
-	interface ListInputParams extends BaseInputParams {
+	interface ListInputParams {
 		options: ListParamsOptions<T>;
 	}
 
-	// TODO something to handle bare arrays and transcribe them into ArrayStyleListOptions<T>
-
-	export let label: string | undefined = undefined;
-	export let value: T;
-	export let options: ListParamsOptions<T>;
+	// re-exported
 	export let disabled: boolean = false;
+	export let label: string | undefined = undefined;
 
-	let bindingParams: ListInputParams;
+	// unique
+	export let options: ListParamsOptions<T>;
+	export let value: T;
 
-	// avoid circular
-	function getValue() {
-		return value;
-	}
-
-	function setValue() {
-		params[key] = value;
-	}
-
-	$: key = makeSafeKey(label);
-	$: params = { [key]: getValue() };
-	$: value = params[key];
-	$: value, setValue();
 	$: bindingParams = {
 		options
-	};
+	} satisfies ListInputParams;
 </script>
 
-<Binding {label} {disabled} bind:params {key} {bindingParams} />
+<GenericBinding bind:value {label} {disabled} {bindingParams} />

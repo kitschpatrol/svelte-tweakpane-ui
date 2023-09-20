@@ -1,6 +1,5 @@
 <script lang="ts" generics="U extends number | IntervalObject">
-	import Binding from '$lib/core/Binding.svelte';
-	import { makeSafeKey } from '$lib/utils.js';
+	import GenericBinding from '$lib/internal/GenericBinding.svelte';
 	import type { NumberInputParams } from 'tweakpane';
 	import type { IntervalObject } from '@tweakpane/plugin-essentials/dist/types/interval/model/interval.js';
 
@@ -8,9 +7,13 @@
 	// (via the essentials plugin) just by changing the input type
 	// For the sake of consistency and discoverability, Interval
 	// is implement as a separate componetn leveraging this generic
-	export let value: U; // bindable
+
+	// re-exported
 	export let label: string | undefined = undefined;
 	export let disabled: boolean = false;
+
+	// unique
+	export let value: U; // bindable
 	export let min: number | undefined = undefined;
 	export let max: number | undefined = undefined;
 	export let step: number | undefined = undefined;
@@ -19,22 +22,7 @@
 	export let format: ((value: number) => string) | undefined = undefined;
 
 	// the IntervalInputParams type is identical
-	// to NumberInputParams
-	// so don't bother with generics
-	let bindingParams: NumberInputParams;
-
-	function getValue() {
-		return value;
-	}
-
-	function setValue() {
-		params[key] = value;
-	}
-
-	$: key = makeSafeKey(label);
-	$: params = { [key]: getValue() };
-	$: value = params[key];
-	$: value, setValue();
+	// to NumberInputParams, so don't bother with generics
 	$: bindingParams = {
 		min,
 		max,
@@ -42,7 +30,7 @@
 		pointerScale,
 		keyScale,
 		format
-	};
+	} satisfies NumberInputParams;
 </script>
 
-<Binding {label} {disabled} bind:params {key} {bindingParams} />
+<GenericBinding bind:value {label} {disabled} {bindingParams} />
