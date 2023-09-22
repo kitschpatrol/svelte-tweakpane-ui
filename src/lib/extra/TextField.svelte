@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GenericBinding from '$lib/internal/GenericBinding.svelte';
+	import GenericInput from '$lib/internal/GenericInput.svelte';
 
 	// re-exported
 	export let label: string | undefined = undefined;
@@ -7,4 +7,4 @@
 	export let value: string;
 </script>
 
-<GenericBinding {label} {disabled} bind:value />
+<GenericInput {label} {disabled} bind:value />

@@ -1,8 +1,14 @@
 import { Pane } from 'tweakpane';
 import type { PaneConfig } from 'tweakpane/dist/types/pane/pane-config.js';
 
-import * as EssentialsPlugin from '@tweakpane/plugin-essentials';
 import * as CamerakitPlugin from '@tweakpane/plugin-camerakit';
+import * as EssentialsPlugin from '@tweakpane/plugin-essentials';
+import * as ImagePlugin from 'tweakpane-image-plugin';
+import * as RotationPlugin from '@0b5vr/tweakpane-plugin-rotation';
+import * as ProfilerPlugin from '@0b5vr/tweakpane-plugin-profiler';
+import * as TextareaPlugin from '@pangenerator/tweakpane-textarea-plugin';
+import * as ThumbnailListPlugin from 'tweakpane-plugin-thumbnail-list';
+import * as WaveformPlugin from 'tweakpane-plugin-waveform';
 
 export function getElementIndex(element: HTMLElement): number {
 	let index = 0;
@@ -31,8 +37,14 @@ export function makeSafeKey(input: string | undefined, defaultKey: string = 'key
 export function createPane(config: PaneConfig | undefined = {}, loadPlugins: boolean = true): Pane {
 	const pane = new Pane(config);
 	if (loadPlugins) {
-		pane.registerPlugin(EssentialsPlugin);
 		pane.registerPlugin(CamerakitPlugin);
+		pane.registerPlugin(EssentialsPlugin);
+		pane.registerPlugin(ImagePlugin);
+		pane.registerPlugin(TextareaPlugin);
+		pane.registerPlugin(WaveformPlugin);
+		pane.registerPlugin(RotationPlugin);
+		pane.registerPlugin(ProfilerPlugin);
+		pane.registerPlugin(ThumbnailListPlugin);
 	}
 	return pane;
 }

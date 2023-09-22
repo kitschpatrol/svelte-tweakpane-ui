@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GenericBinding from '$lib/internal/GenericBinding.svelte';
+	import GenericInput from '$lib/internal/GenericInput.svelte';
 
 	// re-exported
 	export let disabled: boolean = false;
@@ -30,4 +30,4 @@
 	};
 </script>
 
-<GenericBinding bind:value {disabled} {label} {bindingParams} />
+<GenericInput bind:value {disabled} {label} {bindingParams} />

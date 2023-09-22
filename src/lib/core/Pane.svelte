@@ -7,7 +7,7 @@
 	import { createPane } from '$lib/utils.js';
 
 	export let title: string | undefined = undefined;
-	export let expanded: boolean = true;
+	export let expanded: boolean = true; // special case
 
 	let paneStore: Writable<Pane>;
 	let container: HTMLElement;

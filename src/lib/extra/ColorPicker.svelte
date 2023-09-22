@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GenericBinding from '$lib/internal/GenericBinding.svelte';
+	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import type { PickerLayout } from '@tweakpane/core';
 	import type { ColorInputParams } from 'tweakpane';
 
@@ -14,8 +14,8 @@
 
 	// unique
 	export let value: string | RgbColorObject | RgbaColorObject;
-	export let expanded: boolean = false;
-	export let picker: PickerLayout = 'popup';
+	export let expanded: boolean | undefined = undefined;
+	export let picker: PickerLayout | undefined = undefined;
 
 	// TODO does this do anyhting?
 	// passing channel like 0x00ffd644 adds alpha automatically
@@ -31,4 +31,4 @@
 	} satisfies ColorInputParams;
 </script>
 
-<GenericBinding bind:value {label} {disabled} {bindingParams} />
+<GenericInput bind:value {label} {disabled} {bindingParams} />

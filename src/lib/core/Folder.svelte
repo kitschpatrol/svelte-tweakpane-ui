@@ -9,7 +9,7 @@
 
 	export let title: string = 'Folder';
 	export let disabled: boolean = false;
-	export let expanded: boolean = true;
+	export let expanded: boolean | undefined = undefined;
 
 	// save parent context for ourselves
 	const parentStore: Writable<Pane | FolderApi | TabPageApi> =
@@ -49,8 +49,8 @@
 
 	$: index !== undefined && $parentStore && !$folderStore && create();
 	$: $folderStore && ($folderStore.title = title);
-	$: $folderStore && ($folderStore.disabled = disabled);
-	$: $folderStore && ($folderStore.expanded = expanded);
+	$: $folderStore && disabled !== undefined && ($folderStore.disabled = disabled);
+	$: $folderStore && expanded !== undefined && ($folderStore.expanded = expanded);
 </script>
 
 <div style="display: none;" bind:this={indexElement}>

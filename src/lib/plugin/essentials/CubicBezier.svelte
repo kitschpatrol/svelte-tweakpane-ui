@@ -10,9 +10,9 @@
 	export let label: string | undefined = undefined;
 
 	// unique
-	export let expanded: boolean = true;
+	export let expanded: boolean | undefined = undefined;
 	export let value: [number, number, number, number];
-	export let picker: PickerLayout = 'inline';
+	export let picker: PickerLayout | undefined = undefined;
 
 	let bladeParams: CubicBezierBladeParams;
 	let cubicBezierBlade: CubicBezierApi;

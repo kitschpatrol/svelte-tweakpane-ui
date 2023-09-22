@@ -36,9 +36,9 @@
 
 		// last one wins
 		blade = $parentStore.addBlade({
-			...{ index },
+			index,
 			...bladeParams,
-			...{ disabled }
+			disabled
 		}) as U; // TODO hmm
 		bladeRef = blade;
 	}

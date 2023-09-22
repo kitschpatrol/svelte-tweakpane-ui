@@ -14,24 +14,28 @@
 	export let max: number | undefined = undefined;
 	export let min: number | undefined = undefined;
 
-	// Begin and end can be bound and called externally for explicit timing
-	// TODO expose as functions on the component instead?
-	export const begin = () => {
-		fpsBlade && fpsBlade.begin();
-	};
+	let implicitMode = true; // false as soon as the external api has been used
 
-	export const end: () => void = () => {
-		fpsBlade && fpsBlade.end();
-	};
+	// Begin and end can be bound and called externally for explicit timing
+	export function begin(): void {
+		implicitMode = false;
+		fpsBlade?.begin();
+	}
+
+	export function end(): void {
+		implicitMode = false;
+		fpsBlade?.end();
+	}
 
 	let fpsBlade: FpsGraphBladeApi;
-	let mounted: boolean = false;
 	let requestId: number;
 
+	// handle this as an event and not a bound value
+	// because it's "read only"
 	const dispatch = createEventDispatcher<{ change: number }>();
 
 	onMount(() => {
-		mounted = true;
+		startInternalLoop();
 	});
 
 	onDestroy(() => {
@@ -44,8 +48,8 @@
 	}
 
 	function loop() {
-		end();
-		begin();
+		fpsBlade?.end();
+		fpsBlade?.begin();
 		requestId = requestAnimationFrame(loop);
 	}
 
@@ -84,17 +88,6 @@
 		}
 	}
 
-	// if begin and end are not bound, then we run a clock internally at the browser frame rate
-	$: {
-		if (mounted) {
-			if ($$props.begin || $$props.end) {
-				stopInternalLoop();
-			} else {
-				startInternalLoop();
-			}
-		}
-	}
-
 	$: fpsBlade && startObservingMeasuredFpsValue();
 
 	let bladeParams: FpsGraphBladeParams;
@@ -106,6 +99,8 @@
 		min,
 		interval
 	};
+
+	$: if (!implicitMode) stopInternalLoop();
 </script>
 
 <Blade {disabled} bind:bladeRef={fpsBlade} {bladeParams} />

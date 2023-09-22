@@ -1,5 +1,5 @@
 <script lang="ts" generics="T extends number | string | boolean">
-	import GenericBinding from '$lib/internal/GenericBinding.svelte';
+	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import { getGridDimensions } from '$lib/utils.js';
 
 	// /@tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
@@ -57,4 +57,4 @@
 	} satisfies RadioGridInputParams<T>;
 </script>
 
-<GenericBinding bind:value {label} {disabled} {bindingParams} />
+<GenericInput bind:value {label} {disabled} {bindingParams} />

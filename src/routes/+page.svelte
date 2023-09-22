@@ -7,19 +7,25 @@
 		Pane,
 		Separator,
 		Tab,
-		AutoObject,
 		Checkbox,
 		ColorPicker,
 		List,
 		PointPicker,
 		Interval,
 		RadioGrid,
+		RotationQuaternion,
 		Slider,
+		Waveform,
 		TextField,
+		Textarea,
 		Wheel,
+		ThumbnailList,
+		RotationEuler,
 		Ring,
 		ButtonGrid,
 		CubicBezier,
+		Image,
+		Profiler,
 		FpsGraph
 	} from '$lib/index.js';
 
@@ -66,8 +72,7 @@
 	let testNum = 3.14;
 	let testText = 'cosmic manifold';
 
-	let fpsBegin: any;
-	let fpsEnd: any;
+	let fpsRef: FpsGraph;
 
 	let fpsValue: number = 0;
 
@@ -75,9 +80,9 @@
 
 	onMount(() => {
 		function render() {
-			fpsBegin && fpsBegin();
 			// Rendering
-			fpsEnd && fpsEnd();
+			fpsRef?.begin();
+			fpsRef?.end();
 			requestAnimationFrame(render);
 		}
 
@@ -88,9 +93,88 @@
 	let va = 5;
 
 	let bz: [number, number, number, number] = [0.25, 0.75, 0.75, 0.25];
+	let mlt = '';
+	let rowCount = 2;
+
+	let imgPath: string = 'placeholder';
+
+	let rv = { x: 0, y: 0, z: 0 };
+	let rq = { x: 0, y: 0, z: 0, w: 0 };
+
+	let ilv: string = '002';
+	let il = [
+		{ text: 'Item #1', value: '001', src: 'https://picsum.photos/600?v=001' },
+		{ text: 'Item #2', value: '002', src: 'https://picsum.photos/600?v=002' },
+		{ text: 'Item #3', value: '003', src: 'https://picsum.photos/600?v=003' },
+		{ text: 'Item #4', value: '004', src: 'https://picsum.photos/600?v=004' },
+		{ text: 'Item #5', value: '005', src: 'https://picsum.photos/600?v=005' },
+		{ text: 'Item #6', value: '006', src: 'https://picsum.photos/600?v=006' }
+	];
+
+	let w = [5, 6, 7, 8, 9, 3, 9, 8, 7, 6, 5];
+	setInterval(() => {
+		w = w.map((v) => Math.max(0, Math.min(10, v + (Math.random() * 2 - 1) * 0.5)));
+	}, 1);
+
+	let profilerRef: Profiler;
+
+	function abuseRandom() {
+		let sum = 0.0;
+		for (let sum = 0; sum < 1e5; sum++) {
+			sum += Math.random();
+		}
+	}
 </script>
 
 <div class="wrapper">
+	<Profiler label="Test" bind:this={profilerRef} />
+	<Button
+		title="test profiler"
+		on:click={() => {
+			profilerRef.measure('test', abuseRandom);
+		}}
+	/>
+
+	<FpsGraph label="FPS Internal Clock" />
+
+	<FpsGraph
+		on:change={(e) => {
+			fpsValue = e.detail;
+		}}
+		bind:this={fpsRef}
+		label="FPS External Clock"
+	/>
+
+	<Waveform min={-1} max={11} value={w} lineStyle={'bezier'} />
+
+	{ilv}
+	<ThumbnailList label="options" bind:value={ilv} options={il} />
+
+	{JSON.stringify(rq)}
+	<RotationQuaternion label="Rotate Quaternion" bind:value={rq} />
+
+	{JSON.stringify(rv)}
+	<RotationEuler label="Rotate Euler" bind:value={rv} />
+
+	{imgPath}
+	<Image label="Image drag and drop" bind:value={imgPath} />
+
+	{rowCount}
+	<pre>
+	{mlt}
+</pre>
+	<Textarea
+		bind:value={mlt}
+		rows={rowCount}
+		placeholder={"There's no place like holder"}
+		label={'Multiline'}
+	/>
+	<Button
+		on:click={() => {
+			rowCount += 1;
+		}}
+	/>
+
 	{va}
 	<Wheel wide={false} amount={100} bind:value={va} disabled={false} />
 
@@ -140,17 +224,6 @@
 	<hr />
 
 	<Interval label={checkLabel} bind:value={range} min={-1000} max={1000} />
-
-	<FpsGraph label="FPS Internal Clock" />
-
-	<FpsGraph
-		on:change={(e) => {
-			fpsValue = e.detail;
-		}}
-		bind:begin={fpsBegin}
-		bind:end={fpsEnd}
-		label="FPS External Clock"
-	/>
 
 	<hr />
 

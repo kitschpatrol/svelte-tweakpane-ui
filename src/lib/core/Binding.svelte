@@ -1,13 +1,7 @@
 <script lang="ts" generics="T extends Bindable, U extends BindingApi">
 	import type { Pane } from 'tweakpane';
-	import type {
-		Bindable,
-		FolderApi,
-		TabPageApi,
-		BindingApi,
-		BaseInputParams
-	} from '@tweakpane/core';
-	import { onMount, onDestroy, getContext, createEventDispatcher } from 'svelte';
+	import type { Bindable, FolderApi, TabPageApi, BindingApi } from '@tweakpane/core';
+	import { onMount, onDestroy, getContext } from 'svelte';
 	import { createPane, getElementIndex } from '$lib/utils.js';
 	import { writable, type Writable } from 'svelte/store';
 
@@ -23,7 +17,6 @@
 	const parentStore: Writable<Pane | FolderApi | TabPageApi> =
 		getContext('parentStore') ?? writable();
 	const inPane = getContext('inPane');
-	// const dispatch = createEventDispatcher();
 
 	let indexElement: HTMLDivElement;
 	let binding: U;
@@ -44,9 +37,10 @@
 
 		// last one wins
 		binding = $parentStore.addBinding(params, key, {
-			...{ index, label },
+			index,
+			label,
 			...bindingParams,
-			...{ disabled }
+			disabled
 		}) as U;
 		bindingRef = binding;
 

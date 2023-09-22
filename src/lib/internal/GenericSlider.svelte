@@ -1,5 +1,5 @@
 <script lang="ts" generics="U extends number | IntervalObject">
-	import GenericBinding from '$lib/internal/GenericBinding.svelte';
+	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import type { NumberInputParams } from 'tweakpane';
 	import type { IntervalObject } from '@tweakpane/plugin-essentials/dist/types/interval/model/interval.js';
 
@@ -33,4 +33,4 @@
 	} satisfies NumberInputParams;
 </script>
 
-<GenericBinding bind:value {label} {disabled} {bindingParams} />
+<GenericInput bind:value {label} {disabled} {bindingParams} />

@@ -1,14 +1,14 @@
 <script lang="ts">
 	import type { RingUnit } from '@tweakpane/plugin-camerakit/dist/types/view/ring.d.ts';
 	import type { RingSeries } from '@tweakpane/plugin-camerakit/dist/types/util.js';
-	import GenericBinding from '$lib/internal/GenericBinding.svelte';
+	import GenericInput from '$lib/internal/GenericInput.svelte';
 
 	// Would be better, but is broken
 	// Plus omit breaks autocomplete
 	// https://github.com/sveltejs/svelte/issues/8476
 	// interface $$Props
 	// 	extends Omit<
-	// 		ComponentProps<GenericBinding<number, BindingApi>>,
+	// 		ComponentProps<GenericInput<number, BindingApi>>,
 	// 		'bindingParams' | 'bindingRef'
 	// > {}
 
@@ -42,4 +42,4 @@
 	};
 </script>
 
-<GenericBinding bind:value {disabled} {label} {bindingParams} />
+<GenericInput bind:value {disabled} {label} {bindingParams} />

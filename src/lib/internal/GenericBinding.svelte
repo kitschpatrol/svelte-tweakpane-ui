@@ -1,6 +1,5 @@
 <script lang="ts" generics="T extends any, U extends BindingApi">
 	// Abstracts the param object into a bare value
-
 	import Binding from '$lib/core/Binding.svelte';
 	import type { BindingApi } from '@tweakpane/core';
 	import { makeSafeKey } from '$lib/utils.js';

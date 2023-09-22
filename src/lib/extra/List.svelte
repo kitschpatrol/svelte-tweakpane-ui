@@ -1,6 +1,6 @@
 <script lang="ts" generics="T extends string | boolean | number">
 	// TODO something to handle bare arrays and transcribe them into ArrayStyleListOptions<T>
-	import GenericBinding from '$lib/internal/GenericBinding.svelte';
+	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import type { ListParamsOptions } from 'tweakpane';
 
 	interface ListInputParams {
@@ -20,4 +20,4 @@
 	} satisfies ListInputParams;
 </script>
 
-<GenericBinding bind:value {label} {disabled} {bindingParams} />
+<GenericInput bind:value {label} {disabled} {bindingParams} />

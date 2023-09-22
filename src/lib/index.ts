@@ -17,12 +17,21 @@ export { default as Slider } from './extra/Slider.svelte';
 export { default as TextField } from './extra/TextField.svelte';
 
 // essentials (1st party plugins)
-export { default as FpsGraph } from './essentials/FpsGraph.svelte';
-export { default as Interval } from './essentials/Interval.svelte';
-export { default as RadioGrid } from './essentials/RadioGrid.svelte';
-export { default as ButtonGrid } from './essentials/ButtonGrid.svelte';
-export { default as CubicBezier } from './essentials/CubicBezier.svelte';
+export { default as FpsGraph } from './plugin/essentials/FpsGraph.svelte';
+export { default as Interval } from './plugin/essentials/Interval.svelte';
+export { default as RadioGrid } from './plugin/essentials/RadioGrid.svelte';
+export { default as ButtonGrid } from './plugin/essentials/ButtonGrid.svelte';
+export { default as CubicBezier } from './plugin/essentials/CubicBezier.svelte';
 
 // camerakit (1st party plugins)
-export { default as Wheel } from './camerakit/Wheel.svelte';
-export { default as Ring } from './camerakit/Ring.svelte';
+export { default as Wheel } from './plugin/camerakit/Wheel.svelte';
+export { default as Ring } from './plugin/camerakit/Ring.svelte';
+
+// additional plugins (3rd party / community)
+export { default as Image } from './plugin/Image.svelte';
+export { default as Profiler } from './plugin/Profiler.svelte';
+export { default as RotationEuler } from './plugin/RotationEuler.svelte';
+export { default as RotationQuaternion } from './plugin/RotationQuaternion.svelte';
+export { default as Textarea } from './plugin/Textarea.svelte';
+export { default as ThumbnailList } from './plugin/ThumbnailList.svelte';
+export { default as Waveform } from './plugin/Waveform.svelte';

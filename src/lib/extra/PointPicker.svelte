@@ -1,10 +1,13 @@
 <script lang="ts" generics="U extends Point2dObject | Point3dObject | Point4dObject">
-	import GenericBinding from '$lib/internal/GenericBinding.svelte';
+	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import type { Point2dInputParams, Point3dInputParams, Point4dInputParams } from 'tweakpane';
 	import type { PickerLayout } from '@tweakpane/core';
 	import type { Point2dObject } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js';
 	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
 	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d.js';
+
+	// TODO how to make certain props conditional on U
+	// https://stackoverflow.com/questions/76553208/dynamic-props-for-svelte-component
 
 	type PointParams<T> = T extends Point4dObject
 		? Point4dInputParams
@@ -20,12 +23,12 @@
 
 	//  unique
 	export let value: U;
-	export let expanded: boolean = false;
+	export let expanded: boolean | undefined = undefined;
 	export let format: ((value: number) => string) | undefined = undefined;
 	export let keyScale: number | undefined = undefined;
 	export let max: number | undefined = undefined;
 	export let min: number | undefined = undefined;
-	export let picker: PickerLayout = 'popup';
+	export let picker: PickerLayout | undefined = undefined;
 	export let pointerScale: number | undefined = undefined;
 	export let step: number | undefined = undefined;
 	export let x: PointParams<U>['x'] = undefined;
@@ -49,4 +52,4 @@
 	} as PointParams<U>; // Hmm
 </script>
 
-<GenericBinding bind:value {label} {disabled} {bindingParams} />
+<GenericInput bind:value {label} {disabled} {bindingParams} />
