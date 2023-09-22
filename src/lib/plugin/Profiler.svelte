@@ -17,7 +17,6 @@
 	export let calcMode: ('frame' | 'mean' | 'median') | undefined = undefined;
 	export let deltaUnit: string | undefined = undefined;
 	export let fractionDigits: number | undefined = undefined;
-	export let interval: number | undefined = undefined;
 	export let measureHandler: ProfilerBladeMeasureHandler | undefined = undefined;
 	export let targetDelta: number | undefined = undefined;
 
@@ -29,7 +28,6 @@
 		calcMode,
 		deltaUnit,
 		fractionDigits,
-		interval,
 		label,
 		measureHandler,
 		targetDelta

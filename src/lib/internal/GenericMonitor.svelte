@@ -11,15 +11,14 @@
 
 	// union of boolean / number / string monitor params
 	export let rows: number | undefined = undefined;
-	export let interval: number | undefined = undefined;
 	export let bufferSize: number | undefined = undefined;
 
 	$: bindingParamsInternal = {
 		rows,
-		interval,
 		bufferSize,
 		...bindingParams,
-		readonly: true
+		readonly: true,
+		interval: -1 // TODO does this work?
 	};
 </script>
 

@@ -15,6 +15,9 @@ export { default as PointPicker } from './extra/PointPicker.svelte';
 export { default as Separator } from './extra/Separator.svelte';
 export { default as Slider } from './extra/Slider.svelte';
 export { default as TextField } from './extra/TextField.svelte';
+export { default as TextMonitor } from './extra/TextMonitor.svelte';
+export { default as NumberMonitor } from './extra/NumberMonitor.svelte';
+export { default as BooleanMonitor } from './extra/BooleanMonitor.svelte';
 
 // essentials (1st party plugins)
 export { default as FpsGraph } from './plugin/essentials/FpsGraph.svelte';

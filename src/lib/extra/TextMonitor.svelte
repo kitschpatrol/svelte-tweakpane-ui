@@ -6,21 +6,19 @@
 	} from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
 
 	// re-exported
+	export let value: string;
 	export let label: string | undefined = undefined;
 	export let disabled: boolean = false;
-	export let value: WaveformValue;
+	export let rows: number | undefined = undefined;
+	export let bufferSize: number | undefined = undefined;
 
 	// unique
-	export let max: number;
-	export let min: number;
-	export let lineStyle: WaveformStyles;
+	// "scrollable" might be a better name
+	export let multiline: boolean | undefined = undefined;
 
 	$: bindingParams = {
-		view: 'waveform',
-		max,
-		min,
-		lineStyle
+		multiline
 	};
 </script>
 
-<GenericMonitor {label} {disabled} {bindingParams} {value} />
+<GenericMonitor {rows} {bufferSize} {label} {disabled} {bindingParams} {value} />

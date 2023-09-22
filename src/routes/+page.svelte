@@ -15,7 +15,10 @@
 		RadioGrid,
 		RotationQuaternion,
 		Slider,
+		TextMonitor,
+		NumberMonitor,
 		Waveform,
+		BooleanMonitor,
 		TextField,
 		Textarea,
 		Wheel,
@@ -114,7 +117,7 @@
 	let w = [5, 6, 7, 8, 9, 3, 9, 8, 7, 6, 5];
 	setInterval(() => {
 		w = w.map((v) => Math.max(0, Math.min(10, v + (Math.random() * 2 - 1) * 0.5)));
-	}, 1);
+	}, 20);
 
 	let profilerRef: Profiler;
 
@@ -124,9 +127,38 @@
 			sum += Math.random();
 		}
 	}
+
+	let boolToMon = false;
+	let textToMonitor = 'bla';
+	let numberToMonitor = 0;
 </script>
 
 <div class="wrapper">
+	<BooleanMonitor value={boolToMon} />
+	<BooleanMonitor value={boolToMon} rows={5} />
+	<BooleanMonitor value={boolToMon} rows={5} bufferSize={100} />
+	<Button
+		title="mess with monitor boolean"
+		on:click={() => {
+			boolToMon = !boolToMon;
+		}}
+	/>
+
+	<NumberMonitor value={numberToMonitor} rows={5} bufferSize={50} />
+	<NumberMonitor value={numberToMonitor} graph />
+	<NumberMonitor value={numberToMonitor} />
+	<Slider label="number to monitor" bind:value={numberToMonitor} />
+
+	<TextMonitor label="Plain Monitor" value={textToMonitor} />
+	<TextMonitor label="Multiline Monitor" rows={6} multiline={true} value={textToMonitor} />
+	<TextField label="text to monitor" bind:value={textToMonitor} />
+	<Button
+		title="mess with monitor text"
+		on:click={() => {
+			textToMonitor += 'asdfasdfasdf\n';
+		}}
+	/>
+
 	<Profiler label="Test" bind:this={profilerRef} />
 	<Button
 		title="test profiler"
