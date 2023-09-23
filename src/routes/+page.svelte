@@ -33,6 +33,7 @@
 	} from '$lib/index.js';
 
 	import GenericBinding from '$lib/internal/GenericBinding.svelte';
+	import { Themes } from '$lib/theme.js';
 
 	import { onMount } from 'svelte';
 
@@ -160,22 +161,24 @@
 	/>
 
 	<Profiler label="Test" bind:this={profilerRef} />
-	<Button
-		title="test profiler"
-		on:click={() => {
-			profilerRef.measure('test', abuseRandom);
-		}}
-	/>
+	<Pane theme={Themes.vivid}>
+		<Button
+			title="test profiler"
+			on:click={() => {
+				profilerRef.measure('test', abuseRandom);
+			}}
+		/>
 
-	<FpsGraph label="FPS Internal Clock" />
+		<FpsGraph label="FPS Internal Clock" />
 
-	<FpsGraph
-		on:change={(e) => {
-			fpsValue = e.detail;
-		}}
-		bind:this={fpsRef}
-		label="FPS External Clock"
-	/>
+		<FpsGraph
+			on:change={(e) => {
+				fpsValue = e.detail;
+			}}
+			bind:this={fpsRef}
+			label="FPS External Clock"
+		/>
+	</Pane>
 
 	<Waveform min={-1} max={11} value={w} lineStyle={'bezier'} />
 
@@ -336,7 +339,7 @@
 	<Separator />
 	<hr />
 	<h3>Inside a pane</h3>
-	<Pane title="yes" bind:expanded={paneExpanded}>
+	<Pane theme={Themes.vivid} title="yes" bind:expanded={paneExpanded}>
 		<Binding params={testParams} {key} />
 		<Separator />
 		{#if viz}
