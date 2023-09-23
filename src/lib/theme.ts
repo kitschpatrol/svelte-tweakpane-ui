@@ -1,3 +1,5 @@
+import { getWindowDocument } from '@tweakpane/core';
+
 export interface Theme {
 	baseBackground: string;
 	baseShadow: string;
@@ -227,11 +229,6 @@ const keyToCssVariableMap = new Map([
 ]);
 
 export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
-	console.log(`element.classList: ${JSON.stringify(element.classList, null, 2)}`);
-	if (!element.classList.contains('tp-cntv')) {
-		console.warn('Theme must be sent on containing Pane');
-		return;
-	}
 	// merge with standard theme
 	const mergedTheme = {
 		...standard,
@@ -245,11 +242,11 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 			// but if theme is explicitly standard and not undefined, then apply
 			// it anyway so that any variables higher up the cascade are overridden
 			if (theme === standard || v !== standard[k as keyof Theme]) {
-				console.log(`Setting ${varName} to ${v} !important`);
+				// console.log(`Setting ${varName} to ${v} !important`);
 				element.style.setProperty(varName, v);
 			} else {
 				if (element.style.getPropertyValue(varName).length > 0) {
-					console.log(`Unsetting ${varName}`);
+					// console.log(`Unsetting ${varName}`);
 					element.style.removeProperty(varName);
 				}
 			}
@@ -257,4 +254,10 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 			throw new Error(`Unknown Tweakpane CSS theme map variable key: "${k}"`);
 		}
 	});
+}
+
+export function setGlobalDefaultTheme(theme: Theme | undefined) {
+	if (typeof window !== 'undefined' && window.document) {
+		applyTheme(getWindowDocument().documentElement, theme);
+	}
 }

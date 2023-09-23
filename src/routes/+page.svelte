@@ -33,7 +33,7 @@
 	} from '$lib/index.js';
 
 	import GenericBinding from '$lib/internal/GenericBinding.svelte';
-	import { Themes } from '$lib/theme.js';
+	import { Themes, setGlobalDefaultTheme } from '$lib/theme.js';
 
 	import { onMount } from 'svelte';
 
@@ -132,6 +132,8 @@
 	let boolToMon = false;
 	let textToMonitor = 'bla';
 	let numberToMonitor = 0;
+
+	setGlobalDefaultTheme(Themes.vivid);
 </script>
 
 <div class="wrapper">
@@ -339,7 +341,7 @@
 	<Separator />
 	<hr />
 	<h3>Inside a pane</h3>
-	<Pane theme={Themes.vivid} title="yes" bind:expanded={paneExpanded}>
+	<Pane title="yes" bind:expanded={paneExpanded} theme={Themes.jetblack}>
 		<Binding params={testParams} {key} />
 		<Separator />
 		{#if viz}
