@@ -1,28 +1,42 @@
-import { getWindowDocument } from '@tweakpane/core';
+import {
+	getWindowDocument,
+	isRgbaColorObject,
+	isRgbColorObject,
+	type RgbaColorObject,
+	type RgbColorObject
+} from '@tweakpane/core';
 
-export interface Theme {
-	baseBackground: string;
-	baseShadow: string;
-	buttonBackground: string;
-	buttonBackgroundActive: string;
-	buttonBackgroundFocus: string;
-	buttonBackgroundHover: string;
-	buttonForeground: string;
-	containerBackground: string;
-	containerBackgroundActive: string;
-	containerBackgroundFocus: string;
-	containerBackgroundHover: string;
-	containerForeground: string;
-	grooveForeground: string;
-	inputBackground: string;
-	inputBackgroundActive: string;
-	inputBackgroundFocus: string;
-	inputBackgroundHover: string;
-	inputForeground: string;
-	labelForeground: string;
-	monitorBackground: string;
-	monitorForeground: string;
+export type ThemeColor = string | RgbaColorObject | RgbColorObject;
+
+interface BaseTheme {
+	baseBackground?: ThemeColor;
+	baseShadow?: ThemeColor;
+	buttonBackground?: ThemeColor;
+	buttonBackgroundActive?: ThemeColor;
+	buttonBackgroundFocus?: ThemeColor;
+	buttonBackgroundHover?: ThemeColor;
+	buttonForeground?: ThemeColor;
+	containerBackground?: ThemeColor;
+	containerBackgroundActive?: ThemeColor;
+	containerBackgroundFocus?: ThemeColor;
+	containerBackgroundHover?: ThemeColor;
+	containerForeground?: ThemeColor;
+	grooveForeground?: ThemeColor;
+	inputBackground?: ThemeColor;
+	inputBackgroundActive?: ThemeColor;
+	inputBackgroundFocus?: ThemeColor;
+	inputBackgroundHover?: ThemeColor;
+	inputForeground?: ThemeColor;
+	labelForeground?: ThemeColor;
+	monitorBackground?: ThemeColor;
+	monitorForeground?: ThemeColor;
 }
+
+interface ExtraThemeKeys {
+	[key: string]: ThemeColor;
+}
+
+export type Theme = BaseTheme & ExtraThemeKeys;
 
 // Standard Tweakpane themes from https://tweakpane.github.io/docs/theming/#builder
 const standard: Theme = {
@@ -228,6 +242,18 @@ const keyToCssVariableMap = new Map([
 	['monitorForeground', '--tp-monitor-foreground-color']
 ]);
 
+function colorValueToCssValue(color: ThemeColor): string {
+	if (typeof color === 'string') {
+		return color;
+	} else if (isRgbaColorObject(color)) {
+		return `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
+	} else if (isRgbColorObject(color)) {
+		return `rgb(${color.r}, ${color.g}, ${color.b})`;
+	} else {
+		throw new Error(`Unknown color object: ${color}`);
+	}
+}
+
 export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 	// merge with standard theme
 	const mergedTheme = {
@@ -241,9 +267,12 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 			// only set the variable if it deviates from the standard theme....
 			// but if theme is explicitly standard and not undefined, then apply
 			// it anyway so that any variables higher up the cascade are overridden
-			if (theme === standard || v !== standard[k as keyof Theme]) {
+			if (
+				v !== undefined &&
+				(theme === standard || colorValueToCssValue(v) !== colorValueToCssValue(standard[k]))
+			) {
 				// console.log(`Setting ${varName} to ${v} !important`);
-				element.style.setProperty(varName, v);
+				element.style.setProperty(varName, colorValueToCssValue(v));
 			} else {
 				if (element.style.getPropertyValue(varName).length > 0) {
 					// console.log(`Unsetting ${varName}`);
