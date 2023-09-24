@@ -5,6 +5,7 @@
 	import type { Point2dObject } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js';
 	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
 	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d.js';
+	import type { Theme } from '$lib/theme.js';
 
 	// TODO how to make certain props conditional on U
 	// https://stackoverflow.com/questions/76553208/dynamic-props-for-svelte-component
@@ -20,6 +21,7 @@
 	// re-exported
 	export let disabled: boolean = false;
 	export let label: string | undefined = undefined;
+	export let theme: Theme | undefined = undefined;
 
 	//  unique
 	export let value: U;
@@ -52,4 +54,4 @@
 	} as PointParams<U>; // Hmm
 </script>
 
-<GenericInput bind:value {label} {disabled} {bindingParams} />
+<GenericInput bind:value {label} {disabled} {bindingParams} {theme} />

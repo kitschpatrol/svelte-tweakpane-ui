@@ -4,10 +4,12 @@
 		WaveformValue,
 		WaveformStyles
 	} from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
+	import type { Theme } from '$lib/theme.js';
 
 	// re-exported
 	export let label: string | undefined = undefined;
 	export let disabled: boolean = false;
+	export let theme: Theme | undefined = undefined;
 	export let value: WaveformValue;
 
 	// unique
@@ -23,4 +25,4 @@
 	};
 </script>
 
-<GenericMonitor {label} {disabled} {bindingParams} {value} />
+<GenericMonitor {label} {disabled} {bindingParams} {value} {theme} />

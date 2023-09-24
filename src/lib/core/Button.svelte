@@ -5,10 +5,13 @@
 	import { createPane, getElementIndex } from '$lib/utils.js';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
+	import type { Theme } from '$lib/theme.js';
+	import { applyTheme } from '$lib/theme.js';
 
 	export let title: string = 'Button';
 	export let label: string | undefined = undefined;
 	export let disabled: boolean = false;
+	export let theme: Theme | undefined = undefined;
 
 	let indexElement: HTMLDivElement;
 	let button: ButtonApi;
@@ -47,10 +50,13 @@
 		!inPane && $parentStore?.dispose();
 	});
 
-	$: index !== undefined && $parentStore && !button && create();
-	$: button && (button.title = title);
-	$: button && (button.label = label);
-	$: button && (button.disabled = disabled);
+	$: if (index !== undefined && $parentStore && !button) create();
+	$: if (button) button.title = title;
+	$: if (button) button.label = label;
+	$: if (button) button.disabled = disabled;
+	$: if ($parentStore && !inPane) applyTheme($parentStore.element, theme);
+	$: if ($parentStore && inPane && theme)
+		console.warn('Set theme on the <Pane> component, not on its children!');
 </script>
 
 <div style="display: none;" bind:this={indexElement} />

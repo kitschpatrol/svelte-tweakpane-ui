@@ -5,9 +5,12 @@
 	import { onMount, onDestroy, getContext } from 'svelte';
 	import { createPane, getElementIndex } from '$lib/utils.js';
 	import { writable, type Writable } from 'svelte/store';
+	import type { Theme } from '$lib/theme.js';
+	import { applyTheme } from '$lib/theme.js';
 
 	export let bladeParams: T;
 	export let disabled: boolean = false;
+	export let theme: Theme | undefined = undefined;
 
 	const parentStore: Writable<Pane | FolderApi | TabPageApi> =
 		getContext('parentStore') ?? writable();
@@ -50,6 +53,9 @@
 
 	$: bladeParams, $parentStore && index !== undefined && create();
 	$: blade && (blade.disabled = disabled);
+	$: if ($parentStore && !inPane) applyTheme($parentStore.element, theme);
+	$: if ($parentStore && inPane && theme)
+		console.warn('Set theme on the <Pane> component, not on its children!');
 </script>
 
 <div style="display: none;" bind:this={indexElement} />

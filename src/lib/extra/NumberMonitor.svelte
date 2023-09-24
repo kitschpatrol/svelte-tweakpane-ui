@@ -1,5 +1,6 @@
 <script lang="ts">
 	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
+	import type { Theme } from '$lib/theme.js';
 
 	// re-exported
 	export let value: number;
@@ -9,6 +10,7 @@
 	export let bufferSize: number | undefined = undefined;
 	export let graph: boolean | undefined = false;
 	export let format: ((value: number) => string) | undefined = undefined;
+	export let theme: Theme | undefined = undefined;
 
 	// unique
 	export let max: number | undefined = undefined;
@@ -22,4 +24,4 @@
 	};
 </script>
 
-<GenericMonitor {rows} {bufferSize} {label} {disabled} {bindingParams} {value} />
+<GenericMonitor {rows} {bufferSize} {label} {disabled} {bindingParams} {value} {theme} />

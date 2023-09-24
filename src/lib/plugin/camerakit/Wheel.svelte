@@ -1,8 +1,10 @@
 <script lang="ts">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
+	import type { Theme } from '$lib/theme.js';
 
 	// re-exported
 	export let disabled: boolean = false;
+	export let theme: Theme | undefined = undefined;
 	export let label: string | undefined = undefined;
 
 	// unique
@@ -30,4 +32,4 @@
 	};
 </script>
 
-<GenericInput bind:value {disabled} {label} {bindingParams} />
+<GenericInput bind:value {disabled} {label} {bindingParams} {theme} />

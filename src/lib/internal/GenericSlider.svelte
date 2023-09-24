@@ -2,6 +2,7 @@
 	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import type { NumberInputParams } from 'tweakpane';
 	import type { IntervalObject } from '@tweakpane/plugin-essentials/dist/types/interval/model/interval.js';
+	import type { Theme } from '$lib/theme.js';
 
 	// Note that we go from a regular slider to a rang / interval slider
 	// (via the essentials plugin) just by changing the input type
@@ -11,6 +12,7 @@
 	// re-exported
 	export let label: string | undefined = undefined;
 	export let disabled: boolean = false;
+	export let theme: Theme | undefined = undefined;
 
 	// unique
 	export let value: U; // bindable
@@ -33,4 +35,4 @@
 	} satisfies NumberInputParams;
 </script>
 
-<GenericInput bind:value {label} {disabled} {bindingParams} />
+<GenericInput bind:value {label} {disabled} {bindingParams} {theme} />

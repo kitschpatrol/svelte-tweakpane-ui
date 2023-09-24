@@ -4,12 +4,15 @@
 	import { onMount, onDestroy, getContext } from 'svelte';
 	import { createPane, getElementIndex } from '$lib/utils.js';
 	import { writable, type Writable } from 'svelte/store';
+	import type { Theme } from '$lib/theme.js';
+	import { applyTheme } from '$lib/theme.js';
 
 	export let params: T;
 	export let key: string;
 	export let disabled: boolean = false;
 	export let label: string | undefined = undefined;
 	export let bindingParams: object | undefined = undefined;
+	export let theme: Theme | undefined = undefined;
 
 	// dangerous but allows access when needed
 	export let bindingRef: U | undefined = undefined;
@@ -62,6 +65,9 @@
 	$: params, binding && binding.refresh();
 	$: binding && (binding.disabled = disabled);
 	$: binding && (binding.label = label);
+	$: if ($parentStore && !inPane) applyTheme($parentStore.element, theme);
+	$: if ($parentStore && inPane && theme)
+		console.warn('Set theme on the <Pane> component, not on its children!');
 </script>
 
 <div style="display: none;" bind:this={indexElement} />

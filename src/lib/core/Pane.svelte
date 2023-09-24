@@ -39,9 +39,9 @@
 		});
 	}
 
-	$: $paneStore && ($paneStore.title = title);
-	$: $paneStore && ($paneStore.expanded = expanded);
-	$: $paneStore && applyTheme($paneStore.element, theme);
+	$: if ($paneStore) $paneStore.title = title;
+	$: if ($paneStore) $paneStore.expanded = expanded;
+	$: if ($paneStore) applyTheme($paneStore.element, theme);
 </script>
 
 <div class="container" bind:this={container}>

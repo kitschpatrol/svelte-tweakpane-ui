@@ -6,10 +6,13 @@
 	import { writable } from 'svelte/store';
 	import { getElementIndex } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
+	import type { Theme } from '$lib/theme.js';
+	import { applyTheme } from '$lib/theme.js';
 
 	export let title: string = 'Tab Page';
 	export let disabled: boolean = false;
 	export let selected: boolean = false;
+	// scoped themes don't work
 
 	// get context from tab
 	const tabStore: Writable<TabApi> = getContext('tabStore');

@@ -6,10 +6,13 @@
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
 	import { BROWSER } from 'esm-env';
+	import type { Theme } from '$lib/theme.js';
+	import { applyTheme } from '$lib/theme.js';
 
 	// TODO expose active index?
 
 	export let disabled: boolean = false;
+	// scoped themes don't work
 
 	if (BROWSER && !getContext('inPane')) {
 		console.warn('Tweakpane Tabs must be used inside of a <Pane>');

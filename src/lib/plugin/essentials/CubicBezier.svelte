@@ -4,10 +4,12 @@
 	import { CubicBezier } from '@tweakpane/plugin-essentials';
 	import type { CubicBezierBladeParams } from '@tweakpane/plugin-essentials/dist/types/cubic-bezier/plugin.d.ts';
 	import type { PickerLayout } from '@tweakpane/core';
+	import type { Theme } from '$lib/theme.js';
 
 	// re-exported
 	export let disabled: boolean = false;
 	export let label: string | undefined = undefined;
+	export let theme: Theme | undefined = undefined;
 
 	// unique
 	export let expanded: boolean | undefined = undefined;
@@ -42,4 +44,4 @@
 	$: value, cubicBezierBlade && setValue();
 </script>
 
-<Blade {disabled} bind:bladeRef={cubicBezierBlade} {bladeParams} />
+<Blade {disabled} bind:bladeRef={cubicBezierBlade} {bladeParams} {theme} />

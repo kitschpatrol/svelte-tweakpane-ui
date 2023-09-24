@@ -3,10 +3,12 @@
 	import type { FpsGraphBladeApi } from '@tweakpane/plugin-essentials';
 	import type { FpsGraphBladeParams } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
 	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
+	import type { Theme } from '$lib/theme.js';
 
 	// re-exported
 	export let disabled: boolean = false;
 	export let label: string | undefined = undefined;
+	export let theme: Theme | undefined = undefined;
 
 	//unique
 	export let rows: number = 2;
@@ -103,4 +105,4 @@
 	$: if (!implicitMode) stopInternalLoop();
 </script>
 
-<Blade {disabled} bind:bladeRef={fpsBlade} {bladeParams} />
+<Blade {disabled} bind:bladeRef={fpsBlade} {bladeParams} {theme} />

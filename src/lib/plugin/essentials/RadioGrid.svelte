@@ -1,6 +1,7 @@
 <script lang="ts" generics="T extends number | string | boolean">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import { getGridDimensions } from '$lib/utils.js';
+	import type { Theme } from '$lib/theme.js';
 
 	// /@tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
 	// it's not exported...
@@ -20,6 +21,7 @@
 	// re-exported
 	export let disabled: boolean = false;
 	export let label: string | undefined = undefined;
+	export let theme: Theme | undefined = undefined;
 
 	// unique
 	export let groupName: string = 'Group Name';
@@ -57,4 +59,4 @@
 	} satisfies RadioGridInputParams<T>;
 </script>
 
-<GenericInput bind:value {label} {disabled} {bindingParams} />
+<GenericInput bind:value {label} {disabled} {bindingParams} {theme} />

@@ -2,10 +2,12 @@
 	import Blade from '$lib/core/Blade.svelte';
 	import type { ProfilerBladeMeasureHandler } from '@0b5vr/tweakpane-plugin-profiler';
 	import type { ProfilerBladeApi } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerApi.js';
+	import type { Theme } from '$lib/theme.js';
 
 	// re-exported
 	export let disabled: boolean = false;
 	export let label: string | undefined = undefined;
+	export let theme: Theme | undefined = undefined;
 
 	// special case function export
 	export function measure(name: string, fn: () => void): void {
@@ -34,4 +36,4 @@
 	};
 </script>
 
-<Blade {disabled} bind:bladeRef={profilerBlade} {bladeParams} />
+<Blade {disabled} bind:bladeRef={profilerBlade} {bladeParams} {theme} />

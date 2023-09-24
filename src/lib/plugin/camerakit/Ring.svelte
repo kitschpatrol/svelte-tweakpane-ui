@@ -2,6 +2,7 @@
 	import type { RingUnit } from '@tweakpane/plugin-camerakit/dist/types/view/ring.d.ts';
 	import type { RingSeries } from '@tweakpane/plugin-camerakit/dist/types/util.js';
 	import GenericInput from '$lib/internal/GenericInput.svelte';
+	import type { Theme } from '$lib/theme.js';
 
 	// Would be better, but is broken
 	// Plus omit breaks autocomplete
@@ -15,6 +16,7 @@
 	// re-exported
 	export let disabled: boolean = false;
 	export let label: string | undefined = undefined;
+	export let theme: Theme | undefined = undefined;
 	export let value: number;
 
 	// unique
@@ -42,4 +44,4 @@
 	};
 </script>
 
-<GenericInput bind:value {disabled} {label} {bindingParams} />
+<GenericInput bind:value {disabled} {label} {bindingParams} {theme} />

@@ -2,6 +2,7 @@
 	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import type { PickerLayout } from '@tweakpane/core';
 	import type { ColorInputParams } from 'tweakpane';
+	import type { Theme } from '$lib/theme.js';
 
 	import type {
 		RgbColorObject,
@@ -11,9 +12,10 @@
 	// re-exported
 	export let label: string | undefined = undefined;
 	export let disabled: boolean = false;
+	export let theme: Theme | undefined = undefined;
 
 	// unique
-	export let value: string | RgbColorObject | RgbaColorObject;
+	export let value: string | RgbColorObject | RgbaColorObject | undefined;
 	export let expanded: boolean | undefined = undefined;
 	export let picker: PickerLayout | undefined = undefined;
 
@@ -31,4 +33,4 @@
 	} satisfies ColorInputParams;
 </script>
 
-<GenericInput bind:value {label} {disabled} {bindingParams} />
+<GenericInput bind:value {label} {disabled} {bindingParams} {theme} />
