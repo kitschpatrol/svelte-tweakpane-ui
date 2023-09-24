@@ -1,11 +1,12 @@
 <script lang="ts">
-	import type { Pane, TabApi } from 'tweakpane';
+	import type { Pane as TpPane, TabApi } from 'tweakpane';
 	import type { FolderApi, TabPageApi } from '@tweakpane/core';
 	import { onDestroy, getContext, setContext, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
 	import { getElementIndex } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
+	import Pane from './Pane.svelte';
 
 	export let title: string = 'Tab Page';
 	export let disabled: boolean = false;
@@ -15,13 +16,14 @@
 	// get context from tab
 	const tabStore: Writable<TabApi> = getContext('tabStore');
 	const tabIndexStore: Writable<number> = getContext('tabIndexStore');
+	const inPane = getContext('inPane');
 
-	if (BROWSER && (!tabStore || !getContext('inPane'))) {
+	if (BROWSER && (!tabStore || !inPane)) {
 		console.warn('Tweakpane Pages must be used inside of a <Tab> inside of a <Pane>');
 	}
 
 	// save parent context for ourselves
-	const parentStore: Writable<Pane | FolderApi | TabPageApi> = getContext('parentStore');
+	const parentStore: Writable<TpPane | FolderApi | TabPageApi> = getContext('parentStore');
 
 	// overwrite the context for our children
 	const tabPageStore = writable<TabPageApi>();
@@ -30,6 +32,7 @@
 	// index not actually used, page order established by array order on tab
 	let indexElement: HTMLDivElement;
 	let index: number;
+	let paneRef: TpPane;
 
 	onMount(() => {
 		index = getElementIndex(indexElement);
@@ -67,8 +70,17 @@
 	$: $tabPageStore && ($tabPageStore.title = title);
 	$: $tabPageStore && ($tabPageStore.disabled = disabled);
 	$: $tabPageStore && ($tabPageStore.selected = selected);
+	$: if (paneRef !== undefined) $parentStore = paneRef;
 </script>
 
-<div style="display: none;" bind:this={indexElement}>
-	<slot />
-</div>
+{#if !inPane}
+	<Pane bind:paneRef>
+		<div style="display: none;" bind:this={indexElement}>
+			<slot />
+		</div>
+	</Pane>
+{:else}
+	<div style="display: none;" bind:this={indexElement}>
+		<slot />
+	</div>
+{/if}

@@ -143,16 +143,59 @@
 
 	setGlobalDefaultTheme(baseTheme);
 	// setGlobalDefaultTheme(undefined);
+
+	let vb = 50;
+	let vToMon = va;
 </script>
 
-<Pane title="Floating" mode="floating">
+<!-- <Pane title="Floating" mode="floating">
 	<Button label="Test Button" title="Button" />
-</Pane>
+</Pane> -->
 
 <div class="wrapper">
-	<Pane title="Inline" theme={inlineTheme} mode="inline">
-		<Button label="Test Button" title="Button" />
+	<!-- <Tab>
+		<Page title="A">
+			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+		</Page>
+		<Page title="B">
+			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+		</Page>
+	</Tab> -->
+
+	<hr />
+	<Pane>
+		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
 	</Pane>
+
+	<Folder title="I am folder">
+		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+	</Folder>
+
+	<Pane>
+		<Folder title="I am folder">
+			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+		</Folder>
+	</Pane>
+
+	<!-- <hr />
+	<Pane>
+		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+	</Pane>
+	<Slider bind:value={va} min={0} max={10} step={0.1} />
+	<hr />
+	<Button
+		label="Test Button"
+		title="Button"
+		on:click={() => {
+			vToMon = vb;
+		}}
+	/> -->
+
+	<!-- <Pane title="Inline" theme={inlineTheme} mode="inline">
+		<Button label="Test Button" title="Button" />
+	</Pane> -->
 </div>
 
 <p>I am at the bottom</p>

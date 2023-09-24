@@ -1,28 +1,31 @@
 <script lang="ts">
-	import type { Pane, TabApi } from 'tweakpane';
+	import type { Pane as TpPane, TabApi } from 'tweakpane';
 	import type { FolderApi, TabPageApi } from '@tweakpane/core';
 	import { onMount, onDestroy, getContext, setContext } from 'svelte';
 	import { getElementIndex } from '$lib/utils.js';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
 	import { BROWSER } from 'esm-env';
+	import Pane from './Pane.svelte';
 
 	// TODO expose active index?
 
 	export let disabled: boolean = false;
 	// scoped themes don't work
+	const inPane = getContext('inPane');
 
-	if (BROWSER && !getContext('inPane')) {
+	if (BROWSER && !inPane) {
 		console.warn('Tweakpane Tabs must be used inside of a <Pane>');
 	}
 
-	const parentStore: Writable<Pane | FolderApi | TabPageApi> = getContext('parentStore');
+	const parentStore: Writable<TpPane | FolderApi | TabPageApi> = getContext('parentStore');
 	const tabStore = writable<TabApi>();
 	setContext('tabStore', tabStore);
 	const tabIndexStore = writable<Number>();
 	setContext('tabIndexStore', tabIndexStore);
 
 	let indexElement: HTMLDivElement;
+	let paneRef: TpPane;
 
 	onMount(() => {
 		// pass the tab context and index down as a store instead of a plain
@@ -39,8 +42,17 @@
 	});
 
 	$: $tabStore && ($tabStore.disabled = disabled);
+	$: if (paneRef !== undefined) $parentStore = paneRef;
 </script>
 
-<div style="display: none;" bind:this={indexElement}>
-	<slot />
-</div>
+{#if !inPane}
+	<Pane bind:paneRef>
+		<div style="display: none;" bind:this={indexElement}>
+			<slot />
+		</div>
+	</Pane>
+{:else}
+	<div style="display: none;" bind:this={indexElement}>
+		<slot />
+	</div>
+{/if}

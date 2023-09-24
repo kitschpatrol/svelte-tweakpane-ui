@@ -1,11 +1,12 @@
 <script lang="ts" generics="T extends Bindable, U extends BindingApi">
-	import type { Pane } from 'tweakpane';
+	import type { Pane as PaneType } from 'tweakpane';
 	import type { Bindable, FolderApi, TabPageApi, BindingApi } from '@tweakpane/core';
 	import { onMount, onDestroy, getContext } from 'svelte';
-	import { createPane, getElementIndex } from '$lib/utils.js';
+	import { getElementIndex } from '$lib/utils.js';
 	import { writable, type Writable } from 'svelte/store';
 	import type { Theme } from '$lib/theme.js';
 	import { applyTheme } from '$lib/theme.js';
+	import Pane from './Pane.svelte';
 
 	export let params: T;
 	export let key: string;
@@ -17,21 +18,17 @@
 	// dangerous but allows access when needed
 	export let bindingRef: U | undefined = undefined;
 
-	const parentStore: Writable<Pane | FolderApi | TabPageApi> =
+	const parentStore: Writable<PaneType | FolderApi | TabPageApi> =
 		getContext('parentStore') ?? writable();
 	const inPane = getContext('inPane');
 
 	let indexElement: HTMLDivElement;
 	let binding: U;
 	let index: number;
+	let paneRef: PaneType;
 
 	onMount(() => {
 		index = getElementIndex(indexElement);
-
-		if (!inPane) {
-			$parentStore = createPane({ expanded: true }, true);
-			indexElement.replaceWith($parentStore.element);
-		}
 	});
 
 	function create() {
@@ -58,7 +55,6 @@
 
 	onDestroy(() => {
 		binding?.dispose();
-		!inPane && $parentStore?.dispose();
 	});
 
 	$: key, bindingParams, $parentStore && index !== undefined && create();
@@ -67,7 +63,18 @@
 	$: binding && (binding.label = label);
 	$: if ($parentStore && !inPane) applyTheme($parentStore.element, theme);
 	$: if ($parentStore && inPane && theme)
-		console.warn('Set theme on the <Pane> component, not on its children!');
+		console.warn(
+			'Set theme on the <Pane> component, not on its children!  (Check nested <Binding> components for a theme prop.)'
+		);
+	$: if (paneRef !== undefined) {
+		$parentStore = paneRef;
+	}
 </script>
 
-<div style="display: none;" bind:this={indexElement} />
+{#if !inPane}
+	<Pane bind:paneRef>
+		<div style="display: none;" bind:this={indexElement} />
+	</Pane>
+{:else}
+	<div style="display: none;" bind:this={indexElement} />
+{/if}

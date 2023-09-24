@@ -1,18 +1,19 @@
 <script lang="ts" generics="T extends BaseBladeParams, U extends BladeApi">
 	import type { BladeApi, BaseBladeParams } from 'tweakpane';
-	import type { Pane } from 'tweakpane';
+	import type { Pane as TpPane } from 'tweakpane';
 	import type { FolderApi, TabPageApi } from '@tweakpane/core';
 	import { onMount, onDestroy, getContext } from 'svelte';
-	import { createPane, getElementIndex } from '$lib/utils.js';
+	import { getElementIndex } from '$lib/utils.js';
 	import { writable, type Writable } from 'svelte/store';
 	import type { Theme } from '$lib/theme.js';
 	import { applyTheme } from '$lib/theme.js';
+	import Pane from './Pane.svelte';
 
 	export let bladeParams: T;
 	export let disabled: boolean = false;
 	export let theme: Theme | undefined = undefined;
 
-	const parentStore: Writable<Pane | FolderApi | TabPageApi> =
+	const parentStore: Writable<TpPane | FolderApi | TabPageApi> =
 		getContext('parentStore') ?? writable();
 	const inPane = getContext('inPane');
 	// const dispatch = createEventDispatcher();
@@ -23,14 +24,10 @@
 	let indexElement: HTMLDivElement;
 	let blade: U;
 	let index: number;
+	let paneRef: TpPane;
 
 	onMount(() => {
 		index = getElementIndex(indexElement);
-
-		if (!inPane) {
-			$parentStore = createPane({ expanded: true }, true);
-			indexElement.replaceWith($parentStore.element);
-		}
 	});
 
 	function create() {
@@ -48,7 +45,6 @@
 
 	onDestroy(() => {
 		blade?.dispose();
-		!inPane && $parentStore?.dispose();
 	});
 
 	$: bladeParams, $parentStore && index !== undefined && create();
@@ -56,6 +52,13 @@
 	$: if ($parentStore && !inPane) applyTheme($parentStore.element, theme);
 	$: if ($parentStore && inPane && theme)
 		console.warn('Set theme on the <Pane> component, not on its children!');
+	$: if (paneRef !== undefined) $parentStore = paneRef;
 </script>
 
-<div style="display: none;" bind:this={indexElement} />
+{#if !inPane}
+	<Pane bind:paneRef>
+		<div style="display: none;" bind:this={indexElement} />
+	</Pane>
+{:else}
+	<div style="display: none;" bind:this={indexElement} />
+{/if}
