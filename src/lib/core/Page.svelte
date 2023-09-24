@@ -6,8 +6,6 @@
 	import { writable } from 'svelte/store';
 	import { getElementIndex } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
-	import type { Theme } from '$lib/theme.js';
-	import { applyTheme } from '$lib/theme.js';
 
 	export let title: string = 'Tab Page';
 	export let disabled: boolean = false;

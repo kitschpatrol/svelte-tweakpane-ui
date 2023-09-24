@@ -6,13 +6,10 @@
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
 	import { BROWSER } from 'esm-env';
-	import type { Theme } from '$lib/theme.js';
-	import { applyTheme } from '$lib/theme.js';
 
 	export let title: string = 'Folder';
 	export let disabled: boolean = false;
 	export let expanded: boolean | undefined = undefined;
-	export let theme: Theme | undefined = undefined;
 
 	// save parent context for ourselves
 	const parentStore: Writable<Pane | FolderApi | TabPageApi> =
@@ -54,7 +51,6 @@
 	$: $folderStore && ($folderStore.title = title);
 	$: $folderStore && disabled !== undefined && ($folderStore.disabled = disabled);
 	$: $folderStore && expanded !== undefined && ($folderStore.expanded = expanded);
-	// $: $folderStore && applyTheme($folderStore.element, theme);
 </script>
 
 <div style="display: none;" bind:this={indexElement}>

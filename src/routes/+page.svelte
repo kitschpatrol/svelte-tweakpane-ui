@@ -133,19 +133,23 @@
 	let textToMonitor = 'bla';
 	let numberToMonitor = 0;
 
-	setGlobalDefaultTheme(Themes.vivid);
+	// setGlobalDefaultTheme(Themes.vivid);
 </script>
 
 <div class="wrapper">
-	<BooleanMonitor value={boolToMon} />
-	<BooleanMonitor value={boolToMon} rows={5} />
-	<BooleanMonitor value={boolToMon} rows={5} bufferSize={100} />
-	<Button
-		title="mess with monitor boolean"
-		on:click={() => {
-			boolToMon = !boolToMon;
-		}}
-	/>
+	<Pane theme={Themes.jetblack}>
+		<BooleanMonitor value={boolToMon} />
+		<Folder>
+			<BooleanMonitor value={boolToMon} rows={5} />
+			<BooleanMonitor value={boolToMon} rows={5} bufferSize={100} />
+			<Button
+				title="mess with monitor boolean"
+				on:click={() => {
+					boolToMon = !boolToMon;
+				}}
+			/>
+		</Folder>
+	</Pane>
 
 	<NumberMonitor value={numberToMonitor} rows={5} bufferSize={50} />
 	<NumberMonitor value={numberToMonitor} graph />
