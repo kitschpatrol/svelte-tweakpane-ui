@@ -17,7 +17,9 @@
 		Slider,
 		TextMonitor,
 		NumberMonitor,
+		PaneInline,
 		Waveform,
+		PaneDraggable,
 		BooleanMonitor,
 		TextField,
 		Textarea,
@@ -134,15 +136,15 @@
 	let textToMonitor = 'bla';
 	let numberToMonitor = 0;
 
-	const baseTheme: Theme = {
-		baseBorderRadius: '5px'
-	};
+	// const baseTheme: Theme = {
+	// 	baseBorderRadius: '5px'
+	// };
 
-	const inlineTheme: Theme = {
-		baseBorderRadius: '5px'
-	};
+	// const inlineTheme: Theme = {
+	// 	baseBorderRadius: '5px'
+	// };
 
-	setGlobalDefaultTheme(baseTheme);
+	// setGlobalDefaultTheme(baseTheme);
 	// setGlobalDefaultTheme(undefined);
 
 	let vb = 50;
@@ -153,82 +155,29 @@
 	let ex = true;
 </script>
 
-<Pane title="Floating" mode="floating">
-	<Button label="Test Button" title="Button" />
-</Pane>
-
 <div class="wrapper">
-	<PointPicker bind:value={pp} picker="inline" />
+	<hr />
 
-	<ColorPicker bind:value={colorValue} />
-
-	<ButtonGrid
-		on:click={() => {
-			console.log('clicked');
-		}}
-		buttons={['one', 'two', 'three']}
-	/>
-
-	<FpsGraph />
-
-	<Pane>
-		<FpsGraph />
-	</Pane>
-
-	{vToMon}
-	<h2>PAGE</h2>
-	<Page title="A">
+	<PaneDraggable theme={Themes.light} title="Tweakpane Draggable">
 		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
-	</Page>
+	</PaneDraggable>
 
-	<hr />
+	<PaneInline title="Tweakpane Inline">
+		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+	</PaneInline>
 
-	<!-- <Slider label="ba" bind:value={vm} min={0} max={1000} step={0.1} /> -->
-	<h2>TAB / PAGE</h2>
-	<Tab>
-		<Page title="AA">
-			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
-		</Page>
-		{#if ex}
-			<Page title="B">
-				<Slider value={1} min={0} max={10} step={0.1} />
-			</Page>
-		{/if}
-		<Page title="C">
-			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
-		</Page>
-	</Tab>
-
-	<hr />
-	<h2>PANE / TAB / PAGE</h2>
-	<Pane>
-		<Tab>
-			<Page title="A">
-				<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
-			</Page>
-			<Page title="B">
-				<Slider value={1} min={0} max={10} step={0.1} />
-			</Page>
-		</Tab>
+	<Pane title="Tweakpane Normal" theme={Themes.vivid}>
+		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
 	</Pane>
-	<Button
-		on:click={() => {
-			console.log('click');
-			ex = !ex;
-		}}
-	/>
-	<!--
-	<Pane>
-		<Button
-			on:click={() => {
-				console.log('click');
-				ex = !ex;
-			}}
-		/>
-	</Pane> -->
 
-	{vm}
-	<Slider label="ba" bind:value={vm} min={0} max={1000} step={0.1} />
+	<!-- <Pane theme={Themes.vivid}>
+		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+	</Pane> -->
+	<hr />
+
+	<!-- <Pane>
+		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+	</Pane> -->
 
 	<!-- <hr />
 	<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
@@ -240,7 +189,7 @@
 		<Binding label="2" bind:key params={testParams} />
 		<Binding label="3" bind:key params={testParams} />
 		<Binding label="4" bind:key params={testParams} />
-	</Pane> -->
+	</PaneInline> -->
 
 	<!-- <Folder title="I am folder">
 		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
@@ -251,12 +200,12 @@
 			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
 			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
 		</Folder>
-	</Pane> -->
+	</PaneInline> -->
 
 	<!-- <hr />
 	<Pane>
 		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
-	</Pane>
+	</PaneInline>
 	<Slider bind:value={va} min={0} max={10} step={0.1} />
 	<hr />
 	<Button
@@ -267,9 +216,9 @@
 		}}
 	/> -->
 
-	<!-- <Pane title="Inline" theme={inlineTheme} mode="inline">
+	<!-- <Pane title="Inline" theme={inlineTheme}>
 		<Button label="Test Button" title="Button" />
-	</Pane> -->
+	</PaneInline> -->
 </div>
 
 <p>I am at the bottom</p>

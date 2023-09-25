@@ -2,12 +2,12 @@
 	import type { Pane as TpPane } from 'tweakpane';
 	import type { ButtonApi, FolderApi, TabPageApi, TpEvent } from '@tweakpane/core';
 	import { createEventDispatcher, onDestroy, getContext, onMount } from 'svelte';
-	import { getElementIndex, type TpContainer } from '$lib/utils.js';
+	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
 	import type { Theme } from '$lib/theme.js';
 	import { applyTheme } from '$lib/theme.js';
-	import Pane from './Pane.svelte';
+	import PaneInline from './PaneInline.svelte';
 	import { BROWSER } from 'esm-env';
 
 	export let title: string = 'Button';
@@ -53,10 +53,10 @@
 	$: BROWSER && button && (button.title = title);
 	$: BROWSER && button && (button.label = label);
 	$: BROWSER && button && (button.disabled = disabled);
-	$: BROWSER && button && !userCreatedPane && applyTheme($parentStore.element, theme);
 	$: BROWSER &&
 		theme &&
-		userCreatedPane &&
+		$parentStore &&
+		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
 			'Set theme on the <Pane> component, not on its children! (Check nested <Button> components for a theme prop.)'
 		);
@@ -66,8 +66,8 @@
 	{#if parentStore}
 		<div style="display: none;" bind:this={indexElement} />
 	{:else}
-		<Pane userCreatedPane={false} mode="inline">
+		<PaneInline userCreatedPane={false} {theme}>
 			<svelte:self on:click {...$$props} />
-		</Pane>
+		</PaneInline>
 	{/if}
 {/if}

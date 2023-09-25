@@ -4,11 +4,11 @@
 	import type { BladeApi, BaseBladeParams } from 'tweakpane';
 	import type { Pane as TpPane } from 'tweakpane';
 	import { onMount, onDestroy, getContext } from 'svelte';
-	import { getElementIndex, stripProps, type TpContainer } from '$lib/utils.js';
+	import { getElementIndex, isRootPane, stripProps, type TpContainer } from '$lib/utils.js';
 	import type { Writable } from 'svelte/store';
 	import type { Theme } from '$lib/theme.js';
 	import { applyTheme } from '$lib/theme.js';
-	import Pane from './Pane.svelte';
+	import PaneInline from './PaneInline.svelte';
 
 	export let bladeParams: T;
 	export let disabled: boolean = false;
@@ -46,10 +46,10 @@
 
 	$: bladeParams, BROWSER && $parentStore && index !== undefined && create();
 	$: BROWSER && blade && (blade.disabled = disabled);
-	$: BROWSER && blade && !userCreatedPane && applyTheme($parentStore.element, theme);
 	$: BROWSER &&
 		theme &&
-		userCreatedPane &&
+		$parentStore &&
+		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
 			'Set theme on the <Pane> component, not on its children! (Check nested <Blade> components for a theme prop.)'
 		);
@@ -62,8 +62,8 @@
 	{#if parentStore}
 		<div style="display: none;" bind:this={indexElement} />
 	{:else}
-		<Pane userCreatedPane={false} mode="inline">
+		<PaneInline userCreatedPane={false} {theme}>
 			<svelte:self {...$$props} bind:bladeRef />
-		</Pane>
+		</PaneInline>
 	{/if}
 {/if}

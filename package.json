@@ -27,14 +27,14 @@
 		"@0b5vr/tweakpane-plugin-rotation": "github:kitschpatrol/tweakpane-plugin-rotation#tweakpane-v4",
 		"@pangenerator/tweakpane-textarea-plugin": "github:kitschpatrol/tweakpane-textarea-plugin#tweakpane-v4",
 		"@sveltejs/adapter-auto": "^2.1.0",
-		"@sveltejs/kit": "^1.25.0",
+		"@sveltejs/kit": "^1.25.1",
 		"@sveltejs/package": "^2.2.2",
 		"@tweakpane/core": "^2.0.1",
 		"@tweakpane/plugin-camerakit": "^0.3.0",
 		"@tweakpane/plugin-essentials": "^0.2.0",
 		"@typescript-eslint/eslint-plugin": "^6.7.2",
 		"@typescript-eslint/parser": "^6.7.2",
-		"eslint": "^8.49.0",
+		"eslint": "^8.50.0",
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-svelte": "^2.33.2",
 		"esm-env": "^1.0.0",
@@ -120,5 +120,8 @@
 			"types": "./dist/extra/TextField.svelte.d.ts",
 			"svelte": "./dist/extra/TextField.svelte"
 		}
+	},
+	"dependencies": {
+		"svelte-local-storage-store": "^0.6.0"
 	}
 }

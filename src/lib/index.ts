@@ -4,6 +4,8 @@ export { default as Button } from './core/Button.svelte';
 export { default as Folder } from './core/Folder.svelte';
 export { default as Page } from './core/Page.svelte';
 export { default as Pane } from './core/Pane.svelte';
+export { default as PaneDraggable } from './core/PaneDraggable.svelte';
+export { default as PaneInline } from './core/PaneInline.svelte';
 export { default as Tab } from './core/Tab.svelte';
 
 // extra (svelte convenience components)

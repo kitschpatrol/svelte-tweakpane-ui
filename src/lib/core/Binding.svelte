@@ -1,11 +1,12 @@
 <script lang="ts" generics="T extends Bindable, U extends BindingApi">
-	import type { Bindable, FolderApi, TabPageApi, BindingApi } from '@tweakpane/core';
+	import type { Bindable, BindingApi } from '@tweakpane/core';
+
 	import { onMount, onDestroy, getContext } from 'svelte';
-	import { getElementIndex, stripProps, type TpContainer } from '$lib/utils.js';
+	import { getElementIndex, isRootPane, stripProps, type TpContainer } from '$lib/utils.js';
 	import type { Writable } from 'svelte/store';
 	import type { Theme } from '$lib/theme.js';
 	import { applyTheme } from '$lib/theme.js';
-	import Pane from './Pane.svelte';
+	import PaneInline from './PaneInline.svelte';
 	import { BROWSER } from 'esm-env';
 
 	export let params: T;
@@ -57,25 +58,25 @@
 	$: params, BROWSER && binding && binding.refresh();
 	$: BROWSER && binding && (binding.disabled = disabled);
 	$: BROWSER && binding && (binding.label = label);
-	$: BROWSER && binding && !userCreatedPane && applyTheme($parentStore.element, theme);
 	$: BROWSER &&
 		theme &&
-		userCreatedPane &&
+		$parentStore &&
+		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
 			'Set theme on the <Pane> component, not on its children! (Check nested <Binding> components for a theme prop.)'
 		);
 
 	// Speading the bare $$props array doesn't preserve the bind: prefix
 	// So we pull those keys and pass them manually
-	const plainProps = stripProps($$props, 'params', 'bindingRef');
+	const plainProps = stripProps($$props, 'params', 'bindingRef', 'theme');
 </script>
 
 {#if BROWSER}
 	{#if parentStore}
 		<div style="display: none;" bind:this={indexElement} />
 	{:else}
-		<Pane userCreatedPane={false} mode="inline">
+		<PaneInline userCreatedPane={false} {theme}>
 			<svelte:self {...plainProps} bind:params bind:bindingRef />
-		</Pane>
+		</PaneInline>
 	{/if}
 {/if}

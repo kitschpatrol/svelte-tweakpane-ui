@@ -2,15 +2,17 @@
 	import type { Pane as TpPane, TabApi } from 'tweakpane';
 	import type { FolderApi, TabPageApi } from '@tweakpane/core';
 	import { onMount, onDestroy, getContext, setContext } from 'svelte';
-	import { getElementIndex, type TpContainer } from '$lib/utils.js';
+	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
 	import type { Writable } from 'svelte/store';
+	import type { Theme } from '$lib/theme.js';
 	import { writable } from 'svelte/store';
 	import { BROWSER } from 'esm-env';
-	import Pane from './Pane.svelte';
+	import PaneInline from './PaneInline.svelte';
 
 	// scoped themes don't work
 	// TODO expose active index?
 	export let disabled: boolean = false;
+	export let theme: Theme | undefined = undefined;
 
 	const inPane = getContext('inPane');
 
@@ -38,6 +40,13 @@
 	});
 
 	$: BROWSER && $tabStore && ($tabStore.disabled = disabled);
+	$: BROWSER &&
+		theme &&
+		$parentStore &&
+		(userCreatedPane || !isRootPane($parentStore)) &&
+		console.warn(
+			'Set theme on the <Pane> component, not on its children! (Check nested <Tab> components for a theme prop.)'
+		);
 </script>
 
 {#if BROWSER}
@@ -46,10 +55,10 @@
 			<slot />
 		</div>
 	{:else}
-		<Pane userCreatedPane={false} mode="inline">
+		<PaneInline userCreatedPane={false} {theme}>
 			<svelte:self {...$$props}>
 				<slot />
 			</svelte:self>
-		</Pane>
+		</PaneInline>
 	{/if}
 {/if}

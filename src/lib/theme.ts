@@ -323,6 +323,8 @@ function expandVariableKey(name: string): string {
 }
 
 export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
+	// console.log(`theme: ${theme}`);
+
 	const rootDoc = getWindowDocument().documentElement;
 
 	if (theme === undefined) {

@@ -1,6 +1,14 @@
-import type { FolderApi, Pane, TabPageApi } from 'tweakpane';
+import type { Pane, FolderApi, TabPageApi } from 'tweakpane';
 
 export type TpContainer = Pane | FolderApi | TabPageApi;
+
+export function isRootPane(container: TpContainer): boolean {
+	return container.constructor.name === 'Pane';
+}
+
+export function clamp(value: number, min: number, max: number): number {
+	return Math.min(Math.max(value, min), max);
+}
 
 export function getElementIndex(element: HTMLElement): number {
 	let index = 0;

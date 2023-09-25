@@ -2,16 +2,18 @@
 	import type { Pane as TpPane } from 'tweakpane';
 	import type { FolderApi, TabPageApi } from '@tweakpane/core';
 	import { onMount, onDestroy, getContext, setContext } from 'svelte';
-	import { getElementIndex, type TpContainer } from '$lib/utils.js';
+	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
+	import type { Theme } from '$lib/theme.js';
 	import { BROWSER } from 'esm-env';
-	import Pane from './Pane.svelte';
+	import PaneInline from './PaneInline.svelte';
 
 	// scoped themes don't work
 	export let title: string = 'Folder';
 	export let disabled: boolean = false;
 	export let expanded: boolean | undefined = undefined;
+	export let theme: Theme | undefined = undefined;
 
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
 	const folderStore = writable<FolderApi>();
@@ -48,6 +50,13 @@
 	$: BROWSER && $parentStore && !$folderStore && index !== undefined && create();
 	$: BROWSER && $folderStore && ($folderStore.title = title);
 	$: BROWSER && $folderStore && ($folderStore.disabled = disabled);
+	$: BROWSER &&
+		theme &&
+		$parentStore &&
+		(userCreatedPane || !isRootPane($parentStore)) &&
+		console.warn(
+			'Set theme on the <Pane> component, not on its children! (Check nested <Folder> components for a theme prop.)'
+		);
 	// TODO animation jankiness
 	//$: BROWSER && $folderStore && ($folderStore.expanded = expanded);
 </script>
@@ -58,10 +67,10 @@
 			<slot />
 		</div>
 	{:else}
-		<Pane userCreatedPane={false} mode="inline">
+		<PaneInline userCreatedPane={false} {theme}>
 			<svelte:self {...$$props}>
 				<slot />
 			</svelte:self>
-		</Pane>
+		</PaneInline>
 	{/if}
 {/if}
