@@ -1,8 +1,8 @@
 <script lang="ts">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
+	import type { Theme } from '$lib/theme.js';
 	import type { PickerLayout } from '@tweakpane/core';
 	import type { ColorInputParams } from 'tweakpane';
-	import type { Theme } from '$lib/theme.js';
 
 	import type {
 		RgbColorObject,

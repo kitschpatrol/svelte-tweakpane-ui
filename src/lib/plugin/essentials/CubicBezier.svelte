@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Blade from '$lib/core/Blade.svelte';
+	import type { Theme } from '$lib/theme.js';
+	import type { PickerLayout } from '@tweakpane/core';
 	import type { CubicBezierApi } from '@tweakpane/plugin-essentials';
 	import { CubicBezier } from '@tweakpane/plugin-essentials';
 	import type { CubicBezierBladeParams } from '@tweakpane/plugin-essentials/dist/types/cubic-bezier/plugin.d.ts';
-	import type { PickerLayout } from '@tweakpane/core';
-	import type { Theme } from '$lib/theme.js';
 
 	// re-exported
 	export let disabled: boolean = false;

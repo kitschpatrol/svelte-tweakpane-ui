@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { Theme } from '$lib/theme.js';
-	import type { Pane as TpPane } from 'tweakpane';
 	import GenericPane from '$lib/internal/GenericPane.svelte';
-	import { onMount } from 'svelte';
+	import type { Theme } from '$lib/theme.js';
 	import { BROWSER } from 'esm-env';
+	import { onMount } from 'svelte';
+	import type { Pane as TpPane } from 'tweakpane';
 
 	let container: HTMLDivElement;
 	export let title: string | undefined = undefined;

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Blade from '$lib/core/Blade.svelte';
+	import type { Theme } from '$lib/theme.js';
 	import type { FpsGraphBladeApi } from '@tweakpane/plugin-essentials';
 	import type { FpsGraphBladeParams } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
-	import { onMount, onDestroy, createEventDispatcher } from 'svelte';
-	import type { Theme } from '$lib/theme.js';
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
 	// re-exported
 	export let disabled: boolean = false;

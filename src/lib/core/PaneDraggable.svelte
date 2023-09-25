@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { persisted } from 'svelte-local-storage-store';
-	import type { Theme } from '$lib/theme.js';
-	import type { Pane as TpPane } from 'tweakpane';
 	import GenericPane from '$lib/internal/GenericPane.svelte';
-	import { onMount, onDestroy } from 'svelte';
-	import { BROWSER } from 'esm-env';
+	import type { Theme } from '$lib/theme.js';
 	import { clamp } from '$lib/utils.js';
+	import { BROWSER } from 'esm-env';
+	import { onDestroy, onMount } from 'svelte';
+	import { persisted } from 'svelte-local-storage-store';
 	import type { Writable } from 'svelte/store';
+	import type { Pane as TpPane } from 'tweakpane';
 
 	export let title: string | undefined = 'Tweakpane';
 	export let expanded: boolean = true; // special case
@@ -16,7 +16,7 @@
 
 	let containerElement: HTMLDivElement;
 	let dragBarElement: HTMLElement; // added dynamically to tweakpane DOM
-	let widthHandleElement: HTMLDivElement;
+	let widthHandleElement: HTMLDivElement | undefined;
 	let containerHeight: number; // driven by tweakpane's internal layout
 	let documentWidth: number;
 	let documentHeight: number;
@@ -112,7 +112,7 @@
 		dragBarElement.addEventListener('pointerdown', downListener);
 
 		// add width adjuster
-		widthHandleElement = dragBarElement.parentElement?.appendChild(document.createElement('div'))!; // TODO
+		widthHandleElement = dragBarElement.parentElement?.appendChild(document.createElement('div'));
 		if (widthHandleElement) {
 			widthHandleElement.className = 'tp-custom-width-handle';
 			widthHandleElement.innerText = '↔';

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { RingUnit } from '@tweakpane/plugin-camerakit/dist/types/view/ring.d.ts';
-	import type { RingSeries } from '@tweakpane/plugin-camerakit/dist/types/util.js';
 	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import type { Theme } from '$lib/theme.js';
+	import type { RingSeries } from '@tweakpane/plugin-camerakit/dist/types/util.js';
+	import type { RingUnit } from '@tweakpane/plugin-camerakit/dist/types/view/ring.d.ts';
 
 	// Would be better, but is broken
 	// Plus omit breaks autocomplete

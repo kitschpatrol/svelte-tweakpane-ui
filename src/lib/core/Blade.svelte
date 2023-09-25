@@ -1,14 +1,12 @@
 <script lang="ts" generics="T extends BaseBladeParams, U extends BladeApi">
-	import { BROWSER } from 'esm-env';
-
-	import type { BladeApi, BaseBladeParams } from 'tweakpane';
-	import type { Pane as TpPane } from 'tweakpane';
-	import { onMount, onDestroy, getContext } from 'svelte';
-	import { getElementIndex, isRootPane, stripProps, type TpContainer } from '$lib/utils.js';
-	import type { Writable } from 'svelte/store';
 	import type { Theme } from '$lib/theme.js';
-	import { applyTheme } from '$lib/theme.js';
-	import PaneInline from './PaneInline.svelte';
+	import { getElementIndex, isRootPane, stripProps, type TpContainer } from '$lib/utils.js';
+	import { BROWSER } from 'esm-env';
+	import { getContext, onDestroy, onMount } from 'svelte';
+	import type { Writable } from 'svelte/store';
+	import PaneInline from '$lib/core/PaneInline.svelte';
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	import type { BaseBladeParams, BladeApi } from 'tweakpane';
 
 	export let bladeParams: T;
 	export let disabled: boolean = false;
@@ -17,7 +15,6 @@
 
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
 	const userCreatedPane = getContext('userCreatedPane');
-	// const dispatch = createEventDispatcher();
 
 	let indexElement: HTMLDivElement;
 	let blade: U;
@@ -63,7 +60,7 @@
 		<div style="display: none;" bind:this={indexElement} />
 	{:else}
 		<PaneInline userCreatedPane={false} {theme}>
-			<svelte:self {...$$props} bind:bladeRef />
+			<svelte:self {...plainProps} bind:bladeRef />
 		</PaneInline>
 	{/if}
 {/if}

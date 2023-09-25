@@ -1,9 +1,9 @@
 <script lang="ts">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
+	import type { Theme } from '$lib/theme.js';
 	import type { EulerOrder } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerOrder.js';
 	import type { EulerUnit } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerUnit.js';
-	import type { PointDimensionParams, PickerLayout } from '@tweakpane/core';
-	import type { Theme } from '$lib/theme.js';
+	import type { PickerLayout, PointDimensionParams } from '@tweakpane/core';
 
 	// re-exported
 	export let label: string | undefined = undefined;

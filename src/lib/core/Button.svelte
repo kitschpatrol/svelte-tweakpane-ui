@@ -1,14 +1,11 @@
 <script lang="ts">
-	import type { Pane as TpPane } from 'tweakpane';
-	import type { ButtonApi, FolderApi, TabPageApi, TpEvent } from '@tweakpane/core';
-	import { createEventDispatcher, onDestroy, getContext, onMount } from 'svelte';
-	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
-	import type { Writable } from 'svelte/store';
-	import { writable } from 'svelte/store';
+	import PaneInline from '$lib/core/PaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
-	import { applyTheme } from '$lib/theme.js';
-	import PaneInline from './PaneInline.svelte';
+	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
+	import type { ButtonApi } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
+	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte';
+	import type { Writable } from 'svelte/store';
 
 	export let title: string = 'Button';
 	export let label: string | undefined = undefined;
@@ -22,7 +19,6 @@
 	let indexElement: HTMLDivElement;
 	let button: ButtonApi;
 	let index: number;
-	let paneRef: TpPane;
 
 	function create() {
 		if (button) button.dispose();

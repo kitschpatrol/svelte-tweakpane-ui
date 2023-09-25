@@ -1,9 +1,10 @@
 <script lang="ts" generics="T extends any, U extends BindingApi">
 	// Abstracts the param object into a bare value
 	import Binding from '$lib/core/Binding.svelte';
-	import type { BindingApi } from '@tweakpane/core';
-	import { makeSafeKey } from '$lib/utils.js';
 	import type { Theme } from '$lib/theme.js';
+	import { makeSafeKey } from '$lib/utils.js';
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	import type { BindingApi } from '@tweakpane/core';
 
 	// re-exported
 	export let bindingRef: U | undefined = undefined;

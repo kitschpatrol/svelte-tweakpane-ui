@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Theme } from '$lib/theme.js';
 	import GenericPane from '$lib/internal/GenericPane.svelte';
+	import type { Theme } from '$lib/theme.js';
 	import { BROWSER } from 'esm-env';
 
 	export let title: string | undefined = undefined;

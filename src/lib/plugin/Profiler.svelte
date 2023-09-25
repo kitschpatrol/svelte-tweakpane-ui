@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Blade from '$lib/core/Blade.svelte';
+	import type { Theme } from '$lib/theme.js';
 	import type { ProfilerBladeMeasureHandler } from '@0b5vr/tweakpane-plugin-profiler';
 	import type { ProfilerBladeApi } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerApi.js';
-	import type { Theme } from '$lib/theme.js';
 
 	// re-exported
 	export let disabled: boolean = false;

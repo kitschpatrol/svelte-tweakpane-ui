@@ -1,14 +1,14 @@
 <script lang="ts">
-	import type { Pane as TpPane, TabApi } from 'tweakpane';
-	import type { FolderApi, TabPageApi } from '@tweakpane/core';
-	import { onDestroy, getContext, setContext, onMount } from 'svelte';
+	import PaneInline from '$lib/core/PaneInline.svelte';
+	import Tab from '$lib/core/Tab.svelte';
+	import type { Theme } from '$lib/theme.js';
+	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
+	import type { TabPageApi } from '@tweakpane/core';
+	import { BROWSER } from 'esm-env';
+	import { getContext, onDestroy, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
-	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
-	import { BROWSER } from 'esm-env';
-	import PaneInline from './PaneInline.svelte';
-	import Tab from './Tab.svelte';
-	import type { Theme } from '$lib/theme.js';
+	import type { TabApi } from 'tweakpane';
 
 	export let title: string = 'Tab Page';
 	export let disabled: boolean = false;
@@ -54,7 +54,7 @@
 			$tabPageStore = $tabStore.addPage({ title, index });
 		}
 
-		$tabStore?.on('select', (e) => {
+		$tabStore?.on('select', () => {
 			$tabPageStore && (selected = $tabPageStore.selected);
 		});
 	}

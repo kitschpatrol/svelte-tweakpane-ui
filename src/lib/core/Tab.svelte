@@ -1,25 +1,22 @@
 <script lang="ts">
-	import type { Pane as TpPane, TabApi } from 'tweakpane';
-	import type { FolderApi, TabPageApi } from '@tweakpane/core';
-	import { onMount, onDestroy, getContext, setContext } from 'svelte';
-	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
-	import type { Writable } from 'svelte/store';
+	import PaneInline from '$lib/core/PaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
-	import { writable } from 'svelte/store';
+	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
-	import PaneInline from './PaneInline.svelte';
+	import { getContext, onDestroy, onMount, setContext } from 'svelte';
+	import type { Writable } from 'svelte/store';
+	import { writable } from 'svelte/store';
+	import type { TabApi } from 'tweakpane';
 
 	// scoped themes don't work
 	// TODO expose active index?
 	export let disabled: boolean = false;
 	export let theme: Theme | undefined = undefined;
 
-	const inPane = getContext('inPane');
-
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
 	const tabStore = writable<TabApi>();
 	setContext('tabStore', tabStore);
-	const tabIndexStore = writable<Number>();
+	const tabIndexStore = writable<number>();
 	setContext('tabIndexStore', tabIndexStore);
 	const userCreatedPane = getContext('userCreatedPane');
 

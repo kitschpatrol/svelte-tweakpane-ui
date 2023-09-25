@@ -1,13 +1,12 @@
 <script lang="ts" generics="T extends Bindable, U extends BindingApi">
-	import type { Bindable, BindingApi } from '@tweakpane/core';
-
-	import { onMount, onDestroy, getContext } from 'svelte';
-	import { getElementIndex, isRootPane, stripProps, type TpContainer } from '$lib/utils.js';
-	import type { Writable } from 'svelte/store';
 	import type { Theme } from '$lib/theme.js';
-	import { applyTheme } from '$lib/theme.js';
-	import PaneInline from './PaneInline.svelte';
+	import { getElementIndex, isRootPane, stripProps, type TpContainer } from '$lib/utils.js';
+	import PaneInline from '$lib/core/PaneInline.svelte';
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	import type { Bindable, BindingApi } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
+	import { getContext, onDestroy, onMount } from 'svelte';
+	import type { Writable } from 'svelte/store';
 
 	export let params: T;
 	export let key: string;

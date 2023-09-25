@@ -1,9 +1,9 @@
 import {
 	getWindowDocument,
-	isRgbaColorObject,
 	isRgbColorObject,
-	type RgbaColorObject,
-	type RgbColorObject
+	isRgbaColorObject,
+	type RgbColorObject,
+	type RgbaColorObject
 } from '@tweakpane/core';
 
 // only need undefined if we had nested themes... undefined shouldn't override global theme
@@ -31,7 +31,7 @@ interface ThemeKeys {
 	containerForegroundColor?: ThemeColorValue;
 	containerHorizontalPadding?: ThemeValue;
 	containerUnitSize?: ThemeValue;
-	containerUnitSpacing?: ThemeValue;
+	containerUnitSpacPing?: ThemeValue;
 	containerVerticalPadding?: ThemeValue;
 	grooveForegroundColor?: ThemeColorValue;
 	inputBackgroundColor?: ThemeColorValue;

@@ -1,8 +1,9 @@
 <script lang="ts" generics="U extends number | IntervalObject">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import type { NumberInputParams } from 'tweakpane';
-	import type { IntervalObject } from '@tweakpane/plugin-essentials/dist/types/interval/model/interval.js';
 	import type { Theme } from '$lib/theme.js';
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	import type { IntervalObject } from '@tweakpane/plugin-essentials/dist/types/interval/model/interval.js';
+	import type { NumberInputParams } from 'tweakpane';
 
 	// Note that we go from a regular slider to a rang / interval slider
 	// (via the essentials plugin) just by changing the input type

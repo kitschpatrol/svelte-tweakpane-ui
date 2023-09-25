@@ -1,7 +1,8 @@
 <script lang="ts" generics="T extends any, U extends BindingApi">
 	import GenericBinding from '$lib/internal/GenericBinding.svelte';
-	import type { BindingApi } from '@tweakpane/core';
 	import type { Theme } from '$lib/theme.js';
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	import type { BindingApi } from '@tweakpane/core';
 
 	// re-exported
 	export let bindingRef: U | undefined = undefined;

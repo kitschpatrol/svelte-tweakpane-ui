@@ -1,4 +1,4 @@
-import type { Pane, FolderApi, TabPageApi } from 'tweakpane';
+import type { FolderApi, Pane, TabPageApi } from 'tweakpane';
 
 export type TpContainer = Pane | FolderApi | TabPageApi;
 

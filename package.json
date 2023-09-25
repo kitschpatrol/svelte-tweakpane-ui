@@ -1,127 +1,215 @@
 {
-	"name": "svelte-tweakpane-ui",
-	"version": "0.0.1",
-	"homepage": "https://example.com/",
-	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build && npm run package",
-		"preview": "vite preview",
-		"package": "svelte-kit sync && svelte-package && publint",
-		"prepublishOnly": "npm run package",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "prettier --plugin prettier-plugin-svelte --check . && eslint .",
-		"format": "prettier --plugin prettier-plugin-svelte --write .",
-		"generate-exports": "svelte-lib-helpers exports"
-	},
-	"files": [
-		"dist",
-		"!dist/**/*.test.*",
-		"!dist/**/*.spec.*"
-	],
-	"peerDependencies": {
-		"svelte": "^4.0.0"
-	},
-	"devDependencies": {
-		"@0b5vr/tweakpane-plugin-profiler": "github:kitschpatrol/tweakpane-plugin-profiler#tweakpane-v4",
-		"@0b5vr/tweakpane-plugin-rotation": "github:kitschpatrol/tweakpane-plugin-rotation#tweakpane-v4",
-		"@pangenerator/tweakpane-textarea-plugin": "github:kitschpatrol/tweakpane-textarea-plugin#tweakpane-v4",
-		"@sveltejs/adapter-auto": "^2.1.0",
-		"@sveltejs/kit": "^1.25.1",
-		"@sveltejs/package": "^2.2.2",
-		"@tweakpane/core": "^2.0.1",
-		"@tweakpane/plugin-camerakit": "^0.3.0",
-		"@tweakpane/plugin-essentials": "^0.2.0",
-		"@typescript-eslint/eslint-plugin": "^6.7.2",
-		"@typescript-eslint/parser": "^6.7.2",
-		"eslint": "^8.50.0",
-		"eslint-config-prettier": "^9.0.0",
-		"eslint-plugin-svelte": "^2.33.2",
-		"esm-env": "^1.0.0",
-		"prettier": "^3.0.3",
-		"prettier-plugin-svelte": "^3.0.3",
-		"publint": "^0.2.2",
-		"svelte": "^4.2.1",
-		"svelte-check": "^3.5.2",
-		"svelte-lib-helpers": "^0.3.15",
-		"tslib": "^2.6.2",
-		"tweakpane": "^4.0.1",
-		"tweakpane-image-plugin": "github:kitschpatrol/tweakpane-image-plugin#tweakpane-v4",
-		"tweakpane-plugin-thumbnail-list": "github:kitschpatrol/tweakpane-plugin-thumbnail-list#tweakpane-v4",
-		"tweakpane-plugin-waveform": "github:kitschpatrol/tweakpane-plugin-waveform#tweakpane-v4",
-		"typescript": "^5.2.2",
-		"vite": "^4.4.9"
-	},
-	"svelte": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"type": "module",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"svelte": "./dist/index.js"
-		},
-		"./Binding.svelte": {
-			"types": "./dist/core/Binding.svelte.d.ts",
-			"svelte": "./dist/core/Binding.svelte"
-		},
-		"./Button.svelte": {
-			"types": "./dist/core/Button.svelte.d.ts",
-			"svelte": "./dist/core/Button.svelte"
-		},
-		"./Folder.svelte": {
-			"types": "./dist/core/Folder.svelte.d.ts",
-			"svelte": "./dist/core/Folder.svelte"
-		},
-		"./Page.svelte": {
-			"types": "./dist/core/Page.svelte.d.ts",
-			"svelte": "./dist/core/Page.svelte"
-		},
-		"./Pane.svelte": {
-			"types": "./dist/core/Pane.svelte.d.ts",
-			"svelte": "./dist/core/Pane.svelte"
-		},
-		"./Separator.svelte": {
-			"types": "./dist/core/Separator.svelte.d.ts",
-			"svelte": "./dist/core/Separator.svelte"
-		},
-		"./Tab.svelte": {
-			"types": "./dist/core/Tab.svelte.d.ts",
-			"svelte": "./dist/core/Tab.svelte"
-		},
-		"./FpsGraph.svelte": {
-			"types": "./dist/essentials/FpsGraph.svelte.d.ts",
-			"svelte": "./dist/essentials/FpsGraph.svelte"
-		},
-		"./AutoObject.svelte": {
-			"types": "./dist/extra/AutoObject.svelte.d.ts",
-			"svelte": "./dist/extra/AutoObject.svelte"
-		},
-		"./Checkbox.svelte": {
-			"types": "./dist/extra/Checkbox.svelte.d.ts",
-			"svelte": "./dist/extra/Checkbox.svelte"
-		},
-		"./ColorPicker.svelte": {
-			"types": "./dist/extra/ColorPicker.svelte.d.ts",
-			"svelte": "./dist/extra/ColorPicker.svelte"
-		},
-		"./List.svelte": {
-			"types": "./dist/extra/List.svelte.d.ts",
-			"svelte": "./dist/extra/List.svelte"
-		},
-		"./PointPicker.svelte": {
-			"types": "./dist/extra/PointPicker.svelte.d.ts",
-			"svelte": "./dist/extra/PointPicker.svelte"
-		},
-		"./Slider.svelte": {
-			"types": "./dist/extra/Slider.svelte.d.ts",
-			"svelte": "./dist/extra/Slider.svelte"
-		},
-		"./TextField.svelte": {
-			"types": "./dist/extra/TextField.svelte.d.ts",
-			"svelte": "./dist/extra/TextField.svelte"
-		}
-	},
-	"dependencies": {
-		"svelte-local-storage-store": "^0.6.0"
-	}
+  "name": "svelte-tweakpane-ui",
+  "version": "1.0.0",
+  "type": "module",
+  "homepage": "https://github.com/kitschpatrol/svelte-tweakpane-ui",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js"
+    },
+    "./Binding.svelte": {
+      "types": "./dist/core/Binding.svelte.d.ts",
+      "svelte": "./dist/core/Binding.svelte"
+    },
+    "./Blade.svelte": {
+      "types": "./dist/core/Blade.svelte.d.ts",
+      "svelte": "./dist/core/Blade.svelte"
+    },
+    "./Button.svelte": {
+      "types": "./dist/core/Button.svelte.d.ts",
+      "svelte": "./dist/core/Button.svelte"
+    },
+    "./Folder.svelte": {
+      "types": "./dist/core/Folder.svelte.d.ts",
+      "svelte": "./dist/core/Folder.svelte"
+    },
+    "./Page.svelte": {
+      "types": "./dist/core/Page.svelte.d.ts",
+      "svelte": "./dist/core/Page.svelte"
+    },
+    "./Pane.svelte": {
+      "types": "./dist/core/Pane.svelte.d.ts",
+      "svelte": "./dist/core/Pane.svelte"
+    },
+    "./PaneDraggable.svelte": {
+      "types": "./dist/core/PaneDraggable.svelte.d.ts",
+      "svelte": "./dist/core/PaneDraggable.svelte"
+    },
+    "./PaneInline.svelte": {
+      "types": "./dist/core/PaneInline.svelte.d.ts",
+      "svelte": "./dist/core/PaneInline.svelte"
+    },
+    "./Tab.svelte": {
+      "types": "./dist/core/Tab.svelte.d.ts",
+      "svelte": "./dist/core/Tab.svelte"
+    },
+    "./AutoObject.svelte": {
+      "types": "./dist/extra/AutoObject.svelte.d.ts",
+      "svelte": "./dist/extra/AutoObject.svelte"
+    },
+    "./BooleanMonitor.svelte": {
+      "types": "./dist/extra/BooleanMonitor.svelte.d.ts",
+      "svelte": "./dist/extra/BooleanMonitor.svelte"
+    },
+    "./Checkbox.svelte": {
+      "types": "./dist/extra/Checkbox.svelte.d.ts",
+      "svelte": "./dist/extra/Checkbox.svelte"
+    },
+    "./ColorPicker.svelte": {
+      "types": "./dist/extra/ColorPicker.svelte.d.ts",
+      "svelte": "./dist/extra/ColorPicker.svelte"
+    },
+    "./List.svelte": {
+      "types": "./dist/extra/List.svelte.d.ts",
+      "svelte": "./dist/extra/List.svelte"
+    },
+    "./NumberMonitor.svelte": {
+      "types": "./dist/extra/NumberMonitor.svelte.d.ts",
+      "svelte": "./dist/extra/NumberMonitor.svelte"
+    },
+    "./PointPicker.svelte": {
+      "types": "./dist/extra/PointPicker.svelte.d.ts",
+      "svelte": "./dist/extra/PointPicker.svelte"
+    },
+    "./Separator.svelte": {
+      "types": "./dist/extra/Separator.svelte.d.ts",
+      "svelte": "./dist/extra/Separator.svelte"
+    },
+    "./Slider.svelte": {
+      "types": "./dist/extra/Slider.svelte.d.ts",
+      "svelte": "./dist/extra/Slider.svelte"
+    },
+    "./TextField.svelte": {
+      "types": "./dist/extra/TextField.svelte.d.ts",
+      "svelte": "./dist/extra/TextField.svelte"
+    },
+    "./TextMonitor.svelte": {
+      "types": "./dist/extra/TextMonitor.svelte.d.ts",
+      "svelte": "./dist/extra/TextMonitor.svelte"
+    },
+    "./Image.svelte": {
+      "types": "./dist/plugin/Image.svelte.d.ts",
+      "svelte": "./dist/plugin/Image.svelte"
+    },
+    "./Profiler.svelte": {
+      "types": "./dist/plugin/Profiler.svelte.d.ts",
+      "svelte": "./dist/plugin/Profiler.svelte"
+    },
+    "./RotationEuler.svelte": {
+      "types": "./dist/plugin/RotationEuler.svelte.d.ts",
+      "svelte": "./dist/plugin/RotationEuler.svelte"
+    },
+    "./RotationQuaternion.svelte": {
+      "types": "./dist/plugin/RotationQuaternion.svelte.d.ts",
+      "svelte": "./dist/plugin/RotationQuaternion.svelte"
+    },
+    "./Textarea.svelte": {
+      "types": "./dist/plugin/Textarea.svelte.d.ts",
+      "svelte": "./dist/plugin/Textarea.svelte"
+    },
+    "./ThumbnailList.svelte": {
+      "types": "./dist/plugin/ThumbnailList.svelte.d.ts",
+      "svelte": "./dist/plugin/ThumbnailList.svelte"
+    },
+    "./Waveform.svelte": {
+      "types": "./dist/plugin/Waveform.svelte.d.ts",
+      "svelte": "./dist/plugin/Waveform.svelte"
+    },
+    "./Ring.svelte": {
+      "types": "./dist/plugin/camerakit/Ring.svelte.d.ts",
+      "svelte": "./dist/plugin/camerakit/Ring.svelte"
+    },
+    "./Wheel.svelte": {
+      "types": "./dist/plugin/camerakit/Wheel.svelte.d.ts",
+      "svelte": "./dist/plugin/camerakit/Wheel.svelte"
+    },
+    "./ButtonGrid.svelte": {
+      "types": "./dist/plugin/essentials/ButtonGrid.svelte.d.ts",
+      "svelte": "./dist/plugin/essentials/ButtonGrid.svelte"
+    },
+    "./CubicBezier.svelte": {
+      "types": "./dist/plugin/essentials/CubicBezier.svelte.d.ts",
+      "svelte": "./dist/plugin/essentials/CubicBezier.svelte"
+    },
+    "./FpsGraph.svelte": {
+      "types": "./dist/plugin/essentials/FpsGraph.svelte.d.ts",
+      "svelte": "./dist/plugin/essentials/FpsGraph.svelte"
+    },
+    "./Interval.svelte": {
+      "types": "./dist/plugin/essentials/Interval.svelte.d.ts",
+      "svelte": "./dist/plugin/essentials/Interval.svelte"
+    },
+    "./RadioGrid.svelte": {
+      "types": "./dist/plugin/essentials/RadioGrid.svelte.d.ts",
+      "svelte": "./dist/plugin/essentials/RadioGrid.svelte"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "!dist/**/*.spec.*",
+    "!dist/**/*.test.*"
+  ],
+  "scripts": {
+    "build": "vite build && npm run package",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "dev": "vite dev",
+    "format": "run-s --print-label format:*",
+    "format:eslint": "eslint --fix .",
+    "format:prettier": "prettier --plugin prettier-plugin-svelte --write .",
+    "generate-exports": "svelte-lib-helpers exports",
+    "lint": "run-p --print-label lint:*",
+    "lint:eslint": "eslint .",
+    "lint:markdown": "markdownlint **/*.{md,mdx} --ignore node_modules",
+    "lint:prettier": "prettier --plugin prettier-plugin-svelte --check .",
+    "lint:typescript": "tsc --noEmit",
+    "package": "svelte-kit sync && svelte-package && publint",
+    "prepublishOnly": "npm run package",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "svelte": "^4.0.0"
+  },
+  "devDependencies": {
+    "@0b5vr/tweakpane-plugin-profiler": "github:kitschpatrol/tweakpane-plugin-profiler#tweakpane-v4",
+    "@0b5vr/tweakpane-plugin-rotation": "github:kitschpatrol/tweakpane-plugin-rotation#tweakpane-v4",
+    "@pangenerator/tweakpane-textarea-plugin": "github:kitschpatrol/tweakpane-textarea-plugin#tweakpane-v4",
+    "@sveltejs/adapter-auto": "^2.1.0",
+    "@sveltejs/kit": "^1.25.1",
+    "@sveltejs/package": "^2.2.2",
+    "@tweakpane/core": "^2.0.1",
+    "@tweakpane/plugin-camerakit": "^0.3.0",
+    "@tweakpane/plugin-essentials": "^0.2.0",
+    "@types/node": "^20.6.5",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
+    "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-svelte": "^2.33.2",
+    "esm-env": "^1.0.0",
+    "markdownlint": "^0.31.1",
+    "markdownlint-cli": "^0.37.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.0.3",
+    "prettier-plugin-pkg": "^0.18.0",
+    "prettier-plugin-svelte": "^3.0.3",
+    "publint": "^0.2.2",
+    "stylelint": "^15.10.3",
+    "stylelint-config-html": "^1.1.0",
+    "stylelint-config-standard": "^34.0.0",
+    "svelte": "^4.2.1",
+    "svelte-check": "^3.5.2",
+    "svelte-lib-helpers": "^0.3.15",
+    "svelte-local-storage-store": "^0.6.0",
+    "tslib": "^2.6.2",
+    "tweakpane": "^4.0.1",
+    "tweakpane-image-plugin": "github:kitschpatrol/tweakpane-image-plugin#tweakpane-v4",
+    "tweakpane-plugin-thumbnail-list": "github:kitschpatrol/tweakpane-plugin-thumbnail-list#tweakpane-v4",
+    "tweakpane-plugin-waveform": "github:kitschpatrol/tweakpane-plugin-waveform#tweakpane-v4",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9"
+  },
+  "svelte": "./dist/index.js"
 }

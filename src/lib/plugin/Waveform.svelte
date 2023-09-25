@@ -1,10 +1,10 @@
 <script lang="ts">
 	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
-	import type {
-		WaveformValue,
-		WaveformStyles
-	} from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
 	import type { Theme } from '$lib/theme.js';
+	import type {
+		WaveformStyles,
+		WaveformValue
+	} from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
 
 	// re-exported
 	export let label: string | undefined = undefined;

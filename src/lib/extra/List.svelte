@@ -1,8 +1,8 @@
 <script lang="ts" generics="T extends string | boolean | number">
 	// TODO something to handle bare arrays and transcribe them into ArrayStyleListOptions<T>
 	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import type { ListParamsOptions } from 'tweakpane';
 	import type { Theme } from '$lib/theme.js';
+	import type { ListParamsOptions } from 'tweakpane';
 
 	interface ListInputParams {
 		options: ListParamsOptions<T>;

@@ -1,20 +1,20 @@
 <script lang="ts">
-	import { onMount, onDestroy, setContext, getContext } from 'svelte';
-	import { Pane as TpPane } from 'tweakpane';
-	import { BROWSER } from 'esm-env';
 	import type { Theme } from '$lib/theme.js';
 	import { applyTheme } from '$lib/theme.js';
+	import { isRootPane, type TpContainer } from '$lib/utils.js';
+	import { BROWSER } from 'esm-env';
+	import { getContext, onDestroy, setContext } from 'svelte';
+	import { writable, type Writable } from 'svelte/store';
+	import { Pane as TpPane } from 'tweakpane';
 
+	import * as ProfilerPlugin from '@0b5vr/tweakpane-plugin-profiler';
+	import * as RotationPlugin from '@0b5vr/tweakpane-plugin-rotation';
+	import * as TextareaPlugin from '@pangenerator/tweakpane-textarea-plugin';
 	import * as CamerakitPlugin from '@tweakpane/plugin-camerakit';
 	import * as EssentialsPlugin from '@tweakpane/plugin-essentials';
 	import * as ImagePlugin from 'tweakpane-image-plugin';
-	import * as RotationPlugin from '@0b5vr/tweakpane-plugin-rotation';
-	import * as ProfilerPlugin from '@0b5vr/tweakpane-plugin-profiler';
-	import * as TextareaPlugin from '@pangenerator/tweakpane-textarea-plugin';
 	import * as ThumbnailListPlugin from 'tweakpane-plugin-thumbnail-list';
 	import * as WaveformPlugin from 'tweakpane-plugin-waveform';
-	import { writable, type Writable } from 'svelte/store';
-	import { isRootPane, type TpContainer } from '$lib/utils.js';
 
 	export let title: string | undefined = undefined;
 	export let expanded: boolean = true; // special case

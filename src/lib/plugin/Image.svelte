@@ -1,7 +1,7 @@
 <script lang="ts">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import type { ImageResolvable } from 'tweakpane-image-plugin/dist/types/model.js';
 	import type { Theme } from '$lib/theme.js';
+	import type { ImageResolvable } from 'tweakpane-image-plugin/dist/types/model.js';
 
 	// re-exported
 	export let label: string | undefined = undefined;
