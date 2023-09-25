@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { onMount, onDestroy, setContext } from 'svelte';
+	import { onMount, onDestroy, setContext, getContext } from 'svelte';
 	import { Pane as TpPane } from 'tweakpane';
-	import { writable } from 'svelte/store';
-	import type { Writable } from 'svelte/store';
 	import { BROWSER } from 'esm-env';
 	import type { Theme } from '$lib/theme.js';
 	import { applyTheme } from '$lib/theme.js';
@@ -15,67 +13,65 @@
 	import * as TextareaPlugin from '@pangenerator/tweakpane-textarea-plugin';
 	import * as ThumbnailListPlugin from 'tweakpane-plugin-thumbnail-list';
 	import * as WaveformPlugin from 'tweakpane-plugin-waveform';
+	import { writable, type Writable } from 'svelte/store';
+	import type { TpContainer } from '$lib/utils.js';
 
 	export let title: string | undefined = undefined;
 	export let expanded: boolean = true; // special case
 	export let theme: Theme | undefined = undefined;
 	export let mode: 'inline' | 'floating' | 'draggable' = 'inline';
+	export let userCreatedPane = true; // internal use
 
-	setContext('indexStore', writable(0));
-
-	let paneStore: Writable<TpPane>;
 	let container: HTMLElement;
-	export let paneRef: TpPane | undefined = undefined;
+	const parentStore = writable<TpPane>();
+	const existingParentStore: Writable<TpContainer | undefined> = getContext('parentStore'); // sanity checks
 
-	// TODO reactive plugins
 	if (BROWSER) {
-		const tpPane = new TpPane({ title, expanded });
-		tpPane.registerPlugin(CamerakitPlugin);
-		tpPane.registerPlugin(EssentialsPlugin);
-		tpPane.registerPlugin(ImagePlugin);
-		tpPane.registerPlugin(TextareaPlugin);
-		tpPane.registerPlugin(WaveformPlugin);
-		tpPane.registerPlugin(RotationPlugin);
-		tpPane.registerPlugin(ProfilerPlugin);
-		tpPane.registerPlugin(ThumbnailListPlugin);
-
-		paneStore = writable<TpPane>(tpPane);
-		paneRef = $paneStore;
-
-		// this only runs if the <Pane> has children, allows
-		// folders to bootstrap themselves
-		// TODO better way...
-		if ($$props.$$scope.ctx[0] !== undefined) {
-			setContext('parentStore', paneStore);
+		if ($existingParentStore !== undefined) {
+			console.warn('<Panes> must not be nested');
 		}
 
-		// flag so stand-alone components can know if they're in an explicit pane
-		// if not, they will create a containing pane themselves
-		setContext<boolean>('inPane', true);
+		$parentStore = new TpPane({ title, expanded });
 
-		$paneStore.on('fold', () => {
-			expanded = $paneStore.expanded;
+		// TODO reactive plugins
+		$parentStore.registerPlugin(CamerakitPlugin);
+		$parentStore.registerPlugin(EssentialsPlugin);
+		$parentStore.registerPlugin(ImagePlugin);
+		$parentStore.registerPlugin(TextareaPlugin);
+		$parentStore.registerPlugin(WaveformPlugin);
+		$parentStore.registerPlugin(RotationPlugin);
+		$parentStore.registerPlugin(ProfilerPlugin);
+		$parentStore.registerPlugin(ThumbnailListPlugin);
+
+		$parentStore.on('fold', () => {
+			expanded = $parentStore.expanded;
 		});
+
+		setContext('parentStore', parentStore);
+		setContext('userCreatedPane', userCreatedPane);
 
 		onMount(() => {
 			if (mode === 'inline') {
-				container.appendChild($paneStore.element);
+				container.appendChild($parentStore.element);
 			}
 		});
 
 		onDestroy(() => {
-			$paneStore.dispose();
+			$parentStore.dispose();
 		});
 	}
 
-	$: if ($paneStore) $paneStore.title = title;
-	$: if ($paneStore) $paneStore.expanded = expanded;
-	$: if ($paneStore) applyTheme($paneStore.element, theme);
+	$: BROWSER && $parentStore && title && ($parentStore.title = title);
+	// TODO animation jankiness
+	//$: BROWSER && $parentStore && expanded && ($parentStore.expanded = expanded);
+	$: BROWSER && $parentStore && applyTheme($parentStore.element, theme);
 
 	// Dragging...
-	const minPanelWidth = 200;
+	// const minPanelWidth = 200;
 </script>
 
-<div class="container" bind:this={container}>
-	<slot />
-</div>
+{#if BROWSER}
+	<div class="container" bind:this={container}>
+		<slot />
+	</div>
+{/if}

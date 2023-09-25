@@ -1,3 +1,7 @@
+import type { FolderApi, Pane, TabPageApi } from 'tweakpane';
+
+export type TpContainer = Pane | FolderApi | TabPageApi;
+
 export function getElementIndex(element: HTMLElement): number {
 	let index = 0;
 	let sibling: Element | null | undefined = element;
@@ -18,6 +22,14 @@ export function makeSafeKey(input: string | undefined, defaultKey: string = 'key
 		}
 		return '_' + match;
 	});
+}
+
+export function stripProps(propsObject: { [key: string]: unknown }, ...keysToStrip: string[]) {
+	const newObj = { ...propsObject };
+	keysToStrip.forEach((key) => {
+		delete newObj[key];
+	});
+	return newObj;
 }
 
 // tries to be smart about rows and columns

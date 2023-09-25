@@ -102,6 +102,7 @@
 
 	let imgPath: string = 'placeholder';
 
+	let pp = { x: 0, y: 0 };
 	let rv = { x: 0, y: 0, z: 0 };
 	let rq = { x: 0, y: 0, z: 0, w: 0 };
 
@@ -146,6 +147,10 @@
 
 	let vb = 50;
 	let vToMon = va;
+
+	let vm = 50;
+
+	let ex = true;
 </script>
 
 <!-- <Pane title="Floating" mode="floating">
@@ -153,22 +158,91 @@
 </Pane> -->
 
 <div class="wrapper">
-	<!-- <Tab>
-		<Page title="A">
-			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
-		</Page>
-		<Page title="B">
-			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
-		</Page>
-	</Tab> -->
+	<PointPicker bind:value={pp} picker="inline" />
 
-	<hr />
+	<ColorPicker bind:value={colorValue} />
+
+	<ButtonGrid
+		on:click={() => {
+			console.log('clicked');
+		}}
+		buttons={['one', 'two', 'three']}
+	/>
+
+	<FpsGraph />
+
 	<Pane>
-		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+		<FpsGraph />
 	</Pane>
 
-	<Folder title="I am folder">
+	{vToMon}
+	<h2>PAGE</h2>
+	<Page title="A">
 		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+	</Page>
+
+	<hr />
+
+	<!-- <Slider label="ba" bind:value={vm} min={0} max={1000} step={0.1} /> -->
+	<h2>TAB / PAGE</h2>
+	<Tab>
+		<Page title="AA">
+			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+		</Page>
+		{#if ex}
+			<Page title="B">
+				<Slider value={1} min={0} max={10} step={0.1} />
+			</Page>
+		{/if}
+		<Page title="C">
+			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+		</Page>
+	</Tab>
+
+	<hr />
+	<h2>PANE / TAB / PAGE</h2>
+	<Pane>
+		<Tab>
+			<Page title="A">
+				<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+			</Page>
+			<Page title="B">
+				<Slider value={1} min={0} max={10} step={0.1} />
+			</Page>
+		</Tab>
+	</Pane>
+	<Button
+		on:click={() => {
+			console.log('click');
+			ex = !ex;
+		}}
+	/>
+	<!--
+	<Pane>
+		<Button
+			on:click={() => {
+				console.log('click');
+				ex = !ex;
+			}}
+		/>
+	</Pane> -->
+
+	{vm}
+	<Slider label="ba" bind:value={vm} min={0} max={1000} step={0.1} />
+
+	<!-- <hr />
+	<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+
+	<Binding bind:key params={testParams} theme={Themes.vivid} />
+
+	<Pane>
+		<Binding label="1" bind:key params={testParams} />
+		<Binding label="2" bind:key params={testParams} />
+		<Binding label="3" bind:key params={testParams} />
+		<Binding label="4" bind:key params={testParams} />
+	</Pane> -->
+
+	<!-- <Folder title="I am folder">
 		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
 	</Folder>
 
@@ -177,7 +251,7 @@
 			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
 			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
 		</Folder>
-	</Pane>
+	</Pane> -->
 
 	<!-- <hr />
 	<Pane>

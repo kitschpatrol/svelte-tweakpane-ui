@@ -2,36 +2,27 @@
 	import type { Pane as TpPane } from 'tweakpane';
 	import type { FolderApi, TabPageApi } from '@tweakpane/core';
 	import { onMount, onDestroy, getContext, setContext } from 'svelte';
-	import { getElementIndex } from '$lib/utils.js';
+	import { getElementIndex, type TpContainer } from '$lib/utils.js';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
 	import { BROWSER } from 'esm-env';
 	import Pane from './Pane.svelte';
 
+	// scoped themes don't work
 	export let title: string = 'Folder';
 	export let disabled: boolean = false;
 	export let expanded: boolean | undefined = undefined;
 
-	// save parent context for ourselves
-	const parentStore: Writable<TpPane | FolderApi | TabPageApi> =
-		getContext('parentStore') ?? writable();
-	const inPane = getContext('inPane');
-
-	if (BROWSER && !inPane) {
-		console.warn('Tweakpane Folders must be used inside of a <Pane>');
-	}
-
-	// overwrite the context for our children
+	const parentStore: Writable<TpContainer> = getContext('parentStore');
 	const folderStore = writable<FolderApi>();
-	setContext('parentStore', folderStore);
+	const userCreatedPane = getContext('userCreatedPane');
+	// setContext('userCreatedPane', true); // lie to children
 
 	let indexElement: HTMLDivElement;
 	let index: number;
-	let paneRef: TpPane;
 
-	onMount(() => {
-		index = getElementIndex(indexElement);
-	});
+	// overwrite the context for our children
+	setContext('parentStore', folderStore);
 
 	function create() {
 		$folderStore = $parentStore.addFolder({
@@ -42,31 +33,35 @@
 		});
 
 		$folderStore.on('fold', () => {
-			$folderStore && (expanded = $folderStore.expanded);
+			expanded = $folderStore.expanded;
 		});
 	}
+
+	onMount(() => {
+		index = indexElement ? getElementIndex(indexElement) : 0;
+	});
 
 	onDestroy(() => {
 		$folderStore?.dispose();
 	});
 
-	$: index !== undefined && $parentStore && !$folderStore && create();
-	$: $folderStore && ($folderStore.title = title);
-	$: $folderStore && disabled !== undefined && ($folderStore.disabled = disabled);
-	$: $folderStore && expanded !== undefined && ($folderStore.expanded = expanded);
-	$: if (paneRef !== undefined) $parentStore = paneRef;
-
-	// $: $folderStore && $parentStore && paneRef && ($parentStore = paneRef);
+	$: BROWSER && $parentStore && !$folderStore && index !== undefined && create();
+	$: BROWSER && $folderStore && ($folderStore.title = title);
+	$: BROWSER && $folderStore && ($folderStore.disabled = disabled);
+	// TODO animation jankiness
+	//$: BROWSER && $folderStore && ($folderStore.expanded = expanded);
 </script>
 
-{#if !inPane}
-	<Pane bind:paneRef>
+{#if BROWSER}
+	{#if parentStore}
 		<div style="display: none;" bind:this={indexElement}>
 			<slot />
 		</div>
-	</Pane>
-{:else}
-	<div style="display: none;" bind:this={indexElement}>
-		<slot />
-	</div>
+	{:else}
+		<Pane title="folder created pane" userCreatedPane={false}>
+			<svelte:self {...$$props}>
+				<slot />
+			</svelte:self>
+		</Pane>
+	{/if}
 {/if}

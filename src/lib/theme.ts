@@ -330,7 +330,7 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 			const key = expandVariableKey(k);
 
 			if (element.style.getPropertyValue(key).length > 0) {
-				console.log(`Unsetting via undefined theme ${key}`);
+				// console.log(`Unsetting via undefined theme ${key}`);
 				element.style.removeProperty(key);
 			}
 		});
@@ -338,7 +338,7 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 		Object.entries(theme).forEach(([k, v]) => {
 			const key = expandVariableKey(k);
 			const value = themeValueToCssValue(v);
-			console.log(`Inspecting ${key}: ${value}`);
+			// console.log(`Inspecting ${key}: ${value}`);
 
 			// only set the variable if it deviates from the standard theme
 			// or  the root theme (set by setGlobalDefaultTheme)....
@@ -358,11 +358,11 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 				value !== undefined &&
 				(isDeviationFromRoot || (!rootValue && isDeviationFromStandard))
 			) {
-				console.log(`Setting ${key} to ${value}`);
+				// console.log(`Setting ${key} to ${value}`);
 				element.style.setProperty(key, value);
 			} else {
 				if (element.style.getPropertyValue(key).length > 0) {
-					console.log(`Unsetting ${key}`);
+					// console.log(`Unsetting ${key}`);
 					element.style.removeProperty(key);
 				}
 			}

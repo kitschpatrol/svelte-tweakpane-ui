@@ -2,30 +2,26 @@
 	import type { Pane as TpPane, TabApi } from 'tweakpane';
 	import type { FolderApi, TabPageApi } from '@tweakpane/core';
 	import { onMount, onDestroy, getContext, setContext } from 'svelte';
-	import { getElementIndex } from '$lib/utils.js';
+	import { getElementIndex, type TpContainer } from '$lib/utils.js';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
 	import { BROWSER } from 'esm-env';
 	import Pane from './Pane.svelte';
 
-	// TODO expose active index?
-
-	export let disabled: boolean = false;
 	// scoped themes don't work
+	// TODO expose active index?
+	export let disabled: boolean = false;
+
 	const inPane = getContext('inPane');
 
-	if (BROWSER && !inPane) {
-		console.warn('Tweakpane Tabs must be used inside of a <Pane>');
-	}
-
-	const parentStore: Writable<TpPane | FolderApi | TabPageApi> = getContext('parentStore');
+	const parentStore: Writable<TpContainer> = getContext('parentStore');
 	const tabStore = writable<TabApi>();
 	setContext('tabStore', tabStore);
 	const tabIndexStore = writable<Number>();
 	setContext('tabIndexStore', tabIndexStore);
+	const userCreatedPane = getContext('userCreatedPane');
 
 	let indexElement: HTMLDivElement;
-	let paneRef: TpPane;
 
 	onMount(() => {
 		// pass the tab context and index down as a store instead of a plain
@@ -34,25 +30,26 @@
 		// the first page to be added handles construction of the tab
 		// this is necessary because the tweakpane tab API can only construct
 		// tab groups with at least one page
-		$tabIndexStore = getElementIndex(indexElement);
+		$tabIndexStore = userCreatedPane ? getElementIndex(indexElement) : 0;
 	});
 
 	onDestroy(() => {
 		$tabStore?.dispose();
 	});
 
-	$: $tabStore && ($tabStore.disabled = disabled);
-	$: if (paneRef !== undefined) $parentStore = paneRef;
+	$: BROWSER && $tabStore && ($tabStore.disabled = disabled);
 </script>
 
-{#if !inPane}
-	<Pane bind:paneRef>
+{#if BROWSER}
+	{#if parentStore}
 		<div style="display: none;" bind:this={indexElement}>
 			<slot />
 		</div>
-	</Pane>
-{:else}
-	<div style="display: none;" bind:this={indexElement}>
-		<slot />
-	</div>
+	{:else}
+		<Pane title="tab created pane" userCreatedPane={false}>
+			<svelte:self {...$$props}>
+				<slot />
+			</svelte:self>
+		</Pane>
+	{/if}
 {/if}
