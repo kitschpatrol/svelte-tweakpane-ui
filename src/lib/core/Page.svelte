@@ -17,11 +17,6 @@
 	// get context from tab
 	const tabStore: Writable<TabApi> = getContext('tabStore');
 	const tabIndexStore: Writable<number> = getContext('tabIndexStore');
-	const userCreatedPane = getContext('userCreatedPane');
-
-	// if (BROWSER && (!tabStore || !inPane)) {
-	// 	console.warn('Tweakpane Pages must be used inside of a <Tab> inside of a <Pane>');
-	// }
 
 	// save parent context for ourselves
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
@@ -78,7 +73,7 @@
 			<slot />
 		</div>
 	{:else}
-		<Pane title="page created pane" userCreatedPane={false}>
+		<Pane userCreatedPane={false} mode="inline">
 			<Tab>
 				<svelte:self {...$$props}>
 					<slot />

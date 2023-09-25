@@ -58,7 +58,7 @@
 			<slot />
 		</div>
 	{:else}
-		<Pane title="folder created pane" userCreatedPane={false}>
+		<Pane userCreatedPane={false} mode="inline">
 			<svelte:self {...$$props}>
 				<slot />
 			</svelte:self>

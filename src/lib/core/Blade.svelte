@@ -62,7 +62,7 @@
 	{#if parentStore}
 		<div style="display: none;" bind:this={indexElement} />
 	{:else}
-		<Pane title="Pane (auto created)" userCreatedPane={false}>
+		<Pane userCreatedPane={false} mode="inline">
 			<svelte:self {...$$props} bind:bladeRef />
 		</Pane>
 	{/if}

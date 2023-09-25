@@ -153,9 +153,9 @@
 	let ex = true;
 </script>
 
-<!-- <Pane title="Floating" mode="floating">
+<Pane title="Floating" mode="floating">
 	<Button label="Test Button" title="Button" />
-</Pane> -->
+</Pane>
 
 <div class="wrapper">
 	<PointPicker bind:value={pp} picker="inline" />

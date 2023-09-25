@@ -46,7 +46,7 @@
 			<slot />
 		</div>
 	{:else}
-		<Pane title="tab created pane" userCreatedPane={false}>
+		<Pane userCreatedPane={false} mode="inline">
 			<svelte:self {...$$props}>
 				<slot />
 			</svelte:self>
