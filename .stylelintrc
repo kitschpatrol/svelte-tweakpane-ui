@@ -3,6 +3,7 @@
   "ignoreFiles": "./dist/**.*",
   "rules": {
     "color-hex-length": null,
+    "comment-empty-line-before": null,
     "selector-pseudo-class-no-unknown": [
       true,
       {

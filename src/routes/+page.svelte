@@ -1,6 +1,8 @@
 <script lang="ts">
+	import Checkbox from '$lib/extra/Checkbox.svelte';
 	import { FpsGraph, Pane, PaneDraggable, PaneInline, Slider } from '$lib/index.js';
 	import { Themes } from '$lib/theme.js';
+	import { bindFoldable } from '@tweakpane/core';
 	import { onMount } from 'svelte';
 
 	let fpsRef: FpsGraph;
@@ -34,15 +36,23 @@
 	// }
 
 	// setGlobalDefaultTheme(baseTheme);
+
+	let x = 0;
+
+	let persist = true;
 </script>
 
 <div class="wrapper">
 	<PaneInline title="Tweakpane">
-		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+		<Slider bind:value={x} min={0} max={1000} step={0.1} />
 	</PaneInline>
-	<PaneDraggable theme={Themes.light} title="Tweakpane Draggable">
+
+	<Checkbox bind:value={persist} />
+
+	<PaneDraggable storePositionLocally={false} theme={Themes.light} title="Tweakpane Draggable">
 		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
 	</PaneDraggable>
+
 	<Pane title="Tweakpane Normal" theme={Themes.vivid}>
 		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
 	</Pane>

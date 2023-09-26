@@ -1,3 +1,10 @@
+<script lang="ts" context="module">
+	const localStorePrefix = 'svelte-tweakpane-ui-draggable-position-';
+	const localStoreDefaultId = '1';
+	const localStoreIds: string[] = [];
+	let zIndexGlobal = 1000;
+</script>
+
 <script lang="ts">
 	import GenericPane from '$lib/internal/GenericPane.svelte';
 	import type { Theme } from '$lib/theme.js';
@@ -9,10 +16,35 @@
 	import type { Pane as TpPane } from 'tweakpane';
 
 	export let title: string | undefined = 'Tweakpane';
-	export let expanded: boolean = true; // special case
 	export let theme: Theme | undefined = undefined;
+	export let storePositionLocally: boolean = true;
+	export let minWidth: number = 200;
+	export let maxWidth: number = 600;
+	export let localStoreId: string = localStoreDefaultId;
 
-	const minPanelWidth = 200;
+	// defaults are managed here
+	let positionStore: Writable<{
+		expanded: boolean;
+		width: number;
+		x: number;
+		y: number;
+	}>;
+
+	if (BROWSER && storePositionLocally) {
+		positionStore = persisted(`${localStorePrefix}${localStoreId}`, {
+			expanded: true,
+			width: 350,
+			x: 0,
+			y: 0
+		});
+	}
+
+	export let expanded: boolean = $positionStore?.expanded ?? true;
+	export let x: number = $positionStore?.x ?? 0;
+	export let y: number = $positionStore?.y ?? 0;
+	export let width: number = $positionStore?.width ?? 350;
+
+	// let firstRun = true;
 
 	let containerElement: HTMLDivElement;
 	let dragBarElement: HTMLElement; // added dynamically to tweakpane DOM
@@ -21,18 +53,33 @@
 	let documentWidth: number;
 	let documentHeight: number;
 	let pane: TpPane;
-	// TODO how to handle multiple
-	let panelConfigStore: Writable<{
-		expanded: boolean;
-		width: number;
-		x: number;
-		y: number;
-	}> = persisted('tweakpane', {
-		expanded: true,
-		width: 350,
-		x: 0,
-		y: 0
-	});
+	let zIndexLocal = zIndexGlobal;
+
+	// Local storage helpers, warn about ID collisions
+	function addStorageId() {
+		if (localStoreIds.includes(localStoreId)) {
+			console.warn(
+				'Multiple instances of <PaneDraggable> with storePositionLocally=true detected. You must explicitly set unique localStoreId property on each component to avoid collisions.'
+			);
+		}
+		localStoreIds.push(localStoreId);
+		console.log(`localStoreIds: ${JSON.stringify(localStoreIds, null, 2)}`);
+	}
+
+	function removeStorageId() {
+		localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1);
+	}
+
+	function updateLocalStoreId(id: string | undefined) {
+		if (id !== undefined) {
+			positionStore = persisted(`${localStorePrefix}${localStoreId}`, {
+				expanded,
+				width,
+				x,
+				y
+			});
+		}
+	}
 
 	// Helpers
 	function setDocumentSize() {
@@ -44,15 +91,15 @@
 		const dy = documentHeight - documentHeightPrevious;
 
 		// ensure we "stick" to the correct quadrant
-		const centerPercentX = ($panelConfigStore.x + $panelConfigStore.width / 2) / documentWidth;
-		const centerPercentY = ($panelConfigStore.y + containerHeight / 2) / documentHeight;
+		const centerPercentX = (x + width / 2) / documentWidth;
+		const centerPercentY = (y + containerHeight / 2) / documentHeight;
 
 		if (!isNaN(dx) && centerPercentX >= 0.5) {
-			$panelConfigStore.x += dx;
+			x += dx;
 		}
 
 		if (!isNaN(dy) && centerPercentY >= 0.5) {
-			$panelConfigStore.y += dy;
+			y += dy;
 		}
 	}
 
@@ -60,13 +107,26 @@
 		e.stopPropagation();
 	};
 
+	let moveDistance = 0;
+
 	const doubleClickListener = (e: MouseEvent) => {
 		e.stopPropagation();
-		pane.expanded = !pane.expanded;
+		if (e.target instanceof HTMLElement) {
+			if (e.target === dragBarElement) {
+				if (moveDistance < 3) pane.expanded = !pane.expanded;
+			} else if (e.target === widthHandleElement) {
+				if (width < maxAvailablePanelWidth) {
+					width = maxAvailablePanelWidth;
+				} else {
+					width = minWidth;
+				}
+			}
+		}
 	};
 
 	const downListener = (e: PointerEvent) => {
 		if (e.target instanceof HTMLElement) {
+			moveDistance = 0;
 			e.target.setPointerCapture(e.pointerId);
 			e.target.addEventListener('pointermove', moveListener);
 			e.target.addEventListener('pointerup', upListener);
@@ -76,14 +136,11 @@
 	const moveListener = (e: PointerEvent) => {
 		if (e.target instanceof HTMLElement) {
 			if (e.target === dragBarElement) {
-				$panelConfigStore.x += e.movementX;
-				$panelConfigStore.y += e.movementY;
+				moveDistance += Math.sqrt(e.movementX * e.movementX + e.movementY * e.movementY);
+				x += e.movementX;
+				y += e.movementY;
 			} else if (e.target === widthHandleElement) {
-				$panelConfigStore.width = clamp(
-					$panelConfigStore.width + e.movementX,
-					minPanelWidth,
-					documentWidth - $panelConfigStore.x
-				);
+				width = clamp(width + e.movementX, minWidth, maxAvailablePanelWidth);
 			}
 		}
 	};
@@ -98,6 +155,8 @@
 	};
 
 	onMount(() => {
+		// firstRun = false;
+
 		setDocumentSize();
 
 		containerElement.appendChild(pane.element);
@@ -107,7 +166,8 @@
 		// hook into it directly through the DOM
 		// TODO is this selector working?
 		dragBarElement = containerElement.getElementsByClassName('tp-rotv_t')[0] as HTMLElement;
-		dragBarElement.addEventListener('click', clickBlocker);
+		// let single clicks trigger window shade as well, to match default behavior
+		dragBarElement.addEventListener('click', doubleClickListener);
 		dragBarElement.addEventListener('dblclick', doubleClickListener);
 		dragBarElement.addEventListener('pointerdown', downListener);
 
@@ -116,6 +176,7 @@
 		if (widthHandleElement) {
 			widthHandleElement.className = 'tp-custom-width-handle';
 			widthHandleElement.innerText = '↔';
+			widthHandleElement.addEventListener('dblclick', doubleClickListener);
 			widthHandleElement.addEventListener('click', clickBlocker);
 			widthHandleElement.addEventListener('pointerdown', downListener);
 		}
@@ -132,6 +193,7 @@
 
 		if (widthHandleElement) {
 			widthHandleElement.removeEventListener('click', clickBlocker);
+			widthHandleElement.removeEventListener('dblclick', doubleClickListener);
 			widthHandleElement.removeEventListener('pointermove', moveListener);
 			widthHandleElement.removeEventListener('pointerup', upListener);
 			widthHandleElement.removeEventListener('pointerdown', downListener);
@@ -142,23 +204,35 @@
 
 	// ensure the tweakpane panel is within the viewport
 	// additional checks in the width drag handler
-	$: if ($panelConfigStore && containerHeight && documentWidth && documentHeight) {
-		$panelConfigStore.x = clamp($panelConfigStore.x, 0, documentWidth - $panelConfigStore.width);
-		$panelConfigStore.y = clamp($panelConfigStore.y, 0, documentHeight - containerHeight);
-		if (documentWidth < $panelConfigStore.width) {
-			$panelConfigStore.width = Math.max(minPanelWidth, documentWidth);
+	$: if (containerHeight && documentWidth && documentHeight) {
+		x = clamp(x, 0, documentWidth - width);
+		y = clamp(y, 0, documentHeight - containerHeight);
+		if (documentWidth < width) {
+			width = Math.max(minWidth, Math.min(maxWidth, documentWidth));
 		}
 	}
+
+	$: maxAvailablePanelWidth = Math.min(maxWidth, documentWidth - x);
+
+	$: localStoreId, storePositionLocally && addStorageId();
+	$: localStoreId, !storePositionLocally && removeStorageId();
+	$: localStoreId !== `${localStorePrefix}${localStoreId}` && updateLocalStoreId(localStoreId);
+
+	// proxy everything to the store
+	$: localStoreId !== undefined && positionStore?.set({ x, y, width, expanded });
 </script>
 
 <svelte:window on:resize={setDocumentSize} />
 
 {#if BROWSER}
 	<div
-		class="tweakpane-container"
+		on:focus|capture={() => {
+			zIndexLocal = ++zIndexGlobal;
+		}}
+		class="draggable-container"
 		bind:this={containerElement}
 		bind:clientHeight={containerHeight}
-		style={`width: ${$panelConfigStore.width}px; left: ${$panelConfigStore.x}px; top: ${$panelConfigStore.y}px`}
+		style={`width: ${width}px; left: ${x}px; top: ${y}px; z-index: ${zIndexLocal}`}
 	>
 		<GenericPane {title} bind:expanded {theme} bind:paneRef={pane}>
 			<slot />
@@ -167,33 +241,40 @@
 {/if}
 
 <style>
-	div.tweakpane-container {
+	div.draggable-container {
 		position: fixed;
+		transition: width 0.2s ease;
+		z-index: auto;
+	}
+
+	div.draggable-container:active {
+		/* Could be more specific... */
+		transition: none;
 	}
 
 	/* stylelint-disable-next-line selector-class-pattern */
-	:global(div.tp-rotv_t) {
+	:global(div.draggable-container div.tp-rotv_t) {
 		cursor: grab;
 	}
 
 	/* stylelint-disable-next-line selector-class-pattern */
-	:global(div.tp-lblv_l) {
+	:global(div.draggable-container div.tp-lblv_l) {
 		white-space: nowrap;
 	}
 
 	/* stylelint-disable-next-line selector-class-pattern */
-	:global(div.tp-rotv_m) {
-		right: unset;
-		left: calc(var(--cnt-h-p) + (var(--bld-us) + 4px - 6px) / 2 - 2px);
-	}
-
-	/* stylelint-disable-next-line selector-class-pattern */
-	:global(div.tp-rotv_t:active) {
-		background: var(--tp-input-background-color-active);
+	:global(div.draggable-container div.tp-rotv_t:active) {
 		cursor: grabbing;
 	}
 
-	:global(div.tp-custom-width-handle) {
+	/* stylelint-disable-next-line selector-class-pattern */
+	:global(div.draggable-container div.tp-rotv_m) {
+		right: unset;
+		/* crazy calc but straight from the tp source */
+		left: calc(var(--cnt-hp) + (var(--cnt-usz) + 4px - 6px) / 2 - 2px);
+	}
+
+	:global(div.draggable-container div.tp-custom-width-handle) {
 		position: absolute;
 		height: 100%;
 		aspect-ratio: 1;
@@ -201,7 +282,7 @@
 		right: 0;
 		cursor: col-resize;
 		font-size: 1.5em;
-		color: var(--cnt-fg);
+		color: var(--tp-container-fg);
 		opacity: 0.5;
 	}
 </style>

@@ -58,8 +58,6 @@
 		});
 	}
 
-	$: console.log(`theme inside generic: ${theme}`);
-
 	$: BROWSER && $parentStore && title && ($parentStore.title = title);
 	// TODO animation jankiness
 	//$: BROWSER && $parentStore && expanded && ($parentStore.expanded = expanded);
