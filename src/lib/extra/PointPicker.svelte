@@ -1,5 +1,5 @@
 <script lang="ts" generics="U extends Point2dObject | Point3dObject | Point4dObject">
-	import GenericInput from '$lib/internal/GenericInput.svelte';
+	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import type { PickerLayout } from '@tweakpane/core';
 	import type { Point2dObject } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js';
@@ -22,10 +22,10 @@
 	export let disabled: boolean = false;
 	export let label: string | undefined = undefined;
 	export let theme: Theme | undefined = undefined;
+	export let expanded: boolean | undefined = undefined;
 
 	//  unique
 	export let value: U;
-	export let expanded: boolean | undefined = undefined;
 	export let format: ((value: number) => string) | undefined = undefined;
 	export let keyScale: number | undefined = undefined;
 	export let max: number | undefined = undefined;
@@ -38,6 +38,10 @@
 	export let z: PointParams<U>['z'] = undefined;
 	export let w: PointParams<U>['w'] = undefined;
 
+	// expanded only applies to 2d...
+	// work-arounds for funky folding
+	const buttonClass = 'tp-p2dv_b';
+
 	$: bindingParams = {
 		pointerScale,
 		keyScale,
@@ -49,9 +53,16 @@
 		y,
 		z,
 		w,
-		expanded,
 		format
 	} as PointParams<U>; // Hmm
 </script>
 
-<GenericInput bind:value {label} {disabled} {bindingParams} {theme} />
+<GenericInputFolding
+	bind:expanded
+	{buttonClass}
+	bind:value
+	{label}
+	{disabled}
+	{bindingParams}
+	{theme}
+/>

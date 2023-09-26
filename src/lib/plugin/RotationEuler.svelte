@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GenericInput from '$lib/internal/GenericInput.svelte';
+	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import type { EulerOrder } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerOrder.js';
 	import type { EulerUnit } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerUnit.js';
@@ -20,10 +20,12 @@
 	export let y: PointDimensionParams | undefined = undefined;
 	export let z: PointDimensionParams | undefined = undefined;
 
+	// work-arounds for funky folding
+	const buttonClass = 'tp-rotationswatchv_b';
+
 	$: bindingParams = {
 		view: 'rotation',
 		rotationMode: 'euler',
-		expanded,
 		picker,
 		order,
 		unit,
@@ -33,4 +35,12 @@
 	};
 </script>
 
-<GenericInput {label} {disabled} {bindingParams} bind:value {theme} />
+<GenericInputFolding
+	bind:expanded
+	{buttonClass}
+	{label}
+	{disabled}
+	{bindingParams}
+	bind:value
+	{theme}
+/>

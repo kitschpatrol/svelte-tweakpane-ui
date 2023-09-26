@@ -57,13 +57,12 @@
 
 	// Local storage helpers, warn about ID collisions
 	function addStorageId() {
-		if (localStoreIds.includes(localStoreId)) {
+		if (BROWSER && localStoreIds.includes(localStoreId)) {
 			console.warn(
 				'Multiple instances of <PaneDraggable> with storePositionLocally=true detected. You must explicitly set unique localStoreId property on each component to avoid collisions.'
 			);
 		}
 		localStoreIds.push(localStoreId);
-		console.log(`localStoreIds: ${JSON.stringify(localStoreIds, null, 2)}`);
 	}
 
 	function removeStorageId() {

@@ -58,10 +58,14 @@
 		});
 	}
 
-	$: BROWSER && $parentStore && title && ($parentStore.title = title);
-	// TODO animation jankiness
-	//$: BROWSER && $parentStore && expanded && ($parentStore.expanded = expanded);
-	$: BROWSER && $parentStore && applyTheme($parentStore.element, theme);
+	$: $parentStore && title && ($parentStore.title = title);
+	$: $parentStore && applyTheme($parentStore.element, theme);
+
+	// click isntead of setting expanded on $parentStore.expanded
+	// to avoid  animation jankiness
+	$: $parentStore &&
+		expanded !== $parentStore.expanded &&
+		$parentStore.controller.view.buttonElement.click();
 </script>
 
 {#if BROWSER}

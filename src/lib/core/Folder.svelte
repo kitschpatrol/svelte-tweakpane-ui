@@ -46,18 +46,21 @@
 		$folderStore?.dispose();
 	});
 
-	$: BROWSER && $parentStore && !$folderStore && index !== undefined && create();
-	$: BROWSER && $folderStore && ($folderStore.title = title);
-	$: BROWSER && $folderStore && ($folderStore.disabled = disabled);
-	$: BROWSER &&
-		theme &&
+	$: $parentStore && !$folderStore && index !== undefined && create();
+	$: $folderStore && ($folderStore.title = title);
+	$: $folderStore && ($folderStore.disabled = disabled);
+	$: theme &&
 		$parentStore &&
 		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
 			'Set theme on the <Pane> component, not on its children! (Check nested <Folder> components for a theme prop.)'
 		);
-	// TODO animation jankiness
-	//$: BROWSER && $folderStore && ($folderStore.expanded = expanded);
+
+	// click isntead of setting expanded on $parentStore.expanded
+	// to avoid  animation jankiness
+	$: $folderStore &&
+		expanded !== $folderStore.expanded &&
+		$folderStore.controller.view.buttonElement.click();
 </script>
 
 {#if BROWSER}

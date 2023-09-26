@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Blade from '$lib/core/Blade.svelte';
+	import GenericBladeFolding from '$lib/internal/GenericBladeFolding.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import type { PickerLayout } from '@tweakpane/core';
 	import type { CubicBezierApi } from '@tweakpane/plugin-essentials';
@@ -8,16 +8,19 @@
 
 	// re-exported
 	export let disabled: boolean = false;
-	export let label: string | undefined = undefined;
 	export let theme: Theme | undefined = undefined;
 
 	// unique
+	export let label: string | undefined = undefined;
 	export let expanded: boolean | undefined = undefined;
 	export let value: [number, number, number, number];
 	export let picker: PickerLayout | undefined = undefined;
 
 	let bladeParams: CubicBezierBladeParams;
 	let cubicBezierBlade: CubicBezierApi;
+
+	// work-arounds for funky folding
+	const buttonClass = 'tp-cbzv_b';
 
 	function getValue() {
 		return value;
@@ -37,11 +40,17 @@
 		view: 'cubicbezier',
 		label,
 		picker,
-		value: getValue(),
-		expanded
+		value: getValue()
 	};
 	$: cubicBezierBlade && addEvent();
 	$: value, cubicBezierBlade && setValue();
 </script>
 
-<Blade {disabled} bind:bladeRef={cubicBezierBlade} {bladeParams} {theme} />
+<GenericBladeFolding
+	bind:expanded
+	{buttonClass}
+	{disabled}
+	bind:bladeRef={cubicBezierBlade}
+	{bladeParams}
+	{theme}
+/>

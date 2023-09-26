@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GenericInput from '$lib/internal/GenericInput.svelte';
+	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import type { PickerLayout } from '@tweakpane/core';
 	import type { ColorInputParams } from 'tweakpane';
@@ -13,11 +13,14 @@
 	export let label: string | undefined = undefined;
 	export let disabled: boolean = false;
 	export let theme: Theme | undefined = undefined;
+	export let expanded: boolean | undefined = undefined;
 
 	// unique
 	export let value: string | RgbColorObject | RgbaColorObject | undefined;
-	export let expanded: boolean | undefined = undefined;
 	export let picker: PickerLayout | undefined = undefined;
+
+	// work-arounds for funky folding
+	const buttonClass = 'tp-colswv_b';
 
 	// TODO does this do anyhting?
 	// passing channel like 0x00ffd644 adds alpha automatically
@@ -28,9 +31,16 @@
 
 	$: bindingParams = {
 		view: 'color',
-		expanded,
 		picker
 	} satisfies ColorInputParams;
 </script>
 
-<GenericInput bind:value {label} {disabled} {bindingParams} {theme} />
+<GenericInputFolding
+	{buttonClass}
+	bind:expanded
+	bind:value
+	{label}
+	{disabled}
+	{bindingParams}
+	{theme}
+/>
