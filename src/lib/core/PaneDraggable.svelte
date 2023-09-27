@@ -242,13 +242,16 @@
 <style>
 	div.draggable-container {
 		position: fixed;
+		/* 0.2s matches Tweakpane's internal animation duration */
 		transition: width 0.2s ease;
 		z-index: auto;
 	}
 
 	div.draggable-container:active {
-		/* Could be more specific... */
-		transition: none;
+		/* prevent animation during direct manipulation */
+		transition: width 0s ease;
+		/* alternate less specific approach */
+		/* transition: none; */
 	}
 
 	/* stylelint-disable-next-line selector-class-pattern */

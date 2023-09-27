@@ -16,7 +16,8 @@
 	export let expanded: boolean | undefined = undefined;
 	export let buttonClass: string = '';
 
-	// // can't be right, but no 'fold' event or 'expanded' value seems to be available
+	// can't be right, but no 'fold' event or 'expanded' value seems to be available,
+	// and setting / reading directly from the bindingRef doesn't seem to work
 	let gotBinding = false;
 	const initialExpanded = expanded;
 	let internalExpanded = initialExpanded;

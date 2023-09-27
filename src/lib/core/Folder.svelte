@@ -13,6 +13,7 @@
 	export let disabled: boolean = false;
 	export let expanded: boolean | undefined = undefined;
 	export let theme: Theme | undefined = undefined;
+	export let folderRef: FolderApi | undefined = undefined;
 
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
 	const folderStore = writable<FolderApi>();
@@ -36,6 +37,8 @@
 		$folderStore.on('fold', () => {
 			expanded = $folderStore.expanded;
 		});
+
+		folderRef = $folderStore;
 	}
 
 	onMount(() => {
@@ -46,21 +49,16 @@
 		$folderStore?.dispose();
 	});
 
-	$: $parentStore && !$folderStore && index !== undefined && create();
-	$: $folderStore && ($folderStore.title = title);
-	$: $folderStore && ($folderStore.disabled = disabled);
+	$: $parentStore && !folderRef && index !== undefined && create();
+	$: folderRef && (folderRef.title = title);
+	$: folderRef && (folderRef.disabled = disabled);
+	$: folderRef && expanded !== undefined && (folderRef.expanded = expanded); // doing this on $folderStore causes issues
 	$: theme &&
 		$parentStore &&
 		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
 			'Set theme on the <Pane> component, not on its children! (Check nested <Folder> components for a theme prop.)'
 		);
-
-	// click isntead of setting expanded on $parentStore.expanded
-	// to avoid  animation jankiness
-	$: $folderStore &&
-		expanded !== $folderStore.expanded &&
-		$folderStore.controller.view.buttonElement.click();
 </script>
 
 {#if BROWSER}

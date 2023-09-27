@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Theme } from '$lib/theme.js';
 	import { applyTheme } from '$lib/theme.js';
-	import { isRootPane, type TpContainer } from '$lib/utils.js';
+	import type { TpContainer } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, setContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
@@ -48,8 +48,6 @@
 
 		paneRef = $parentStore;
 
-		isRootPane($parentStore);
-
 		setContext('parentStore', parentStore);
 		setContext('userCreatedPane', userCreatedPane);
 
@@ -58,14 +56,9 @@
 		});
 	}
 
-	$: $parentStore && title && ($parentStore.title = title);
-	$: $parentStore && applyTheme($parentStore.element, theme);
-
-	// click isntead of setting expanded on $parentStore.expanded
-	// to avoid  animation jankiness
-	$: $parentStore &&
-		expanded !== $parentStore.expanded &&
-		$parentStore.controller.view.buttonElement.click();
+	$: paneRef && title && (paneRef.title = title);
+	$: paneRef && applyTheme(paneRef.element, theme);
+	$: paneRef && (paneRef.expanded = expanded);
 </script>
 
 {#if BROWSER}

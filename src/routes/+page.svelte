@@ -1,12 +1,19 @@
 <script lang="ts">
 	import Folder from '$lib/core/Folder.svelte';
-	import Checkbox from '$lib/extra/Checkbox.svelte';
-	import ColorPicker from '$lib/extra/ColorPicker.svelte';
-	import CubicBezier from '$lib/plugin/essentials/CubicBezier.svelte';
-	import PointPicker from '$lib/extra/PointPicker.svelte';
-	import { FpsGraph, Pane, PaneDraggable, PaneInline, Slider } from '$lib/index.js';
-	import RotationEuler from '$lib/plugin/RotationEuler.svelte';
-	import RotationQuaternion from '$lib/plugin/RotationQuaternion.svelte';
+	import {
+		RotationEuler,
+		RotationQuaternion,
+		CubicBezier,
+		FpsGraph,
+		Pane,
+		PaneInline,
+		Slider,
+		PaneDraggable,
+		Checkbox,
+		ColorPicker,
+		PointPicker,
+		TextField
+	} from '$lib/index.js';
 	import { Themes } from '$lib/theme.js';
 	import { onMount } from 'svelte';
 
@@ -55,6 +62,7 @@
 	let rExpanded2 = false;
 	let rExpanded3 = false;
 	let rExpanded4 = false;
+	let label = 'Test';
 </script>
 
 <div class="wrapper">
@@ -62,17 +70,19 @@
 		<Slider bind:value={x} min={0} max={1000} step={0.1} />
 	</PaneInline>
 
+	<TextField bind:value={label} />
+
 	<Checkbox label="expanded" bind:value={expanded} />
 	<Checkbox label="folderExpanded" bind:value={folderExpanded} />
 	<Checkbox label="rExpanded" bind:value={rExpanded} />
 	<Checkbox label="r1Expanded" bind:value={rExpanded1} />
 	<Checkbox label="r12xpanded" bind:value={rExpanded2} />
-	<Checkbox label="r12xpanded" bind:value={rExpanded3} />
+	<Checkbox label="Point Picker Expanded" bind:value={rExpanded3} />
 	<Checkbox label="r12xpanded" bind:value={rExpanded4} />
 
 	<PaneDraggable bind:expanded theme={Themes.light} title="Tweakpane Draggable">
 		<CubicBezier bind:value={b} bind:expanded={rExpanded4} picker={'inline'} />
-		<PointPicker bind:value={p} bind:expanded={rExpanded3} picker={'inline'} />
+		<PointPicker {label} bind:value={p} bind:expanded={rExpanded3} picker={'inline'} />
 		<ColorPicker bind:value={c} bind:expanded={rExpanded2} picker={'inline'} />
 		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
 		<RotationEuler bind:expanded={rExpanded} label={'Test'} picker={'inline'} bind:value={e} />

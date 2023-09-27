@@ -53,10 +53,12 @@
 		binding?.dispose();
 	});
 
-	$: key, bindingParams, BROWSER && $parentStore && index !== undefined && create();
-	$: params, BROWSER && binding && binding.refresh();
-	$: BROWSER && binding && (binding.disabled = disabled);
-	$: BROWSER && binding && (binding.label = label);
+	// bindingParams seem immutable... have to recreate
+	$: key, bindingParams, BROWSER && $parentStore !== undefined && index !== undefined && create();
+	$: params, BROWSER && binding !== undefined && binding.refresh();
+	$: BROWSER && binding !== undefined && (binding.disabled = disabled);
+	$: BROWSER && binding !== undefined && (binding.label = label);
+
 	$: BROWSER &&
 		theme &&
 		$parentStore &&
