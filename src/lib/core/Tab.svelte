@@ -11,6 +11,7 @@
 	// scoped themes don't work
 	// TODO expose active index?
 	export let disabled: boolean = false;
+	export let selectedIndex: number = 0;
 	export let theme: Theme | undefined = undefined;
 
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
@@ -36,6 +37,22 @@
 		$tabStore?.dispose();
 	});
 
+	// TODO does this need cleanup?
+	function setUpListeners(t: TabApi) {
+		t?.on('select', (e) => {
+			selectedIndex = e.index;
+		});
+	}
+
+	function setSelectedIndex(index: number) {
+		const tabPageApi = $tabStore?.pages.at(index);
+		if (tabPageApi) {
+			if (!tabPageApi.selected) tabPageApi.selected = true;
+		}
+	}
+
+	$: BROWSER && setUpListeners($tabStore);
+	$: BROWSER && setSelectedIndex(selectedIndex);
 	$: BROWSER && $tabStore && ($tabStore.disabled = disabled);
 	$: BROWSER &&
 		theme &&
@@ -53,7 +70,7 @@
 		</div>
 	{:else}
 		<PaneInline userCreatedPane={false} {theme}>
-			<svelte:self {...$$props}>
+			<svelte:self bind:selectedIndex {...$$props}>
 				<slot />
 			</svelte:self>
 		</PaneInline>

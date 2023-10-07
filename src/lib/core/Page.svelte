@@ -49,6 +49,9 @@
 			});
 
 			$tabPageStore = $tabStore.pages[0];
+
+			// first tab selected by default
+			selected = true;
 		} else if (!$tabPageStore && $tabStore) {
 			// add to existing tab
 			$tabPageStore = $tabStore.addPage({ title, index });
