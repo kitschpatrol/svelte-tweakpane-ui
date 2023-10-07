@@ -45,4 +45,9 @@
 		(bladeRef.element.getElementsByClassName(buttonClass)[0] as HTMLButtonElement).click();
 </script>
 
+<!--
+@component
+This component is for internal use only.
+-->
+
 <Blade {disabled} bind:bladeRef {bladeParams} {theme} />

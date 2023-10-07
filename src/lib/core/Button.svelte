@@ -7,9 +7,16 @@
 	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
+	/** Text inside of the button */
 	export let title: string = 'Button';
+
+	/** Text displayed next to the button */
 	export let label: string | undefined = undefined;
+
+	/** Prevent interactivity. */
 	export let disabled: boolean = false;
+
+	/** Custom color scheme. Only applies if the `<Button>` is created outside a `<Pane>` component.  */
 	export let theme: Theme | undefined = undefined;
 
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
@@ -57,6 +64,24 @@
 			'Set theme on the <Pane> component, not on its children! (Check nested <Button> components for a theme prop.)'
 		);
 </script>
+
+<!--
+@component
+A humble push button.
+
+Wraps the Tweakpane [addButton](https://tweakpane.github.io/docs/ui-components/#button) method.
+
+Usage outside of a `<Pane>` component will implicitly wrap the button in a `<PaneInline>`.
+
+Example:	
+  ```tsx
+	<Button
+		label="Spline Status"
+		title="Check"
+		on:click={() => alert('Reticulation in progress...')}
+	/>
+	```
+-->
 
 {#if BROWSER}
 	{#if parentStore}

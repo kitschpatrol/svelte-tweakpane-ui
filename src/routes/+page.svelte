@@ -1,13 +1,20 @@
 <script lang="ts">
 	import Folder from '$lib/core/Folder.svelte';
+	import PaneAll from '$lib/core/PaneAll.svelte';
+	import Test from '$lib/core/Test.svelte';
 	import {
+		Binding,
 		RotationEuler,
 		RotationQuaternion,
 		CubicBezier,
 		FpsGraph,
 		Pane,
+		Button,
+		NumberMonitor,
 		PaneInline,
 		Slider,
+		Tab,
+		Page,
 		PaneDraggable,
 		Checkbox,
 		ColorPicker,
@@ -16,6 +23,8 @@
 	} from '$lib/index.js';
 	import { Themes } from '$lib/theme.js';
 	import { onMount } from 'svelte';
+
+	import Blade from '$lib/core/Blade.svelte';
 
 	let fpsRef: FpsGraph;
 
@@ -63,9 +72,76 @@
 	let rExpanded3 = false;
 	let rExpanded4 = false;
 	let label = 'Test';
+	let params = { r: 0 };
+	let reticulationCount = 0;
+
+	let selectedA = false;
+	let selectedB = false;
+	let i: number = 0;
+
+	let m: 'fixed' | 'inline' = 'fixed';
+	let ee: boolean = true;
+	let xv: number;
 </script>
 
 <div class="wrapper">
+	Expanded: {ee}
+	Pos: {xv}
+	<PaneAll mode="draggable" bind:x={xv} bind:expanded={ee}>
+		<Button title="Button A" on:click={() => (selectedB = true)} />
+	</PaneAll>
+	<PaneAll mode="fixed">
+		<Button title="Button A" on:click={() => (selectedB = true)} />
+	</PaneAll>
+	<PaneAll mode="inline">
+		<Button title="Button A" on:click={() => (selectedB = true)} />
+	</PaneAll>
+
+	<Button
+		title="Button B"
+		on:click={() => {
+			if (m === 'inline') {
+				m = 'fixed';
+			} else {
+				m = 'inline';
+			}
+		}}
+	/>
+
+	<!-- <Tab bind:selectedIndex={i}>
+		<Page bind:selected={selectedA}>
+			<Button title="Button A" on:click={() => (selectedB = true)} />
+		</Page>
+		<Page bind:selected={selectedB} title="B">
+			<Button title="Button B" on:click={() => (selectedA = true)} />
+		</Page>
+	</Tab>
+
+	<Button title="Reticulate" on:click={() => (i = 1)} />
+
+	<p>{i}</p>
+
+	<p>{selectedA}</p>
+	<p>{selectedB}</p>
+
+	<hr />
+
+	<Folder title="Reticulaton Manager">
+		<Button title="Reticulate" on:click={() => reticulationCount++} />
+		<NumberMonitor label="Reticulations" value={reticulationCount} />
+	</Folder>
+
+	<Button
+		label="Spline Status"
+		title="Check"
+		on:click={() => alert('Reticulation in progress...')}
+	/>
+
+	<Blade bladeParams={{ view: 'separator' }} />
+
+	<Binding bind:params key={'r'} label="Reticulation" />
+	Value: {params.r}
+
 	<PaneInline title="Tweakpane">
 		<Slider bind:value={x} min={0} max={1000} step={0.1} />
 	</PaneInline>
@@ -80,7 +156,13 @@
 	<Checkbox label="Point Picker Expanded" bind:value={rExpanded3} />
 	<Checkbox label="r12xpanded" bind:value={rExpanded4} />
 
-	<PaneDraggable bind:expanded theme={Themes.light} title="Tweakpane Draggable">
+	<PaneDraggable
+		resizeable={false}
+		bind:expanded
+		collapsable={false}
+		theme={Themes.light}
+		title="Tweakpane Draggable"
+	>
 		<CubicBezier bind:value={b} bind:expanded={rExpanded4} picker={'inline'} />
 		<PointPicker {label} bind:value={p} bind:expanded={rExpanded3} picker={'inline'} />
 		<ColorPicker bind:value={c} bind:expanded={rExpanded2} picker={'inline'} />
@@ -98,9 +180,13 @@
 		</Folder>
 	</PaneDraggable>
 
-	<Pane title="Tweakpane Normal" theme={Themes.vivid}>
+	<PaneInline collapsable={true} title="Tweakpane Normal" theme={Themes.vivid}>
 		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
-	</Pane>
+	</PaneInline>
+
+	<PaneInline collapsable={true} title="Tweakpane Normal 2">
+		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
+	</PaneInline> -->
 </div>
 
 <style>

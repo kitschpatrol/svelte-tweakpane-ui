@@ -15,16 +15,31 @@
 	import type { Writable } from 'svelte/store';
 	import type { Pane as TpPane } from 'tweakpane';
 
+	/** Text in the pane's title bar. If undefined, no title bar is shown, and expanding / collapsing the pane will only be available through the `expanded` prop. Defaults to 'Tweakpane'. */
 	export let title: string | undefined = 'Tweakpane';
+
+	/** Custom color scheme. Applies to all child components. */
 	export let theme: Theme | undefined = undefined;
+
+	/** Whether the pane's last position and width should be saved to local storage and re-applied across page reloads. Default to true. */
 	export let storePositionLocally: boolean = true;
-	export let minWidth: number = 200;
-	export let maxWidth: number = 600;
-	export let collapsable: boolean = true;
+
+	/** Allow the user to resize the pane by dragging the right corner of the title bar. */
 	export let resizeable: boolean = true;
+
+	/** Minimum pane width in pixels. */
+	export let minWidth: number = 200;
+
+	/** Maximum pane width in pixels. */
+	export let maxWidth: number = 600;
+
+	/** Allow the pane to be collapsed into the title bar. */
+	export let collapsable: boolean = true;
+
+	/** Identifier to be used if multiple <PaneDraggable> components with `storePositionLocally` set to true are used on the same page. */
 	export let localStoreId: string = localStoreDefaultId;
 
-	// defaults are managed here
+	// defaults are managed here, and must be set here
 	let positionStore: Writable<{
 		expanded: boolean;
 		width: number;
@@ -41,12 +56,17 @@
 		});
 	}
 
+	/** Expand and collapse the pane into its title bar. Bindable. */
 	export let expanded: boolean = $positionStore?.expanded ?? true;
-	export let x: number = $positionStore?.x ?? 0;
-	export let y: number = $positionStore?.y ?? 0;
-	export let width: number = $positionStore?.width ?? 350;
 
-	// let firstRun = true;
+	/** Horizontal position of the pane, in pixels. Bindable. (Defaults to 0.) */
+	export let x: number = $positionStore?.x ?? 0;
+
+	/** Vertical position of the pane, in pixels. Bindable. (Defaults to 0.) */
+	export let y: number = $positionStore?.y ?? 0;
+
+	/** Width of the pane, in pixels. User-adjustable if `resizeable` is set to true. Bindable. (Defaults to 256.) */
+	export let width: number = $positionStore?.width ?? 256;
 
 	let containerElement: HTMLDivElement;
 	let dragBarElement: HTMLElement; // added dynamically to tweakpane DOM
@@ -156,8 +176,6 @@
 	};
 
 	onMount(() => {
-		// firstRun = false;
-
 		setDocumentSize();
 
 		containerElement.appendChild(pane.element);
@@ -234,6 +252,32 @@
 	// proxy everything to the store
 	$: localStoreId !== undefined && positionStore?.set({ x, y, width, expanded });
 </script>
+
+<!--
+@component
+A user-draggable version of the pane component, allowing the Tweakpane window to be moved and resized around the page.localStoreDefaultId
+
+This component is a wrapper around Tweakpane's [Pane](https://tweakpane.github.io/docs/api/classes/Pane.html) class.
+
+The `<PaneDraggable>` component represents an extension of Tweakpane's core functionality, which reasonably considers pane dragging outside of the library's scope. See discussion in Tweakpane issues [#88](https://github.com/cocopon/tweakpane/issues/88) and [#301](https://github.com/cocopon/tweakpane/issues/301).
+
+By default, the pane's last position and width will be saved to the browser's local storage and re-applied across page reloads. (Set the `storePositionLocally` prop to false to prevent this.) 
+
+If multiple `<PaneDraggable>` components are used on the same page with `storePositionLocally` set to true, then each must have a unique `localStoreId` prop set to avoid collisions.
+
+Since the drag gesture overrides the normal Pane's single-click to collapse behavior, the pane will instead collapse if the title bar is double-clicked or the collapse button is clicked.
+
+Double-clicking the width drag handle will expand or contract the pane between to its `minWidth` and `maxWidth` sizes.
+
+See the `<Pane>` and `<PaneInline>` components for additional functionality. 
+
+Example:	
+```tsx
+<PaneDraggable title="Drag Me Around">
+	<Button title="Reticulate" on:click={() => alert('Reticulation complete')} />
+</PaneDraggable>
+```
+-->
 
 <svelte:window on:resize={setDocumentSize} />
 

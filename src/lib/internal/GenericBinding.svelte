@@ -30,4 +30,9 @@
 	$: value, setValue();
 </script>
 
+<!--
+@component
+This component is for internal use only.
+-->
+
 <Binding {theme} {disabled} {label} bind:bindingRef bind:params {key} {bindingParams} />

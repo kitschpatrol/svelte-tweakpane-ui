@@ -25,6 +25,11 @@
 	};
 </script>
 
+<!--
+@component
+This component is for internal use only.
+-->
+
 <GenericBinding
 	{theme}
 	{label}

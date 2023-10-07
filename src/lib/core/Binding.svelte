@@ -8,12 +8,25 @@
 	import { getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
+	/** Object with values to manipulate. */
 	export let params: T;
+
+	/** The key for the value in the params object the control should manipulate. */
 	export let key: string;
+
+	/** Prevent interactivity. */
 	export let disabled: boolean = false;
+
+	/** Text displayed next to control */
 	export let label: string | undefined = undefined;
+
+	/** Control configuration exposing TweakPane's internal [BindingParams](https://tweakpane.github.io/docs/api/types/BindingParams.html), contingent on type of bound param. TODO: Templatized types.  */
 	export let bindingParams: object | undefined = undefined;
+
+	/** Custom color scheme. Only applies if the `<Binding>` is created outside a `<Pane>` component.  */
 	export let theme: Theme | undefined = undefined;
+
+	/** Bindable reference to internal TweakPane [BindingApi](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for this control, not generally intended for direct use */
 	export let bindingRef: U | undefined = undefined;
 
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
@@ -69,8 +82,29 @@
 
 	// Speading the bare $$props array doesn't preserve the bind: prefix
 	// So we pull those keys and pass them manually
+	// Theme is pulled up to the Pane component
 	const plainProps = stripProps($$props, 'params', 'bindingRef', 'theme');
 </script>
+
+<!--
+@component
+Wraps the Tweakpane [addBinding](https://tweakpane.github.io/docs/input-bindings/) method.
+
+Usage outside of a `<Pane>` component will implicitly wrap the component in a `<PaneInline>`.
+
+Consider convenience components like `<Slider>`, `<ColorPicker>`, etc. before using this component directly.
+
+Example:	
+  ```tsx
+	<script>
+		let params = { n: 0 };
+	</script>
+
+	<Binding bind:params key={'r'} label="Reticulation" />
+
+	Value: {params.r}
+	```
+	-->
 
 {#if BROWSER}
 	{#if parentStore}

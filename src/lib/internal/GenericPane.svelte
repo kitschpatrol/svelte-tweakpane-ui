@@ -7,6 +7,7 @@
 	import { writable, type Writable } from 'svelte/store';
 	import { Pane as TpPane } from 'tweakpane';
 
+	// TODO allow tree shaking, dynamic imports?
 	import * as ProfilerPlugin from '@0b5vr/tweakpane-plugin-profiler';
 	import * as RotationPlugin from '@0b5vr/tweakpane-plugin-rotation';
 	import * as TextareaPlugin from '@pangenerator/tweakpane-textarea-plugin';
@@ -87,6 +88,11 @@
 	$: paneRef && applyTheme(paneRef.element, theme);
 	$: paneRef && (paneRef.expanded = expanded);
 </script>
+
+<!--
+@component
+This component is for internal use only.
+-->
 
 {#if BROWSER}
 	<slot />

@@ -8,10 +8,13 @@
 	import { writable } from 'svelte/store';
 	import type { TabApi } from 'tweakpane';
 
-	// scoped themes don't work
-	// TODO expose active index?
+	/** Prevent interactivity. */
 	export let disabled: boolean = false;
+
+	/** Active page index. Bindable. */
 	export let selectedIndex: number = 0;
+
+	/** Custom color scheme. Only applies if the `<Tab>` is created outside a `<Pane>` component.  */
 	export let theme: Theme | undefined = undefined;
 
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
@@ -62,6 +65,27 @@
 			'Set theme on the <Pane> component, not on its children! (Check nested <Tab> components for a theme prop.)'
 		);
 </script>
+
+<!--
+@component
+Contains a collection of `<Page>` components to be presented as a tabs. ("TabGroup" might be a more accurate description for this control.)
+
+Wraps Tweakpane's [addTab](https://tweakpane.github.io/docs/ui-components/#tab) method.
+
+Usage outside of a `<Pane>` component will implicitly wrap the tab in a `<PaneInline>`.
+
+Example:	
+```tsx
+<Tab>
+	<Page title="A">
+		<Button title="Button A" on:click={() => alert('A...')} />
+	</Page>
+	<Page title="B">
+		<Button title="Button B" on:click={() => alert('B...')} />
+	</Page>
+</Tab>
+```
+-->
 
 {#if BROWSER}
 	{#if parentStore}

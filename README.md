@@ -40,6 +40,10 @@ These more specific components trade some dynamicism and flexibility for ease of
 
 Vanilla Tweakpane conveniently provides two-way bindings for manipulating object properties, but `svelte-tweakpane-ui` leaves binding up to the user via [Svelte's conventional approach](TK). This makes bindings explicit, and allows most components to function either as monitors or inputs depending on whether their value property is bound.
 
+### Implicit Panes
+
+TK
+
 ## Components
 
 ### Core Tweakpane API
@@ -98,6 +102,14 @@ Vanilla Tweakpane conveniently provides two-way bindings for manipulating object
 TK
 
 ## Variations on Tweakpane
+
+Inline components
+
+Draggability
+
+Scoped theming
+
+Collapsability
 
 Certain aspects of the Tweakpane API don't make a ton of sense in the Svelte context.
 

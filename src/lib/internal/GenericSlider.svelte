@@ -36,4 +36,9 @@
 	} satisfies NumberInputParams;
 </script>
 
+<!--
+@component
+This component is for internal use only.
+-->
+
 <GenericInput bind:value {label} {disabled} {bindingParams} {theme} />

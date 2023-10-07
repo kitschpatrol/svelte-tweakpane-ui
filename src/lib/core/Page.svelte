@@ -10,9 +10,16 @@
 	import { writable } from 'svelte/store';
 	import type { TabApi } from 'tweakpane';
 
+	/** Text in the tab. */
 	export let title: string = 'Tab Page';
+
+	/** Prevent interactivity. */
 	export let disabled: boolean = false;
+
+	/** True when the page is the active tab. If multiple pages `seleted` props are set to true, the last page to be set to `true` comes to the foreground in its containing <Tab> component. Bindable. */
 	export let selected: boolean = false;
+
+	/** Custom color scheme. Only applies if the `<Page>` is created outside a `<Pane>` component.  */
 	export let theme: Theme | undefined = undefined;
 
 	// get context from tab
@@ -78,6 +85,27 @@
 			'Set theme on the <Pane> component, not on its children! (Check nested <Page> components for a theme prop.)'
 		);
 </script>
+
+<!--
+@component
+Contains a collection of Tweakpane controls to be presented as a group inside a `<Tab>` component. ("Tab" might be a more accurate description for this control.)
+
+Provides `page` values to Tweakpane's [addTab](https://tweakpane.github.io/docs/ui-components/#tab) method.
+
+Usage outside of a `<Tab>` component wouldn't make much sense, but in such cases the `<Page>` will be implicitly wrapped in a `<Tab>` and a `<PaneInline>`.
+
+Example:	
+```tsx
+<Tab>
+	<Page title="A">
+		<Button title="Button A" on:click={() => alert('A...')} />
+	</Page>
+	<Page title="B">
+		<Button title="Button B" on:click={() => alert('B...')} />
+	</Page>
+</Tab>
+```
+-->
 
 {#if BROWSER}
 	{#if parentStore && tabIndexStore !== undefined}

@@ -48,6 +48,11 @@
 		(bindingRef.element.getElementsByClassName(buttonClass)[0] as HTMLButtonElement).click();
 </script>
 
+<!--
+@component
+This component is for internal use only.
+-->
+
 <GenericInput
 	{theme}
 	{label}
