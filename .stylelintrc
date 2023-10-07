@@ -4,6 +4,7 @@
   "rules": {
     "color-hex-length": null,
     "comment-empty-line-before": null,
+    "selector-class-pattern": null,
     "selector-pseudo-class-no-unknown": [
       true,
       {

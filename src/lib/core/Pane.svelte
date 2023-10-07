@@ -43,7 +43,7 @@
 
 {#if BROWSER}
 	<div style="display: none;">
-		<GenericPane bind:expanded {title} {theme} bind:paneRef>
+		<GenericPane bind:expanded {title} {theme} {collapsable} bind:paneRef>
 			<slot />
 		</GenericPane>
 	</div>

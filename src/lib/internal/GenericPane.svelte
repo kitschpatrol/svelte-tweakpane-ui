@@ -17,6 +17,7 @@
 	import * as WaveformPlugin from 'tweakpane-plugin-waveform';
 
 	export let title: string | undefined = undefined;
+	export let collapsable: boolean = true;
 	export let expanded: boolean = true; // special case
 	export let theme: Theme | undefined = undefined;
 	export let userCreatedPane = true; // internal use
@@ -56,6 +57,32 @@
 		});
 	}
 
+	function clickBlocker(e: MouseEvent) {
+		e.stopPropagation();
+	}
+
+	function updateCollapsability(isCollapsable: boolean) {
+		if (paneRef) {
+			const titleBarElement = paneRef.element.getElementsByClassName(
+				'tp-rotv_b'
+			)[0] as HTMLButtonElement;
+
+			const iconElement = paneRef.element.getElementsByClassName('tp-rotv_m')[0] as HTMLDivElement;
+
+			if (isCollapsable) {
+				titleBarElement.removeEventListener('click', clickBlocker, { capture: true });
+				titleBarElement.style.cursor = 'pointer';
+				iconElement.style.display = 'block';
+			} else {
+				expanded = true;
+				titleBarElement.addEventListener('click', clickBlocker, { capture: true });
+				titleBarElement.style.cursor = 'default';
+				iconElement.style.display = 'none';
+			}
+		}
+	}
+
+	$: paneRef && updateCollapsability(collapsable);
 	$: paneRef && title && (paneRef.title = title);
 	$: paneRef && applyTheme(paneRef.element, theme);
 	$: paneRef && (paneRef.expanded = expanded);

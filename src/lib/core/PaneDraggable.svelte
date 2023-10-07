@@ -20,6 +20,8 @@
 	export let storePositionLocally: boolean = true;
 	export let minWidth: number = 200;
 	export let maxWidth: number = 600;
+	export let collapsable: boolean = true;
+	export let resizeable: boolean = true;
 	export let localStoreId: string = localStoreDefaultId;
 
 	// defaults are managed here
@@ -112,7 +114,7 @@
 		e.stopPropagation();
 		if (e.target instanceof HTMLElement) {
 			if (e.target === dragBarElement) {
-				if (moveDistance < 3) pane.expanded = !pane.expanded;
+				if (moveDistance < 3 && collapsable) pane.expanded = !pane.expanded;
 			} else if (e.target === widthHandleElement) {
 				if (width < maxAvailablePanelWidth) {
 					width = maxAvailablePanelWidth;
@@ -201,6 +203,18 @@
 		// TODO confirm pane.dispose()...
 	});
 
+	function updateResizeability(isresizeable: boolean) {
+		if (widthHandleElement) {
+			if (isresizeable) {
+				widthHandleElement.style.display = 'block';
+			} else {
+				widthHandleElement.style.display = 'none';
+			}
+		}
+	}
+
+	$: pane && updateResizeability(resizeable);
+
 	// ensure the tweakpane panel is within the viewport
 	// additional checks in the width drag handler
 	$: if (containerHeight && documentWidth && documentHeight) {
@@ -229,11 +243,13 @@
 			zIndexLocal = ++zIndexGlobal;
 		}}
 		class="draggable-container"
+		class:not-resizeable={!resizeable}
+		class:not-collapsable={!collapsable}
 		bind:this={containerElement}
 		bind:clientHeight={containerHeight}
 		style={`width: ${width}px; left: ${x}px; top: ${y}px; z-index: ${zIndexLocal}`}
 	>
-		<GenericPane {title} bind:expanded {theme} bind:paneRef={pane}>
+		<GenericPane {title} bind:expanded {theme} {collapsable} bind:paneRef={pane}>
 			<slot />
 		</GenericPane>
 	</div>
@@ -257,6 +273,20 @@
 	/* stylelint-disable-next-line selector-class-pattern */
 	:global(div.draggable-container div.tp-rotv_t) {
 		cursor: grab;
+	}
+
+	:global(div.draggable-container.not-collapsable div.tp-rotv_t) {
+		/* TODO remove the magic numbers */
+		/* Expand the drag bar to fill the missing collapse icon space */
+		margin-left: -28px;
+		padding-left: 28px;
+	}
+
+	:global(div.draggable-container.not-resizeable div.tp-rotv_t) {
+		/* TODO remove the magic numbers */
+		/* Expand the drag bar to fill the missing width drag icon space */
+		margin-right: -28px;
+		padding-right: 28px;
 	}
 
 	/* stylelint-disable-next-line selector-class-pattern */
