@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Folder from '$lib/core/Folder.svelte';
-	import PaneAll from '$lib/core/PaneAll.svelte';
 	import Test from '$lib/core/Test.svelte';
 	import {
 		Binding,
@@ -11,11 +10,9 @@
 		Pane,
 		Button,
 		NumberMonitor,
-		PaneInline,
 		Slider,
 		Tab,
 		Page,
-		PaneDraggable,
 		Checkbox,
 		ColorPicker,
 		PointPicker,
@@ -79,34 +76,18 @@
 	let selectedB = false;
 	let i: number = 0;
 
-	let m: 'fixed' | 'inline' = 'fixed';
+	let modes: ('fixed' | 'inline' | 'draggable')[] = ['fixed', 'inline', 'draggable'];
+	let modeIndex = 0;
+
 	let ee: boolean = true;
 	let xv: number;
 </script>
 
 <div class="wrapper">
-	Expanded: {ee}
-	Pos: {xv}
-	<PaneAll mode="draggable" bind:x={xv} bind:expanded={ee}>
-		<Button title="Button A" on:click={() => (selectedB = true)} />
-	</PaneAll>
-	<PaneAll mode="fixed">
-		<Button title="Button A" on:click={() => (selectedB = true)} />
-	</PaneAll>
-	<PaneAll mode="inline">
-		<Button title="Button A" on:click={() => (selectedB = true)} />
-	</PaneAll>
-
-	<Button
-		title="Button B"
-		on:click={() => {
-			if (m === 'inline') {
-				m = 'fixed';
-			} else {
-				m = 'inline';
-			}
-		}}
-	/>
+	modeIndex: {modeIndex}
+	<Pane title="Test Pane" mode={modes[modeIndex]} localStoreId="sadf">
+		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
+	</Pane>
 
 	<!-- <Tab bind:selectedIndex={i}>
 		<Page bind:selected={selectedA}>
@@ -142,9 +123,9 @@
 	<Binding bind:params key={'r'} label="Reticulation" />
 	Value: {params.r}
 
-	<PaneInline title="Tweakpane">
+	<InternalPaneInline title="Tweakpane">
 		<Slider bind:value={x} min={0} max={1000} step={0.1} />
-	</PaneInline>
+	</InternalPaneInline>
 
 	<TextField bind:value={label} />
 
@@ -156,7 +137,7 @@
 	<Checkbox label="Point Picker Expanded" bind:value={rExpanded3} />
 	<Checkbox label="r12xpanded" bind:value={rExpanded4} />
 
-	<PaneDraggable
+	<InternalPaneDraggable
 		resizeable={false}
 		bind:expanded
 		collapsable={false}
@@ -178,15 +159,15 @@
 			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
 			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
 		</Folder>
-	</PaneDraggable>
+	</InternalPaneDraggable>
 
-	<PaneInline collapsable={true} title="Tweakpane Normal" theme={Themes.vivid}>
+	<InternalPaneInline collapsable={true} title="Tweakpane Normal" theme={Themes.vivid}>
 		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
-	</PaneInline>
+	</InternalPaneInline>
 
-	<PaneInline collapsable={true} title="Tweakpane Normal 2">
+	<InternalPaneInline collapsable={true} title="Tweakpane Normal 2">
 		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
-	</PaneInline> -->
+	</InternalPaneInline> -->
 </div>
 
 <style>

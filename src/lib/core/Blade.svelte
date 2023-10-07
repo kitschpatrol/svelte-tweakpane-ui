@@ -4,7 +4,7 @@
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
-	import PaneInline from '$lib/core/PaneInline.svelte';
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BaseBladeParams, BladeApi } from 'tweakpane';
 
@@ -66,7 +66,7 @@
 @component
 Wraps the Tweakpane [addBlade](https://tweakpane.github.io/docs/blades/) method.
 
-Usage outside of a `<Pane>` component will implicitly wrap the component in a `<PaneInline>`.
+Usage outside of a `<Pane>` component will implicitly wrap the component in a `<InternalPaneInline>`.
 	
 Tweakpane's Vanilla JS API offers Blades as as a way to create unbound components, but in Svelte the same can be achieved by simply not binding the component's value.
 
@@ -82,8 +82,8 @@ Example:
 	{#if parentStore}
 		<div style="display: none;" bind:this={indexElement} />
 	{:else}
-		<PaneInline userCreatedPane={false} {theme}>
+		<InternalPaneInline userCreatedPane={false} {theme}>
 			<svelte:self {...plainProps} bind:bladeRef />
-		</PaneInline>
+		</InternalPaneInline>
 	{/if}
 {/if}

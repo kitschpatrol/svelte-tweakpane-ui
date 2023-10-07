@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PaneInline from '$lib/core/PaneInline.svelte';
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
 	import type { ButtonApi } from '@tweakpane/core';
@@ -71,7 +71,7 @@ A humble push button.
 
 Wraps the Tweakpane [addButton](https://tweakpane.github.io/docs/ui-components/#button) method.
 
-Usage outside of a `<Pane>` component will implicitly wrap the button in a `<PaneInline>`.
+Usage outside of a `<Pane>` component will implicitly wrap the button in a `<InternalPaneInline>`.
 
 Example:	
   ```tsx
@@ -87,8 +87,8 @@ Example:
 	{#if parentStore}
 		<div style="display: none;" bind:this={indexElement} />
 	{:else}
-		<PaneInline userCreatedPane={false} {theme}>
+		<InternalPaneInline userCreatedPane={false} {theme}>
 			<svelte:self on:click {...$$props} />
-		</PaneInline>
+		</InternalPaneInline>
 	{/if}
 {/if}

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PaneInline from '$lib/core/PaneInline.svelte';
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import Tab from '$lib/core/Tab.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
@@ -92,7 +92,7 @@ Contains a collection of Tweakpane controls to be presented as a group inside a 
 
 Provides `page` values to Tweakpane's [addTab](https://tweakpane.github.io/docs/ui-components/#tab) method.
 
-Usage outside of a `<Tab>` component wouldn't make much sense, but in such cases the `<Page>` will be implicitly wrapped in a `<Tab>` and a `<PaneInline>`.
+Usage outside of a `<Tab>` component wouldn't make much sense, but in such cases the `<Page>` will be implicitly wrapped in a `<Tab>` and a `<InternalPaneInline>`.
 
 Example:	
 ```tsx
@@ -113,12 +113,12 @@ Example:
 			<slot />
 		</div>
 	{:else}
-		<PaneInline userCreatedPane={false} {theme}>
+		<InternalPaneInline userCreatedPane={false} {theme}>
 			<Tab>
 				<svelte:self {...$$props}>
 					<slot />
 				</svelte:self>
 			</Tab>
-		</PaneInline>
+		</InternalPaneInline>
 	{/if}
 {/if}

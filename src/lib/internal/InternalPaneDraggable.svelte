@@ -36,7 +36,7 @@
 	/** Allow the pane to be collapsed into the title bar. */
 	export let collapsable: boolean = true;
 
-	/** Identifier to be used if multiple <PaneDraggable> components with `storePositionLocally` set to true are used on the same page. */
+	/** Identifier to be used if multiple <InternalPaneDraggable> components with `storePositionLocally` set to true are used on the same page. */
 	export let localStoreId: string = localStoreDefaultId;
 
 	// defaults are managed here, and must be set here
@@ -81,7 +81,7 @@
 	function addStorageId() {
 		if (BROWSER && localStoreIds.includes(localStoreId)) {
 			console.warn(
-				'Multiple instances of <PaneDraggable> with storePositionLocally=true detected. You must explicitly set unique localStoreId property on each component to avoid collisions.'
+				'Multiple instances of <InternalPaneDraggable> with storePositionLocally=true detected. You must explicitly set unique localStoreId property on each component to avoid collisions.'
 			);
 		}
 		localStoreIds.push(localStoreId);
@@ -219,6 +219,9 @@
 		}
 
 		// TODO confirm pane.dispose()...
+
+		// clean up store id check, e.g. when cycling through the mode of a single pane
+		localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1);
 	});
 
 	function updateResizeability(isresizeable: boolean) {
@@ -259,23 +262,23 @@ A user-draggable version of the pane component, allowing the Tweakpane window to
 
 This component is a wrapper around Tweakpane's [Pane](https://tweakpane.github.io/docs/api/classes/Pane.html) class.
 
-The `<PaneDraggable>` component represents an extension of Tweakpane's core functionality, which reasonably considers pane dragging outside of the library's scope. See discussion in Tweakpane issues [#88](https://github.com/cocopon/tweakpane/issues/88) and [#301](https://github.com/cocopon/tweakpane/issues/301).
+The `<InternalPaneDraggable>` component represents an extension of Tweakpane's core functionality, which reasonably considers pane dragging outside of the library's scope. See discussion in Tweakpane issues [#88](https://github.com/cocopon/tweakpane/issues/88) and [#301](https://github.com/cocopon/tweakpane/issues/301).
 
 By default, the pane's last position and width will be saved to the browser's local storage and re-applied across page reloads. (Set the `storePositionLocally` prop to false to prevent this.) 
 
-If multiple `<PaneDraggable>` components are used on the same page with `storePositionLocally` set to true, then each must have a unique `localStoreId` prop set to avoid collisions.
+If multiple `<InternalPaneDraggable>` components are used on the same page with `storePositionLocally` set to true, then each must have a unique `localStoreId` prop set to avoid collisions.
 
 Since the drag gesture overrides the normal Pane's single-click to collapse behavior, the pane will instead collapse if the title bar is double-clicked or the collapse button is clicked.
 
 Double-clicking the width drag handle will expand or contract the pane between to its `minWidth` and `maxWidth` sizes.
 
-See the `<Pane>` and `<PaneInline>` components for additional functionality. 
+See the `<Pane>` and `<InternalPaneInline>` components for additional functionality. 
 
 Example:	
 ```tsx
-<PaneDraggable title="Drag Me Around">
+<InternalPaneDraggable title="Drag Me Around">
 	<Button title="Reticulate" on:click={() => alert('Reticulation complete')} />
-</PaneDraggable>
+</InternalPaneDraggable>
 ```
 -->
 

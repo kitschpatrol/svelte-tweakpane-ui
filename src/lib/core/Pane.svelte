@@ -1,87 +1,60 @@
 <script lang="ts">
-	import GenericPane from '$lib/internal/GenericPane.svelte';
-	import type { Theme } from '$lib/theme.js';
-	import { BROWSER } from 'esm-env';
-	import type { Pane as TpPane } from 'tweakpane';
+	import type { ComponentProps } from 'svelte';
+	import InternalPaneFixed from '$lib/internal/InternalPaneFixed.svelte';
+	import InternalPaneDraggable from '$lib/internal/InternalPaneDraggable.svelte';
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 
-	/** Text in the pane's title bar. If undefined, no title bar is shown, and expanding / collapsing the pane will only be available through the `expanded` prop.  */
-	export let title: string | undefined = undefined;
-
-	/** Whether the pane may be collapsed by clicking the title bar. */
-	export let collapsable: boolean = true;
-
-	/** Expand and collapse the pane into its title bar. Bindable. */
-	export let expanded: boolean = true; // special case
-
-	/** Custom color scheme. Applies to all child components.  */
-	export let theme: Theme | undefined = undefined;
-
-	/** Horizontal position of the pane, in pixels. (Defaults to the right.) */
-	export let x: number | undefined = undefined;
-
-	/** Vertical position of the pane, in pixels. (Defaults to the top.) */
-	export let y: number | undefined = undefined;
-
-	/** Width of the pane, in pixels. (Defaults to 256.) */
-	export let width: number | undefined = undefined;
-
-	let paneRef: TpPane;
-	let paneContainer: HTMLElement;
-
-	function setPosition() {
-		if (paneContainer !== undefined) {
-			if (x !== undefined) {
-				paneContainer.style.setProperty('right', 'unset');
-				paneContainer.style.setProperty('left', `${x}px`);
-			}
-			if (y !== undefined) {
-				paneContainer.style.setProperty('top', `${y}px`);
-			}
-			if (width !== undefined) {
-				paneContainer.style.setProperty('width', `${width}px`);
-			}
-		}
+	interface PaneDraggableProps extends ComponentProps<InternalPaneDraggable> {
+		mode: 'draggable';
 	}
 
-	$: paneRef !== undefined &&
-		paneRef.element.parentElement &&
-		(paneContainer = paneRef.element.parentElement);
-	$: paneContainer !== undefined && x !== undefined && setPosition();
-	$: paneContainer !== undefined && y !== undefined && setPosition();
-	$: paneContainer !== undefined && width !== undefined && setPosition();
+	interface PaneInlineProps extends Omit<ComponentProps<InternalPaneInline>, 'userCreatedPane'> {
+		mode: 'inline';
+	}
 
-	// default tweakpane behavior... opens in a fixed position
-	// div wrapper is required for element index calculation
+	interface PaneFixedProps extends ComponentProps<InternalPaneFixed> {
+		mode: 'fixed';
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Props = (PaneDraggableProps | PaneInlineProps | PaneFixedProps) & {
+		/** Pane mode, one of three options:
+		 * - **'fixed'** *(default)*  \
+		 *   Standard TweakPane behavior where the pane is placed in a fixed component.
+		 * - **'inline'**  \
+		 *   The pane appears inline with other content in the normal flow of the document.
+		 * - **'draggable'**  \
+		 *   The pane is draggable and may be placed anywhere on the page.
+		 *
+		 *   Note that `<Pane>` is a dynamic component, and availability of additional props will
+		 *   vary depending on the defined `mode` value.
+		 * */
+		mode: 'fixed' | 'draggable' | 'inline';
+	};
+
+	export let mode = $$props.mode ?? 'fixed';
+
+	// allow bindings, not included in $$Props type since already explicitly exported
+	export let expanded = $$restProps.expanded;
+	export let x = $$restProps.x;
+	export let y = $$restProps.y;
+	export let width = $$restProps.width;
+
+	// {#key} and dynamic <svelte:component approach did not work below
+	// TODO maybe strip unexpected props from $$restProps to avoid unknown prop warnings?
 </script>
 
-<!--
-@component
-The root `<Pane>` component, used for organizing controls into a single group.
-
-This component is a wrapper around Tweakpane's [Pane](https://tweakpane.github.io/docs/api/classes/Pane.html) class.
-
-This variation of `<Pane>` exhibits the default Tweakpane behavior of displaying in a fixed position over the page.
-
-Unlike Vanilla JS Tweakpane, wrapping components in a `<Pane>` is not mandatory. Pane-less components will be automatically nested in a `<PaneInline>` component and displayed in the regular block flow of the page instead of in a fixed element.
-
-Multiple `<Pane>` components may be added to a single page, but note that by default they will overlap one another. Set the `x` or `y` properties to prevent overlap.
-
-See the `<PaneInline>` and `<PaneDraggable>` components for additional functionality. 
-
-Note that the [`container`](https://tweakpane.github.io/docs/misc/#container) [PaneConfig](https://tweakpane.github.io/docs/api/interfaces/_internal_.PaneConfig.html) option is not exposed, because correct placement in the containing DOM is managed by 'svelte-tweakpane-ui', and `<PaneInline>` should be used where you'd like a pane to become part of the normal document flow.
-
-Example:	
-```tsx
-<Pane title="Tweakpane Normal">
-	<Button title="Reticulate" on:click={() => alert('Reticulation complete')} />
-</Pane>
-```
--->
-
-{#if BROWSER}
-	<div style="display: none;">
-		<GenericPane bind:expanded {title} {theme} {collapsable} bind:paneRef>
-			<slot />
-		</GenericPane>
-	</div>
+{#if mode === 'inline'}
+	<InternalPaneInline bind:expanded {...$$restProps}>
+		<slot />
+	</InternalPaneInline>
+{:else if mode === 'fixed'}
+	<InternalPaneFixed bind:expanded {...$$restProps}>
+		<slot />
+	</InternalPaneFixed>
+{:else if mode === 'draggable'}
+	<InternalPaneDraggable bind:x bind:y bind:width bind:expanded {...$$restProps}>
+		<slot />
+	</InternalPaneDraggable>
 {/if}

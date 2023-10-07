@@ -1,7 +1,7 @@
 <script lang="ts" generics="T extends Bindable, U extends BindingApi">
 	import type { Theme } from '$lib/theme.js';
 	import { getElementIndex, isRootPane, stripProps, type TpContainer } from '$lib/utils.js';
-	import PaneInline from '$lib/core/PaneInline.svelte';
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { Bindable, BindingApi } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
@@ -90,7 +90,7 @@
 @component
 Wraps the Tweakpane [addBinding](https://tweakpane.github.io/docs/input-bindings/) method.
 
-Usage outside of a `<Pane>` component will implicitly wrap the component in a `<PaneInline>`.
+Usage outside of a `<Pane>` component will implicitly wrap the component in a `<InternalPaneInline>`.
 
 Consider convenience components like `<Slider>`, `<ColorPicker>`, etc. before using this component directly.
 
@@ -110,8 +110,8 @@ Example:
 	{#if parentStore}
 		<div style="display: none;" bind:this={indexElement} />
 	{:else}
-		<PaneInline userCreatedPane={false} {theme}>
+		<InternalPaneInline userCreatedPane={false} {theme}>
 			<svelte:self {...plainProps} bind:params bind:bindingRef />
-		</PaneInline>
+		</InternalPaneInline>
 	{/if}
 {/if}

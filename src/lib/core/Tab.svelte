@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PaneInline from '$lib/core/PaneInline.svelte';
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
@@ -72,7 +72,7 @@ Contains a collection of `<Page>` components to be presented as a tabs. ("TabGro
 
 Wraps Tweakpane's [addTab](https://tweakpane.github.io/docs/ui-components/#tab) method.
 
-Usage outside of a `<Pane>` component will implicitly wrap the tab in a `<PaneInline>`.
+Usage outside of a `<Pane>` component will implicitly wrap the tab in a `<InternalPaneInline>`.
 
 Example:	
 ```tsx
@@ -93,10 +93,10 @@ Example:
 			<slot />
 		</div>
 	{:else}
-		<PaneInline userCreatedPane={false} {theme}>
+		<InternalPaneInline userCreatedPane={false} {theme}>
 			<svelte:self bind:selectedIndex {...$$props}>
 				<slot />
 			</svelte:self>
-		</PaneInline>
+		</InternalPaneInline>
 	{/if}
 {/if}
