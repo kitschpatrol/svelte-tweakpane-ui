@@ -81,7 +81,7 @@
 	function addStorageId() {
 		if (BROWSER && localStoreIds.includes(localStoreId)) {
 			console.warn(
-				'Multiple instances of <InternalPaneDraggable> with storePositionLocally=true detected. You must explicitly set unique localStoreId property on each component to avoid collisions.'
+				'Multiple instances of <Pane> with `mode="draggable"` and `storePositionLocally=true` detected. You must explicitly set unique localStoreId property on each component to avoid collisions.'
 			);
 		}
 		localStoreIds.push(localStoreId);

@@ -1,6 +1,4 @@
 <script lang="ts">
-	import Folder from '$lib/core/Folder.svelte';
-	import Test from '$lib/core/Test.svelte';
 	import {
 		Binding,
 		RotationEuler,
@@ -8,6 +6,7 @@
 		CubicBezier,
 		FpsGraph,
 		Pane,
+		Folder,
 		Button,
 		NumberMonitor,
 		Slider,
@@ -76,20 +75,20 @@
 	let selectedB = false;
 	let i: number = 0;
 
-	let modes: ('fixed' | 'inline' | 'draggable')[] = ['fixed', 'inline', 'draggable'];
+	// let modes: ('fixed' | 'inline' | 'draggable')[] = ['fixed', 'inline', 'draggable'];
 	let modeIndex = 0;
 
-	let ee: boolean = true;
-	let xv: number;
+	// let ee: boolean = true;
+	// let xv: number;
 </script>
 
 <div class="wrapper">
 	modeIndex: {modeIndex}
-	<Pane title="Test Pane" mode={modes[modeIndex]} localStoreId="sadf">
+	<Pane title="Test Pane" mode="fixed" x={0} y={0}>
 		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
 	</Pane>
 
-	<!-- <Tab bind:selectedIndex={i}>
+	<Tab bind:selectedIndex={i}>
 		<Page bind:selected={selectedA}>
 			<Button title="Button A" on:click={() => (selectedB = true)} />
 		</Page>
@@ -123,9 +122,9 @@
 	<Binding bind:params key={'r'} label="Reticulation" />
 	Value: {params.r}
 
-	<InternalPaneInline title="Tweakpane">
+	<Pane mode="draggable" title="Tweakpane">
 		<Slider bind:value={x} min={0} max={1000} step={0.1} />
-	</InternalPaneInline>
+	</Pane>
 
 	<TextField bind:value={label} />
 
@@ -137,8 +136,8 @@
 	<Checkbox label="Point Picker Expanded" bind:value={rExpanded3} />
 	<Checkbox label="r12xpanded" bind:value={rExpanded4} />
 
-	<InternalPaneDraggable
-		resizeable={false}
+	<Pane
+		mode="draggable"
 		bind:expanded
 		collapsable={false}
 		theme={Themes.light}
@@ -159,15 +158,13 @@
 			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
 			<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
 		</Folder>
-	</InternalPaneDraggable>
+	</Pane>
 
-	<InternalPaneInline collapsable={true} title="Tweakpane Normal" theme={Themes.vivid}>
-		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
-	</InternalPaneInline>
+	<Pane title="test" width={500}></Pane>
 
-	<InternalPaneInline collapsable={true} title="Tweakpane Normal 2">
+	<Pane collapsable={true} title="Tweakpane Normal" theme={Themes.vivid}>
 		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
-	</InternalPaneInline> -->
+	</Pane>
 </div>
 
 <style>
