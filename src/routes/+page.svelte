@@ -20,7 +20,9 @@
 	import { Themes } from '$lib/theme.js';
 	import { onMount } from 'svelte';
 
+	import Test from '$lib/core/Test.svelte';
 	import Blade from '$lib/core/Blade.svelte';
+	// import Test2 from '../../scratch/Test2.svelte';
 
 	let fpsRef: FpsGraph;
 
@@ -83,7 +85,48 @@
 </script>
 
 <div class="wrapper">
-	modeIndex: {modeIndex}
+	<Test mode="draggable" iAmADraggableProp regular={1} />
+	<Test mode="fixed" />
+
+	<!-- <Test2 expanded={true}>
+		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
+	</Test2>
+
+	<Test2 mode="fixed" expanded={true}>
+		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
+	</Test2>
+
+	<Test2 mode="draggable" expanded={true}>
+		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
+	</Test2>
+
+	<Test2 mode="inline" expanded={true}>
+		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
+	</Test2>
+
+	<Test2 width={34}>
+		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
+	</Test2> -->
+
+	<Pane></Pane>
+
+	<Pane x={5} expanded={false}>
+		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
+	</Pane>
+
+	<Pane mode="fixed" x={50} expanded={true}>
+		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
+	</Pane>
+
+	<Pane mode="draggable">
+		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
+	</Pane>
+
+	<Pane mode="inline" expanded={true}>
+		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
+	</Pane>
+
+	<!-- modeIndex: {modeIndex}
 	<Pane title="Test Pane" mode="fixed" x={0} y={0}>
 		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
 	</Pane>
@@ -164,7 +207,7 @@
 
 	<Pane collapsable={true} title="Tweakpane Normal" theme={Themes.vivid}>
 		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
-	</Pane>
+	</Pane> -->
 </div>
 
 <style>
