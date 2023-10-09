@@ -72,3 +72,61 @@ export function getGridDimensions(
 
 	return { rows, columns };
 }
+
+// type utilities
+export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
+	k: infer I
+) => void
+	? I
+	: never;
+
+export type IsUnion<T> = [T] extends [UnionToIntersection<T>] ? false : true;
+export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
+/**
+ * Omits properties that have type `never`. Utilizes key-remapping introduced in
+ * TS4.1.
+ *
+ * @example
+ * ```ts
+ * type A = { x: never; y: string; }
+ * OmitNever<A> // => { y: string; }
+ * ```
+ */
+export type OmitNever<T extends Record<string, unknown>> = {
+	[K in keyof T as T[K] extends never ? never : K]: T[K];
+};
+
+/**
+ * Constructs a Record type that only includes shared properties between `A` and
+ * `B`. If the value of a key is different in `A` and `B`, `SharedProperties<A,
+ * B>` attempts to choose a type that is assignable to the types of both values.
+ *
+ * Note that this is NOT equivalent to `A & B`.
+ *
+ * @example
+ * ```ts
+ * type A = { x: string; y: string; }
+ * type B = { y: string; z: string }
+ * type C = { y: string | number; }
+ *
+ * A & B                  // => { x: string; y: string; z: string; }
+ * SharedProperties<A, B> // => { y: string; }
+ * SharedProperties<B, C> // => { y: string | number; }
+ * ```
+ */
+export type SharedProperties<A, B> = OmitNever<Pick<A & B, keyof A & keyof B>>;
+
+export type ExcludedTypes<T, U> = {
+	[K in Exclude<keyof T, keyof U>]: T[K];
+};
+
+export type IsOptional<T, K extends keyof T> = undefined extends T[K] ? true : false;
+export type IsOnlyUndefined<T> = [T] extends [undefined]
+	? undefined extends T
+		? true
+		: false
+	: false;
+
+export type RedefineProp<T, K extends keyof T, NewType> = Omit<T, K> &
+	(IsOptional<T, K> extends true ? { [P in K]?: NewType } : { [P in K]: NewType });
