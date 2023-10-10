@@ -1,8 +1,8 @@
-<script lang="ts" generics="M extends 'draggable' | 'inline' | 'fixed' | undefined">
+<script lang="ts">
 	import InternalPaneDraggable from '$lib/internal/InternalPaneDraggable.svelte';
 	import InternalPaneFixed from '$lib/internal/InternalPaneFixed.svelte';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
-	import type { IsUnion } from '$lib/utils.js';
+
 	import type { ComponentProps } from 'svelte';
 
 	type InlineProps = Omit<ComponentProps<InternalPaneInline>, 'userCreatedPane'> & {
@@ -10,41 +10,29 @@
 	};
 
 	type FixedProps = ComponentProps<InternalPaneFixed> & {
-		mode?: 'fixed' | undefined;
+		mode?: 'fixed';
 	};
 
 	type DraggableProps = ComponentProps<InternalPaneDraggable> & {
 		mode: 'draggable';
 	};
 
-	// why is this so painful
-	// via https://github.com/sveltejs/svelte/issues/9130
-	// https://github.com/microsoft/TypeScript/issues/41759
-	// TODO deal with the missing autocomplete info on the mode prop
-	// hmm https://github.com/microsoft/TypeScript/issues/41759
-	type $$Props = IsUnion<M> extends true
-		? FixedProps & {
-				mode?: M;
-		  }
-		: (InlineProps | FixedProps | DraggableProps) & {
-				/**
-				 * Pane mode, one of three options:
-				 * - **'fixed'** *(default)*  \
-				 *   Standard TweakPane behavior where the pane is shown in a fixed position on the page.
-				 * - **'inline'**  \
-				 *   The pane appears inline with other content in the normal flow of the document.
-				 * - **'draggable'**  \
-				 *   The pane is draggable and resizeable, and may be placed anywhere on the page.
-				 *
-				 *   🚨 **Due to discriminated union issue I can't seem to solve in TypeScript,
-				 *   the `mode` prop does not display correct autocompletions.
-				 * 	 Rest assured it can take `fixed` `inline` or `draggable` as values.**
-				 *
-				 *   Note that `<Pane>` is a dynamic component, and availability of additional props will
-				 *   vary depending on the defined `mode` value.
-				 * */
-				mode: M;
-		  };
+	type $$Props = (InlineProps | FixedProps | DraggableProps) & {
+		/**
+		 * Pane mode, one of three options:
+		 * - **'fixed'** *(default)*  \
+		 *   Standard TweakPane behavior where the pane is shown in a fixed position on the page.
+		 * - **'inline'**  \
+		 *   The pane appears inline with other content in the normal flow of the document.
+		 * - **'draggable'**  \
+		 *   The pane is draggable and resizeable, and may be placed anywhere on the page.
+		 *
+		 *   Note that `<Pane>` is a dynamic component, and availability of additional props will
+		 *   vary depending on the defined `mode` value. Due to Typescript issues, prop autocompletion
+		 *   is not correctly narrowed when mode is not explicitly defined.
+		 * */
+		mode?: 'inline' | 'fixed' | 'draggable';
+	};
 
 	// TODO check this for binding bugs
 	$: props = $$props as $$Props;
