@@ -10,26 +10,30 @@
 	};
 
 	type FixedProps = ComponentProps<InternalPaneFixed> & {
-		mode?: 'fixed';
+		mode: 'fixed';
 	};
 
 	type DraggableProps = ComponentProps<InternalPaneDraggable> & {
-		mode: 'draggable';
+		mode?: 'draggable';
 	};
+
+	// default to draggable, take advantage of the fact that it props are the union
+	// of all other modes to work around Typescript default discriminated union autocomplete bugs
+	$$props.mode = $$props.mode ?? 'draggable';
 
 	type $$Props = (InlineProps | FixedProps | DraggableProps) & {
 		/**
 		 * Pane mode, one of three options:
-		 * - **'fixed'** *(default)*  \
-		 *   Standard TweakPane behavior where the pane is shown in a fixed position on the page.
+		 * - **'draggable'** *(default)*  \
+		 *   The pane is draggable and resizeable, and may be placed anywhere over the page.
 		 * - **'inline'**  \
-		 *   The pane appears inline with other content in the normal flow of the document.
-		 * - **'draggable'**  \
-		 *   The pane is draggable and resizeable, and may be placed anywhere on the page.
+		 *   The pane appears inline with other content in the normal flow of the document.  \
+		 *   *This is the default mode for components created outside of an explicit `<Pane>` component.*
+		 * - **'fixed'** \
+		 *   Standard TweakPane behavior where the pane is shown in a fixed position over the page.
 		 *
 		 *   Note that `<Pane>` is a dynamic component, and availability of additional props will
-		 *   vary depending on the defined `mode` value. Due to Typescript issues, prop autocompletion
-		 *   is not correctly narrowed when mode is not explicitly defined.
+		 *   vary depending on the defined `mode` value.
 		 * */
 		mode?: 'inline' | 'fixed' | 'draggable';
 	};
