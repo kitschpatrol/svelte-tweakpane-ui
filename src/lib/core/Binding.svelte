@@ -83,7 +83,7 @@
 	// Speading the bare $$props array doesn't preserve the bind: prefix
 	// So we pull those keys and pass them manually
 	// Theme is pulled up to the Pane component
-	const plainProps = stripProps($$props, 'params', 'bindingRef', 'theme');
+	const plainProps = stripProps($$props, 'params', 'bindingRef', 'theme', 'bindingParams');
 </script>
 
 <!--
@@ -111,7 +111,7 @@ Example:
 		<div style="display: none;" bind:this={indexElement} />
 	{:else}
 		<InternalPaneInline userCreatedPane={false} {theme}>
-			<svelte:self {...plainProps} bind:params bind:bindingRef />
+			<svelte:self {...plainProps} bind:params bind:bindingRef bind:bindingParams />
 		</InternalPaneInline>
 	{/if}
 {/if}

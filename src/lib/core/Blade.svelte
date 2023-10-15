@@ -59,7 +59,7 @@
 		);
 
 	// TODO bind blade params too?
-	const plainProps = stripProps($$props, 'bladeRef');
+	const plainProps = stripProps($$props, 'bladeRef', 'bladeParams');
 </script>
 
 <!--
@@ -83,7 +83,7 @@ Example:
 		<div style="display: none;" bind:this={indexElement} />
 	{:else}
 		<InternalPaneInline userCreatedPane={false} {theme}>
-			<svelte:self {...plainProps} bind:bladeRef />
+			<svelte:self {...plainProps} bind:bladeRef bind:bladeParams />
 		</InternalPaneInline>
 	{/if}
 {/if}
