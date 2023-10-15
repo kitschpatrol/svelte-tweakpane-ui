@@ -14,11 +14,11 @@
 	export let disabled: boolean = false;
 	export let theme: Theme | undefined = undefined;
 	export let expanded: boolean | undefined = undefined;
-	export let collapsable: boolean = true;
+	export let clickToExpand: boolean = true;
+	export let picker: PickerLayout | undefined = undefined;
 
 	// unique
 	export let value: string | RgbColorObject | RgbaColorObject | undefined;
-	export let picker: PickerLayout | undefined = undefined;
 
 	// work-arounds for funky folding
 	const buttonClass = 'tp-colswv_b';
@@ -31,8 +31,7 @@
 	// bindingParams.color.type
 
 	$: bindingParams = {
-		view: 'color',
-		picker
+		view: 'color'
 	} satisfies ColorInputParams;
 </script>
 
@@ -41,8 +40,9 @@
 	bind:expanded
 	bind:value
 	{label}
+	{picker}
 	{disabled}
 	{bindingParams}
-	{collapsable}
+	{clickToExpand}
 	{theme}
 />

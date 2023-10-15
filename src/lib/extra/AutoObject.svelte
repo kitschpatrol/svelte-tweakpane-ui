@@ -38,9 +38,9 @@
 		// Replace underscores, hyphens, and camel case with spaces, and capitalize the first letter of each word
 		return value
 			.replace(/([a-z0-9])([A-Z])/g, '$1 $2')
-			.replace(/[_\-]+/g, ' ')
+			.replace(/[_-]+/g, ' ')
 			.toLowerCase()
-			.replace(/\b[a-z]/g, function (letter) {
+			.replace(/\b[a-z]/g, (letter) => {
 				return letter.toUpperCase();
 			});
 	}
@@ -51,14 +51,13 @@
 
 <!--
 @component
-Convenience component which creates a set of Tweakpane controls for an arbitrary object.
+Convenience component which automatically creates a set of Tweakpane controls for an arbitrary object.
 
 Object keys will be used as labels, and a (reasonably) appropriate Tweakpane control will be used for each value's type.
 
-Records within the object will be wrap their contents in a `<Folder>` component.
+Records within the object will be wrap their contents in a `<Folder>` component. Value objects in the shape of color or point objects will show a more specialized control.
 
 Usage outside of a `<Pane>` component will implicitly wrap the component in a `<InternalPaneInline>`.
-
 
 Example:	
   ```tsx
@@ -84,9 +83,9 @@ Example:
     };
 	</script>
 
-	<AutoObject bind:params />
+	<AutoObject bind:params prettyLabels={true} />
 
-	Value: {JSON.stringify(params)}
+	<pre>{JSON.stringify(params, null, 2)}</pre>
 	```
 	-->
 

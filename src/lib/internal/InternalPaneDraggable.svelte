@@ -21,8 +21,11 @@
 	/** Custom color scheme. Applies to all child components. */
 	export let theme: Theme | undefined = undefined;
 
-	/** Whether the pane's last position and width should be saved to local storage and re-applied across page reloads. Default to true. */
+	/** Whether the pane's last position and width should be saved to local storage and re-applied across page reloads. Defaults to true. */
 	export let storePositionLocally: boolean = true;
+
+	/** Allow the pane to be collapsed into the title bar. */
+	export let clickToExpand: boolean = true;
 
 	/** Allow the user to resize the pane by dragging the right corner of the title bar. */
 	export let resizeable: boolean = true;
@@ -32,9 +35,6 @@
 
 	/** Maximum pane width in pixels. */
 	export let maxWidth: number = 600;
-
-	/** Allow the pane to be collapsed into the title bar. */
-	export let collapsable: boolean = true;
 
 	/** Identifier to be used if multiple <InternalPaneDraggable> components with `storePositionLocally` set to true are used on the same page. */
 	export let localStoreId: string = localStoreDefaultId;
@@ -56,7 +56,7 @@
 		});
 	}
 
-	/** Expand and collapse the pane into its title bar. Bindable. */
+	/** Expand and collapse the pane. Bindable. */
 	export let expanded: boolean = $positionStore?.expanded ?? true;
 
 	/** Horizontal position of the pane, in pixels. Bindable. (Defaults to 0.) */
@@ -134,7 +134,7 @@
 		e.stopPropagation();
 		if (e.target instanceof HTMLElement) {
 			if (e.target === dragBarElement) {
-				if (moveDistance < 3 && collapsable) pane.expanded = !pane.expanded;
+				if (moveDistance < 3 && clickToExpand) pane.expanded = !pane.expanded;
 			} else if (e.target === widthHandleElement) {
 				if (width < maxAvailablePanelWidth) {
 					width = maxAvailablePanelWidth;
@@ -183,7 +183,6 @@
 		// make the pane draggable
 		// the tweakbar pane is NOT itself a svelte component, so we have to
 		// hook into it directly through the DOM
-		// TODO is this selector working?
 		dragBarElement = containerElement.getElementsByClassName('tp-rotv_t')[0] as HTMLElement;
 		// let single clicks trigger window shade as well, to match default behavior
 		dragBarElement.addEventListener('click', doubleClickListener);
@@ -217,8 +216,6 @@
 			widthHandleElement.removeEventListener('pointerup', upListener);
 			widthHandleElement.removeEventListener('pointerdown', downListener);
 		}
-
-		// TODO confirm pane.dispose()...
 
 		// clean up store id check, e.g. when cycling through the mode of a single pane
 		localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1);
@@ -258,28 +255,7 @@
 
 <!--
 @component
-A user-draggable version of the pane component, allowing the Tweakpane window to be moved and resized around the page.localStoreDefaultId
-
-This component is a wrapper around Tweakpane's [Pane](https://tweakpane.github.io/docs/api/classes/Pane.html) class.
-
-The `<InternalPaneDraggable>` component represents an extension of Tweakpane's core functionality, which reasonably considers pane dragging outside of the library's scope. See discussion in Tweakpane issues [#88](https://github.com/cocopon/tweakpane/issues/88) and [#301](https://github.com/cocopon/tweakpane/issues/301).
-
-By default, the pane's last position and width will be saved to the browser's local storage and re-applied across page reloads. (Set the `storePositionLocally` prop to false to prevent this.) 
-
-If multiple `<InternalPaneDraggable>` components are used on the same page with `storePositionLocally` set to true, then each must have a unique `localStoreId` prop set to avoid collisions.
-
-Since the drag gesture overrides the normal Pane's single-click to collapse behavior, the pane will instead collapse if the title bar is double-clicked or the collapse button is clicked.
-
-Double-clicking the width drag handle will expand or contract the pane between to its `minWidth` and `maxWidth` sizes.
-
-See the `<Pane>` and `<InternalPaneInline>` components for additional functionality. 
-
-Example:	
-```tsx
-<InternalPaneDraggable title="Drag Me Around">
-	<Button title="Reticulate" on:click={() => alert('Reticulation complete')} />
-</InternalPaneDraggable>
-```
+This component is for internal use only.
 -->
 
 <svelte:window on:resize={setDocumentSize} />
@@ -291,12 +267,12 @@ Example:
 		}}
 		class="draggable-container"
 		class:not-resizeable={!resizeable}
-		class:not-collapsable={!collapsable}
+		class:not-collapsable={!clickToExpand}
 		bind:this={containerElement}
 		bind:clientHeight={containerHeight}
 		style={`width: ${width}px; left: ${x}px; top: ${y}px; z-index: ${zIndexLocal}`}
 	>
-		<GenericPane {title} bind:expanded {theme} {collapsable} bind:paneRef={pane}>
+		<GenericPane {title} bind:expanded {theme} {clickToExpand} bind:paneRef={pane}>
 			<slot />
 		</GenericPane>
 	</div>

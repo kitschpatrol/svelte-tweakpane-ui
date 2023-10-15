@@ -10,10 +10,11 @@
 	export let disabled: boolean = false;
 	export let theme: Theme | undefined = undefined;
 	export let value: { x: number; y: number; z: number };
-
-	// unique
+	export let clickToExpand: boolean = true;
 	export let expanded: boolean | undefined = undefined;
 	export let picker: PickerLayout | undefined = undefined;
+
+	// unique
 	export let order: EulerOrder | undefined = undefined;
 	export let unit: EulerUnit | undefined = undefined;
 	export let x: PointDimensionParams | undefined = undefined;
@@ -26,7 +27,6 @@
 	$: bindingParams = {
 		view: 'rotation',
 		rotationMode: 'euler',
-		picker,
 		order,
 		unit,
 		x,
@@ -38,6 +38,8 @@
 <GenericInputFolding
 	bind:expanded
 	{buttonClass}
+	{picker}
+	{clickToExpand}
 	{label}
 	{disabled}
 	{bindingParams}

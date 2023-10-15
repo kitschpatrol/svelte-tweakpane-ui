@@ -3,7 +3,7 @@
 	import type { Theme } from '$lib/theme.js';
 	import { updateCollapsability } from '$lib/utils.js';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import type { BindingApi } from '@tweakpane/core';
+	import type { BindingApi, PickerLayout } from '@tweakpane/core';
 
 	// re-exported
 	export let bindingRef: U | undefined = undefined;
@@ -14,9 +14,10 @@
 	export let value: T; //bound
 
 	// unique
-	export let collapsable: boolean = true;
+	export let clickToExpand: boolean = true;
 	export let expanded: boolean | undefined = undefined;
 	export let buttonClass: string = '';
+	export let picker: PickerLayout | undefined = undefined; // technically not guaranteed, but advantages to assuming it's there for coherent clickToExpand behavior
 
 	// can't be right, but no 'fold' event or 'expanded' value seems to be available,
 	// and setting / reading directly from the bindingRef doesn't seem to work
@@ -39,12 +40,14 @@
 
 	$: bindingParamsInternal = {
 		...bindingParams,
+		picker,
 		expanded: initialExpanded // only set once
 	};
 
 	// click isntead of setting expanded
 	// to avoid  animation jankiness
-	$: bindingRef && updateCollapsability(collapsable, bindingRef.element, buttonClass);
+
+	$: bindingRef && updateCollapsability(clickToExpand, bindingRef.element, buttonClass);
 	$: bindingRef &&
 		expanded !== internalExpanded &&
 		bindingRef.element.getElementsByClassName(buttonClass).length > 0 &&

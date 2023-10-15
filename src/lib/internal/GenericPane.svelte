@@ -22,7 +22,7 @@
 	export let title: string | undefined = undefined;
 
 	/** Documented in non-generic implementation.  */
-	export let collapsable: boolean = true;
+	export let clickToExpand: boolean = true;
 
 	/** Documented in non-generic implementation.  */
 	export let expanded: boolean = true; // special case
@@ -70,7 +70,7 @@
 		});
 	}
 
-	$: paneRef && updateCollapsability(collapsable, paneRef.element, 'tp-rotv_b', 'tp-rotv_m');
+	$: paneRef && updateCollapsability(clickToExpand, paneRef.element, 'tp-rotv_b', 'tp-rotv_m');
 	$: paneRef && title && (paneRef.title = title);
 	$: paneRef && applyTheme(paneRef.element, theme);
 	$: paneRef && (paneRef.expanded = expanded);

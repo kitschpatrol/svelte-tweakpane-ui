@@ -27,7 +27,7 @@ function clickBlocker(e: MouseEvent) {
 
 // usef by folder and pane
 export function updateCollapsability(
-	isCollapsable: boolean,
+	isClickToExpandEnabled: boolean,
 	element: HTMLElement,
 	titleBarClass: string,
 	iconClass?: string
@@ -39,7 +39,7 @@ export function updateCollapsability(
 			? (element.getElementsByClassName(iconClass)[0] as HTMLDivElement)
 			: undefined;
 
-		if (isCollapsable) {
+		if (isClickToExpandEnabled) {
 			titleBarElement.removeEventListener('click', clickBlocker, { capture: true });
 			titleBarElement.style.cursor = 'pointer';
 

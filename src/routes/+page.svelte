@@ -1,4 +1,5 @@
 <script lang="ts">
+	/** eslint-disable @typescript-eslint/no-unused-vars */
 	import {
 		Binding,
 		RotationEuler,
@@ -8,19 +9,24 @@
 		Pane,
 		Folder,
 		Button,
-		NumberMonitor,
+		MonitorNumber,
 		Slider,
 		Tab,
 		Page,
 		Checkbox,
 		ColorPicker,
 		PointPicker,
+		AutoObject,
 		TextField
 	} from '$lib/index.js';
 	import { Themes } from '$lib/theme.js';
 	import { onMount } from 'svelte';
 
 	import Blade from '$lib/core/Blade.svelte';
+	import MonitorBoolean from '$lib/extra/MonitorBoolean.svelte';
+	import type { PickerLayout } from '@tweakpane/core';
+	import MonitorString from '$lib/extra/MonitorString.svelte';
+
 	// import Test2 from '../../scratch/Test2.svelte';
 
 	let fpsRef: FpsGraph;
@@ -69,7 +75,7 @@
 	let rExpanded3 = false;
 	let rExpanded4 = false;
 	let label = 'Test';
-	let params = { r: 0 };
+
 	let reticulationCount = 0;
 
 	let selectedA = false;
@@ -79,48 +85,113 @@
 	// let modes: ('fixed' | 'inline' | 'draggable')[] = ['fixed', 'inline', 'draggable'];
 	let modeIndex = 0;
 
-	// let ee: boolean = true;
+	let ee: boolean = true;
 	// let xv: number;
+
+	let expanded2 = true;
+	let clickToExpand = true;
+	let buttonStuff = '';
+	let pickerType: PickerLayout = 'inline';
+
+	let params = {
+		someNumber: 1, // creates a
+		someBoolean: true, // creates a checkbox
+		someString: 'test', // creates a text field
+		somePoint: {
+			// creates a point picker
+			x: 1,
+			y: 2,
+			z: 2,
+			w: 1
+		},
+		someColor: {
+			// creates a color picker
+			r: 255,
+			g: 0,
+			b: 55
+		},
+		someFolder: {
+			// wraps children in a folder
+			a: 1,
+			b: 2,
+			c: 3
+		}
+	};
+
+	let theme: any = Themes.light;
+	let pretty: boolean = false;
+
+	let stringToMonitor = 'bla';
+	let booleanToMonitor = false;
+	let numberToMonitor = 0;
+	let t = 0;
+
+	setInterval(() => {
+		numberToMonitor = Math.sin(t);
+		t += 0.3;
+	}, 100);
 </script>
 
+<MonitorNumber value={numberToMonitor} graph={true} min={-1} max={1} />
+
+<MonitorBoolean value={booleanToMonitor} label="Watch" bufferSize={20} rows={5} />
+<MonitorString value={stringToMonitor} label="Watch" bufferSize={20} rows={5} />
+
+<!-- <CubicBezier picker={pickerType} bind:value={b} {clickToExpand} expanded={expanded2} />
+<ColorPicker picker={pickerType} expanded={expanded2} bind:value={c} {clickToExpand} />
+
+<Pane>
+	<ColorPicker picker={pickerType} expanded={expanded2} bind:value={c} {clickToExpand} />
+</Pane>
+
+<Folder {clickToExpand} bind:expanded={expanded2}>
+	<Button
+		label="An Important Button"
+		title="Push"
+		on:click={() => {
+			buttonStuff += '🎛️';
+		}}
+	/>
+</Folder>
+<div>
+	{buttonStuff}
+</div>
+{expanded2}
+{clickToExpand}
+{pickerType}
+
+<Button
+	title="Expand"
+	on:click={() => {
+		expanded2 = !expanded2;
+	}}
+/>
+<Button
+	title="Click to Expand"
+	on:click={() => {
+		clickToExpand = !clickToExpand;
+	}}
+/>
+<Button
+	title="Picker Type"
+	on:click={() => {
+		if (pickerType === 'inline') {
+			pickerType = 'popup';
+		} else {
+			pickerType = 'inline';
+		}
+	}}
+/> -->
+
 <div class="wrapper">
-	<!-- <Test2 expanded={true}>
-		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
-	</Test2>
+	<!-- <MonitorBoolean value={ee} label="Watch" bufferSize={20} rows={5} />
 
-	<Test2 mode="fixed" expanded={true}>
-		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
-	</Test2>
-
-	<Test2 mode="draggable" expanded={true}>
-		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
-	</Test2>
-
-	<Test2 mode="inline" expanded={true}>
-		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
-	</Test2>
-
-	<Test2 width={34}>
-		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
-	</Test2> -->
-
-	<Pane></Pane>
-
-	<Pane x={5} expanded={false}>
-		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
-	</Pane>
-
-	<Pane x={50} expanded={true}>
-		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
-	</Pane>
-
-	<Pane mode="draggable" minWidth={34}>
-		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
-	</Pane>
-
-	<Pane mode="inline" expanded={true}>
-		<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
-	</Pane>
+	{ee}
+	<Pane>
+		<Folder bind:expanded={ee}>
+			<Button title="Button A" on:click={() => (modeIndex = (modeIndex + 1) % 3)} />
+		</Folder>
+	</Pane> -->
 
 	<!-- modeIndex: {modeIndex}
 	<Pane title="Test Pane" mode="fixed" x={0} y={0}>
@@ -147,7 +218,7 @@
 
 	<Folder title="Reticulaton Manager">
 		<Button title="Reticulate" on:click={() => reticulationCount++} />
-		<NumberMonitor label="Reticulations" value={reticulationCount} />
+		<MonitorNumber label="Reticulations" value={reticulationCount} />
 	</Folder>
 
 	<Button
@@ -178,7 +249,7 @@
 	<Pane
 		mode="draggable"
 		bind:expanded
-		collapsable={false}
+		clickToExpand={false}
 		theme={Themes.light}
 		title="Tweakpane Draggable"
 	>
@@ -201,7 +272,7 @@
 
 	<Pane title="test" width={500}></Pane>
 
-	<Pane collapsable={true} title="Tweakpane Normal" theme={Themes.vivid}>
+	<Pane clickToExpand={true} title="Tweakpane Normal" theme={Themes.vivid}>
 		<Slider bind:value={vToMon} min={0} max={10} step={0.1} />
 	</Pane> -->
 </div>

@@ -323,8 +323,6 @@ function expandVariableKey(name: string): string {
 }
 
 export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
-	// console.log(`theme: ${theme}`);
-
 	const rootDoc = getWindowDocument().documentElement;
 
 	if (theme === undefined) {
@@ -372,6 +370,7 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 	}
 }
 
+/** Sets a default theme for all Tweakpane components on the page. */
 export function setGlobalDefaultTheme(theme: Theme | undefined) {
 	// wait for dom ready... better outside?
 	if (typeof window !== 'undefined' && window.document) {

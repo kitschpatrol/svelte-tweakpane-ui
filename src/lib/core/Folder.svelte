@@ -19,7 +19,7 @@
 	export let expanded: boolean | undefined = undefined;
 
 	/** Allow the user to be collapse and expand the foldrer by clicking its title bar. */
-	export let collapsable: boolean = true;
+	export let clickToExpand: boolean = true;
 
 	/** Custom color scheme. Only applies if the `<Folder>` is created outside a `<Pane>` component.  */
 	export let theme: Theme | undefined = undefined;
@@ -60,7 +60,7 @@
 	});
 
 	$: $parentStore && !folderRef && index !== undefined && create();
-	$: folderRef && updateCollapsability(collapsable, folderRef.element, 'tp-fldv_b', 'tp-fldv_m');
+	$: folderRef && updateCollapsability(clickToExpand, folderRef.element, 'tp-fldv_b', 'tp-fldv_m');
 	$: folderRef && (folderRef.title = title);
 	$: folderRef && (folderRef.disabled = disabled);
 	$: folderRef && expanded !== undefined && (folderRef.expanded = expanded); // doing this on $folderStore causes issues
@@ -88,7 +88,7 @@ Example:
 
 	<Folder title="Reticulaton Manager">
 		<Button title="Reticulate" on:click={() => reticulationCount++} />
-		<NumberMonitor label="Reticulations" value={reticulationCount} />
+		<MonitorNumber label="Reticulations" value={reticulationCount} />
 	</Folder>
 	```
 	-->

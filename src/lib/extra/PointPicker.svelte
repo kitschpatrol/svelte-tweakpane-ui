@@ -23,7 +23,8 @@
 	export let label: string | undefined = undefined;
 	export let theme: Theme | undefined = undefined;
 	export let expanded: boolean | undefined = undefined;
-	export let collapsable: boolean = true;
+	export let clickToExpand: boolean = true;
+	export let picker: PickerLayout | undefined = undefined;
 
 	//  unique
 	export let value: U;
@@ -31,7 +32,6 @@
 	export let keyScale: number | undefined = undefined;
 	export let max: number | undefined = undefined;
 	export let min: number | undefined = undefined;
-	export let picker: PickerLayout | undefined = undefined;
 	export let pointerScale: number | undefined = undefined;
 	export let step: number | undefined = undefined;
 	export let x: PointParams<U>['x'] = undefined;
@@ -49,7 +49,6 @@
 		min,
 		max,
 		step,
-		picker,
 		x,
 		y,
 		z,
@@ -60,9 +59,10 @@
 
 <GenericInputFolding
 	bind:expanded
+	{picker}
 	{buttonClass}
 	bind:value
-	{collapsable}
+	{clickToExpand}
 	{label}
 	{disabled}
 	{bindingParams}

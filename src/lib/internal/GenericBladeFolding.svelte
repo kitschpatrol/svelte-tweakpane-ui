@@ -2,6 +2,7 @@
 	import Blade from '$lib/core/Blade.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import { updateCollapsability } from '$lib/utils.js';
+	import type { PickerLayout } from '@tweakpane/core';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BaseBladeParams, BladeApi } from 'tweakpane';
 
@@ -12,9 +13,10 @@
 	export let bladeRef: U | undefined = undefined;
 
 	// unique
-	export let collapsable: boolean = true;
+	export let clickToExpand: boolean = true;
 	export let expanded: boolean | undefined = undefined;
 	export let buttonClass: string = '';
+	export let picker: PickerLayout | undefined = undefined; // technically not guaranteed, but advantages to assuming it's there for coherent clickToExpand behavior
 
 	//  can't be right, but no 'fold' event or 'expanded' value seems to be available
 	let gotBlade = false;
@@ -36,10 +38,11 @@
 
 	$: bladeParams = {
 		...bladeParams,
+		picker,
 		expanded: initialExpanded // only set once
 	};
 
-	$: bladeRef && updateCollapsability(collapsable, bladeRef.element, buttonClass);
+	$: bladeRef && updateCollapsability(clickToExpand, bladeRef.element, buttonClass);
 
 	// click isntead of setting expanded
 	// to avoid  animation jankiness

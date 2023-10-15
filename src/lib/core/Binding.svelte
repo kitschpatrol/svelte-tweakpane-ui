@@ -104,7 +104,7 @@ Example:
 
 	Value: {params.r}
 	```
-	-->
+-->
 
 {#if BROWSER}
 	{#if parentStore}

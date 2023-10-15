@@ -12,16 +12,17 @@
 	export let theme: Theme | undefined = undefined;
 	export let value: T; // note it is NOT bound in monitors
 
-	// union of boolean / number / string monitor params
+	// union of boolean / number / string / object monitor params
 	export let rows: number | undefined = undefined;
 	export let bufferSize: number | undefined = undefined;
+	export let interval: number = 0; // zero confirmed as never updating (not same interface as setInterval())
 
 	$: bindingParamsInternal = {
 		rows,
 		bufferSize,
+		interval,
 		...bindingParams,
-		readonly: true,
-		interval: -1 // TODO does this work?
+		readonly: true
 	};
 </script>
 

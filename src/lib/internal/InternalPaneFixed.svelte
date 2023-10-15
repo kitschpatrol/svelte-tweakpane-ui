@@ -8,7 +8,7 @@
 	export let title: string | undefined = undefined;
 
 	/** Whether the pane may be collapsed by clicking the title bar. */
-	export let collapsable: boolean = true;
+	export let clickToExpand: boolean = true;
 
 	/** Expand and collapse the pane into its title bar. Bindable. */
 	export let expanded: boolean = true; // special case
@@ -56,31 +56,12 @@
 
 <!--
 @component
-The root `<Pane>` component, used for organizing controls into a single group.
-
-This component is a wrapper around Tweakpane's [Pane](https://tweakpane.github.io/docs/api/classes/Pane.html) class.
-
-This variation of `<Pane>` exhibits the default Tweakpane behavior of displaying in a fixed position over the page.
-
-Unlike Vanilla JS Tweakpane, wrapping components in a `<Pane>` is not mandatory. Pane-less components will be automatically nested in a `<InternalPaneInline>` component and displayed in the regular block flow of the page instead of in a fixed element.
-
-Multiple `<Pane>` components may be added to a single page, but note that by default they will overlap one another. Set the `x` or `y` properties to prevent overlap.
-
-See the `<InternalPaneInline>` and `<InternalPaneDraggable>` components for additional functionality. 
-
-Note that the [`container`](https://tweakpane.github.io/docs/misc/#container) [PaneConfig](https://tweakpane.github.io/docs/api/interfaces/_internal_.PaneConfig.html) option is not exposed, because correct placement in the containing DOM is managed by 'svelte-tweakpane-ui', and `<InternalPaneInline>` should be used where you'd like a pane to become part of the normal document flow.
-
-Example:	
-```tsx
-<Pane title="Tweakpane Normal">
-	<Button title="Reticulate" on:click={() => alert('Reticulation complete')} />
-</Pane>
-```
+This component is for internal use only.
 -->
 
 {#if BROWSER}
 	<div style="display: none;">
-		<GenericPane bind:expanded {title} {theme} {collapsable} bind:paneRef>
+		<GenericPane bind:expanded {title} {theme} {clickToExpand} bind:paneRef>
 			<slot />
 		</GenericPane>
 	</div>

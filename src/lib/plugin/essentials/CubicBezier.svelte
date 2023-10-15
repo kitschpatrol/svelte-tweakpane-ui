@@ -9,12 +9,13 @@
 	// re-exported
 	export let disabled: boolean = false;
 	export let theme: Theme | undefined = undefined;
+	export let clickToExpand: boolean = true;
+	export let expanded: boolean | undefined = undefined;
+	export let picker: PickerLayout | undefined = undefined;
 
 	// unique
 	export let label: string | undefined = undefined;
-	export let expanded: boolean | undefined = undefined;
 	export let value: [number, number, number, number];
-	export let picker: PickerLayout | undefined = undefined;
 
 	let bladeParams: CubicBezierBladeParams;
 	let cubicBezierBlade: CubicBezierApi;
@@ -39,7 +40,6 @@
 	$: bladeParams = {
 		view: 'cubicbezier',
 		label,
-		picker,
 		value: getValue()
 	};
 	$: cubicBezierBlade && addEvent();
@@ -49,7 +49,9 @@
 <GenericBladeFolding
 	bind:expanded
 	{buttonClass}
+	{clickToExpand}
 	{disabled}
+	{picker}
 	bind:bladeRef={cubicBezierBlade}
 	{bladeParams}
 	{theme}

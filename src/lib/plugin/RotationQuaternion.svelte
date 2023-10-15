@@ -9,9 +9,10 @@
 	export let theme: Theme | undefined = undefined;
 	export let value: { x: number; y: number; z: number };
 	export let expanded: boolean | undefined = undefined;
+	export let clickToExpand: boolean = true;
+	export let picker: PickerLayout | undefined = undefined;
 
 	// unique
-	export let picker: PickerLayout | undefined = undefined;
 	export let x: PointDimensionParams | undefined = undefined;
 	export let y: PointDimensionParams | undefined = undefined;
 	export let z: PointDimensionParams | undefined = undefined;
@@ -23,7 +24,6 @@
 	$: bindingParams = {
 		view: 'rotation',
 		rotationMode: 'quaternion',
-		picker,
 		x,
 		y,
 		z,
@@ -34,7 +34,9 @@
 <GenericInputFolding
 	bind:expanded
 	{buttonClass}
+	{clickToExpand}
 	{label}
+	{picker}
 	{disabled}
 	{bindingParams}
 	bind:value

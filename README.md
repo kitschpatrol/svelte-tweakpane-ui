@@ -28,11 +28,13 @@ TK
 
 ### Batteries included
 
-Tweakpane is enriched by a [wide array of third-party component plugins](TK). To keep these close at hand and to ensure plugin compatibility with Tweakpane version 4, this library includes a number of popular plugins right out of the box (while sill allowing tree-shaking to keep the bundle size in check.)
+Tweakpane is enriched by a [wide array of third-party component plugins](TK). To keep these close at hand and to ensure plugin compatibility with Tweakpane version 4, this library includes a number of popular plugins right out of the box (while still allowing tree-shaking to keep the bundle size in check.)
+
+themes
 
 ### Layered API
 
-This component collection exposes both the core building blocks of Tweakpane's vanilla JS API as Svelte components (e.g. `Bindings`, `Folder`, `Pane`, etc.), and builds on this foundation to provide a number of more specific components which provide both convenience, clarity of intent and improved auto-completion through type-narrowing (e.g. `Slider`, `PointPicker``, etc.).
+This component collection exposes both the core building blocks of Tweakpane's vanilla JS API as Svelte components (e.g. `Bindings`, `Folder`, `Pane`, etc.), and builds on this foundation to provide a number of more specific components which provide both convenience, clarity of intent, and improved auto-completion through type narrowing (e.g. `Slider`, `PointPicker`, etc.).
 
 These more specific components trade some dynamicism and flexibility for ease of use, but if you don't care for that tradeoff the higher level components remain available for use.
 
@@ -42,7 +44,7 @@ Vanilla Tweakpane conveniently provides two-way bindings for manipulating object
 
 ### Implicit Panes
 
-TK
+Wrapping components in `<Pane>` components
 
 ## Components
 
@@ -58,18 +60,16 @@ TK
 
 ### Convenience Components
 
-- `PaneDraggable`
-- `PaneInline`
-- `BooleanMonitor`
+- `MonitorBoolean`
 - `Checkbox`
 - `ColorPicker`
 - `List`
-- `NumberMonitor`
+- `MonitorNumber`
 - `PointPicker`
 - `Separator`
 - `Slider`
 - `TextField`
-- `TextMonitor`
+- `MonitorString`
 - `AutoObject`
 
 ### Plugin Components _(Included)_
@@ -102,6 +102,12 @@ TK
 TK
 
 ## Variations on Tweakpane
+
+Note that the [`container`](https://tweakpane.github.io/docs/misc/#container) [PaneConfig](https://tweakpane.github.io/docs/api/interfaces/_internal_.PaneConfig.html) option is not exposed, because correct placement in the containing DOM is managed by 'svelte-tweakpane-ui', and `<Pane mode='inline' ...>` should be used where you'd like a pane to become part of the normal document flow.
+
+Similarly, the [`hidden`](https://tweakpane.github.io/docs/api/classes/Pane.html#hidden) accessor is not exposed, because visibility a pane and its components may be managed directly in Svelte.
+
+Interval monitor
 
 Inline components
 
