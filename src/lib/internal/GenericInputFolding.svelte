@@ -1,6 +1,7 @@
 <script lang="ts" generics="T extends any, U extends BindingApi">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import type { Theme } from '$lib/theme.js';
+	import { updateCollapsability } from '$lib/utils.js';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BindingApi } from '@tweakpane/core';
 
@@ -13,6 +14,7 @@
 	export let value: T; //bound
 
 	// unique
+	export let collapsable: boolean = true;
 	export let expanded: boolean | undefined = undefined;
 	export let buttonClass: string = '';
 
@@ -42,6 +44,7 @@
 
 	// click isntead of setting expanded
 	// to avoid  animation jankiness
+	$: bindingRef && updateCollapsability(collapsable, bindingRef.element, buttonClass);
 	$: bindingRef &&
 		expanded !== internalExpanded &&
 		bindingRef.element.getElementsByClassName(buttonClass).length > 0 &&

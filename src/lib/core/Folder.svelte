@@ -7,8 +7,7 @@
 	import { getContext, onDestroy, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
-
-	// scoped themes don't work
+	import { updateCollapsability } from '$lib/utils.js';
 
 	/** Folder title. */
 	export let title: string = 'Folder';
@@ -19,11 +18,11 @@
 	/** Expand or collapse folder. Bindable.  */
 	export let expanded: boolean | undefined = undefined;
 
+	/** Allow the user to be collapse and expand the foldrer by clicking its title bar. */
+	export let collapsable: boolean = true;
+
 	/** Custom color scheme. Only applies if the `<Folder>` is created outside a `<Pane>` component.  */
 	export let theme: Theme | undefined = undefined;
-
-	/** Bindable reference to internal TweakPane [FolderApi](https://tweakpane.github.io/docs/api/classes/FolderApi.html) for this control, not generally intended for direct use */
-	export let folderRef: FolderApi | undefined = undefined;
 
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
 	const folderStore = writable<FolderApi>();
@@ -32,6 +31,7 @@
 
 	let indexElement: HTMLDivElement;
 	let index: number;
+	let folderRef: FolderApi | undefined = undefined;
 
 	// overwrite the context for our children
 	setContext('parentStore', folderStore);
@@ -60,6 +60,7 @@
 	});
 
 	$: $parentStore && !folderRef && index !== undefined && create();
+	$: folderRef && updateCollapsability(collapsable, folderRef.element, 'tp-fldv_b', 'tp-fldv_m');
 	$: folderRef && (folderRef.title = title);
 	$: folderRef && (folderRef.disabled = disabled);
 	$: folderRef && expanded !== undefined && (folderRef.expanded = expanded); // doing this on $folderStore causes issues

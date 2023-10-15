@@ -14,6 +14,7 @@
 	export let disabled: boolean = false;
 	export let theme: Theme | undefined = undefined;
 	export let expanded: boolean | undefined = undefined;
+	export let collapsable: boolean = true;
 
 	// unique
 	export let value: string | RgbColorObject | RgbaColorObject | undefined;
@@ -42,5 +43,6 @@
 	{label}
 	{disabled}
 	{bindingParams}
+	{collapsable}
 	{theme}
 />

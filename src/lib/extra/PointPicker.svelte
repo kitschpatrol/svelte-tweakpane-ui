@@ -23,6 +23,7 @@
 	export let label: string | undefined = undefined;
 	export let theme: Theme | undefined = undefined;
 	export let expanded: boolean | undefined = undefined;
+	export let collapsable: boolean = true;
 
 	//  unique
 	export let value: U;
@@ -61,6 +62,7 @@
 	bind:expanded
 	{buttonClass}
 	bind:value
+	{collapsable}
 	{label}
 	{disabled}
 	{bindingParams}

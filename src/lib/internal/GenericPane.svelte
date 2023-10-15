@@ -6,6 +6,7 @@
 	import { getContext, onDestroy, setContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
 	import { Pane as TpPane } from 'tweakpane';
+	import { updateCollapsability } from '$lib/utils.js';
 
 	// TODO allow tree shaking, dynamic imports?
 	import * as ProfilerPlugin from '@0b5vr/tweakpane-plugin-profiler';
@@ -17,11 +18,22 @@
 	import * as ThumbnailListPlugin from 'tweakpane-plugin-thumbnail-list';
 	import * as WaveformPlugin from 'tweakpane-plugin-waveform';
 
+	/** Documented in non-generic version.  */
 	export let title: string | undefined = undefined;
+
+	/** Documented in non-generic implementation.  */
 	export let collapsable: boolean = true;
+
+	/** Documented in non-generic implementation.  */
 	export let expanded: boolean = true; // special case
+
+	/** Documented in non-generic implementation.  */
 	export let theme: Theme | undefined = undefined;
-	export let userCreatedPane = true; // internal use
+
+	/** Internal use only.  */
+	export let userCreatedPane = true;
+
+	/** Internal use only.  */
 	export let paneRef: TpPane | undefined = undefined;
 
 	const parentStore = writable<TpPane>();
@@ -58,32 +70,7 @@
 		});
 	}
 
-	function clickBlocker(e: MouseEvent) {
-		e.stopPropagation();
-	}
-
-	function updateCollapsability(isCollapsable: boolean) {
-		if (paneRef) {
-			const titleBarElement = paneRef.element.getElementsByClassName(
-				'tp-rotv_b'
-			)[0] as HTMLButtonElement;
-
-			const iconElement = paneRef.element.getElementsByClassName('tp-rotv_m')[0] as HTMLDivElement;
-
-			if (isCollapsable) {
-				titleBarElement.removeEventListener('click', clickBlocker, { capture: true });
-				titleBarElement.style.cursor = 'pointer';
-				iconElement.style.display = 'block';
-			} else {
-				expanded = true;
-				titleBarElement.addEventListener('click', clickBlocker, { capture: true });
-				titleBarElement.style.cursor = 'default';
-				iconElement.style.display = 'none';
-			}
-		}
-	}
-
-	$: paneRef && updateCollapsability(collapsable);
+	$: paneRef && updateCollapsability(collapsable, paneRef.element, 'tp-rotv_b', 'tp-rotv_m');
 	$: paneRef && title && (paneRef.title = title);
 	$: paneRef && applyTheme(paneRef.element, theme);
 	$: paneRef && (paneRef.expanded = expanded);

@@ -20,6 +20,40 @@ export function getElementIndex(element: HTMLElement): number {
 	return index;
 }
 
+function clickBlocker(e: MouseEvent) {
+	// only block user clicks, not programmatic ones
+	if (e.isTrusted) e.stopPropagation();
+}
+
+// usef by folder and pane
+export function updateCollapsability(
+	isCollapsable: boolean,
+	element: HTMLElement,
+	titleBarClass: string,
+	iconClass?: string
+) {
+	if (element) {
+		const titleBarElement = element.getElementsByClassName(titleBarClass)[0] as HTMLButtonElement;
+
+		const iconElement = iconClass
+			? (element.getElementsByClassName(iconClass)[0] as HTMLDivElement)
+			: undefined;
+
+		if (isCollapsable) {
+			titleBarElement.removeEventListener('click', clickBlocker, { capture: true });
+			titleBarElement.style.cursor = 'pointer';
+
+			if (iconElement) iconElement.style.display = 'block';
+		} else {
+			//expanded = true;
+			titleBarElement.addEventListener('click', clickBlocker, { capture: true });
+			titleBarElement.style.cursor = 'default';
+
+			if (iconElement) iconElement.style.display = 'none';
+		}
+	}
+}
+
 export function makeSafeKey(input: string | undefined, defaultKey: string = 'key'): string {
 	if (input === undefined) return defaultKey;
 

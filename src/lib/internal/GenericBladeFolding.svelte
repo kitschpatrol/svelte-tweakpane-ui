@@ -1,6 +1,7 @@
 <script lang="ts" generics="T extends BaseBladeParams, U extends BladeApi">
 	import Blade from '$lib/core/Blade.svelte';
 	import type { Theme } from '$lib/theme.js';
+	import { updateCollapsability } from '$lib/utils.js';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BaseBladeParams, BladeApi } from 'tweakpane';
 
@@ -11,6 +12,7 @@
 	export let bladeRef: U | undefined = undefined;
 
 	// unique
+	export let collapsable: boolean = true;
 	export let expanded: boolean | undefined = undefined;
 	export let buttonClass: string = '';
 
@@ -36,6 +38,8 @@
 		...bladeParams,
 		expanded: initialExpanded // only set once
 	};
+
+	$: bladeRef && updateCollapsability(collapsable, bladeRef.element, buttonClass);
 
 	// click isntead of setting expanded
 	// to avoid  animation jankiness
