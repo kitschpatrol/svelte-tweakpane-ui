@@ -1,8 +1,6 @@
 <script lang="ts" generics="T extends any, U extends BindingApi">
-	// Abstracts the param object into a bare value
 	import Binding from '$lib/core/Binding.svelte';
 	import type { Theme } from '$lib/theme.js';
-	import { makeSafeKey } from '$lib/utils.js';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BindingApi } from '@tweakpane/core';
 
@@ -16,6 +14,14 @@
 	// unique
 	export let value: T; // bindable
 
+	// TODO but is a UUID overkill since the scope is contained? consider just 'k'?
+	// using the label as a key means components get recreated when labels change...
+	// this has some advantages in terms of readability when inspecting runtime code, but probably
+	// isn't worth it from a performance perspective...
+	// but full UUID only hypothetically useful in some kind of save / restore scenario?
+	// $: key = makeSafeKey(label);
+	const key = 'k';
+
 	function getValue(): T {
 		return value;
 	}
@@ -24,7 +30,6 @@
 		params[key] = value;
 	}
 
-	$: key = makeSafeKey(label);
 	$: params = { [key]: getValue() };
 	$: value = params[key];
 	$: value, setValue();
@@ -33,6 +38,9 @@
 <!--
 @component
 This component is for internal use only.
+
+It abstracts the param object Tweakpane expects into an
+interface that looks like a bare value
 -->
 
 <Binding {theme} {disabled} {label} bind:bindingRef bind:params {key} {bindingParams} />

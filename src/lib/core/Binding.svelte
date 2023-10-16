@@ -1,6 +1,6 @@
 <script lang="ts" generics="T extends Bindable, U extends BindingApi">
 	import type { Theme } from '$lib/theme.js';
-	import { getElementIndex, isRootPane, stripProps, type TpContainer } from '$lib/utils.js';
+	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { Bindable, BindingApi } from '@tweakpane/core';
@@ -14,16 +14,16 @@
 	/** The key for the value in the params object the control should manipulate. */
 	export let key: string;
 
-	/** Prevent interactivity. */
+	/** Prevent interactivity. Defaults to `false`. */
 	export let disabled: boolean = false;
 
-	/** Text displayed next to control */
+	/** Text displayed next to control. */
 	export let label: string | undefined = undefined;
 
-	/** Control configuration exposing TweakPane's internal [BindingParams](https://tweakpane.github.io/docs/api/types/BindingParams.html), contingent on type of bound param. TODO: Templatized types.  */
+	/** Control configuration exposing TweakPane's internal [BindingParams](https://tweakpane.github.io/docs/api/types/BindingParams.html), contingent on type of bound param. TODO: Templatized types. */
 	export let bindingParams: object | undefined = undefined;
 
-	/** Custom color scheme. Only applies if the `<Binding>` is created outside a `<Pane>` component.  */
+	/** Custom color scheme. Only applies if the `<Binding>` is created outside a `<Pane>` component. */
 	export let theme: Theme | undefined = undefined;
 
 	/** Bindable reference to internal TweakPane [BindingApi](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for this control, not generally intended for direct use */
@@ -37,6 +37,8 @@
 	let index: number;
 
 	function create() {
+		console.log('binding created');
+
 		// must destroy to allow a reactive `key` parameter
 		if (binding) binding.dispose();
 
@@ -67,7 +69,9 @@
 	});
 
 	// bindingParams seem immutable... have to recreate
-	$: key, bindingParams, BROWSER && $parentStore !== undefined && index !== undefined && create();
+	// old version supporting key changes
+	// $: key, bindingParams, BROWSER && $parentStore !== undefined && index !== undefined && create();
+	$: bindingParams, BROWSER && $parentStore !== undefined && index !== undefined && create();
 	$: params, BROWSER && binding !== undefined && binding.refresh();
 	$: BROWSER && binding !== undefined && (binding.disabled = disabled);
 	$: BROWSER && binding !== undefined && (binding.label = label);
@@ -79,11 +83,6 @@
 		console.warn(
 			'Set theme on the <Pane> component, not on its children! (Check nested <Binding> components for a theme prop.)'
 		);
-
-	// Speading the bare $$props array doesn't preserve the bind: prefix
-	// So we pull those keys and pass them manually
-	// Theme is pulled up to the Pane component
-	const plainProps = stripProps($$props, 'params', 'bindingRef', 'theme', 'bindingParams');
 </script>
 
 <!--
@@ -95,15 +94,15 @@ Usage outside of a `<Pane>` component will implicitly wrap the component in a `<
 Consider convenience components like `<Slider>`, `<ColorPicker>`, etc. before using this component directly.
 
 Example:	
-  ```tsx
-	<script>
-		let params = { n: 0 };
-	</script>
+```tsx
+<script lang="ts">
+	let params = { n: 0 };
+</script>
 
-	<Binding bind:params key={'r'} label="Reticulation" />
+<Binding bind:params key={'r'} label="Reticulation" />
 
-	Value: {params.r}
-	```
+Value: {params.r}
+```
 -->
 
 {#if BROWSER}
@@ -111,7 +110,15 @@ Example:
 		<div style="display: none;" bind:this={indexElement} />
 	{:else}
 		<InternalPaneInline userCreatedPane={false} {theme}>
-			<svelte:self {...plainProps} bind:params bind:bindingRef bind:bindingParams />
+			<!-- Everything must be manually bound instead of spreading props due to lack of access to binding  -->
+			<svelte:self
+				bind:key
+				bind:disabled
+				bind:label
+				bind:params
+				bind:bindingRef
+				bind:bindingParams
+			/>
 		</InternalPaneInline>
 	{/if}
 {/if}

@@ -13,13 +13,13 @@
 	/** Text in the tab. */
 	export let title: string = 'Tab Page';
 
-	/** Prevent interactivity. */
+	/** Prevent interactivity. Defaults to `false`. */
 	export let disabled: boolean = false;
 
 	/** True when the page is the active tab. If multiple pages `seleted` props are set to true, the last page to be set to `true` comes to the foreground in its containing <Tab> component. Bindable. */
 	export let selected: boolean = false;
 
-	/** Custom color scheme. Only applies if the `<Page>` is created outside a `<Pane>` component.  */
+	/** Custom color scheme. Only applies if the `<Page>` is created outside a `<Pane>` component. */
 	export let theme: Theme | undefined = undefined;
 
 	// get context from tab
@@ -43,6 +43,8 @@
 	});
 
 	function create() {
+		console.log('page created');
+
 		if (!$tabStore) {
 			// create tab if necessary
 			// this will be the tab's parent, not the page's

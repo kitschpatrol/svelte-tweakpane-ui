@@ -13,10 +13,10 @@
 	/** Text displayed next to the button */
 	export let label: string | undefined = undefined;
 
-	/** Prevent interactivity. */
+	/** Prevent interactivity. Defaults to `false`. */
 	export let disabled: boolean = false;
 
-	/** Custom color scheme. Only applies if the `<Button>` is created outside a `<Pane>` component.  */
+	/** Custom color scheme. Only applies if the `<Button>` is created outside a `<Pane>` component. */
 	export let theme: Theme | undefined = undefined;
 
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
@@ -28,6 +28,8 @@
 	let index: number;
 
 	function create() {
+		console.log('button created');
+
 		if (button) button.dispose();
 
 		button = $parentStore.addButton({
@@ -88,6 +90,7 @@ Example:
 		<div style="display: none;" bind:this={indexElement} />
 	{:else}
 		<InternalPaneInline userCreatedPane={false} {theme}>
+			<!-- Doesn't seem to suffer from spread props recration issue... -->
 			<svelte:self on:click {...$$props} />
 		</InternalPaneInline>
 	{/if}

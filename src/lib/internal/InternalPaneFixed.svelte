@@ -4,7 +4,7 @@
 	import { BROWSER } from 'esm-env';
 	import type { Pane as TpPane } from 'tweakpane';
 
-	/** Text in the pane's title bar. If undefined, no title bar is shown, and expanding / collapsing the pane will only be available through the `expanded` prop.  */
+	/** Text in the pane's title bar. If undefined, no title bar is shown, and expanding / collapsing the pane will only be available through the `expanded` prop. */
 	export let title: string | undefined = undefined;
 
 	/** Whether the pane may be collapsed by clicking the title bar. */
@@ -13,7 +13,7 @@
 	/** Expand and collapse the pane into its title bar. Bindable. */
 	export let expanded: boolean = true; // special case
 
-	/** Custom color scheme. Applies to all child components.  */
+	/** Custom color scheme. Applies to all child components. */
 	export let theme: Theme | undefined = undefined;
 
 	/** Horizontal position of the pane, in pixels. (Defaults to the right.) */

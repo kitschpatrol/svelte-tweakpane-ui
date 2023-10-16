@@ -10,19 +10,19 @@
 	/** Text displayed next to monitor. */
 	export let label: string | undefined = undefined;
 
-	/** Prevent interactivity. */
+	/** Prevent interactivity. Defaults to `false`. */
 	export let disabled: boolean = false;
 
-	/** Number of visible rows of state history. Only has an effect if `bufferSize` is defined. If `bufferSize` is larger, then the value window will scroll once state history exceeds row count.  */
+	/** Number of visible rows of state history. Only has an effect if `bufferSize` is defined. If `bufferSize` is larger, then the value window will scroll once state history exceeds row count. */
 	export let rows: number | undefined = undefined;
 
-	/** Number of past states to retain.  */
+	/** Number of past states to retain. */
 	export let bufferSize: number | undefined = undefined;
 
 	/** Time between value samples in milliseconds. Defaults to reactive value updates only (`interval={0}`). */
 	export let interval: number = 0;
 
-	/** Custom color scheme. Only applies if `<MonitorBoolean>` is created outside a `<Pane>` component.  */
+	/** Custom color scheme. Only applies if `<MonitorBoolean>` is created outside a `<Pane>` component. */
 	export let theme: Theme | undefined = undefined;
 
 	// unique
@@ -46,20 +46,20 @@ Note that `interval` is not exposed because updates are driven by reactive chang
 Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane mode='inline' ...>` component.
 
 Example:	
-  ```tsx
-	<script>
-		let stringToMonitor = 'bla\n\bla\nbla';
+```tsx
+<script lang="ts">
+	let stringToMonitor = 'bla\n\bla\nbla';
 
-		setInterval(() => {
-			stringToMonitor = stringToMonitor
-				.split('\n')
-				.map(() => Math.round(Math.random() * 100).toString())
-				.join('\n');
-		}, 100);
-	</script>
+	setInterval(() => {
+		stringToMonitor = stringToMonitor
+			.split('\n')
+			.map(() => Math.round(Math.random() * 100).toString())
+			.join('\n');
+	}, 100);
+</script>
 
-	<MonitorString value={stringToMonitor} multiline={true} />
-	```
+<MonitorString value={stringToMonitor} multiline={true} />
+```
 -->
 
 <GenericMonitor {rows} {bufferSize} {label} {disabled} {bindingParams} {value} {theme} {interval} />

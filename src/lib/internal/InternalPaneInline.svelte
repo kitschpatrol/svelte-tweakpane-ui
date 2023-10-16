@@ -5,7 +5,7 @@
 	import { onMount } from 'svelte';
 	import type { Pane as TpPane } from 'tweakpane';
 
-	/** Text in the pane's title bar. If undefined, no title bar is shown, and expanding / collapsing the pane will only be available through the `expanded` prop.  */
+	/** Text in the pane's title bar. If undefined, no title bar is shown, and expanding / collapsing the pane will only be available through the `expanded` prop. */
 	export let title: string | undefined = undefined;
 
 	/** Whether the pane may be collapsed by clicking the title bar. */

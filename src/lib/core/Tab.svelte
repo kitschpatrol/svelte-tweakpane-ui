@@ -8,13 +8,13 @@
 	import { writable } from 'svelte/store';
 	import type { TabApi } from 'tweakpane';
 
-	/** Prevent interactivity. */
+	/** Prevent interactivity. Defaults to `false`. */
 	export let disabled: boolean = false;
 
 	/** Active page index. Bindable. */
 	export let selectedIndex: number = 0;
 
-	/** Custom color scheme. Only applies if the `<Tab>` is created outside a `<Pane>` component.  */
+	/** Custom color scheme. Only applies if the `<Tab>` is created outside a `<Pane>` component. */
 	export let theme: Theme | undefined = undefined;
 
 	const parentStore: Writable<TpContainer> = getContext('parentStore');

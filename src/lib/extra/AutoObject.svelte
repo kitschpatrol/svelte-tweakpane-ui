@@ -15,13 +15,13 @@
 	import { Point3d } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
 	import { Point4d } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d.js';
 
-	/** Custom color scheme. Only applies if the `<AutoObject>` is created outside a `<Pane>` component.  */
+	/** Custom color scheme. Only applies if the `<AutoObject>` is created outside a `<Pane>` component. */
 	export let theme: Theme | undefined = undefined;
 
 	/** Transforms keys into more pleasant control labels (e.g. capitalization and spaces in lieu of camelCase, kebab-case, etc.)  */
 	export let prettyLabels: boolean = true;
 
-	/** Object to create an automatic set of Tweakpane controls for. Keys will be used as labels, and a (reasonably) appropriate Tweakpane control will be used for each value's type.  */
+	/** Object to create an automatic set of Tweakpane controls for. Keys will be used as labels, and a (reasonably) appropriate Tweakpane control will be used for each value's type. */
 	export let params: Bindable;
 
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
@@ -44,9 +44,6 @@
 				return letter.toUpperCase();
 			});
 	}
-
-	// all props stripped
-	// const plainProps = stripProps($$props, 'theme', 'params', 'prettyLabels');
 </script>
 
 <!--
@@ -60,34 +57,34 @@ Records within the object will be wrap their contents in a `<Folder>` component.
 Usage outside of a `<Pane>` component will implicitly wrap the component in a `<InternalPaneInline>`.
 
 Example:	
-  ```tsx
-	<script>
-    let params = {
-      someNumber: 1, // creates a
-      someBoolean: true, // creates a checkbox
-      someString: 'test', // creates a text field
-      somePoint: { // creates a point picker
-        x: 1,
-        y: 2
-      },
-      someColor: { // creates a color picker
-        r: 255,
-        g: 0,
-        b: 55
-      },
-      someFolder: { // wraps children in a folder
-        a: 1,
-        b: 2,
-        c: 3
-      }
-    };
-	</script>
+```tsx
+<script lang="ts">
+	let params = {
+		someNumber: 1, // creates a
+		someBoolean: true, // creates a checkbox
+		someString: 'test', // creates a text field
+		somePoint: { // creates a point picker
+			x: 1,
+			y: 2
+		},
+		someColor: { // creates a color picker
+			r: 255,
+			g: 0,
+			b: 55
+		},
+		someFolder: { // wraps children in a folder
+			a: 1,
+			b: 2,
+			c: 3
+		}
+	};
+</script>
 
-	<AutoObject bind:params prettyLabels={true} />
+<AutoObject bind:params prettyLabels={true} />
 
-	<pre>{JSON.stringify(params, null, 2)}</pre>
-	```
-	-->
+<pre>{JSON.stringify(params, null, 2)}</pre>
+```
+-->
 
 {#if BROWSER}
 	{#if parentStore}

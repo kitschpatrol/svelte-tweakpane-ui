@@ -24,6 +24,13 @@
 	export let keyScale: number | undefined = undefined;
 	export let format: ((value: number) => string) | undefined = undefined;
 
+	// deal with format firing a change
+	// firing even when the function hasn't changed
+	// proabably related to https://github.com/sveltejs/svelte/issues/4265
+	// TODO evaluate other non-primitive prop access
+	let formatProxy: typeof format = format;
+	$: formatProxy !== format && (formatProxy = format);
+
 	// the IntervalInputParams type is identical
 	// to NumberInputParams, so don't bother with generics
 	$: bindingParams = {
@@ -32,7 +39,7 @@
 		step,
 		pointerScale,
 		keyScale,
-		format
+		format: formatProxy
 	} satisfies NumberInputParams;
 </script>
 

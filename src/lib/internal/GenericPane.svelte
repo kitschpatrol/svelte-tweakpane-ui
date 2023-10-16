@@ -18,22 +18,22 @@
 	import * as ThumbnailListPlugin from 'tweakpane-plugin-thumbnail-list';
 	import * as WaveformPlugin from 'tweakpane-plugin-waveform';
 
-	/** Documented in non-generic version.  */
+	/** Documented in non-generic version. */
 	export let title: string | undefined = undefined;
 
-	/** Documented in non-generic implementation.  */
+	/** Documented in non-generic implementation. */
 	export let clickToExpand: boolean = true;
 
-	/** Documented in non-generic implementation.  */
+	/** Documented in non-generic implementation. */
 	export let expanded: boolean = true; // special case
 
-	/** Documented in non-generic implementation.  */
+	/** Documented in non-generic implementation. */
 	export let theme: Theme | undefined = undefined;
 
-	/** Internal use only.  */
+	/** Internal use only. */
 	export let userCreatedPane = true;
 
-	/** Internal use only.  */
+	/** Internal use only. */
 	export let paneRef: TpPane | undefined = undefined;
 
 	const parentStore = writable<TpPane>();

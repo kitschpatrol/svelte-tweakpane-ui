@@ -12,16 +12,16 @@
 	/** Folder title. */
 	export let title: string = 'Folder';
 
-	/** Prevent interactivity. */
+	/** Prevent interactivity. Defaults to `false`. */
 	export let disabled: boolean = false;
 
-	/** Expand or collapse folder. Bindable.  */
+	/** Expand or collapse folder. Bindable. */
 	export let expanded: boolean | undefined = undefined;
 
 	/** Allow the user to be collapse and expand the foldrer by clicking its title bar. */
 	export let clickToExpand: boolean = true;
 
-	/** Custom color scheme. Only applies if the `<Folder>` is created outside a `<Pane>` component.  */
+	/** Custom color scheme. Only applies if the `<Folder>` is created outside a `<Pane>` component. */
 	export let theme: Theme | undefined = undefined;
 
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
@@ -37,6 +37,8 @@
 	setContext('parentStore', folderStore);
 
 	function create() {
+		console.log('folder created');
+
 		$folderStore = $parentStore.addFolder({
 			title,
 			disabled,
@@ -81,17 +83,17 @@ Wraps the Tweakpane [addFolder](https://tweakpane.github.io/docs/ui-components/#
 Usage outside of a `<Pane>` component will implicitly wrap the folder in a `<InternalPaneInline>`.
 
 Example:	
-  ```tsx
-	<script>
-		let reticulationCount = 0;
-	</script>
+```tsx
+<script lang="ts">
+	let reticulationCount = 0;
+</script>
 
-	<Folder title="Reticulaton Manager">
-		<Button title="Reticulate" on:click={() => reticulationCount++} />
-		<MonitorNumber label="Reticulations" value={reticulationCount} />
-	</Folder>
-	```
-	-->
+<Folder title="Reticulaton Manager">
+	<Button title="Reticulate" on:click={() => reticulationCount++} />
+	<MonitorNumber label="Reticulations" value={reticulationCount} />
+</Folder>
+```
+-->
 
 {#if BROWSER}
 	{#if parentStore}
