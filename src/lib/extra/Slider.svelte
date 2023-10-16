@@ -4,6 +4,7 @@
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	interface $$Props extends ComponentProps<GenericSlider<number>> {
+		/** A `number` value to control. Bindable. */
 		value: number;
 	}
 
@@ -12,23 +13,25 @@
 
 <!--
 @component
-A convenience component providing a subtle visual separator between controls, in the spirit of the HTML `<hr>` element.
+A slider component providing fine-grained control over numerical values.
 
-Note that if min and max are not defined, no linear slider widget will be provided.
+Wraps Tweakpane's [number bindings](https://tweakpane.github.io/docs/input-bindings/#number).
 
-Note that format only affects the display of the value int he control, to restrict the actual value use TK
+Note that if min and max are not defined, no linear slider widget will be provided and a input field with a draggable handle will be used instead.
 
-Wraps Tweakpane's [separator blade](https://tweakpane.github.io/docs/blades/#separator).
+Usage outside of a `<Pane>` component will implicitly wrap the slider in a `<InternalPaneInline>`.
 
-Usage outside of a `<Pane>` component will implicitly wrap the separator in a `<InternalPaneInline>`.
+See the `<Interval>` component for a multi-handle range-defining slider.
 
 Example:	
 ```tsx
 <script lang="ts">
+let value = 0;
 
+$: console.log(value);
 </script>
 
-<Slider bind:value={shadowValue} label="Let it Slide" min={-1} max={1} format={(v) => v.toFixed(1)} />
+<Slider bind:value label="Let it Slide" min={-1} max={1} format={(v) => v.toFixed(2)} />
 ```
 -->
 

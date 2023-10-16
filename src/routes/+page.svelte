@@ -142,11 +142,22 @@
 	let f = f1;
 	let disabled = false;
 
+	let value = 0.5;
 	let value1 = 0.5;
 	let value2 = 0.5;
+
+	$: console.log(value);
+
+	let text = 'Cosmic Manifold';
+
+	$: console.log(text);
 </script>
 
 <div class="wrapper">
+	<TextField bind:value={text} label="The Message" />
+
+	<Slider bind:value label="Let it Slide" min={-1} max={1} format={(v) => v.toFixed(2)} />
+
 	{l}
 	<MonitorNumber label={l} value={value1} format={f} />
 	<Slider {disabled} bind:value={value1} label={l} min={-1} max={1} format={f} />
