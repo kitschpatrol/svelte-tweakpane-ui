@@ -38,3 +38,7 @@ export { default as RotationQuaternion } from './plugin/RotationQuaternion.svelt
 export { default as Textarea } from './plugin/Textarea.svelte';
 export { default as ThumbnailList } from './plugin/ThumbnailList.svelte';
 export { default as Waveform } from './plugin/Waveform.svelte';
+
+// theming(TODO hmm)
+export { Themes } from './theme.js';
+export { type Theme, setGlobalDefaultTheme } from './theme.js';
