@@ -1,16 +1,21 @@
 <script lang="ts">
 	import GenericInput from '../internal/GenericInput.svelte';
-	import type { Theme } from '../theme.js';
+	import type { ComponentProps } from 'svelte';
+
+	interface $$Props
+		extends Omit<ComponentProps<GenericInput<string>>, 'bindingParams' | 'bindingRef' | 'plugin'> {
+		/** TODO Docs */
+		rows?: number;
+		/** TODO Docs */
+		placeholder?: string;
+		/** TODO Docs */
+		value: string;
+	}
 
 	// re-exported
-	export let label: string | undefined = undefined;
-	export let disabled: boolean = false;
-	export let theme: Theme | undefined = undefined;
-	export let value: string;
-
-	// unique
-	export let rows: number | undefined = undefined;
-	export let placeholder: string | undefined = undefined;
+	export let value: $$Props['value'];
+	export let rows: $$Props['rows'] = undefined;
+	export let placeholder: $$Props['placeholder'] = undefined;
 
 	$: bindingParams = {
 		view: 'textarea',
@@ -19,4 +24,16 @@
 	};
 </script>
 
-<GenericInput {label} {disabled} {bindingParams} {theme} bind:value />
+<!--
+@component
+TODO
+
+Example:
+```tsx
+TODO
+```
+-->
+
+{#await import('@pangenerator/tweakpane-textarea-plugin') then module}
+	<GenericInput bind:value {bindingParams} plugin={module} {...$$restProps} />
+{/await}

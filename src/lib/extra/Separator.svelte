@@ -7,7 +7,7 @@
 	interface $$Props
 		extends Omit<
 			ComponentProps<Blade<SeparatorBladeParams, BladeApi>>,
-			'bladeParams' | 'bladeRef'
+			'bladeParams' | 'bladeRef' | 'plugin'
 		> {}
 
 	const bladeParams: SeparatorBladeParams = {

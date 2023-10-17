@@ -1,22 +1,36 @@
 <script lang="ts">
 	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
-	import type { Theme } from '../theme.js';
-	import type { PickerLayout, PointDimensionParams } from '@tweakpane/core';
+	import type { PointDimensionParams } from '@tweakpane/core';
+	import type { ComponentProps } from 'svelte';
+	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d.js';
 
-	// re-exported
-	export let label: string | undefined = undefined;
-	export let disabled: boolean = false;
-	export let theme: Theme | undefined = undefined;
-	export let value: { x: number; y: number; z: number };
-	export let expanded: boolean | undefined = undefined;
-	export let clickToExpand: boolean = true;
-	export let picker: PickerLayout | undefined = undefined;
+	interface $$Props
+		extends Omit<
+			ComponentProps<GenericInputFolding<Point4dObject>>,
+			'buttonClass' | 'bindingParams' | 'bindingRef' | 'plugin'
+		> {
+		/** TODO Docs */
+		x?: PointDimensionParams;
+		/** TODO Docs */
+		y?: PointDimensionParams;
+		/** TODO Docs */
+		z?: PointDimensionParams;
+		/** TODO Docs */
+		w?: PointDimensionParams;
+		/** TODO Docs */
+		value: Point4dObject;
+	}
 
 	// unique
-	export let x: PointDimensionParams | undefined = undefined;
-	export let y: PointDimensionParams | undefined = undefined;
-	export let z: PointDimensionParams | undefined = undefined;
-	export let w: PointDimensionParams | undefined = undefined;
+	export let value: $$Props['value'];
+
+	export let x: $$Props['x'] = undefined;
+	export let y: $$Props['y'] = undefined;
+	export let z: $$Props['z'] = undefined;
+	export let w: $$Props['w'] = undefined;
+
+	// reexport for binding
+	export let expanded: $$Props['expanded'] = undefined;
 
 	// work-arounds for funky folding
 	const buttonClass = 'tp-rotationswatchv_b';
@@ -31,14 +45,23 @@
 	};
 </script>
 
-<GenericInputFolding
-	bind:expanded
-	{buttonClass}
-	{clickToExpand}
-	{label}
-	{picker}
-	{disabled}
-	{bindingParams}
-	bind:value
-	{theme}
-/>
+<!--
+@component
+TODO
+
+Example:
+```tsx
+TODO
+```
+-->
+
+{#await import('@0b5vr/tweakpane-plugin-rotation') then module}
+	<GenericInputFolding
+		bind:expanded
+		bind:value
+		{buttonClass}
+		{bindingParams}
+		plugin={module}
+		{...$$restProps}
+	/>
+{/await}

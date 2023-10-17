@@ -11,13 +11,25 @@
 		Checkbox,
 		ColorPicker,
 		PointPicker,
-		TextField
+		TextField,
+		ButtonGrid
 	} from '$lib/index.js';
 	// import { Themes } from '$lib/theme.js';
 	// import { onMount } from 'svelte';
 
 	import Wheel from '$lib/plugin/camerakit/Wheel.svelte';
 	import { Themes } from '$lib/theme.js';
+	import CubicBezier from '$lib/plugin/essentials/CubicBezier.svelte';
+	import FpsGraph from '$lib/plugin/essentials/FpsGraph.svelte';
+	import IntervalSlider from '$lib/plugin/essentials/IntervalSlider.svelte';
+	import RadioGrid from '$lib/plugin/essentials/RadioGrid.svelte';
+	import Image from '$lib/plugin/Image.svelte';
+	import type { ImageResolvable } from 'tweakpane-image-plugin/dist/types/model.js';
+	import Profiler from '$lib/plugin/Profiler.svelte';
+	import RotationEuler from '$lib/plugin/RotationEuler.svelte';
+	import RotationQuaternion from '$lib/plugin/RotationQuaternion.svelte';
+	import Textarea from '$lib/plugin/Textarea.svelte';
+	import Waveform from '$lib/plugin/Waveform.svelte';
 
 	//import Blade from '$lib/core/Blade.svelte';
 	// import MonitorBoolean from '$lib/extra/MonitorBoolean.svelte';
@@ -42,11 +54,11 @@
 
 	// let vToMon = 5;
 
-	// let w = [5, 6, 7, 8, 9, 3, 9, 8, 7, 6, 5];
+	let w = [5, 6, 7, 8, 9, 3, 9, 8, 7, 6, 5];
 
-	// setInterval(() => {
-	// 	w = w.map((v) => Math.max(0, Math.min(10, v + (Math.random() * 2 - 1) * 0.5)));
-	// }, 20);
+	setInterval(() => {
+		w = w.map((v) => Math.max(0, Math.min(10, v + (Math.random() * 2 - 1) * 0.5)));
+	}, 20);
 
 	// let profilerRef: Profiler;
 
@@ -64,7 +76,7 @@
 	// let p = { x: 0, y: 0 };
 
 	// let f = { x: 0, y: 0, z: 0, w: 0 };
-	// let b: [number, number, number, number] = [0.5, 0, 0.5, 1];
+
 	// let expanded = true;
 	// let folderExpanded = true;
 	// let rExpanded = false;
@@ -152,12 +164,65 @@
 	let xf = x1;
 	let text = 'Cosmic Manifold';
 
-	let xPos: number = 10;
+	let xPos: number = 500;
 
 	let eb = true;
+
+	let i = { min: 0, max: 100 };
+
+	let b: [number, number, number, number] = [0.5, 0, 0.5, 1];
+
+	let rv: number = 0;
+	let img: ImageResolvable;
+	$: console.log(img);
 </script>
 
 <div class="wrapper">
+	<Waveform bind:value={w} />
+
+	<Textarea value={''} />
+
+	<RotationQuaternion label="yes" value={point4d} picker="inline" />
+	<RotationEuler label="yes" value={point3d} picker="inline" />
+
+	<Profiler label="hi" />
+
+	<Image bind:value={img}></Image>
+
+	<RadioGrid bind:value={rv} values={[0, 1, 2, 3]} />
+
+	<IntervalSlider bind:value={i} min={0} max={100} />
+
+	<FpsGraph rows={5} />
+
+	<CubicBezier bind:value={b} picker="inline" {expanded} />
+
+	<ButtonGrid
+		on:click={(b) => {
+			console.log(b.detail.index);
+		}}
+		buttons={['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']}
+	/>
+
+	<Pane localStoreId={'asdf'} x={500}>
+		<Wheel
+			bind:value
+			label="Let it Slide"
+			min={-100}
+			max={100}
+			format={(v) => v.toFixed(2)}
+			wide={true}
+		/>
+		<Wheel
+			bind:value
+			label="Let it Slide"
+			min={-100}
+			max={100}
+			format={(v) => v.toFixed(2)}
+			wide={true}
+		/>
+	</Pane>
+
 	{xPos}
 	{eb}
 	<Pane position="fixed">
@@ -207,15 +272,6 @@
 
 	<Checkbox bind:value={disabled} label="Disabled" theme={Themes.vivid} />
 	<Checkbox bind:value={expanded} label="Expanded" theme={Themes.vivid} />
-
-	<Wheel
-		bind:value
-		label="Let it Slide"
-		min={-100}
-		max={100}
-		format={(v) => v.toFixed(2)}
-		wide={true}
-	/>
 
 	{l}
 	<MonitorNumber label={l} value={value1} format={f} />

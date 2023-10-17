@@ -3,7 +3,7 @@
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
-		extends Omit<ComponentProps<GenericInput<string>>, 'bindingParams' | 'bindingRef'> {
+		extends Omit<ComponentProps<GenericInput<string>>, 'bindingParams' | 'bindingRef' | 'plugin'> {
 		/** A `string` value to control. Bindable. */
 		value: string;
 	}

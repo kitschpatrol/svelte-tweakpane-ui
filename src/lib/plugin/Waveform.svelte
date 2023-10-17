@@ -1,21 +1,31 @@
 <script lang="ts">
 	import GenericMonitor from '../internal/GenericMonitor.svelte';
-	import type { Theme } from '../theme.js';
+	import type { ComponentProps } from 'svelte';
 	import type {
 		WaveformStyles,
 		WaveformValue
 	} from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
 
-	// re-exported
-	export let label: string | undefined = undefined;
-	export let disabled: boolean = false;
-	export let theme: Theme | undefined = undefined;
-	export let value: WaveformValue;
+	interface $$Props
+		extends Omit<
+			ComponentProps<GenericMonitor<WaveformValue>>,
+			'bindingParams' | 'bindingRef' | 'plugin'
+		> {
+		/** TODO Docs */
+		max?: number;
+		/** TODO Docs */
+		min?: number;
+		/** TODO Docs */
+		lineStyle?: WaveformStyles;
+		/** TODO Docs */
+		value: WaveformValue;
+	}
 
 	// unique
-	export let max: number;
-	export let min: number;
-	export let lineStyle: WaveformStyles;
+	export let value: $$Props['value'];
+	export let max: $$Props['max'] = undefined;
+	export let min: $$Props['min'] = undefined;
+	export let lineStyle: $$Props['lineStyle'] = undefined;
 
 	$: bindingParams = {
 		view: 'waveform',
@@ -25,4 +35,16 @@
 	};
 </script>
 
-<GenericMonitor {label} {disabled} {bindingParams} {value} {theme} />
+<!--
+@component
+TODO
+
+Example:
+```tsx
+TODO
+```
+-->
+
+{#await import('tweakpane-plugin-waveform') then module}
+	<GenericMonitor {bindingParams} {value} plugin={module} {...$$restProps} />
+{/await}

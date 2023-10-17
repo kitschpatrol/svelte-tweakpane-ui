@@ -3,7 +3,10 @@
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
-		extends Omit<ComponentProps<GenericInput<boolean>>, 'bindingParams' | 'bindingRef'> {}
+		extends Omit<
+			ComponentProps<GenericInput<boolean>>,
+			'bindingParams' | 'bindingRef' | 'plugin'
+		> {}
 
 	// must redeclare for bindability
 	export let value: $$Props['value'];

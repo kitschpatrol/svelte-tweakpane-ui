@@ -1,20 +1,38 @@
 <script lang="ts">
 	import Blade from '../../core/Blade.svelte';
-	import type { Theme } from '../../theme.js';
 	import type { FpsGraphBladeApi } from '@tweakpane/plugin-essentials';
 	import type { FpsGraphBladeParams } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import type { ComponentProps } from 'svelte';
 
-	// re-exported
-	export let disabled: boolean = false;
-	export let label: string | undefined = undefined;
-	export let theme: Theme | undefined = undefined;
+	interface $$Props
+		extends Omit<
+			ComponentProps<Blade<FpsGraphBladeParams, FpsGraphBladeApi>>,
+			'bladeref' | 'bladeParams' | 'plugin'
+		> {
+		/** TODO Docs */
+		rows?: number;
+		/** TODO Docs */
+		interval?: number;
+		/** TODO Docs */
+		max?: number;
+		/** TODO Docs */
+		min?: number;
+		/** TODO Docs */
+		label?: string;
+	}
+
+	// // re-exported
+	// export let disabled: boolean = false;
+	// export let label: string | undefined = undefined;
+	// export let theme: Theme | undefined = undefined;
 
 	//unique
-	export let rows: number = 2;
-	export let interval: number | undefined = undefined;
-	export let max: number | undefined = undefined;
-	export let min: number | undefined = undefined;
+	export let rows: $$Props['rows'] = 2;
+	export let interval: $$Props['interval'] = undefined;
+	export let max: $$Props['max'] = undefined;
+	export let min: $$Props['min'] = undefined;
+	export let label: $$Props['label'] = undefined;
 
 	let implicitMode = true; // false as soon as the external api has been used
 
@@ -105,4 +123,16 @@
 	$: if (!implicitMode) stopInternalLoop();
 </script>
 
-<Blade {disabled} bind:bladeRef={fpsBlade} {bladeParams} {theme} />
+<!--
+@component
+TODO
+
+Example:
+```tsx
+TODO
+```
+-->
+
+{#await import('@tweakpane/plugin-essentials') then module}
+	<Blade bind:bladeRef={fpsBlade} {bladeParams} plugin={module} {...$$restProps} />
+{/await}

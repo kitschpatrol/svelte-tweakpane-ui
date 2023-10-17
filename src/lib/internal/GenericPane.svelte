@@ -5,18 +5,8 @@
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, setContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
-	import { Pane as TpPane } from 'tweakpane';
+	import { Pane as TpPane, type TpPluginBundle } from 'tweakpane';
 	import { updateCollapsability } from '../utils.js';
-
-	// TODO allow tree shaking, dynamic imports?
-	import * as ProfilerPlugin from '@0b5vr/tweakpane-plugin-profiler';
-	import * as RotationPlugin from '@0b5vr/tweakpane-plugin-rotation';
-	import * as TextareaPlugin from '@pangenerator/tweakpane-textarea-plugin';
-	import * as CamerakitPlugin from '@tweakpane/plugin-camerakit';
-	import * as EssentialsPlugin from '@tweakpane/plugin-essentials';
-	import * as ImagePlugin from 'tweakpane-image-plugin';
-	import * as ThumbnailListPlugin from 'tweakpane-plugin-thumbnail-list';
-	import * as WaveformPlugin from 'tweakpane-plugin-waveform';
 
 	/** Text in the pane's title bar. If undefined, no title bar is shown, and expanding / collapsing the pane will only be available through the `expanded` prop. */
 	export let title: string | undefined = undefined;
@@ -39,6 +29,30 @@
 	const parentStore = writable<TpPane>();
 	const existingParentStore: Writable<TpContainer | undefined> = getContext('parentStore'); // sanity checks
 
+	// the raw pane.registerPlugin function doesn't seem to prevent duplicate registrations
+	// as a minor optimization, we track plugin registrations manually to make sure child components
+	// don't redundantly re-register plugins
+	// TODO some strategy for plugin removal? not worth it since loading already happened?
+	let pluginsRegistered: string[] = [];
+	const registerPlugin = (plugin: TpPluginBundle) => {
+		if (paneRef === undefined) {
+			console.warn('`paneRef is undefined, failed to register plugin "${plugin.id}"');
+		} else {
+			if (pluginsRegistered.includes(plugin.id)) {
+				// TODO remove this
+				console.log(`Already registered plugin ${plugin.id}`);
+			} else {
+				console.log(`Registering plugin "${plugin.id}"`);
+				paneRef?.registerPlugin(plugin);
+				pluginsRegistered.push(plugin.id);
+				console.log(`Plugins registered: ${pluginsRegistered}`);
+			}
+		}
+	};
+
+	// allow children to register plugins as needed
+	setContext('registerPlugin', registerPlugin);
+
 	if (BROWSER) {
 		if ($existingParentStore !== undefined) {
 			console.warn('<Panes> must not be nested');
@@ -46,15 +60,9 @@
 
 		$parentStore = new TpPane({ title, expanded });
 
-		// TODO reactive plugins
-		$parentStore.registerPlugin(CamerakitPlugin);
-		$parentStore.registerPlugin(EssentialsPlugin);
-		$parentStore.registerPlugin(ImagePlugin);
-		$parentStore.registerPlugin(TextareaPlugin);
-		$parentStore.registerPlugin(WaveformPlugin);
-		$parentStore.registerPlugin(RotationPlugin);
-		$parentStore.registerPlugin(ProfilerPlugin);
-		$parentStore.registerPlugin(ThumbnailListPlugin);
+		// plugins loaded dynamically at runtime as needed
+		// child components are responsible for registration via the
+		// registerPlugin context function
 
 		$parentStore.on('fold', () => {
 			expanded = $parentStore.expanded;

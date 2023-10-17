@@ -2,7 +2,8 @@
 	import GenericSlider from '../../internal/GenericSlider.svelte';
 	import type { ComponentProps } from 'svelte';
 
-	interface $$Props extends Omit<ComponentProps<GenericSlider<number>>, 'bindingParams'> {
+	interface $$Props
+		extends Omit<ComponentProps<GenericSlider<number>>, 'bindingParams' | 'plugin'> {
 		/** A `number` value to control. Bindable. */
 		value: number;
 		//** The amount of the value to change per pixel. */
@@ -22,4 +23,16 @@
 	};
 </script>
 
-<GenericSlider bind:value {bindingParams} {...$$restProps} />
+<!--
+@component
+TODO
+
+Example:
+```tsx
+TODO
+```
+-->
+
+{#await import('@tweakpane/plugin-camerakit') then module}
+	<GenericSlider bind:value {bindingParams} plugin={module} {...$$restProps} />
+{/await}

@@ -1,22 +1,30 @@
 <script lang="ts" generics="T extends BaseBladeParams, U extends BladeApi">
 	import Blade from '../core/Blade.svelte';
-	import type { Theme } from '../theme.js';
 	import { updateCollapsability } from '../utils.js';
 	import type { PickerLayout } from '@tweakpane/core';
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BaseBladeParams, BladeApi } from 'tweakpane';
+	import type { ComponentProps } from 'svelte';
+
+	interface $$Props extends ComponentProps<Blade<BaseBladeParams, BladeApi>> {
+		/** TODO docs */
+		clickToExpand?: boolean;
+		/** TODO docs */
+		expanded?: boolean;
+		/** TODO docs */
+		buttonClass?: string;
+		/** TODO docs */
+		picker?: PickerLayout;
+	}
 
 	// re-exported
-	export let bladeParams: T;
-	export let disabled: boolean = false;
-	export let theme: Theme | undefined = undefined;
-	export let bladeRef: U | undefined = undefined;
+	export let bladeParams: $$Props['bladeParams'];
+	export let bladeRef: $$Props['bladeRef'] = undefined;
 
 	// unique
-	export let clickToExpand: boolean = true;
-	export let expanded: boolean | undefined = undefined;
-	export let buttonClass: string = '';
-	export let picker: PickerLayout | undefined = undefined; // technically not guaranteed, but advantages to assuming it's there for coherent clickToExpand behavior
+	export let clickToExpand: $$Props['clickToExpand'] = true;
+	export let expanded: $$Props['expanded'] = undefined;
+	export let buttonClass: $$Props['buttonClass'] = '';
+	export let picker: $$Props['picker'] = undefined; // technically not guaranteed, but advantages to assuming it's there for coherent clickToExpand behavior
 
 	//  can't be right, but no 'fold' event or 'expanded' value seems to be available
 	let gotBlade = false;
@@ -42,11 +50,14 @@
 		expanded: initialExpanded // only set once
 	};
 
-	$: bladeRef && updateCollapsability(clickToExpand, bladeRef.element, buttonClass);
+	$: bladeRef &&
+		buttonClass !== undefined &&
+		updateCollapsability(clickToExpand ?? true, bladeRef.element, buttonClass);
 
 	// click isntead of setting expanded
 	// to avoid  animation jankiness
 	$: bladeRef &&
+		buttonClass !== undefined &&
 		expanded !== internalExpanded &&
 		bladeRef.element.getElementsByClassName(buttonClass).length > 0 &&
 		(bladeRef.element.getElementsByClassName(buttonClass)[0] as HTMLButtonElement).click();
@@ -57,4 +68,4 @@
 This component is for internal use only.
 -->
 
-<Blade {disabled} bind:bladeRef {bladeParams} {theme} />
+<Blade bind:bladeRef {bladeParams} {...$$restProps} />

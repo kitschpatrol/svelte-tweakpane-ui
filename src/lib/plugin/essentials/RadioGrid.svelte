@@ -1,7 +1,7 @@
 <script lang="ts" generics="T extends number | string | boolean">
 	import GenericInput from '../../internal/GenericInput.svelte';
-	import type { Theme } from '../../theme.js';
 	import { getGridDimensions } from '../../utils.js';
+	import type { ComponentProps } from 'svelte';
 
 	// /@tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
 	// it's not exported...
@@ -18,19 +18,35 @@
 		view: 'radiogrid';
 	}
 
-	// re-exported
-	export let disabled: boolean = false;
-	export let label: string | undefined = undefined;
-	export let theme: Theme | undefined = undefined;
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	interface $$Props
+		extends Omit<ComponentProps<GenericInput<T>>, 'bindingRef' | 'bindingParams' | 'plugin'> {
+		/** TODO Docs */
+		groupName?: string;
+		/** TODO Docs */
+		value: T;
+		/** TODO Docs */
+		values: T[];
+		/** TODO Docs */
+		columns?: number;
+		/** TODO Docs */
+		rows?: number;
+		/** TODO Docs */
+		suffix?: string;
+		/** TODO Docs */
+		prefix?: string;
+	}
+
+	const defaultGroupName = 'Group Name';
 
 	// unique
-	export let groupName: string = 'Group Name';
-	export let value: T;
-	export let values: T[] = [value];
-	export let columns: number | undefined = undefined;
-	export let rows: number | undefined = undefined;
-	export let suffix: string | undefined = undefined;
-	export let prefix: string | undefined = undefined;
+	export let groupName: $$Props['groupName'] = defaultGroupName;
+	export let value: $$Props['value'];
+	export let values: $$Props['values'] = [value];
+	export let columns: $$Props['columns'] = undefined;
+	export let rows: $$Props['rows'] = undefined;
+	export let suffix: $$Props['suffix'] = undefined;
+	export let prefix: $$Props['prefix'] = undefined;
 
 	function cells(
 		x: number,
@@ -52,11 +68,23 @@
 
 	$: gridDimensions = getGridDimensions(values.length, columns, rows);
 	$: bindingParams = {
-		groupName,
+		groupName: groupName ?? defaultGroupName,
 		view: 'radiogrid',
 		size: [gridDimensions.columns, gridDimensions.rows],
 		cells
 	} satisfies RadioGridInputParams<T>;
 </script>
 
-<GenericInput bind:value {label} {disabled} {bindingParams} {theme} />
+<!--
+@component
+TODO
+
+Example:
+```tsx
+TODO
+```
+-->
+
+{#await import('@tweakpane/plugin-essentials') then module}
+	<GenericInput bind:value {bindingParams} plugin={module} {...$$restProps} />
+{/await}

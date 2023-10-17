@@ -3,7 +3,10 @@
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
-		extends Omit<ComponentProps<GenericMonitor<string>>, 'bindingParams' | 'bindingRef'> {
+		extends Omit<
+			ComponentProps<GenericMonitor<string>>,
+			'bindingParams' | 'bindingRef' | 'plugin'
+		> {
 		/** Display multiline strings */
 		multiline?: boolean;
 	}

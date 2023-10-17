@@ -1,20 +1,31 @@
 <script lang="ts">
 	import Blade from '../../core/Blade.svelte';
-	import type { Theme } from '../../theme.js';
 	import { getGridDimensions } from '../../utils.js';
 	import type { ButtonGridApi } from '@tweakpane/plugin-essentials';
 	import type { ButtonGridBladeParams } from '@tweakpane/plugin-essentials/dist/types/button-grid/plugin.d.ts';
 	import { createEventDispatcher } from 'svelte';
+	import type { ComponentProps } from 'svelte';
 
-	// re-exported
-	export let disabled: boolean = false;
-	export let label: string | undefined = undefined;
-	export let theme: Theme | undefined = undefined;
+	interface $$Props
+		extends Omit<
+			ComponentProps<Blade<ButtonGridBladeParams, ButtonGridApi>>,
+			'bladeref' | 'bladeParams' | 'plugin'
+		> {
+		/** TODO Docs */
+		columns?: number;
+		/** TODO Docs */
+		rows?: number;
+		/** TODO Docs */
+		buttons: string[];
+		/** TODO Docs */
+		label?: string;
+	}
 
 	// unique
-	export let columns: number | undefined = undefined;
-	export let rows: number | undefined = undefined;
-	export let buttons: string[] = [];
+	export let columns: $$Props['columns'] = undefined;
+	export let rows: $$Props['rows'] = undefined;
+	export let buttons: $$Props['buttons'] = [];
+	export let label: $$Props['label'] = undefined;
 
 	const dispatch = createEventDispatcher<{
 		click: {
@@ -63,4 +74,16 @@
 		});
 </script>
 
-<Blade {disabled} bind:bladeRef={gridBlade} {bladeParams} {theme} />
+<!--
+@component
+TODO
+
+Example:
+```tsx
+TODO
+```
+-->
+
+{#await import('@tweakpane/plugin-essentials') then module}
+	<Blade bind:bladeRef={gridBlade} plugin={module} {bladeParams} {...$$restProps} />
+{/await}

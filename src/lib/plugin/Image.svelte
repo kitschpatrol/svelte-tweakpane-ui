@@ -1,17 +1,22 @@
 <script lang="ts">
 	import GenericInput from '../internal/GenericInput.svelte';
-	import type { Theme } from '../theme.js';
 	import type { ImageResolvable } from 'tweakpane-image-plugin/dist/types/model.js';
+	import type { ComponentProps } from 'svelte';
 
-	// re-exported
-	export let label: string | undefined = undefined;
-	export let disabled: boolean = false;
-	export let theme: Theme | undefined = undefined;
-	export let value: ImageResolvable;
+	interface $$Props
+		extends Omit<ComponentProps<GenericInput<ImageResolvable | undefined>>, 'plugin'> {
+		/** TODO Docs */
+		imageFit?: 'contain' | 'cover';
+		/** TODO Docs */
+		extensions?: string[];
+		/** TODO Docs */
+		value: ImageResolvable | undefined;
+	}
 
 	// unique
-	export let imageFit: ('contain' | 'cover') | undefined = undefined;
-	export let extensions: string[] | undefined = undefined;
+	export let value: $$Props['value'] = 'placeholder';
+	export let imageFit: $$Props['imageFit'] = undefined;
+	export let extensions: $$Props['extensions'] = undefined;
 
 	$: bindingParams = {
 		view: 'input-image',
@@ -20,4 +25,16 @@
 	};
 </script>
 
-<GenericInput {label} {disabled} {bindingParams} {theme} bind:value />
+<!--
+@component
+TODO
+
+Example:
+```tsx
+TODO
+```
+-->
+
+{#await import('tweakpane-image-plugin') then module}
+	<GenericInput bind:value {bindingParams} plugin={module} {...$$restProps} />
+{/await}

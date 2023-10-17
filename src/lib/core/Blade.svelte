@@ -1,14 +1,14 @@
 <script lang="ts" generics="T extends BaseBladeParams, U extends BladeApi">
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	import type { BaseBladeParams, BladeApi } from 'tweakpane';
+
 	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type TpContainer } from '../utils.js';
+	import { getElementIndex, isRootPane, type TpContainer, type RegisterPlugin } from '../utils.js';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import type { BaseBladeParams, BladeApi } from 'tweakpane';
-
-	// TODO shared prop types
+	import type { TpPluginBundle } from '@tweakpane/core';
 
 	/** Blade configuration exposing TweakPane's internal [BladeParams](https://tweakpane.github.io/docs/api/interfaces/BaseBladeParams.html), not generally intended for direct use. */
 	export let bladeParams: T;
@@ -22,6 +22,10 @@
 	/** Bindable reference to internal TweakPane [BladeApi](https://tweakpane.github.io/docs/api/classes/BladeApi.html) for this blade, not generally intended for direct use */
 	export let bladeRef: U | undefined = undefined;
 
+	/** Imported Tweakpane `TpPluginBundle` module to register before creating the blade. Primarily for internal use. */
+	export let plugin: TpPluginBundle | undefined = undefined;
+
+	const registerPlugin = getContext<RegisterPlugin>('registerPlugin');
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
 	const userCreatedPane = getContext('userCreatedPane');
 
@@ -34,6 +38,11 @@
 
 		// must destroy to allow a reactive parameters
 		if (blade) blade.dispose();
+
+		if (plugin !== undefined) {
+			// calls function provided by context on the containing pane
+			registerPlugin(plugin);
+		}
 
 		// last one wins
 		blade = $parentStore.addBlade({
@@ -85,7 +94,7 @@ Example:
 	{:else}
 		<InternalPaneInline userCreatedPane={false} {theme}>
 			<!-- Everything must be manually bound instead of spreading props due to lack of access to blade  -->
-			<svelte:self bind:disabled bind:bladeRef bind:bladeParams />
+			<svelte:self bind:disabled bind:bladeRef bind:bladeParams bind:plugin />
 		</InternalPaneInline>
 	{/if}
 {/if}

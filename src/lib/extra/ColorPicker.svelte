@@ -12,7 +12,7 @@
 	interface $$Props
 		extends Omit<
 			ComponentProps<GenericInputFolding<ColorValue>>,
-			'buttonClass' | 'bindingParams' | 'bindingRef'
+			'buttonClass' | 'bindingParams' | 'bindingRef' | 'plugin'
 		> {
 		/** A color value to control. Use either a color-like string (e.g. #ff00ff), or an object with `r`, `b`, `g`, and optional `a` keys. Bindable. */
 		value: ColorValue;

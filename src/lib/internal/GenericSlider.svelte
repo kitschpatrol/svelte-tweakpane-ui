@@ -61,7 +61,7 @@ This component is for internal use only.
 
 Note that we go from a regular slider to a range / interval slider
 (via the essentials plugin) just by changing the input type
-For the sake of consistency and discoverability, `<Interval>`
+For the sake of consistency and discoverability, `<IntervalSlider>`
 is implement as a separate component leveraging this generic
 implementation.
 -->

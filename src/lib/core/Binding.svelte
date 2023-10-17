@@ -1,9 +1,9 @@
 <script lang="ts" generics="T extends Bindable">
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import type { BindingApi, Bindable } from '@tweakpane/core';
+	import type { BindingApi, Bindable, TpPluginBundle } from '@tweakpane/core';
 
 	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type TpContainer } from '../utils.js';
+	import { getElementIndex, isRootPane, type TpContainer, type RegisterPlugin } from '../utils.js';
 	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount } from 'svelte';
@@ -30,6 +30,10 @@
 	/** Bindable reference to internal TweakPane [BindingApi](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for this control, not generally intended for direct use. Treat as read only. */
 	export let bindingRef: BindingApi | undefined = undefined;
 
+	/** Imported Tweakpane `TpPluginBundle` module to register before creating the binding. Primarily for internal use. */
+	export let plugin: TpPluginBundle | undefined = undefined;
+
+	const registerPlugin = getContext<RegisterPlugin>('registerPlugin');
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
 	const userCreatedPane = getContext('userCreatedPane');
 
@@ -42,6 +46,11 @@
 
 		// must destroy to allow a reactive `key` parameter
 		if (binding) binding.dispose();
+
+		if (plugin !== undefined) {
+			// calls function provided by context on the containing pane
+			registerPlugin(plugin);
+		}
 
 		// last one wins
 		binding = $parentStore.addBinding(params, key, {
@@ -119,6 +128,7 @@ Value: {params.r}
 				bind:params
 				bind:bindingRef
 				bind:bindingParams
+				bind:plugin
 			/>
 		</InternalPaneInline>
 	{/if}

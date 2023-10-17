@@ -3,7 +3,10 @@
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
-		extends Omit<ComponentProps<GenericMonitor<boolean>>, 'bindingParams' | 'bindingRef'> {
+		extends Omit<
+			ComponentProps<GenericMonitor<boolean>>,
+			'bindingParams' | 'bindingRef' | 'plugin'
+		> {
 		// no unique params
 	}
 
