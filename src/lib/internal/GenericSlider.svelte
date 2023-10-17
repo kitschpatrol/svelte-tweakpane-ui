@@ -1,12 +1,12 @@
-<script lang="ts" generics="U extends number | IntervalObject">
-	import GenericInput from '$lib/internal/GenericInput.svelte';
+<script lang="ts" generics="T extends number | IntervalObject">
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { IntervalObject } from '@tweakpane/plugin-essentials/dist/types/interval/model/interval.js';
+
+	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import type { NumberInputParams } from 'tweakpane';
 	import type { ComponentProps } from 'svelte';
-	import type { BindingApi } from '@tweakpane/core';
 
-	interface $$Props extends ComponentProps<GenericInput<U, BindingApi>> {
+	interface $$Props extends ComponentProps<GenericInput<T>> {
 		/** Minimum value. Specifying both a `min` and a `max` prop turns the control into a slider. */
 		min?: number;
 		/** Maximum value. Specifying both a `min` and a `max` prop turns the control into a slider. */

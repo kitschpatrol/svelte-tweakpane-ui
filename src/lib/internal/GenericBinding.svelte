@@ -1,6 +1,5 @@
-<script lang="ts" generics="T extends any, U extends BindingApi">
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import type { Bindable, BindingApi } from '@tweakpane/core';
+<script lang="ts" generics="T extends any">
+	import type { Bindable } from '@tweakpane/core';
 
 	import Binding from '$lib/core/Binding.svelte';
 	import type { ComponentProps } from 'svelte';
@@ -9,7 +8,7 @@
 		[x: string]: T;
 	}
 
-	interface $$Props extends Omit<ComponentProps<Binding<BindableValue, U>>, 'key' | 'params'> {
+	interface $$Props extends Omit<ComponentProps<Binding<BindableValue>>, 'key' | 'params'> {
 		/** DOC TEST */
 		value: T;
 	}

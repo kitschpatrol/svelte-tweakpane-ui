@@ -1,10 +1,9 @@
 <script lang="ts">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import type { ComponentProps } from 'svelte';
-	import type { BindingApi } from '@tweakpane/core';
 
 	interface $$Props
-		extends Omit<ComponentProps<GenericInput<string, BindingApi>>, 'bindingParams' | 'bindingRef'> {
+		extends Omit<ComponentProps<GenericInput<string>>, 'bindingParams' | 'bindingRef'> {
 		/** A `string` value to control. Bindable. */
 		value: string;
 	}

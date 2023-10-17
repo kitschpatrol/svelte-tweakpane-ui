@@ -1,12 +1,11 @@
-<script lang="ts" generics="T extends any, U extends BindingApi">
+<script lang="ts" generics="T extends any">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import { updateCollapsability } from '$lib/utils.js';
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import type { BindingApi, PickerLayout } from '@tweakpane/core';
+	import type { PickerLayout } from '@tweakpane/core';
 	import type { ComponentProps } from 'svelte';
 
 	// re-exported
-	interface $$Props extends ComponentProps<GenericInput<T, U>> {
+	interface $$Props extends ComponentProps<GenericInput<T>> {
 		/** Allow users to interactively expand / contract the picker. Regardless of `clickToExpand`, programmatic control remains available through the `expanded` prop. Defaults to `true`. */
 		clickToExpand?: boolean;
 		/** Expand or collapse the color picker. Defaults to `true`. Bindable. */

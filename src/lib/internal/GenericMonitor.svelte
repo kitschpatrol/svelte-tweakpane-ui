@@ -1,11 +1,8 @@
 <script lang="ts" generics="T extends any">
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import type { BindingApi } from '@tweakpane/core';
-
 	import GenericBinding from '$lib/internal/GenericBinding.svelte';
 	import type { ComponentProps } from 'svelte';
 
-	interface $$Props extends ComponentProps<GenericBinding<T, BindingApi>> {
+	interface $$Props extends ComponentProps<GenericBinding<T>> {
 		// unique props
 		/** Number of visible rows of state history. Only has an effect if `bufferSize` is defined. If `bufferSize` is larger, then the value window will scroll once state history exceeds row count. */
 		rows?: number;

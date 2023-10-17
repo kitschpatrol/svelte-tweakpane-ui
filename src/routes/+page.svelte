@@ -149,13 +149,10 @@
 	let value1 = 0.5;
 	let value2 = 0.5;
 	let c = { r: 0, g: 0, b: 0 };
-	$: console.log(value);
 
 	let expanded = true;
 
 	let selection: number;
-
-	$: console.log(text);
 
 	let point2d = { x: 0, y: 0 };
 	let point3d = { x: 0, y: 0, z: 0 };

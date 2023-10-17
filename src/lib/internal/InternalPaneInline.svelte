@@ -11,11 +11,10 @@
 	export let expanded: $$Props['expanded'] = undefined;
 	let paneRef: TpPane;
 
-	// TODO make this work...
-	// export let theme: Theme | undefined = {
-	// 	baseBorderRadius: '0px',
-	// 	bladeBorderRadius: '0px'
-	// };
+	export let theme: $$Props['theme'] = {
+		baseBorderRadius: '0px',
+		bladeBorderRadius: '0px'
+	};
 
 	let containerElement: HTMLDivElement;
 
@@ -38,7 +37,7 @@ This component is for internal use only.
 
 {#if BROWSER}
 	<div bind:this={containerElement}>
-		<GenericPane bind:expanded bind:paneRef {...removeKeys($$restProps, 'position')}>
+		<GenericPane bind:expanded bind:paneRef {theme} {...removeKeys($$restProps, 'position')}>
 			<slot />
 		</GenericPane>
 	</div>

@@ -1,14 +1,9 @@
 <script lang="ts">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import type { ComponentProps } from 'svelte';
-	import type { BindingApi } from '@tweakpane/core';
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	interface $$Props
-		extends Omit<
-			ComponentProps<GenericInput<boolean, BindingApi>>,
-			'bindingParams' | 'bindingRef'
-		> {}
+		extends Omit<ComponentProps<GenericInput<boolean>>, 'bindingParams' | 'bindingRef'> {}
 
 	// must redeclare for bindability
 	export let value: $$Props['value'];

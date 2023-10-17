@@ -1,7 +1,6 @@
-<script lang="ts" generics="U extends Point2dObject | Point3dObject | Point4dObject">
+<script lang="ts" generics="T extends Point2dObject | Point3dObject | Point4dObject">
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 
-	import type { BindingApi } from '@tweakpane/core';
 	import type { ComponentProps } from 'svelte';
 	import type { Point2dObject } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js';
 	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
@@ -9,21 +8,21 @@
 	import type { Point2dInputParams, Point3dInputParams, Point4dInputParams } from 'tweakpane';
 
 	// TODO weird behavior on HMRs
-	// TODO how to make certain props conditional on U
+	// TODO how to make certain props conditional on T
 	// https://stackoverflow.com/questions/76553208/dynamic-props-for-svelte-component
 
-	type PointParams<T> = T extends Point4dObject
+	type PointParams<U> = U extends Point4dObject
 		? Point4dInputParams
-		: T extends Point3dObject
+		: U extends Point3dObject
 		? Point3dInputParams & { w: unknown }
-		: T extends Point2dObject
+		: U extends Point2dObject
 		? Point2dInputParams & { z: unknown; w: unknown }
 		: unknown;
 
 	// some redefinition of props from GenericSlider, but redefining since we want to refine the documentation anyway
 	interface $$Props
 		extends Omit<
-			ComponentProps<GenericInputFolding<U, BindingApi>>,
+			ComponentProps<GenericInputFolding<T>>,
 			'bindingParams' | 'buttonClass' | 'bindingRef'
 		> {
 		/** The maximum value for all dimensions. */
@@ -39,15 +38,15 @@
 		/** A function to customize the point value's formatting (e.g. rounding, etc.). Note that this only changes the view / labels within the control, `value` will still return an unformatted number. */
 		format?: (value: number) => string;
 		/** Input parameters specific to the X dimension. Takes an object with `format`, `keyScale`, `max`, `min`, `pointerScale`, and `step` keys, behaving the same as and overriding the top-level props of the same name. */
-		x?: PointParams<U>['x'];
+		x?: PointParams<T>['x'];
 		/** Input parameters specific to the Y dimension. Takes an object with `format`, `keyScale`, `max`, `min`, `pointerScale`, and `step` keys, behaving the same as and overriding the top-level props of the same name. */
-		y?: PointParams<U>['y'];
+		y?: PointParams<T>['y'];
 		/** Input parameters specific to the Z dimension. Takes an object with `format`, `keyScale`, `max`, `min`, `pointerScale`, and `step` keys, behaving the same as and overriding the top-level props of the same name. */
-		z?: PointParams<U>['z'];
+		z?: PointParams<T>['z'];
 		/** Input parameters specific to the W dimension. Takes an object with `format`, `keyScale`, `max`, `min`, `pointerScale`, and `step` keys, behaving the same as and overriding the top-level props of the same name. */
-		w?: PointParams<U>['w'];
+		w?: PointParams<T>['w'];
 		/** A 2D, 3D, or 4D point object to control. An object with at least `x` and `y` values, and optionally `z` and `w` values for additional dimensions. */
-		value: U;
+		value: T;
 	}
 
 	export let value: $$Props['value'];
@@ -77,7 +76,7 @@
 		z,
 		w,
 		format
-	} as PointParams<U>; // Hmm why bother
+	} as PointParams<T>; // Hmm why bother
 </script>
 
 <!--

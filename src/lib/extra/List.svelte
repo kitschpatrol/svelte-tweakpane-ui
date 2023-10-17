@@ -1,7 +1,6 @@
 <script lang="ts" generics="T extends string | boolean | number">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import type { ComponentProps } from 'svelte';
-	import type { BindingApi } from '@tweakpane/core';
 	import type { ListParamsOptions } from 'tweakpane';
 	import { beforeUpdate, onMount } from 'svelte';
 
@@ -9,8 +8,7 @@
 		options: ListParamsOptions<T>;
 	}
 
-	interface $$Props
-		extends Omit<ComponentProps<GenericInput<T, BindingApi>>, 'bindingParams' | 'bindingRef'> {
+	interface $$Props extends Omit<ComponentProps<GenericInput<T>>, 'bindingParams' | 'bindingRef'> {
 		// override documentation
 		/** Value of the selected item. Bindable. If the bound value is undefined at the time the component is created, then it is set to the first value of the `options` prop array or object. */
 		value: T;

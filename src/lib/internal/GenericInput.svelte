@@ -1,11 +1,10 @@
-<script lang="ts" generics="T extends any, U extends BindingApi">
+<script lang="ts" generics="T extends any">
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import type { BindingApi } from '@tweakpane/core';
 
 	import GenericBinding from '$lib/internal/GenericBinding.svelte';
 	import type { ComponentProps } from 'svelte';
 
-	interface $$Props extends ComponentProps<GenericBinding<T, U>> {}
+	interface $$Props extends ComponentProps<GenericBinding<T>> {}
 
 	export let bindingParams: $$Props['bindingParams'] = undefined;
 	export let bindingRef: $$Props['bindingRef'] = undefined;

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
-	import type { BindingApi } from '@tweakpane/core';
 	import type { ComponentProps } from 'svelte';
 
 	import type {
@@ -12,7 +11,7 @@
 
 	interface $$Props
 		extends Omit<
-			ComponentProps<GenericInputFolding<ColorValue, BindingApi>>,
+			ComponentProps<GenericInputFolding<ColorValue>>,
 			'buttonClass' | 'bindingParams' | 'bindingRef'
 		> {
 		/** A color value to control. Use either a color-like string (e.g. #ff00ff), or an object with `r`, `b`, `g`, and optional `a` keys. Bindable. */
@@ -36,8 +35,6 @@
 	const bindingParams = {
 		view: 'color'
 	};
-
-	$: console.log($$restProps);
 </script>
 
 <!--

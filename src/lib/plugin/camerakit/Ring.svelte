@@ -11,7 +11,7 @@
 		series?: RingSeries;
 		/** The scale of the ring's units. Takes an object of the form `{pixels: number, ticks: number, value: number}` */
 		unit?: RingUnit;
-		/** When `true`, expand the ring control at the expense of the numerical input field. */
+		/** When `true`, expand the width of the ring control at the expense of the numerical input field. */
 		wide?: boolean;
 	}
 

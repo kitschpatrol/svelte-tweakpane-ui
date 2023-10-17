@@ -5,11 +5,12 @@
 	interface $$Props extends Omit<ComponentProps<GenericSlider<number>>, 'bindingParams'> {
 		/** A `number` value to control. Bindable. */
 		value: number;
+		//** The amount of the value to change per pixel. */
 		amount?: number;
+		/** When `true`, expand the width of the wheel control at the expense of the numerical input field. */
 		wide?: boolean;
 	}
 
-	// unique
 	export let value: $$Props['value'];
 	export let amount: $$Props['amount'] = undefined;
 	export let wide: $$Props['wide'] = undefined;

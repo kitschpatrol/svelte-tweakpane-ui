@@ -1,9 +1,10 @@
-<script lang="ts" generics="T extends Bindable, U extends BindingApi">
+<script lang="ts" generics="T extends Bindable">
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	import type { BindingApi, Bindable } from '@tweakpane/core';
+
 	import type { Theme } from '$lib/theme.js';
 	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import type { Bindable, BindingApi } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -26,13 +27,13 @@
 	/** Custom color scheme. Only applies if the control component is created outside a `<Pane>` component. */
 	export let theme: Theme | undefined = undefined;
 
-	/** Bindable reference to internal TweakPane [BindingApi](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for this control, not generally intended for direct use */
-	export let bindingRef: U | undefined = undefined;
+	/** Bindable reference to internal TweakPane [BindingApi](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for this control, not generally intended for direct use. Treat as read only. */
+	export let bindingRef: BindingApi | undefined = undefined;
 
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
 	const userCreatedPane = getContext('userCreatedPane');
 
-	let binding: U;
+	let binding: BindingApi; // effectively makes bindingRef read only
 	let indexElement: HTMLDivElement;
 	let index: number;
 
@@ -48,7 +49,7 @@
 			label,
 			...bindingParams,
 			disabled
-		}) as U;
+		}) as BindingApi;
 
 		bindingRef = binding;
 

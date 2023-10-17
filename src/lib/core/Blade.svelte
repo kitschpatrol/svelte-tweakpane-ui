@@ -8,6 +8,8 @@
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BaseBladeParams, BladeApi } from 'tweakpane';
 
+	// TODO shared prop types
+
 	/** Blade configuration exposing TweakPane's internal [BladeParams](https://tweakpane.github.io/docs/api/interfaces/BaseBladeParams.html), not generally intended for direct use. */
 	export let bladeParams: T;
 
