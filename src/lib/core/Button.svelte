@@ -91,7 +91,8 @@ Example:
 	{:else}
 		<InternalPaneInline userCreatedPane={false} {theme}>
 			<!-- Doesn't seem to suffer from spread props recration issue... -->
-			<svelte:self on:click {...$$props} />
+			<!-- Spreading $$props breaks types -->
+			<svelte:self on:click {title} {label} {disabled} />
 		</InternalPaneInline>
 	{/if}
 {/if}

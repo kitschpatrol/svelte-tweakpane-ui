@@ -94,7 +94,8 @@ Example:
 		</div>
 	{:else}
 		<InternalPaneInline userCreatedPane={false} {theme}>
-			<svelte:self bind:selectedIndex {...$$props}>
+			<!--  {...$$props}> breaks types -->
+			<svelte:self bind:selectedIndex {disabled}>
 				<slot />
 			</svelte:self>
 		</InternalPaneInline>

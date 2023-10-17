@@ -117,7 +117,8 @@ Example:
 	{:else}
 		<InternalPaneInline userCreatedPane={false} {theme}>
 			<Tab>
-				<svelte:self {...$$props}>
+				<!-- {...$$props} breaks types -->
+				<svelte:self {title} {disabled} {selected} {theme}>
 					<slot />
 				</svelte:self>
 			</Tab>
