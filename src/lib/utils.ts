@@ -20,6 +20,16 @@ export function getElementIndex(element: HTMLElement): number {
 	return index;
 }
 
+// doesn't create a new object, only works with string keys
+export function removeKeys<T extends object>(obj: T, ...keys: string[]): T {
+	keys.forEach((key) => {
+		if (key in obj) {
+			delete obj[key as keyof T];
+		}
+	});
+	return obj;
+}
+
 function clickBlocker(e: MouseEvent) {
 	// only block user clicks, not programmatic ones
 	if (e.isTrusted) e.stopPropagation();

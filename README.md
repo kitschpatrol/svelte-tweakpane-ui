@@ -103,7 +103,7 @@ TK
 
 ## Variations on Tweakpane
 
-Note that the [`container`](https://tweakpane.github.io/docs/misc/#container) [PaneConfig](https://tweakpane.github.io/docs/api/interfaces/_internal_.PaneConfig.html) option is not exposed, because correct placement in the containing DOM is managed by 'svelte-tweakpane-ui', and `<Pane mode='inline' ...>` should be used where you'd like a pane to become part of the normal document flow.
+Note that the [`container`](https://tweakpane.github.io/docs/misc/#container) [PaneConfig](https://tweakpane.github.io/docs/api/interfaces/_internal_.PaneConfig.html) option is not exposed, because correct placement in the containing DOM is managed by 'svelte-tweakpane-ui', and `<Pane position='inline' ...>` should be used where you'd like a pane to become part of the normal document flow.
 
 Similarly, the [`hidden`](https://tweakpane.github.io/docs/api/classes/Pane.html#hidden) accessor is not exposed, because visibility a pane and its components may be managed directly in Svelte.
 

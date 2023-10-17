@@ -1,18 +1,22 @@
 <script lang="ts" generics="T extends any, U extends BindingApi">
-	import Binding from '$lib/core/Binding.svelte';
-	import type { Theme } from '$lib/theme.js';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import type { BindingApi } from '@tweakpane/core';
+	import type { Bindable, BindingApi } from '@tweakpane/core';
 
-	// re-exported
-	export let bindingRef: U | undefined = undefined;
-	export let disabled: boolean = false;
-	export let label: string | undefined = undefined;
-	export let bindingParams: object | undefined = undefined;
-	export let theme: Theme | undefined = undefined;
+	import Binding from '$lib/core/Binding.svelte';
+	import type { ComponentProps } from 'svelte';
 
-	// unique
-	export let value: T; // bindable
+	interface BindableValue extends Bindable {
+		[x: string]: T;
+	}
+
+	interface $$Props extends Omit<ComponentProps<Binding<BindableValue, U>>, 'key' | 'params'> {
+		/** DOC TEST */
+		value: T;
+	}
+
+	export let value: $$Props['value'];
+	export let bindingRef: $$Props['bindingRef'] = undefined;
+	export let bindingParams: $$Props['bindingParams'] = undefined;
 
 	// TODO but is a UUID overkill since the scope is contained? consider just 'k'?
 	// using the label as a key means components get recreated when labels change...
@@ -43,4 +47,4 @@ It abstracts the param object Tweakpane expects into an
 interface that looks like a bare value
 -->
 
-<Binding {theme} {disabled} {label} bind:bindingRef bind:params {key} {bindingParams} />
+<Binding bind:bindingRef bind:params {bindingParams} {key} {...$$restProps} />

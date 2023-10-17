@@ -7,37 +7,38 @@
 
 <script lang="ts">
 	import GenericPane from '$lib/internal/GenericPane.svelte';
-	import type { Theme } from '$lib/theme.js';
-	import { clamp } from '$lib/utils.js';
+	import type { ComponentProps } from 'svelte';
+	import { clamp, removeKeys } from '$lib/utils.js';
+	import type { Pane as TpPane } from 'tweakpane';
 	import { BROWSER } from 'esm-env';
 	import { onDestroy, onMount } from 'svelte';
 	import { persisted } from 'svelte-local-storage-store';
 	import type { Writable } from 'svelte/store';
-	import type { Pane as TpPane } from 'tweakpane';
 
-	/** Text in the pane's title bar. If undefined, no title bar is shown, and expanding / collapsing the pane will only be available through the `expanded` prop. Defaults to 'Tweakpane'. */
-	export let title: string | undefined = 'Tweakpane';
+	// Could extend from InternalPaneFixed, but need to revise documentation anyway
+	// Many gratuitous defined checks since NonNullable didn't work and not sure how to make an optional prop
+	// remain optional but with a default value in the $$Props interface
+	interface $$Props extends Omit<ComponentProps<GenericPane>, 'paneRef' | 'userCreatedPane'> {
+		/** Horizontal position of the pane, in pixels. Bindable. (Defaults to 0.) */
+		x?: number;
+		/** Vertical position of the pane, in pixels. Bindable. (Defaults to 0.) */
+		y?: number;
+		/** Width of the pane, in pixels. User-adjustable if `resizeable` is set to true. Bindable. (Defaults to 256.) */
+		width?: number;
+		/** Whether the pane's last position and width should be saved to local storage and re-applied across page reloads. Defaults to true. */
+		storePositionLocally?: boolean;
+		/** Allow the user to resize the pane by dragging the right corner of the title bar. */
+		resizeable?: boolean;
+		/** Minimum pane width in pixels. (Defaults to 200.) */
+		minWidth?: number;
+		/** Maximum pane width in pixels. (Defaults to 600.) */
+		maxWidth?: number;
+		/** Identifier to be used if multiple <InternalPaneDraggable> components with `storePositionLocally` set to true are used on the same page. */
+		localStoreId?: string;
+	}
 
-	/** Custom color scheme. Applies to all child components. */
-	export let theme: Theme | undefined = undefined;
-
-	/** Whether the pane's last position and width should be saved to local storage and re-applied across page reloads. Defaults to true. */
-	export let storePositionLocally: boolean = true;
-
-	/** Allow the pane to be collapsed into the title bar. */
-	export let clickToExpand: boolean = true;
-
-	/** Allow the user to resize the pane by dragging the right corner of the title bar. */
-	export let resizeable: boolean = true;
-
-	/** Minimum pane width in pixels. */
-	export let minWidth: number = 200;
-
-	/** Maximum pane width in pixels. */
-	export let maxWidth: number = 600;
-
-	/** Identifier to be used if multiple <InternalPaneDraggable> components with `storePositionLocally` set to true are used on the same page. */
-	export let localStoreId: string = localStoreDefaultId;
+	export let storePositionLocally: $$Props['storePositionLocally'] = true;
+	export let localStoreId: $$Props['localStoreId'] = localStoreDefaultId;
 
 	// defaults are managed here, and must be set here
 	let positionStore: Writable<{
@@ -57,42 +58,52 @@
 	}
 
 	/** Expand and collapse the pane. Bindable. */
-	export let expanded: boolean = $positionStore?.expanded ?? true;
+	export let expanded: $$Props['expanded'] = $positionStore?.expanded ?? true;
+	export let x: $$Props['x'] = $positionStore?.x ?? 0;
+	export let y: $$Props['y'] = $positionStore?.y ?? 0;
+	export let width: $$Props['width'] = $positionStore?.width ?? 256;
+	export let resizeable: $$Props['resizeable'] = true;
+	export let clickToExpand: $$Props['clickToExpand'] = true;
+	export let minWidth: $$Props['minWidth'] = 200;
+	export let maxWidth: $$Props['maxWidth'] = 600;
+	export let title: $$Props['title'] = 'Tweakpane';
 
-	/** Horizontal position of the pane, in pixels. Bindable. (Defaults to 0.) */
-	export let x: number = $positionStore?.x ?? 0;
-
-	/** Vertical position of the pane, in pixels. Bindable. (Defaults to 0.) */
-	export let y: number = $positionStore?.y ?? 0;
-
-	/** Width of the pane, in pixels. User-adjustable if `resizeable` is set to true. Bindable. (Defaults to 256.) */
-	export let width: number = $positionStore?.width ?? 256;
-
+	let paneRef: TpPane;
 	let containerElement: HTMLDivElement;
 	let dragBarElement: HTMLElement; // added dynamically to tweakpane DOM
 	let widthHandleElement: HTMLDivElement | undefined;
 	let containerHeight: number; // driven by tweakpane's internal layout
 	let documentWidth: number;
 	let documentHeight: number;
-	let pane: TpPane;
 	let zIndexLocal = zIndexGlobal;
 
 	// Local storage helpers, warn about ID collisions
 	function addStorageId() {
-		if (BROWSER && localStoreIds.includes(localStoreId)) {
-			console.warn(
-				'Multiple instances of <Pane> with `mode="draggable"` and `storePositionLocally=true` detected. You must explicitly set unique localStoreId property on each component to avoid collisions.'
-			);
+		if (localStoreId !== undefined) {
+			if (BROWSER && localStoreIds.includes(localStoreId)) {
+				console.warn(
+					'Multiple instances of <Pane> with `mode="draggable"` and `storePositionLocally=true` detected. You must explicitly set unique localStoreId property on each component to avoid collisions.'
+				);
+			}
+			localStoreIds.push(localStoreId);
 		}
-		localStoreIds.push(localStoreId);
 	}
 
 	function removeStorageId() {
-		localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1);
+		if (localStoreId) {
+			localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1);
+		}
 	}
 
 	function updateLocalStoreId(id: string | undefined) {
-		if (id !== undefined) {
+		if (
+			id !== undefined &&
+			positionStore !== undefined &&
+			expanded !== undefined &&
+			width !== undefined &&
+			x !== undefined &&
+			y !== undefined
+		) {
 			positionStore = persisted(`${localStorePrefix}${localStoreId}`, {
 				expanded,
 				width,
@@ -104,23 +115,25 @@
 
 	// Helpers
 	function setDocumentSize() {
-		const documentWidthPrevious = documentWidth;
-		const documentHeightPrevious = documentHeight;
-		documentWidth = document.documentElement.clientWidth;
-		documentHeight = document.documentElement.clientHeight;
-		const dx = documentWidth - documentWidthPrevious;
-		const dy = documentHeight - documentHeightPrevious;
+		if (x !== undefined && y !== undefined && width !== undefined) {
+			const documentWidthPrevious = documentWidth;
+			const documentHeightPrevious = documentHeight;
+			documentWidth = document.documentElement.clientWidth;
+			documentHeight = document.documentElement.clientHeight;
+			const dx = documentWidth - documentWidthPrevious;
+			const dy = documentHeight - documentHeightPrevious;
 
-		// ensure we "stick" to the correct quadrant
-		const centerPercentX = (x + width / 2) / documentWidth;
-		const centerPercentY = (y + containerHeight / 2) / documentHeight;
+			// ensure we "stick" to the correct quadrant
+			const centerPercentX = (x + width / 2) / documentWidth;
+			const centerPercentY = (y + containerHeight / 2) / documentHeight;
 
-		if (!isNaN(dx) && centerPercentX >= 0.5) {
-			x += dx;
-		}
+			if (!isNaN(dx) && centerPercentX >= 0.5) {
+				x += dx;
+			}
 
-		if (!isNaN(dy) && centerPercentY >= 0.5) {
-			y += dy;
+			if (!isNaN(dy) && centerPercentY >= 0.5) {
+				y += dy;
+			}
 		}
 	}
 
@@ -132,9 +145,9 @@
 
 	const doubleClickListener = (e: MouseEvent) => {
 		e.stopPropagation();
-		if (e.target instanceof HTMLElement) {
+		if (e.target instanceof HTMLElement && paneRef && width !== undefined) {
 			if (e.target === dragBarElement) {
-				if (moveDistance < 3 && clickToExpand) pane.expanded = !pane.expanded;
+				if (moveDistance < 3 && clickToExpand) paneRef.expanded = !paneRef.expanded;
 			} else if (e.target === widthHandleElement) {
 				if (width < maxAvailablePanelWidth) {
 					width = maxAvailablePanelWidth;
@@ -155,7 +168,13 @@
 	};
 
 	const moveListener = (e: PointerEvent) => {
-		if (e.target instanceof HTMLElement) {
+		if (
+			e.target instanceof HTMLElement &&
+			width !== undefined &&
+			minWidth !== undefined &&
+			x !== undefined &&
+			y !== undefined
+		) {
 			if (e.target === dragBarElement) {
 				moveDistance += Math.sqrt(e.movementX * e.movementX + e.movementY * e.movementY);
 				x += e.movementX;
@@ -178,7 +197,12 @@
 	onMount(() => {
 		setDocumentSize();
 
-		containerElement.appendChild(pane.element);
+		if (paneRef) {
+			containerElement.appendChild(paneRef.element);
+		} else {
+			// todo remove if not needed
+			console.warn('no pane ref in draggable');
+		}
 
 		// make the pane draggable
 		// the tweakbar pane is NOT itself a svelte component, so we have to
@@ -218,7 +242,9 @@
 		}
 
 		// clean up store id check, e.g. when cycling through the mode of a single pane
-		localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1);
+		if (localStoreId !== undefined) {
+			localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1);
+		}
 	});
 
 	function updateResizeability(isresizeable: boolean) {
@@ -231,11 +257,20 @@
 		}
 	}
 
-	$: pane && updateResizeability(resizeable);
+	$: paneRef && resizeable && updateResizeability(resizeable);
 
 	// ensure the tweakpane panel is within the viewport
 	// additional checks in the width drag handler
-	$: if (containerHeight && documentWidth && documentHeight) {
+	$: if (
+		containerHeight !== undefined &&
+		documentWidth !== undefined &&
+		documentHeight !== undefined &&
+		x !== undefined &&
+		y !== undefined &&
+		width !== undefined &&
+		minWidth !== undefined &&
+		maxWidth !== undefined
+	) {
 		x = clamp(x, 0, documentWidth - width);
 		y = clamp(y, 0, documentHeight - containerHeight);
 		if (documentWidth < width) {
@@ -243,14 +278,19 @@
 		}
 	}
 
-	$: maxAvailablePanelWidth = Math.min(maxWidth, documentWidth - x);
+	$: maxAvailablePanelWidth = Math.min(maxWidth ?? 600, documentWidth - (x ?? 0));
 
 	$: localStoreId, storePositionLocally && addStorageId();
 	$: localStoreId, !storePositionLocally && removeStorageId();
 	$: localStoreId !== `${localStorePrefix}${localStoreId}` && updateLocalStoreId(localStoreId);
 
 	// proxy everything to the store
-	$: localStoreId !== undefined && positionStore?.set({ x, y, width, expanded });
+	$: localStoreId !== undefined &&
+		x !== undefined &&
+		y !== undefined &&
+		width !== undefined &&
+		expanded !== undefined &&
+		positionStore?.set({ x, y, width, expanded });
 </script>
 
 <!--
@@ -272,7 +312,7 @@ This component is for internal use only.
 		bind:clientHeight={containerHeight}
 		style={`width: ${width}px; left: ${x}px; top: ${y}px; z-index: ${zIndexLocal}`}
 	>
-		<GenericPane {title} bind:expanded {theme} {clickToExpand} bind:paneRef={pane}>
+		<GenericPane bind:expanded bind:paneRef {title} {...removeKeys($$restProps, 'position')}>
 			<slot />
 		</GenericPane>
 	</div>

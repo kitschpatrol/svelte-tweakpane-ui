@@ -1,6 +1,7 @@
 <script lang="ts" generics="T extends string | boolean | number">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import type { Theme } from '$lib/theme.js';
+	import type { ComponentProps } from 'svelte';
+	import type { BindingApi } from '@tweakpane/core';
 	import type { ListParamsOptions } from 'tweakpane';
 	import { beforeUpdate, onMount } from 'svelte';
 
@@ -8,26 +9,19 @@
 		options: ListParamsOptions<T>;
 	}
 
-	// re-exported
+	interface $$Props
+		extends Omit<ComponentProps<GenericInput<T, BindingApi>>, 'bindingParams' | 'bindingRef'> {
+		// override documentation
+		/** Value of the selected item. Bindable. If the bound value is undefined at the time the component is created, then it is set to the first value of the `options` prop array or object. */
+		value: T;
+		// unique props
+		/** A collection of options, either an array of type `{text: string; value: T}[]` or an object of type `{[text: string]: T;};`. Keys must be strings, but values are generic.  */
+		options: ListParamsOptions<T>;
+	}
 
-	/** Prevent interactivity. Defaults to `false`. */
-	export let disabled: boolean = false;
-
-	/** Text displayed next to control. */
-	export let label: string | undefined = undefined;
-
-	/** Custom color scheme. Only applies if the `<List>` is created outside a `<Pane>` component. */
-	export let theme: Theme | undefined = undefined;
-
-	// unique
-
-	// TODO something to handle bare arrays and transcribe them into ArrayStyleListOptions<T>?
-	/** A collection of options, either an array of type `{text: string; value: T}[]` or an object of type `{[text: string]: T;};`. Keys must be strings, but values are generic.  */
-	export let options: ListParamsOptions<T>;
-
-	// TODO understand limits of generic options
-	/** Value of the selected item. Bindable. If the bound value is undefined at the time the component is created, then it is set to the first value of the `options` prop array or object. */
-	export let value: T;
+	// must redeclare for bindability
+	export let value: $$Props['value'];
+	export let options: $$Props['options'];
 
 	let isMounted = false;
 	onMount(() => {
@@ -72,4 +66,4 @@ Example:
 ```
 -->
 
-<GenericInput bind:value {label} {disabled} {bindingParams} {theme} />
+<GenericInput bind:value {bindingParams} {...$$restProps} />

@@ -1,22 +1,17 @@
 <script lang="ts">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import type { Theme } from '$lib/theme.js';
+	import type { ComponentProps } from 'svelte';
+	import type { BindingApi } from '@tweakpane/core';
 
-	// re-exported
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	interface $$Props
+		extends Omit<
+			ComponentProps<GenericInput<boolean, BindingApi>>,
+			'bindingParams' | 'bindingRef'
+		> {}
 
-	/** Text displayed next to control. */
-	export let label: string | undefined = undefined;
-
-	/** Prevent interactivity. Defaults to `false`. */
-	export let disabled: boolean = false;
-
-	/** Custom color scheme. Only applies if the `<Checkbox>` is created outside a `<Pane>` component. */
-	export let theme: Theme | undefined = undefined;
-
-	// unique
-
-	/** A `boolean` value to control. Bindable. */
-	export let value: boolean = false;
+	// must redeclare for bindability
+	export let value: $$Props['value'];
 </script>
 
 <!--
@@ -39,4 +34,4 @@ Example:
 ```
 -->
 
-<GenericInput bind:value {label} {disabled} {theme} />
+<GenericInput bind:value {...$$restProps} />

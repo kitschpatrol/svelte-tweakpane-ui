@@ -1,20 +1,15 @@
 <script lang="ts">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import type { Theme } from '$lib/theme.js';
+	import type { ComponentProps } from 'svelte';
+	import type { BindingApi } from '@tweakpane/core';
 
-	// re-exported
+	interface $$Props
+		extends Omit<ComponentProps<GenericInput<string, BindingApi>>, 'bindingParams' | 'bindingRef'> {
+		/** A `string` value to control. Bindable. */
+		value: string;
+	}
 
-	/** Text displayed next to control. */
-	export let label: string | undefined = undefined;
-
-	/** Prevent interactivity. Defaults to `false`. */
-	export let disabled: boolean = false;
-
-	/** A `string` value to control. Bindable. */
-	export let value: string;
-
-	/** Custom color scheme. Only applies if the `<TextField>` is created outside a `<Pane>` component. */
-	export let theme: Theme | undefined = undefined;
+	export let value: $$Props['value'];
 </script>
 
 <!--
@@ -39,4 +34,4 @@ Example:
 ```
 -->
 
-<GenericInput {label} {disabled} {theme} bind:value />
+<GenericInput bind:value {...$$restProps} />

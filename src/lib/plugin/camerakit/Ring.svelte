@@ -1,47 +1,31 @@
 <script lang="ts">
-	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import type { Theme } from '$lib/theme.js';
+	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import type { RingSeries } from '@tweakpane/plugin-camerakit/dist/types/util.js';
 	import type { RingUnit } from '@tweakpane/plugin-camerakit/dist/types/view/ring.d.ts';
+	import type { ComponentProps } from 'svelte';
 
-	// Would be better, but is broken
-	// Plus omit breaks autocomplete
-	// https://github.com/sveltejs/svelte/issues/8476
-	// interface $$Props
-	// 	extends Omit<
-	// 		ComponentProps<GenericInput<number, BindingApi>>,
-	// 		'bindingParams' | 'bindingRef'
-	// > {}
+	interface $$Props extends Omit<ComponentProps<GenericSlider<number>>, 'bindingParams'> {
+		/** A `number` value to control. Bindable. */
+		value: number;
+		/** Style variations, takes values of `0` `1` or `2`. */
+		series?: RingSeries;
+		/** The scale of the ring's units. Takes an object of the form `{pixels: number, ticks: number, value: number}` */
+		unit?: RingUnit;
+		/** When `true`, expand the ring control at the expense of the numerical input field. */
+		wide?: boolean;
+	}
 
-	// re-exported
-	export let disabled: boolean = false;
-	export let label: string | undefined = undefined;
-	export let theme: Theme | undefined = undefined;
-	export let value: number;
+	export let value: $$Props['value'];
+	export let series: $$Props['series'] = undefined;
+	export let unit: $$Props['unit'] = undefined;
+	export let wide: $$Props['wide'] = undefined;
 
-	// unique
-	export let series: RingSeries | undefined = undefined;
-	export let unit: RingUnit | undefined = undefined;
-	export let wide: boolean | undefined = undefined;
-	export let min: number | undefined = undefined;
-	export let max: number | undefined = undefined;
-	export let step: number | undefined = undefined;
-	export let pointerScale: number | undefined = undefined;
-	export let keyScale: number | undefined = undefined;
-	export let format: ((value: number) => string) | undefined = undefined;
-
-	let bindingParams = {
+	$: bindingParams = {
 		view: 'cameraring',
 		series,
 		unit,
-		wide,
-		min,
-		max,
-		step,
-		pointerScale,
-		keyScale,
-		format
+		wide
 	};
 </script>
 
-<GenericInput bind:value {disabled} {label} {bindingParams} {theme} />
+<GenericSlider bind:value {bindingParams} {...$$restProps} />

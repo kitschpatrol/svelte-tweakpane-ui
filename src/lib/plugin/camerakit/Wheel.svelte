@@ -1,35 +1,24 @@
 <script lang="ts">
-	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import type { Theme } from '$lib/theme.js';
+	import GenericSlider from '$lib/internal/GenericSlider.svelte';
+	import type { ComponentProps } from 'svelte';
 
-	// re-exported
-	export let disabled: boolean = false;
-	export let theme: Theme | undefined = undefined;
-	export let label: string | undefined = undefined;
+	interface $$Props extends Omit<ComponentProps<GenericSlider<number>>, 'bindingParams'> {
+		/** A `number` value to control. Bindable. */
+		value: number;
+		amount?: number;
+		wide?: boolean;
+	}
 
 	// unique
-	export let value: number;
-	export let min: number | undefined = undefined;
-	export let max: number | undefined = undefined;
-	export let step: number | undefined = undefined;
-	export let pointerScale: number | undefined = undefined;
-	export let keyScale: number | undefined = undefined;
-	export let format: ((value: number) => string) | undefined = undefined;
-	export let amount: number | undefined = undefined;
-	export let wide: boolean | undefined = undefined;
+	export let value: $$Props['value'];
+	export let amount: $$Props['amount'] = undefined;
+	export let wide: $$Props['wide'] = undefined;
 
-	let bindingParams = {
+	$: bindingParams = {
 		view: 'camerawheel',
-		min,
-		max,
-		step,
-		pointerScale,
-		keyScale,
-		format,
 		amount,
-		wide,
-		value
+		wide
 	};
 </script>
 
-<GenericInput bind:value {disabled} {label} {bindingParams} {theme} />
+<GenericSlider bind:value {bindingParams} {...$$restProps} />

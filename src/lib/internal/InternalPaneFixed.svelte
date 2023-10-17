@@ -1,31 +1,25 @@
 <script lang="ts">
 	import GenericPane from '$lib/internal/GenericPane.svelte';
-	import type { Theme } from '$lib/theme.js';
-	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 	import type { Pane as TpPane } from 'tweakpane';
+	import { BROWSER } from 'esm-env';
+	import { removeKeys } from '$lib/utils.js';
 
-	/** Text in the pane's title bar. If undefined, no title bar is shown, and expanding / collapsing the pane will only be available through the `expanded` prop. */
-	export let title: string | undefined = undefined;
+	interface $$Props extends Omit<ComponentProps<GenericPane>, 'paneRef' | 'userCreatedPane'> {
+		/** Horizontal position of the pane, in pixels. (Defaults to the right.) */
+		x?: number;
+		/** Vertical position of the pane, in pixels. (Defaults to the top.) */
+		y?: number;
+		/** Width of the pane, in pixels. (Defaults to 256.) */
+		width?: number;
+	}
 
-	/** Whether the pane may be collapsed by clicking the title bar. */
-	export let clickToExpand: boolean = true;
-
-	/** Expand and collapse the pane into its title bar. Bindable. */
-	export let expanded: boolean = true; // special case
-
-	/** Custom color scheme. Applies to all child components. */
-	export let theme: Theme | undefined = undefined;
-
-	/** Horizontal position of the pane, in pixels. (Defaults to the right.) */
-	export let x: number | undefined = undefined;
-
-	/** Vertical position of the pane, in pixels. (Defaults to the top.) */
-	export let y: number | undefined = undefined;
-
-	/** Width of the pane, in pixels. (Defaults to 256.) */
-	export let width: number | undefined = undefined;
-
+	export let expanded: $$Props['expanded'] = undefined;
 	let paneRef: TpPane;
+	export let x: $$Props['x'] = undefined;
+	export let y: $$Props['y'] = undefined;
+	export let width: $$Props['width'] = undefined;
+
 	let paneContainer: HTMLElement;
 
 	function setPosition() {
@@ -61,7 +55,7 @@ This component is for internal use only.
 
 {#if BROWSER}
 	<div style="display: none;">
-		<GenericPane bind:expanded {title} {theme} {clickToExpand} bind:paneRef>
+		<GenericPane bind:expanded bind:paneRef {...removeKeys($$restProps, 'position')}>
 			<slot />
 		</GenericPane>
 	</div>

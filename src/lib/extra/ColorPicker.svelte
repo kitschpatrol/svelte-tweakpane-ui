@@ -1,38 +1,27 @@
 <script lang="ts">
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
-	import type { Theme } from '$lib/theme.js';
-	import type { PickerLayout } from '@tweakpane/core';
-	import type { ColorInputParams } from 'tweakpane';
+	import type { BindingApi } from '@tweakpane/core';
+	import type { ComponentProps } from 'svelte';
 
 	import type {
 		RgbColorObject,
 		RgbaColorObject
 	} from '@tweakpane/core/dist/input-binding/color/model/color.js';
 
-	// re-exported
+	type ColorValue = string | RgbColorObject | RgbaColorObject;
 
-	/** Text displayed next to control. Defaults to `undefined.` */
-	export let label: string | undefined = undefined;
+	interface $$Props
+		extends Omit<
+			ComponentProps<GenericInputFolding<ColorValue, BindingApi>>,
+			'buttonClass' | 'bindingParams' | 'bindingRef'
+		> {
+		/** A color value to control. Use either a color-like string (e.g. #ff00ff), or an object with `r`, `b`, `g`, and optional `a` keys. Bindable. */
+		value: ColorValue;
+	}
 
-	/** Prevent interactivity. Defaults to `false`. */
-	export let disabled: boolean = false;
-
-	/** Custom color scheme. Only applies if the `<ColorPicker>` is created outside a `<Pane>` component. */
-	export let theme: Theme | undefined = undefined;
-
-	/** Expand or collapse the color picker. Defaults to `true`. Bindable. */
-	export let expanded: boolean | undefined = undefined;
-
-	/** Allow users to interactively expand / contract the picker. Regardless of `clickToExpand`, programmatic control remains available through the `expanded` prop. Defaults to `true`. */
-	export let clickToExpand: boolean = true;
-
-	/** Specify an `inline` or `popup` color picker control presentation. Defaults to `popup`. */
-	export let picker: PickerLayout | undefined = undefined;
-
-	// unique
-
-	/** A color value to control. Use either a color-like string, or an object with `r`, `b`, `g`, and optional `a` keys. Bindable. */
-	export let value: string | RgbColorObject | RgbaColorObject | undefined;
+	// must redeclare for bindability
+	export let value: $$Props['value'];
+	export let expanded: $$Props['expanded'] = undefined;
 
 	// work-arounds for funky folding
 	const buttonClass = 'tp-colswv_b';
@@ -44,9 +33,11 @@
 	// bindingParams.color.alpha,
 	// bindingParams.color.type
 
-	$: bindingParams = {
+	const bindingParams = {
 		view: 'color'
-	} satisfies ColorInputParams;
+	};
+
+	$: console.log($$restProps);
 </script>
 
 <!--
@@ -77,14 +68,4 @@ Example:
 ```
 -->
 
-<GenericInputFolding
-	{buttonClass}
-	bind:expanded
-	bind:value
-	{label}
-	{picker}
-	{disabled}
-	{bindingParams}
-	{clickToExpand}
-	{theme}
-/>
+<GenericInputFolding bind:expanded bind:value {bindingParams} {buttonClass} {...$$restProps} />

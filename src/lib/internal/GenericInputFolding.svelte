@@ -1,23 +1,32 @@
 <script lang="ts" generics="T extends any, U extends BindingApi">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import type { Theme } from '$lib/theme.js';
 	import { updateCollapsability } from '$lib/utils.js';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BindingApi, PickerLayout } from '@tweakpane/core';
+	import type { ComponentProps } from 'svelte';
 
 	// re-exported
-	export let bindingRef: U | undefined = undefined;
-	export let disabled: boolean = false;
-	export let label: string | undefined = undefined;
-	export let bindingParams: object | undefined = undefined;
-	export let theme: Theme | undefined = undefined;
-	export let value: T; //bound
+	interface $$Props extends ComponentProps<GenericInput<T, U>> {
+		/** Allow users to interactively expand / contract the picker. Regardless of `clickToExpand`, programmatic control remains available through the `expanded` prop. Defaults to `true`. */
+		clickToExpand?: boolean;
+		/** Expand or collapse the color picker. Defaults to `true`. Bindable. */
+		expanded?: boolean;
+		/** Work-arounds for funky folding, internal only. */
+		buttonClass?: string;
+		/** Specify an `inline` or `popup` color picker control presentation. Defaults to `popup`. */
+		picker?: PickerLayout; // technically not guaranteed, but advantages to assuming it's there for coherent clickToExpand behavior
+	}
+
+	// must redeclare for bindability
+	export let value: $$Props['value'];
+	export let bindingRef: $$Props['bindingRef'] = undefined;
+	export let bindingParams: $$Props['bindingParams'] = undefined;
 
 	// unique
-	export let clickToExpand: boolean = true;
-	export let expanded: boolean | undefined = undefined;
-	export let buttonClass: string = '';
-	export let picker: PickerLayout | undefined = undefined; // technically not guaranteed, but advantages to assuming it's there for coherent clickToExpand behavior
+	export let clickToExpand: $$Props['clickToExpand'] = true;
+	export let expanded: $$Props['expanded'] = undefined;
+	export let buttonClass: $$Props['buttonClass'] = '';
+	export let picker: $$Props['picker'] = undefined;
 
 	// can't be right, but no 'fold' event or 'expanded' value seems to be available,
 	// and setting / reading directly from the bindingRef doesn't seem to work
@@ -44,11 +53,13 @@
 		expanded: initialExpanded // only set once
 	};
 
-	// click isntead of setting expanded
+	// click instead of setting expanded
 	// to avoid  animation jankiness
-
-	$: bindingRef && updateCollapsability(clickToExpand, bindingRef.element, buttonClass);
 	$: bindingRef &&
+		buttonClass &&
+		updateCollapsability(clickToExpand ?? true, bindingRef.element, buttonClass);
+	$: bindingRef &&
+		buttonClass &&
 		expanded !== internalExpanded &&
 		bindingRef.element.getElementsByClassName(buttonClass).length > 0 &&
 		(bindingRef.element.getElementsByClassName(buttonClass)[0] as HTMLButtonElement).click();
@@ -59,11 +70,4 @@
 This component is for internal use only.
 -->
 
-<GenericInput
-	{theme}
-	{label}
-	{disabled}
-	bind:bindingRef
-	bindingParams={bindingParamsInternal}
-	bind:value
-/>
+<GenericInput bind:value bind:bindingRef bindingParams={bindingParamsInternal} {...$$restProps} />

@@ -18,16 +18,16 @@
 	import * as ThumbnailListPlugin from 'tweakpane-plugin-thumbnail-list';
 	import * as WaveformPlugin from 'tweakpane-plugin-waveform';
 
-	/** Documented in non-generic version. */
+	/** Text in the pane's title bar. If undefined, no title bar is shown, and expanding / collapsing the pane will only be available through the `expanded` prop. */
 	export let title: string | undefined = undefined;
 
-	/** Documented in non-generic implementation. */
+	/** Whether the pane may be collapsed by clicking the title bar. If `false`, programmatic expanding / collapsing remains available through the `expanded` prop. */
 	export let clickToExpand: boolean = true;
 
-	/** Documented in non-generic implementation. */
+	/** Expand and collapse the pane into its title bar. Bindable. */
 	export let expanded: boolean = true; // special case
 
-	/** Documented in non-generic implementation. */
+	/** Custom color scheme. Applies to all child components. Note that `<Pane position="inline" ...>` squares off rounded corners by default to better integrate with surrounding content. */
 	export let theme: Theme | undefined = undefined;
 
 	/** Internal use only. */

@@ -1,42 +1,38 @@
 <script lang="ts" generics="U extends number | IntervalObject">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import type { Theme } from '$lib/theme.js';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { IntervalObject } from '@tweakpane/plugin-essentials/dist/types/interval/model/interval.js';
 	import type { NumberInputParams } from 'tweakpane';
+	import type { ComponentProps } from 'svelte';
+	import type { BindingApi } from '@tweakpane/core';
 
-	// re-exported
+	interface $$Props extends ComponentProps<GenericInput<U, BindingApi>> {
+		/** Minimum value. Specifying both a `min` and a `max` prop turns the control into a slider. */
+		min?: number;
+		/** Maximum value. Specifying both a `min` and a `max` prop turns the control into a slider. */
+		max?: number;
+		/** The minimum step interval. */
+		step?: number;
+		/** The unit scale for pointer-based input. */
+		pointerScale?: number;
+		/** The unit scale for key-based input (e.g. up the up and down arrow keys). */
+		keyScale?: number;
+		/** A function to customize the value's formatting (e.g. rounding, etc.). Note that this only changes the view / labels within the control, `value` will still return an unformatted number. */
+		format?: (value: number) => string;
+	}
 
-	/** Text displayed next to control. */
-	export let label: string | undefined = undefined;
+	// must redeclare for bindability
+	export let value: $$Props['value'];
+	export let bindingParams: $$Props['bindingParams'] = undefined;
 
-	/** Prevent interactivity. Defaults to `false`. */
-	export let disabled: boolean = false;
+	// unique props
 
-	/** Custom color scheme. Only applies if the slider is created outside a `<Pane>` component. */
-	export let theme: Theme | undefined = undefined;
-
-	// unique
-
-	export let value: U; // bindable
-
-	/** Minimum value. Specifying both a `min` and a `max` prop turns the control into a slider. */
-	export let min: number | undefined = undefined;
-
-	/** Maximum value. Specifying both a `min` and a `max` prop turns the control into a slider. */
-	export let max: number | undefined = undefined;
-
-	/** The minimum step interval. */
-	export let step: number | undefined = undefined;
-
-	/** The unit scale for pointer-based input. */
-	export let pointerScale: number | undefined = undefined;
-
-	/** The unit scale for key-based input (e.g. up the up and down arrow keys). */
-	export let keyScale: number | undefined = undefined;
-
-	/** A function to customize the value's formatting (e.g. rounding, etc.). Note that this only changes the view / labels within the control, `value` will still return an unformatted number. */
-	export let format: ((value: number) => string) | undefined = undefined;
+	export let min: $$Props['min'] = undefined;
+	export let max: $$Props['max'] = undefined;
+	export let step: $$Props['step'] = undefined;
+	export let pointerScale: $$Props['pointerScale'] = undefined;
+	export let keyScale: $$Props['keyScale'] = undefined;
+	export let format: $$Props['format'] = undefined;
 
 	// deal with format firing a change
 	// firing even when the function hasn't changed
@@ -48,13 +44,14 @@
 
 	// the IntervalInputParams type is identical
 	// to NumberInputParams, so don't bother with generics
-	$: bindingParams = {
+	$: bindingParamsInternal = {
 		min,
 		max,
 		step,
 		pointerScale,
 		keyScale,
-		format: formatProxy
+		format: formatProxy,
+		...bindingParams
 	} satisfies NumberInputParams;
 </script>
 
@@ -69,4 +66,4 @@ is implement as a separate component leveraging this generic
 implementation.
 -->
 
-<GenericInput bind:value {label} {disabled} {bindingParams} {theme} />
+<GenericInput bind:value bindingParams={bindingParamsInternal} {...$$restProps} />

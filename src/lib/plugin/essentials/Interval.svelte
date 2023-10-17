@@ -4,9 +4,11 @@
 	import type { ComponentProps } from 'svelte';
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	interface $$Props extends ComponentProps<GenericSlider<IntervalObject>> {}
+	interface $$Props extends Omit<ComponentProps<GenericSlider<IntervalObject>>, 'bindingParams'> {
+		value: IntervalObject;
+	}
 
-	export let value: IntervalObject;
+	export let value: $$Props['value'];
 </script>
 
 <GenericSlider bind:value {...$$restProps} />

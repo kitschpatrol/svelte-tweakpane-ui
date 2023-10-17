@@ -24,6 +24,9 @@
 	} from '$lib/index.js';
 	// import { Themes } from '$lib/theme.js';
 	// import { onMount } from 'svelte';
+	import Ring from '$lib/plugin/camerakit/Ring.svelte';
+	import Wheel from '$lib/plugin/camerakit/Wheel.svelte';
+	import { Themes } from '$lib/theme.js';
 
 	//import Blade from '$lib/core/Blade.svelte';
 	// import MonitorBoolean from '$lib/extra/MonitorBoolean.svelte';
@@ -68,7 +71,7 @@
 	// let x = 0;
 	// let e = { x: 0, y: 0, z: 0 };
 	// let p = { x: 0, y: 0 };
-	// let c = { r: 0, g: 0, b: 0 };
+
 	// let f = { x: 0, y: 0, z: 0, w: 0 };
 	// let b: [number, number, number, number] = [0.5, 0, 0.5, 1];
 	// let expanded = true;
@@ -145,18 +148,88 @@
 	let value = 0.5;
 	let value1 = 0.5;
 	let value2 = 0.5;
-
+	let c = { r: 0, g: 0, b: 0 };
 	$: console.log(value);
 
-	let text = 'Cosmic Manifold';
+	let expanded = true;
+
+	let selection: number;
 
 	$: console.log(text);
+
+	let point2d = { x: 0, y: 0 };
+	let point3d = { x: 0, y: 0, z: 0 };
+	let point4d = { x: 0, y: 0, z: 0, w: 0 };
+
+	let x1 = { max: 10, format: (v) => v.toFixed(10) };
+	let x2 = { max: 1, format: (v) => v.toFixed(1) };
+	let xf = x1;
+	let text = 'Cosmic Manifold';
+
+	let xPos: number = 10;
+
+	let eb = true;
 </script>
 
 <div class="wrapper">
+	{xPos}
+	{eb}
+	<Pane position="fixed">
+		<TextField bind:value={text} label="The Message" />
+	</Pane>
+	<Pane position="inline">
+		<TextField bind:value={text} label="The Message" />
+	</Pane>
+	<Pane
+		position="draggable"
+		localStoreId="2"
+		bind:expanded={eb}
+		theme={Themes.vivid}
+		bind:x={xPos}
+		y={0}
+		title="problems"
+	>
+		<TextField bind:value={text} label="The Message" />
+	</Pane>
+	<Pane>
+		<TextField bind:value={text} label="The Message" />
+	</Pane>
+
+	<PointPicker
+		label="2D Point Picker"
+		bind:value={point2d}
+		picker="inline"
+		{expanded}
+		format={f}
+		max={1}
+		x={xf}
+	/>
+	<Button
+		on:click={() => {
+			xf = xf === x1 ? x2 : x1;
+		}}
+		label="Toggle X"
+	/>
+	<PointPicker label="3D Point Picker" bind:value={point3d} />
+	<PointPicker label="4D Point Picker" bind:value={point4d} min={0} max={100} />
+
+	<List label="Alphanumerics" bind:value={selection} options={{ a: 1, b: 2, c: 3 }} />
+
+	<ColorPicker bind:value={c} picker="inline" {expanded} clickToExpand={false} />
+
 	<TextField bind:value={text} label="The Message" />
 
-	<Slider bind:value label="Let it Slide" min={-1} max={1} format={(v) => v.toFixed(2)} />
+	<Checkbox bind:value={disabled} label="Disabled" theme={Themes.vivid} />
+	<Checkbox bind:value={expanded} label="Expanded" theme={Themes.vivid} />
+
+	<Wheel
+		bind:value
+		label="Let it Slide"
+		min={-100}
+		max={100}
+		format={(v) => v.toFixed(2)}
+		wide={true}
+	/>
 
 	{l}
 	<MonitorNumber label={l} value={value1} format={f} />
@@ -180,7 +253,7 @@
 		label={'Toggle enabled'}
 	/>
 	<Button label={l} {disabled} />
-	<GenericSlider {disabled} bind:value={value2} min={-1} max={1} format={(v) => v.toFixed(1)} />
+	<GenericSlider {disabled} bind:value={value1} min={-1} max={1} format={(v) => v.toFixed(1)} />
 </div>
 
 <style>

@@ -1,34 +1,17 @@
 <script lang="ts">
 	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
-	import type { Theme } from '$lib/theme.js';
+	import type { ComponentProps } from 'svelte';
 
-	// re-exported
+	interface $$Props
+		extends Omit<ComponentProps<GenericMonitor<string>>, 'bindingParams' | 'bindingRef'> {
+		/** Display multiline strings */
+		multiline?: boolean;
+	}
 
-	/** String value to monitor the state of. */
-	export let value: string;
+	// must redeclare to pass required prop
+	export let value: $$Props['value'];
 
-	/** Text displayed next to monitor. */
-	export let label: string | undefined = undefined;
-
-	/** Prevent interactivity. Defaults to `false`. */
-	export let disabled: boolean = false;
-
-	/** Number of visible rows of state history. Only has an effect if `bufferSize` is defined. If `bufferSize` is larger, then the value window will scroll once state history exceeds row count. */
-	export let rows: number | undefined = undefined;
-
-	/** Number of past states to retain. */
-	export let bufferSize: number | undefined = undefined;
-
-	/** Time between value samples in milliseconds. Defaults to reactive value updates only (`interval={0}`). */
-	export let interval: number = 0;
-
-	/** Custom color scheme. Only applies if `<MonitorBoolean>` is created outside a `<Pane>` component. */
-	export let theme: Theme | undefined = undefined;
-
-	// unique
-
-	/** Display multiline strings */
-	export let multiline: boolean | undefined = undefined;
+	export let multiline: $$Props['multiline'] = undefined;
 
 	$: bindingParams = {
 		multiline
@@ -43,7 +26,7 @@ Technically, any unbound value on a normal `svelte-tweakpane-ui` component effec
 
 Note that `interval` is not exposed because updates are driven by reactive changes in the `value`.
 
-Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane mode='inline' ...>` component.
+Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane position='inline' ...>` component.
 
 Example:	
 ```tsx
@@ -62,4 +45,4 @@ Example:
 ```
 -->
 
-<GenericMonitor {rows} {bufferSize} {label} {disabled} {bindingParams} {value} {theme} {interval} />
+<GenericMonitor {bindingParams} {value} {...$$restProps} />

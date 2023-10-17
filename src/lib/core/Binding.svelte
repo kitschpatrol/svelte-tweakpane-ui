@@ -23,7 +23,7 @@
 	/** Control configuration exposing TweakPane's internal [BindingParams](https://tweakpane.github.io/docs/api/types/BindingParams.html), contingent on type of bound param. TODO: Templatized types. */
 	export let bindingParams: object | undefined = undefined;
 
-	/** Custom color scheme. Only applies if the `<Binding>` is created outside a `<Pane>` component. */
+	/** Custom color scheme. Only applies if the control component is created outside a `<Pane>` component. */
 	export let theme: Theme | undefined = undefined;
 
 	/** Bindable reference to internal TweakPane [BindingApi](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for this control, not generally intended for direct use */

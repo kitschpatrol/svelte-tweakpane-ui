@@ -1,17 +1,16 @@
 <script lang="ts">
 	import Blade from '$lib/core/Blade.svelte';
-	import type { Theme } from '$lib/theme.js';
-	import type { SeparatorBladeParams } from 'tweakpane';
+	import type { ComponentProps } from 'svelte';
+	import type { SeparatorBladeParams, BladeApi } from 'tweakpane';
 
-	// re-exported
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	interface $$Props
+		extends Omit<
+			ComponentProps<Blade<SeparatorBladeParams, BladeApi>>,
+			'bladeParams' | 'bladeRef'
+		> {}
 
-	/** Prevent interactivity, just in case you consider a separator excessively interactive. Defaults to `false`. */
-	export let disabled: boolean = false;
-
-	/** Custom color scheme. Only applies if the `<Separator>` is created outside a `<Pane>` component. */
-	export let theme: Theme | undefined = undefined;
-
-	let bladeParams: SeparatorBladeParams = {
+	const bladeParams: SeparatorBladeParams = {
 		view: 'separator'
 	};
 </script>
@@ -32,4 +31,4 @@ Example:
 ```
 -->
 
-<Blade {disabled} {bladeParams} {theme} />
+<Blade {bladeParams} {...$$restProps} />
