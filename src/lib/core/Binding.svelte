@@ -2,9 +2,9 @@
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BindingApi, Bindable } from '@tweakpane/core';
 
-	import type { Theme } from '$lib/theme.js';
-	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
+	import type { Theme } from '../theme.js';
+	import { getElementIndex, isRootPane, type TpContainer } from '../utils.js';
+	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';

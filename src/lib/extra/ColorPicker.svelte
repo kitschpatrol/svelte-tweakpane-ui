@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
+	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
 	import type { ComponentProps } from 'svelte';
 
 	import type {

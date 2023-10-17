@@ -1,6 +1,6 @@
 <script lang="ts">
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
-	import type { Theme } from '$lib/theme.js';
+	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
+	import type { Theme } from '../theme.js';
 	import type { PickerLayout, PointDimensionParams } from '@tweakpane/core';
 
 	// re-exported

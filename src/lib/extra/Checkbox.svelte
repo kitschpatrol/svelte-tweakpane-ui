@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GenericInput from '$lib/internal/GenericInput.svelte';
+	import GenericInput from '../internal/GenericInput.svelte';
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props

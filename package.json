@@ -5,151 +5,27 @@
   "homepage": "https://github.com/kitschpatrol/svelte-tweakpane-ui",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "svelte": "./dist/index.js"
-    },
-    "./Binding.svelte": {
-      "types": "./dist/core/Binding.svelte.d.ts",
-      "svelte": "./dist/core/Binding.svelte"
-    },
-    "./Blade.svelte": {
-      "types": "./dist/core/Blade.svelte.d.ts",
-      "svelte": "./dist/core/Blade.svelte"
-    },
-    "./Button.svelte": {
-      "types": "./dist/core/Button.svelte.d.ts",
-      "svelte": "./dist/core/Button.svelte"
-    },
-    "./Folder.svelte": {
-      "types": "./dist/core/Folder.svelte.d.ts",
-      "svelte": "./dist/core/Folder.svelte"
-    },
-    "./Page.svelte": {
-      "types": "./dist/core/Page.svelte.d.ts",
-      "svelte": "./dist/core/Page.svelte"
-    },
-    "./Pane.svelte": {
-      "types": "./dist/core/Pane.svelte.d.ts",
-      "svelte": "./dist/core/Pane.svelte"
-    },
-    "./PaneDraggable.svelte": {
-      "types": "./dist/core/PaneDraggable.svelte.d.ts",
-      "svelte": "./dist/core/PaneDraggable.svelte"
-    },
-    "./PaneInline.svelte": {
-      "types": "./dist/core/PaneInline.svelte.d.ts",
-      "svelte": "./dist/core/PaneInline.svelte"
-    },
-    "./Tab.svelte": {
-      "types": "./dist/core/Tab.svelte.d.ts",
-      "svelte": "./dist/core/Tab.svelte"
-    },
-    "./AutoObject.svelte": {
-      "types": "./dist/extra/AutoObject.svelte.d.ts",
-      "svelte": "./dist/extra/AutoObject.svelte"
-    },
-    "./MonitorBoolean.svelte": {
-      "types": "./dist/extra/MonitorBoolean.svelte.d.ts",
-      "svelte": "./dist/extra/MonitorBoolean.svelte"
-    },
-    "./Checkbox.svelte": {
-      "types": "./dist/extra/Checkbox.svelte.d.ts",
-      "svelte": "./dist/extra/Checkbox.svelte"
-    },
-    "./ColorPicker.svelte": {
-      "types": "./dist/extra/ColorPicker.svelte.d.ts",
-      "svelte": "./dist/extra/ColorPicker.svelte"
-    },
-    "./List.svelte": {
-      "types": "./dist/extra/List.svelte.d.ts",
-      "svelte": "./dist/extra/List.svelte"
-    },
-    "./MonitorNumber.svelte": {
-      "types": "./dist/extra/MonitorNumber.svelte.d.ts",
-      "svelte": "./dist/extra/MonitorNumber.svelte"
-    },
-    "./PointPicker.svelte": {
-      "types": "./dist/extra/PointPicker.svelte.d.ts",
-      "svelte": "./dist/extra/PointPicker.svelte"
-    },
-    "./Separator.svelte": {
-      "types": "./dist/extra/Separator.svelte.d.ts",
-      "svelte": "./dist/extra/Separator.svelte"
-    },
-    "./Slider.svelte": {
-      "types": "./dist/extra/Slider.svelte.d.ts",
-      "svelte": "./dist/extra/Slider.svelte"
-    },
-    "./TextField.svelte": {
-      "types": "./dist/extra/TextField.svelte.d.ts",
-      "svelte": "./dist/extra/TextField.svelte"
-    },
-    "./MonitorString.svelte": {
-      "types": "./dist/extra/MonitorString.svelte.d.ts",
-      "svelte": "./dist/extra/MonitorString.svelte"
-    },
-    "./Image.svelte": {
-      "types": "./dist/plugin/Image.svelte.d.ts",
-      "svelte": "./dist/plugin/Image.svelte"
-    },
-    "./Profiler.svelte": {
-      "types": "./dist/plugin/Profiler.svelte.d.ts",
-      "svelte": "./dist/plugin/Profiler.svelte"
-    },
-    "./RotationEuler.svelte": {
-      "types": "./dist/plugin/RotationEuler.svelte.d.ts",
-      "svelte": "./dist/plugin/RotationEuler.svelte"
-    },
-    "./RotationQuaternion.svelte": {
-      "types": "./dist/plugin/RotationQuaternion.svelte.d.ts",
-      "svelte": "./dist/plugin/RotationQuaternion.svelte"
-    },
-    "./Textarea.svelte": {
-      "types": "./dist/plugin/Textarea.svelte.d.ts",
-      "svelte": "./dist/plugin/Textarea.svelte"
-    },
-    "./ThumbnailList.svelte": {
-      "types": "./dist/plugin/ThumbnailList.svelte.d.ts",
-      "svelte": "./dist/plugin/ThumbnailList.svelte"
-    },
-    "./Waveform.svelte": {
-      "types": "./dist/plugin/Waveform.svelte.d.ts",
-      "svelte": "./dist/plugin/Waveform.svelte"
-    },
-    "./Ring.svelte": {
-      "types": "./dist/plugin/camerakit/Ring.svelte.d.ts",
-      "svelte": "./dist/plugin/camerakit/Ring.svelte"
-    },
-    "./Wheel.svelte": {
-      "types": "./dist/plugin/camerakit/Wheel.svelte.d.ts",
-      "svelte": "./dist/plugin/camerakit/Wheel.svelte"
-    },
-    "./ButtonGrid.svelte": {
-      "types": "./dist/plugin/essentials/ButtonGrid.svelte.d.ts",
-      "svelte": "./dist/plugin/essentials/ButtonGrid.svelte"
-    },
-    "./CubicBezier.svelte": {
-      "types": "./dist/plugin/essentials/CubicBezier.svelte.d.ts",
-      "svelte": "./dist/plugin/essentials/CubicBezier.svelte"
-    },
-    "./FpsGraph.svelte": {
-      "types": "./dist/plugin/essentials/FpsGraph.svelte.d.ts",
-      "svelte": "./dist/plugin/essentials/FpsGraph.svelte"
-    },
-    "./Interval.svelte": {
-      "types": "./dist/plugin/essentials/Interval.svelte.d.ts",
-      "svelte": "./dist/plugin/essentials/Interval.svelte"
-    },
-    "./RadioGrid.svelte": {
-      "types": "./dist/plugin/essentials/RadioGrid.svelte.d.ts",
-      "svelte": "./dist/plugin/essentials/RadioGrid.svelte"
+      "types": "./src/lib/index.ts",
+      "svelte": "./src/lib/index.ts"
     }
   },
-  "types": "./dist/index.d.ts",
+  "types": "./src/lib/index.ts",
   "files": [
     "dist",
     "!dist/**/*.spec.*",
     "!dist/**/*.test.*"
+  ],
+  "keywords": [
+    "components",
+    "ui",
+    "component",
+    "svelte",
+    "sveltekit",
+    "tweakpane",
+    "component-library",
+    "ui-components",
+    "ui-framework",
+    "components-library"
   ],
   "scripts": {
     "build": "vite build && npm run package",
@@ -171,6 +47,9 @@
   },
   "peerDependencies": {
     "svelte": "^4.0.0"
+  },
+  "dependencies": {
+    "svelte-local-storage-store": "^0.6.4"
   },
   "devDependencies": {
     "@0b5vr/tweakpane-plugin-profiler": "github:kitschpatrol/tweakpane-plugin-profiler#tweakpane-v4",
@@ -196,13 +75,12 @@
     "prettier-plugin-pkg": "^0.18.0",
     "prettier-plugin-svelte": "^3.0.3",
     "publint": "^0.2.4",
-    "stylelint": "^15.10.3",
+    "stylelint": "^15.11.0",
     "stylelint-config-html": "^1.1.0",
     "stylelint-config-standard": "^34.0.0",
     "svelte": "^4.2.1",
     "svelte-check": "^3.5.2",
     "svelte-lib-helpers": "^0.3.15",
-    "svelte-local-storage-store": "^0.6.4",
     "tslib": "^2.6.2",
     "tweakpane": "^4.0.1",
     "tweakpane-image-plugin": "github:kitschpatrol/tweakpane-image-plugin#tweakpane-v4",
@@ -211,5 +89,5 @@
     "typescript": "^5.2.2",
     "vite": "^4.4.11"
   },
-  "svelte": "./dist/index.js"
+  "svelte": "./src/lib/index.ts"
 }

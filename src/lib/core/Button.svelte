@@ -1,7 +1,7 @@
 <script lang="ts">
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
-	import type { Theme } from '$lib/theme.js';
-	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
+	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
+	import type { Theme } from '../theme.js';
+	import { getElementIndex, isRootPane, type TpContainer } from '../utils.js';
 	import type { ButtonApi } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
 	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte';

@@ -1,7 +1,7 @@
 <script lang="ts" generics="T extends BaseBladeParams, U extends BladeApi">
-	import Blade from '$lib/core/Blade.svelte';
-	import type { Theme } from '$lib/theme.js';
-	import { updateCollapsability } from '$lib/utils.js';
+	import Blade from '../core/Blade.svelte';
+	import type { Theme } from '../theme.js';
+	import { updateCollapsability } from '../utils.js';
 	import type { PickerLayout } from '@tweakpane/core';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BaseBladeParams, BladeApi } from 'tweakpane';

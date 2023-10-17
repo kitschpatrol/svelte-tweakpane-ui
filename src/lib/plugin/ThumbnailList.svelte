@@ -1,6 +1,6 @@
 <script lang="ts">
-	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import type { Theme } from '$lib/theme.js';
+	import GenericInput from '../internal/GenericInput.svelte';
+	import type { Theme } from '../theme.js';
 	import type { Thumbnail } from 'tweakpane-plugin-thumbnail-list/dist/types/controller.js';
 
 	// TODO this is broken for some reason

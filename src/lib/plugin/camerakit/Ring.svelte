@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GenericSlider from '$lib/internal/GenericSlider.svelte';
+	import GenericSlider from '../../internal/GenericSlider.svelte';
 	import type { RingSeries } from '@tweakpane/plugin-camerakit/dist/types/util.js';
 	import type { RingUnit } from '@tweakpane/plugin-camerakit/dist/types/view/ring.d.ts';
 	import type { ComponentProps } from 'svelte';

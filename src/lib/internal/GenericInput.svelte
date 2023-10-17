@@ -1,7 +1,7 @@
 <script lang="ts" generics="T extends any">
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-	import GenericBinding from '$lib/internal/GenericBinding.svelte';
+	import GenericBinding from './GenericBinding.svelte';
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props extends ComponentProps<GenericBinding<T>> {}

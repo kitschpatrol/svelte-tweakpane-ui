@@ -2,29 +2,20 @@
 	/** eslint-disable @typescript-eslint/no-unused-vars */
 	import List from '$lib/extra/List.svelte';
 	import GenericSlider from '$lib/internal/GenericSlider.svelte';
-	import Separator from '$lib/extra/Separator.svelte';
+
 	import {
-		Binding,
-		RotationEuler,
-		RotationQuaternion,
-		CubicBezier,
-		FpsGraph,
 		Pane,
-		Folder,
 		Button,
 		MonitorNumber,
 		Slider,
-		Tab,
-		Page,
 		Checkbox,
 		ColorPicker,
 		PointPicker,
-		AutoObject,
 		TextField
 	} from '$lib/index.js';
 	// import { Themes } from '$lib/theme.js';
 	// import { onMount } from 'svelte';
-	import Ring from '$lib/plugin/camerakit/Ring.svelte';
+
 	import Wheel from '$lib/plugin/camerakit/Wheel.svelte';
 	import { Themes } from '$lib/theme.js';
 
@@ -128,7 +119,6 @@
 	// let theme: any = Themes.light;
 	// let pretty: boolean = false;
 
-	let stringToMonitor = 'bla';
 	// let booleanToMonitor = false;
 	// let numberToMonitor = 0;
 	// let t = 0;
@@ -138,8 +128,8 @@
 	// 	t += 0.3;
 	// }, 100);
 
-	let f1 = (v) => v.toFixed(1);
-	let f2 = (v) => v.toFixed(10);
+	let f1 = (v: number) => v.toFixed(1);
+	let f2 = (v: number) => v.toFixed(10);
 
 	let l = 'Bla';
 	let f = f1;
@@ -147,7 +137,6 @@
 
 	let value = 0.5;
 	let value1 = 0.5;
-	let value2 = 0.5;
 	let c = { r: 0, g: 0, b: 0 };
 
 	let expanded = true;
@@ -158,8 +147,8 @@
 	let point3d = { x: 0, y: 0, z: 0 };
 	let point4d = { x: 0, y: 0, z: 0, w: 0 };
 
-	let x1 = { max: 10, format: (v) => v.toFixed(10) };
-	let x2 = { max: 1, format: (v) => v.toFixed(1) };
+	let x1 = { max: 10, format: (v: number) => v.toFixed(10) };
+	let x2 = { max: 1, format: (v: number) => v.toFixed(1) };
 	let xf = x1;
 	let text = 'Cosmic Manifold';
 

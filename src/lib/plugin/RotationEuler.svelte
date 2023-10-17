@@ -1,6 +1,6 @@
 <script lang="ts">
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
-	import type { Theme } from '$lib/theme.js';
+	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
+	import type { Theme } from '../theme.js';
 	import type { EulerOrder } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerOrder.js';
 	import type { EulerUnit } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerUnit.js';
 	import type { PickerLayout, PointDimensionParams } from '@tweakpane/core';

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
-	import type { Theme } from '$lib/theme.js';
+	import GenericMonitor from '../internal/GenericMonitor.svelte';
+	import type { Theme } from '../theme.js';
 	import type {
 		WaveformStyles,
 		WaveformValue

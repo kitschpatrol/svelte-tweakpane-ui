@@ -1,7 +1,7 @@
 <script lang="ts">
-	import InternalPaneDraggable from '$lib/internal/InternalPaneDraggable.svelte';
-	import InternalPaneFixed from '$lib/internal/InternalPaneFixed.svelte';
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
+	import InternalPaneDraggable from '../internal/InternalPaneDraggable.svelte';
+	import InternalPaneFixed from '../internal/InternalPaneFixed.svelte';
+	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
 
 	import type { ComponentProps } from 'svelte';
 

@@ -1,5 +1,5 @@
 <script lang="ts" generics="T extends string | boolean | number">
-	import GenericInput from '$lib/internal/GenericInput.svelte';
+	import GenericInput from '../internal/GenericInput.svelte';
 	import type { ComponentProps } from 'svelte';
 	import type { ListParamsOptions } from 'tweakpane';
 	import { beforeUpdate, onMount } from 'svelte';

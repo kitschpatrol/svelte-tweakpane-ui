@@ -1,10 +1,10 @@
 <script lang="ts">
-	import GenericPane from '$lib/internal/GenericPane.svelte';
+	import GenericPane from './GenericPane.svelte';
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 	import { onMount } from 'svelte';
 	import type { Pane as TpPane } from 'tweakpane';
-	import { removeKeys } from '$lib/utils.js';
+	import { removeKeys } from '../utils.js';
 
 	interface $$Props extends Omit<ComponentProps<GenericPane>, 'paneRef'> {}
 

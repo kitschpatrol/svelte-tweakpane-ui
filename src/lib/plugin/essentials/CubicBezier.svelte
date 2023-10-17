@@ -1,6 +1,6 @@
 <script lang="ts">
-	import GenericBladeFolding from '$lib/internal/GenericBladeFolding.svelte';
-	import type { Theme } from '$lib/theme.js';
+	import GenericBladeFolding from '../../internal/GenericBladeFolding.svelte';
+	import type { Theme } from '../../theme.js';
 	import type { PickerLayout } from '@tweakpane/core';
 	import type { CubicBezierApi } from '@tweakpane/plugin-essentials';
 	import { CubicBezier } from '@tweakpane/plugin-essentials';

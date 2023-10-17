@@ -170,6 +170,7 @@ Additional Tweakplane plugins under consideration for integration with `svelte-t
 - [dat.gui](https://github.com/dataarts/dat.gui) _The OG, Vanilla JS_
 - [leva](https://github.com/pmndrs/leva) _React-centric_
 - [svelte-knobby](https://github.com/Rich-Harris/svelte-knobby)
+- [Tutorial](https://blog.logrocket.com/build-your-own-component-library-svelte/)
 
 #### Svelte Tweakpane Wrappers
 
@@ -185,3 +186,7 @@ Two other projects provide integration between Tweakpane and Svelte:
 - [solid-tweakpane](https://github.com/MrFoxPro/solid-tweakpane)
 - [react-tweakpane](https://github.com/MelonCode/react-tweakpane)
 - [v-tweakpane](https://github.com/vinayakkulkarni/v-tweakpane)
+
+## Temp dev notes
+
+- Spreading $$props breaks types. $$restProps seems safe.

@@ -1,7 +1,7 @@
 <script lang="ts" generics="T extends number | string | boolean">
-	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import type { Theme } from '$lib/theme.js';
-	import { getGridDimensions } from '$lib/utils.js';
+	import GenericInput from '../../internal/GenericInput.svelte';
+	import type { Theme } from '../../theme.js';
+	import { getGridDimensions } from '../../utils.js';
 
 	// /@tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
 	// it's not exported...

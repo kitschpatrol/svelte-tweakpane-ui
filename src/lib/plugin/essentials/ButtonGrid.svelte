@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Blade from '$lib/core/Blade.svelte';
-	import type { Theme } from '$lib/theme.js';
-	import { getGridDimensions } from '$lib/utils.js';
+	import Blade from '../../core/Blade.svelte';
+	import type { Theme } from '../../theme.js';
+	import { getGridDimensions } from '../../utils.js';
 	import type { ButtonGridApi } from '@tweakpane/plugin-essentials';
 	import type { ButtonGridBladeParams } from '@tweakpane/plugin-essentials/dist/types/button-grid/plugin.d.ts';
 	import { createEventDispatcher } from 'svelte';

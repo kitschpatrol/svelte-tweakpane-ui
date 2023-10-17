@@ -1,10 +1,10 @@
 <script lang="ts" generics="T extends BaseBladeParams, U extends BladeApi">
-	import type { Theme } from '$lib/theme.js';
-	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
+	import type { Theme } from '../theme.js';
+	import { getElementIndex, isRootPane, type TpContainer } from '../utils.js';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
+	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BaseBladeParams, BladeApi } from 'tweakpane';
 

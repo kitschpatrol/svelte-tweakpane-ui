@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { Theme } from '$lib/theme.js';
-	import { applyTheme } from '$lib/theme.js';
-	import type { TpContainer } from '$lib/utils.js';
+	import type { Theme } from '../theme.js';
+	import { applyTheme } from '../theme.js';
+	import type { TpContainer } from '../utils.js';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, setContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
 	import { Pane as TpPane } from 'tweakpane';
-	import { updateCollapsability } from '$lib/utils.js';
+	import { updateCollapsability } from '../utils.js';
 
 	// TODO allow tree shaking, dynamic imports?
 	import * as ProfilerPlugin from '@0b5vr/tweakpane-plugin-profiler';

@@ -1,7 +1,7 @@
 <script lang="ts" generics="T extends any">
 	import type { Bindable } from '@tweakpane/core';
 
-	import Binding from '$lib/core/Binding.svelte';
+	import Binding from '../core/Binding.svelte';
 	import type { ComponentProps } from 'svelte';
 
 	interface BindableValue extends Bindable {

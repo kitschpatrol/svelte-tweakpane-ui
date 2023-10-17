@@ -1,5 +1,5 @@
 <script lang="ts" generics="T extends Point2dObject | Point3dObject | Point4dObject">
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
+	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
 
 	import type { ComponentProps } from 'svelte';
 	import type { Point2dObject } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js';

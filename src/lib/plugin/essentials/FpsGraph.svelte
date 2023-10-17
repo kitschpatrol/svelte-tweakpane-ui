@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Blade from '$lib/core/Blade.svelte';
-	import type { Theme } from '$lib/theme.js';
+	import Blade from '../../core/Blade.svelte';
+	import type { Theme } from '../../theme.js';
 	import type { FpsGraphBladeApi } from '@tweakpane/plugin-essentials';
 	import type { FpsGraphBladeParams } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';

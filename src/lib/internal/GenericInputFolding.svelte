@@ -1,6 +1,6 @@
 <script lang="ts" generics="T extends any">
-	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import { updateCollapsability } from '$lib/utils.js';
+	import GenericInput from './GenericInput.svelte';
+	import { updateCollapsability } from '../utils.js';
 	import type { PickerLayout } from '@tweakpane/core';
 	import type { ComponentProps } from 'svelte';
 

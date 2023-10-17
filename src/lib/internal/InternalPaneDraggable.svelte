@@ -6,9 +6,9 @@
 </script>
 
 <script lang="ts">
-	import GenericPane from '$lib/internal/GenericPane.svelte';
+	import GenericPane from './GenericPane.svelte';
 	import type { ComponentProps } from 'svelte';
-	import { clamp, removeKeys } from '$lib/utils.js';
+	import { clamp, removeKeys } from '../utils.js';
 	import type { Pane as TpPane } from 'tweakpane';
 	import { BROWSER } from 'esm-env';
 	import { onDestroy, onMount } from 'svelte';

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Blade from '$lib/core/Blade.svelte';
-	import type { Theme } from '$lib/theme.js';
+	import Blade from '../core/Blade.svelte';
+	import type { Theme } from '../theme.js';
 	import type { ProfilerBladeMeasureHandler } from '@0b5vr/tweakpane-plugin-profiler';
 	import type { ProfilerBladeApi } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerApi.js';
 

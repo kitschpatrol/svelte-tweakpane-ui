@@ -1,13 +1,13 @@
 <script lang="ts">
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
-	import type { Theme } from '$lib/theme.js';
-	import { getElementIndex, isRootPane, type TpContainer } from '$lib/utils.js';
+	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
+	import type { Theme } from '../theme.js';
+	import { getElementIndex, isRootPane, type TpContainer } from '../utils.js';
 	import type { FolderApi } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
-	import { updateCollapsability } from '$lib/utils.js';
+	import { updateCollapsability } from '../utils.js';
 
 	/** Folder title. */
 	export let title: string = 'Folder';

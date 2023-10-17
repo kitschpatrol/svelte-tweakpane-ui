@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GenericSlider from '$lib/internal/GenericSlider.svelte';
+	import GenericSlider from '../../internal/GenericSlider.svelte';
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props extends Omit<ComponentProps<GenericSlider<number>>, 'bindingParams'> {

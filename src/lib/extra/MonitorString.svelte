@@ -1,5 +1,5 @@
 <script lang="ts">
-	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
+	import GenericMonitor from '../internal/GenericMonitor.svelte';
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
