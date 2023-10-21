@@ -14,6 +14,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { persisted } from 'svelte-local-storage-store';
 	import type { Writable } from 'svelte/store';
+	import { page } from '$app/stores';
 
 	// Could extend from InternalPaneFixed, but need to revise documentation anyway
 	// Many gratuitous defined checks since NonNullable didn't work and not sure how to make an optional prop
@@ -142,6 +143,9 @@
 		e.stopPropagation();
 	};
 
+	let startWidth = 0;
+	let startOffsetX = 0;
+	let startOffsetY = 0;
 	let moveDistance = 0;
 
 	const doubleClickListener = (e: MouseEvent) => {
@@ -160,14 +164,28 @@
 	};
 
 	const downListener = (e: PointerEvent) => {
-		if (e.target instanceof HTMLElement) {
+		if (x !== undefined && y !== undefined && e.button === 0 && e.target instanceof HTMLElement) {
 			moveDistance = 0;
+
 			e.target.setPointerCapture(e.pointerId);
 			e.target.addEventListener('pointermove', moveListener);
 			e.target.addEventListener('pointerup', upListener);
+
+			startWidth = width ?? 0;
+
+			startOffsetX = x - e.pageX;
+			startOffsetY = y - e.pageY;
 		}
 	};
 
+	// Things that don't help drag latency:
+	// -[x] directly setting style
+	// -[x] awaiting ticking
+	// -[x] rounding to pixel values
+	// -[x] setting transform / translate instead of left / top
+	// -[x] managing separate requestAnimationFrame loop
+	// -[ ] using touch or mouse events instead of pointer
+	// -[ ] using the native drag / drop API (no reasonable control over drawing and bounds?)
 	const moveListener = (e: PointerEvent) => {
 		if (
 			e.target instanceof HTMLElement &&
@@ -178,10 +196,11 @@
 		) {
 			if (e.target === dragBarElement) {
 				moveDistance += Math.sqrt(e.movementX * e.movementX + e.movementY * e.movementY);
-				x += e.movementX;
-				y += e.movementY;
+
+				x = e.pageX + startOffsetX;
+				y = e.pageY + startOffsetY;
 			} else if (e.target === widthHandleElement) {
-				width = clamp(width + e.movementX, minWidth, maxAvailablePanelWidth);
+				width = clamp(e.pageX + startOffsetX + startWidth - x, minWidth, maxAvailablePanelWidth);
 			}
 		}
 	};
