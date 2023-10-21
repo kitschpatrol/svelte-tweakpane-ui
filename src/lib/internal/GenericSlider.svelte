@@ -1,6 +1,6 @@
-<script lang="ts" generics="T extends number | IntervalObject">
+<script lang="ts" generics="T extends number | IntervalSliderValue">
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import type { IntervalObject } from '@tweakpane/plugin-essentials/dist/types/interval/model/interval.js';
+	import type { IntervalSliderValue } from '../plugins/essentials/IntervalSlider.svelte';
 
 	import GenericInput from './GenericInput.svelte';
 	import type { NumberInputParams } from 'tweakpane';
