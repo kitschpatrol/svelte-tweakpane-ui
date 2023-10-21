@@ -1,20 +1,34 @@
-<script lang="ts">
-	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
+<script lang="ts" context="module">
+	export type RotationEulerValue =
+		| {
+				x: number;
+				y: number;
+				z: number;
+		  }
+		| [x: number, y: number, z: number];
+	// don't support order, for now
+
 	import type { EulerOrder } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerOrder.js';
 	import type { EulerUnit } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerUnit.js';
+	export type RotationEulerOrder = EulerOrder;
+	export type RotationEulerUnit = EulerUnit;
+</script>
+
+<script lang="ts">
+	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
 	import type { PointDimensionParams } from '@tweakpane/core';
 	import type { ComponentProps } from 'svelte';
 	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
 
 	interface $$Props
 		extends Omit<
-			ComponentProps<GenericInputFolding<Point3dObject>>,
+			ComponentProps<GenericInputFolding<RotationEulerValue>>,
 			'buttonClass' | 'bindingParams' | 'bindingRef' | 'plugin'
 		> {
 		/** TODO Docs */
-		order?: EulerOrder;
+		order?: RotationEulerOrder;
 		/** TODO Docs */
-		unit?: EulerUnit;
+		unit?: RotationEulerUnit;
 		/** TODO Docs */
 		x?: PointDimensionParams;
 		/** TODO Docs */
@@ -22,7 +36,7 @@
 		/** TODO Docs */
 		z?: PointDimensionParams;
 		/** TODO Docs */
-		value: Point3dObject;
+		value: RotationEulerValue;
 	}
 
 	// unique
@@ -36,9 +50,32 @@
 	// reexport for binding
 	export let expanded: $$Props['expanded'] = undefined;
 
+	// proxy value since Tweakpane only supports Point3dObject type
+	let internalValue: Point3dObject;
+
 	// work-arounds for funky folding
 	const buttonClass = 'tp-rotationswatchv_b';
 
+	function updateInternalValue() {
+		if (Array.isArray(value)) {
+			const [x, y, z] = value;
+			internalValue = { x, y, z };
+		} else {
+			internalValue = value;
+		}
+	}
+
+	function updateValue() {
+		if (Array.isArray(value)) {
+			const { x, y, z } = internalValue;
+			value = [x, y, z];
+		} else {
+			value = internalValue;
+		}
+	}
+
+	$: value, updateInternalValue();
+	$: internalValue, updateValue();
 	$: bindingParams = {
 		view: 'rotation',
 		rotationMode: 'euler',
@@ -63,7 +100,7 @@ TODO
 {#await import('@0b5vr/tweakpane-plugin-rotation') then module}
 	<GenericInputFolding
 		bind:expanded
-		bind:value
+		bind:value={internalValue}
 		{buttonClass}
 		{bindingParams}
 		plugin={module}

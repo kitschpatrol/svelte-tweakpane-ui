@@ -1,16 +1,20 @@
+<script lang="ts" context="module">
+	export type ImageFit = 'contain' | 'cover';
+	import type { ImageResolvable } from 'tweakpane-image-plugin/dist/types/model.js';
+	export type ImageValue = ImageResolvable | undefined;
+</script>
+
 <script lang="ts">
 	import GenericInput from '../internal/GenericInput.svelte';
-	import type { ImageResolvable } from 'tweakpane-image-plugin/dist/types/model.js';
 	import type { ComponentProps } from 'svelte';
 
-	interface $$Props
-		extends Omit<ComponentProps<GenericInput<ImageResolvable | undefined>>, 'plugin'> {
+	interface $$Props extends Omit<ComponentProps<GenericInput<ImageValue>>, 'plugin'> {
 		/** TODO Docs */
-		imageFit?: 'contain' | 'cover';
+		imageFit?: ImageFit;
 		/** TODO Docs */
 		extensions?: string[];
 		/** TODO Docs */
-		value: ImageResolvable | undefined;
+		value: ImageValue;
 	}
 
 	// unique

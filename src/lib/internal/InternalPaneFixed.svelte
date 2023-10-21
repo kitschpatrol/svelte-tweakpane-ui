@@ -37,6 +37,19 @@
 		}
 	}
 
+	// function setPosition() {
+	// 	if (paneContainer !== undefined) {
+	// 		console.log('set position');
+	// 		console.log(x);
+	// 		console.log(y);
+	// 		console.log(width);
+	// 		paneContainer.style.setProperty('right', x !== undefined ? 'unset' : '0px');
+	// 		paneContainer.style.setProperty('left', x !== undefined ? `${x}px` : 'unset');
+	// 		paneContainer.style.setProperty('top', y !== undefined ? `${y}px` : '0px');
+	// 		paneContainer.style.setProperty('width', width !== undefined ? `${width}px` : '100px');
+	// 	}
+	// }
+
 	$: paneRef !== undefined &&
 		paneRef.element.parentElement &&
 		(paneContainer = paneRef.element.parentElement);

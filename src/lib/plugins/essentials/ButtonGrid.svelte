@@ -9,7 +9,7 @@
 	interface $$Props
 		extends Omit<
 			ComponentProps<Blade<ButtonGridBladeParams, ButtonGridApi>>,
-			'bladeref' | 'bladeParams' | 'plugin'
+			'bladeRef' | 'bladeParams' | 'plugin'
 		> {
 		/** TODO Docs */
 		columns?: number;

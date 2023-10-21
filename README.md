@@ -117,6 +117,8 @@ Scoped theming
 
 Collapsability
 
+Tuple support (ThreeJs compatibility)
+
 Certain aspects of the Tweakpane API don't make a ton of sense in the Svelte context.
 
 - [index](https://tweakpane.github.io/docs/misc/#insert) is not exposed. The order of controls appearance matches the component hierarchy.

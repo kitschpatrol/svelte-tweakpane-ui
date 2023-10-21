@@ -1,12 +1,23 @@
+<script lang="ts" context="module">
+	export type RotationQuaternionValue =
+		| {
+				x: number;
+				y: number;
+				z: number;
+				w: number;
+		  }
+		| [x: number, y: number, z: number, w: number];
+</script>
+
 <script lang="ts">
 	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
 	import type { PointDimensionParams } from '@tweakpane/core';
 	import type { ComponentProps } from 'svelte';
-	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d.js';
+	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d';
 
 	interface $$Props
 		extends Omit<
-			ComponentProps<GenericInputFolding<Point4dObject>>,
+			ComponentProps<GenericInputFolding<RotationQuaternionValue>>,
 			'buttonClass' | 'bindingParams' | 'bindingRef' | 'plugin'
 		> {
 		/** TODO Docs */
@@ -18,12 +29,11 @@
 		/** TODO Docs */
 		w?: PointDimensionParams;
 		/** TODO Docs */
-		value: Point4dObject;
+		value: RotationQuaternionValue;
 	}
 
 	// unique
 	export let value: $$Props['value'];
-
 	export let x: $$Props['x'] = undefined;
 	export let y: $$Props['y'] = undefined;
 	export let z: $$Props['z'] = undefined;
@@ -32,9 +42,32 @@
 	// reexport for binding
 	export let expanded: $$Props['expanded'] = undefined;
 
+	// proxy value since Tweakpane only supports Point4dObject type
+	let internalValue: Point4dObject;
+
 	// work-arounds for funky folding
 	const buttonClass = 'tp-rotationswatchv_b';
 
+	function updateInternalValue() {
+		if (Array.isArray(value)) {
+			const [x, y, z, w] = value;
+			internalValue = { x, y, z, w };
+		} else {
+			internalValue = value;
+		}
+	}
+
+	function updateValue() {
+		if (Array.isArray(value)) {
+			const { x, y, z, w } = internalValue;
+			value = [x, y, z, w];
+		} else {
+			value = internalValue;
+		}
+	}
+
+	$: value, updateInternalValue();
+	$: internalValue, updateValue();
 	$: bindingParams = {
 		view: 'rotation',
 		rotationMode: 'quaternion',
@@ -58,7 +91,7 @@ TODO
 {#await import('@0b5vr/tweakpane-plugin-rotation') then module}
 	<GenericInputFolding
 		bind:expanded
-		bind:value
+		bind:value={internalValue}
 		{buttonClass}
 		{bindingParams}
 		plugin={module}

@@ -238,7 +238,8 @@ const vivid: Theme = {
 	monitorForegroundColor: 'hsla(0, 0%, 100%, 0.5)'
 };
 
-export const Themes = {
+/** A collection of default theme color schemes  */
+export const THEMES = {
 	standard,
 	light,
 	translucent,

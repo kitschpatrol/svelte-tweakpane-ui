@@ -3,7 +3,7 @@
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
-		extends Omit<ComponentProps<GenericSlider<number>>, 'bindingParams' | 'plugin'> {
+		extends Omit<ComponentProps<GenericSlider<number>>, 'bindingRef' | 'bindingParams' | 'plugin'> {
 		/** A `number` value to control. Bindable. */
 		value: number;
 		//** The amount of the value to change per pixel. */

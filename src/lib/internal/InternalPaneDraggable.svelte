@@ -23,7 +23,7 @@
 		x?: number;
 		/** Vertical position of the pane, in pixels. Bindable. (Defaults to 0.) */
 		y?: number;
-		/** Width of the pane, in pixels. User-adjustable if `resizeable` is set to true. Bindable. (Defaults to 256.) */
+		/** Width of the pane, in pixels. User-adjustable if `resizeable` is set to true. Setting explicitly via a passed prop will override saved user-specified width. (Defaults to 256.) */
 		width?: number;
 		/** Whether the pane's last position and width should be saved to local storage and re-applied across page reloads. Defaults to true. */
 		storePositionLocally?: boolean;
@@ -92,6 +92,7 @@
 	function removeStorageId() {
 		if (localStoreId) {
 			localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1);
+			localStorage.removeItem(`${localStorePrefix}${localStoreId}`);
 		}
 	}
 
@@ -285,7 +286,8 @@
 	$: localStoreId !== `${localStorePrefix}${localStoreId}` && updateLocalStoreId(localStoreId);
 
 	// proxy everything to the store
-	$: localStoreId !== undefined &&
+	$: storePositionLocally &&
+		localStoreId !== undefined &&
 		x !== undefined &&
 		y !== undefined &&
 		width !== undefined &&

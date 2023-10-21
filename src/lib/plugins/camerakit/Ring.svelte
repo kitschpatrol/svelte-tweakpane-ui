@@ -5,7 +5,7 @@
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
-		extends Omit<ComponentProps<GenericSlider<number>>, 'bindingParams' | 'plugin'> {
+		extends Omit<ComponentProps<GenericSlider<number>>, 'bindingRef' | 'bindingParams' | 'plugin'> {
 		/** A `number` value to control. Bindable. */
 		value: number;
 		/** Style variations, takes values of `0` `1` or `2`. */

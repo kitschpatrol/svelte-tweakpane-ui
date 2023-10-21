@@ -1,6 +1,13 @@
+<script lang="ts" context="module">
+	import type { ProfilerBladeMeasureHandler } from '@0b5vr/tweakpane-plugin-profiler';
+	export type ProfilerMeasureHandler = ProfilerBladeMeasureHandler;
+	export type ProfilerCalcMode = 'frame' | 'mean' | 'median';
+	export type ProfilerMeasure = (name: string, fn: () => void) => void;
+</script>
+
 <script lang="ts">
 	import Blade from '../core/Blade.svelte';
-	import type { ProfilerBladeMeasureHandler } from '@0b5vr/tweakpane-plugin-profiler';
+
 	import type { ProfilerBladePluginParams } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js';
 	import type { ProfilerBladeApi } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerApi.js';
 	import type { ComponentProps } from 'svelte';
@@ -8,24 +15,24 @@
 	interface $$Props
 		extends Omit<
 			ComponentProps<Blade<ProfilerBladePluginParams, ProfilerBladeApi>>,
-			'bladeref' | 'bladeParams' | 'plugin'
+			'bladeRef' | 'bladeParams' | 'plugin'
 		> {
 		/** TODO Docs */
 		bufferSize?: number;
 		/** TODO Docs */
-		calcMode?: 'frame' | 'mean' | 'median';
+		calcMode?: ProfilerCalcMode;
 		/** TODO Docs */
 		deltaUnit?: string;
 		/** TODO Docs */
 		fractionDigits?: number;
 		/** TODO Docs */
-		measureHandler?: ProfilerBladeMeasureHandler;
+		measureHandler?: ProfilerMeasureHandler;
 		/** TODO Docs */
 		targetDelta?: number;
 		/** TODO Docs */
 		label?: string;
 		/** TODO Docs, TODO really vet this */
-		measure?: (name: string, fn: () => void) => void;
+		measure?: ProfilerMeasure;
 	}
 
 	// special case function export

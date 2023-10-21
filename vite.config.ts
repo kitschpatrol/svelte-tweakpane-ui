@@ -8,4 +8,7 @@ export default defineConfig({
 	server: {
 		open: true
 	}
+	// build: {
+	// 	target: 'es6'
+	// }
 });

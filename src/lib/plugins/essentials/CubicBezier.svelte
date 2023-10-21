@@ -1,17 +1,22 @@
+<script lang="ts" context="module">
+	import type { CubicBezierBladeParams } from '@tweakpane/plugin-essentials/dist/types/cubic-bezier/plugin.d.ts';
+	export type CubicBezierValue = CubicBezierBladeParams['value'];
+</script>
+
 <script lang="ts">
 	import GenericBladeFolding from '../../internal/GenericBladeFolding.svelte';
 	import type { CubicBezierApi } from '@tweakpane/plugin-essentials';
 	import { CubicBezier } from '@tweakpane/plugin-essentials';
-	import type { CubicBezierBladeParams } from '@tweakpane/plugin-essentials/dist/types/cubic-bezier/plugin.d.ts';
+
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
 		extends Omit<
 			ComponentProps<GenericBladeFolding<CubicBezierBladeParams, CubicBezierApi>>,
-			'bladeref' | 'bladeParams' | 'plugin'
+			'bladeRef' | 'bladeParams' | 'plugin'
 		> {
 		/** TODO Docs */
-		value: [number, number, number, number];
+		value: CubicBezierValue;
 		/** TODO Docs */
 		label?: string;
 	}

@@ -1,4 +1,4 @@
-<script lang="ts" generics="T extends number | string | boolean">
+<script lang="ts" generics="T extends number | string | boolean | undefined">
 	import GenericInput from '../../internal/GenericInput.svelte';
 	import { getGridDimensions } from '../../utils.js';
 	import type { ComponentProps } from 'svelte';

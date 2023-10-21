@@ -1,4 +1,5 @@
-<script lang="ts" generics="T extends string | boolean | number">
+<script lang="ts" generics="T extends string | boolean | number | undefined">
+	// extend unknown for use with narrower string union types
 	import GenericInput from '../internal/GenericInput.svelte';
 	import type { ComponentProps } from 'svelte';
 	import type { ListParamsOptions } from 'tweakpane';

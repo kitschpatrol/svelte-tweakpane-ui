@@ -1,6 +1,16 @@
-<script lang="ts" generics="T extends Point2dObject | Point3dObject | Point4dObject">
-	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
+<script lang="ts" context="module">
+	// TODO test this
+	export type PointPicker2dValue = { x: number; y: number } | [x: number, y: number];
+	export type PointPicker3dValue =
+		| { x: number; y: number; z: number }
+		| [x: number, y: number, z: number];
+	export type PointPicker4dValue =
+		| { x: number; y: number; z: number; w: number }
+		| [x: number, y: number, z: number, w: number];
+</script>
 
+<script lang="ts" generics="T extends PointPicker2dValue | PointPicker3dValue | PointPicker4dValue">
+	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
 	import type { ComponentProps } from 'svelte';
 	import type { Point2dObject } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js';
 	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
@@ -11,12 +21,20 @@
 	// TODO how to make certain props conditional on T
 	// https://stackoverflow.com/questions/76553208/dynamic-props-for-svelte-component
 
-	type PointParams<U> = U extends Point4dObject
+	type PointParams<U> = U extends PointPicker4dValue
 		? Point4dInputParams
-		: U extends Point3dObject
+		: U extends PointPicker3dValue
 		? Point3dInputParams & { w: unknown }
-		: U extends Point2dObject
+		: U extends PointPicker2dValue
 		? Point2dInputParams & { z: unknown; w: unknown }
+		: unknown;
+
+	type InternalPoint<U> = U extends PointPicker4dValue
+		? Point4dObject
+		: U extends PointPicker3dValue
+		? Point3dObject
+		: U extends PointPicker2dValue
+		? Point2dObject
 		: unknown;
 
 	// some redefinition of props from GenericSlider, but redefining since we want to refine the documentation anyway
@@ -62,9 +80,48 @@
 	export let w: $$Props['w'] = undefined; // no proxy needed
 	export let format: $$Props['format'] = undefined; // no proxy needed
 
+	// proxy value since Tweakpane only supports PointNdObject type
+	let internalValue: InternalPoint<T>;
+
 	// work-arounds for funky folding
 	const buttonClass = 'tp-p2dv_b';
 
+	function updateInternalValue() {
+		if (Array.isArray(value)) {
+			if (value.length === 4) {
+				const [x, y, z, w] = value;
+				internalValue = { x, y, z, w } as InternalPoint<T>;
+			} else if (value.length === 3) {
+				const [x, y, z] = value;
+				internalValue = { x, y, z } as InternalPoint<T>;
+			} else {
+				const [x, y] = value;
+				internalValue = { x, y } as InternalPoint<T>;
+			}
+		} else {
+			internalValue = value as InternalPoint<T>;
+		}
+	}
+
+	function updateValue() {
+		if (Array.isArray(value)) {
+			if ('w' in internalValue) {
+				const { x, y, z, w } = internalValue;
+				value = [x, y, z, w] as T;
+			} else if ('z' in internalValue) {
+				const { x, y, z } = internalValue;
+				value = [x, y, z] as T;
+			} else {
+				const { x, y } = internalValue;
+				value = [x, y] as T;
+			}
+		} else {
+			value = internalValue as T;
+		}
+	}
+
+	$: value, updateInternalValue();
+	$: internalValue, updateValue();
 	$: bindingParams = {
 		pointerScale,
 		keyScale,
@@ -105,4 +162,10 @@ Example:
 ```
 -->
 
-<GenericInputFolding bind:value bind:expanded {buttonClass} {bindingParams} {...$$restProps} />
+<GenericInputFolding
+	bind:value={internalValue}
+	bind:expanded
+	{buttonClass}
+	{bindingParams}
+	{...$$restProps}
+/>

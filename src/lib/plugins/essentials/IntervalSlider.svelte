@@ -1,6 +1,11 @@
+<script lang="ts" context="module">
+	// TODO support tuple
+	import type { IntervalObject } from '@tweakpane/plugin-essentials/dist/types/interval/model/interval.js';
+	export type IntervalSliderValue = IntervalObject;
+</script>
+
 <script lang="ts">
 	import GenericSlider from '../../internal/GenericSlider.svelte';
-	import type { IntervalObject } from '@tweakpane/plugin-essentials/dist/types/interval/model/interval.js';
 	import type { ComponentProps } from 'svelte';
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -10,7 +15,7 @@
 			'bindingRef' | 'bindingParams' | 'plugin'
 		> {
 		/** TODO Docs */
-		value: IntervalObject;
+		value: IntervalSliderValue;
 	}
 
 	export let value: $$Props['value'];

@@ -9,7 +9,7 @@
 	}
 
 	interface $$Props extends Omit<ComponentProps<Binding<BindableValue>>, 'key' | 'params'> {
-		/** DOC TEST */
+		/** Value to manipulate. */
 		value: T;
 	}
 

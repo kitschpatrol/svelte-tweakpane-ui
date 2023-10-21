@@ -1,10 +1,15 @@
-<script lang="ts">
-	import GenericMonitor from '../internal/GenericMonitor.svelte';
-	import type { ComponentProps } from 'svelte';
+<script lang="ts" context="module">
 	import type {
 		WaveformStyles,
 		WaveformValue
 	} from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
+	export type WaveformLineStyle = WaveformStyles;
+	export type { WaveformValue };
+</script>
+
+<script lang="ts">
+	import GenericMonitor from '../internal/GenericMonitor.svelte';
+	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
 		extends Omit<
@@ -16,7 +21,7 @@
 		/** TODO Docs */
 		min?: number;
 		/** TODO Docs */
-		lineStyle?: WaveformStyles;
+		lineStyle?: WaveformLineStyle;
 		/** TODO Docs */
 		value: WaveformValue;
 	}

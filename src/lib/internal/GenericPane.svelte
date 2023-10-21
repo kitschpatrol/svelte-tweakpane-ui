@@ -2,6 +2,7 @@
 	import type { Theme } from '../theme.js';
 	import { applyTheme } from '../theme.js';
 	import type { TpContainer } from '../utils.js';
+	// import type { BladeState } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, setContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
@@ -19,6 +20,17 @@
 
 	/** Custom color scheme. Applies to all child components. Note that `<Pane position="inline" ...>` squares off rounded corners by default to better integrate with surrounding content. */
 	export let theme: Theme | undefined = undefined;
+
+	// TODO Giant pain to pass through,
+	/** Function to import a state object and set all pane values simultaneously. Returns true if successful. */
+	// export function importState(state: BladeState): boolean {
+	// 	return paneRef?.importState(state) ?? false;
+	// };
+
+	/** Function to export state object of all pane values. */
+	// export function exportState(): BladeState | undefined {
+	// 	return paneRef?.exportState();
+	// }
 
 	/** Internal use only. */
 	export let userCreatedPane = true;

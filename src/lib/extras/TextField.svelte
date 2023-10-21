@@ -1,4 +1,5 @@
 <script lang="ts">
+	// TODO live update mode
 	import GenericInput from '../internal/GenericInput.svelte';
 	import type { ComponentProps } from 'svelte';
 

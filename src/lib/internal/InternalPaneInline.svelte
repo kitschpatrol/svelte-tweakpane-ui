@@ -6,9 +6,13 @@
 	import type { Pane as TpPane } from 'tweakpane';
 	import { removeKeys } from '../utils.js';
 
-	interface $$Props extends Omit<ComponentProps<GenericPane>, 'paneRef'> {}
+	interface $$Props extends Omit<ComponentProps<GenericPane>, 'paneRef'> {
+		/** Width of the pane, in pixels. If undefined, pane fills the width of its container, while maintaining a minimum width of about 221 pixels. (Defaults to `undefined`)  */
+		width?: number;
+	}
 
 	export let expanded: $$Props['expanded'] = undefined;
+	export let width: $$Props['width'] = undefined;
 	let paneRef: TpPane;
 
 	export let theme: $$Props['theme'] = {
@@ -17,6 +21,15 @@
 	};
 
 	let containerElement: HTMLDivElement;
+
+	function setWidth() {
+		console.log('setwidth');
+		if (width !== undefined) {
+			paneRef.element.style.setProperty('width', `${width}px`);
+		} else {
+			paneRef.element.style.removeProperty('width');
+		}
+	}
 
 	onMount(() => {
 		if (paneRef) {
@@ -28,6 +41,9 @@
 			console.warn('paneRef is undefined');
 		}
 	});
+
+	$: width, paneRef !== undefined && setWidth();
+	$: paneRef !== undefined && console.log(paneRef.element);
 </script>
 
 <!--

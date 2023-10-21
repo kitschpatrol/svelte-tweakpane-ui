@@ -1,9 +1,15 @@
+<script lang="ts" context="module">
+	export type PanePosition = 'inline' | 'fixed' | 'draggable';
+</script>
+
 <script lang="ts">
+	import { removeKeys } from '../utils';
 	import InternalPaneDraggable from '../internal/InternalPaneDraggable.svelte';
 	import InternalPaneFixed from '../internal/InternalPaneFixed.svelte';
 	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
+	import type { BladeState } from '@tweakpane/core';
 
-	import type { ComponentProps } from 'svelte';
+	import { beforeUpdate, type ComponentProps } from 'svelte';
 
 	// hide userCreatedPane from public API, since it only matters to implicit panes
 	type InlineProps = Omit<ComponentProps<InternalPaneInline>, 'userCreatedPane'> & {
@@ -38,7 +44,7 @@
 		 *   Note that `<Pane>` is a dynamic component, and availability of additional props will
 		 *   vary depending on the defined `position` value.
 		 * */
-		position?: 'inline' | 'fixed' | 'draggable';
+		position?: PanePosition;
 	};
 
 	// type safety...
@@ -47,11 +53,23 @@
 	// yuck
 	// have to do this for bindings to work...
 	// maybe related to https://svelte.dev/repl/aacb7e0b8066497490d3204f8a57491c?version=3.2.2 ?
+	export let expanded: $$Props['expanded'] = undefined;
+	export let width: $$Props['width'] = undefined;
+	export let position: $$Props['position'] = undefined;
+
 	// redeclare types instead of referencing $$Props['key'] since certain keys aren't guaranteed
-	export let expanded: boolean | undefined = undefined;
 	export let x: number | undefined = undefined;
 	export let y: number | undefined = undefined;
-	export let width: number | undefined = undefined;
+
+	beforeUpdate(() => {
+		// don't let saved draggable props override explicit props in inline and fixed modes
+		if ($$props.position === 'inline' || $$props.position === 'fixed') {
+			x = $$props.x;
+			y = $$props.y;
+			width = $$props.width;
+			expanded = $$props.expanded;
+		}
+	});
 
 	// the below proved more reliable than keying on mode and setting <svelte:component this={props.mode} {...$$restProps} />
 </script>
@@ -96,16 +114,16 @@ Example:
 ```
 -->
 
-{#if $$props.position === undefined || $$props.position === 'draggable'}
+{#if position === undefined || position === 'draggable'}
 	<InternalPaneDraggable bind:x bind:y bind:width bind:expanded {...$$restProps}>
 		<slot />
 	</InternalPaneDraggable>
-{:else if $$props.position === 'inline'}
-	<InternalPaneInline bind:expanded {...$$restProps}>
+{:else if position === 'inline'}
+	<InternalPaneInline bind:expanded {width} {...removeKeys($$restProps, 'storePositionLocally')}>
 		<slot />
 	</InternalPaneInline>
-{:else if $$props.position === 'fixed'}
-	<InternalPaneFixed bind:expanded {x} {y} {width} {...$$restProps}>
+{:else if position === 'fixed'}
+	<InternalPaneFixed bind:expanded bind:x bind:y {width} {...$$restProps}>
 		<slot />
 	</InternalPaneFixed>
 {/if}

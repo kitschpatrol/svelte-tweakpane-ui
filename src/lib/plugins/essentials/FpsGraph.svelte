@@ -8,7 +8,7 @@
 	interface $$Props
 		extends Omit<
 			ComponentProps<Blade<FpsGraphBladeParams, FpsGraphBladeApi>>,
-			'bladeref' | 'bladeParams' | 'plugin'
+			'bladeRef' | 'bladeParams' | 'plugin'
 		> {
 		/** TODO Docs */
 		rows?: number;
