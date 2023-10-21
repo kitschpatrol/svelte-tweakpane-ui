@@ -44,9 +44,10 @@ interface ThemeKeys {
 	monitorForegroundColor?: ThemeColorValue;
 	// Plugins
 	pluginImageDraggingColor?: ThemeColorValue;
-	pluginThumbnailListHeight?: ThemeValue;
-	pluginThumbnailListThumbSize?: ThemeValue;
-	pluginThumbnailListWidth?: ThemeValue;
+	// TODO broken
+	// pluginThumbnailListHeight?: ThemeValue;
+	// pluginThumbnailListThumbSize?: ThemeValue;
+	// pluginThumbnailListWidth?: ThemeValue;
 }
 
 interface CustomThemeKeys {

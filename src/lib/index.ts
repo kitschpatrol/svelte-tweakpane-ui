@@ -40,11 +40,10 @@ export { default as Textarea } from './plugins/Textarea.svelte';
 // export { default as ThumbnailList } from './plugins/ThumbnailList.svelte';
 export { default as Waveform } from './plugins/Waveform.svelte';
 
-// theming(TODO hmm)
+// theming (TODO hmm)
 export { THEMES, setGlobalDefaultTheme, type Theme } from './theme.js';
 
 // prop types
-export type { TpPluginBundle, Bindable, BladeState, PointDimensionParams } from '@tweakpane/core';
 export type { PanePosition } from './core/Pane.svelte';
 export type {
 	PointPicker2dValue,

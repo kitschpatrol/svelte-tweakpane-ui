@@ -8,6 +8,7 @@
 	import { writable, type Writable } from 'svelte/store';
 	import { Pane as TpPane, type TpPluginBundle } from 'tweakpane';
 	import { updateCollapsability } from '../utils.js';
+	// import type { BladeState } from '@tweakpane/core';
 
 	/** Text in the pane's title bar. If undefined, no title bar is shown, and expanding / collapsing the pane will only be available through the `expanded` prop. */
 	export let title: string | undefined = undefined;
@@ -20,6 +21,8 @@
 
 	/** Custom color scheme. Applies to all child components. Note that `<Pane position="inline" ...>` squares off rounded corners by default to better integrate with surrounding content. */
 	export let theme: Theme | undefined = undefined;
+
+	// export let state: BladeState | undefined = undefined;
 
 	// TODO Giant pain to pass through,
 	/** Function to import a state object and set all pane values simultaneously. Returns true if successful. */

@@ -54,7 +54,7 @@ Object keys will be used as labels, and a (reasonably) appropriate Tweakpane con
 
 Records within the object will be wrap their contents in a `<Folder>` component. Value objects in the shape of color or point objects will show a more specialized control.
 
-Usage outside of a `<Pane>` component will implicitly wrap the component in a `<InternalPaneInline>`.
+Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane position="inline">`.
 
 Example:	
 ```tsx

@@ -73,7 +73,7 @@ A humble push button.
 
 Wraps the Tweakpane [addButton](https://tweakpane.github.io/docs/ui-components/#button) method.
 
-Usage outside of a `<Pane>` component will implicitly wrap the button in a `<InternalPaneInline>`.
+Usage outside of a `<Pane>` component will implicitly wrap the button in `<Pane position="inline">`.
 
 Example:	
   ```tsx

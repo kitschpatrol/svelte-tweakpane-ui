@@ -18,7 +18,7 @@ Wraps Tweakpane's [number bindings](https://tweakpane.github.io/docs/input-bindi
 
 Note that if min and max are not defined, no linear slider widget will be provided and a input field with a draggable handle will be used instead.
 
-Usage outside of a `<Pane>` component will implicitly wrap the slider in a `<InternalPaneInline>`.
+Usage outside of a `<Pane>` component will implicitly wrap the slider in `<Pane position="inline">`.
 
 See the `<Interval>` component for a multi-handle range-defining slider.
 

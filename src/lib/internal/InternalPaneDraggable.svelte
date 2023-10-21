@@ -14,7 +14,6 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { persisted } from 'svelte-local-storage-store';
 	import type { Writable } from 'svelte/store';
-	import { page } from '$app/stores';
 
 	// Could extend from InternalPaneFixed, but need to revise documentation anyway
 	// Many gratuitous defined checks since NonNullable didn't work and not sure how to make an optional prop

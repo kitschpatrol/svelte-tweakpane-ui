@@ -20,7 +20,7 @@ Updates to the bound value only happen on blur, not on every keystroke.
 
 Wraps Tweakpane's [string binding](https://tweakpane.github.io/docs/input-bindings/#string).
 
-Usage outside of a `<Pane>` component will implicitly wrap the text field in a `<InternalPaneInline>`.
+Usage outside of a `<Pane>` component will implicitly wrap the text field in `<Pane position="inline">`.
 
 Example:	
 ```tsx

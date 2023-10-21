@@ -21,7 +21,7 @@ A convenience component providing a subtle visual separator between controls, in
 
 Wraps Tweakpane's [separator blade](https://tweakpane.github.io/docs/blades/#separator).
 
-Usage outside of a `<Pane>` component will implicitly wrap the separator in a `<InternalPaneInline>`.
+Usage outside of a `<Pane>` component will implicitly wrap the separator in `<Pane position="inline">`.
 
 Example:	
 ```tsx

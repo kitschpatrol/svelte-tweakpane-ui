@@ -13,7 +13,6 @@
 	import GenericSlider from '../../internal/GenericSlider.svelte';
 	import type { ComponentProps } from 'svelte';
 	import type { IntervalObject } from '@tweakpane/plugin-essentials/dist/types/interval/model/interval.js';
-	import internal from 'stream';
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	interface $$Props
@@ -23,7 +22,7 @@
 		> {
 		/** TODO Docs */
 		value: IntervalSliderValue;
-		/** TODO Docs (TP addition) */
+		/** Midpoint of the interval range value. Bindable. */
 		meanValue: number;
 	}
 

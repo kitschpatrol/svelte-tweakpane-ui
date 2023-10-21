@@ -76,7 +76,7 @@
 @component
 Wraps the Tweakpane [addBlade](https://tweakpane.github.io/docs/blades/) method.
 
-Usage outside of a `<Pane>` component will implicitly wrap the component in a `<InternalPaneInline>`.
+Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane position="inline">`.
 	
 Tweakpane's Vanilla JS API offers Blades as as a way to create unbound components, but in Svelte the same can be achieved by simply not binding the component's value.
 

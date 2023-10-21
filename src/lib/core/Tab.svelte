@@ -72,7 +72,7 @@ Contains a collection of `<Page>` components to be presented as a tabs. ("TabGro
 
 Wraps Tweakpane's [addTab](https://tweakpane.github.io/docs/ui-components/#tab) method.
 
-Usage outside of a `<Pane>` component will implicitly wrap the tab in a `<InternalPaneInline>`.
+Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane position="inline">`.
 
 Example:	
 ```tsx

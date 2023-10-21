@@ -18,7 +18,7 @@ A checkbox.
 
 Wraps Tweakpane's [boolean input binding](https://tweakpane.github.io/docs/input-bindings/#boolean).
 
-Usage outside of a `<Pane>` component will implicitly wrap the checkbox in a `<InternalPaneInline>`.
+Usage outside of a `<Pane>` component will implicitly wrap the checkbox in `<Pane position="inline">`.
 
 Example:	
 ```tsx

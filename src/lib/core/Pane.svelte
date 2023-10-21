@@ -7,7 +7,7 @@
 	import InternalPaneDraggable from '../internal/InternalPaneDraggable.svelte';
 	import InternalPaneFixed from '../internal/InternalPaneFixed.svelte';
 	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
-	import type { BladeState } from '@tweakpane/core';
+	// import type { BladeState } from '@tweakpane/core';
 
 	import { beforeUpdate, type ComponentProps } from 'svelte';
 

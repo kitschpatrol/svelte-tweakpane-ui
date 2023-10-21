@@ -94,7 +94,7 @@ Contains a collection of Tweakpane controls to be presented as a group inside a 
 
 Provides `page` values to Tweakpane's [addTab](https://tweakpane.github.io/docs/ui-components/#tab) method.
 
-Usage outside of a `<Tab>` component wouldn't make much sense, but in such cases the `<Page>` will be implicitly wrapped in a `<Tab>` and a `<InternalPaneInline>`.
+Usage outside of a `<Tab>` component wouldn't make much sense, but in such cases the `<Page>` will be implicitly wrapped in a `<Tab>` and `<Pane position="inline">`.
 
 Example:	
 ```tsx
