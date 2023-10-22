@@ -16,6 +16,8 @@
 		> {
 		/** Value of the selected item. Bindable. If the bound value is undefined at the time the component is created, then it is set to the first value of the `options` prop array or object. */
 		value: T;
+		/** Text displayed next to list. */
+		label?: string;
 		/** A collection of options, either an array of type `{text: string; value: T}[]`, an object of type `{[text: string]: T;};` or an array of arbitrary values. The arbitrary array list type is a convenience unique to `svelte-tweakpane-ui`. */
 		options: ListOptions<T>;
 	}
@@ -23,6 +25,7 @@
 	// must redeclare for bindability
 	export let value: $$Props['value'];
 	export let options: $$Props['options'];
+	export let label: $$Props['label'] = undefined;
 
 	let listBlade: ListBladeApi<T>;
 
@@ -83,6 +86,7 @@
 	$: bladeOptions = {
 		value: getInitialValue(),
 		view: 'list',
+		label,
 		options: getInternalOptions(options)
 	} as ListBladeParams<T>;
 	$: listBlade && addEvent();

@@ -1,7 +1,11 @@
-<script lang="ts">
-	import GenericSlider from '../../internal/GenericSlider.svelte';
+<script lang="ts" context="module">
 	import type { RingSeries } from '@tweakpane/plugin-camerakit/dist/types/util.js';
 	import type { RingUnit } from '@tweakpane/plugin-camerakit/dist/types/view/ring.d.ts';
+	export type { RingSeries, RingUnit };
+</script>
+
+<script lang="ts">
+	import GenericSlider from '../../internal/GenericSlider.svelte';
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props

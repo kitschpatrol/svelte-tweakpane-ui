@@ -2,9 +2,6 @@ import type { FolderApi, Pane, TabPageApi, TpPluginBundle } from 'tweakpane';
 
 // All internal
 
-// type for registerPlugin context function on GenericPane
-export type RegisterPlugin = (plugin: TpPluginBundle) => void;
-
 export type TpContainer = Pane | FolderApi | TabPageApi;
 
 export function isRootPane(container: TpContainer): boolean {

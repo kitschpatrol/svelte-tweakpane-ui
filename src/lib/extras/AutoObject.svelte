@@ -1,12 +1,12 @@
 <script lang="ts">
 	// Inspired by https://github.com/MrFoxPro/solid-tweakpane/blob/master/src/automutable.tsx
 
-	import Binding from '../core/Binding.svelte';
+	import Binding, { type BindingObject } from '../core/Binding.svelte';
 	import Folder from '../core/Folder.svelte';
 	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
 	import type { Theme } from '../theme.js';
 	import type { TpContainer } from '../utils.js';
-	import type { Bindable } from '@tweakpane/core';
+
 	import { BROWSER } from 'esm-env';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -22,7 +22,7 @@
 	export let prettyLabels: boolean = true;
 
 	/** Object to create an automatic set of Tweakpane controls for. Keys will be used as labels, and a (reasonably) appropriate Tweakpane control will be used for each value's type. */
-	export let object: Bindable;
+	export let object: BindingObject;
 
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
 

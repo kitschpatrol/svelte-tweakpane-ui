@@ -2,17 +2,16 @@
 	import type { BaseBladeParams, BladeApi } from 'tweakpane';
 	export type BladeOptions = BaseBladeParams;
 	export type BladeRef = BladeApi; // required for input folding
-	export type BladePlugin = TpPluginBundle;
 </script>
 
 <script lang="ts" generics="U extends BladeOptions, V extends BladeRef">
 	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type TpContainer, type RegisterPlugin } from '../utils.js';
+	import { getElementIndex, isRootPane, type TpContainer } from '../utils.js';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
-	import type { TpPluginBundle } from '@tweakpane/core';
+	import type { TpPluginBundle as Plugin } from '@tweakpane/core';
 
 	/** Blade configuration exposing TweakPane's internal [BladeParams](https://tweakpane.github.io/docs/api/interfaces/BaseBladeParams.html), not generally intended for direct use. */
 	export let options: U;
@@ -27,9 +26,9 @@
 	export let ref: V | undefined = undefined;
 
 	/** Imported Tweakpane `TpPluginBundle` module to register before creating the blade. Primarily for internal use. */
-	export let plugin: TpPluginBundle | undefined = undefined;
+	export let plugin: Plugin | undefined = undefined;
 
-	const registerPlugin = getContext<RegisterPlugin>('registerPlugin');
+	const registerPlugin = getContext<(plugin: Plugin) => void>('registerPlugin');
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
 	const userCreatedPane = getContext('userCreatedPane');
 

@@ -1,9 +1,8 @@
 <script lang="ts" context="module">
-	import type { Bindable, BindingParams, BindingApi, TpPluginBundle } from '@tweakpane/core';
+	import type { Bindable, BindingParams, BindingApi } from '@tweakpane/core';
 	export type BindingObject = Bindable;
 	export type BindingOptions = BindingParams;
 	export type BindingRef = BindingApi;
-	export type BindingPlugin = TpPluginBundle;
 </script>
 
 <script
@@ -15,7 +14,8 @@
 	import type { Writable } from 'svelte/store';
 	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
 	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type RegisterPlugin, type TpContainer } from '../utils.js';
+	import { getElementIndex, isRootPane, type TpContainer } from '../utils.js';
+	import type { TpPluginBundle as Plugin } from '@tweakpane/core';
 
 	/** The binding target object with values to manipulate. */
 	export let object: T;
@@ -39,9 +39,9 @@
 	export let ref: V | undefined = undefined;
 
 	/** Imported Tweakpane `TpPluginBundle` module to register before creating the binding. Primarily for internal use. */
-	export let plugin: BindingPlugin | undefined = undefined;
+	export let plugin: Plugin | undefined = undefined;
 
-	const registerPlugin = getContext<RegisterPlugin>('registerPlugin');
+	const registerPlugin = getContext<(plugin: Plugin) => void>('registerPlugin');
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
 	const userCreatedPane = getContext('userCreatedPane');
 
