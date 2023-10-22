@@ -99,7 +99,7 @@ Wraps Tweakpane's list blade. See Tweakpane's documentation for [list blades](ht
 
 Tweakpane's `addBlade` list variations is used instead of the `addBinding` method to allow for additional value types. The `value` remains bindable via Svelte's reactivity.
 
-Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane position="inline">`.
+Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane position='inline'>`.
 
 Example:	
 ```tsx

@@ -80,7 +80,7 @@ Organize multiple controls into a collapsable folder.
 
 Wraps the Tweakpane [addFolder](https://tweakpane.github.io/docs/ui-components/#folder) method.
 
-Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane position="inline">`.
+Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane position='inline'>`.
 
 Example:	
 ```tsx
@@ -90,7 +90,7 @@ Example:
 
 <Folder title="Reticulaton Manager">
 	<Button title="Reticulate" on:click={() => reticulationCount++} />
-	<MonitorNumber label="Reticulations" value={reticulationCount} />
+	<InternalMonitorNumber label="Reticulations" value={reticulationCount} />
 </Folder>
 ```
 -->

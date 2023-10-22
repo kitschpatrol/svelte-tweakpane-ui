@@ -8,16 +8,15 @@ export { default as Tab } from './core/Tab.svelte';
 
 // extra (svelte convenience components)
 export { default as AutoObject } from './extras/AutoObject.svelte';
-export { default as MonitorBoolean } from './extras/MonitorBoolean.svelte';
+export { default as Monitor } from './extras/Monitor.svelte';
 export { default as Checkbox } from './extras/Checkbox.svelte';
 export { default as ColorPicker } from './extras/ColorPicker.svelte';
 export { default as List } from './extras/List.svelte';
-export { default as MonitorNumber } from './extras/MonitorNumber.svelte';
+
 export { default as PointPicker } from './extras/PointPicker.svelte';
 export { default as Separator } from './extras/Separator.svelte';
 export { default as Slider } from './extras/Slider.svelte';
 export { default as TextField } from './extras/TextField.svelte';
-export { default as MonitorString } from './extras/MonitorString.svelte';
 
 // essentials (1st party plugins)
 export { default as ButtonGrid } from './plugins/essentials/ButtonGrid.svelte';

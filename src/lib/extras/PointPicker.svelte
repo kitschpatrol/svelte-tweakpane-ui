@@ -142,7 +142,7 @@ Wraps the Tweakpane [point bindings](https://tweakpane.github.io/docs/input-bind
 
 Provides a nice cartesian picker for 2D points, and numeric input fields for 3D and 4D points. See the <RotationEuler> and <RotationQuaternion> components for higher-dimension graphical pickers.
 
-Usage outside of a `<Pane>` component will implicitly wrap the point picker in a `<Pane position='inline' ...>` component.
+Usage outside of a `<Pane>` component will implicitly wrap the point picker in a `<Pane position='inline'>` component.
 
 Example:	
 ```tsx

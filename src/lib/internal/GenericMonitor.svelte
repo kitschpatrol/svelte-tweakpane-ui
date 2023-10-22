@@ -12,7 +12,6 @@
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props extends ComponentProps<GenericBinding<T, U, V>> {
-		// unique props
 		/** Number of visible rows of state history. Only has an effect if `bufferSize` is defined. If `bufferSize` is larger, then the value window will scroll once state history exceeds row count. */
 		rows?: number;
 		/** Number of past states to retain. */

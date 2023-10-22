@@ -10,6 +10,7 @@
 		type IntervalSliderValue,
 		type BindingObject
 	} from '$lib';
+	import Monitor from '$lib/extras/Monitor.svelte';
 
 	let n = 0;
 	let m: IntervalSliderValue = [0, 100];
@@ -51,8 +52,40 @@
 
 	let oVal: any;
 
+	let numberToMonitor: number = 222340;
+	let boolToMonitor: boolean = false;
+	let stringToMonitor: string = 'i am a string';
+
+	let val: any = numberToMonitor;
+
+	setInterval(() => {
+		numberToMonitor = Math.random() * 100;
+	}, 50);
+
+	setInterval(() => {
+		boolToMonitor = !boolToMonitor;
+		stringToMonitor = stringToMonitor.split('').reverse().join('');
+	}, 1000);
+
 	let params: BindingObject = { r: 0 };
 </script>
+
+<Button
+	on:click={() => {
+		// oVal = objectOptions.two;
+		val = boolToMonitor;
+	}}
+/>
+
+<Monitor
+	label="Number Monitor"
+	value={numberToMonitor}
+	format={(v) => v.toFixed(50)}
+	graph={true}
+	interval={10}
+/>
+<Monitor label="Boolean Monitor" value={boolToMonitor} />
+<Monitor label="String Monitor" value={stringToMonitor} multiline={true} bufferSize={5} />
 
 <Binding bind:object={params} key={'r'} label="Reticulation" />
 <pre>

@@ -15,7 +15,6 @@
 	}
 
 	interface $$Props extends Omit<ComponentProps<Binding<BindableValue, U, V>>, 'key' | 'object'> {
-		/** Value to manipulate. */
 		value: T;
 	}
 
