@@ -62,7 +62,7 @@ Wrapping components in `<Pane>` components
 
 - `MonitorBoolean`
 - `Checkbox`
-- `ColorPicker`
+- `Color`
 - `List`
 - `MonitorNumber`
 - `PointPicker`

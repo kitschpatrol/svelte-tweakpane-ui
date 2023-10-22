@@ -109,7 +109,7 @@ Wraps the Tweakpane [addBinding](https://tweakpane.github.io/docs/input-bindings
 
 Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane position='inline'>`.
 
-Consider convenience components like `<Slider>`, `<ColorPicker>`, etc. before using this component directly.
+Consider convenience components like `<Slider>`, `<Color>`, etc. before using this component directly.
 
 Example:	
 ```tsx

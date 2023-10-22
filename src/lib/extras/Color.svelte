@@ -1,11 +1,11 @@
 <script lang="ts" context="module">
-	export type ColorPickerValue = string | RgbColorObject | RgbaColorObject;
+	export type ColorValue = string | RgbColorObject | RgbaColorObject;
 </script>
 
 <script lang="ts">
 	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
 	import type { ComponentProps } from 'svelte';
-	import type { ColorInputParams as ColorPickerOptions } from 'tweakpane';
+	import type { ColorInputParams as ColorOptions } from 'tweakpane';
 
 	import type {
 		RgbColorObject,
@@ -14,11 +14,11 @@
 
 	interface $$Props
 		extends Omit<
-			ComponentProps<GenericInputFolding<ColorPickerValue, ColorPickerOptions>>,
+			ComponentProps<GenericInputFolding<ColorValue, ColorOptions>>,
 			'buttonClass' | 'options' | 'ref' | 'plugin'
 		> {
 		/** A color value to control. Use either a color-like string (e.g. #ff00ff), or an object with `r`, `b`, `g`, and optional `a` keys. Bindable. */
-		value: ColorPickerValue;
+		value: ColorValue;
 	}
 
 	// must redeclare for bindability
@@ -37,7 +37,7 @@
 
 	const options = {
 		view: 'color'
-	} as ColorPickerOptions;
+	} as ColorOptions;
 </script>
 
 <!--
@@ -62,8 +62,8 @@ Example:
 <div
 	style={`width: 300px; height: 300px; background: linear-gradient(${startColor}, rgb(${endColor.r}, ${endColor.g}, ${endColor.b}));`}
 >
-	<ColorPicker label="Start Color" bind:value={startColor} />
-	<ColorPicker label="End Color" bind:value={endColor} />
+	<Color label="Start Color" bind:value={startColor} />
+	<Color label="End Color" bind:value={endColor} />
 </div>
 ```
 -->

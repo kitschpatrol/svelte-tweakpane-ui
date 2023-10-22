@@ -6,6 +6,8 @@
 		Button,
 		Pane,
 		Binding,
+		Color,
+		type ColorValue,
 		type Theme,
 		type IntervalSliderValue,
 		type BindingObject
@@ -68,6 +70,8 @@
 
 	let params: BindingObject = { r: 0 };
 </script>
+
+<Color bind:value={val} />
 
 <Button
 	on:click={() => {

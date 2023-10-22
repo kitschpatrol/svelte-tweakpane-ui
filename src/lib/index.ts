@@ -16,7 +16,7 @@ export { default as Tab } from './core/Tab.svelte';
 // extra (svelte convenience components)
 export { default as AutoObject } from './extras/AutoObject.svelte';
 export { default as Checkbox } from './extras/Checkbox.svelte';
-export { default as ColorPicker, type ColorPickerValue } from './extras/ColorPicker.svelte';
+export { default as Color, type ColorValue } from './extras/Color.svelte';
 export { default as List, type ListOptions } from './extras/List.svelte';
 export { default as Monitor } from './extras/Monitor.svelte';
 export {
