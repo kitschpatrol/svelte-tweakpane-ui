@@ -1,21 +1,24 @@
+<script lang="ts" context="module">
+	export type ColorPickerValue = string | RgbColorObject | RgbaColorObject;
+</script>
+
 <script lang="ts">
 	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
 	import type { ComponentProps } from 'svelte';
+	import type { ColorInputParams as ColorPickerOptions } from 'tweakpane';
 
 	import type {
 		RgbColorObject,
 		RgbaColorObject
 	} from '@tweakpane/core/dist/input-binding/color/model/color.js';
 
-	type ColorValue = string | RgbColorObject | RgbaColorObject;
-
 	interface $$Props
 		extends Omit<
-			ComponentProps<GenericInputFolding<ColorValue>>,
-			'buttonClass' | 'bindingParams' | 'bindingRef' | 'plugin'
+			ComponentProps<GenericInputFolding<ColorPickerValue, ColorPickerOptions>>,
+			'buttonClass' | 'options' | 'ref' | 'plugin'
 		> {
 		/** A color value to control. Use either a color-like string (e.g. #ff00ff), or an object with `r`, `b`, `g`, and optional `a` keys. Bindable. */
-		value: ColorValue;
+		value: ColorPickerValue;
 	}
 
 	// must redeclare for bindability
@@ -29,12 +32,12 @@
 	// passing channel like 0x00ffd644 adds alpha automatically
 	// setting alpha to true on 0x00ffd6 doesn't add the control...
 	// were these both deprecated in 4.0? https://github.com/cocopon/tweakpane/issues/450
-	// bindingParams.color.alpha,
-	// bindingParams.color.type
+	// options.color.alpha,
+	// options.color.type
 
-	const bindingParams = {
+	const options = {
 		view: 'color'
-	};
+	} as ColorPickerOptions;
 </script>
 
 <!--
@@ -65,4 +68,4 @@ Example:
 ```
 -->
 
-<GenericInputFolding bind:expanded bind:value {bindingParams} {buttonClass} {...$$restProps} />
+<GenericInputFolding bind:expanded bind:value {options} {buttonClass} {...$$restProps} />

@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
-	export type ImageFit = 'contain' | 'cover';
 	import type { ImageResolvable } from 'tweakpane-image-plugin/dist/types/model.js';
+	export type ImageFit = 'contain' | 'cover';
 	export type ImageValue = ImageResolvable | undefined;
 </script>
 
@@ -22,7 +22,7 @@
 	export let imageFit: $$Props['imageFit'] = undefined;
 	export let extensions: $$Props['extensions'] = undefined;
 
-	$: bindingParams = {
+	$: options = {
 		view: 'input-image',
 		imageFit,
 		extensions
@@ -40,5 +40,5 @@ TODO
 -->
 
 {#await import('tweakpane-image-plugin') then module}
-	<GenericInput bind:value {bindingParams} plugin={module} {...$$restProps} />
+	<GenericInput bind:value {options} plugin={module} {...$$restProps} />
 {/await}

@@ -1,4 +1,5 @@
 <script lang="ts" context="module">
+	// TODO generic with default?
 	export type PanePosition = 'inline' | 'fixed' | 'draggable';
 </script>
 

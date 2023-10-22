@@ -1,19 +1,26 @@
-<script lang="ts" generics="T extends any">
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+<script lang="ts" context="module">
+	import type { InputBindingApi, BaseInputParams } from '@tweakpane/core';
+	export type GenericInputOptions = BaseInputParams;
+	export type GenericInputRef = InputBindingApi;
+</script>
 
+<script
+	lang="ts"
+	generics="T extends any, U extends GenericInputOptions = GenericInputOptions, V extends GenericInputRef = GenericInputRef"
+>
 	import GenericBinding from './GenericBinding.svelte';
 	import type { ComponentProps } from 'svelte';
 
-	interface $$Props extends ComponentProps<GenericBinding<T>> {}
+	interface $$Props extends ComponentProps<GenericBinding<T, U, V>> {}
 
-	export let bindingParams: $$Props['bindingParams'] = undefined;
-	export let bindingRef: $$Props['bindingRef'] = undefined;
+	export let options: $$Props['options'] = undefined;
+	export let ref: $$Props['ref'] = undefined;
 	export let value: $$Props['value'];
 
-	$: bindingParamsInternal = {
-		...bindingParams,
+	$: optionsInternal = {
+		...options,
 		readonly: false
-	};
+	} as GenericInputOptions;
 </script>
 
 <!--
@@ -21,4 +28,4 @@
 This component is for internal use only.
 -->
 
-<GenericBinding bind:value bind:bindingRef bindingParams={bindingParamsInternal} {...$$restProps} />
+<GenericBinding bind:value bind:ref options={optionsInternal} {...$$restProps} />

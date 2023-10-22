@@ -3,7 +3,7 @@
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
-		extends Omit<ComponentProps<GenericSlider<number>>, 'bindingRef' | 'bindingParams' | 'plugin'> {
+		extends Omit<ComponentProps<GenericSlider<number>>, 'ref' | 'options' | 'plugin'> {
 		/** A `number` value to control. Bindable. */
 		value: number;
 		//** The amount of the value to change per pixel. */
@@ -16,7 +16,7 @@
 	export let amount: $$Props['amount'] = undefined;
 	export let wide: $$Props['wide'] = undefined;
 
-	$: bindingParams = {
+	$: options = {
 		view: 'camerawheel',
 		amount,
 		wide
@@ -34,5 +34,5 @@ TODO
 -->
 
 {#await import('@tweakpane/plugin-camerakit') then module}
-	<GenericSlider bind:value {bindingParams} plugin={module} {...$$restProps} />
+	<GenericSlider bind:value {options} plugin={module} {...$$restProps} />
 {/await}

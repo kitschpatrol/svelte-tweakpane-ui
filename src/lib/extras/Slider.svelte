@@ -2,7 +2,7 @@
 	import GenericSlider from '../internal/GenericSlider.svelte';
 	import type { ComponentProps } from 'svelte';
 
-	interface $$Props extends Omit<ComponentProps<GenericSlider<number>>, 'bindingParams'> {
+	interface $$Props extends Omit<ComponentProps<GenericSlider<number>>, 'options'> {
 		/** A `number` value to control. Bindable. */
 		value: number;
 	}

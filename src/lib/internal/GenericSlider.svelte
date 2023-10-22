@@ -3,10 +3,12 @@
 	import type { IntervalSliderValue } from '../plugins/essentials/IntervalSlider.svelte';
 
 	import GenericInput from './GenericInput.svelte';
-	import type { NumberInputParams } from 'tweakpane';
+	import type { NumberInputParams as GenericSliderOptions } from 'tweakpane';
+	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane';
 	import type { ComponentProps } from 'svelte';
 
-	interface $$Props extends ComponentProps<GenericInput<T>> {
+	interface $$Props
+		extends ComponentProps<GenericInput<T, GenericSliderOptions, GenericSliderRef>> {
 		/** Minimum value. Specifying both a `min` and a `max` prop turns the control into a slider. */
 		min?: number;
 		/** Maximum value. Specifying both a `min` and a `max` prop turns the control into a slider. */
@@ -23,7 +25,7 @@
 
 	// must redeclare for bindability
 	export let value: $$Props['value'];
-	export let bindingParams: $$Props['bindingParams'] = undefined;
+	export let options: $$Props['options'] = undefined;
 
 	// unique props
 
@@ -44,15 +46,15 @@
 
 	// the IntervalInputParams type is identical
 	// to NumberInputParams, so don't bother with generics
-	$: bindingParamsInternal = {
+	$: optionsInternal = {
 		min,
 		max,
 		step,
 		pointerScale,
 		keyScale,
 		format: formatProxy,
-		...bindingParams
-	} satisfies NumberInputParams;
+		...options
+	} as GenericSliderOptions;
 </script>
 
 <!--
@@ -66,4 +68,4 @@ is implement as a separate component leveraging this generic
 implementation.
 -->
 
-<GenericInput bind:value bindingParams={bindingParamsInternal} {...$$restProps} />
+<GenericInput bind:value options={optionsInternal} {...$$restProps} />

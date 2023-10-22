@@ -12,7 +12,7 @@
 	interface $$Props
 		extends Omit<
 			ComponentProps<Blade<ListBladeParams<T>, ListBladeApi<T>>>,
-			'bladeParams' | 'bladeRef' | 'plugin'
+			'options' | 'ref' | 'plugin'
 		> {
 		/** Value of the selected item. Bindable. If the bound value is undefined at the time the component is created, then it is set to the first value of the `options` prop array or object. */
 		value: T;
@@ -25,7 +25,9 @@
 	export let options: $$Props['options'];
 
 	let listBlade: ListBladeApi<T>;
-	let bladeParams: ListBladeParams<T>;
+
+	// note name collision with `options` prop
+	let bladeOptions: ListBladeParams<T>;
 
 	function addEvent() {
 		listBlade.on('change', (ev) => {
@@ -78,11 +80,11 @@
 		listBlade.value = value;
 	}
 
-	$: bladeParams = {
+	$: bladeOptions = {
 		value: getInitialValue(),
 		view: 'list',
 		options: getInternalOptions(options)
-	};
+	} as ListBladeParams<T>;
 	$: listBlade && addEvent();
 	$: value, listBlade && setValue();
 </script>
@@ -111,4 +113,4 @@ Example:
 ```
 -->
 
-<Blade bind:bladeRef={listBlade} {bladeParams} {...$$restProps} />
+<Blade bind:ref={listBlade} options={bladeOptions} {...$$restProps} />

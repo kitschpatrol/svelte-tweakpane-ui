@@ -22,7 +22,7 @@
 	export let prettyLabels: boolean = true;
 
 	/** Object to create an automatic set of Tweakpane controls for. Keys will be used as labels, and a (reasonably) appropriate Tweakpane control will be used for each value's type. */
-	export let params: Bindable;
+	export let object: Bindable;
 
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
 
@@ -59,7 +59,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pa
 Example:	
 ```tsx
 <script lang="ts">
-	let params = {
+	let object = {
 		someNumber: 1, // creates a
 		someBoolean: true, // creates a checkbox
 		someString: 'test', // creates a text field
@@ -80,26 +80,26 @@ Example:
 	};
 </script>
 
-<AutoObject bind:params prettyLabels={true} />
+<AutoObject bind:object prettyLabels={true} />
 
-<pre>{JSON.stringify(params, null, 2)}</pre>
+<pre>{JSON.stringify(object, null, 2)}</pre>
 ```
 -->
 
 {#if BROWSER}
 	{#if parentStore}
-		{#each Object.keys(params) as key (key)}
-			{#if params[key].constructor === Object && !isColorObject(params[key]) && !isPointObject(params[key])}
+		{#each Object.keys(object) as key (key)}
+			{#if object[key].constructor === Object && !isColorObject(object[key]) && !isPointObject(object[key])}
 				<Folder title={prettify(key, prettyLabels)}>
-					<svelte:self bind:params={params[key]} bind:prettyLabels />
+					<svelte:self bind:object={object[key]} bind:prettyLabels />
 				</Folder>
 			{:else}
-				<Binding label={prettify(key, prettyLabels)} bind:params {key} />
+				<Binding label={prettify(key, prettyLabels)} bind:object {key} />
 			{/if}
 		{/each}
 	{:else}
 		<InternalPaneInline userCreatedPane={false} {theme}>
-			<svelte:self bind:params bind:prettyLabels />
+			<svelte:self bind:object bind:prettyLabels />
 		</InternalPaneInline>
 	{/if}
 {/if}

@@ -1,13 +1,15 @@
 <script lang="ts">
 	import GenericMonitor from '../internal/GenericMonitor.svelte';
 	import type { ComponentProps } from 'svelte';
+	import type { BooleanMonitorParams as MonitorBooleanOptions } from '@tweakpane/core';
 
 	interface $$Props
 		extends Omit<
-			ComponentProps<GenericMonitor<boolean>>,
-			'bindingParams' | 'bindingRef' | 'plugin'
+			ComponentProps<GenericMonitor<boolean, MonitorBooleanOptions>>,
+			'options' | 'ref' | 'plugin'
 		> {
-		// no unique params
+		/** TODO */
+		value: boolean;
 	}
 
 	// must redeclare to pass required prop

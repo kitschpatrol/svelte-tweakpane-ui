@@ -1,7 +1,11 @@
-<script lang="ts" generics="T extends BaseBladeParams, U extends BladeApi">
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+<script lang="ts" context="module">
 	import type { BaseBladeParams, BladeApi } from 'tweakpane';
+	export type BladeOptions = BaseBladeParams;
+	export type BladeRef = BladeApi; // required for input folding
+	export type BladePlugin = TpPluginBundle;
+</script>
 
+<script lang="ts" generics="U extends BladeOptions, V extends BladeRef">
 	import type { Theme } from '../theme.js';
 	import { getElementIndex, isRootPane, type TpContainer, type RegisterPlugin } from '../utils.js';
 	import { BROWSER } from 'esm-env';
@@ -11,7 +15,7 @@
 	import type { TpPluginBundle } from '@tweakpane/core';
 
 	/** Blade configuration exposing TweakPane's internal [BladeParams](https://tweakpane.github.io/docs/api/interfaces/BaseBladeParams.html), not generally intended for direct use. */
-	export let bladeParams: T;
+	export let options: U;
 
 	/** Prevent interactivity. Defaults to `false`. */
 	export let disabled: boolean = false;
@@ -20,7 +24,7 @@
 	export let theme: Theme | undefined = undefined;
 
 	/** Bindable reference to internal TweakPane [BladeApi](https://tweakpane.github.io/docs/api/classes/BladeApi.html) for this blade, not generally intended for direct use */
-	export let bladeRef: U | undefined = undefined;
+	export let ref: V | undefined = undefined;
 
 	/** Imported Tweakpane `TpPluginBundle` module to register before creating the blade. Primarily for internal use. */
 	export let plugin: TpPluginBundle | undefined = undefined;
@@ -30,13 +34,13 @@
 	const userCreatedPane = getContext('userCreatedPane');
 
 	let indexElement: HTMLDivElement;
-	let blade: U;
+	let blade: V;
 	let index: number;
 
 	function create() {
 		console.log('blade created');
 
-		// must destroy to allow a reactive parameters
+		// must destroy to allow reactive parameters
 		if (blade) blade.dispose();
 
 		if (plugin !== undefined) {
@@ -47,10 +51,10 @@
 		// last one wins
 		blade = $parentStore.addBlade({
 			index,
-			...bladeParams,
+			...options,
 			disabled
-		}) as U; // TODO hmm
-		bladeRef = blade;
+		}) as V; // todo can't shake ts(2322);
+		ref = blade;
 	}
 
 	onMount(() => {
@@ -61,7 +65,7 @@
 		blade?.dispose();
 	});
 
-	$: bladeParams, BROWSER && $parentStore && index !== undefined && create();
+	$: options, BROWSER && $parentStore && index !== undefined && create();
 	$: BROWSER && blade && (blade.disabled = disabled);
 	$: BROWSER &&
 		theme &&
@@ -84,7 +88,7 @@ This component is not directly exposed since it lacks a use case in the Svelte c
 
 Example:
 ```tsx
-<Blade bladeParams={{view: 'separator'}} />
+<Blade options={{view: 'separator'}} />
 ```
 -->
 
@@ -94,7 +98,7 @@ Example:
 	{:else}
 		<InternalPaneInline userCreatedPane={false} {theme}>
 			<!-- Everything must be manually bound instead of spreading props due to lack of access to blade  -->
-			<svelte:self bind:disabled bind:bladeRef bind:bladeParams bind:plugin />
+			<svelte:self bind:disabled bind:ref bind:options bind:plugin />
 		</InternalPaneInline>
 	{/if}
 {/if}

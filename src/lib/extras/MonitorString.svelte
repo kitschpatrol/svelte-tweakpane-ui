@@ -1,14 +1,17 @@
 <script lang="ts">
 	import GenericMonitor from '../internal/GenericMonitor.svelte';
 	import type { ComponentProps } from 'svelte';
+	import type { StringMonitorParams as MonitorStringOptions } from '@tweakpane/core';
 
 	interface $$Props
 		extends Omit<
-			ComponentProps<GenericMonitor<string>>,
-			'bindingParams' | 'bindingRef' | 'plugin'
+			ComponentProps<GenericMonitor<string, MonitorStringOptions>>,
+			'options' | 'ref' | 'plugin'
 		> {
 		/** Display multiline strings */
 		multiline?: boolean;
+		/** TODO */
+		value: string;
 	}
 
 	// must redeclare to pass required prop
@@ -16,9 +19,9 @@
 
 	export let multiline: $$Props['multiline'] = undefined;
 
-	$: bindingParams = {
+	$: options = {
 		multiline
-	};
+	} as MonitorStringOptions;
 </script>
 
 <!--
@@ -48,4 +51,4 @@ Example:
 ```
 -->
 
-<GenericMonitor {bindingParams} {value} {...$$restProps} />
+<GenericMonitor {options} {value} {...$$restProps} />

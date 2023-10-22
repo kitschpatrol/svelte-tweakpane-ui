@@ -5,8 +5,10 @@
 		Slider,
 		Button,
 		Pane,
+		Binding,
 		type Theme,
-		type IntervalSliderValue
+		type IntervalSliderValue,
+		type BindingObject
 	} from '$lib';
 
 	let n = 0;
@@ -49,9 +51,13 @@
 
 	let oVal: any;
 
-	$: console.log(oVal);
-	$: console.log(optionsRef);
+	let params: BindingObject = { r: 0 };
 </script>
+
+<Binding bind:object={params} key={'r'} label="Reticulation" />
+<pre>
+Value: {params.r}
+</pre>
 
 {JSON.stringify(oVal)}
 

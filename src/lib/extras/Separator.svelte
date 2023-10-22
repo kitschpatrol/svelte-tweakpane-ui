@@ -1,18 +1,18 @@
 <script lang="ts">
 	import Blade from '../core/Blade.svelte';
 	import type { ComponentProps } from 'svelte';
-	import type { SeparatorBladeParams, BladeApi } from 'tweakpane';
+	import type { SeparatorBladeParams, SeparatorBladeApi } from 'tweakpane';
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	interface $$Props
 		extends Omit<
-			ComponentProps<Blade<SeparatorBladeParams, BladeApi>>,
-			'bladeParams' | 'bladeRef' | 'plugin'
+			ComponentProps<Blade<SeparatorBladeParams, SeparatorBladeApi>>,
+			'options' | 'ref' | 'plugin'
 		> {}
 
-	const bladeParams: SeparatorBladeParams = {
+	const options = {
 		view: 'separator'
-	};
+	} as SeparatorBladeParams;
 </script>
 
 <!--
@@ -31,4 +31,4 @@ Example:
 ```
 -->
 
-<Blade {bladeParams} {...$$restProps} />
+<Blade {options} {...$$restProps} />

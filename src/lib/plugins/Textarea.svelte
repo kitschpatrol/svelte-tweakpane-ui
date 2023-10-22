@@ -1,9 +1,13 @@
 <script lang="ts">
 	import GenericInput from '../internal/GenericInput.svelte';
 	import type { ComponentProps } from 'svelte';
+	import type { TextareaPluginInputParams } from '@pangenerator/tweakpane-textarea-plugin/dist/types/plugin.js';
 
 	interface $$Props
-		extends Omit<ComponentProps<GenericInput<string>>, 'bindingParams' | 'bindingRef' | 'plugin'> {
+		extends Omit<
+			ComponentProps<GenericInput<string, TextareaPluginInputParams>>,
+			'options' | 'ref' | 'plugin'
+		> {
 		/** TODO Docs */
 		rows?: number;
 		/** TODO Docs */
@@ -17,11 +21,11 @@
 	export let rows: $$Props['rows'] = undefined;
 	export let placeholder: $$Props['placeholder'] = undefined;
 
-	$: bindingParams = {
+	$: options = {
 		view: 'textarea',
 		rows,
 		placeholder
-	};
+	} as TextareaPluginInputParams;
 </script>
 
 <!--
@@ -35,5 +39,5 @@ TODO
 -->
 
 {#await import('@pangenerator/tweakpane-textarea-plugin') then module}
-	<GenericInput bind:value {bindingParams} plugin={module} {...$$restProps} />
+	<GenericInput bind:value {options} plugin={module} {...$$restProps} />
 {/await}

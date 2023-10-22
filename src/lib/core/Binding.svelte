@@ -1,19 +1,27 @@
-<script lang="ts" generics="T extends Bindable">
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import type { BindingApi, Bindable, TpPluginBundle } from '@tweakpane/core';
+<script lang="ts" context="module">
+	import type { Bindable, BindingParams, BindingApi, TpPluginBundle } from '@tweakpane/core';
+	export type BindingObject = Bindable;
+	export type BindingOptions = BindingParams;
+	export type BindingRef = BindingApi;
+	export type BindingPlugin = TpPluginBundle;
+</script>
 
-	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type TpContainer, type RegisterPlugin } from '../utils.js';
-	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
+<script
+	lang="ts"
+	generics="T extends BindingObject, U extends BindingOptions, V extends BindingRef"
+>
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
+	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
+	import type { Theme } from '../theme.js';
+	import { getElementIndex, isRootPane, type RegisterPlugin, type TpContainer } from '../utils.js';
 
-	/** Object with values to manipulate. */
-	export let params: T;
+	/** The binding target object with values to manipulate. */
+	export let object: T;
 
-	/** The key for the value in the params object the control should manipulate. */
-	export let key: string;
+	/** The key for the value in the target object that the control should manipulate. */
+	export let key: keyof T;
 
 	/** Prevent interactivity. Defaults to `false`. */
 	export let disabled: boolean = false;
@@ -22,22 +30,22 @@
 	export let label: string | undefined = undefined;
 
 	/** Control configuration exposing TweakPane's internal [BindingParams](https://tweakpane.github.io/docs/api/types/BindingParams.html), contingent on type of bound param. TODO: Templatized types. */
-	export let bindingParams: object | undefined = undefined;
+	export let options: U | undefined = undefined;
 
 	/** Custom color scheme. Only applies if the control component is created outside a `<Pane>` component. */
 	export let theme: Theme | undefined = undefined;
 
 	/** Bindable reference to internal TweakPane [BindingApi](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for this control, not generally intended for direct use. Treat as read only. */
-	export let bindingRef: BindingApi | undefined = undefined;
+	export let ref: V | undefined = undefined;
 
 	/** Imported Tweakpane `TpPluginBundle` module to register before creating the binding. Primarily for internal use. */
-	export let plugin: TpPluginBundle | undefined = undefined;
+	export let plugin: BindingPlugin | undefined = undefined;
 
 	const registerPlugin = getContext<RegisterPlugin>('registerPlugin');
 	const parentStore: Writable<TpContainer> = getContext('parentStore');
 	const userCreatedPane = getContext('userCreatedPane');
 
-	let binding: BindingApi; // effectively makes bindingRef read only
+	let binding: V; // effectively makes ref read only
 	let indexElement: HTMLDivElement;
 	let index: number;
 
@@ -53,20 +61,20 @@
 		}
 
 		// last one wins
-		binding = $parentStore.addBinding(params, key, {
+		binding = $parentStore.addBinding(object, key, {
 			index,
 			label,
-			...bindingParams,
+			...options,
 			disabled
-		}) as BindingApi;
+		}) as V; // todo can't shake ts(2322)
 
-		bindingRef = binding;
+		ref = binding;
 
 		binding.on('change', () => {
 			// todo stick with reactive?
 			// dispatch('change', ev);
 			// trigger reactivity
-			params = params;
+			object = object;
 		});
 	}
 
@@ -78,11 +86,11 @@
 		binding?.dispose();
 	});
 
-	// bindingParams seem immutable... have to recreate
+	// options seem immutable... have to recreate
 	// old version supporting key changes
-	// $: key, bindingParams, BROWSER && $parentStore !== undefined && index !== undefined && create();
-	$: bindingParams, BROWSER && $parentStore !== undefined && index !== undefined && create();
-	$: params, BROWSER && binding !== undefined && binding.refresh();
+	// $: key, options, BROWSER && $parentStore !== undefined && index !== undefined && create();
+	$: options, BROWSER && $parentStore !== undefined && index !== undefined && create();
+	$: object, BROWSER && binding !== undefined && binding.refresh();
 	$: BROWSER && binding !== undefined && (binding.disabled = disabled);
 	$: BROWSER && binding !== undefined && (binding.label = label);
 
@@ -106,12 +114,14 @@ Consider convenience components like `<Slider>`, `<ColorPicker>`, etc. before us
 Example:	
 ```tsx
 <script lang="ts">
-	let params = { n: 0 };
+	import { Binding, type BindingObject } from 'svelte-tweakpane-ui';
+	let object: BindingObject = { r: 0 };
 </script>
 
-<Binding bind:params key={'r'} label="Reticulation" />
-
-Value: {params.r}
+<Binding bind:object key={'r'} label="Reticulation" />
+<pre>
+Value: {object.r}
+</pre>
 ```
 -->
 
@@ -125,9 +135,9 @@ Value: {params.r}
 				bind:key
 				bind:disabled
 				bind:label
-				bind:params
-				bind:bindingRef
-				bind:bindingParams
+				bind:object
+				bind:ref
+				bind:options
 				bind:plugin
 			/>
 		</InternalPaneInline>

@@ -40,8 +40,8 @@
 	// some redefinition of props from GenericSlider, but redefining since we want to refine the documentation anyway
 	interface $$Props
 		extends Omit<
-			ComponentProps<GenericInputFolding<T>>,
-			'bindingParams' | 'buttonClass' | 'bindingRef'
+			ComponentProps<GenericInputFolding<T, PointParams<T>>>,
+			'options' | 'buttonClass' | 'ref'
 		> {
 		/** The maximum value for all dimensions. */
 		min?: number;
@@ -122,7 +122,7 @@
 
 	$: value, updateInternalValue();
 	$: internalValue, updateValue();
-	$: bindingParams = {
+	$: options = {
 		pointerScale,
 		keyScale,
 		min,
@@ -166,6 +166,6 @@ Example:
 	bind:value={internalValue}
 	bind:expanded
 	{buttonClass}
-	{bindingParams}
+	{options}
 	{...$$restProps}
 />

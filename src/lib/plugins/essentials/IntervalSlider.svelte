@@ -16,10 +16,7 @@
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	interface $$Props
-		extends Omit<
-			ComponentProps<GenericSlider<IntervalSliderValue>>,
-			'bindingRef' | 'bindingParams' | 'plugin'
-		> {
+		extends Omit<ComponentProps<GenericSlider<IntervalSliderValue>>, 'ref' | 'options' | 'plugin'> {
 		/** TODO Docs */
 		value: IntervalSliderValue;
 		/** Midpoint of the interval range value. Bindable. */

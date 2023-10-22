@@ -14,11 +14,12 @@
 	import type { PointDimensionParams } from '@tweakpane/core';
 	import type { ComponentProps } from 'svelte';
 	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d';
+	import type { RotationInputPluginQuaternionParams as RotationQuaternionOptions } from '@0b5vr/tweakpane-plugin-rotation/dist/types/RotationInputPluginQuaternionParams';
 
 	interface $$Props
 		extends Omit<
-			ComponentProps<GenericInputFolding<RotationQuaternionValue>>,
-			'buttonClass' | 'bindingParams' | 'bindingRef' | 'plugin'
+			ComponentProps<GenericInputFolding<RotationQuaternionValue, RotationQuaternionOptions>>,
+			'buttonClass' | 'options' | 'ref' | 'plugin'
 		> {
 		/** TODO Docs */
 		x?: PointDimensionParams;
@@ -68,14 +69,14 @@
 
 	$: value, updateInternalValue();
 	$: internalValue, updateValue();
-	$: bindingParams = {
+	$: options = {
 		view: 'rotation',
 		rotationMode: 'quaternion',
 		x,
 		y,
 		z,
 		w
-	};
+	} as RotationQuaternionOptions;
 </script>
 
 <!--
@@ -93,7 +94,7 @@ TODO
 		bind:expanded
 		bind:value={internalValue}
 		{buttonClass}
-		{bindingParams}
+		{options}
 		plugin={module}
 		{...$$restProps}
 	/>

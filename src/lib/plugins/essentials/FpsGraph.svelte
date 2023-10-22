@@ -1,14 +1,14 @@
 <script lang="ts">
 	import Blade from '../../core/Blade.svelte';
-	import type { FpsGraphBladeApi } from '@tweakpane/plugin-essentials';
-	import type { FpsGraphBladeParams } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
+	import type { FpsGraphBladeApi as FpsGraphRef } from '@tweakpane/plugin-essentials';
+	import type { FpsGraphBladeParams as FpsGraphOptions } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
 		extends Omit<
-			ComponentProps<Blade<FpsGraphBladeParams, FpsGraphBladeApi>>,
-			'bladeRef' | 'bladeParams' | 'plugin'
+			ComponentProps<Blade<FpsGraphOptions, FpsGraphRef>>,
+			'ref' | 'options' | 'plugin'
 		> {
 		/** TODO Docs */
 		rows?: number;
@@ -22,12 +22,6 @@
 		label?: string;
 	}
 
-	// // re-exported
-	// export let disabled: boolean = false;
-	// export let label: string | undefined = undefined;
-	// export let theme: Theme | undefined = undefined;
-
-	//unique
 	export let rows: $$Props['rows'] = 2;
 	export let interval: $$Props['interval'] = undefined;
 	export let max: $$Props['max'] = undefined;
@@ -37,17 +31,19 @@
 	let implicitMode = true; // false as soon as the external api has been used
 
 	// Begin and end can be bound and called externally for explicit timing
+	/** TODO Docs */
 	export function begin(): void {
 		implicitMode = false;
 		fpsBlade?.begin();
 	}
 
+	/** TODO Docs */
 	export function end(): void {
 		implicitMode = false;
 		fpsBlade?.end();
 	}
 
-	let fpsBlade: FpsGraphBladeApi;
+	let fpsBlade: FpsGraphRef;
 	let requestId: number;
 
 	// handle this as an event and not a bound value
@@ -110,15 +106,15 @@
 
 	$: fpsBlade && startObservingMeasuredFpsValue();
 
-	let bladeParams: FpsGraphBladeParams;
-	$: bladeParams = {
+	let options: FpsGraphOptions;
+	$: options = {
 		view: 'fpsgraph',
 		label,
 		rows,
 		max,
 		min,
 		interval
-	};
+	} as FpsGraphOptions;
 
 	$: if (!implicitMode) stopInternalLoop();
 </script>
@@ -134,5 +130,5 @@ TODO
 -->
 
 {#await import('@tweakpane/plugin-essentials') then module}
-	<Blade bind:bladeRef={fpsBlade} {bladeParams} plugin={module} {...$$restProps} />
+	<Blade bind:ref={fpsBlade} {options} plugin={module} {...$$restProps} />
 {/await}

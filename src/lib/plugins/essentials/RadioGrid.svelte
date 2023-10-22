@@ -1,11 +1,11 @@
 <script lang="ts" generics="T extends number | string | boolean | undefined">
-	import GenericInput from '../../internal/GenericInput.svelte';
+	import GenericInput, { type GenericInputOptions } from '../../internal/GenericInput.svelte';
 	import { getGridDimensions } from '../../utils.js';
 	import type { ComponentProps } from 'svelte';
 
 	// /@tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
 	// it's not exported...
-	interface RadioGridInputParams<T> {
+	interface RadioGridInputParams<T> extends GenericInputOptions {
 		cells: (
 			x: number,
 			y: number
@@ -20,7 +20,10 @@
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	interface $$Props
-		extends Omit<ComponentProps<GenericInput<T>>, 'bindingRef' | 'bindingParams' | 'plugin'> {
+		extends Omit<
+			ComponentProps<GenericInput<T, RadioGridInputParams<T>>>,
+			'ref' | 'options' | 'plugin'
+		> {
 		/** TODO Docs */
 		groupName?: string;
 		/** TODO Docs */
@@ -67,12 +70,12 @@
 	}
 
 	$: gridDimensions = getGridDimensions(values.length, columns, rows);
-	$: bindingParams = {
+	$: options = {
 		groupName: groupName ?? defaultGroupName,
 		view: 'radiogrid',
 		size: [gridDimensions.columns, gridDimensions.rows],
 		cells
-	} satisfies RadioGridInputParams<T>;
+	} as RadioGridInputParams<T>;
 </script>
 
 <!--
@@ -86,5 +89,5 @@ TODO
 -->
 
 {#await import('@tweakpane/plugin-essentials') then module}
-	<GenericInput bind:value {bindingParams} plugin={module} {...$$restProps} />
+	<GenericInput bind:value {options} plugin={module} {...$$restProps} />
 {/await}

@@ -44,12 +44,24 @@ export { default as Waveform } from './plugins/Waveform.svelte';
 export { THEMES, setGlobalDefaultTheme, type Theme } from './theme.js';
 
 // prop types
+export type {
+	BindingObject,
+	BindingOptions,
+	BindingRef,
+	BindingPlugin // todo shared
+} from './core/Binding.svelte';
+export type {
+	BladeOptions,
+	BladeRef,
+	BladePlugin // todo shared
+} from './core/Blade.svelte';
 export type { PanePosition } from './core/Pane.svelte';
 export type {
 	PointPicker2dValue,
 	PointPicker3dValue,
 	PointPicker4dValue
 } from './extras/PointPicker.svelte';
+export type { ListOptions } from './extras/List.svelte';
 export type { RingSeries } from '@tweakpane/plugin-camerakit/dist/types/util.js';
 export type { RingUnit } from '@tweakpane/plugin-camerakit/dist/types/view/ring.d.ts';
 export type { CubicBezierValue } from './plugins/essentials/CubicBezier.svelte';
@@ -67,3 +79,4 @@ export type {
 } from './plugins/RotationEuler.svelte';
 export type { RotationQuaternionValue } from './plugins/RotationQuaternion.svelte';
 export type { WaveformValue, WaveformLineStyle } from './plugins/Waveform.svelte';
+export type { ColorPickerValue } from './extras/ColorPicker.svelte';

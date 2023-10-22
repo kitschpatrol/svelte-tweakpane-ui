@@ -1,15 +1,15 @@
 <script lang="ts">
 	import Blade from '../../core/Blade.svelte';
 	import { getGridDimensions } from '../../utils.js';
-	import type { ButtonGridApi } from '@tweakpane/plugin-essentials';
-	import type { ButtonGridBladeParams } from '@tweakpane/plugin-essentials/dist/types/button-grid/plugin.d.ts';
+	import type { ButtonGridApi as ButtonGridRef } from '@tweakpane/plugin-essentials';
+	import type { ButtonGridBladeParams as ButtonGridOptions } from '@tweakpane/plugin-essentials/dist/types/button-grid/plugin.d.ts';
 	import { createEventDispatcher } from 'svelte';
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
 		extends Omit<
-			ComponentProps<Blade<ButtonGridBladeParams, ButtonGridApi>>,
-			'bladeRef' | 'bladeParams' | 'plugin'
+			ComponentProps<Blade<ButtonGridOptions, ButtonGridRef>>,
+			'ref' | 'options' | 'plugin'
 		> {
 		/** TODO Docs */
 		columns?: number;
@@ -38,8 +38,8 @@
 		};
 	}>();
 
-	let bladeParams: ButtonGridBladeParams;
-	let gridBlade: ButtonGridApi;
+	let options: ButtonGridOptions;
+	let gridBlade: ButtonGridRef;
 
 	function cells(
 		x: number,
@@ -58,12 +58,12 @@
 	}
 
 	$: gridDimensions = getGridDimensions(buttons.length, columns, rows);
-	$: bladeParams = {
+	$: options = {
 		view: 'buttongrid',
 		label,
 		size: [gridDimensions.columns, gridDimensions.rows],
 		cells
-	};
+	} as ButtonGridOptions;
 	$: gridBlade &&
 		gridBlade.on('click', (ev) => {
 			dispatch('click', {
@@ -85,5 +85,5 @@ TODO
 -->
 
 {#await import('@tweakpane/plugin-essentials') then module}
-	<Blade bind:bladeRef={gridBlade} plugin={module} {bladeParams} {...$$restProps} />
+	<Blade bind:ref={gridBlade} plugin={module} {options} {...$$restProps} />
 {/await}

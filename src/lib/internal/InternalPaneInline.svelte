@@ -23,7 +23,6 @@
 	let containerElement: HTMLDivElement;
 
 	function setWidth() {
-		console.log('setwidth');
 		if (width !== undefined) {
 			paneRef.element.style.setProperty('width', `${width}px`);
 		} else {

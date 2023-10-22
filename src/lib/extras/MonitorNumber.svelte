@@ -1,9 +1,13 @@
 <script lang="ts">
 	import GenericMonitor from '../internal/GenericMonitor.svelte';
 	import type { ComponentProps } from 'svelte';
+	import type { NumberMonitorParams as MonitorNumberOptions } from '@tweakpane/core';
 
 	interface $$Props
-		extends Omit<ComponentProps<GenericMonitor<number>>, 'bindingParams' | 'bindingRef'> {
+		extends Omit<
+			ComponentProps<GenericMonitor<number, MonitorNumberOptions>>,
+			'options' | 'ref' | 'plugin'
+		> {
 		/** Display a graph of the value's changes over time  */
 		graph?: boolean;
 		/** A function to customize the number's formatting (e.g. rounding, etc.)  */
@@ -12,6 +16,8 @@
 		max?: number;
 		/** Minimum bound when `graph` is true  */
 		min?: number;
+		/** TODO */
+		value: number;
 	}
 
 	// must redeclare to pass required prop
@@ -23,12 +29,12 @@
 	export let max: $$Props['max'] = undefined;
 	export let min: $$Props['min'] = undefined;
 
-	$: bindingParams = {
+	$: options = {
 		view: graph ? 'graph' : undefined,
 		max,
 		min,
 		format
-	};
+	} as MonitorNumberOptions;
 </script>
 
 <!--
@@ -57,4 +63,4 @@ Example:
 ```
 -->
 
-<GenericMonitor {value} {bindingParams} {...$$restProps} />
+<GenericMonitor {value} {options} {...$$restProps} />

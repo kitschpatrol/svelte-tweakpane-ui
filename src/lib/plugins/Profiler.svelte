@@ -7,15 +7,14 @@
 
 <script lang="ts">
 	import Blade from '../core/Blade.svelte';
-
-	import type { ProfilerBladePluginParams } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js';
-	import type { ProfilerBladeApi } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerApi.js';
+	import type { ProfilerBladePluginParams as ProfilerOptions } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js';
+	import type { ProfilerBladeApi as ProfilerRef } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerApi.js';
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
 		extends Omit<
-			ComponentProps<Blade<ProfilerBladePluginParams, ProfilerBladeApi>>,
-			'bladeRef' | 'bladeParams' | 'plugin'
+			ComponentProps<Blade<ProfilerOptions, ProfilerRef>>,
+			'ref' | 'options' | 'plugin'
 		> {
 		/** TODO Docs */
 		bufferSize?: number;
@@ -49,9 +48,9 @@
 	export let measureHandler: $$Props['measureHandler'] = undefined;
 	export let targetDelta: $$Props['targetDelta'] = undefined;
 
-	let profilerBlade: ProfilerBladeApi;
+	let profilerBlade: ProfilerRef;
 
-	$: bladeParams = {
+	$: options = {
 		view: 'profiler',
 		bufferSize,
 		calcMode,
@@ -60,7 +59,7 @@
 		label,
 		measureHandler,
 		targetDelta
-	};
+	} as ProfilerOptions;
 </script>
 
 <!--
@@ -74,5 +73,5 @@ TODO
 -->
 
 {#await import('@0b5vr/tweakpane-plugin-profiler') then module}
-	<Blade bind:bladeRef={profilerBlade} {bladeParams} plugin={module} {...$$restProps} />
+	<Blade bind:ref={profilerBlade} {options} plugin={module} {...$$restProps} />
 {/await}

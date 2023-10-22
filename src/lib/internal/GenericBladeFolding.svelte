@@ -1,11 +1,15 @@
-<script lang="ts" generics="T extends BaseBladeParams, U extends BladeApi">
+<script lang="ts" context="module">
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	import type { BladeOptions, BladeRef } from '../core/Blade.svelte';
+</script>
+
+<script lang="ts" generics="T extends BladeOptions, U extends BladeRef">
 	import Blade from '../core/Blade.svelte';
 	import { updateCollapsability } from '../utils.js';
 	import type { PickerLayout } from '@tweakpane/core';
-	import type { BaseBladeParams, BladeApi } from 'tweakpane';
 	import type { ComponentProps } from 'svelte';
 
-	interface $$Props extends ComponentProps<Blade<BaseBladeParams, BladeApi>> {
+	interface $$Props extends ComponentProps<Blade<T, U>> {
 		/** TODO docs */
 		clickToExpand?: boolean;
 		/** TODO docs */
@@ -17,8 +21,8 @@
 	}
 
 	// re-exported
-	export let bladeParams: $$Props['bladeParams'];
-	export let bladeRef: $$Props['bladeRef'] = undefined;
+	export let options: $$Props['options'];
+	export let ref: $$Props['ref'] = undefined;
 
 	// unique
 	export let clickToExpand: $$Props['clickToExpand'] = true;
@@ -31,11 +35,11 @@
 	const initialExpanded = expanded;
 	let internalExpanded = initialExpanded;
 
-	$: if (!gotBlade && bladeRef) {
+	$: if (!gotBlade && ref) {
 		gotBlade = true;
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(bladeRef.controller as any)?.valueController?.foldable_
+		(ref.controller as any)?.valueController?.foldable_
 			?.value('expanded')
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			.emitter.on('change', (e: any) => {
@@ -44,23 +48,23 @@
 			});
 	}
 
-	$: bladeParams = {
-		...bladeParams,
+	$: options = {
+		...options,
 		picker,
 		expanded: initialExpanded // only set once
 	};
 
-	$: bladeRef &&
+	$: ref &&
 		buttonClass !== undefined &&
-		updateCollapsability(clickToExpand ?? true, bladeRef.element, buttonClass);
+		updateCollapsability(clickToExpand ?? true, ref.element, buttonClass);
 
 	// click isntead of setting expanded
 	// to avoid  animation jankiness
-	$: bladeRef &&
+	$: ref &&
 		buttonClass !== undefined &&
 		expanded !== internalExpanded &&
-		bladeRef.element.getElementsByClassName(buttonClass).length > 0 &&
-		(bladeRef.element.getElementsByClassName(buttonClass)[0] as HTMLButtonElement).click();
+		ref.element.getElementsByClassName(buttonClass).length > 0 &&
+		(ref.element.getElementsByClassName(buttonClass)[0] as HTMLButtonElement).click();
 </script>
 
 <!--
@@ -68,4 +72,4 @@
 This component is for internal use only.
 -->
 
-<Blade bind:bladeRef {bladeParams} {...$$restProps} />
+<Blade bind:ref {options} {...$$restProps} />

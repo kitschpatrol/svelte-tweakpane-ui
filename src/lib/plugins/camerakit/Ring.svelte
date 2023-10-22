@@ -5,7 +5,7 @@
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
-		extends Omit<ComponentProps<GenericSlider<number>>, 'bindingRef' | 'bindingParams' | 'plugin'> {
+		extends Omit<ComponentProps<GenericSlider<number>>, 'ref' | 'options' | 'plugin'> {
 		/** A `number` value to control. Bindable. */
 		value: number;
 		/** Style variations, takes values of `0` `1` or `2`. */
@@ -21,7 +21,7 @@
 	export let unit: $$Props['unit'] = undefined;
 	export let wide: $$Props['wide'] = undefined;
 
-	$: bindingParams = {
+	$: options = {
 		view: 'cameraring',
 		series,
 		unit,
@@ -40,5 +40,5 @@ TODO
 -->
 
 {#await import('@tweakpane/plugin-camerakit') then module}
-	<GenericSlider bind:value {bindingParams} plugin={module} {...$$restProps} />
+	<GenericSlider bind:value {options} plugin={module} {...$$restProps} />
 {/await}

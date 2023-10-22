@@ -13,7 +13,7 @@
 	interface $$Props
 		extends Omit<
 			ComponentProps<GenericBladeFolding<CubicBezierBladeParams, CubicBezierApi>>,
-			'bladeRef' | 'bladeParams' | 'plugin'
+			'ref' | 'options' | 'plugin'
 		> {
 		/** TODO Docs */
 		value: CubicBezierValue;
@@ -35,7 +35,7 @@
 	// reexported for access
 	export let expanded: $$Props['expanded'] = undefined;
 
-	let bladeParams: CubicBezierBladeParams;
+	let options: CubicBezierBladeParams;
 	let cubicBezierBlade: CubicBezierApi;
 
 	// work-arounds for funky folding
@@ -55,7 +55,7 @@
 		});
 	}
 
-	$: bladeParams = {
+	$: options = {
 		view: 'cubicbezier',
 		label,
 		value: getValue()
@@ -77,10 +77,10 @@ TODO
 {#await import('@tweakpane/plugin-essentials') then module}
 	<GenericBladeFolding
 		bind:expanded
-		bind:bladeRef={cubicBezierBlade}
+		bind:ref={cubicBezierBlade}
 		plugin={module}
 		{buttonClass}
-		{bladeParams}
+		{options}
 		{...$$restProps}
 	/>
 {/await}

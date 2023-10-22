@@ -1,4 +1,8 @@
 <script lang="ts" context="module">
+	import type { EulerOrder } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerOrder.js';
+	import type { EulerUnit } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerUnit.js';
+	export type RotationEulerOrder = EulerOrder;
+	export type RotationEulerUnit = EulerUnit;
 	export type RotationEulerValue =
 		| {
 				x: number;
@@ -7,11 +11,6 @@
 		  }
 		| [x: number, y: number, z: number];
 	// don't support order, for now
-
-	import type { EulerOrder } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerOrder.js';
-	import type { EulerUnit } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerUnit.js';
-	export type RotationEulerOrder = EulerOrder;
-	export type RotationEulerUnit = EulerUnit;
 </script>
 
 <script lang="ts">
@@ -19,11 +18,12 @@
 	import type { PointDimensionParams } from '@tweakpane/core';
 	import type { ComponentProps } from 'svelte';
 	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
+	import type { RotationInputPluginEulerParams as RotationEulerOptions } from '@0b5vr/tweakpane-plugin-rotation/dist/types/RotationInputPluginEulerParams';
 
 	interface $$Props
 		extends Omit<
-			ComponentProps<GenericInputFolding<RotationEulerValue>>,
-			'buttonClass' | 'bindingParams' | 'bindingRef' | 'plugin'
+			ComponentProps<GenericInputFolding<RotationEulerValue, RotationEulerOptions>>,
+			'buttonClass' | 'options' | 'ref' | 'plugin'
 		> {
 		/** TODO Docs */
 		order?: RotationEulerOrder;
@@ -76,7 +76,7 @@
 
 	$: value, updateInternalValue();
 	$: internalValue, updateValue();
-	$: bindingParams = {
+	$: options = {
 		view: 'rotation',
 		rotationMode: 'euler',
 		order,
@@ -84,7 +84,7 @@
 		x,
 		y,
 		z
-	};
+	} as RotationEulerOptions;
 </script>
 
 <!--
@@ -102,7 +102,7 @@ TODO
 		bind:expanded
 		bind:value={internalValue}
 		{buttonClass}
-		{bindingParams}
+		{options}
 		plugin={module}
 		{...$$restProps}
 	/>
