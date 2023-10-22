@@ -34,7 +34,7 @@ themes
 
 ### Layered API
 
-This component collection exposes both the core building blocks of Tweakpane's vanilla JS API as Svelte components (e.g. `Bindings`, `Folder`, `Pane`, etc.), and builds on this foundation to provide a number of more specific components which provide both convenience, clarity of intent, and improved auto-completion through type narrowing (e.g. `Slider`, `PointPicker`, etc.).
+This component collection exposes both the core building blocks of Tweakpane's vanilla JS API as Svelte components (e.g. `Bindings`, `Folder`, `Pane`, etc.), and builds on this foundation to provide a number of more specific components which provide both convenience, clarity of intent, and improved auto-completion through type narrowing (e.g. `Slider`, `Point`, etc.).
 
 These more specific components trade some dynamicism and flexibility for ease of use, but if you don't care for that tradeoff the higher level components remain available for use.
 
@@ -65,7 +65,7 @@ Wrapping components in `<Pane>` components
 - `Color`
 - `List`
 - `MonitorNumber`
-- `PointPicker`
+- `Point`
 - `Separator`
 - `Slider`
 - `TextField`

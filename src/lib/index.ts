@@ -20,11 +20,11 @@ export { default as Color, type ColorValue } from './extras/Color.svelte';
 export { default as List, type ListOptions } from './extras/List.svelte';
 export { default as Monitor } from './extras/Monitor.svelte';
 export {
-	default as PointPicker,
-	type PointPickerValue2d,
-	type PointPickerValue3d,
-	type PointPickerValue4d
-} from './extras/PointPicker.svelte';
+	default as Point,
+	type PointValue2d,
+	type PointValue3d,
+	type PointValue4d
+} from './extras/Point.svelte';
 export { default as Separator } from './extras/Separator.svelte';
 export { default as Slider } from './extras/Slider.svelte';
 export { default as TextField } from './extras/TextField.svelte';

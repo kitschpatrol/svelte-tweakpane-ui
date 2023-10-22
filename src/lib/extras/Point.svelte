@@ -1,15 +1,15 @@
 <script lang="ts" context="module">
 	// TODO test this
-	export type PointPickerValue2d = { x: number; y: number } | [x: number, y: number];
-	export type PointPickerValue3d =
+	export type PointValue2d = { x: number; y: number } | [x: number, y: number];
+	export type PointValue3d =
 		| { x: number; y: number; z: number }
 		| [x: number, y: number, z: number];
-	export type PointPickerValue4d =
+	export type PointValue4d =
 		| { x: number; y: number; z: number; w: number }
 		| [x: number, y: number, z: number, w: number];
 </script>
 
-<script lang="ts" generics="T extends PointPickerValue2d | PointPickerValue3d | PointPickerValue4d">
+<script lang="ts" generics="T extends PointValue2d | PointValue3d | PointValue4d">
 	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
 	import type { ComponentProps } from 'svelte';
 	import type { Point2dObject } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js';
@@ -21,19 +21,19 @@
 	// TODO how to make certain props conditional on T
 	// https://stackoverflow.com/questions/76553208/dynamic-props-for-svelte-component
 
-	type PointParams<U> = U extends PointPickerValue4d
+	type PointParams<U> = U extends PointValue4d
 		? Point4dInputParams
-		: U extends PointPickerValue3d
+		: U extends PointValue3d
 		? Point3dInputParams & { w: unknown }
-		: U extends PointPickerValue2d
+		: U extends PointValue2d
 		? Point2dInputParams & { z: unknown; w: unknown }
 		: unknown;
 
-	type InternalPoint<U> = U extends PointPickerValue4d
+	type InternalPoint<U> = U extends PointValue4d
 		? Point4dObject
-		: U extends PointPickerValue3d
+		: U extends PointValue3d
 		? Point3dObject
-		: U extends PointPickerValue2d
+		: U extends PointValue2d
 		? Point2dObject
 		: unknown;
 
@@ -41,7 +41,7 @@
 	interface $$Props
 		extends Omit<
 			ComponentProps<GenericInputFolding<T, PointParams<T>>>,
-			'options' | 'buttonClass' | 'ref'
+			'options' | 'buttonClass' | 'ref' | 'plugin'
 		> {
 		/** The maximum value for all dimensions. */
 		min?: number;
@@ -156,9 +156,9 @@ Example:
 	$: console.log(point4d);
 </script>
 
-<PointPicker label="2D Point Picker" bind:value={point2d} picker="inline" expanded={true} clickToExpand={false} />
-<PointPicker label="3D Point Picker" bind:value={point3d} />
-<PointPicker label="4D Point Picker" bind:value={point4d} min={0} max={100} />
+<Point label="2D Point Picker" bind:value={point2d} picker="inline" expanded={true} clickToExpand={false} />
+<Point label="3D Point Picker" bind:value={point3d} />
+<Point label="4D Point Picker" bind:value={point4d} min={0} max={100} />
 ```
 -->
 

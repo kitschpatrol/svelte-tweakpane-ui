@@ -5,12 +5,14 @@
 		Slider,
 		Button,
 		Pane,
+		Point,
 		Binding,
 		Color,
 		type ColorValue,
 		type Theme,
 		type IntervalSliderValue,
-		type BindingObject
+		type BindingObject,
+		type PointValue2d
 	} from '$lib';
 	import Monitor from '$lib/extras/Monitor.svelte';
 
@@ -69,7 +71,10 @@
 	}, 1000);
 
 	let params: BindingObject = { r: 0 };
+	let pp: PointValue2d = [0, 0];
 </script>
+
+<Point bind:value={pp} />
 
 <Color bind:value={val} />
 
