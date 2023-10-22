@@ -20,11 +20,11 @@
 		/** TODO Docs */
 		value: IntervalSliderValue;
 		/** Midpoint of the interval range value. Bindable. */
-		meanValue: number;
+		meanValue?: number;
 	}
 
 	export let value: $$Props['value'];
-	export let meanValue: $$Props['meanValue'];
+	export let meanValue: $$Props['meanValue'] = undefined;
 
 	// proxy value since Tweakpane only supports Point3dObject type
 	let internalValue: IntervalObject;
@@ -48,8 +48,10 @@
 	}
 
 	function updateValueFromMean() {
-		const r = internalValue.max - internalValue.min;
-		internalValue = { min: meanValue - r / 2, max: meanValue + r / 2 };
+		if (meanValue !== undefined) {
+			const r = internalValue.max - internalValue.min;
+			internalValue = { min: meanValue - r / 2, max: meanValue + r / 2 };
+		}
 	}
 
 	$: value, updateInternalValue();
