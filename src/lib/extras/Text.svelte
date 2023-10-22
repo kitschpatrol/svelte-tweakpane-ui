@@ -30,7 +30,7 @@ Example:
 	$: console.log(text);
 </script>
 	
-<TextField bind:value={text} label="The Message" />
+<Text bind:value={text} label="The Message" />
 ```
 -->
 

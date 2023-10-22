@@ -68,7 +68,7 @@ Wrapping components in `<Pane>` components
 - `Point`
 - `Separator`
 - `Slider`
-- `TextField`
+- `Text`
 - `MonitorString`
 - `AutoObject`
 

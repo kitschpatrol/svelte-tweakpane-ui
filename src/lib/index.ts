@@ -27,7 +27,7 @@ export {
 } from './extras/Point.svelte';
 export { default as Separator } from './extras/Separator.svelte';
 export { default as Slider } from './extras/Slider.svelte';
-export { default as TextField } from './extras/TextField.svelte';
+export { default as Text } from './extras/Text.svelte';
 
 // essentials (1st party plugins)
 export { default as ButtonGrid } from './plugins/essentials/ButtonGrid.svelte';

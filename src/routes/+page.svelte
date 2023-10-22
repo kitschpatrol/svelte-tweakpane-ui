@@ -7,6 +7,7 @@
 		Pane,
 		Point,
 		Binding,
+		Text,
 		Color,
 		type ColorValue,
 		type Theme,
@@ -73,6 +74,8 @@
 	let params: BindingObject = { r: 0 };
 	let pp: PointValue2d = [0, 0];
 </script>
+
+<Text value={'bla'} />
 
 <Point bind:value={pp} />
 
