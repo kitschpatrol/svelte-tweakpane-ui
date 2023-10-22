@@ -1,7 +1,7 @@
 <script lang="ts">
 	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
 	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type TpContainer } from '../utils.js';
+	import { getElementIndex, isRootPane, type Container } from '../utils.js';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -17,7 +17,7 @@
 	/** Custom color scheme. Only applies if the `<Tab>` is created outside a `<Pane>` component. */
 	export let theme: Theme | undefined = undefined;
 
-	const parentStore: Writable<TpContainer> = getContext('parentStore');
+	const parentStore: Writable<Container> = getContext('parentStore');
 	const tabStore = writable<TabApi>();
 	setContext('tabStore', tabStore);
 	const tabIndexStore = writable<number>();

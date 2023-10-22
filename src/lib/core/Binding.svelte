@@ -1,6 +1,7 @@
 <script lang="ts" context="module">
-	import type { Bindable, BindingParams, BindingApi } from '@tweakpane/core';
-	export type BindingObject = Bindable;
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	import type { BindingObject } from '../utils';
+	import type { BindingParams, BindingApi } from '@tweakpane/core';
 	export type BindingOptions = BindingParams;
 	export type BindingRef = BindingApi;
 </script>
@@ -14,8 +15,7 @@
 	import type { Writable } from 'svelte/store';
 	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
 	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type TpContainer } from '../utils.js';
-	import type { TpPluginBundle as Plugin } from '@tweakpane/core';
+	import { getElementIndex, isRootPane, type Container, type Plugin } from '../utils.js';
 
 	/** The binding target object with values to manipulate. */
 	export let object: T;
@@ -42,7 +42,7 @@
 	export let plugin: Plugin | undefined = undefined;
 
 	const registerPlugin = getContext<(plugin: Plugin) => void>('registerPlugin');
-	const parentStore: Writable<TpContainer> = getContext('parentStore');
+	const parentStore: Writable<Container> = getContext('parentStore');
 	const userCreatedPane = getContext('userCreatedPane');
 
 	let binding: V; // effectively makes ref read only

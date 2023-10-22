@@ -1,15 +1,15 @@
 <script lang="ts" context="module">
 	// TODO test this
-	export type PointPicker2dValue = { x: number; y: number } | [x: number, y: number];
-	export type PointPicker3dValue =
+	export type PointPickerValue2d = { x: number; y: number } | [x: number, y: number];
+	export type PointPickerValue3d =
 		| { x: number; y: number; z: number }
 		| [x: number, y: number, z: number];
-	export type PointPicker4dValue =
+	export type PointPickerValue4d =
 		| { x: number; y: number; z: number; w: number }
 		| [x: number, y: number, z: number, w: number];
 </script>
 
-<script lang="ts" generics="T extends PointPicker2dValue | PointPicker3dValue | PointPicker4dValue">
+<script lang="ts" generics="T extends PointPickerValue2d | PointPickerValue3d | PointPickerValue4d">
 	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
 	import type { ComponentProps } from 'svelte';
 	import type { Point2dObject } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js';
@@ -21,19 +21,19 @@
 	// TODO how to make certain props conditional on T
 	// https://stackoverflow.com/questions/76553208/dynamic-props-for-svelte-component
 
-	type PointParams<U> = U extends PointPicker4dValue
+	type PointParams<U> = U extends PointPickerValue4d
 		? Point4dInputParams
-		: U extends PointPicker3dValue
+		: U extends PointPickerValue3d
 		? Point3dInputParams & { w: unknown }
-		: U extends PointPicker2dValue
+		: U extends PointPickerValue2d
 		? Point2dInputParams & { z: unknown; w: unknown }
 		: unknown;
 
-	type InternalPoint<U> = U extends PointPicker4dValue
+	type InternalPoint<U> = U extends PointPickerValue4d
 		? Point4dObject
-		: U extends PointPicker3dValue
+		: U extends PointPickerValue3d
 		? Point3dObject
-		: U extends PointPicker2dValue
+		: U extends PointPickerValue2d
 		? Point2dObject
 		: unknown;
 

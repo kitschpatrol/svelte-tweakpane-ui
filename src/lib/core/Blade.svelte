@@ -6,12 +6,11 @@
 
 <script lang="ts" generics="U extends BladeOptions, V extends BladeRef">
 	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type TpContainer } from '../utils.js';
+	import { getElementIndex, isRootPane, type Container, type Plugin } from '../utils.js';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
-	import type { TpPluginBundle as Plugin } from '@tweakpane/core';
 
 	/** Blade configuration exposing TweakPane's internal [BladeParams](https://tweakpane.github.io/docs/api/interfaces/BaseBladeParams.html), not generally intended for direct use. */
 	export let options: U;
@@ -29,7 +28,7 @@
 	export let plugin: Plugin | undefined = undefined;
 
 	const registerPlugin = getContext<(plugin: Plugin) => void>('registerPlugin');
-	const parentStore: Writable<TpContainer> = getContext('parentStore');
+	const parentStore: Writable<Container> = getContext('parentStore');
 	const userCreatedPane = getContext('userCreatedPane');
 
 	let indexElement: HTMLDivElement;

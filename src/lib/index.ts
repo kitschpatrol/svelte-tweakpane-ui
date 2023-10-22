@@ -1,5 +1,5 @@
 // shared
-export type { TpPlugin as Plugin, Bindable as BindingObject } from '@tweakpane/core';
+export type { Plugin, BindingObject } from './utils.js';
 
 // themes
 export { THEMES, setGlobalDefaultTheme, type Theme } from './theme.js';

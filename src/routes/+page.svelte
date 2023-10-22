@@ -22,7 +22,6 @@
 		bladeValueWidth: '70%'
 	};
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let objectOptions = {
 		one: { blah: 1, blah2: 2 },
 		two: { blah: 2, blah2: 3 }
@@ -94,7 +93,7 @@ Value: {params.r}
 
 {JSON.stringify(oVal)}
 
-<List options={optionsRef} bind:value={oVal} />
+<List label="listy" options={optionsRef} bind:value={oVal} />
 
 <Pane {theme} position="draggable" title="Svelte Tweakpane UI Demo" bind:this={paneRef}>
 	<List options={optionsRef} bind:value={oVal} />

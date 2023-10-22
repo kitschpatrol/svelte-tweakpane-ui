@@ -2,7 +2,7 @@
 	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
 	import Tab from './Tab.svelte';
 	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type TpContainer } from '../utils.js';
+	import { getElementIndex, isRootPane, type Container } from '../utils.js';
 	import type { TabPageApi } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount, setContext } from 'svelte';
@@ -28,7 +28,7 @@
 	const userCreatedPane = getContext('userCreatedPane');
 
 	// save parent context for ourselves
-	const parentStore: Writable<TpContainer> = getContext('parentStore');
+	const parentStore: Writable<Container> = getContext('parentStore');
 
 	// overwrite the context for our children
 	const tabPageStore = writable<TabPageApi>();

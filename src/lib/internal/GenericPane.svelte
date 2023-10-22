@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { Theme } from '../theme.js';
 	import { applyTheme } from '../theme.js';
-	import type { TpContainer } from '../utils.js';
+	import type { Container } from '../utils.js';
 	// import type { BladeState } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, setContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
-	import { Pane as TpPane, type TpPluginBundle } from 'tweakpane';
-	import { updateCollapsability } from '../utils.js';
+	import { Pane as TpPane } from 'tweakpane';
+	import { updateCollapsability, type Plugin } from '../utils.js';
 	// import type { BladeState } from '@tweakpane/core';
 
 	/** Text in the pane's title bar. If undefined, no title bar is shown, and expanding / collapsing the pane will only be available through the `expanded` prop. */
@@ -42,14 +42,14 @@
 	export let paneRef: TpPane | undefined = undefined;
 
 	const parentStore = writable<TpPane>();
-	const existingParentStore: Writable<TpContainer | undefined> = getContext('parentStore'); // sanity checks
+	const existingParentStore: Writable<Container | undefined> = getContext('parentStore'); // sanity checks
 
 	// the raw pane.registerPlugin function doesn't seem to prevent duplicate registrations
 	// as a minor optimization, we track plugin registrations manually to make sure child components
 	// don't redundantly re-register plugins
 	// TODO some strategy for plugin removal? not worth it since loading already happened?
 	let pluginsRegistered: string[] = [];
-	const registerPlugin = (plugin: TpPluginBundle) => {
+	const registerPlugin = (plugin: Plugin) => {
 		if (paneRef === undefined) {
 			console.warn('`paneRef is undefined, failed to register plugin "${plugin.id}"');
 		} else {

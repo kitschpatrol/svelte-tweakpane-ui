@@ -1,7 +1,7 @@
 <script lang="ts">
 	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
 	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type TpContainer } from '../utils.js';
+	import { getElementIndex, isRootPane, type Container } from '../utils.js';
 	import type { ButtonApi } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
 	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte';
@@ -19,7 +19,7 @@
 	/** Custom color scheme. Only applies if the `<Button>` is created outside a `<Pane>` component. */
 	export let theme: Theme | undefined = undefined;
 
-	const parentStore: Writable<TpContainer> = getContext('parentStore');
+	const parentStore: Writable<Container> = getContext('parentStore');
 	const userCreatedPane = getContext('userCreatedPane');
 	const dispatch = createEventDispatcher<{ click: null }>();
 

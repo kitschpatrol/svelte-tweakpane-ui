@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import type { BindingRef, BindingOptions, BindingObject } from '../core/Binding.svelte';
+	import type { BindingRef, BindingOptions } from '../core/Binding.svelte';
 </script>
 
 <script
@@ -8,6 +8,7 @@
 	generics="T extends any, U extends BindingOptions = BindingOptions, V extends BindingRef = BindingRef"
 >
 	import Binding from '../core/Binding.svelte';
+	import type { BindingObject } from '../utils.js';
 	import type { ComponentProps } from 'svelte';
 
 	interface BindableValue extends BindingObject {

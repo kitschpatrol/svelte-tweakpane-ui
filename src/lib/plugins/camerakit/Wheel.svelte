@@ -6,7 +6,7 @@
 		extends Omit<ComponentProps<GenericSlider<number>>, 'ref' | 'options' | 'plugin'> {
 		/** A `number` value to control. Bindable. */
 		value: number;
-		//** The amount of the value to change per pixel. */
+		/** The amount of the value to change per pixel. */
 		amount?: number;
 		/** When `true`, expand the width of the wheel control at the expense of the numerical input field. */
 		wide?: boolean;

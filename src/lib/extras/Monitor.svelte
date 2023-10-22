@@ -33,7 +33,7 @@
 		? ComponentProps<InternalMonitorNumber>
 		: {
 				// TODO tooltip never appears?
-				//** A value to monitor. Note that `<Monitor>` is a dynamic component, and the availability of additional props will vary depending on the type of the defined `value`. */
+				/** A value to monitor. Note that `<Monitor>` is a dynamic component, and the availability of additional props will vary depending on the type of the defined `value`. */
 				value: number | string | boolean;
 		  };
 

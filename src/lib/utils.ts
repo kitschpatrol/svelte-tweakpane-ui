@@ -1,10 +1,13 @@
-import type { FolderApi, Pane, TabPageApi, TpPluginBundle } from 'tweakpane';
+import type { FolderApi, Pane, TabPageApi } from 'tweakpane';
 
-// All internal
+// user-facing types
+export type { TpPluginBundle as Plugin, Bindable as BindingObject } from '@tweakpane/core';
 
-export type TpContainer = Pane | FolderApi | TabPageApi;
+// internal types
+export type Container = Pane | FolderApi | TabPageApi;
 
-export function isRootPane(container: TpContainer): boolean {
+// utility functions
+export function isRootPane(container: Container): boolean {
 	return container.constructor.name === 'Pane';
 }
 
