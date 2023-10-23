@@ -47,8 +47,6 @@ function queryAll<T extends Node>(node: Node, tsqueryString: string): T[] | unde
 	return result.length > 0 ? result : undefined;
 }
 
-// Utilities
-
 // gets all props for a given component from its definition file
 function getPropsForComponent(componentName: string): PropertySignature[] | undefined {
 	const project = new Project();
@@ -58,8 +56,8 @@ function getPropsForComponent(componentName: string): PropertySignature[] | unde
 		definitionFile,
 		':declaration [name.name="props"] PropertySignature'
 	)?.filter((prop) => {
-		// can't seem to limit depth in tsquery alone
 		// don't include props that are nested in other props, e.g. on <Point>
+		// can't seem to limit depth in tsquery alone
 		const firstPropertySignatureAncestor = prop.getFirstAncestorByKind(
 			ts.SyntaxKind.PropertySignature
 		);
@@ -72,56 +70,43 @@ function getPropsForComponent(componentName: string): PropertySignature[] | unde
 }
 
 // looks at use of ComponentProps in $$Props interface to find the name of the component that is extended
-function getParentComponentNames(componentName: string): string[] | undefined {
+function getParentComponentNames(componentName: string): string[] {
 	// Getting this reliably with tsquery proved too complicated
 	const regex = /ComponentProps<([a-zA-Z0-9_-]+)/g;
-	const matches = fs
+	return fs
 		.readFileSync(findSourceFile(componentName), 'utf-8')
 		.split('\n')
-		.filter((line) => !/^\s*\/\/|^\s*\/\*/.test(line))
+		.filter((line) => !/^\s*\/\/|^\s*\/\*/.test(line)) // ignore comments
 		.flatMap((line) => Array.from(line.matchAll(regex)).map((match) => match[1]));
-
-	return matches.length > 0 ? matches : undefined;
 }
 
 // pass the component with the missing prop, looks up hierarchy
 function findPropComment(componentName: string, propName: string): string | undefined {
 	// some components extend multiple components, e.g. Pane, Monitor
-	const parentNames = getParentComponentNames(componentName);
+	// store at least one result from the parents...
 
-	if (parentNames !== undefined) {
-		// store at least one result from the parents...
-		let comment: string | undefined;
-		for (const parentName of parentNames) {
-			verbose &&
-				console.log(`Looking for "${propName}" in <${componentName}> with parent <${parentName}>`);
+	let comment: string | undefined;
 
-			const parentProp = getPropsForComponent(parentName)?.find((parentProp) => {
-				return parentProp.getName() === propName && parentProp.getJsDocs().length > 0;
-			});
-
-			if (parentProp !== undefined) {
-				verbose &&
-					console.log(`Found ${parentProp.getName()} with comment in from <${parentName}>`);
-				comment = parentProp.getJsDocs()[0].getCommentText();
-			} else {
-				// recurse and look up the chain
-				verbose && console.log(`Going up the chain from <${parentNames[0]}>`);
-				const result = findPropComment(parentNames[0], propName);
-				if (result !== undefined) comment = result;
-			}
-		}
-
-		return comment;
-	} else {
+	for (const parentName of getParentComponentNames(componentName)) {
 		verbose &&
-			console.warn(
-				`No doc comment found in final parent, add comment to prop "${propName}" in ${findSourceFile(
-					componentName
-				)}`
-			);
-		return;
+			console.log(`Looking for "${propName}" in <${componentName}> with parent <${parentName}>`);
+
+		const parentProp = getPropsForComponent(parentName)?.find((parentProp) => {
+			return parentProp.getName() === propName && parentProp.getJsDocs().length > 0;
+		});
+
+		if (parentProp !== undefined) {
+			verbose && console.log(`Found ${parentProp.getName()} with comment in from <${parentName}>`);
+			comment = parentProp.getJsDocs()[0].getCommentText();
+		} else {
+			// recurse and look up the chain
+			verbose && console.log(`Going up the chain from <${parentName}>`);
+			const result = findPropComment(parentName, propName);
+			if (result !== undefined) comment = result;
+		}
 	}
+
+	return comment;
 }
 
 // sets the prop comments for a given component in its definition file
@@ -171,7 +156,7 @@ function inheritPropCommentsAndSave(componentName: string) {
 	if (ammendedProps !== undefined) {
 		ammendedProps.forEach((prop) => {
 			if (prop.getJsDocs().length > 0) {
-				verbose && console.log(`Have comment for ${prop.getName()}`);
+				verbose && console.log(`Already have comment for ${prop.getName()}`);
 			} else {
 				const parentComment = findPropComment(componentName, prop.getName());
 
@@ -179,9 +164,6 @@ function inheritPropCommentsAndSave(componentName: string) {
 					verbose &&
 						console.log(`Adding comment from parent "${componentName}" for "${prop.getName()}"`);
 					prop.addJsDoc(parentComment);
-					// TODO add @default annotation?
-				} else {
-					// warning logging handled in findPropComment
 				}
 			}
 		});
