@@ -68,7 +68,7 @@ export { default as Textarea } from './plugins/Textarea.svelte';
 // TODO broken
 // export { default as ThumbnailList } from './plugins/ThumbnailList.svelte';
 export {
-	default as Waveform,
-	type WaveformLineStyle,
-	type WaveformValue
-} from './plugins/Waveform.svelte';
+	default as WaveformMonitor,
+	type WaveformMonitorLineStyle,
+	type WaveformMonitorValue
+} from './plugins/WaveformMonitor.svelte';

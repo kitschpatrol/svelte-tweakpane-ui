@@ -3,8 +3,8 @@
 		WaveformStyles,
 		WaveformValue
 	} from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
-	export type WaveformLineStyle = WaveformStyles;
-	export type { WaveformValue };
+	export type WaveformMonitorLineStyle = WaveformStyles;
+	export type WaveformMonitorValue = WaveformValue;
 </script>
 
 <script lang="ts">
@@ -13,15 +13,15 @@
 	import type { ComponentProps } from 'svelte';
 	// Direct prop import is wrapped in some extra stuff we don't want
 	// import type { WaveformProps } from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
-	type WaveformOptions = GenericMonitorOptions & {
+	type WaveformMonitorOptions = GenericMonitorOptions & {
 		max: number;
 		min: number;
-		lineStyle: WaveformLineStyle;
+		lineStyle: WaveformMonitorLineStyle;
 	};
 
 	interface $$Props
 		extends Omit<
-			ComponentProps<GenericMonitor<WaveformValue, WaveformOptions>>,
+			ComponentProps<GenericMonitor<WaveformMonitorValue, WaveformMonitorOptions>>,
 			'options' | 'ref' | 'plugin'
 		> {
 		/** TODO Docs */
@@ -29,9 +29,9 @@
 		/** TODO Docs */
 		min?: number;
 		/** TODO Docs */
-		lineStyle?: WaveformLineStyle;
+		lineStyle?: WaveformMonitorLineStyle;
 		/** TODO Docs */
-		value: WaveformValue;
+		value: WaveformMonitorValue;
 	}
 
 	// unique
@@ -45,7 +45,7 @@
 		max,
 		min,
 		lineStyle
-	} as WaveformOptions;
+	} as WaveformMonitorOptions;
 </script>
 
 <!--
