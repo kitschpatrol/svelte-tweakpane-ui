@@ -16,8 +16,8 @@ const config = {
 		adapter: adapter()
 	},
 	compilerOptions: {
-		preserveWhitespace: true,
-		preserveComments: true
+		preserveWhitespace: false,
+		preserveComments: false
 		// dev: true
 	}
 };

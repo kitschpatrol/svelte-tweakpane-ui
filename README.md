@@ -192,3 +192,5 @@ Two other projects provide integration between Tweakpane and Svelte:
 ## Temp dev notes
 
 - Spreading $$props breaks types. $$restProps seems safe.
+- https://github.com/sveltejs/kit/tree/1c5681e27074a0b1380f4a8b0118ed5ab7c6ebd7/sites/kit.svelte.dev/scripts
+- https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API

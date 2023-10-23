@@ -12,7 +12,7 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "noErrorTruncation": true,
-    "removeComments": true,
+    "removeComments": false,
     "isolatedModules": true
   }
 }
