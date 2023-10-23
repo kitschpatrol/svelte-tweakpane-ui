@@ -27,7 +27,11 @@
 	export let buttons: $$Props['buttons'] = [];
 	export let label: $$Props['label'] = undefined;
 
-	const dispatch = createEventDispatcher<{
+	// Seems to be the only way to get event comments to work
+	interface $$Events {
+		/** Fires when a button is clicked.
+		 * @event
+		 */
 		click: {
 			index: number;
 			label: string;
@@ -36,7 +40,9 @@
 				y: number;
 			};
 		};
-	}>();
+	}
+
+	const dispatch = createEventDispatcher<$$Events>();
 
 	let options: ButtonGridOptions;
 	let gridBlade: ButtonGridRef;

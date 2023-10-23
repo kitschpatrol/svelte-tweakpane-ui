@@ -173,6 +173,7 @@
     "@0b5vr/tweakpane-plugin-profiler": "github:kitschpatrol/tweakpane-plugin-profiler#tweakpane-v4",
     "@0b5vr/tweakpane-plugin-rotation": "github:kitschpatrol/tweakpane-plugin-rotation#tweakpane-v4",
     "@pangenerator/tweakpane-textarea-plugin": "github:kitschpatrol/tweakpane-textarea-plugin#tweakpane-v4",
+    "@phenomnomnominal/tsquery": "^6.1.3",
     "@sveltejs/adapter-auto": "^2.1.0",
     "@sveltejs/kit": "^1.26.0",
     "@sveltejs/package": "^2.2.2",

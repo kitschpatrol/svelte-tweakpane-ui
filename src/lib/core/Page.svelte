@@ -10,13 +10,20 @@
 	import { writable } from 'svelte/store';
 	import type { TabApi } from 'tweakpane';
 
-	/** Text in the tab. */
+	/** Text in the tab.
+	 * @default `'Tab Page'`
+	 */
 	export let title: string = 'Tab Page';
 
-	/** Prevent interactivity. Defaults to `false`. */
+	/** Prevent interactivity.
+	 * @default `false`
+	 *  */
 	export let disabled: boolean = false;
 
-	/** True when the page is the active tab. If multiple pages `seleted` props are set to true, the last page to be set to `true` comes to the foreground in its containing <Tab> component. Bindable. */
+	/** True when the page is the active tab. If multiple pages `seleted` props are set to true, the last page to be set to `true` comes to the foreground in its containing <Tab> component.
+	 * @default `false`
+	 * @emits
+	 */
 	export let selected: boolean = false;
 
 	/** Custom color scheme. Only applies if the `<Page>` is created outside a `<Pane>` component. */
@@ -98,14 +105,27 @@ Usage outside of a `<Tab>` component wouldn't make much sense, but in such cases
 
 Example:	
 ```tsx
+<script lang="ts">
+	import { Tab, Page  } from 'svelte-tweakpane-ui';
+
+	let countA = 0;
+	let countB = 0;
+</script>
+
+
 <Tab>
 	<Page title="A">
-		<Button title="Button A" on:click={() => alert('A...')} />
+		<Button title="Button A" on:click={() => countA++} />
 	</Page>
 	<Page title="B">
-		<Button title="Button B" on:click={() => alert('B...')} />
+		<Button title="Button B" on:click={() => countB++} />
 	</Page>
 </Tab>
+
+<pre>
+Count A: {countA}
+Count B: {countB}
+</pre>
 ```
 -->
 

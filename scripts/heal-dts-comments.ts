@@ -1,24 +1,23 @@
-import { Project, type PropertySignature } from 'ts-morph';
+import { Project, type PropertySignature, type Node } from 'ts-morph';
 import ts from 'typescript';
+import fs from 'fs';
 import { globSync } from 'glob';
 import path from 'path';
+import { query as tsquery } from '@phenomnomnominal/tsquery';
 
 // works around https://github.com/sveltejs/language-tools/issues/2186 by
 // manually adding missing prop comments from ancestor components
-// should run after build, before publish
-// will modify the .d.ts files in dist
-
-// should be idempotent
-
-// TODO handle dynamic components like Pane and Monitor
+// run after build to modify the .d.ts files in dist
+// idempotent
 
 // extra logging
 const verbose = false;
 
 // Helpers
 
-// will break if multiple components with the same name exist
 function findFile(base: string, componentName: string, suffix: string): string {
+	// this will break if multiple components with the same name exist
+
 	const files = globSync(`./${base}/**/${componentName}${suffix}`);
 	if (!files || files.length === 0) {
 		console.error(`Fatal: No files found for ${componentName}`);
@@ -39,94 +38,88 @@ function findSourceFile(componentName: string): string {
 	return findFile('src/lib', componentName, '.svelte');
 }
 
+// returns first match, or undefined
+function queryAll<T extends Node>(node: Node, tsqueryString: string): T[] | undefined {
+	const result = tsquery(node.compilerNode, tsqueryString).map(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(n) => (node as any)._getNodeFromCompilerNode(n) as Node
+	) as T[];
+	return result.length > 0 ? result : undefined;
+}
+
 // Utilities
 
 // gets all props for a given component from its definition file
 function getPropsForComponent(componentName: string): PropertySignature[] | undefined {
 	const project = new Project();
-	const sourceFile = project.addSourceFileAtPath(findDefinitionFile(componentName));
+	const definitionFile = project.addSourceFileAtPath(findDefinitionFile(componentName));
 
-	// paranoid version
-	// return sourceFile
-	// .getVariableDeclaration('__propDef')
-	// ?.getFirstDescendant((n) => {
-	//   return n.isKind(ts.SyntaxKind.PropertySignature) && n.getText().startsWith('props');
-	// })
-	// ?.getDescendantsOfKind(ts.SyntaxKind.PropertySignature);
+	return queryAll<PropertySignature>(
+		definitionFile,
+		':declaration [name.name="props"] PropertySignature'
+	)?.filter((prop) => {
+		// can't seem to limit depth in tsquery alone
+		// don't include props that are nested in other props, e.g. on <Point>
+		const firstPropertySignatureAncestor = prop.getFirstAncestorByKind(
+			ts.SyntaxKind.PropertySignature
+		);
 
-	return sourceFile
-		.getFirstDescendant((n) => {
-			return (
-				(n.isKind(ts.SyntaxKind.PropertySignature) || n.isKind(ts.SyntaxKind.MethodDeclaration)) &&
-				n.getText().startsWith('props')
-			);
-		})
-		?.getDescendantsOfKind(ts.SyntaxKind.PropertySignature)
-		.filter((prop) => {
-			// don't include props that are nested in other props, e.g. on <Point>
-			// TODO what about method signature ancestors?
-			const firstPropertySignatureAncestor = prop.getFirstAncestorByKind(
-				ts.SyntaxKind.PropertySignature
-			);
-
-			// const firstMethodDeclarationAncestor = prop.getFirstAncestorByKind(
-			// 	ts.SyntaxKind.MethodDeclaration
-			// );
-			// firstMethodDeclarationAncestor === undefined ||
-			// firstMethodDeclarationAncestor.getText().startsWith('props')
-
-			return (
-				firstPropertySignatureAncestor === undefined ||
-				firstPropertySignatureAncestor.getText().startsWith('props')
-			);
-		});
+		return (
+			firstPropertySignatureAncestor === undefined ||
+			firstPropertySignatureAncestor.getText().startsWith('props')
+		);
+	});
 }
 
 // looks at use of ComponentProps in $$Props interface to find the name of the component that is extended
-function getParentComponent(componentName: string): string | undefined {
-	// TODO support type in addition to interface
-	const project = new Project();
-	const sourceFile = project.addSourceFileAtPath(findSourceFile(componentName));
+function getParentComponentNames(componentName: string): string[] | undefined {
+	// Getting this reliably with tsquery proved too complicated
+	const regex = /ComponentProps<([a-zA-Z0-9_-]+)/g;
+	const matches = fs
+		.readFileSync(findSourceFile(componentName), 'utf-8')
+		.split('\n')
+		.filter((line) => !/^\s*\/\/|^\s*\/\*/.test(line))
+		.flatMap((line) => Array.from(line.matchAll(regex)).map((match) => match[1]));
 
-	return sourceFile
-		.getInterface('$$Props')
-		?.getFirstDescendant((n) => {
-			return (
-				(n.isKind(ts.SyntaxKind.TypeReference) ||
-					n.isKind(ts.SyntaxKind.ExpressionWithTypeArguments)) &&
-				n.getText().startsWith('ComponentProps')
-			);
-		})
-		?.getFirstDescendantByKind(ts.SyntaxKind.TypeReference)
-		?.getFirstDescendantByKind(ts.SyntaxKind.Identifier)
-		?.getText();
+	return matches.length > 0 ? matches : undefined;
 }
 
 // pass the component with the missing prop, looks up hierarchy
-// could be more efficient
 function findPropComment(componentName: string, propName: string): string | undefined {
-	const parentName = getParentComponent(componentName);
+	// some components extend multiple components, e.g. Pane, Monitor
+	const parentNames = getParentComponentNames(componentName);
 
-	verbose && console.log(`Looking for ${propName} in ${componentName} with parent ${parentName}`);
+	if (parentNames !== undefined) {
+		// store at least one result from the parents...
+		let comment: string | undefined;
+		for (const parentName of parentNames) {
+			verbose &&
+				console.log(`Looking for "${propName}" in <${componentName}> with parent <${parentName}>`);
 
-	if (parentName !== undefined) {
-		const parentProp = getPropsForComponent(parentName)?.find((parentProp) => {
-			return parentProp.getName() === propName;
-		});
+			const parentProp = getPropsForComponent(parentName)?.find((parentProp) => {
+				return parentProp.getName() === propName && parentProp.getJsDocs().length > 0;
+			});
 
-		if (parentProp !== undefined && parentProp.getJsDocs().length > 0) {
-			return parentProp.getJsDocs()[0].getCommentText();
-		} else {
-			// recurse and look up the chain
-			verbose && console.log(`Going up the chain from ${parentName}`);
-			return findPropComment(parentName, propName);
+			if (parentProp !== undefined) {
+				verbose &&
+					console.log(`Found ${parentProp.getName()} with comment in from <${parentName}>`);
+				comment = parentProp.getJsDocs()[0].getCommentText();
+			} else {
+				// recurse and look up the chain
+				verbose && console.log(`Going up the chain from <${parentNames[0]}>`);
+				const result = findPropComment(parentNames[0], propName);
+				if (result !== undefined) comment = result;
+			}
 		}
+
+		return comment;
 	} else {
-		console.warn(
-			`No doc comment found in final parent, add comment to prop "${propName}" in ${findSourceFile(
-				componentName
-			)}>`
-		);
+		verbose &&
+			console.warn(
+				`No doc comment found in final parent, add comment to prop "${propName}" in ${findSourceFile(
+					componentName
+				)}`
+			);
 		return;
 	}
 }
@@ -136,14 +129,7 @@ function setPropsForComponent(componentName: string, props: PropertySignature[])
 	const project = new Project();
 	const sourceFile = project.addSourceFileAtPath(findDefinitionFile(componentName));
 
-	// paranoid version
-	// return sourceFile
-	// .getVariableDeclaration('__propDef')
-	// ?.getFirstDescendant((n) => {
-	//   return n.isKind(ts.SyntaxKind.PropertySignature) && n.getText().startsWith('props');
-	// })
-	// ?.getDescendantsOfKind(ts.SyntaxKind.PropertySignature);
-
+	// TODO tsqery
 	sourceFile
 		.getFirstDescendant((n) => {
 			return (
@@ -165,13 +151,13 @@ function setPropsForComponent(componentName: string, props: PropertySignature[])
 			);
 		})
 		.forEach((prop) => {
-			const matchingProp = props.find((p) => p.getName() === prop.getName());
-			if (matchingProp !== undefined && matchingProp.getJsDocs().length > 0) {
-				if (prop.getJsDocs().length === 0) {
-					prop.addJsDoc(matchingProp.getJsDocs()[0].getCommentText()!);
-				}
+			const matchingProp = props.find(
+				(p) => p.getName() === prop.getName() && p.getJsDocs().length > 0
+			);
+			if (matchingProp !== undefined && prop.getJsDocs().length === 0) {
+				prop.addJsDoc(matchingProp.getJsDocs()[0].getCommentText()!);
 			} else {
-				console.error(`No matching prop found for ${prop.getName()}`);
+				verbose && console.error(`No matching prop found for ${prop.getName()}`);
 			}
 		});
 
@@ -209,18 +195,25 @@ function inheritPropCommentsAndSave(componentName: string) {
 // Main
 
 // Run on all components found in dist
-globSync('./dist/**/*.svelte.d.ts').forEach((file) => {
-	const componentName = path.basename(file).replace('.svelte.d.ts', '');
+// Order doesn't matter since going up the chain is consistent
+const componentNames = globSync('./dist/**/*.svelte.d.ts').map((file) => {
+	return path.basename(file).replace('.svelte.d.ts', '');
+});
+
+console.log(`Healing missing prop comments for ${componentNames.length} components...`);
+
+componentNames.forEach((componentName) => {
 	verbose && console.log(`Adding missing prop comments for "${componentName}"`);
 	inheritPropCommentsAndSave(componentName);
 });
 
-// inheritPropCommentsAndSave('Point');
-// inheritPropCommentsAndSave('Checkbox');
+// Audit
+componentNames.forEach((componentName) => {
+	getPropsForComponent(componentName)?.forEach((prop) => {
+		if (prop.getJsDocs().length === 0) {
+			console.warn(`Component <${componentName}> is missing comment for prop "${prop.getName()}"`);
+		}
+	});
+});
 
-// getPropsForComponent('Point')?.forEach((prop) => {
-// 	console.log(prop.getName());
-// 	// if (prop.getJsDocs().length > 0) {
-// 	// 	console.log(prop.getJsDocs()[0].getCommentText());
-// 	// }
-// });
+console.log(`Done.`);

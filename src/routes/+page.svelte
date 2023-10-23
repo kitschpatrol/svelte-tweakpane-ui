@@ -4,6 +4,8 @@
 		IntervalSlider,
 		Slider,
 		Button,
+		Tab,
+		Page,
 		Pane,
 		Point,
 		Binding,
@@ -73,6 +75,8 @@
 
 	let params: BindingObject = { r: 0 };
 	let pp: PointValue2d = [0, 0];
+	let countA = 0;
+	let countB = 0;
 </script>
 
 <Text value={'bla'} />
@@ -81,7 +85,23 @@
 
 <Color bind:value={val} />
 
+}
+
+<Tab>
+	<Page title="A">
+		<Button title="Button A" on:click={() => countA++} />
+	</Page>
+	<Page title="B">
+		<Button title="Button B" on:click={() => countB++} />
+	</Page>
+</Tab>
+<pre>
+	Count A: {countA}
+	Count B: {countB}
+</pre>
+
 <Button
+	disabled={undefined}
 	on:click={() => {
 		// oVal = objectOptions.two;
 		val = boolToMonitor;

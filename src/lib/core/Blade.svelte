@@ -1,30 +1,35 @@
 <script lang="ts" context="module">
 	import type { BaseBladeParams, BladeApi } from 'tweakpane';
+	export type { Plugin } from '../utils.js';
 	export type BladeOptions = BaseBladeParams;
 	export type BladeRef = BladeApi; // required for input folding
 </script>
 
 <script lang="ts" generics="U extends BladeOptions, V extends BladeRef">
-	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type Container, type Plugin } from '../utils.js';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
+	import type { Theme } from '../theme.js';
+	import { getElementIndex, isRootPane, type Container, type Plugin } from '../utils.js';
 
 	/** Blade configuration exposing TweakPane's internal [BladeParams](https://tweakpane.github.io/docs/api/interfaces/BaseBladeParams.html), not generally intended for direct use. */
 	export let options: U;
 
-	/** Prevent interactivity. Defaults to `false`. */
+	/** Prevent interactivity.
+	 * @default `false`. */
 	export let disabled: boolean = false;
 
 	/** Custom color scheme. Only applies if the `<Blade>` is created outside a `<Pane>` component. */
 	export let theme: Theme | undefined = undefined;
 
-	/** Bindable reference to internal TweakPane [BladeApi](https://tweakpane.github.io/docs/api/classes/BladeApi.html) for this blade, not generally intended for direct use */
+	/** Reference to internal TweakPane [BladeApi](https://tweakpane.github.io/docs/api/classes/BladeApi.html) for this blade, not generally intended for direct use.
+	 * @emits
+	 * @readonly
+	 */
 	export let ref: V | undefined = undefined;
 
-	/** Imported Tweakpane `TpPluginBundle` module to register before creating the blade. Primarily for internal use. */
+	/** Imported Tweakpane `TpPluginBundle` (Aliased as `Plugin`) module to register before creating the blade. Primarily for internal use. */
 	export let plugin: Plugin | undefined = undefined;
 
 	const registerPlugin = getContext<(plugin: Plugin) => void>('registerPlugin');
@@ -86,6 +91,10 @@ This component is not directly exposed since it lacks a use case in the Svelte c
 
 Example:
 ```tsx
+<script lang="ts">
+	import { Blade } from 'svelte-tweakpane-ui';
+</script>
+
 <Blade options={{view: 'separator'}} />
 ```
 -->

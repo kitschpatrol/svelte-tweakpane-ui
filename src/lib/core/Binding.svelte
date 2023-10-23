@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
+	import type { BindingApi, BindingParams } from '@tweakpane/core';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BindingObject } from '../utils';
-	import type { BindingParams, BindingApi } from '@tweakpane/core';
 	export type BindingOptions = BindingParams;
 	export type BindingRef = BindingApi;
 </script>
@@ -17,13 +17,17 @@
 	import type { Theme } from '../theme.js';
 	import { getElementIndex, isRootPane, type Container, type Plugin } from '../utils.js';
 
-	/** The binding target object with values to manipulate. */
+	/** The binding target object with values to manipulate.
+	 * @emits
+	 */
 	export let object: T;
 
 	/** The key for the value in the target object that the control should manipulate. */
 	export let key: keyof T;
 
-	/** Prevent interactivity. Defaults to `false`. */
+	/** Prevent interactivity.
+	 *  @default `false`
+	 */
 	export let disabled: boolean = false;
 
 	/** Text displayed next to control. */
@@ -35,10 +39,13 @@
 	/** Custom color scheme. Only applies if the control component is created outside a `<Pane>` component. */
 	export let theme: Theme | undefined = undefined;
 
-	/** Bindable reference to internal TweakPane [BindingApi](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for this control, not generally intended for direct use. Treat as read only. */
+	/** Reference to internal TweakPane [BindingApi](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for this control, not generally intended for direct use.
+	 * @emits
+	 * @readonly
+	 */
 	export let ref: V | undefined = undefined;
 
-	/** Imported Tweakpane `TpPluginBundle` module to register before creating the binding. Primarily for internal use. */
+	/** Imported Tweakpane `TpPluginBundle` (aliased as `Plugin`) module to register before creating the binding. Primarily for internal use. */
 	export let plugin: Plugin | undefined = undefined;
 
 	const registerPlugin = getContext<(plugin: Plugin) => void>('registerPlugin');
@@ -115,6 +122,7 @@ Example:
 ```tsx
 <script lang="ts">
 	import { Binding, type BindingObject } from 'svelte-tweakpane-ui';
+	
 	let object: BindingObject = { r: 0 };
 </script>
 

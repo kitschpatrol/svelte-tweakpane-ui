@@ -1,5 +1,4 @@
 <script lang="ts" context="module">
-	// TODO generic with default?
 	export type PanePosition = 'inline' | 'fixed' | 'draggable';
 </script>
 
@@ -8,30 +7,21 @@
 	import InternalPaneDraggable from '../internal/InternalPaneDraggable.svelte';
 	import InternalPaneFixed from '../internal/InternalPaneFixed.svelte';
 	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
-	// import type { BladeState } from '@tweakpane/core';
 
 	import { beforeUpdate, type ComponentProps } from 'svelte';
 
-	// hide userCreatedPane from public API, since it only matters to implicit panes
-	type InlineProps = Omit<ComponentProps<InternalPaneInline>, 'userCreatedPane'> & {
-		position: 'inline';
-	};
-
-	type FixedProps = ComponentProps<InternalPaneFixed> & {
-		position: 'fixed';
-	};
-
-	// optional makes this "default"
-	type DraggableProps = ComponentProps<InternalPaneDraggable> & {
-		position?: 'draggable' | undefined;
-	};
-
-	// default to draggable, take advantage of the fact that it props are the union
-	// of all other modes to work around Typescript default discriminated union autocomplete bugs
-	// $$props.position = $$props.position ?? 'draggable';
-
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	type $$Props = (InlineProps | FixedProps | DraggableProps) & {
+	type $$Props = (
+		| (ComponentProps<InternalPaneDraggable> & {
+				position?: 'draggable' | undefined;
+		  })
+		| (ComponentProps<InternalPaneFixed> & {
+				position: 'fixed';
+		  })
+		| (Omit<ComponentProps<InternalPaneInline>, 'userCreatedPane'> & {
+				position: 'inline';
+		  })
+	) & {
 		/**
 		 * Pane mode, one of three options:
 		 * - **'draggable'** *(default)*  \
@@ -48,10 +38,6 @@
 		position?: PanePosition;
 	};
 
-	// type safety...
-	// $: props = $$props as $$Props;
-
-	// yuck
 	// have to do this for bindings to work...
 	// maybe related to https://svelte.dev/repl/aacb7e0b8066497490d3204f8a57491c?version=3.2.2 ?
 	export let expanded: $$Props['expanded'] = undefined;
@@ -109,6 +95,10 @@ Mode overview:
 
 Example:	
 ```tsx
+<script lang="ts">
+	import { Pane, Button  } from 'svelte-tweakpane-ui';
+</script>
+
 <Pane title="Drag Me Around">
 	<Button title="Reticulate" on:click={() => alert('Reticulation complete')} />
 </Pane>

@@ -1,24 +1,31 @@
 <script lang="ts">
-	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
-	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type Container } from '../utils.js';
 	import type { FolderApi } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
-	import { updateCollapsability } from '../utils.js';
+	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
+	import type { Theme } from '../theme.js';
+	import { getElementIndex, isRootPane, updateCollapsability, type Container } from '../utils.js';
 
-	/** Folder title. */
+	/** Text in folder title bar.
+	 * @default `'Folder'`
+	 */
 	export let title: string = 'Folder';
 
-	/** Prevent interactivity. Defaults to `false`. */
+	/** Prevent interactivity.
+	 * @default `false`
+	 */
 	export let disabled: boolean = false;
 
-	/** Expand or collapse folder. Bindable. */
+	/** Expand or collapse folder.
+	 * @emits
+	 */
 	export let expanded: boolean | undefined = undefined;
 
-	/** Allow the user to be collapse and expand the foldrer by clicking its title bar. */
+	/** Allow the user to be collapse and expand the folder by clicking its title bar.
+	 * @default `true`
+	 */
 	export let clickToExpand: boolean = true;
 
 	/** Custom color scheme. Only applies if the `<Folder>` is created outside a `<Pane>` component. */
@@ -85,13 +92,18 @@ Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane 
 Example:	
 ```tsx
 <script lang="ts">
-	let reticulationCount = 0;
+	import { FolderApi, ButtonApi, Monitor, Checkbox  } from 'svelte-tweakpane-ui';
+
+	let expanded = true;
+	let count = 0;
 </script>
 
-<Folder title="Reticulaton Manager">
-	<Button title="Reticulate" on:click={() => reticulationCount++} />
-	<InternalMonitorNumber label="Reticulations" value={reticulationCount} />
+<Folder title="Reticulaton Manager" {expanded} >
+	<Button title="Increment" on:click={() => count++} />
+	<Monitor label="Count" value={count} />
 </Folder>
+
+<Checkbox label="Expanded" bind:value={expanded} />
 ```
 -->
 

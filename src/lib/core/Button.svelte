@@ -1,19 +1,23 @@
 <script lang="ts">
-	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
-	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type Container } from '../utils.js';
 	import type { ButtonApi } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
 	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
+	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
+	import type { Theme } from '../theme.js';
+	import { getElementIndex, isRootPane, type Container } from '../utils.js';
 
-	/** Text inside of the button */
+	/** Text inside of the button.
+	 *  @default `'Button'`
+	 */
 	export let title: string = 'Button';
 
-	/** Text displayed next to the button */
+	/** Text displayed next to the button. */
 	export let label: string | undefined = undefined;
 
-	/** Prevent interactivity. Defaults to `false`. */
+	/** Prevent interactivity. Defaults to `false`.
+	 * @default `false`
+	 */
 	export let disabled: boolean = false;
 
 	/** Custom color scheme. Only applies if the `<Button>` is created outside a `<Pane>` component. */
@@ -21,7 +25,16 @@
 
 	const parentStore: Writable<Container> = getContext('parentStore');
 	const userCreatedPane = getContext('userCreatedPane');
-	const dispatch = createEventDispatcher<{ click: null }>();
+
+	// Seems to be the only way to get event comments to work
+	interface $$Events {
+		/** Fires when the button is clicked.
+		 * @event
+		 */
+		click: null;
+	}
+
+	const dispatch = createEventDispatcher<$$Events>();
 
 	let indexElement: HTMLDivElement;
 	let button: ButtonApi;
@@ -76,13 +89,22 @@ Wraps the Tweakpane [addButton](https://tweakpane.github.io/docs/ui-components/#
 Usage outside of a `<Pane>` component will implicitly wrap the button in `<Pane position='inline'>`.
 
 Example:	
-  ```tsx
-	<Button
-		label="Spline Status"
-		title="Check"
-		on:click={() => alert('Reticulation in progress...')}
-	/>
-	```
+```tsx
+<script lang="ts">
+	import { Button } from 'svelte-tweakpane-ui';
+
+	let count = 0;
+</script>
+
+<Button
+	label="Spline Status"
+	title="Check"
+	on:click={() => count++}
+/>
+<pre>
+	Count: {count}
+<pre>
+```
 -->
 
 {#if BROWSER}

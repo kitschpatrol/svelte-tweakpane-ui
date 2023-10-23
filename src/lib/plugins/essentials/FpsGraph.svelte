@@ -20,6 +20,10 @@
 		min?: number;
 		/** TODO Docs */
 		label?: string;
+		/** TODO Docs */
+		begin?: () => void;
+		/** TODO Docs */
+		end?: () => void;
 	}
 
 	export let rows: $$Props['rows'] = 2;
@@ -31,13 +35,11 @@
 	let implicitMode = true; // false as soon as the external api has been used
 
 	// Begin and end can be bound and called externally for explicit timing
-	/** TODO Docs */
 	export function begin(): void {
 		implicitMode = false;
 		fpsBlade?.begin();
 	}
 
-	/** TODO Docs */
 	export function end(): void {
 		implicitMode = false;
 		fpsBlade?.end();
@@ -46,9 +48,16 @@
 	let fpsBlade: FpsGraphRef;
 	let requestId: number;
 
-	// handle this as an event and not a bound value
-	// because it's "read only"
-	const dispatch = createEventDispatcher<{ change: number }>();
+	// Seems to be the only way to get event comments to work
+	interface $$Events {
+		/** Fires when the FPS value changes
+		 * This is an event and not a bindable value because it is readonly.
+		 * @event
+		 */
+		change: number;
+	}
+
+	const dispatch = createEventDispatcher<$$Events>();
 
 	onMount(() => {
 		startInternalLoop();
