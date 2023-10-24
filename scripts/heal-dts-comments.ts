@@ -1,4 +1,4 @@
-import { Project, type PropertySignature, type Node } from 'ts-morph';
+import { Project, type PropertySignature, type Node, type JSDoc } from 'ts-morph';
 import ts from 'typescript';
 import fs from 'fs';
 import { globSync } from 'glob';
@@ -81,11 +81,11 @@ function getParentComponentNames(componentName: string): string[] {
 }
 
 // pass the component with the missing prop, looks up hierarchy
-function findPropComment(componentName: string, propName: string): string | undefined {
+function findPropComment(componentName: string, propName: string): JSDoc[] | undefined {
 	// some components extend multiple components, e.g. Pane, Monitor
 	// store at least one result from the parents...
 
-	let comment: string | undefined;
+	let comment: JSDoc[] | undefined;
 
 	for (const parentName of getParentComponentNames(componentName)) {
 		verbose &&
@@ -97,7 +97,7 @@ function findPropComment(componentName: string, propName: string): string | unde
 
 		if (parentProp !== undefined) {
 			verbose && console.log(`Found ${parentProp.getName()} with comment in from <${parentName}>`);
-			comment = parentProp.getJsDocs()[0].getCommentText();
+			comment = parentProp.getJsDocs();
 		} else {
 			// recurse and look up the chain
 			verbose && console.log(`Going up the chain from <${parentName}>`);
@@ -140,7 +140,10 @@ function setPropsForComponent(componentName: string, props: PropertySignature[])
 				(p) => p.getName() === prop.getName() && p.getJsDocs().length > 0
 			);
 			if (matchingProp !== undefined && prop.getJsDocs().length === 0) {
-				prop.addJsDoc(matchingProp.getJsDocs()[0].getCommentText()!);
+				prop.insertJsDocs(
+					0,
+					matchingProp.getJsDocs().map((jsDoc) => jsDoc.getStructure())
+				);
 			} else {
 				verbose && console.error(`No matching prop found for ${prop.getName()}`);
 			}
@@ -166,7 +169,10 @@ function inheritPropCommentsAndSave(componentName: string): number {
 					verbose &&
 						console.log(`Adding comment from parent "${componentName}" for "${prop.getName()}"`);
 					quantityFixed++;
-					prop.addJsDoc(parentComment);
+					prop.insertJsDocs(
+						0,
+						parentComment.map((jsDoc) => jsDoc.getStructure())
+					);
 				}
 			}
 		});
