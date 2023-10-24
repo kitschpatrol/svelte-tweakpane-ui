@@ -85,6 +85,8 @@ Example:
 <Monitor label="Boolean Monitor" value={boolToMonitor} />
 <Monitor label="String Monitor" value={stringToMonitor} multiline={true} bufferSize={5} />
 ```
+
+@sourceLink
 -->
 
 {#if value === undefined || typeof value === 'number'}

@@ -11,6 +11,7 @@
 
 <script lang="ts">
 	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
+	import * as pluginModule from '@0b5vr/tweakpane-plugin-rotation';
 	import type { PointDimensionParams } from '@tweakpane/core';
 	import type { ComponentProps } from 'svelte';
 	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d';
@@ -87,15 +88,15 @@ Example:
 ```tsx
 TODO
 ```
+
+@sourceLink
 -->
 
-{#await import('@0b5vr/tweakpane-plugin-rotation') then module}
-	<GenericInputFolding
-		bind:expanded
-		bind:value={internalValue}
-		{buttonClass}
-		{options}
-		plugin={module}
-		{...$$restProps}
-	/>
-{/await}
+<GenericInputFolding
+	bind:expanded
+	bind:value={internalValue}
+	{buttonClass}
+	{options}
+	plugin={pluginModule}
+	{...$$restProps}
+/>

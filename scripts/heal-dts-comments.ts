@@ -150,7 +150,9 @@ function setPropsForComponent(componentName: string, props: PropertySignature[])
 }
 
 // rewrites the component's definition file with the comments from the parent as needed
-function inheritPropCommentsAndSave(componentName: string) {
+// returns number of comments added
+function inheritPropCommentsAndSave(componentName: string): number {
+	let quantityFixed = 0;
 	const ammendedProps = getPropsForComponent(componentName);
 
 	if (ammendedProps !== undefined) {
@@ -163,6 +165,7 @@ function inheritPropCommentsAndSave(componentName: string) {
 				if (parentComment !== undefined) {
 					verbose &&
 						console.log(`Adding comment from parent "${componentName}" for "${prop.getName()}"`);
+					quantityFixed++;
 					prop.addJsDoc(parentComment);
 				}
 			}
@@ -172,9 +175,13 @@ function inheritPropCommentsAndSave(componentName: string) {
 	} else {
 		console.warn(`No props found for ${componentName}`);
 	}
+
+	return quantityFixed;
 }
 
 // Main
+
+let quantityFixed = 0;
 
 // Run on all components found in dist
 // Order doesn't matter since going up the chain is consistent
@@ -186,7 +193,7 @@ console.log(`Healing missing prop comments for ${componentNames.length} componen
 
 componentNames.forEach((componentName) => {
 	verbose && console.log(`Adding missing prop comments for "${componentName}"`);
-	inheritPropCommentsAndSave(componentName);
+	quantityFixed += inheritPropCommentsAndSave(componentName);
 });
 
 // Audit
@@ -198,4 +205,6 @@ componentNames.forEach((componentName) => {
 	});
 });
 
-console.log(`Done.`);
+console.log(
+	`Done. Found and fixed ${quantityFixed} missing .d.ts component prop JSDoc annotations.`
+);

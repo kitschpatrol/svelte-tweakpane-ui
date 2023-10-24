@@ -115,6 +115,8 @@ Example:
 
 <List label="Alphanumerics" bind:value={selection} options={{ a: 1, b: 2, c: 3 }} />
 ```
+
+@sourceLink
 -->
 
 <Blade bind:ref={listBlade} options={bladeOptions} {...$$restProps} />

@@ -26,6 +26,8 @@
 <!--
 @component
 This component is for internal use only.
+
+@sourceLink
 -->
 
 <GenericBinding bind:value bind:ref options={optionsInternal} {...$$restProps} />

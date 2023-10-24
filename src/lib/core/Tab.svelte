@@ -85,6 +85,8 @@ Example:
 	</Page>
 </Tab>
 ```
+
+@sourceLink
 -->
 
 {#if BROWSER}

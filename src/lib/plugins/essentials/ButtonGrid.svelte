@@ -4,6 +4,7 @@
 	import type { ButtonGridApi as ButtonGridRef } from '@tweakpane/plugin-essentials';
 	import type { ButtonGridBladeParams as ButtonGridOptions } from '@tweakpane/plugin-essentials/dist/types/button-grid/plugin.d.ts';
 	import { createEventDispatcher } from 'svelte';
+	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
@@ -88,8 +89,8 @@ Example:
 ```tsx
 TODO
 ```
+
+@sourceLink
 -->
 
-{#await import('@tweakpane/plugin-essentials') then module}
-	<Blade bind:ref={gridBlade} plugin={module} {options} {...$$restProps} />
-{/await}
+<Blade bind:ref={gridBlade} plugin={pluginModule} {options} {...$$restProps} />

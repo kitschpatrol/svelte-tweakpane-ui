@@ -97,6 +97,8 @@ Example:
 
 <Blade options={{view: 'separator'}} />
 ```
+
+@sourceLink
 -->
 
 {#if BROWSER}

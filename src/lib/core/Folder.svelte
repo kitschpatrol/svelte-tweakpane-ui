@@ -105,6 +105,8 @@ Example:
 
 <Checkbox label="Expanded" bind:value={expanded} />
 ```
+
+@sourceLink
 -->
 
 {#if BROWSER}

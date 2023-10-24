@@ -66,6 +66,8 @@ Note that we go from a regular slider to a range / interval slider
 For the sake of consistency and discoverability, `<IntervalSlider>`
 is implement as a separate component leveraging this generic
 implementation.
+
+@sourceLink
 -->
 
 <GenericInput bind:value options={optionsInternal} {...$$restProps} />

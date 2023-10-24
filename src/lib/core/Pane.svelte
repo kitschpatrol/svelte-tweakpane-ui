@@ -103,6 +103,8 @@ Example:
 	<Button title="Reticulate" on:click={() => alert('Reticulation complete')} />
 </Pane>
 ```
+
+@sourceLink
 -->
 
 {#if position === undefined || position === 'draggable'}

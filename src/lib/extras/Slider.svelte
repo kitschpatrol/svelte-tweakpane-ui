@@ -32,6 +32,8 @@ $: console.log(value);
 
 <Slider bind:value label="Let it Slide" min={-1} max={1} format={(v) => v.toFixed(2)} />
 ```
+
+@sourceLink
 -->
 
 <GenericSlider bind:value {...$$restProps} />

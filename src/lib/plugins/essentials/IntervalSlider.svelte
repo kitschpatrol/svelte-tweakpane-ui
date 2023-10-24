@@ -11,6 +11,7 @@
 
 <script lang="ts">
 	import GenericSlider from '../../internal/GenericSlider.svelte';
+	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import type { ComponentProps } from 'svelte';
 	import type { IntervalObject } from '@tweakpane/plugin-essentials/dist/types/interval/model/interval.js';
 
@@ -68,8 +69,8 @@ Example:
 ```tsx
 TODO
 ```
+
+@sourceLink
 -->
 
-{#await import('@tweakpane/plugin-essentials') then module}
-	<GenericSlider bind:value={internalValue} plugin={module} {...$$restProps} />
-{/await}
+<GenericSlider bind:value={internalValue} plugin={pluginModule} {...$$restProps} />

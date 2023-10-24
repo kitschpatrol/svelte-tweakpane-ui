@@ -29,6 +29,8 @@ Example:
 <Separator />
 <Button title="Water" />
 ```
+
+@sourceLink
 -->
 
 <Blade {options} {...$$restProps} />

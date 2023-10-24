@@ -51,6 +51,8 @@ This component is for internal use only.
 
 It abstracts the param object Tweakpane expects into an
 interface that looks like a bare value
+
+@sourceLink
 -->
 
 <Binding bind:ref bind:object {options} {key} {...$$restProps} />

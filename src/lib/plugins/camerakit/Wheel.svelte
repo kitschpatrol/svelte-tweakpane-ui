@@ -1,5 +1,6 @@
 <script lang="ts">
 	import GenericSlider from '../../internal/GenericSlider.svelte';
+	import * as pluginModule from '@tweakpane/plugin-camerakit';
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
@@ -31,8 +32,8 @@ Example:
 ```tsx
 TODO
 ```
+
+@sourceLink
 -->
 
-{#await import('@tweakpane/plugin-camerakit') then module}
-	<GenericSlider bind:value {options} plugin={module} {...$$restProps} />
-{/await}
+<GenericSlider bind:value {options} plugin={pluginModule} {...$$restProps} />

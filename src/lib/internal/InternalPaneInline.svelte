@@ -48,6 +48,8 @@
 <!--
 @component
 This component is for internal use only.
+
+@sourceLink
 -->
 
 {#if BROWSER}

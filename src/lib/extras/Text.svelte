@@ -32,6 +32,8 @@ Example:
 	
 <Text bind:value={text} label="The Message" />
 ```
+
+@sourceLink
 -->
 
 <GenericInput bind:value {...$$restProps} />

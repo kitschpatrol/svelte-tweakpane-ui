@@ -48,12 +48,15 @@ function addExports(sourceIndexFile: string, destinationPackageFile: string) {
 	const packageJson = JSON.parse(fs.readFileSync(destinationPackageFile, 'utf-8'));
 	packageJson.exports = exports;
 	packageJson.types = './dist/index.d.ts';
-	packageJson.svelte = './dist/index.d.ts'; // TODO right thing?
+
+	// deprecated, astro complains
+	// https://github.com/sveltejs/vite-plugin-svelte/blob/main/docs/faq.md#conflicts-in-svelte-resolve
+	// packageJson.svelte = './dist/index.d.ts';
 
 	fs.writeFileSync(destinationPackageFile, JSON.stringify(packageJson, null, 2));
 
 	console.log(
-		`Done. Wrote 'types', 'svelte', and ${
+		`Done. Wrote 'types' and ${
 			Object.keys(exports).length - 1
 		} component 'exports' values to ${destinationPackageFile}.`
 	);

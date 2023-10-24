@@ -79,6 +79,8 @@ Example:
 
 <InternalMonitorNumber value={numberToMonitor} graph={true} min={-1} max={1} />
 ```
+
+@sourceLink
 -->
 
 <GenericMonitor {value} {options} {...$$restProps} />

@@ -22,7 +22,7 @@ function removeComponentBlock(filePath: string): void {
 
 const svelteFiles = globSync(`./dist/**/*.svelte`);
 
-console.log(`Removing @component blocks from ${svelteFiles.length} svelte files...`);
+console.log(`Removing @component blocks from ${svelteFiles.length} Svelte files...`);
 console.log(`Documentation is preserved in .svelte.d.ts files.`);
 
 svelteFiles.forEach((filePath) => {

@@ -7,7 +7,7 @@
 	import GenericBladeFolding from '../../internal/GenericBladeFolding.svelte';
 	import type { CubicBezierApi } from '@tweakpane/plugin-essentials';
 	import { CubicBezier } from '@tweakpane/plugin-essentials';
-
+	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
@@ -72,15 +72,15 @@ Example:
 ```tsx
 TODO
 ```
+
+@sourceLink
 -->
 
-{#await import('@tweakpane/plugin-essentials') then module}
-	<GenericBladeFolding
-		bind:expanded
-		bind:ref={cubicBezierBlade}
-		plugin={module}
-		{buttonClass}
-		{options}
-		{...$$restProps}
-	/>
-{/await}
+<GenericBladeFolding
+	bind:expanded
+	bind:ref={cubicBezierBlade}
+	plugin={pluginModule}
+	{buttonClass}
+	{options}
+	{...$$restProps}
+/>

@@ -84,6 +84,8 @@ Example:
 
 <pre>{JSON.stringify(object, null, 2)}</pre>
 ```
+
+@sourceLink
 -->
 
 {#if BROWSER}

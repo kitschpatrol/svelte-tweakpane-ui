@@ -1,5 +1,6 @@
 <script lang="ts">
 	import GenericInput from '../internal/GenericInput.svelte';
+	import * as pluginModule from '@pangenerator/tweakpane-textarea-plugin';
 	import type { ComponentProps } from 'svelte';
 	import type { TextareaPluginInputParams } from '@pangenerator/tweakpane-textarea-plugin/dist/types/plugin.js';
 
@@ -36,8 +37,8 @@ Example:
 ```tsx
 TODO
 ```
+
+@sourceLink
 -->
 
-{#await import('@pangenerator/tweakpane-textarea-plugin') then module}
-	<GenericInput bind:value {options} plugin={module} {...$$restProps} />
-{/await}
+<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />

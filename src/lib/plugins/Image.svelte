@@ -6,6 +6,7 @@
 
 <script lang="ts">
 	import GenericInput from '../internal/GenericInput.svelte';
+	import * as pluginModule from 'tweakpane-image-plugin';
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props extends Omit<ComponentProps<GenericInput<ImageValue>>, 'plugin'> {
@@ -37,8 +38,8 @@ Example:
 ```tsx
 TODO
 ```
+
+@sourceLink
 -->
 
-{#await import('tweakpane-image-plugin') then module}
-	<GenericInput bind:value {options} plugin={module} {...$$restProps} />
-{/await}
+<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />

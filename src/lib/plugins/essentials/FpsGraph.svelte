@@ -3,6 +3,7 @@
 	import type { FpsGraphBladeApi as FpsGraphRef } from '@tweakpane/plugin-essentials';
 	import type { FpsGraphBladeParams as FpsGraphOptions } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
@@ -136,8 +137,8 @@ Example:
 ```tsx
 TODO
 ```
+
+@sourceLink
 -->
 
-{#await import('@tweakpane/plugin-essentials') then module}
-	<Blade bind:ref={fpsBlade} {options} plugin={module} {...$$restProps} />
-{/await}
+<Blade bind:ref={fpsBlade} {options} plugin={pluginModule} {...$$restProps} />

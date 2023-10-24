@@ -316,6 +316,8 @@
 <!--
 @component
 This component is for internal use only.
+
+@sourceLink
 -->
 
 <svelte:window on:resize={setDocumentSize} />

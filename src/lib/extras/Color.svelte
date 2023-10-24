@@ -66,6 +66,8 @@ Example:
 	<Color label="End Color" bind:value={endColor} />
 </div>
 ```
+
+@sourceLink
 -->
 
 <GenericInputFolding bind:expanded bind:value {options} {buttonClass} {...$$restProps} />

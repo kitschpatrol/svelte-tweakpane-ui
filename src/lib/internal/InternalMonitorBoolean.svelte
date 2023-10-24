@@ -47,6 +47,8 @@ Example:
 
 <InternalMonitorBoolean value={booleanToMonitor} rows={5} bufferSize={5} />
 ```
+
+@sourceLink
 -->
 
 <GenericMonitor {value} {...$$restProps} />

@@ -58,6 +58,8 @@ Example:
 
 <InternalMonitorString value={stringToMonitor} multiline={true} />
 ```
+
+@sourceLink
 -->
 
 <GenericMonitor {options} {value} {...$$restProps} />

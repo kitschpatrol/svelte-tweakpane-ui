@@ -127,6 +127,8 @@ Count A: {countA}
 Count B: {countB}
 </pre>
 ```
+
+@sourceLink
 -->
 
 {#if BROWSER}

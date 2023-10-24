@@ -97,14 +97,16 @@ Example:
 </script>
 
 <Button
-	label="Spline Status"
-	title="Check"
+	label="Count"
+	title="Increment"
 	on:click={() => count++}
 />
 <pre>
 	Count: {count}
 <pre>
 ```
+
+@sourceLink
 -->
 
 {#if BROWSER}

@@ -27,6 +27,8 @@ Example:
 
 <Checkbox label="Reticulation" bind:value={reticulationEnabled} />
 ```
+
+@sourceLink
 -->
 
 <GenericInput bind:value {...$$restProps} />

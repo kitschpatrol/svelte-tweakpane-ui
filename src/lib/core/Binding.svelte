@@ -131,6 +131,8 @@ Example:
 Value: {object.r}
 </pre>
 ```
+
+@sourceLink
 -->
 
 {#if BROWSER}

@@ -9,6 +9,7 @@
 
 <script lang="ts">
 	import GenericMonitor from '../internal/GenericMonitor.svelte';
+	import * as pluginModule from 'tweakpane-plugin-waveform';
 	import type { GenericMonitorOptions } from '../internal/GenericMonitor.svelte';
 	import type { ComponentProps } from 'svelte';
 	// Direct prop import is wrapped in some extra stuff we don't want
@@ -56,8 +57,8 @@ Example:
 ```tsx
 TODO
 ```
+
+@sourceLink
 -->
 
-{#await import('tweakpane-plugin-waveform') then module}
-	<GenericMonitor {options} {value} plugin={module} {...$$restProps} />
-{/await}
+<GenericMonitor {options} {value} plugin={pluginModule} {...$$restProps} />

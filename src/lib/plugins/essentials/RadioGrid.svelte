@@ -1,5 +1,6 @@
 <script lang="ts" generics="T extends number | string | boolean | undefined">
 	import GenericInput, { type GenericInputOptions } from '../../internal/GenericInput.svelte';
+	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import { getGridDimensions } from '../../utils.js';
 	import type { ComponentProps } from 'svelte';
 
@@ -86,8 +87,8 @@ Example:
 ```tsx
 TODO
 ```
+
+@sourceLink
 -->
 
-{#await import('@tweakpane/plugin-essentials') then module}
-	<GenericInput bind:value {options} plugin={module} {...$$restProps} />
-{/await}
+<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />

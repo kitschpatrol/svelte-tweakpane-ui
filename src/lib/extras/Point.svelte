@@ -160,6 +160,8 @@ Example:
 <Point label="3D Point Picker" bind:value={point3d} />
 <Point label="4D Point Picker" bind:value={point4d} min={0} max={100} />
 ```
+
+@sourceLink
 -->
 
 <GenericInputFolding
