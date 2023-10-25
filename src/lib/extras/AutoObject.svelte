@@ -15,13 +15,24 @@
 	import { Point3d } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
 	import { Point4d } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d.js';
 
-	/** Custom color scheme. Only applies if the `<AutoObject>` is created outside a `<Pane>` component. */
+	/**
+	 * Custom color scheme.
+	 * @default `undefined` (Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with `setGlobalDefaultTheme()`.)
+	 * */
 	export let theme: Theme | undefined = undefined;
 
-	/** Transforms keys into more pleasant control labels (e.g. capitalization and spaces in lieu of camelCase, kebab-case, etc.)  */
+	/**
+	 * Transforms keys into more pleasant control labels (e.g. capitalization and spaces in lieu of camelCase, kebab-case, etc.)
+	 * @default `true`
+	 * */
 	export let prettyLabels: boolean = true;
 
-	/** Object to create an automatic set of Tweakpane controls for. Keys will be used as labels, and a (reasonably) appropriate Tweakpane control will be used for each value's type. */
+	/**
+	 * Object to create an automatic set of Tweakpane controls for.
+	 *
+	 * Keys will be used as labels, and a (reasonably) appropriate Tweakpane control will be used for each value's type.
+	 * @bindable
+	 * */
 	export let object: BindingObject;
 
 	const parentStore: Writable<Container> = getContext('parentStore');
@@ -56,9 +67,11 @@ Records within the object will be wrap their contents in a `<Folder>` component.
 
 Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane position='inline'>`.
 
-Example:	
+@example	
 ```tsx
 <script lang="ts">
+	import { AutoObject } from 'svelte-tweakpane-ui';
+
 	let object = {
 		someNumber: 1, // creates a
 		someBoolean: true, // creates a checkbox
@@ -80,7 +93,7 @@ Example:
 	};
 </script>
 
-<AutoObject bind:object prettyLabels={true} />
+<AutoObject bind:object />
 
 <pre>{JSON.stringify(object, null, 2)}</pre>
 ```

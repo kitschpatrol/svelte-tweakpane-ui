@@ -10,17 +10,32 @@
 >
 	import GenericBinding from './GenericBinding.svelte';
 	import type { ComponentProps } from 'svelte';
+	import { BROWSER } from 'esm-env';
 
 	interface $$Props extends ComponentProps<GenericBinding<T, U, V>> {
-		/** Number of visible rows of state history. Only has an effect if `bufferSize` is defined. If `bufferSize` is larger, then the value window will scroll once state history exceeds row count. */
+		/**
+		 * Number of visible rows of state history.
+		 *
+		 * If `bufferSize` is larger, then the value window will scroll once state history exceeds row count.
+		 * @default `1` (Or `3` if value is `string` and `multiline` is `true`.)
+		 * @todo vet default
+		 * */
 		rows?: number;
-		/** Number of past states to retain. */
+		/**
+		 * Number of past states to retain.
+		 * @default `1` (Or `64` if value is `number` and `graph` is `true`.)
+		 * */
 		bufferSize?: number;
-		/** Time between value samples in milliseconds, useful when `graph` is true. Defaults to reactive value updates only (`interval={0}`). */
+		/**
+		 * Time between value samples in milliseconds.
+		 *
+		 * Useful when `graph` is true. Defaults to reactive value updates only (`interval={0}`).
+		 * @default `0`
+		 * */
 		interval?: number;
 	}
 
-	// must redeclare for bindability
+	// reexport for bindability
 	export let value: $$Props['value']; // still has to be passed manually since it's required
 	export let ref: $$Props['ref'] = undefined;
 	export let options: $$Props['options'] = undefined;
@@ -30,13 +45,16 @@
 	export let bufferSize: $$Props['bufferSize'] = undefined;
 	export let interval: $$Props['interval'] = undefined;
 
-	$: optionsInternal = {
-		rows,
-		bufferSize,
-		interval: interval ?? 0, // zero confirmed as never updating (not same interface as setInterval())
-		...options,
-		readonly: true
-	} as GenericMonitorOptions;
+	let optionsInternal: GenericMonitorOptions;
+
+	$: BROWSER &&
+		(optionsInternal = {
+			rows,
+			bufferSize,
+			interval: interval ?? 0, // zero confirmed as never updating (not same interface as setInterval())
+			...options,
+			readonly: true
+		} as GenericMonitorOptions);
 </script>
 
 <!--
@@ -46,4 +64,6 @@ This component is for internal use only.
 @sourceLink
 -->
 
-<GenericBinding bind:ref options={optionsInternal} {value} {...$$restProps} />
+{#if BROWSER}
+	<GenericBinding bind:ref options={optionsInternal} {value} {...$$restProps} />
+{/if}

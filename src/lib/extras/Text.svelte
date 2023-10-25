@@ -1,14 +1,18 @@
 <script lang="ts">
-	// TODO live update mode
 	import GenericInput from '../internal/GenericInput.svelte';
 	import type { ComponentProps } from 'svelte';
+	import { BROWSER } from 'esm-env';
 
 	interface $$Props
 		extends Omit<ComponentProps<GenericInput<string>>, 'options' | 'ref' | 'plugin'> {
-		/** A `string` value to control. Bindable. */
+		/**
+		 * A `string` value to control.
+		 * @bindable
+		 * */
 		value: string;
 	}
 
+	// reexport for bindability
 	export let value: $$Props['value'];
 </script>
 
@@ -16,24 +20,29 @@
 @component
 A text field, in the spirit of the HTML `<input type="text">` element.
 
-Updates to the bound value only happen on blur, not on every keystroke.
+Updates to the bound value only happen on blur, not on every keystroke. (@todo live update mode?)
 
 Wraps Tweakpane's [string binding](https://tweakpane.github.io/docs/input-bindings/#string).
 
 Usage outside of a `<Pane>` component will implicitly wrap the text field in `<Pane position='inline'>`.
 
-Example:	
+@example	
 ```tsx
 <script lang="ts">
-	let text = 'Cosmic Manifold';
+	import { Text } from 'svelte-tweakpane-ui';
 
-	$: console.log(text);
+	let text = 'Cosmic Manifold';
 </script>
 	
 <Text bind:value={text} label="The Message" />
+<pre>
+	Message: {text}
+</pre>
 ```
 
 @sourceLink
 -->
 
-<GenericInput bind:value {...$$restProps} />
+{#if BROWSER}
+	<GenericInput bind:value {...$$restProps} />
+{/if}

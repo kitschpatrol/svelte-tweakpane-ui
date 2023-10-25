@@ -1,18 +1,22 @@
 <script lang="ts">
 	import Blade from '../core/Blade.svelte';
 	import type { ComponentProps } from 'svelte';
-	import type { SeparatorBladeParams, SeparatorBladeApi } from 'tweakpane';
+	import type {
+		SeparatorBladeParams as SeparatorOptions,
+		SeparatorBladeApi as SeparatorBladeRef
+	} from 'tweakpane';
+	import { BROWSER } from 'esm-env';
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	interface $$Props
 		extends Omit<
-			ComponentProps<Blade<SeparatorBladeParams, SeparatorBladeApi>>,
+			ComponentProps<Blade<SeparatorOptions, SeparatorBladeRef>>,
 			'options' | 'ref' | 'plugin'
 		> {}
 
-	const options = {
+	const options: SeparatorOptions = {
 		view: 'separator'
-	} as SeparatorBladeParams;
+	};
 </script>
 
 <!--
@@ -23,8 +27,12 @@ Wraps Tweakpane's [separator blade](https://tweakpane.github.io/docs/blades/#sep
 
 Usage outside of a `<Pane>` component will implicitly wrap the separator in `<Pane position='inline'>`.
 
-Example:	
+@example	
 ```tsx
+<script lang="ts">
+	import { Button, Separator } from 'svelte-tweakpane-ui';
+</script>
+
 <Button title="Oil" />
 <Separator />
 <Button title="Water" />
@@ -33,4 +41,6 @@ Example:
 @sourceLink
 -->
 
-<Blade {options} {...$$restProps} />
+{#if BROWSER}
+	<Blade {options} {...$$restProps} />
+{/if}

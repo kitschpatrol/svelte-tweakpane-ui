@@ -209,7 +209,7 @@ export const prerender = true;
 // 			let propDoc = '';
 
 // 			if (line.endsWith('*/')) {
-// 				propDoc = line.replace('/**', '').replace('*/', '').trim();
+// 				propDoc = line.replace('/** @description', '').replace('/', '').trim();
 // 				i++;
 // 			} else {
 // 				i++;

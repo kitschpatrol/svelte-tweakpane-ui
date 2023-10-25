@@ -10,17 +10,22 @@
 >
 	import GenericBinding from './GenericBinding.svelte';
 	import type { ComponentProps } from 'svelte';
+	import { BROWSER } from 'esm-env';
 
 	interface $$Props extends ComponentProps<GenericBinding<T, U, V>> {}
 
+	// reexport for bindability
 	export let options: $$Props['options'] = undefined;
 	export let ref: $$Props['ref'] = undefined;
 	export let value: $$Props['value'];
 
-	$: optionsInternal = {
-		...options,
-		readonly: false
-	} as GenericInputOptions;
+	let optionsInternal: GenericInputOptions;
+
+	$: BROWSER &&
+		(optionsInternal = {
+			...options,
+			readonly: false
+		} as GenericInputOptions);
 </script>
 
 <!--
@@ -30,4 +35,6 @@ This component is for internal use only.
 @sourceLink
 -->
 
-<GenericBinding bind:value bind:ref options={optionsInternal} {...$$restProps} />
+{#if BROWSER}
+	<GenericBinding bind:value bind:ref options={optionsInternal} {...$$restProps} />
+{/if}

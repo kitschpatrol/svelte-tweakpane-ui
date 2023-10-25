@@ -1,4 +1,9 @@
 <script lang="ts" context="module">
+	import type {
+		RgbColorObject,
+		RgbaColorObject
+	} from '@tweakpane/core/dist/input-binding/color/model/color.js';
+
 	export type ColorValue = string | RgbColorObject | RgbaColorObject;
 </script>
 
@@ -6,18 +11,19 @@
 	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
 	import type { ComponentProps } from 'svelte';
 	import type { ColorInputParams as ColorOptions } from 'tweakpane';
-
-	import type {
-		RgbColorObject,
-		RgbaColorObject
-	} from '@tweakpane/core/dist/input-binding/color/model/color.js';
+	import { BROWSER } from 'esm-env';
 
 	interface $$Props
 		extends Omit<
 			ComponentProps<GenericInputFolding<ColorValue, ColorOptions>>,
 			'buttonClass' | 'options' | 'ref' | 'plugin'
 		> {
-		/** A color value to control. Use either a color-like string (e.g. #ff00ff), or an object with `r`, `b`, `g`, and optional `a` keys. Bindable. */
+		/**
+		 * A color value to control.
+		 *
+		 * Use either a color-like string (e.g. #ff00ff), or an object with `r`, `b`, `g`, and optional `a` keys.
+		 * @bindable
+		 * */
 		value: ColorValue;
 	}
 
@@ -48,9 +54,11 @@ Wraps Tweakpane's [color input binding](https://tweakpane.github.io/docs/input-b
 
 Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane position='inline'>`.
 
-Example:	
+@example	
 ```tsx
 <script lang="ts">
+	import { Color } from 'svelte-tweakpane-ui';
+	
 	let startColor = '#fff000';
 	let endColor = {
 		r: 255,
@@ -70,4 +78,6 @@ Example:
 @sourceLink
 -->
 
-<GenericInputFolding bind:expanded bind:value {options} {buttonClass} {...$$restProps} />
+{#if BROWSER}
+	<GenericInputFolding bind:expanded bind:value {options} {buttonClass} {...$$restProps} />
+{/if}

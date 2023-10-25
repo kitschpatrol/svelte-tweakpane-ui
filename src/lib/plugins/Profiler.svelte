@@ -11,28 +11,63 @@
 	import type { ProfilerBladePluginParams as ProfilerOptions } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js';
 	import type { ProfilerBladeApi as ProfilerRef } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerApi.js';
 	import type { ComponentProps } from 'svelte';
+	import { BROWSER } from 'esm-env';
 
 	interface $$Props
 		extends Omit<
 			ComponentProps<Blade<ProfilerOptions, ProfilerRef>>,
 			'ref' | 'options' | 'plugin'
 		> {
-		/** TODO Docs */
+		/**
+		 * TODO Docs
+		 * @default `30`
+		 */
 		bufferSize?: number;
-		/** TODO Docs */
+		/**
+		 * TODO Docs
+		 * @default `'mean'`
+		 */
 		calcMode?: ProfilerCalcMode;
-		/** TODO Docs */
+		/**
+		 * TODO Docs
+		 * @default `'ms'`
+		 * */
 		deltaUnit?: string;
-		/** TODO Docs */
+		/**
+		 * TODO Docs
+		 * @default `2`
+		 */
 		fractionDigits?: number;
-		/** TODO Docs */
+		/**
+		 * Function wrapping the `measure` function.
+		 *
+		 * The defauly is fine for most cases.
+		 * @default `[new ProfilerBladeDefaultMeasureHandler()](https://github.com/kitschpatrol/tweakpane-plugin-profiler/blob/tweakpane-v4/src/ProfilerBladeDefaultMeasureHandler.ts)`
+		 */
 		measureHandler?: ProfilerMeasureHandler;
-		/** TODO Docs */
+		/**
+		 * TODO Docs
+		 * @default `16.67` (60fps)
+		 */
 		targetDelta?: number;
-		/** TODO Docs */
+		/**
+		 * Text displayed next to the profiler graph.
+		 * @default `undefined`
+		 * */
 		label?: string;
-		/** TODO Docs, TODO really vet this */
+		/**
+		 * Function wrapping another function to measure its execution duration.
+		 * @example `() => ( 'haha', () => { somethingExpensive(); } );
+		 * @todo vet example
+		 * @default `undefined`
+		 */
 		measure?: ProfilerMeasure;
+		/**
+		 * Milliseconds between samples.
+		 * @todo more docs
+		 * @default `500`
+		 */
+		interval?: number;
 	}
 
 	// special case function export
@@ -50,24 +85,26 @@
 	export let targetDelta: $$Props['targetDelta'] = undefined;
 
 	let profilerBlade: ProfilerRef;
+	let options: ProfilerOptions;
 
-	$: options = {
-		view: 'profiler',
-		bufferSize,
-		calcMode,
-		deltaUnit,
-		fractionDigits,
-		label,
-		measureHandler,
-		targetDelta
-	} as ProfilerOptions;
+	$: BROWSER &&
+		(options = {
+			view: 'profiler',
+			bufferSize,
+			calcMode,
+			deltaUnit,
+			fractionDigits,
+			label,
+			measureHandler,
+			targetDelta
+		});
 </script>
 
 <!--
 @component
 TODO
 
-Example:
+@example
 ```tsx
 TODO
 ```
@@ -75,4 +112,6 @@ TODO
 @sourceLink
 -->
 
-<Blade bind:ref={profilerBlade} {options} plugin={pluginModule} {...$$restProps} />
+{#if BROWSER}
+	<Blade bind:ref={profilerBlade} {options} plugin={pluginModule} {...$$restProps} />
+{/if}

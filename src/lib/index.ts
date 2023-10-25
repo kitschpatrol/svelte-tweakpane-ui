@@ -23,14 +23,21 @@ export {
 	default as Point,
 	type PointValue2d,
 	type PointValue3d,
-	type PointValue4d
+	type PointValue4d,
+	type PointOptionsX,
+	type PointOptionsY,
+	type PointOptionsZ,
+	type PointOptionsW
 } from './extras/Point.svelte';
 export { default as Separator } from './extras/Separator.svelte';
 export { default as Slider } from './extras/Slider.svelte';
 export { default as Text } from './extras/Text.svelte';
 
 // essentials (1st party plugins)
-export { default as ButtonGrid } from './plugins/essentials/ButtonGrid.svelte';
+export {
+	default as ButtonGrid,
+	type ButtonGridClickEvent
+} from './plugins/essentials/ButtonGrid.svelte';
 export {
 	default as CubicBezier,
 	type CubicBezierValue
@@ -47,7 +54,7 @@ export { default as Ring, type RingSeries, type RingUnit } from './plugins/camer
 export { default as Wheel } from './plugins/camerakit/Wheel.svelte';
 
 // additional plugins (3rd party / community)
-export { default as Image, type ImageFit, type ImageValue } from './plugins/Image.svelte';
+export { default as Image, type ImageValue } from './plugins/Image.svelte';
 export {
 	default as Profiler,
 	type ProfilerCalcMode,
@@ -58,17 +65,15 @@ export {
 	default as RotationEuler,
 	type RotationEulerOrder,
 	type RotationEulerUnit,
-	type RotationEulerValue
+	type RotationEulerValue,
+	type RotationEulerOptions
 } from './plugins/RotationEuler.svelte';
 export {
 	default as RotationQuaternion,
-	type RotationQuaternionValue
+	type RotationQuaternionValue,
+	type RotationQuaternionOptions
 } from './plugins/RotationQuaternion.svelte';
 export { default as Textarea } from './plugins/Textarea.svelte';
 // TODO broken
 // export { default as ThumbnailList } from './plugins/ThumbnailList.svelte';
-export {
-	default as WaveformMonitor,
-	type WaveformMonitorLineStyle,
-	type WaveformMonitorValue
-} from './plugins/WaveformMonitor.svelte';
+export { default as WaveformMonitor } from './plugins/WaveformMonitor.svelte';

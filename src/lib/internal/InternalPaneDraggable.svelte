@@ -19,24 +19,64 @@
 	// Many gratuitous defined checks since NonNullable didn't work and not sure how to make an optional prop
 	// remain optional but with a default value in the $$Props interface
 	interface $$Props extends Omit<ComponentProps<GenericPane>, 'paneRef' | 'userCreatedPane'> {
-		/** Horizontal position of the pane, in pixels. Bindable. (Defaults to 0.) */
+		/**
+		 * Horizontal position of the pane relative to the left edge of the window, in pixels.
+		 *
+		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is positioned on the page. (So-named because of its similarity to CSS `position` property.)
+		 * @default `0`
+		 * @bindable
+		 * */
 		x?: number;
-		/** Vertical position of the pane, in pixels. Bindable. (Defaults to 0.) */
+		/**
+		 * Vertical position of the pane relative to the top of the window, in pixels.
+		 *
+		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is positioned on the page. (So-named because of its similarity to CSS `position` property.)
+		 * @default `0`
+		 * @bindable
+		 * */
 		y?: number;
-		/** Width of the pane, in pixels. User-adjustable if `resizeable` is set to true. Setting explicitly via a passed prop will override saved user-specified width. (Defaults to 256.) */
+		/**
+		 * Width of the pane, in pixels.
+		 *
+		 * Setting explicitly via a passed prop will override saved user-specified width.
+		 *
+		 * Use this prop to set a starting width, or to monitor changes in the the pane's width when a user resizes it.
+		 *
+		 * Note that height is not exposed because it is determined dynamically by the pane's contents and state of its foldable elements.
+		 * @default `256`
+		 * @bindable
+		 * */
 		width?: number;
-		/** Whether the pane's last position and width should be saved to local storage and re-applied across page reloads. Defaults to true. */
+		/**
+		 * Store the pane's position and width when the user changes it interactively.
+		 *
+		 * Set the `localStoreId` prop if you have multiple draggable panes on the same page with `storePositionLocally` set to `true`.
+		 * @default `true`
+		 * */
 		storePositionLocally?: boolean;
-		/** Allow the user to resize the pane by dragging the right corner of the title bar. */
+		/**
+		 * Allow the user to resize the width of the pane by dragging the right corner of the title bar.
+		 * @default `true`
+		 * */
 		resizeable?: boolean;
-		/** Minimum pane width in pixels. (Defaults to 200.) */
+		/**
+		 * Minimum pane width in pixels.
+		 * @default `200`
+		 * */
 		minWidth?: number;
-		/** Maximum pane width in pixels. (Defaults to 600.) */
+		/**
+		 * Maximum pane width in pixels.
+		 * @default `600`
+		 * */
 		maxWidth?: number;
-		/** Identifier to be used if multiple <InternalPaneDraggable> components with `storePositionLocally` set to true are used on the same page. */
+		/**
+		 * Identifier to be used if multiple `<Pane position='draggable'>` components with `storePositionLocally` set to true are used on the same page.
+		 * @default `"1"`
+		 */
 		localStoreId?: string;
 	}
 
+	// reexport for bindability
 	export let storePositionLocally: $$Props['storePositionLocally'] = true;
 	export let localStoreId: $$Props['localStoreId'] = localStoreDefaultId;
 
@@ -57,7 +97,6 @@
 		});
 	}
 
-	/** Expand and collapse the pane. Bindable. */
 	export let expanded: $$Props['expanded'] = $positionStore?.expanded ?? true;
 	export let x: $$Props['x'] = $positionStore?.x ?? 0;
 	export let y: $$Props['y'] = $positionStore?.y ?? 0;
@@ -276,11 +315,12 @@
 		}
 	}
 
-	$: paneRef && resizeable && updateResizeability(resizeable);
+	$: BROWSER && paneRef && resizeable && updateResizeability(resizeable);
 
 	// ensure the tweakpane panel is within the viewport
 	// additional checks in the width drag handler
 	$: if (
+		BROWSER &&
 		containerHeight !== undefined &&
 		documentWidth !== undefined &&
 		documentHeight !== undefined &&
@@ -297,14 +337,18 @@
 		}
 	}
 
+	// no browser check...
 	$: maxAvailablePanelWidth = Math.min(maxWidth ?? 600, documentWidth - (x ?? 0));
 
-	$: localStoreId, storePositionLocally && addStorageId();
-	$: localStoreId, !storePositionLocally && removeStorageId();
-	$: localStoreId !== `${localStorePrefix}${localStoreId}` && updateLocalStoreId(localStoreId);
+	$: localStoreId, BROWSER && storePositionLocally && addStorageId();
+	$: localStoreId, BROWSER && !storePositionLocally && removeStorageId();
+	$: BROWSER &&
+		localStoreId !== `${localStorePrefix}${localStoreId}` &&
+		updateLocalStoreId(localStoreId);
 
 	// proxy everything to the store
-	$: storePositionLocally &&
+	$: BROWSER &&
+		storePositionLocally &&
 		localStoreId !== undefined &&
 		x !== undefined &&
 		y !== undefined &&

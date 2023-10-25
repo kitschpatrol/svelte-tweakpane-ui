@@ -5,32 +5,59 @@
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import type { ComponentProps } from 'svelte';
+	import { BROWSER } from 'esm-env';
 
 	interface $$Props
 		extends Omit<
 			ComponentProps<Blade<FpsGraphOptions, FpsGraphRef>>,
 			'ref' | 'options' | 'plugin'
 		> {
-		/** TODO Docs */
+		/**
+		 * Height of the FPS graph, in rows.
+		 * @default `2`
+		 * */
 		rows?: number;
-		/** TODO Docs */
+		/**
+		 * Time in milliseconds between updates to the graph.
+		 * @default `1000`
+		 * */
 		interval?: number;
-		/** TODO Docs */
+		/**
+		 * Upper bound of the FPS graph.
+		 * @default `90`
+		 * */
 		max?: number;
-		/** TODO Docs */
+		/**
+		 * Lower bound of the FPS graph.
+		 * @default `0`
+		 * */
 		min?: number;
-		/** TODO Docs */
+		/**
+		 * Text displayed next to the FPS graph.
+		 * @default `undefined`
+		 * */
 		label?: string;
-		/** TODO Docs */
+		/**
+		 * Function to start a single frame measurement sample.
+		 *
+		 * If undefined, a `requestAnimationFrame` is used to indicate the overall performance of the page.
+		 * @default `undefined`
+		 * */
 		begin?: () => void;
-		/** TODO Docs */
+		/**
+		 * Function to end a single frame measurement sample.
+		 *
+		 * If undefined, a `requestAnimationFrame` is used to indicate the overall performance of the page.
+		 * @default `undefined`
+		 * */
 		end?: () => void;
 	}
 
-	export let rows: $$Props['rows'] = 2;
-	export let interval: $$Props['interval'] = undefined;
-	export let max: $$Props['max'] = undefined;
-	export let min: $$Props['min'] = undefined;
+	// reexport for bindability
+	export let rows: $$Props['rows'] = undefined; // default comes from implementation
+	export let interval: $$Props['interval'] = undefined; // default comes from implementation
+	export let max: $$Props['max'] = undefined; // default comes from implementation
+	export let min: $$Props['min'] = undefined; // default comes from implementation
 	export let label: $$Props['label'] = undefined;
 
 	let implicitMode = true; // false as soon as the external api has been used
@@ -51,10 +78,11 @@
 
 	// Seems to be the only way to get event comments to work
 	interface $$Events {
-		/** Fires when the FPS value changes
-		 * This is an event and not a bindable value because it is readonly.
+		/**
+		 * Fires when the FPS value changes
+
 		 * @event
-		 */
+		 * */
 		change: number;
 	}
 
@@ -114,26 +142,29 @@
 		}
 	}
 
-	$: fpsBlade && startObservingMeasuredFpsValue();
+	$: BROWSER && fpsBlade && startObservingMeasuredFpsValue();
 
 	let options: FpsGraphOptions;
-	$: options = {
-		view: 'fpsgraph',
-		label,
-		rows,
-		max,
-		min,
-		interval
-	} as FpsGraphOptions;
+	$: BROWSER &&
+		(options = {
+			view: 'fpsgraph',
+			label,
+			rows,
+			max,
+			min,
+			interval
+		});
 
-	$: if (!implicitMode) stopInternalLoop();
+	$: BROWSER && !implicitMode && stopInternalLoop();
 </script>
 
 <!--
 @component
 TODO
 
-Example:
+@emits {number} change - when the FPS value changes
+
+@example
 ```tsx
 TODO
 ```
@@ -141,4 +172,6 @@ TODO
 @sourceLink
 -->
 
-<Blade bind:ref={fpsBlade} {options} plugin={pluginModule} {...$$restProps} />
+{#if BROWSER}
+	<Blade bind:ref={fpsBlade} {options} plugin={pluginModule} {...$$restProps} />
+{/if}

@@ -13,23 +13,35 @@
 	import type { Theme } from '../theme.js';
 	import { getElementIndex, isRootPane, type Container, type Plugin } from '../utils.js';
 
-	/** Blade configuration exposing TweakPane's internal [BladeParams](https://tweakpane.github.io/docs/api/interfaces/BaseBladeParams.html), not generally intended for direct use. */
+	/**
+	 * Blade configuration exposing TweakPane's internal [BladeParams](https://tweakpane.github.io/docs/api/interfaces/BaseBladeParams.html).
+	 *
+	 * */
 	export let options: U;
 
-	/** Prevent interactivity.
-	 * @default `false`. */
+	/**
+	 * Prevent interactivity.
+	 * @default `false`
+	 * */
 	export let disabled: boolean = false;
 
-	/** Custom color scheme. Only applies if the `<Blade>` is created outside a `<Pane>` component. */
+	/**
+	 * Custom color scheme.
+	 * @default `undefined` (Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with `setGlobalDefaultTheme()`.)
+	 * */
 	export let theme: Theme | undefined = undefined;
 
-	/** Reference to internal TweakPane [BladeApi](https://tweakpane.github.io/docs/api/classes/BladeApi.html) for this blade, not generally intended for direct use.
-	 * @emits
+	/**
+	 * Reference to internal TweakPane [BladeApi](https://tweakpane.github.io/docs/api/classes/BladeApi.html) for this blade.
+	 * @bindable
 	 * @readonly
-	 */
+	 * */
 	export let ref: V | undefined = undefined;
 
-	/** Imported Tweakpane `TpPluginBundle` (Aliased as `Plugin`) module to register before creating the blade. Primarily for internal use. */
+	/**
+	 * Imported Tweakpane `TpPluginBundle` (Aliased as `Plugin`) module to register before creating the blade.
+	 * @default `undefined`
+	 * */
 	export let plugin: Plugin | undefined = undefined;
 
 	const registerPlugin = getContext<(plugin: Plugin) => void>('registerPlugin');
@@ -41,7 +53,7 @@
 	let index: number;
 
 	function create() {
-		console.log('blade created');
+		// console.log('blade created');
 
 		// must destroy to allow reactive parameters
 		if (blade) blade.dispose();
@@ -89,7 +101,7 @@ Tweakpane's Vanilla JS API offers Blades as as a way to create unbound component
 
 This component is not directly exposed since it lacks a use case in the Svelte context. Consider convenience components like `<Separator>`, etc. before using this component directly.
 
-Example:
+@example
 ```tsx
 <script lang="ts">
 	import { Blade } from 'svelte-tweakpane-ui';
@@ -106,7 +118,6 @@ Example:
 		<div style="display: none;" bind:this={indexElement} />
 	{:else}
 		<InternalPaneInline userCreatedPane={false} {theme}>
-			<!-- Everything must be manually bound instead of spreading props due to lack of access to blade  -->
 			<svelte:self bind:disabled bind:ref bind:options bind:plugin />
 		</InternalPaneInline>
 	{/if}

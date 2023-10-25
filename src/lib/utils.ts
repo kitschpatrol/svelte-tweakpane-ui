@@ -1,10 +1,21 @@
 import type { FolderApi, Pane, TabPageApi } from 'tweakpane';
+import type { Theme } from './theme';
 
 // user-facing types
 export type { TpPluginBundle as Plugin, Bindable as BindingObject } from '@tweakpane/core';
 
 // internal types
 export type Container = Pane | FolderApi | TabPageApi;
+
+// from
+// doesn't work for hover expansion when imported, only if defined in the file where it's used
+export type Simplify<T> = { [KeyType in keyof T]: T[KeyType] } & NonNullable<unknown>;
+
+// from
+// this works
+export type SimplifyDeep<Type> = Type extends Theme // exclude Theme
+	? Type
+	: { [TypeKey in keyof Type]: SimplifyDeep<Type[TypeKey]> };
 
 // utility functions
 export function isRootPane(container: Container): boolean {

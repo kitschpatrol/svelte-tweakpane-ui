@@ -7,20 +7,28 @@
 	import type { Theme } from '../theme.js';
 	import { getElementIndex, isRootPane, type Container } from '../utils.js';
 
-	/** Text inside of the button.
-	 *  @default `'Button'`
-	 */
+	/**
+	 * Text inside of the button.
+	 * @default `'Button'`
+	 * */
 	export let title: string = 'Button';
 
-	/** Text displayed next to the button. */
+	/**
+	 * Text displayed next to the button.
+	 * @default `undefined`
+	 * */
 	export let label: string | undefined = undefined;
 
-	/** Prevent interactivity. Defaults to `false`.
+	/**
+	 * Prevent interactivity. Defaults to `false`.
 	 * @default `false`
-	 */
+	 * */
 	export let disabled: boolean = false;
 
-	/** Custom color scheme. Only applies if the `<Button>` is created outside a `<Pane>` component. */
+	/**
+	 * Custom color scheme.
+	 * @default `undefined` (Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with `setGlobalDefaultTheme()`.)*
+	 * */
 	export let theme: Theme | undefined = undefined;
 
 	const parentStore: Writable<Container> = getContext('parentStore');
@@ -28,9 +36,10 @@
 
 	// Seems to be the only way to get event comments to work
 	interface $$Events {
-		/** Fires when the button is clicked.
+		/**
+		 * Fires when the button is clicked.
 		 * @event
-		 */
+		 * */
 		click: null;
 	}
 
@@ -41,7 +50,7 @@
 	let index: number;
 
 	function create() {
-		console.log('button created');
+		// console.log('button created');
 
 		if (button) button.dispose();
 
@@ -88,7 +97,9 @@ Wraps the Tweakpane [addButton](https://tweakpane.github.io/docs/ui-components/#
 
 Usage outside of a `<Pane>` component will implicitly wrap the button in `<Pane position='inline'>`.
 
-Example:	
+@emits {void} click - when the button is clicked
+
+@example	
 ```tsx
 <script lang="ts">
 	import { Button } from 'svelte-tweakpane-ui';
@@ -114,8 +125,6 @@ Example:
 		<div style="display: none;" bind:this={indexElement} />
 	{:else}
 		<InternalPaneInline userCreatedPane={false} {theme}>
-			<!-- Doesn't seem to suffer from spread props recration issue... -->
-			<!-- Spreading $$props breaks types -->
 			<svelte:self on:click {title} {label} {disabled} />
 		</InternalPaneInline>
 	{/if}

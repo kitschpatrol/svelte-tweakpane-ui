@@ -10,16 +10,21 @@
 	import Binding from '../core/Binding.svelte';
 	import type { BindingObject } from '../utils.js';
 	import type { ComponentProps } from 'svelte';
+	import { BROWSER } from 'esm-env';
 
 	interface BindableValue extends BindingObject {
 		[x: string]: T;
 	}
 
 	interface $$Props extends Omit<ComponentProps<Binding<BindableValue, U, V>>, 'key' | 'object'> {
-		/** The value to manipulate. */
+		/**
+		 * The value to control.
+		 * @bindable
+		 * */
 		value: T;
 	}
 
+	// reexport for bindability
 	export let value: $$Props['value'];
 	export let ref: $$Props['ref'] = undefined;
 	export let options: $$Props['options'] = undefined;
@@ -49,10 +54,11 @@
 @component
 This component is for internal use only.
 
-It abstracts the param object Tweakpane expects into an
-interface that looks like a bare value
+It abstracts the `param` object Tweakpane expects into an interface that looks like a bare value.
 
 @sourceLink
 -->
 
-<Binding bind:ref bind:object {options} {key} {...$$restProps} />
+{#if BROWSER}
+	<Binding bind:ref bind:object {options} {key} {...$$restProps} />
+{/if}

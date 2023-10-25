@@ -6,29 +6,46 @@
 	import type { NumberInputParams as GenericSliderOptions } from 'tweakpane';
 	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane';
 	import type { ComponentProps } from 'svelte';
+	import { BROWSER } from 'esm-env';
 
 	interface $$Props
 		extends ComponentProps<GenericInput<T, GenericSliderOptions, GenericSliderRef>> {
-		/** Minimum value. Specifying both a `min` and a `max` prop turns the control into a slider. */
+		/**
+		 * Minimum value.
+		 *
+		 * Specifying both a `min` and a `max` prop turns the control into a slider.
+		 * @default `undefined`
+		 * */
 		min?: number;
-		/** Maximum value. Specifying both a `min` and a `max` prop turns the control into a slider. */
+		/**
+		 * Maximum value.
+		 *
+		 * Specifying both a `min` and a `max` prop turns the control into a slider.
+		 * @default `undefined`
+		 * */
 		max?: number;
 		/** The minimum step interval. */
 		step?: number;
-		/** The unit scale for pointer-based input. */
+		/**
+		 * The unit scale for pointer-based input for all dimensions.
+		 * @default [dynamic based on magnitude of `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54)
+		 * */
 		pointerScale?: number;
-		/** The unit scale for key-based input (e.g. up the up and down arrow keys). */
+		/**
+		 * The unit scale for key-based input for all dimensions (e.g. the up and down arrow keys).
+		 * @default `1` or `stepValue` if defined
+		 * */
 		keyScale?: number;
-		/** A function to customize the value's formatting (e.g. rounding, etc.). Note that this only changes the view / labels within the control, `value` will still return an unformatted number. */
+		/**
+		 * A function to customize the point value's formatting (e.g. rounding, etc.).
+		 * @default `undefined` (normal `.toString()` formatting)
+		 * */
 		format?: (value: number) => string;
 	}
 
-	// must redeclare for bindability
+	// redeclare for bindability
 	export let value: $$Props['value'];
 	export let options: $$Props['options'] = undefined;
-
-	// unique props
-
 	export let min: $$Props['min'] = undefined;
 	export let max: $$Props['max'] = undefined;
 	export let step: $$Props['step'] = undefined;
@@ -42,19 +59,22 @@
 	// possibly fixable with immutable=true but I don't want to go there
 	// TODO evaluate other non-primitive prop access
 	let formatProxy: typeof format = format;
-	$: formatProxy !== format && (formatProxy = format);
+	$: BROWSER && formatProxy !== format && (formatProxy = format);
+
+	let optionsInternal: GenericSliderOptions;
 
 	// the IntervalInputParams type is identical
 	// to NumberInputParams, so don't bother with generics
-	$: optionsInternal = {
-		min,
-		max,
-		step,
-		pointerScale,
-		keyScale,
-		format: formatProxy,
-		...options
-	} as GenericSliderOptions;
+	$: BROWSER &&
+		(optionsInternal = {
+			min,
+			max,
+			step,
+			pointerScale,
+			keyScale,
+			format: formatProxy,
+			...options
+		} as GenericSliderOptions);
 </script>
 
 <!--
@@ -70,4 +90,6 @@ implementation.
 @sourceLink
 -->
 
-<GenericInput bind:value options={optionsInternal} {...$$restProps} />
+{#if BROWSER}
+	<GenericInput bind:value options={optionsInternal} {...$$restProps} />
+{/if}

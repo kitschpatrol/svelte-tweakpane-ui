@@ -7,19 +7,24 @@
 	import { removeKeys } from '../utils.js';
 
 	interface $$Props extends Omit<ComponentProps<GenericPane>, 'paneRef'> {
-		/** Width of the pane, in pixels. If undefined, pane fills the width of its container, while maintaining a minimum width of about 221 pixels. (Defaults to `undefined`)  */
+		/**
+		 * Width of the pane, in pixels.
+		 * @default `undefined` (fills container width)
+		 * */
 		width?: number;
 	}
 
+	// reexport for bindability
 	export let expanded: $$Props['expanded'] = undefined;
 	export let width: $$Props['width'] = undefined;
-	let paneRef: TpPane;
 
+	// override theme defaults
 	export let theme: $$Props['theme'] = {
 		baseBorderRadius: '0px',
 		bladeBorderRadius: '0px'
 	};
 
+	let paneRef: TpPane;
 	let containerElement: HTMLDivElement;
 
 	function setWidth() {
@@ -36,13 +41,12 @@
 			containerElement.appendChild(paneRef.element);
 			fixedContainer?.remove();
 		} else {
-			// TODO remove if not needed
 			console.warn('paneRef is undefined');
 		}
 	});
 
-	$: width, paneRef !== undefined && setWidth();
-	$: paneRef !== undefined && console.log(paneRef.element);
+	$: width, BROWSER && paneRef !== undefined && setWidth();
+	$: BROWSER && paneRef !== undefined && console.log(paneRef.element);
 </script>
 
 <!--

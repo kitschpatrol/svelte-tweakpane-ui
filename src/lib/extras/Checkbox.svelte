@@ -1,5 +1,6 @@
 <script lang="ts">
 	import GenericInput from '../internal/GenericInput.svelte';
+	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	interface $$Props
@@ -17,18 +18,23 @@ Wraps Tweakpane's [boolean input binding](https://tweakpane.github.io/docs/input
 
 Usage outside of a `<Pane>` component will implicitly wrap the checkbox in `<Pane position='inline'>`.
 
-Example:	
+@example	
 ```tsx
 <script lang="ts">
-	let reticulationEnabled: boolean = false;
+	import { Checkbox } from 'svelte-tweakpane-ui';
 
-	$: console.log(reticulationEnabled);
+	let reticulationEnabled: boolean = false;
 </script>
 
 <Checkbox label="Reticulation" bind:value={reticulationEnabled} />
+<pre>
+	Enabled: {reticulationEnabled}
+</pre>
 ```
 
 @sourceLink
 -->
 
-<GenericInput bind:value {...$$restProps} />
+{#if BROWSER}
+	<GenericInput bind:value {...$$restProps} />
+{/if}

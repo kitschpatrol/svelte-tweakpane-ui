@@ -3,14 +3,13 @@
 </script>
 
 <script lang="ts">
-	import { removeKeys } from '../utils';
+	import { beforeUpdate, type ComponentProps } from 'svelte';
 	import InternalPaneDraggable from '../internal/InternalPaneDraggable.svelte';
 	import InternalPaneFixed from '../internal/InternalPaneFixed.svelte';
 	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
+	import { removeKeys } from '../utils';
+	import { BROWSER } from 'esm-env';
 
-	import { beforeUpdate, type ComponentProps } from 'svelte';
-
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = (
 		| (ComponentProps<InternalPaneDraggable> & {
 				position?: 'draggable' | undefined;
@@ -34,6 +33,7 @@
 		 *
 		 *   Note that `<Pane>` is a dynamic component, and availability of additional props will
 		 *   vary depending on the defined `position` value.
+		 * @default `'draggable'`
 		 * */
 		position?: PanePosition;
 	};
@@ -93,7 +93,7 @@ Mode overview:
 		This mode's behavior is similar to creating a Pane in Vanilla JS Tweakpane with its [`container`](https://tweakpane.github.io/docs/misc/#containerElement) property set to its parent element.
 - **`<Pane position='fixed' ...>`** exhibits the standard Vanlilla JS Tweakpane behavior of displaying in a fixed position over the page.
 
-Example:	
+@example	
 ```tsx
 <script lang="ts">
 	import { Pane, Button  } from 'svelte-tweakpane-ui';
@@ -107,16 +107,18 @@ Example:
 @sourceLink
 -->
 
-{#if position === undefined || position === 'draggable'}
-	<InternalPaneDraggable bind:x bind:y bind:width bind:expanded {...$$restProps}>
-		<slot />
-	</InternalPaneDraggable>
-{:else if position === 'inline'}
-	<InternalPaneInline bind:expanded {width} {...removeKeys($$restProps, 'storePositionLocally')}>
-		<slot />
-	</InternalPaneInline>
-{:else if position === 'fixed'}
-	<InternalPaneFixed bind:expanded bind:x bind:y {width} {...$$restProps}>
-		<slot />
-	</InternalPaneFixed>
+{#if BROWSER}
+	{#if position === undefined || position === 'draggable'}
+		<InternalPaneDraggable bind:x bind:y bind:width bind:expanded {...$$restProps}>
+			<slot />
+		</InternalPaneDraggable>
+	{:else if position === 'inline'}
+		<InternalPaneInline bind:expanded {width} {...removeKeys($$restProps, 'storePositionLocally')}>
+			<slot />
+		</InternalPaneInline>
+	{:else if position === 'fixed'}
+		<InternalPaneFixed bind:expanded bind:x bind:y {width} {...$$restProps}>
+			<slot />
+		</InternalPaneFixed>
+	{/if}
 {/if}

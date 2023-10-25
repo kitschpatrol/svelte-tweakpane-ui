@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { FolderApi } from '@tweakpane/core';
+	import type { FolderApi as FolderRef } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -8,43 +8,50 @@
 	import type { Theme } from '../theme.js';
 	import { getElementIndex, isRootPane, updateCollapsability, type Container } from '../utils.js';
 
-	/** Text in folder title bar.
+	/**
+	 * Text in folder title bar.
 	 * @default `'Folder'`
-	 */
+	 * */
 	export let title: string = 'Folder';
 
-	/** Prevent interactivity.
+	/**
+	 * Prevent interactivity.
 	 * @default `false`
-	 */
+	 * */
 	export let disabled: boolean = false;
 
-	/** Expand or collapse folder.
-	 * @emits
-	 */
+	/**
+	 * Expand or collapse folder.
+	 * @default `true`
+	 * @bindable
+	 * */
 	export let expanded: boolean | undefined = undefined;
 
-	/** Allow the user to be collapse and expand the folder by clicking its title bar.
+	/**
+	 * Allow the user to be collapse and expand the folder by clicking its title bar.
 	 * @default `true`
-	 */
+	 * */
 	export let clickToExpand: boolean = true;
 
-	/** Custom color scheme. Only applies if the `<Folder>` is created outside a `<Pane>` component. */
+	/**
+	 * Custom color scheme.
+	 * @default `undefined` (Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with `setGlobalDefaultTheme()`.)
+	 * */
 	export let theme: Theme | undefined = undefined;
 
 	const parentStore: Writable<Container> = getContext('parentStore');
-	const folderStore = writable<FolderApi>();
+	const folderStore = writable<FolderRef>();
 	const userCreatedPane = getContext('userCreatedPane');
-	// setContext('userCreatedPane', true); // lie to children
 
 	let indexElement: HTMLDivElement;
 	let index: number;
-	let folderRef: FolderApi | undefined = undefined;
+	let folderRef: FolderRef | undefined = undefined;
 
 	// overwrite the context for our children
 	setContext('parentStore', folderStore);
 
 	function create() {
-		console.log('folder created');
+		// console.log('folder created');
 
 		$folderStore = $parentStore.addFolder({
 			title,
@@ -68,12 +75,15 @@
 		$folderStore?.dispose();
 	});
 
-	$: $parentStore && !folderRef && index !== undefined && create();
-	$: folderRef && updateCollapsability(clickToExpand, folderRef.element, 'tp-fldv_b', 'tp-fldv_m');
-	$: folderRef && (folderRef.title = title);
-	$: folderRef && (folderRef.disabled = disabled);
-	$: folderRef && expanded !== undefined && (folderRef.expanded = expanded); // doing this on $folderStore causes issues
-	$: theme &&
+	$: BROWSER && $parentStore && !folderRef && index !== undefined && create();
+	$: BROWSER &&
+		folderRef &&
+		updateCollapsability(clickToExpand, folderRef.element, 'tp-fldv_b', 'tp-fldv_m');
+	$: BROWSER && folderRef && (folderRef.title = title);
+	$: BROWSER && folderRef && (folderRef.disabled = disabled);
+	$: BROWSER && folderRef && expanded !== undefined && (folderRef.expanded = expanded); // doing this on $folderStore causes issues
+	$: BROWSER &&
+		theme &&
 		$parentStore &&
 		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
@@ -89,7 +99,7 @@ Wraps the Tweakpane [addFolder](https://tweakpane.github.io/docs/ui-components/#
 
 Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane position='inline'>`.
 
-Example:	
+@example	
 ```tsx
 <script lang="ts">
 	import { FolderApi, ButtonApi, Monitor, Checkbox  } from 'svelte-tweakpane-ui';
@@ -116,7 +126,6 @@ Example:
 		</div>
 	{:else}
 		<InternalPaneInline userCreatedPane={false} {theme}>
-			<!-- {...$$props} breaks types -->
 			<svelte:self {title} {disabled} {expanded} {clickToExpand}>
 				<slot />
 			</svelte:self>

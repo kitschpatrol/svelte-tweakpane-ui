@@ -4,21 +4,33 @@
 </script>
 
 <script lang="ts" generics="T extends any">
-	import Blade from '../core/Blade.svelte';
+	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 	import type { ListBladeApi, ListBladeParams, ListParamsOptions } from 'tweakpane';
+	import Blade from '../core/Blade.svelte';
 
 	// Use a blade instead of an input to allow for additional value types
+	// TODO expose key value option that lets you bind to the active key?
 	interface $$Props
 		extends Omit<
 			ComponentProps<Blade<ListBladeParams<T>, ListBladeApi<T>>>,
 			'options' | 'ref' | 'plugin'
 		> {
-		/** Value of the selected item. Bindable. If the bound value is undefined at the time the component is created, then it is set to the first value of the `options` prop array or object. */
+		/**
+		 * Value of the selected `options` item.
+		 * @bindable
+		 * */
 		value: T;
-		/** Text displayed next to list. */
+		/**
+		 * Text displayed next to list.
+		 * @default `undefined`
+		 * */
 		label?: string;
-		/** A collection of options, either an array of type `{text: string; value: T}[]`, an object of type `{[text: string]: T;};` or an array of arbitrary values. The arbitrary array list type is a convenience unique to `svelte-tweakpane-ui`. */
+		/**
+		 * A collection of options to select from.
+		 *
+		 * The arbitrary array list type is a convenience addition to to vanilla Tweakpane's API.
+		 * */
 		options: ListOptions<T>;
 	}
 
@@ -83,14 +95,15 @@
 		listBlade.value = value;
 	}
 
-	$: bladeOptions = {
-		value: getInitialValue(),
-		view: 'list',
-		label,
-		options: getInternalOptions(options)
-	} as ListBladeParams<T>;
-	$: listBlade && addEvent();
-	$: value, listBlade && setValue();
+	$: BROWSER &&
+		(bladeOptions = {
+			value: getInitialValue(),
+			view: 'list',
+			label,
+			options: getInternalOptions(options)
+		} as ListBladeParams<T>);
+	$: BROWSER && listBlade && addEvent();
+	$: value, BROWSER && listBlade && setValue();
 </script>
 
 <!--
@@ -105,18 +118,24 @@ Tweakpane's `addBlade` list variations is used instead of the `addBinding` metho
 
 Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane position='inline'>`.
 
-Example:	
+@example	
 ```tsx
 <script lang="ts">
-	let selection: number = 1;
+	import { List, type ListOptions } from 'svelte-tweakpane-ui';
 
-	$: console.log(selection);
+	const options:ListOptions = { a: 1, b: 2, c: 3 };
+	let selection: number = 1;
 </script>
 
-<List label="Alphanumerics" bind:value={selection} options={{ a: 1, b: 2, c: 3 }} />
+<List label="Alphanumerics" bind:value={selection} {options} />
+<pre>
+	Selected Option: {Selection}
+</pre>
 ```
 
 @sourceLink
 -->
 
-<Blade bind:ref={listBlade} options={bladeOptions} {...$$restProps} />
+{#if BROWSER}
+	<Blade bind:ref={listBlade} options={bladeOptions} {...$$restProps} />
+{/if}

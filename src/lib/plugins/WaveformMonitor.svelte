@@ -1,17 +1,14 @@
-<script lang="ts" context="module">
-	import type {
-		WaveformStyles,
-		WaveformValue
-	} from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
-	export type WaveformMonitorLineStyle = WaveformStyles;
-	export type WaveformMonitorValue = WaveformValue;
-</script>
-
 <script lang="ts">
 	import GenericMonitor from '../internal/GenericMonitor.svelte';
 	import * as pluginModule from 'tweakpane-plugin-waveform';
 	import type { GenericMonitorOptions } from '../internal/GenericMonitor.svelte';
 	import type { ComponentProps } from 'svelte';
+	import { BROWSER } from 'esm-env';
+	import type {
+		WaveformStyles as WaveformMonitorLineStyle,
+		WaveformValue as WaveformMonitorValue
+	} from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
+
 	// Direct prop import is wrapped in some extra stuff we don't want
 	// import type { WaveformProps } from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
 	type WaveformMonitorOptions = GenericMonitorOptions & {
@@ -25,14 +22,26 @@
 			ComponentProps<GenericMonitor<WaveformMonitorValue, WaveformMonitorOptions>>,
 			'options' | 'ref' | 'plugin'
 		> {
-		/** TODO Docs */
+		/**
+		 * Maximum graph bound.
+		 * @default 100
+		 * */
 		max?: number;
-		/** TODO Docs */
+		/**
+		 * Minimum graph bound.
+		 * @default 0
+		 * */
 		min?: number;
-		/** TODO Docs */
-		lineStyle?: WaveformMonitorLineStyle;
-		/** TODO Docs */
-		value: WaveformMonitorValue;
+		/**
+		 * Maximum graph bound.
+		 * @default 100
+		 * */
+		lineStyle?: 'linear' | 'bezier';
+		/**
+		 * Waveform values.
+		 * @bindable
+		 * */
+		value: Uint8Array | Uint16Array | Uint32Array | number[];
 	}
 
 	// unique
@@ -41,19 +50,25 @@
 	export let min: $$Props['min'] = undefined;
 	export let lineStyle: $$Props['lineStyle'] = undefined;
 
-	$: options = {
-		view: 'waveform',
-		max,
-		min,
-		lineStyle
-	} as WaveformMonitorOptions;
+	let options: WaveformMonitorOptions;
+
+	$: BROWSER &&
+		(options = {
+			view: 'waveform',
+			max,
+			min,
+			lineStyle
+		} as WaveformMonitorOptions);
 </script>
 
 <!--
 @component
 TODO
+Integrates [Simon Schödler's](https://shoedler.github.io) [tweakpane-plugin-waveform](https://github.com/shoedler/tweakpane-plugin-waveform).
 
-Example:
+Note that `svelte-tweakpane-ui` embeds a [fork](https://github.com/kitschpatrol/tweakpane-plugin-waveform) of the plugin with support for Tweakpane 4. The depdnency will be updated to point to the source repository if / when the open [pull request](https://github.com/shoedler/tweakpane-plugin-waveform/pull/2) with Tweakpane 4 support is merged.
+
+@example
 ```tsx
 TODO
 ```
@@ -61,4 +76,6 @@ TODO
 @sourceLink
 -->
 
-<GenericMonitor {options} {value} plugin={pluginModule} {...$$restProps} />
+{#if BROWSER}
+	<GenericMonitor {options} {value} plugin={pluginModule} {...$$restProps} />
+{/if}

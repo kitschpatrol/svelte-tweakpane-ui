@@ -6,6 +6,7 @@
 <script lang="ts">
 	import GenericMonitor from './GenericMonitor.svelte';
 	import type { ComponentProps } from 'svelte';
+	import { BROWSER } from 'esm-env';
 
 	// multifile structure is legacy of previous non-dynamic component approach
 	// TODO consolidate eventually if dynamic components prove reliable
@@ -15,25 +16,34 @@
 			ComponentProps<GenericMonitor<string, InternalMonitorStringOptions>>,
 			'options' | 'ref' | 'plugin' | 'interval'
 		> {
-		/** Display multiline strings */
+		/**
+		 * Display multiline strings.
+		 * @default `false`
+		 * */
 		multiline?: boolean;
-		/** String value to monitor. */
+		/**
+		 * A `string` value to monitor.
+		 * */
 		value: string;
 	}
 
-	// must redeclare to pass required prop
+	// redeclare for bindability
 	export let value: $$Props['value'];
-
 	export let multiline: $$Props['multiline'] = undefined;
 
-	$: options = {
-		multiline
-	} as InternalMonitorStringOptions;
+	let options: InternalMonitorStringOptions;
+
+	$: BROWSER &&
+		(options = {
+			multiline
+		} as InternalMonitorStringOptions);
 </script>
 
 <!--
 @component
 This component is for internal use only.
+
+Documentation retained in case of a return to the non-dynamic component approach.
 
 Wraps the Tweakpane [monitor binding](https://tweakpane.github.io/docs/monitor-bindings/) functionality for string values.
 
@@ -43,9 +53,11 @@ Note that `interval` is not exposed because updates are driven by reactive chang
 
 Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane position='inline'>` component.
 
-Example:	
+@example	
 ```tsx
 <script lang="ts">
+	import { InternalMonitorString  } from 'svelte-tweakpane-ui';
+
 	let stringToMonitor = 'bla\n\bla\nbla';
 
 	setInterval(() => {
@@ -62,4 +74,6 @@ Example:
 @sourceLink
 -->
 
-<GenericMonitor {options} {value} {...$$restProps} />
+{#if BROWSER}
+	<GenericMonitor {options} {value} {...$$restProps} />
+{/if}

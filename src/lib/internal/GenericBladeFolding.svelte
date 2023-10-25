@@ -5,26 +5,42 @@
 
 <script lang="ts" generics="T extends BladeOptions, U extends BladeRef">
 	import Blade from '../core/Blade.svelte';
-	import { updateCollapsability } from '../utils.js';
-	import type { PickerLayout } from '@tweakpane/core';
+	import { updateCollapsability } from '../utils';
+
 	import type { ComponentProps } from 'svelte';
+	import { BROWSER } from 'esm-env';
 
-	interface $$Props extends ComponentProps<Blade<T, U>> {
-		/** TODO docs */
+	type $$Props = ComponentProps<Blade<T, U>> & {
+		/**
+		 * Allow users to interactively expand / contract the value picker by clicking its icon.
+		 *
+		 * Most useful when `picker` is `inline`.
+		 * @default `true`
+		 * */
 		clickToExpand?: boolean;
-		/** TODO docs */
+		/**
+		 * Expand or collapse the blade's picker.
+		 * @default `true`
+		 * @bindable
+		 * */
 		expanded?: boolean;
-		/** TODO docs */
+		/**
+		 * DOM class name of the button used to expand and collapse the blade's picker.
+		 * @default `undefined`
+		 * */
 		buttonClass?: string;
-		/** TODO docs */
-		picker?: PickerLayout;
-	}
+		/**
+		 * The style of value "picker" to use in the blade.
+		 * @default `'popup'`
+		 */
+		picker?: 'inline' | 'popup';
+	};
 
-	// re-exported
+	// reexport for bindability
 	export let options: $$Props['options'];
 	export let ref: $$Props['ref'] = undefined;
 
-	// unique
+	// unique props
 	export let clickToExpand: $$Props['clickToExpand'] = true;
 	export let expanded: $$Props['expanded'] = undefined;
 	export let buttonClass: $$Props['buttonClass'] = '';
@@ -35,7 +51,7 @@
 	const initialExpanded = expanded;
 	let internalExpanded = initialExpanded;
 
-	$: if (!gotBlade && ref) {
+	$: if (BROWSER && !gotBlade && ref) {
 		gotBlade = true;
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -48,19 +64,22 @@
 			});
 	}
 
-	$: options = {
-		...options,
-		picker,
-		expanded: initialExpanded // only set once
-	};
+	$: BROWSER &&
+		(options = {
+			...options,
+			picker,
+			expanded: initialExpanded // only set once
+		});
 
-	$: ref &&
+	$: BROWSER &&
+		ref &&
 		buttonClass !== undefined &&
 		updateCollapsability(clickToExpand ?? true, ref.element, buttonClass);
 
 	// click isntead of setting expanded
 	// to avoid  animation jankiness
-	$: ref &&
+	$: BROWSER &&
+		ref &&
 		buttonClass !== undefined &&
 		expanded !== internalExpanded &&
 		ref.element.getElementsByClassName(buttonClass).length > 0 &&
@@ -74,4 +93,6 @@ This component is for internal use only.
 @sourceLink
 -->
 
-<Blade bind:ref {options} {...$$restProps} />
+{#if BROWSER}
+	<Blade bind:ref {options} {...$$restProps} />
+{/if}

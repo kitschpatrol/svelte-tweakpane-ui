@@ -1,40 +1,55 @@
 <script lang="ts" context="module">
-	import type { ImageResolvable } from 'tweakpane-image-plugin/dist/types/model.js';
-	export type ImageFit = 'contain' | 'cover';
-	export type ImageValue = ImageResolvable | undefined;
+	export type ImageValue = 'placeholder' | HTMLImageElement | string | File | undefined;
 </script>
 
 <script lang="ts">
 	import GenericInput from '../internal/GenericInput.svelte';
 	import * as pluginModule from 'tweakpane-image-plugin';
 	import type { ComponentProps } from 'svelte';
+	import type { PluginInputParams as ImageOptions } from 'tweakpane-image-plugin/dist/types/plugin.d.ts';
+	import { BROWSER } from 'esm-env';
 
-	interface $$Props extends Omit<ComponentProps<GenericInput<ImageValue>>, 'plugin'> {
-		/** TODO Docs */
-		imageFit?: ImageFit;
-		/** TODO Docs */
+	type $$Props = Omit<ComponentProps<GenericInput<ImageValue>>, 'plugin' | 'value' | 'ref'> & {
+		/**
+		 * How to display the image in the preview pane.
+		 *
+		 * Renamed from `imageFit` in `tweakpane-image-plugin` for concision.
+		 * @default `'cover'`
+		 */
+		fit?: 'contain' | 'cover';
+		/**
+		 * Array of image extension types to accept.
+		 * @default `['.jpg', '.png', '.gif']`
+		 */
 		extensions?: string[];
-		/** TODO Docs */
-		value: ImageValue;
-	}
+		/**
+		 * Image data
+		 * @default `'placeholder'`
+		 * @bindable
+		 */
+		value?: ImageValue;
+	};
 
 	// unique
 	export let value: $$Props['value'] = 'placeholder';
-	export let imageFit: $$Props['imageFit'] = undefined;
+	export let fit: $$Props['fit'] = undefined;
 	export let extensions: $$Props['extensions'] = undefined;
 
-	$: options = {
-		view: 'input-image',
-		imageFit,
-		extensions
-	};
+	let options: ImageOptions;
+
+	$: BROWSER &&
+		(options = {
+			view: 'input-image',
+			imageFit: fit,
+			extensions
+		});
 </script>
 
 <!--
 @component
 TODO
 
-Example:
+@example
 ```tsx
 TODO
 ```
@@ -42,4 +57,6 @@ TODO
 @sourceLink
 -->
 
-<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />
+{#if BROWSER}
+	<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />
+{/if}

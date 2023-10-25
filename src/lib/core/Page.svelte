@@ -3,34 +3,40 @@
 	import Tab from './Tab.svelte';
 	import type { Theme } from '../theme.js';
 	import { getElementIndex, isRootPane, type Container } from '../utils.js';
-	import type { TabPageApi } from '@tweakpane/core';
+	import type { TabPageApi as TabPageRef } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
-	import type { TabApi } from 'tweakpane';
+	import type { TabApi as TabRef } from 'tweakpane';
 
-	/** Text in the tab.
+	/**
+	 * Text in the tab.
 	 * @default `'Tab Page'`
-	 */
+	 * */
 	export let title: string = 'Tab Page';
 
-	/** Prevent interactivity.
+	/**
+	 * Prevent interactivity.
 	 * @default `false`
-	 *  */
+	 * */
 	export let disabled: boolean = false;
 
-	/** True when the page is the active tab. If multiple pages `seleted` props are set to true, the last page to be set to `true` comes to the foreground in its containing <Tab> component.
+	/**
+	 * True when the page is the active tab.
 	 * @default `false`
-	 * @emits
-	 */
+	 * @bindable
+	 * */
 	export let selected: boolean = false;
 
-	/** Custom color scheme. Only applies if the `<Page>` is created outside a `<Pane>` component. */
+	/**
+	 * Custom color scheme.
+	 * @default `undefined` (Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with `setGlobalDefaultTheme()`.)*
+	 * */
 	export let theme: Theme | undefined = undefined;
 
 	// get context from tab
-	const tabStore: Writable<TabApi> = getContext('tabStore');
+	const tabStore: Writable<TabRef> = getContext('tabStore');
 	const tabIndexStore: Writable<number> = getContext('tabIndexStore');
 	const userCreatedPane = getContext('userCreatedPane');
 
@@ -38,7 +44,7 @@
 	const parentStore: Writable<Container> = getContext('parentStore');
 
 	// overwrite the context for our children
-	const tabPageStore = writable<TabPageApi>();
+	const tabPageStore = writable<TabPageRef>();
 	setContext('parentStore', tabPageStore);
 
 	// index not actually used, page order established by array order on tab
@@ -50,7 +56,7 @@
 	});
 
 	function create() {
-		console.log('page created');
+		// console.log('page created');
 
 		if (!$tabStore) {
 			// create tab if necessary
@@ -103,7 +109,7 @@ Provides `page` values to Tweakpane's [addTab](https://tweakpane.github.io/docs/
 
 Usage outside of a `<Tab>` component wouldn't make much sense, but in such cases the `<Page>` will be implicitly wrapped in a `<Tab>` and `<Pane position='inline'>`.
 
-Example:	
+@example	
 ```tsx
 <script lang="ts">
 	import { Tab, Page  } from 'svelte-tweakpane-ui';
@@ -111,7 +117,6 @@ Example:
 	let countA = 0;
 	let countB = 0;
 </script>
-
 
 <Tab>
 	<Page title="A">

@@ -1,3 +1,14 @@
+<script lang="ts" context="module">
+	export type ButtonGridClickEvent = {
+		index: number;
+		label: string;
+		cell: {
+			x: number;
+			y: number;
+		};
+	};
+</script>
+
 <script lang="ts">
 	import Blade from '../../core/Blade.svelte';
 	import { getGridDimensions } from '../../utils.js';
@@ -6,19 +17,35 @@
 	import { createEventDispatcher } from 'svelte';
 	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import type { ComponentProps } from 'svelte';
+	import { BROWSER } from 'esm-env';
 
 	interface $$Props
 		extends Omit<
 			ComponentProps<Blade<ButtonGridOptions, ButtonGridRef>>,
 			'ref' | 'options' | 'plugin'
 		> {
-		/** TODO Docs */
+		/**
+		 * Number of columns to arrange the buttons into.
+		 *
+		 * Setting `columns` without setting `rows` will lock the column count and allow the row count to change dynamically based on the number of buttons.
+		 * @default dynamic based on quantity of `buttons`
+		 * */
 		columns?: number;
-		/** TODO Docs */
+		/**
+		 * Number of rows to arrange the buttons into.
+		 *
+		 * Setting `rows` without setting `columns` will lock the column count and allow the column count to change dynamically based on the number of buttons.
+		 * @default dynamic based on quantity of `buttons`
+		 * */
 		rows?: number;
-		/** TODO Docs */
+		/**
+		 * Array of names, each of which will become the title of a button in the grid.
+		 * */
 		buttons: string[];
-		/** TODO Docs */
+		/**
+		 * Text displayed next to the button grid.
+		 * @default `undefined`
+		 */
 		label?: string;
 	}
 
@@ -30,23 +57,18 @@
 
 	// Seems to be the only way to get event comments to work
 	interface $$Events {
-		/** Fires when a button is clicked.
+		/**
+		 * Fires when a button is clicked.
 		 * @event
-		 */
-		click: {
-			index: number;
-			label: string;
-			cell: {
-				x: number;
-				y: number;
-			};
-		};
+		 * */
+		click: ButtonGridClickEvent;
 	}
 
 	const dispatch = createEventDispatcher<$$Events>();
 
 	let options: ButtonGridOptions;
 	let gridBlade: ButtonGridRef;
+	let gridDimensions: { rows: number; columns: number };
 
 	function cells(
 		x: number,
@@ -64,14 +86,16 @@
 		return { title: '' };
 	}
 
-	$: gridDimensions = getGridDimensions(buttons.length, columns, rows);
-	$: options = {
-		view: 'buttongrid',
-		label,
-		size: [gridDimensions.columns, gridDimensions.rows],
-		cells
-	} as ButtonGridOptions;
-	$: gridBlade &&
+	$: BROWSER && (gridDimensions = getGridDimensions(buttons.length, columns, rows));
+	$: BROWSER &&
+		(options = {
+			view: 'buttongrid',
+			label,
+			size: [gridDimensions.columns, gridDimensions.rows],
+			cells
+		});
+	$: BROWSER &&
+		gridBlade &&
 		gridBlade.on('click', (ev) => {
 			dispatch('click', {
 				index: ev.index[1] * gridDimensions.columns + ev.index[0],
@@ -85,7 +109,9 @@
 @component
 TODO
 
-Example:
+@emits {ButtonGridClickEvent} click - when a button in the grid is clicked
+
+@example
 ```tsx
 TODO
 ```
@@ -93,4 +119,6 @@ TODO
 @sourceLink
 -->
 
-<Blade bind:ref={gridBlade} plugin={pluginModule} {options} {...$$restProps} />
+{#if BROWSER}
+	<Blade bind:ref={gridBlade} plugin={pluginModule} {options} {...$$restProps} />
+{/if}

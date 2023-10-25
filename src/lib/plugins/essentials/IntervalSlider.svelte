@@ -1,6 +1,4 @@
 <script lang="ts" context="module">
-	// TODO support tuple
-
 	export type IntervalSliderValue =
 		| {
 				min: number;
@@ -14,16 +12,26 @@
 	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import type { ComponentProps } from 'svelte';
 	import type { IntervalObject } from '@tweakpane/plugin-essentials/dist/types/interval/model/interval.js';
+	import { BROWSER } from 'esm-env';
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	interface $$Props
 		extends Omit<ComponentProps<GenericSlider<IntervalSliderValue>>, 'ref' | 'options' | 'plugin'> {
-		/** TODO Docs */
+		/**
+		 * Interval value to control.
+		 *
+		 * Tuples are a convenience addition to vanilla Tweakpane's API.
+		 * @bindable
+		 */
 		value: IntervalSliderValue;
-		/** Midpoint of the interval range value. Bindable. */
+		/**
+		 * Midpoint of the interval range value.
+		 * @bindable
+		 * */
 		meanValue?: number;
 	}
 
+	// reexport for bindability
 	export let value: $$Props['value'];
 	export let meanValue: $$Props['meanValue'] = undefined;
 
@@ -55,17 +63,17 @@
 		}
 	}
 
-	$: value, updateInternalValue();
-	$: internalValue, updateValue();
-	$: meanValue = (internalValue.min + internalValue.max) / 2;
-	$: meanValue, updateValueFromMean();
+	$: value, BROWSER && updateInternalValue();
+	$: internalValue, BROWSER && updateValue();
+	$: BROWSER && (meanValue = (internalValue.min + internalValue.max) / 2);
+	$: meanValue, BROWSER && updateValueFromMean();
 </script>
 
 <!--
 @component
 TODO
 
-Example:
+@example
 ```tsx
 TODO
 ```
@@ -73,4 +81,6 @@ TODO
 @sourceLink
 -->
 
-<GenericSlider bind:value={internalValue} plugin={pluginModule} {...$$restProps} />
+{#if BROWSER}
+	<GenericSlider bind:value={internalValue} plugin={pluginModule} {...$$restProps} />
+{/if}

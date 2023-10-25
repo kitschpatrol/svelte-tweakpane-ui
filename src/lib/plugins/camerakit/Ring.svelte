@@ -8,38 +8,56 @@
 <script lang="ts">
 	import GenericSlider from '../../internal/GenericSlider.svelte';
 	import * as pluginModule from '@tweakpane/plugin-camerakit';
+	import type { RingInputParams } from '@tweakpane/plugin-camerakit/dist/types/util.d.ts';
 	import type { ComponentProps } from 'svelte';
+	import { BROWSER } from 'esm-env';
 
 	interface $$Props
 		extends Omit<ComponentProps<GenericSlider<number>>, 'ref' | 'options' | 'plugin'> {
-		/** A `number` value to control. Bindable. */
+		/**
+		 * A `number` value to control.
+		 * @bindable
+		 * */
 		value: number;
-		/** Style variations, takes values of `0` `1` or `2`. */
+		/**
+		 * Style variations.
+		 * @default `0`
+		 * */
 		series?: RingSeries;
-		/** The scale of the ring's units. Takes an object of the form `{pixels: number, ticks: number, value: number}` */
+		/**
+		 * Density and value mapping of the ring's tick marks.
+		 * @default `{ ticks: 5, pixels: 40, value: 10 }`
+		 * */
 		unit?: RingUnit;
-		/** When `true`, expand the width of the ring control at the expense of the numerical input field. */
+		/**
+		 * When `true`, expand the width of the ring control at the expense of the numerical input field.
+		 * @default `false`
+		 * */
 		wide?: boolean;
 	}
 
+	// reexport for bindability
 	export let value: $$Props['value'];
 	export let series: $$Props['series'] = undefined;
 	export let unit: $$Props['unit'] = undefined;
 	export let wide: $$Props['wide'] = undefined;
 
-	$: options = {
-		view: 'cameraring',
-		series,
-		unit,
-		wide
-	};
+	let options: RingInputParams;
+
+	$: BROWSER &&
+		(options = {
+			view: 'cameraring',
+			series,
+			unit,
+			wide
+		});
 </script>
 
 <!--
 @component
 TODO
 
-Example:
+@example
 ```tsx
 TODO
 ```
@@ -47,4 +65,6 @@ TODO
 @sourceLink
 -->
 
-<GenericSlider bind:value {options} plugin={pluginModule} {...$$restProps} />
+{#if BROWSER}
+	<GenericSlider bind:value {options} plugin={pluginModule} {...$$restProps} />
+{/if}

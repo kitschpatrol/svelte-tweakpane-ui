@@ -3,10 +3,12 @@
 	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import { getGridDimensions } from '../../utils.js';
 	import type { ComponentProps } from 'svelte';
+	import { BROWSER } from 'esm-env';
+	import { nanoid } from 'nanoid';
 
-	// /@tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
-	// it's not exported...
-	interface RadioGridInputParams<T> extends GenericInputOptions {
+	// duplicated here because it's not exported from the plugin...
+	// @tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
+	interface RadioGridOptions<T> extends GenericInputOptions {
 		cells: (
 			x: number,
 			y: number
@@ -22,35 +24,64 @@
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	interface $$Props
 		extends Omit<
-			ComponentProps<GenericInput<T, RadioGridInputParams<T>>>,
+			ComponentProps<GenericInput<T, RadioGridOptions<T>>>,
 			'ref' | 'options' | 'plugin'
 		> {
-		/** TODO Docs */
+		/**
+		 * Name allowing multiple radio groups to share mutually exclusive selection state.
+		 *
+		 * Allows spanning exclusive selection state across multiple independent `<RadioGrid>` components, but should remain `undefined` for most use cases to keep exclusivitiy scoped to a single `<RadioGrid>`.
+		 * @default `undefined` (Which uses a dynamically generated globally unique id internally.)
+		 */
 		groupName?: string;
-		/** TODO Docs */
+		/**
+		 * Value of selected radio button.
+		 *
+		 * Bind to this prop to receive updates when the user clicks a radio button.
+		 * @bindable
+		 *  */
 		value: T;
-		/** TODO Docs */
+		/**
+		 * Array of `number`, `string` or `boolean` values, each of which will become a button in the radio grid.
+		 * */
 		values: T[];
-		/** TODO Docs */
+		/**
+		 * Number of columns to arrange the radio buttons into.
+		 * @default `undefined`
+		 * */
 		columns?: number;
-		/** TODO Docs */
+		/**
+		 * Number of rows to arrange the radio buttons into.
+		 * @default `undefined`
+		 * */
 		rows?: number;
-		/** TODO Docs */
+		/**
+		 * Text to show in the radio button label after the value.
+		 * @default `undefined`
+		 * */
 		suffix?: string;
-		/** TODO Docs */
+		/**
+		 * Text to show in the radio button label before the value.
+		 * @default `undefined`
+		 * */
 		prefix?: string;
 	}
 
-	const defaultGroupName = 'Group Name';
+	// ensure no entangled selection across multiple RadioGrids,
+	// unless the user explicitly asks for it
+	const defaultGroupName = nanoid();
 
-	// unique
-	export let groupName: $$Props['groupName'] = defaultGroupName;
+	// reexport for bindability
+	export let groupName: $$Props['groupName'] = undefined;
 	export let value: $$Props['value'];
 	export let values: $$Props['values'] = [value];
 	export let columns: $$Props['columns'] = undefined;
 	export let rows: $$Props['rows'] = undefined;
 	export let suffix: $$Props['suffix'] = undefined;
 	export let prefix: $$Props['prefix'] = undefined;
+
+	let gridDimensions: { columns: number; rows: number };
+	let options: RadioGridOptions<T>;
 
 	function cells(
 		x: number,
@@ -70,20 +101,23 @@
 		return { title: '', value: values[0] };
 	}
 
-	$: gridDimensions = getGridDimensions(values.length, columns, rows);
-	$: options = {
-		groupName: groupName ?? defaultGroupName,
-		view: 'radiogrid',
-		size: [gridDimensions.columns, gridDimensions.rows],
-		cells
-	} as RadioGridInputParams<T>;
+	$: BROWSER && (gridDimensions = getGridDimensions(values.length, columns, rows));
+	$: BROWSER &&
+		(options = {
+			groupName: groupName ?? defaultGroupName,
+			view: 'radiogrid',
+			size: [gridDimensions.columns, gridDimensions.rows],
+			cells
+		});
 </script>
 
 <!--
 @component
 TODO
 
-Example:
+Note about groupname
+
+@example
 ```tsx
 TODO
 ```
@@ -91,4 +125,6 @@ TODO
 @sourceLink
 -->
 
-<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />
+{#if BROWSER}
+	<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />
+{/if}

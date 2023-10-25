@@ -17,35 +17,50 @@
 	import type { Theme } from '../theme.js';
 	import { getElementIndex, isRootPane, type Container, type Plugin } from '../utils.js';
 
-	/** The binding target object with values to manipulate.
-	 * @emits
-	 */
+	/**
+	 * The binding target object with values to manipulate.
+	 * @bindable
+	 * */
 	export let object: T;
 
 	/** The key for the value in the target object that the control should manipulate. */
 	export let key: keyof T;
 
-	/** Prevent interactivity.
-	 *  @default `false`
-	 */
+	/**
+	 * Prevent interactivity.
+	 * @default `false`
+	 * */
 	export let disabled: boolean = false;
 
-	/** Text displayed next to control. */
+	/**
+	 * Text displayed next to control.
+	 * @default `undefined`
+	 * */
 	export let label: string | undefined = undefined;
 
-	/** Control configuration exposing TweakPane's internal [BindingParams](https://tweakpane.github.io/docs/api/types/BindingParams.html), contingent on type of bound param. TODO: Templatized types. */
+	/**
+	 * Control configuration exposing TweakPane's internal [BindingParams](https://tweakpane.github.io/docs/api/types/BindingParams.html), contingent on type of bound param.
+	 * @default `undefined`
+	 * */
 	export let options: U | undefined = undefined;
 
-	/** Custom color scheme. Only applies if the control component is created outside a `<Pane>` component. */
+	/**
+	 * Custom color scheme.
+	 * @default `undefined` (Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with `setGlobalDefaultTheme()`.)
+	 * */
 	export let theme: Theme | undefined = undefined;
 
-	/** Reference to internal TweakPane [BindingApi](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for this control, not generally intended for direct use.
-	 * @emits
+	/**
+	 * Reference to internal TweakPane [BindingApi](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for this control.
+	 * @bindable
 	 * @readonly
-	 */
+	 * */
 	export let ref: V | undefined = undefined;
 
-	/** Imported Tweakpane `TpPluginBundle` (aliased as `Plugin`) module to register before creating the binding. Primarily for internal use. */
+	/**
+	 * Imported Tweakpane `TpPluginBundle` (aliased as `Plugin`) module to automatically register in the binding's containing `<Pane>`.
+	 * @default `undefined`
+	 * */
 	export let plugin: Plugin | undefined = undefined;
 
 	const registerPlugin = getContext<(plugin: Plugin) => void>('registerPlugin');
@@ -57,7 +72,7 @@
 	let index: number;
 
 	function create() {
-		console.log('binding created');
+		// console.log('binding created');
 
 		// must destroy to allow a reactive `key` parameter
 		if (binding) binding.dispose();
@@ -118,7 +133,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pa
 
 Consider convenience components like `<Slider>`, `<Color>`, etc. before using this component directly.
 
-Example:	
+@example	
 ```tsx
 <script lang="ts">
 	import { Binding, type BindingObject } from 'svelte-tweakpane-ui';
@@ -140,7 +155,6 @@ Value: {object.r}
 		<div style="display: none;" bind:this={indexElement} />
 	{:else}
 		<InternalPaneInline userCreatedPane={false} {theme}>
-			<!-- Everything must be manually bound instead of spreading props due to lack of access to binding  -->
 			<svelte:self
 				bind:key
 				bind:disabled

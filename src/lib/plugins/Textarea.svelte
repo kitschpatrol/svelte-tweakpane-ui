@@ -1,19 +1,30 @@
 <script lang="ts">
-	import GenericInput from '../internal/GenericInput.svelte';
 	import * as pluginModule from '@pangenerator/tweakpane-textarea-plugin';
-	import type { ComponentProps } from 'svelte';
 	import type { TextareaPluginInputParams } from '@pangenerator/tweakpane-textarea-plugin/dist/types/plugin.js';
+	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
+	import GenericInput from '../internal/GenericInput.svelte';
 
 	interface $$Props
 		extends Omit<
 			ComponentProps<GenericInput<string, TextareaPluginInputParams>>,
 			'options' | 'ref' | 'plugin'
 		> {
-		/** TODO Docs */
+		/**
+		 * The number of lines of text to display.
+		 * @todo can you still go over?
+		 * @default `3`
+		 */
 		rows?: number;
-		/** TODO Docs */
+		/**
+		 * Placeholder text to display when the `value` is empty.
+		 * @default `'Enter text here'`
+		 */
 		placeholder?: string;
-		/** TODO Docs */
+		/**
+		 * A `string` value to control.
+		 * @bindable
+		 * */
 		value: string;
 	}
 
@@ -22,18 +33,21 @@
 	export let rows: $$Props['rows'] = undefined;
 	export let placeholder: $$Props['placeholder'] = undefined;
 
-	$: options = {
-		view: 'textarea',
-		rows,
-		placeholder
-	} as TextareaPluginInputParams;
+	let options: TextareaPluginInputParams;
+
+	$: BROWSER &&
+		(options = {
+			view: 'textarea',
+			rows,
+			placeholder
+		});
 </script>
 
 <!--
 @component
 TODO
 
-Example:
+@example
 ```tsx
 TODO
 ```
@@ -41,4 +55,6 @@ TODO
 @sourceLink
 -->
 
-<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />
+{#if BROWSER}
+	<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />
+{/if}

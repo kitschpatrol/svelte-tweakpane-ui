@@ -1,25 +1,47 @@
 <script lang="ts">
-	import type { Theme } from '../theme.js';
-	import { applyTheme } from '../theme.js';
-	import type { Container } from '../utils.js';
-	// import type { BladeState } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, setContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
 	import { Pane as TpPane } from 'tweakpane';
+	import type { Theme } from '../theme.js';
+	import { applyTheme } from '../theme.js';
+	import type { Container } from '../utils.js';
 	import { updateCollapsability, type Plugin } from '../utils.js';
 	// import type { BladeState } from '@tweakpane/core';
 
-	/** Text in the pane's title bar. If undefined, no title bar is shown, and expanding / collapsing the pane will only be available through the `expanded` prop. */
+	/**
+	 * Text in the pane's title bar.
+	 * @default `Tweakpane` (Unless `position="inline"`, in which case the default is `undefined` and no title bar is shown.)
+	 * */
 	export let title: string | undefined = undefined;
 
-	/** Whether the pane may be collapsed by clicking the title bar. If `false`, programmatic expanding / collapsing remains available through the `expanded` prop. */
+	/**
+	 * Allow users to interactively expand / contract the pane by clicking its title bar.
+	 *
+	 * Hides the collapse button from the title bar when `false`.
+	 * @default `true`
+	 * */
 	export let clickToExpand: boolean = true;
 
-	/** Expand and collapse the pane into its title bar. Bindable. */
+	/**
+	 * Expand or collapse the pane into its title bar.
+	 * @default `true`
+	 * @bindable
+	 * */
 	export let expanded: boolean = true; // special case
 
-	/** Custom color scheme. Applies to all child components. Note that `<Pane position="inline" ...>` squares off rounded corners by default to better integrate with surrounding content. */
+	/**
+	 * Custom color scheme.
+	 *
+	 * Applies to all child components, but note that setting a different `theme` on a child component's prop will **not** override the parent pane's theme.
+	 *
+	 * Note that `<Pane position="inline" ...>` squares off rounded corners by default to better integrate with surrounding content.
+	 *
+	 * Simply pass a custom or default theme like `THEMES.standard` if you want rounded corners on an `inline` pane.
+	 *
+	 * See also the `setGlobalDefaultTheme()` for a way to set a custom default theme for all panes on the page.
+	 * @default `undefined` (Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with `setGlobalDefaultTheme()`.)
+	 * */
 	export let theme: Theme | undefined = undefined;
 
 	// export let state: BladeState | undefined = undefined;
@@ -54,13 +76,12 @@
 			console.warn('`paneRef is undefined, failed to register plugin "${plugin.id}"');
 		} else {
 			if (pluginsRegistered.includes(plugin.id)) {
-				// TODO remove this
-				console.log(`Already registered plugin ${plugin.id}`);
+				// console.log(`Already registered plugin ${plugin.id}`);
 			} else {
-				console.log(`Registering plugin "${plugin.id}"`);
+				// console.log(`Registering plugin "${plugin.id}"`);
 				paneRef?.registerPlugin(plugin);
 				pluginsRegistered.push(plugin.id);
-				console.log(`Plugins registered: ${pluginsRegistered}`);
+				// console.log(`Plugins registered: ${pluginsRegistered}`);
 			}
 		}
 	};
@@ -93,10 +114,12 @@
 		});
 	}
 
-	$: paneRef && updateCollapsability(clickToExpand, paneRef.element, 'tp-rotv_b', 'tp-rotv_m');
-	$: paneRef && title && (paneRef.title = title);
-	$: paneRef && applyTheme(paneRef.element, theme);
-	$: paneRef && (paneRef.expanded = expanded);
+	$: BROWSER &&
+		paneRef &&
+		updateCollapsability(clickToExpand, paneRef.element, 'tp-rotv_b', 'tp-rotv_m');
+	$: BROWSER && paneRef && title && (paneRef.title = title);
+	$: BROWSER && paneRef && applyTheme(paneRef.element, theme);
+	$: BROWSER && paneRef && (paneRef.expanded = expanded);
 </script>
 
 <!--

@@ -1,18 +1,19 @@
 <script lang="ts" generics="W extends number | string | boolean | unknown">
+	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 	import type {
 		default as GenericMonitor,
 		GenericMonitorOptions
 	} from '../internal/GenericMonitor.svelte';
-	import InternalMonitorString, {
-		type InternalMonitorStringOptions
-	} from '../internal/InternalMonitorString.svelte';
-	import InternalMonitorNumber, {
-		type InternalMonitorNumberOptions
-	} from '../internal/InternalMonitorNumber.svelte';
 	import InternalMonitorBoolean, {
 		type InternalMonitorBooleanOptions
 	} from '../internal/InternalMonitorBoolean.svelte';
-	import type { ComponentProps } from 'svelte';
+	import InternalMonitorNumber, {
+		type InternalMonitorNumberOptions
+	} from '../internal/InternalMonitorNumber.svelte';
+	import InternalMonitorString, {
+		type InternalMonitorStringOptions
+	} from '../internal/InternalMonitorString.svelte';
 
 	// multifile structure is legacy of previous non-dynamic component approach
 	// TODO consolidate eventually if dynamic components prove reliable
@@ -33,7 +34,10 @@
 		? ComponentProps<InternalMonitorNumber>
 		: {
 				// TODO tooltip never appears?
-				/** A value to monitor. Note that `<Monitor>` is a dynamic component, and the availability of additional props will vary depending on the type of the defined `value`. */
+				/**
+				 * A value to monitor.
+				 * @bindable
+				 * */
 				value: number | string | boolean;
 		  };
 
@@ -64,9 +68,11 @@ See also the `<Waveform>` component for a more advanced number visualization.
 
 Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane position='inline'>` component.
 
-Example:	
+@example	
 ```tsx
 <script lang="ts">
+	import { Monitor } from 'svelte-tweakpane-ui';
+
 	let booleanToMonitor = false;
   let stringToMonitor = "Reticulating";
   let numberToMonitor = 85;
@@ -89,10 +95,12 @@ Example:
 @sourceLink
 -->
 
-{#if value === undefined || typeof value === 'number'}
-	<InternalMonitorNumber {value} {...$$restProps} />
-{:else if typeof value === 'boolean'}
-	<InternalMonitorBoolean {value} {...$$restProps} />
-{:else if typeof value === 'string'}
-	<InternalMonitorString {value} {...$$restProps} />
+{#if BROWSER}
+	{#if value === undefined || typeof value === 'number'}
+		<InternalMonitorNumber {value} {...$$restProps} />
+	{:else if typeof value === 'boolean'}
+		<InternalMonitorBoolean {value} {...$$restProps} />
+	{:else if typeof value === 'string'}
+		<InternalMonitorString {value} {...$$restProps} />
+	{/if}
 {/if}

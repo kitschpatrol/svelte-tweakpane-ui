@@ -1,6 +1,9 @@
 <script lang="ts" context="module">
 	import type { EulerOrder } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerOrder.js';
 	import type { EulerUnit } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerUnit.js';
+	import type { PointDimensionParams } from '@tweakpane/core';
+
+	export type RotationEulerOptions = PointDimensionParams;
 	export type RotationEulerOrder = EulerOrder;
 	export type RotationEulerUnit = EulerUnit;
 	export type RotationEulerValue =
@@ -14,29 +17,60 @@
 </script>
 
 <script lang="ts">
-	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
+	// note name collission with options params
 	import * as pluginModule from '@0b5vr/tweakpane-plugin-rotation';
-	import type { PointDimensionParams } from '@tweakpane/core';
-	import type { ComponentProps } from 'svelte';
+	import type { RotationInputPluginEulerParams as RotationEulerOptionsInternal } from '@0b5vr/tweakpane-plugin-rotation/dist/types/RotationInputPluginEulerParams';
 	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
-	import type { RotationInputPluginEulerParams as RotationEulerOptions } from '@0b5vr/tweakpane-plugin-rotation/dist/types/RotationInputPluginEulerParams';
+	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
+	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
 
 	interface $$Props
 		extends Omit<
-			ComponentProps<GenericInputFolding<RotationEulerValue, RotationEulerOptions>>,
+			ComponentProps<GenericInputFolding<RotationEulerValue, RotationEulerOptionsInternal>>,
 			'buttonClass' | 'options' | 'ref' | 'plugin'
 		> {
-		/** TODO Docs */
+		/**
+		 * Order of in which rotations are applied.
+		 *
+		 * Note that this is extrinsic rotations (used by Blender, Maya, and Unity). Three.js uses intrinsic rotations, so you have to reverse the order if you want to match Three.js' behavior.
+		 * @default `'XYZ'`
+		 * */
 		order?: RotationEulerOrder;
-		/** TODO Docs */
+		/**
+		 * Units of rotation.
+		 * @default `'rad'`
+		 */
 		unit?: RotationEulerUnit;
-		/** TODO Docs */
-		x?: PointDimensionParams;
-		/** TODO Docs */
-		y?: PointDimensionParams;
-		/** TODO Docs */
-		z?: PointDimensionParams;
-		/** TODO Docs */
+		/**
+		 * Input parameters specific to the X dimension.
+		 *
+		 * Renamed from `x` in the original TweakpaneRotationPlugin API to clarify that it is an object of options, not a value.
+		 * @default `undefined`
+		 * */
+		optionsX?: RotationEulerOptions;
+		/**
+		 * Input parameters specific to the Y dimension.
+		 *
+		 * Renamed from `y` in the original TweakpaneRotationPlugin API to clarify that it is an object of options, not a value.
+		 * @default `undefined`
+		 * */
+		optionsY?: RotationEulerOptions;
+		/**
+		 * Input parameters specific to the Z dimension.
+		 *
+		 * Renamed from `z` in the original TweakpaneRotationPlugin API to clarify that it is an object of options, not a value.
+		 * @default `undefined`
+		 * */
+		optionsZ?: RotationEulerOptions;
+		/**
+		 * The rotation value to control.
+		 *
+		 * Tuple values are a convenience added by `svelte-tweakpane-ui`, and is not part of the original TweakpaneRotationPlugin API.
+		 *
+		 * See the `order` prop to specify the sequence in which rotations are applied.
+		 * @bindable
+		 * */
 		value: RotationEulerValue;
 	}
 
@@ -44,12 +78,14 @@
 	export let value: $$Props['value'];
 	export let order: $$Props['order'] = undefined;
 	export let unit: $$Props['unit'] = undefined;
-	export let x: $$Props['x'] = undefined;
-	export let y: $$Props['y'] = undefined;
-	export let z: $$Props['z'] = undefined;
+	export let optionsX: $$Props['optionsX'] = undefined;
+	export let optionsY: $$Props['optionsY'] = undefined;
+	export let optionsZ: $$Props['optionsZ'] = undefined;
 
 	// reexport for binding
 	export let expanded: $$Props['expanded'] = undefined;
+
+	let options: RotationEulerOptionsInternal;
 
 	// proxy value since Tweakpane only supports Point3dObject type
 	let internalValue: Point3dObject;
@@ -75,24 +111,25 @@
 		}
 	}
 
-	$: value, updateInternalValue();
-	$: internalValue, updateValue();
-	$: options = {
-		view: 'rotation',
-		rotationMode: 'euler',
-		order,
-		unit,
-		x,
-		y,
-		z
-	} as RotationEulerOptions;
+	$: value, BROWSER && updateInternalValue();
+	$: internalValue, BROWSER && updateValue();
+	$: BROWSER &&
+		(options = {
+			view: 'rotation',
+			rotationMode: 'euler',
+			order,
+			unit,
+			x: optionsX,
+			y: optionsY,
+			z: optionsZ
+		});
 </script>
 
 <!--
 @component
 TODO
 
-Example:
+@example
 ```tsx
 TODO
 ```
@@ -100,11 +137,13 @@ TODO
 @sourceLink
 -->
 
-<GenericInputFolding
-	bind:expanded
-	bind:value={internalValue}
-	{buttonClass}
-	{options}
-	plugin={pluginModule}
-	{...$$restProps}
-/>
+{#if BROWSER}
+	<GenericInputFolding
+		bind:expanded
+		bind:value={internalValue}
+		{buttonClass}
+		{options}
+		plugin={pluginModule}
+		{...$$restProps}
+	/>
+{/if}

@@ -10,7 +10,6 @@
 </script>
 
 <script lang="ts">
-	import type { Simplify } from 'type-fest';
 	import type { CubicBezierBladeParams as CubicBezierOptions } from '@tweakpane/plugin-essentials/dist/types/cubic-bezier/plugin.d.ts';
 	import GenericBladeFolding from '../../internal/GenericBladeFolding.svelte';
 	import type { CubicBezierApi as CubicBezierRef } from '@tweakpane/plugin-essentials';
@@ -19,7 +18,6 @@
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 
-	// TODO take an object as well as a tuple?
 	type $$Props = Omit<
 		ComponentProps<GenericBladeFolding<CubicBezierOptions, CubicBezierRef>>,
 		'ref' | 'options' | 'plugin'
@@ -28,6 +26,7 @@
 		 * The cubic bezier value to control.
 		 *
 		 * Object value type is a convenience added by `svelte-tweakpane-ui`, and is not part of the original `@tweakpane/plugin-essentials` API.
+		 * @type {CubicBezierValue}
 		 * @bindable
 		 */
 		value: CubicBezierValue;

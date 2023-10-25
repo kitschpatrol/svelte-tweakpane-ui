@@ -6,22 +6,35 @@
 	import { getContext, onDestroy, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
-	import type { TabApi } from 'tweakpane';
+	import type { TabApi as TabRef } from 'tweakpane';
 
-	/** Prevent interactivity. Defaults to `false`. */
+	/**
+	 * Prevent interactivity.
+	 * @default `false`
+	 * */
 	export let disabled: boolean = false;
 
-	/** Active page index. Bindable. */
+	/**
+	 * Active page index.
+	 * @default `0`
+	 * @bindable
+	 * */
 	export let selectedIndex: number = 0;
 
-	/** Custom color scheme. Only applies if the `<Tab>` is created outside a `<Pane>` component. */
+	/**
+	 * Custom color scheme.
+	 * @default `undefined` (Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with `setGlobalDefaultTheme()`.)
+	 * */
 	export let theme: Theme | undefined = undefined;
 
 	const parentStore: Writable<Container> = getContext('parentStore');
-	const tabStore = writable<TabApi>();
+
+	const tabStore = writable<TabRef>();
 	setContext('tabStore', tabStore);
+
 	const tabIndexStore = writable<number>();
 	setContext('tabIndexStore', tabIndexStore);
+
 	const userCreatedPane = getContext('userCreatedPane');
 
 	let indexElement: HTMLDivElement;
@@ -41,7 +54,7 @@
 	});
 
 	// TODO does this need cleanup?
-	function setUpListeners(t: TabApi) {
+	function setUpListeners(t: TabRef) {
 		t?.on('select', (e) => {
 			selectedIndex = e.index;
 		});
@@ -74,8 +87,12 @@ Wraps Tweakpane's [addTab](https://tweakpane.github.io/docs/ui-components/#tab) 
 
 Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane position='inline'>`.
 
-Example:	
+@example	
 ```tsx
+<script lang="ts">
+	import { Tab, PageTransitionEvent, Button  } from 'svelte-tweakpane-ui';
+</script>
+
 <Tab>
 	<Page title="A">
 		<Button title="Button A" on:click={() => alert('A...')} />
