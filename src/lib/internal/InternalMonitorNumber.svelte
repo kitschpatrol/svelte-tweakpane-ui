@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
 	import type { NumberMonitorParams } from '@tweakpane/core';
-	export type InternalMonitorNumberOptions = NumberMonitorParams;
+	export type InternalMonitorNumberOptions = Partial<NumberMonitorParams>;
 </script>
 
 <script lang="ts">
@@ -66,7 +66,7 @@
 			max,
 			min,
 			format: formatProxy
-		} as InternalMonitorNumberOptions);
+		});
 </script>
 
 <!--

@@ -40,9 +40,9 @@
 	// options.color.alpha,
 	// options.color.type
 
-	const options = {
+	const options: ColorOptions = {
 		view: 'color'
-	} as ColorOptions;
+	};
 </script>
 
 <!--

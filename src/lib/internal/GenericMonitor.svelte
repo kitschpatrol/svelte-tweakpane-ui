@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
 	import type { BaseMonitorParams, MonitorBindingApi } from '@tweakpane/core';
-	export type GenericMonitorOptions = BaseMonitorParams;
+	export type GenericMonitorOptions = Partial<BaseMonitorParams>; // we take care of readonly...
 	export type GenericMonitorRef = MonitorBindingApi;
 </script>
 
@@ -53,7 +53,7 @@
 			interval: interval ?? 0, // zero confirmed as never updating (not same interface as setInterval())
 			...options,
 			readonly: true
-		} as GenericMonitorOptions);
+		});
 </script>
 
 <!--

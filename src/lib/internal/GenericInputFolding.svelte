@@ -77,7 +77,7 @@
 			...options,
 			picker,
 			expanded: initialExpanded // only set once
-		} as GenericInputFoldingOptions);
+		});
 
 	// click instead of setting expanded
 	// to avoid  animation jankiness

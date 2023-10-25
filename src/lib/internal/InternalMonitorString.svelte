@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
 	import type { StringMonitorParams } from '@tweakpane/core';
-	export type InternalMonitorStringOptions = StringMonitorParams;
+	export type InternalMonitorStringOptions = Partial<StringMonitorParams>;
 </script>
 
 <script lang="ts">
@@ -35,7 +35,7 @@
 	$: BROWSER &&
 		(options = {
 			multiline
-		} as InternalMonitorStringOptions);
+		});
 </script>
 
 <!--

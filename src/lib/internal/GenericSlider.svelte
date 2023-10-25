@@ -75,7 +75,7 @@
 			keyScale,
 			format: formatProxy,
 			...options
-		} as GenericSliderOptions);
+		});
 </script>
 
 <!--

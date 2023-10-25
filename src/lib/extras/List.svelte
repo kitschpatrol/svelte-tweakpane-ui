@@ -100,7 +100,7 @@
 			view: 'list',
 			label,
 			options: getInternalOptions(options)
-		} as ListBladeParams<T>);
+		});
 	$: BROWSER && listBlade && addEvent();
 	$: value, BROWSER && listBlade && setValue();
 </script>

@@ -25,7 +25,7 @@
 		(optionsInternal = {
 			...options,
 			readonly: false
-		} as GenericInputOptions);
+		});
 </script>
 
 <!--

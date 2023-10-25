@@ -12,9 +12,9 @@
 	// Direct prop import is wrapped in some extra stuff we don't want
 	// import type { WaveformProps } from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
 	type WaveformMonitorOptions = GenericMonitorOptions & {
-		max: number;
-		min: number;
-		lineStyle: WaveformMonitorLineStyle;
+		max?: number;
+		min?: number;
+		lineStyle?: WaveformMonitorLineStyle;
 	};
 
 	type $$Props = Omit<
@@ -57,7 +57,7 @@
 			max,
 			min,
 			lineStyle
-		} as WaveformMonitorOptions);
+		});
 </script>
 
 <!--
