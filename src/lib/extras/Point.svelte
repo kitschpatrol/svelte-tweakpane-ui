@@ -45,11 +45,10 @@
 		: unknown;
 
 	// some redefinition of props from GenericSlider, but redefining since we want to refine the documentation anyway
-	interface $$Props
-		extends Omit<
-			ComponentProps<GenericInputFolding<T, PointOptions<T>>>,
-			'options' | 'buttonClass' | 'ref' | 'plugin'
-		> {
+	type $$Props = Omit<
+		ComponentProps<GenericInputFolding<T, PointOptions<T>>>,
+		'options' | 'buttonClass' | 'ref' | 'plugin'
+	> & {
 		/**
 		 * The minimum value for all dimensions.
 		 * @default `undefined` (no minimum)
@@ -117,7 +116,7 @@
 		 * @bindable
 		 * */
 		value: T;
-	}
+	};
 
 	// reexported for bindability
 	export let value: $$Props['value'];

@@ -11,11 +11,10 @@
 	// multifile structure is legacy of previous non-dynamic component approach
 	// TODO consolidate eventually if dynamic components prove reliable
 
-	interface $$Props
-		extends Omit<
-			ComponentProps<GenericMonitor<string, InternalMonitorStringOptions>>,
-			'options' | 'ref' | 'plugin' | 'interval'
-		> {
+	type $$Props = Omit<
+		ComponentProps<GenericMonitor<string, InternalMonitorStringOptions>>,
+		'options' | 'ref' | 'plugin' | 'interval'
+	> & {
 		/**
 		 * Display multiline strings.
 		 * @default `false`
@@ -25,7 +24,7 @@
 		 * A `string` value to monitor.
 		 * */
 		value: string;
-	}
+	};
 
 	// redeclare for bindability
 	export let value: $$Props['value'];

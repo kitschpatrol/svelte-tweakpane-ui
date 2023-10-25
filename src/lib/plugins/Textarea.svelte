@@ -5,11 +5,10 @@
 	import type { ComponentProps } from 'svelte';
 	import GenericInput from '../internal/GenericInput.svelte';
 
-	interface $$Props
-		extends Omit<
-			ComponentProps<GenericInput<string, TextareaPluginInputParams>>,
-			'options' | 'ref' | 'plugin'
-		> {
+	type $$Props = Omit<
+		ComponentProps<GenericInput<string, TextareaPluginInputParams>>,
+		'options' | 'ref' | 'plugin'
+	> & {
 		/**
 		 * The number of lines of text to display.
 		 * @todo can you still go over?
@@ -26,7 +25,7 @@
 		 * @bindable
 		 * */
 		value: string;
-	}
+	};
 
 	// re-exported
 	export let value: $$Props['value'];

@@ -11,11 +11,10 @@
 	// multifile structure is legacy of previous non-dynamic component approach
 	// TODO consolidate eventually if dynamic components prove reliable
 
-	interface $$Props
-		extends Omit<
-			ComponentProps<GenericMonitor<number, InternalMonitorNumberOptions>>,
-			'options' | 'ref' | 'plugin'
-		> {
+	type $$Props = Omit<
+		ComponentProps<GenericMonitor<number, InternalMonitorNumberOptions>>,
+		'options' | 'ref' | 'plugin'
+	> & {
 		/**
 		 * Display a graph of the value's changes over time.
 		 * @default `false`
@@ -40,7 +39,7 @@
 		 * A `number` value to monitor.
 		 * */
 		value: number;
-	}
+	};
 
 	// redeclare for bindability
 	export let value: $$Props['value'];

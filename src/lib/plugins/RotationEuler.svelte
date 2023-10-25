@@ -25,11 +25,10 @@
 	import type { ComponentProps } from 'svelte';
 	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
 
-	interface $$Props
-		extends Omit<
-			ComponentProps<GenericInputFolding<RotationEulerValue, RotationEulerOptionsInternal>>,
-			'buttonClass' | 'options' | 'ref' | 'plugin'
-		> {
+	type $$Props = Omit<
+		ComponentProps<GenericInputFolding<RotationEulerValue, RotationEulerOptionsInternal>>,
+		'buttonClass' | 'options' | 'ref' | 'plugin'
+	> & {
 		/**
 		 * Order of in which rotations are applied.
 		 *
@@ -72,7 +71,7 @@
 		 * @bindable
 		 * */
 		value: RotationEulerValue;
-	}
+	};
 
 	// unique
 	export let value: $$Props['value'];

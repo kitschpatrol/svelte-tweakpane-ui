@@ -8,7 +8,7 @@
 
 	// duplicated here because it's not exported from the plugin...
 	// @tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
-	interface RadioGridOptions<T> extends GenericInputOptions {
+	type RadioGridOptions<T> = GenericInputOptions & {
 		cells: (
 			x: number,
 			y: number
@@ -19,14 +19,13 @@
 		groupName: string;
 		size: [number, number];
 		view: 'radiogrid';
-	}
+	};
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	interface $$Props
-		extends Omit<
-			ComponentProps<GenericInput<T, RadioGridOptions<T>>>,
-			'ref' | 'options' | 'plugin'
-		> {
+	type $$Props = Omit<
+		ComponentProps<GenericInput<T, RadioGridOptions<T>>>,
+		'ref' | 'options' | 'plugin'
+	> & {
 		/**
 		 * Name allowing multiple radio groups to share mutually exclusive selection state.
 		 *
@@ -65,7 +64,7 @@
 		 * @default `undefined`
 		 * */
 		prefix?: string;
-	}
+	};
 
 	// ensure no entangled selection across multiple RadioGrids,
 	// unless the user explicitly asks for it

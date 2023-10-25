@@ -13,11 +13,10 @@
 	import type { ColorInputParams as ColorOptions } from 'tweakpane';
 	import { BROWSER } from 'esm-env';
 
-	interface $$Props
-		extends Omit<
-			ComponentProps<GenericInputFolding<ColorValue, ColorOptions>>,
-			'buttonClass' | 'options' | 'ref' | 'plugin'
-		> {
+	type $$Props = Omit<
+		ComponentProps<GenericInputFolding<ColorValue, ColorOptions>>,
+		'buttonClass' | 'options' | 'ref' | 'plugin'
+	> & {
 		/**
 		 * A color value to control.
 		 *
@@ -25,7 +24,7 @@
 		 * @bindable
 		 * */
 		value: ColorValue;
-	}
+	};
 
 	// must redeclare for bindability
 	export let value: $$Props['value'];

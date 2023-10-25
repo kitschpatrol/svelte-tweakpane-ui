@@ -3,8 +3,7 @@
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
-	interface $$Props
-		extends Omit<ComponentProps<GenericInput<boolean>>, 'options' | 'ref' | 'plugin'> {}
+	type $$Props = Omit<ComponentProps<GenericInput<boolean>>, 'options' | 'ref' | 'plugin'>;
 
 	// must redeclare for bindability
 	export let value: $$Props['value'];

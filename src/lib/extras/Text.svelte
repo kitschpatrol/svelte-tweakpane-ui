@@ -3,14 +3,13 @@
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 
-	interface $$Props
-		extends Omit<ComponentProps<GenericInput<string>>, 'options' | 'ref' | 'plugin'> {
+	type $$Props = Omit<ComponentProps<GenericInput<string>>, 'options' | 'ref' | 'plugin'> & {
 		/**
 		 * A `string` value to control.
 		 * @bindable
 		 * */
 		value: string;
-	}
+	};
 
 	// reexport for bindability
 	export let value: $$Props['value'];

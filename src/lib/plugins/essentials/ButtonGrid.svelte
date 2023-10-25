@@ -19,11 +19,10 @@
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 
-	interface $$Props
-		extends Omit<
-			ComponentProps<Blade<ButtonGridOptions, ButtonGridRef>>,
-			'ref' | 'options' | 'plugin'
-		> {
+	type $$Props = Omit<
+		ComponentProps<Blade<ButtonGridOptions, ButtonGridRef>>,
+		'ref' | 'options' | 'plugin'
+	> & {
 		/**
 		 * Number of columns to arrange the buttons into.
 		 *
@@ -47,7 +46,7 @@
 		 * @default `undefined`
 		 */
 		label?: string;
-	}
+	};
 
 	// unique
 	export let columns: $$Props['columns'] = undefined;
@@ -56,13 +55,13 @@
 	export let label: $$Props['label'] = undefined;
 
 	// Seems to be the only way to get event comments to work
-	interface $$Events {
+	type $$Events = {
 		/**
 		 * Fires when a button is clicked.
 		 * @event
 		 * */
 		click: ButtonGridClickEvent;
-	}
+	};
 
 	const dispatch = createEventDispatcher<$$Events>();
 

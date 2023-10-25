@@ -11,16 +11,15 @@
 	// multifile structure is legacy of previous non-dynamic component approach
 	// TODO consolidate eventually if dynamic components prove reliable
 
-	interface $$Props
-		extends Omit<
-			ComponentProps<GenericMonitor<boolean, InternalMonitorBooleanOptions>>,
-			'options' | 'ref' | 'plugin' | 'interval'
-		> {
+	type $$Props = Omit<
+		ComponentProps<GenericMonitor<boolean, InternalMonitorBooleanOptions>>,
+		'options' | 'ref' | 'plugin' | 'interval'
+	> & {
 		/**
 		 * A `boolean` value to monitor.
 		 * */
 		value: boolean;
-	}
+	};
 
 	// redeclare for bindability
 	export let value: $$Props['value'];

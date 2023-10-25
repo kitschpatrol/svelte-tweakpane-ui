@@ -11,11 +11,10 @@
 
 	// Use a blade instead of an input to allow for additional value types
 	// TODO expose key value option that lets you bind to the active key?
-	interface $$Props
-		extends Omit<
-			ComponentProps<Blade<ListBladeParams<T>, ListBladeApi<T>>>,
-			'options' | 'ref' | 'plugin'
-		> {
+	type $$Props = Omit<
+		ComponentProps<Blade<ListBladeParams<T>, ListBladeApi<T>>>,
+		'options' | 'ref' | 'plugin'
+	> & {
 		/**
 		 * Value of the selected `options` item.
 		 * @bindable
@@ -32,7 +31,7 @@
 		 * The arbitrary array list type is a convenience addition to to vanilla Tweakpane's API.
 		 * */
 		options: ListOptions<T>;
-	}
+	};
 
 	// must redeclare for bindability
 	export let value: $$Props['value'];

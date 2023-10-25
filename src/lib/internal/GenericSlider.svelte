@@ -8,8 +8,7 @@
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 
-	interface $$Props
-		extends ComponentProps<GenericInput<T, GenericSliderOptions, GenericSliderRef>> {
+	type $$Props = ComponentProps<GenericInput<T, GenericSliderOptions, GenericSliderRef>> & {
 		/**
 		 * Minimum value.
 		 *
@@ -24,7 +23,10 @@
 		 * @default `undefined`
 		 * */
 		max?: number;
-		/** The minimum step interval. */
+		/**
+		 * The minimum step interval.
+		 * @default `undefined` (no step constraint)
+		 * */
 		step?: number;
 		/**
 		 * The unit scale for pointer-based input for all dimensions.
@@ -41,7 +43,7 @@
 		 * @default `undefined` (normal `.toString()` formatting)
 		 * */
 		format?: (value: number) => string;
-	}
+	};
 
 	// redeclare for bindability
 	export let value: $$Props['value'];

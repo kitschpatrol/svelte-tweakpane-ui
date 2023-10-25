@@ -5,7 +5,7 @@
 	import { BROWSER } from 'esm-env';
 	import { removeKeys } from '../utils.js';
 
-	interface $$Props extends Omit<ComponentProps<GenericPane>, 'paneRef' | 'userCreatedPane'> {
+	type $$Props = Omit<ComponentProps<GenericPane>, 'paneRef' | 'userCreatedPane'> & {
 		/**
 		 * Horizontal position of the pane relative to the left edge of the window, in pixels.
 		 *
@@ -25,7 +25,7 @@
 		 * @default `256`
 		 * */
 		width?: number;
-	}
+	};
 
 	// reexport for bindability
 	export let expanded: $$Props['expanded'] = undefined;

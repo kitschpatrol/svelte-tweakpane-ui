@@ -21,13 +21,10 @@
 	import type { RotationInputPluginQuaternionParams as RotationQuaternionOptionsInternal } from '@0b5vr/tweakpane-plugin-rotation/dist/types/RotationInputPluginQuaternionParams';
 	import { BROWSER } from 'esm-env';
 
-	interface $$Props
-		extends Omit<
-			ComponentProps<
-				GenericInputFolding<RotationQuaternionValue, RotationQuaternionOptionsInternal>
-			>,
-			'buttonClass' | 'options' | 'ref' | 'plugin'
-		> {
+	type $$Props = Omit<
+		ComponentProps<GenericInputFolding<RotationQuaternionValue, RotationQuaternionOptionsInternal>>,
+		'buttonClass' | 'options' | 'ref' | 'plugin'
+	> & {
 		/**
 		 * Input parameters specific to the X dimension.
 		 *
@@ -63,7 +60,7 @@
 		 * @bindable
 		 * */
 		value: RotationQuaternionValue;
-	}
+	};
 
 	// unique
 	export let value: $$Props['value'];

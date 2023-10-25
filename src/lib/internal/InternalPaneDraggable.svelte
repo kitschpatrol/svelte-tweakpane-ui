@@ -17,8 +17,8 @@
 
 	// Could extend from InternalPaneFixed, but need to revise documentation anyway
 	// Many gratuitous defined checks since NonNullable didn't work and not sure how to make an optional prop
-	// remain optional but with a default value in the $$Props interface
-	interface $$Props extends Omit<ComponentProps<GenericPane>, 'paneRef' | 'userCreatedPane'> {
+	// remain optional but with a default value in the $$Props type
+	type $$Props = Omit<ComponentProps<GenericPane>, 'paneRef' | 'userCreatedPane'> & {
 		/**
 		 * Horizontal position of the pane relative to the left edge of the window, in pixels.
 		 *
@@ -74,7 +74,7 @@
 		 * @default `"1"`
 		 */
 		localStoreId?: string;
-	}
+	};
 
 	// reexport for bindability
 	export let storePositionLocally: $$Props['storePositionLocally'] = true;

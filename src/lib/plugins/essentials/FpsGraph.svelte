@@ -7,11 +7,10 @@
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 
-	interface $$Props
-		extends Omit<
-			ComponentProps<Blade<FpsGraphOptions, FpsGraphRef>>,
-			'ref' | 'options' | 'plugin'
-		> {
+	type $$Props = Omit<
+		ComponentProps<Blade<FpsGraphOptions, FpsGraphRef>>,
+		'ref' | 'options' | 'plugin'
+	> & {
 		/**
 		 * Height of the FPS graph, in rows.
 		 * @default `2`
@@ -51,7 +50,7 @@
 		 * @default `undefined`
 		 * */
 		end?: () => void;
-	}
+	};
 
 	// reexport for bindability
 	export let rows: $$Props['rows'] = undefined; // default comes from implementation
@@ -77,14 +76,14 @@
 	let requestId: number;
 
 	// Seems to be the only way to get event comments to work
-	interface $$Events {
+	type $$Events = {
 		/**
 		 * Fires when the FPS value changes
 
 		 * @event
 		 * */
 		change: number;
-	}
+	};
 
 	const dispatch = createEventDispatcher<$$Events>();
 

@@ -10,7 +10,7 @@ import {
 export type ThemeValue = string;
 export type ThemeColorValue = ThemeValue | RgbaColorObject | RgbColorObject;
 
-interface ThemeKeys {
+type ThemeKeys = {
 	// Tweakpane
 	baseBackgroundColor?: ThemeColorValue;
 	baseBorderRadius?: ThemeValue;
@@ -48,11 +48,11 @@ interface ThemeKeys {
 	// pluginThumbnailListHeight?: ThemeValue;
 	// pluginThumbnailListThumbSize?: ThemeValue;
 	// pluginThumbnailListWidth?: ThemeValue;
-}
+};
 
-interface CustomThemeKeys {
+type CustomThemeKeys = {
 	[key: string]: ThemeColorValue;
-}
+};
 
 export type Theme = ThemeKeys & CustomThemeKeys;
 

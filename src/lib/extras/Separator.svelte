@@ -8,11 +8,10 @@
 	import { BROWSER } from 'esm-env';
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	interface $$Props
-		extends Omit<
-			ComponentProps<Blade<SeparatorOptions, SeparatorBladeRef>>,
-			'options' | 'ref' | 'plugin'
-		> {}
+	type $$Props = Omit<
+		ComponentProps<Blade<SeparatorOptions, SeparatorBladeRef>>,
+		'options' | 'ref' | 'plugin'
+	>;
 
 	const options: SeparatorOptions = {
 		view: 'separator'

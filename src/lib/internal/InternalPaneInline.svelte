@@ -6,13 +6,13 @@
 	import type { Pane as TpPane } from 'tweakpane';
 	import { removeKeys } from '../utils.js';
 
-	interface $$Props extends Omit<ComponentProps<GenericPane>, 'paneRef'> {
+	type $$Props = Omit<ComponentProps<GenericPane>, 'paneRef'> & {
 		/**
 		 * Width of the pane, in pixels.
 		 * @default `undefined` (fills container width)
 		 * */
 		width?: number;
-	}
+	};
 
 	// reexport for bindability
 	export let expanded: $$Props['expanded'] = undefined;

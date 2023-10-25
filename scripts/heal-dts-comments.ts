@@ -71,14 +71,14 @@ function getPropsForComponent(componentName: string): PropertySignature[] | unde
 	});
 }
 
-// looks at use of ComponentProps in $$Props interface to find the name of the component that is extended
+// looks at use of ComponentProps in $$Props type to find the name of the component that is extended
 function getParentComponentNames(componentName: string): string[] {
 	const project = new Project();
 	const definitionFile = project.addSourceFileAtPath(findSourceFile(componentName));
 
 	return (
 		// https://github.com/phenomnomnominal/tsquery/issues/31
-		// supports both interface and type
+		// supports both interface and type declarations...
 		queryAll<PropertySignature>(
 			definitionFile,
 			':matches(ExpressionWithTypeArguments[expression.name="ComponentProps"], TypeReference[typeName.name="ComponentProps"]) > TypeReference > Identifier'

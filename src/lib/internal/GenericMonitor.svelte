@@ -12,7 +12,7 @@
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 
-	interface $$Props extends ComponentProps<GenericBinding<T, U, V>> {
+	type $$Props = ComponentProps<GenericBinding<T, U, V>> & {
 		/**
 		 * Number of visible rows of state history.
 		 *
@@ -33,7 +33,7 @@
 		 * @default `0`
 		 * */
 		interval?: number;
-	}
+	};
 
 	// reexport for bindability
 	export let value: $$Props['value']; // still has to be passed manually since it's required

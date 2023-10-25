@@ -13,11 +13,10 @@
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 
-	interface $$Props
-		extends Omit<
-			ComponentProps<Blade<ProfilerOptions, ProfilerRef>>,
-			'ref' | 'options' | 'plugin'
-		> {
+	type $$Props = Omit<
+		ComponentProps<Blade<ProfilerOptions, ProfilerRef>>,
+		'ref' | 'options' | 'plugin'
+	> & {
 		/**
 		 * TODO Docs
 		 * @default `30`
@@ -68,7 +67,7 @@
 		 * @default `500`
 		 */
 		interval?: number;
-	}
+	};
 
 	// special case function export
 	export function measure(name: string, fn: () => void): void {

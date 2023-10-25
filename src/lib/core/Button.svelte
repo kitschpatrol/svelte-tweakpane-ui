@@ -35,13 +35,13 @@
 	const userCreatedPane = getContext('userCreatedPane');
 
 	// Seems to be the only way to get event comments to work
-	interface $$Events {
+	type $$Events = {
 		/**
 		 * Fires when the button is clicked.
 		 * @event
 		 * */
 		click: null;
-	}
+	};
 
 	const dispatch = createEventDispatcher<$$Events>();
 

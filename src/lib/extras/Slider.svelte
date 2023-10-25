@@ -3,13 +3,13 @@
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 
-	interface $$Props extends Omit<ComponentProps<GenericSlider<number>>, 'options'> {
+	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options'> & {
 		/**
 		 * A `number` value to control.
 		 * @bindable.
 		 * */
 		value: number;
-	}
+	};
 
 	// reexport for bindability
 	export let value: $$Props['value'];

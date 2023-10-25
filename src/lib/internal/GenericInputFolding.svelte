@@ -16,7 +16,7 @@
 	import GenericInput from './GenericInput.svelte';
 
 	// TODO share prop definitions with GenericBladeFolding?
-	interface $$Props extends ComponentProps<GenericInput<T, U, V>> {
+	type $$Props = ComponentProps<GenericInput<T, U, V>> & {
 		/**
 		 * Allow users to interactively expand / contract the picker.
 		 * @default `true`
@@ -38,7 +38,7 @@
 		 * @default `'popup'`
 		 */
 		picker?: PickerLayout; // technically not guaranteed, but advantages to assuming it's there for coherent clickToExpand behavior
-	}
+	};
 
 	// reexport for bindability
 	export let value: $$Props['value'];

@@ -17,24 +17,23 @@
 		lineStyle: WaveformMonitorLineStyle;
 	};
 
-	interface $$Props
-		extends Omit<
-			ComponentProps<GenericMonitor<WaveformMonitorValue, WaveformMonitorOptions>>,
-			'options' | 'ref' | 'plugin'
-		> {
+	type $$Props = Omit<
+		ComponentProps<GenericMonitor<WaveformMonitorValue, WaveformMonitorOptions>>,
+		'options' | 'ref' | 'plugin'
+	> & {
 		/**
 		 * Maximum graph bound.
-		 * @default 100
+		 * @default `100`
 		 * */
 		max?: number;
 		/**
 		 * Minimum graph bound.
-		 * @default 0
+		 * @default `0`
 		 * */
 		min?: number;
 		/**
 		 * Maximum graph bound.
-		 * @default 100
+		 * @default `'linear''`
 		 * */
 		lineStyle?: 'linear' | 'bezier';
 		/**
@@ -42,7 +41,7 @@
 		 * @bindable
 		 * */
 		value: Uint8Array | Uint16Array | Uint32Array | number[];
-	}
+	};
 
 	// unique
 	export let value: $$Props['value'];

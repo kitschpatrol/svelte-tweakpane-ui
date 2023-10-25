@@ -15,8 +15,10 @@
 	import { BROWSER } from 'esm-env';
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	interface $$Props
-		extends Omit<ComponentProps<GenericSlider<IntervalSliderValue>>, 'ref' | 'options' | 'plugin'> {
+	type $$Props = Omit<
+		ComponentProps<GenericSlider<IntervalSliderValue>>,
+		'ref' | 'options' | 'plugin'
+	> & {
 		/**
 		 * Interval value to control.
 		 *
@@ -29,7 +31,7 @@
 		 * @bindable
 		 * */
 		meanValue?: number;
-	}
+	};
 
 	// reexport for bindability
 	export let value: $$Props['value'];

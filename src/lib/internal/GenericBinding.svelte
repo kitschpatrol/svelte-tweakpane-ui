@@ -12,17 +12,17 @@
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 
-	interface BindableValue extends BindingObject {
+	type BindableValue = BindingObject & {
 		[x: string]: T;
-	}
+	};
 
-	interface $$Props extends Omit<ComponentProps<Binding<BindableValue, U, V>>, 'key' | 'object'> {
+	type $$Props = Omit<ComponentProps<Binding<BindableValue, U, V>>, 'key' | 'object'> & {
 		/**
 		 * The value to control.
 		 * @bindable
 		 * */
 		value: T;
-	}
+	};
 
 	// reexport for bindability
 	export let value: $$Props['value'];
