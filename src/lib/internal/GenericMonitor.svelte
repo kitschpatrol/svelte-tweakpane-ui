@@ -18,7 +18,6 @@
 		 *
 		 * If `bufferSize` is larger, then the value window will scroll once state history exceeds row count.
 		 * @default `1` (Or `3` if value is `string` and `multiline` is `true`.)
-		 * @todo vet default
 		 * */
 		rows?: number;
 		/**

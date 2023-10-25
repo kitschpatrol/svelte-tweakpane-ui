@@ -29,13 +29,7 @@
 	export let ref: $$Props['ref'] = undefined;
 	export let options: $$Props['options'] = undefined;
 
-	// TODO but is a UUID overkill since the scope is contained? consider just 'k'?
-	// using the label as a key means components get recreated when labels change...
-	// this has some advantages in terms of readability when inspecting runtime code, but probably
-	// isn't worth it from a performance perspective...
-	// but full UUID only hypothetically useful in some kind of save / restore scenario?
-	// $: key = makeSafeKey(label);
-	const key = 'k';
+	const key = Symbol('key');
 
 	function getValue(): T {
 		return value;

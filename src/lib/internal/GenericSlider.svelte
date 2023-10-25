@@ -59,7 +59,6 @@
 	// firing even when the function hasn't changed
 	// probably related to https://github.com/sveltejs/svelte/issues/4265
 	// possibly fixable with immutable=true but I don't want to go there
-	// TODO evaluate other non-primitive prop access
 	let formatProxy: typeof format = format;
 	$: BROWSER && formatProxy !== format && (formatProxy = format);
 

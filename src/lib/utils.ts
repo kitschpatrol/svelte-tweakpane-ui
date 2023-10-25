@@ -80,7 +80,6 @@ export function updateCollapsability(
 			}
 		}
 	} else {
-		// TODO silence this...
 		console.warn(`Title bar element not found with class "${titleBarClass}"`);
 	}
 }

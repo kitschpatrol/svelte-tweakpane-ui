@@ -258,7 +258,6 @@
 		if (paneRef) {
 			containerElement.appendChild(paneRef.element);
 		} else {
-			// todo remove if not needed
 			console.warn('no pane ref in draggable');
 		}
 
@@ -406,7 +405,7 @@ This component is for internal use only.
 
 	:global(div.draggable-container.not-collapsable div.tp-rotv_t) {
 		/* TODO remove the magic numbers */
-		/* Expand the drag bar to fill the missing collapse icon space */
+		/* Expand the drag bar to fill the missing window shade icon space */
 		margin-left: -28px;
 		padding-left: 28px;
 	}

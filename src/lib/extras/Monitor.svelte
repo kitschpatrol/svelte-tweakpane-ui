@@ -33,7 +33,6 @@
 		: U extends number
 		? ComponentProps<InternalMonitorNumber>
 		: {
-				// TODO tooltip never appears?
 				/**
 				 * A value to monitor.
 				 * @bindable
@@ -44,7 +43,7 @@
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = Omit<
 		ComponentProps<GenericMonitor<W, optionsForType<W>>>,
-		'options' | 'ref' | 'plugin'
+		'options' | 'ref' | 'plugin' | 'value'
 	> &
 		propsForType<W>;
 
