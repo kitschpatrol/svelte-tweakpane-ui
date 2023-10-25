@@ -1,6 +1,5 @@
 import { Project, type PropertySignature, type Node, type JSDoc } from 'ts-morph';
 import ts from 'typescript';
-import fs from 'fs';
 import { globSync } from 'glob';
 import path from 'path';
 import { query as tsquery } from '@phenomnomnominal/tsquery';
@@ -9,6 +8,9 @@ import { query as tsquery } from '@phenomnomnominal/tsquery';
 // manually adding missing prop comments from ancestor components
 // run after build to modify the .d.ts files in dist
 // idempotent
+
+// see https://tsquery-playground.firebaseapp.com
+// and https://astexplorer.net/
 
 // extra logging
 const verbose = false;
@@ -71,13 +73,17 @@ function getPropsForComponent(componentName: string): PropertySignature[] | unde
 
 // looks at use of ComponentProps in $$Props interface to find the name of the component that is extended
 function getParentComponentNames(componentName: string): string[] {
-	// Getting this reliably with tsquery proved too complicated
-	const regex = /ComponentProps<([a-zA-Z0-9_-]+)/g;
-	return fs
-		.readFileSync(findSourceFile(componentName), 'utf-8')
-		.split('\n')
-		.filter((line) => !/^\s*\/\/|^\s*\/\*/.test(line)) // ignore comments
-		.flatMap((line) => Array.from(line.matchAll(regex)).map((match) => match[1]));
+	const project = new Project();
+	const definitionFile = project.addSourceFileAtPath(findSourceFile(componentName));
+
+	return (
+		// https://github.com/phenomnomnominal/tsquery/issues/31
+		// supports both interface and type
+		queryAll<PropertySignature>(
+			definitionFile,
+			':matches(ExpressionWithTypeArguments[expression.name="ComponentProps"], TypeReference[typeName.name="ComponentProps"]) > TypeReference > Identifier'
+		)?.map((node) => node.getText()) ?? []
+	);
 }
 
 // pass the component with the missing prop, looks up hierarchy
