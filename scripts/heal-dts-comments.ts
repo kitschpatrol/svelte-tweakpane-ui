@@ -1,8 +1,13 @@
-import { Project, type PropertySignature, type Node, type JSDoc } from 'ts-morph';
-import ts from 'typescript';
+import { query as tsquery } from '@phenomnomnominal/tsquery';
 import { globSync } from 'glob';
 import path from 'path';
-import { query as tsquery } from '@phenomnomnominal/tsquery';
+import {
+	Project,
+	type JSDoc,
+	type MethodSignature,
+	type Node,
+	type PropertySignature
+} from 'ts-morph';
 
 // works around https://github.com/sveltejs/language-tools/issues/2186 by
 // manually adding missing prop comments from ancestor components
@@ -15,7 +20,19 @@ import { query as tsquery } from '@phenomnomnominal/tsquery';
 // extra logging
 const verbose = false;
 
-// Helpers
+// tsquery strings
+
+const propsAllQueryString =
+	':declaration [name.name="props"] :matches(PropertySignature, MethodSignature):not(:declaration [name.name="props"] :matches(PropertySignature, MethodSignature) :matches(PropertySignature, MethodSignature))';
+const propsWithCommentsQueryString = `${propsAllQueryString}:has([jsDoc])`;
+const propsWithoutCommentsQueryString = `${propsAllQueryString}:not(:has([jsDoc]))`;
+function buildQueryForPropNameWithComment(name: string): string {
+	return `${propsWithCommentsQueryString}[name.name="${name}"]`;
+}
+const parentComponentsQueryString =
+	':matches(ExpressionWithTypeArguments[expression.name="ComponentProps"], TypeReference[typeName.name="ComponentProps"]) > TypeReference > Identifier';
+
+// helper functions
 
 function findFile(base: string, componentName: string, suffix: string): string {
 	// this will break if multiple components with the same name exist
@@ -40,160 +57,79 @@ function findSourceFile(componentName: string): string {
 	return findFile('src/lib', componentName, '.svelte');
 }
 
-// returns first match, or undefined
-function queryAll<T extends Node>(node: Node, tsqueryString: string): T[] | undefined {
-	const result = tsquery(node.compilerNode, tsqueryString).map(
+// returns matches as ts-morph nodes via tsquery, zero length if no matches
+function query<T extends Node>(node: Node, tsqueryString: string): T[] {
+	return tsquery(node.compilerNode, tsqueryString).map(
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(n) => (node as any)._getNodeFromCompilerNode(n) as Node
 	) as T[];
-	return result.length > 0 ? result : undefined;
-}
-
-// gets all props for a given component from its definition file
-function getPropsForComponent(componentName: string): PropertySignature[] | undefined {
-	const project = new Project();
-	const definitionFile = project.addSourceFileAtPath(findDefinitionFile(componentName));
-
-	return queryAll<PropertySignature>(
-		definitionFile,
-		':declaration [name.name="props"] PropertySignature'
-	)?.filter((prop) => {
-		// don't include props that are nested in other props, e.g. on <Point>
-		// can't seem to limit depth in tsquery alone
-		const firstPropertySignatureAncestor = prop.getFirstAncestorByKind(
-			ts.SyntaxKind.PropertySignature
-		);
-
-		return (
-			firstPropertySignatureAncestor === undefined ||
-			firstPropertySignatureAncestor.getText().startsWith('props')
-		);
-	});
 }
 
 // looks at use of ComponentProps in $$Props type to find the name of the component that is extended
 function getParentComponentNames(componentName: string): string[] {
-	const project = new Project();
-	const definitionFile = project.addSourceFileAtPath(findSourceFile(componentName));
-
-	return (
-		// https://github.com/phenomnomnominal/tsquery/issues/31
-		// supports both interface and type declarations...
-		queryAll<PropertySignature>(
-			definitionFile,
-			':matches(ExpressionWithTypeArguments[expression.name="ComponentProps"], TypeReference[typeName.name="ComponentProps"]) > TypeReference > Identifier'
-		)?.map((node) => node.getText()) ?? []
-	);
+	return query<PropertySignature | MethodSignature>(
+		new Project().addSourceFileAtPath(findSourceFile(componentName)),
+		parentComponentsQueryString
+	).map((node) => node.getText());
 }
 
-// pass the component with the missing prop, looks up hierarchy
-function findPropComment(componentName: string, propName: string): JSDoc[] | undefined {
+function getCommentForProp(componentName: string, propName: string): JSDoc[] | undefined {
+	return query<PropertySignature | MethodSignature>(
+		new Project().addSourceFileAtPath(findDefinitionFile(componentName)),
+		buildQueryForPropNameWithComment(propName)
+	)
+		.at(0)
+		?.getJsDocs();
+	// TODO check for zero length?
+}
+
+// recursively walks up the component inheritance chain to find a comment for a prop
+function findPropCommentInParent(componentName: string, propName: string): JSDoc[] | undefined {
 	// some components extend multiple components, e.g. Pane, Monitor
-	// store at least one result from the parents...
+	const parentComponents = getParentComponentNames(componentName);
 
 	let comment: JSDoc[] | undefined;
-
-	for (const parentName of getParentComponentNames(componentName)) {
-		verbose &&
-			console.log(`Looking for "${propName}" in <${componentName}> with parent <${parentName}>`);
-
-		const parentProp = getPropsForComponent(parentName)?.find((parentProp) => {
-			return parentProp.getName() === propName && parentProp.getJsDocs().length > 0;
-		});
-
-		if (parentProp !== undefined) {
-			verbose && console.log(`Found ${parentProp.getName()} with comment in from <${parentName}>`);
-			comment = parentProp.getJsDocs();
-		} else {
-			// recurse and look up the chain
-			verbose && console.log(`Going up the chain from <${parentName}>`);
-			const result = findPropComment(parentName, propName);
-			if (result !== undefined) comment = result;
-		}
+	while (comment === undefined && parentComponents.length > 0) {
+		const parent = parentComponents.pop()!;
+		// recurse as needed
+		comment = getCommentForProp(parent, propName) ?? findPropCommentInParent(parent, propName);
 	}
 
 	return comment;
 }
 
-// sets the prop comments for a given component in its definition file
-function setPropsForComponent(componentName: string, props: PropertySignature[]) {
-	const project = new Project();
-	const sourceFile = project.addSourceFileAtPath(findDefinitionFile(componentName));
-
-	// TODO tsqery
-	sourceFile
-		.getFirstDescendant((n) => {
-			return (
-				(n.isKind(ts.SyntaxKind.PropertySignature) || n.isKind(ts.SyntaxKind.MethodDeclaration)) &&
-				n.getText().startsWith('props')
-			);
-		})
-		?.getDescendantsOfKind(ts.SyntaxKind.PropertySignature)
-		.filter((prop) => {
-			// don't include props that are nested in other props, e.g. on <Point>
-			// TODO what about method signature ancestors?
-			const firstPropertySignatureAncestor = prop.getFirstAncestorByKind(
-				ts.SyntaxKind.PropertySignature
-			);
-
-			return (
-				firstPropertySignatureAncestor === undefined ||
-				firstPropertySignatureAncestor.getText().startsWith('props')
-			);
-		})
-		.forEach((prop) => {
-			const matchingProp = props.find(
-				(p) => p.getName() === prop.getName() && p.getJsDocs().length > 0
-			);
-			if (matchingProp !== undefined && prop.getJsDocs().length === 0) {
-				prop.insertJsDocs(
-					0,
-					matchingProp.getJsDocs().map((jsDoc) => jsDoc.getStructure())
-				);
-			} else {
-				verbose && console.error(`No matching prop found for ${prop.getName()}`);
-			}
-		});
-
-	sourceFile.saveSync();
-}
-
-// rewrites the component's definition file with the comments from the parent as needed
-// returns number of comments added
 function inheritPropCommentsAndSave(componentName: string): number {
 	let quantityFixed = 0;
-	const ammendedProps = getPropsForComponent(componentName);
 
-	if (ammendedProps !== undefined) {
-		ammendedProps.forEach((prop) => {
-			if (prop.getJsDocs().length > 0) {
-				verbose && console.log(`Already have comment for ${prop.getName()}`);
-			} else {
-				const parentComment = findPropComment(componentName, prop.getName());
+	const definitionFile = new Project().addSourceFileAtPath(findDefinitionFile(componentName));
 
-				if (parentComment !== undefined) {
-					verbose &&
-						console.log(`Adding comment from parent "${componentName}" for "${prop.getName()}"`);
-					quantityFixed++;
-					prop.insertJsDocs(
-						0,
-						parentComment.map((jsDoc) => jsDoc.getStructure())
-					);
-				}
-			}
-		});
+	query<PropertySignature | MethodSignature>(
+		definitionFile,
+		propsWithoutCommentsQueryString
+	)?.forEach((propNode) => {
+		// check self first, then go up the component inheritance chain
+		const comments =
+			getCommentForProp(componentName, propNode.getName()) ??
+			findPropCommentInParent(componentName, propNode.getName());
 
-		setPropsForComponent(componentName, ammendedProps);
-	} else {
-		console.warn(`No props found for ${componentName}`);
-	}
+		if (comments) {
+			propNode.insertJsDocs(
+				0,
+				comments.map((jsDoc) => jsDoc.getStructure())
+			);
+			quantityFixed++;
+		} else {
+			console.warn(
+				`Component <${componentName}> is missing comment for prop "${propNode.getName()}"`
+			);
+		}
+	});
 
+	definitionFile.saveSync();
 	return quantityFixed;
 }
 
 // Main
-
-let quantityFixed = 0;
 
 // Run on all components found in dist
 // Order doesn't matter since going up the chain is consistent
@@ -203,20 +139,13 @@ const componentNames = globSync('./dist/**/*.svelte.d.ts').map((file) => {
 
 console.log(`Healing missing prop comments for ${componentNames.length} components...`);
 
+let totalPropsFixed = 0;
+
 componentNames.forEach((componentName) => {
 	verbose && console.log(`Adding missing prop comments for "${componentName}"`);
-	quantityFixed += inheritPropCommentsAndSave(componentName);
-});
-
-// Audit
-componentNames.forEach((componentName) => {
-	getPropsForComponent(componentName)?.forEach((prop) => {
-		if (prop.getJsDocs().length === 0) {
-			console.warn(`Component <${componentName}> is missing comment for prop "${prop.getName()}"`);
-		}
-	});
+	totalPropsFixed += inheritPropCommentsAndSave(componentName);
 });
 
 console.log(
-	`Done. Found and fixed ${quantityFixed} missing .d.ts component prop JSDoc annotations.`
+	`Done. Found and fixed ${totalPropsFixed} missing .d.ts component prop JSDoc annotations.`
 );

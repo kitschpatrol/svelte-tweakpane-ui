@@ -32,7 +32,7 @@
 		 * */
 		min?: number;
 		/**
-		 * Maximum graph bound.
+		 * Line style.
 		 * @default `'linear''`
 		 * */
 		lineStyle?: 'linear' | 'bezier';
