@@ -114,7 +114,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the button in `<Pane 
 />
 <pre>
 	Count: {count}
-<pre>
+</pre>
 ```
 
 @sourceLink
