@@ -1,9 +1,16 @@
 // TypeScript AST traversal and extraction tools used by various scripts.
+
 import { query as tsquery } from '@phenomnomnominal/tsquery';
 import { globSync } from 'glob';
 import path from 'path';
-
-import { Project, type MethodSignature, type Node, type PropertySignature } from 'ts-morph';
+import {
+	Project,
+	type MethodSignature,
+	type Node,
+	type PropertySignature,
+	type ClassDeclaration,
+	StringLiteral
+} from 'ts-morph';
 
 // this will break if multiple components with the same name exist in different folders
 function findFile(
@@ -36,8 +43,23 @@ export function getSourceFilePath(componentName: string, warn: boolean = true): 
 }
 
 export function getAllLibComponentNames(): string[] {
-	return globSync('./dist/**/*.svelte.d.ts').map((file) => {
-		return path.basename(file).replace('.svelte.d.ts', '');
+	// what happens with js components?
+	return globSync('./src/lib/**/*.svelte').map((file) => {
+		return path.basename(file).replace('.svelte', '');
+	});
+}
+
+export function getExportedComponents(indexPath: string): { name: string; path: string }[] {
+	return queryTree<StringLiteral>(
+		new Project().addSourceFileAtPath(indexPath),
+		'ExportDeclaration StringLiteral[value=/.+.svelte/]'
+	).map((node) => {
+		const cleanPath = node.getText().replace(/['"]/g, '');
+
+		return {
+			name: path.basename(cleanPath).replace('.svelte', ''),
+			path: cleanPath
+		};
 	});
 }
 
@@ -95,4 +117,41 @@ function getPropsInternal(
 			(include === 'uncommented' ? ':not(:has([jsDoc]))' : '') +
 			(propName !== undefined ? `[name.name="${propName}"]` : '')
 	);
+}
+
+// doc-specific
+
+function extractCodeBlock(inputString: string): string | undefined {
+	const regex = /```(?:tsx)([\s\S]+?)```/gm;
+	const match = regex.exec(inputString);
+	if (match && match[1]) {
+		return match[1].trim();
+	}
+	return;
+}
+
+export function getComponentExampleCode(source: string | Node): string | undefined {
+	const classDeclaration = queryTree<ClassDeclaration>(
+		typeof source === 'string'
+			? new Project().addSourceFileAtPath(getDefinitionFilePath(source) ?? source)
+			: source,
+		'ClassDeclaration:has([jsDoc]):has(ExportKeyword)'
+	).at(0);
+
+	if (classDeclaration) {
+		// try for an actual @example tag in case there are multiple code block
+		const comment =
+			classDeclaration
+				.getJsDocs()
+				?.at(0)
+				?.getTags()
+				.find((tag) => tag.getTagName() === 'example')
+				?.getCommentText() ?? classDeclaration.getJsDocs()?.at(0)?.getCommentText();
+
+		if (comment) {
+			return extractCodeBlock(comment);
+		}
+	}
+
+	return undefined;
 }

@@ -74,6 +74,4 @@ export {
 	type RotationQuaternionOptions
 } from './plugins/RotationQuaternion.svelte';
 export { default as Textarea } from './plugins/Textarea.svelte';
-// TODO broken
-// export { default as ThumbnailList } from './plugins/ThumbnailList.svelte';
 export { default as WaveformMonitor } from './plugins/WaveformMonitor.svelte';

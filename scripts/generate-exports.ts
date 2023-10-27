@@ -1,6 +1,5 @@
-import { Project } from 'ts-morph';
-import ts from 'typescript';
 import fs from 'fs';
+import { getExportedComponents } from './ast-tools';
 
 // Inspired by https://github.com/shinokada/svelte-lib-helpers
 
@@ -12,8 +11,6 @@ type Exports = Record<string, Export>;
 // gets all props for a given component from its definition file
 function addExports(sourceIndexFile: string, destinationPackageFile: string) {
 	console.log(`Adding Svelte components found in ${sourceIndexFile} to ${destinationPackageFile}`);
-	const project = new Project();
-	const sourceFile = project.addSourceFileAtPath(sourceIndexFile);
 
 	// default export
 	const exports: Exports = {
@@ -24,24 +21,15 @@ function addExports(sourceIndexFile: string, destinationPackageFile: string) {
 	};
 
 	// extract from index file
-	sourceFile.getDescendantsOfKind(ts.SyntaxKind.ExportDeclaration).forEach((node) => {
-		const path = node.getFirstChildByKind(ts.SyntaxKind.StringLiteral)?.getLiteralText();
+	getExportedComponents(sourceIndexFile).forEach((component) => {
+		const { name, path } = component;
 
-		if (path !== undefined && path.endsWith('.svelte')) {
-			const name = node
-				.getFirstDescendantByKind(ts.SyntaxKind.ExportSpecifier)
-				?.getLastChildByKind(ts.SyntaxKind.Identifier)
-				?.getText();
+		const key = `./${name}.svelte`;
+		const types = `./dist/${path.replace('./', '')}.d.ts`;
+		const svelte = `./dist/${path.replace('./', '')}`;
+		exports[key] = { types, svelte };
 
-			if (name !== undefined) {
-				const key = `./${name}.svelte`;
-				const types = `./dist/${path.replace('./', '')}.d.ts`;
-				const svelte = `./dist/${path.replace('./', '')}`;
-				exports[key] = { types, svelte };
-
-				verbose && console.log(exports[key]);
-			}
-		}
+		verbose && console.log(exports[key]);
 	});
 
 	// save to package.json
@@ -62,4 +50,4 @@ function addExports(sourceIndexFile: string, destinationPackageFile: string) {
 	);
 }
 
-addExports('./dist/index.js', './package.json');
+addExports('./src/lib/index.ts', './package.json');
