@@ -1,4 +1,5 @@
 // Replaces @sourceLink with GitHub URLs in dist .d.ts files.
+// References the git url provided in package.json.
 
 import fs from 'fs';
 import { globSync } from 'glob';

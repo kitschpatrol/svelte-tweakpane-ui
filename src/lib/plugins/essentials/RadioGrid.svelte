@@ -1,7 +1,7 @@
 <script lang="ts" generics="T extends number | string | boolean | undefined">
-	import GenericInput, { type GenericInputOptions } from '../../internal/GenericInput.svelte';
+	import GenericInput, { type GenericInputOptions } from '$lib/internal/GenericInput.svelte';
 	import * as pluginModule from '@tweakpane/plugin-essentials';
-	import { getGridDimensions } from '../../utils.js';
+	import { getGridDimensions } from '$lib/utils.js';
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 	import { nanoid } from 'nanoid';

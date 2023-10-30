@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import type { GenericInputOptions, GenericInputRef } from './GenericInput.svelte';
+	import type { GenericInputOptions, GenericInputRef } from '$lib/internal/GenericInput.svelte';
 	// can't find picker options in the type definitions
 	export type GenericInputFoldingOptions = GenericInputOptions & { expanded?: boolean }; // technically not shared, but useful
 	export type GenericInputFoldingRef = GenericInputRef; // no changes for now?
@@ -12,8 +12,8 @@
 	import type { PickerLayout } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
-	import { updateCollapsability } from '../utils.js';
-	import GenericInput from './GenericInput.svelte';
+	import { updateCollapsability } from '$lib/utils.js';
+	import GenericInput from '$lib/internal/GenericInput.svelte';
 
 	// TODO share prop definitions with GenericBladeFolding?
 	type $$Props = ComponentProps<GenericInput<T, U, V>> & {

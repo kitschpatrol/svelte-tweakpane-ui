@@ -7,7 +7,7 @@
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 	import type { ListBladeApi, ListBladeParams, ListParamsOptions } from 'tweakpane';
-	import Blade from '../core/Blade.svelte';
+	import Blade from '$lib/core/Blade.svelte';
 
 	// Use a blade instead of an input to allow for additional value types
 	// TODO expose key value option that lets you bind to the active key?

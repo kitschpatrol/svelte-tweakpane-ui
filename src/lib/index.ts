@@ -1,24 +1,24 @@
 // shared
-export type { Plugin, BindingObject } from './utils.js';
+export type { Plugin, BindingObject } from '$lib/utils.js';
 
 // themes
-export { THEMES, setGlobalDefaultTheme, type Theme } from './theme.js';
+export { THEMES, setGlobalDefaultTheme, type Theme } from '$lib/theme.js';
 
 // core (tweakpane building blocks)
-export { default as Binding, type BindingOptions, type BindingRef } from './core/Binding.svelte';
-export { default as Blade, type BladeOptions, type BladeRef } from './core/Blade.svelte';
-export { default as Button } from './core/Button.svelte';
-export { default as Folder } from './core/Folder.svelte';
-export { default as Page } from './core/Page.svelte';
-export { default as Pane, type PanePosition } from './core/Pane.svelte';
-export { default as Tab } from './core/Tab.svelte';
+export { default as Binding, type BindingOptions, type BindingRef } from '$lib/core/Binding.svelte';
+export { default as Blade, type BladeOptions, type BladeRef } from '$lib/core/Blade.svelte';
+export { default as Button } from '$lib/core/Button.svelte';
+export { default as Folder } from '$lib/core/Folder.svelte';
+export { default as Page } from '$lib/core/Page.svelte';
+export { default as Pane, type PanePosition } from '$lib/core/Pane.svelte';
+export { default as Tab } from '$lib/core/Tab.svelte';
 
 // extra (svelte convenience components)
-export { default as AutoObject } from './extras/AutoObject.svelte';
-export { default as Checkbox } from './extras/Checkbox.svelte';
-export { default as Color, type ColorValue } from './extras/Color.svelte';
-export { default as List, type ListOptions } from './extras/List.svelte';
-export { default as Monitor } from './extras/Monitor.svelte';
+export { default as AutoObject } from '$lib/extras/AutoObject.svelte';
+export { default as Checkbox } from '$lib/extras/Checkbox.svelte';
+export { default as Color, type ColorValue } from '$lib/extras/Color.svelte';
+export { default as List, type ListOptions } from '$lib/extras/List.svelte';
+export { default as Monitor } from '$lib/extras/Monitor.svelte';
 export {
 	default as Point,
 	type PointValue2d,
@@ -28,50 +28,54 @@ export {
 	type PointOptionsY,
 	type PointOptionsZ,
 	type PointOptionsW
-} from './extras/Point.svelte';
-export { default as Separator } from './extras/Separator.svelte';
-export { default as Slider } from './extras/Slider.svelte';
-export { default as Text } from './extras/Text.svelte';
+} from '$lib/extras/Point.svelte';
+export { default as Separator } from '$lib/extras/Separator.svelte';
+export { default as Slider } from '$lib/extras/Slider.svelte';
+export { default as Text } from '$lib/extras/Text.svelte';
 
 // essentials (1st party plugins)
 export {
 	default as ButtonGrid,
 	type ButtonGridClickEvent
-} from './plugins/essentials/ButtonGrid.svelte';
+} from '$lib/plugins/essentials/ButtonGrid.svelte';
 export {
 	default as CubicBezier,
 	type CubicBezierValue
-} from './plugins/essentials/CubicBezier.svelte';
-export { default as FpsGraph } from './plugins/essentials/FpsGraph.svelte';
+} from '$lib/plugins/essentials/CubicBezier.svelte';
+export { default as FpsGraph } from '$lib/plugins/essentials/FpsGraph.svelte';
 export {
 	default as IntervalSlider,
 	type IntervalSliderValue
-} from './plugins/essentials/IntervalSlider.svelte';
-export { default as RadioGrid } from './plugins/essentials/RadioGrid.svelte';
+} from '$lib/plugins/essentials/IntervalSlider.svelte';
+export { default as RadioGrid } from '$lib/plugins/essentials/RadioGrid.svelte';
 
 // camerakit (1st party plugins)
-export { default as Ring, type RingSeries, type RingUnit } from './plugins/camerakit/Ring.svelte';
-export { default as Wheel } from './plugins/camerakit/Wheel.svelte';
+export {
+	default as Ring,
+	type RingSeries,
+	type RingUnit
+} from '$lib/plugins/camerakit/Ring.svelte';
+export { default as Wheel } from '$lib/plugins/camerakit/Wheel.svelte';
 
 // additional plugins (3rd party / community)
-export { default as Image, type ImageValue } from './plugins/Image.svelte';
+export { default as Image, type ImageValue } from '$lib/plugins/Image.svelte';
 export {
 	default as Profiler,
 	type ProfilerCalcMode,
 	type ProfilerMeasure,
 	type ProfilerMeasureHandler
-} from './plugins/Profiler.svelte';
+} from '$lib/plugins/Profiler.svelte';
 export {
 	default as RotationEuler,
 	type RotationEulerOrder,
 	type RotationEulerUnit,
 	type RotationEulerValue,
 	type RotationEulerOptions
-} from './plugins/RotationEuler.svelte';
+} from '$lib/plugins/RotationEuler.svelte';
 export {
 	default as RotationQuaternion,
 	type RotationQuaternionValue,
 	type RotationQuaternionOptions
-} from './plugins/RotationQuaternion.svelte';
-export { default as Textarea } from './plugins/Textarea.svelte';
-export { default as WaveformMonitor } from './plugins/WaveformMonitor.svelte';
+} from '$lib/plugins/RotationQuaternion.svelte';
+export { default as Textarea } from '$lib/plugins/Textarea.svelte';
+export { default as WaveformMonitor } from '$lib/plugins/WaveformMonitor.svelte';

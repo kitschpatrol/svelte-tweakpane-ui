@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
 	import type { BaseBladeParams, BladeApi } from 'tweakpane';
-	export type { Plugin } from '../utils.js';
+	export type { Plugin } from '$lib/utils.js';
 	export type BladeOptions = BaseBladeParams;
 	export type BladeRef = BladeApi; // required for input folding
 </script>
@@ -9,9 +9,9 @@
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
-	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
-	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type Container, type Plugin } from '../utils.js';
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
+	import type { Theme } from '$lib/theme.js';
+	import { getElementIndex, isRootPane, type Container, type Plugin } from '$lib/utils.js';
 
 	/**
 	 * Blade configuration exposing TweakPane's internal [BladeParams](https://tweakpane.github.io/docs/api/interfaces/BaseBladeParams.html).

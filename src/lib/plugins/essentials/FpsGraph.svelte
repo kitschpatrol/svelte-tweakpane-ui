@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Blade from '../../core/Blade.svelte';
+	import Blade from '$lib/core/Blade.svelte';
 	import type { FpsGraphBladeApi as FpsGraphRef } from '@tweakpane/plugin-essentials';
 	import type { FpsGraphBladeParams as FpsGraphOptions } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';

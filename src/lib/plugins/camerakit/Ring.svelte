@@ -6,7 +6,7 @@
 </script>
 
 <script lang="ts">
-	import GenericSlider from '../../internal/GenericSlider.svelte';
+	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import * as pluginModule from '@tweakpane/plugin-camerakit';
 	import type { RingInputParams } from '@tweakpane/plugin-camerakit/dist/types/util.d.ts';
 	import type { ComponentProps } from 'svelte';

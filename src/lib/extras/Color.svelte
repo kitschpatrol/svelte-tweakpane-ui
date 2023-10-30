@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts">
-	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
+	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import type { ComponentProps } from 'svelte';
 	import type { ColorInputParams as ColorOptions } from 'tweakpane';
 	import { BROWSER } from 'esm-env';

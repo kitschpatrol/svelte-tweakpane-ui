@@ -23,7 +23,7 @@
 	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
-	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
+	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 
 	type $$Props = Omit<
 		ComponentProps<GenericInputFolding<RotationEulerValue, RotationEulerOptionsInternal>>,

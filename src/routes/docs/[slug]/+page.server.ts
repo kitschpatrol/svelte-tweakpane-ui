@@ -1,8 +1,18 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { startCase } from 'lodash-es';
 import type { ComponentInfo } from '$lib-docs/types/ComponentInfo';
 
-export const load: PageServerLoad = async () => {
+// function extractTsxContent(inputString: string): string | undefined {
+// 	const regex = /```tsx([\s\S]+?)```/gm;
+// 	const match = regex.exec(inputString);
+// 	if (match && match[1]) {
+// 		return match[1].trim();
+// 	}
+// 	return;
+// }
+
+export const load: PageServerLoad = async ({ params }) => {
 	const components: Record<string, ComponentInfo> = structuredClone(
 		import.meta.glob('$lib-docs/generated/data/*.json', {
 			eager: true,
@@ -10,11 +20,30 @@ export const load: PageServerLoad = async () => {
 		})
 	);
 
-	return {
-		components: components
-	};
+	const component = Object.values(components).find((component) => {
+		return component.name === startCase(params.slug).replace(/ /g, '');
+	});
 
-	throw error(404, 'Not found');
+	if (component) {
+		// generate example component
+
+		// const exampleComponentSource = extractTsxContent(
+		// 	component.jsDocs.find((doc) => doc.name === 'example')?.text?.at(0)?.text ?? ''
+		// );
+
+		// const exampleComponent = await import(
+		// 	/* @vite-ignore */
+		// 	`../../../lib-docs/generated/examples/${component.name}Example.svelte`
+		// );
+
+		// console.log(exampleComponent);
+
+		return {
+			name: component.name
+		};
+	} else {
+		throw error(404, 'Not found');
+	}
 };
 
 // type PropInfo = {

@@ -3,9 +3,9 @@
 	import { BROWSER } from 'esm-env';
 	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
-	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
-	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type Container } from '../utils.js';
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
+	import type { Theme } from '$lib/theme.js';
+	import { getElementIndex, isRootPane, type Container } from '$lib/utils.js';
 
 	/**
 	 * Text inside of the button.

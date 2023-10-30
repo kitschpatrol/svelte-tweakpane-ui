@@ -1,5 +1,5 @@
 import type { FolderApi, Pane, TabPageApi } from 'tweakpane';
-import type { Theme } from './theme';
+import type { Theme } from '$lib/theme';
 
 // user-facing types
 export type { TpPluginBundle as Plugin, Bindable as BindingObject } from '@tweakpane/core';

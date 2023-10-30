@@ -131,6 +131,7 @@ function extractCodeBlock(inputString: string): string | undefined {
 }
 
 export function getComponentExampleCode(source: string | Node): string | undefined {
+	// TODO pull from src instead
 	const classDeclaration = queryTree<ClassDeclaration>(
 		typeof source === 'string'
 			? new Project().addSourceFileAtPath(getDefinitionFilePath(source) ?? source)

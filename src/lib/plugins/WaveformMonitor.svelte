@@ -1,7 +1,7 @@
 <script lang="ts">
-	import GenericMonitor from '../internal/GenericMonitor.svelte';
+	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
 	import * as pluginModule from 'tweakpane-plugin-waveform';
-	import type { GenericMonitorOptions } from '../internal/GenericMonitor.svelte';
+	import type { GenericMonitorOptions } from '$lib/internal/GenericMonitor.svelte';
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 	import type {

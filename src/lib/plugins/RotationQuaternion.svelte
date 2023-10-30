@@ -15,7 +15,7 @@
 <script lang="ts">
 	// note name collission with options params
 	import * as pluginModule from '@0b5vr/tweakpane-plugin-rotation';
-	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
+	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d';
 	import type { ComponentProps } from 'svelte';
 	import type { RotationInputPluginQuaternionParams as RotationQuaternionOptionsInternal } from '@0b5vr/tweakpane-plugin-rotation/dist/types/RotationInputPluginQuaternionParams';

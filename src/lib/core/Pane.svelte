@@ -4,10 +4,10 @@
 
 <script lang="ts">
 	import { beforeUpdate, type ComponentProps } from 'svelte';
-	import InternalPaneDraggable from '../internal/InternalPaneDraggable.svelte';
-	import InternalPaneFixed from '../internal/InternalPaneFixed.svelte';
-	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
-	import { removeKeys } from '../utils';
+	import InternalPaneDraggable from '$lib/internal/InternalPaneDraggable.svelte';
+	import InternalPaneFixed from '$lib/internal/InternalPaneFixed.svelte';
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
+	import { removeKeys } from '$lib/utils';
 	import { BROWSER } from 'esm-env';
 
 	type $$Props = (
@@ -91,7 +91,7 @@ Mode overview:
 		All other `svelte-tweakpane-ui` components which are created without a containing `<Pane>` are nested implicitly inside a titleless `<Pane position='inline'>` component. As such, you do not necessarily need create `<Pane position='inline'>` components in most cases.
 	
 		This mode's behavior is similar to creating a Pane in Vanilla JS Tweakpane with its [`container`](https://tweakpane.github.io/docs/misc/#containerElement) property set to its parent element.
-- **`<Pane position='fixed' ...>`** exhibits the standard Vanlilla JS Tweakpane behavior of displaying in a fixed position over the page.
+- **`<Pane position='fixed' ...>`** exhibits the standard Vanilla JS Tweakpane behavior of displaying in a fixed position over the page.
 
 @example	
 ```tsx

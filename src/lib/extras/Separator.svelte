@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Blade from '../core/Blade.svelte';
+	import Blade from '$lib/core/Blade.svelte';
 	import type { ComponentProps } from 'svelte';
 	import type {
 		SeparatorBladeParams as SeparatorOptions,

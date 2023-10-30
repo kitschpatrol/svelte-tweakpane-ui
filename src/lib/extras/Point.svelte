@@ -32,7 +32,7 @@
 	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
 	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d.js';
 	import type { ComponentProps } from 'svelte';
-	import GenericInputFolding from '../internal/GenericInputFolding.svelte';
+	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import { BROWSER } from 'esm-env';
 
 	// TODO weird behavior on HMRs?

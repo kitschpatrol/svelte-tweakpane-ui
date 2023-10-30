@@ -11,7 +11,10 @@ function generateExampleComponent(name: string, suffix: string, destination: str
 
 	if (exampleComponentText) {
 		// add comment
-		exampleComponentText = `<!-- /* Generated from @component example section in "${name}.svelte" */ -->\n${exampleComponentText}`;
+		exampleComponentText = `<!-- /* Generated from @component example section in "${name}.svelte" */ -->\n${exampleComponentText.replace(
+			/'svelte-tweakpane-ui'/,
+			"'$lib'"
+		)}`;
 
 		// overwrites existing, creates intermediate directories
 		const resolvedPath = path.resolve(`${destination}/${name}${suffix}.svelte`);
@@ -27,7 +30,7 @@ function generateExampleComponent(name: string, suffix: string, destination: str
 let totalComponentsGenerated = 0;
 
 const components = getExportedComponents('./src/lib/index.ts');
-const destination = './src/lib-docs/example-components';
+const destination = './src/lib-docs/generated/examples';
 
 console.log(`Generating documentation components for ${components.length} components...`);
 

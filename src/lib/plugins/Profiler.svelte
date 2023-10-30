@@ -6,7 +6,7 @@
 </script>
 
 <script lang="ts">
-	import Blade from '../core/Blade.svelte';
+	import Blade from '$lib/core/Blade.svelte';
 	import * as pluginModule from '@0b5vr/tweakpane-plugin-profiler';
 	import type { ProfilerBladePluginParams as ProfilerOptions } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js';
 	import type { ProfilerBladeApi as ProfilerRef } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerApi.js';

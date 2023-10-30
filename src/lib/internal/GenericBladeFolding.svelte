@@ -1,11 +1,11 @@
 <script lang="ts" context="module">
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import type { BladeOptions, BladeRef } from '../core/Blade.svelte';
+	import type { BladeOptions, BladeRef } from '$lib/core/Blade.svelte';
 </script>
 
 <script lang="ts" generics="T extends BladeOptions, U extends BladeRef">
-	import Blade from '../core/Blade.svelte';
-	import { updateCollapsability } from '../utils';
+	import Blade from '$lib/core/Blade.svelte';
+	import { updateCollapsability } from '$lib/utils';
 
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';

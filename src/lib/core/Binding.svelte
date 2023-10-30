@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
 	import type { BindingApi, BindingParams } from '@tweakpane/core';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import type { BindingObject } from '../utils';
+	import type { BindingObject } from '$lib/utils';
 	export type BindingOptions = BindingParams;
 	export type BindingRef = BindingApi;
 </script>
@@ -13,9 +13,9 @@
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
-	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
-	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type Container, type Plugin } from '../utils.js';
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
+	import type { Theme } from '$lib/theme.js';
+	import { getElementIndex, isRootPane, type Container, type Plugin } from '$lib/utils.js';
 
 	/**
 	 * The binding target object with values to manipulate.
@@ -46,7 +46,8 @@
 
 	/**
 	 * Custom color scheme.
-	 * @default `undefined` (Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with `setGlobalDefaultTheme()`.)
+	 *
+	 * Default: `undefined` (Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with `setGlobalDefaultTheme()`.)
 	 * */
 	export let theme: Theme | undefined = undefined;
 

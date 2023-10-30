@@ -4,16 +4,16 @@
 	import type {
 		default as GenericMonitor,
 		GenericMonitorOptions
-	} from '../internal/GenericMonitor.svelte';
+	} from '$lib/internal/GenericMonitor.svelte';
 	import InternalMonitorBoolean, {
 		type InternalMonitorBooleanOptions
-	} from '../internal/InternalMonitorBoolean.svelte';
+	} from '$lib/internal/InternalMonitorBoolean.svelte';
 	import InternalMonitorNumber, {
 		type InternalMonitorNumberOptions
-	} from '../internal/InternalMonitorNumber.svelte';
+	} from '$lib/internal/InternalMonitorNumber.svelte';
 	import InternalMonitorString, {
 		type InternalMonitorStringOptions
-	} from '../internal/InternalMonitorString.svelte';
+	} from '$lib/internal/InternalMonitorString.svelte';
 
 	// multifile structure is legacy of previous non-dynamic component approach
 	// TODO consolidate eventually if dynamic components prove reliable
@@ -81,13 +81,13 @@ Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pa
 	}, 50);
 
 	setInterval(() => {
-		boolToMonitor = !boolToMonitor;
+		booleanToMonitor = !booleanToMonitor;
 		stringToMonitor = stringToMonitor.split('').reverse().join('');
 	}, 1000);
 </script>
 
 <Monitor value={numberToMonitor} graph={true} />
-<Monitor label="Boolean Monitor" value={boolToMonitor} />
+<Monitor label="Boolean Monitor" value={booleanToMonitor} />
 <Monitor label="String Monitor" value={stringToMonitor} multiline={true} bufferSize={5} />
 ```
 

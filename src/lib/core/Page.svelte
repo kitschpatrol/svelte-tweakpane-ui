@@ -1,8 +1,8 @@
 <script lang="ts">
-	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
-	import Tab from './Tab.svelte';
-	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type Container } from '../utils.js';
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
+	import Tab from '$lib/core/Tab.svelte';
+	import type { Theme } from '$lib/theme.js';
+	import { getElementIndex, isRootPane, type Container } from '$lib/utils.js';
 	import type { TabPageApi as TabPageRef } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount, setContext } from 'svelte';
@@ -112,7 +112,7 @@ Usage outside of a `<Tab>` component wouldn't make much sense, but in such cases
 @example	
 ```tsx
 <script lang="ts">
-	import { Tab, Page  } from 'svelte-tweakpane-ui';
+	import { Tab, Page, Button } from 'svelte-tweakpane-ui';
 
 	let countA = 0;
 	let countB = 0;

@@ -8,7 +8,7 @@
 	lang="ts"
 	generics="T extends any, U extends GenericInputOptions = GenericInputOptions, V extends GenericInputRef = GenericInputRef"
 >
-	import GenericBinding from './GenericBinding.svelte';
+	import GenericBinding from '$lib/internal/GenericBinding.svelte';
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 

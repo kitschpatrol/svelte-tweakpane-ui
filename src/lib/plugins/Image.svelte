@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-	import GenericInput from '../internal/GenericInput.svelte';
+	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import * as pluginModule from 'tweakpane-image-plugin';
 	import type { ComponentProps } from 'svelte';
 	import type { PluginInputParams as ImageOptions } from 'tweakpane-image-plugin/dist/types/plugin.d.ts';

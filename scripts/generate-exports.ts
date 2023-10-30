@@ -24,9 +24,11 @@ function addExports(sourceIndexFile: string, destinationPackageFile: string) {
 	getExportedComponents(sourceIndexFile).forEach((component) => {
 		const { name, path } = component;
 
+		console.log(path);
+
 		const key = `./${name}.svelte`;
-		const types = `./dist/${path.replace('./', '')}.d.ts`;
-		const svelte = `./dist/${path.replace('./', '')}`;
+		const types = `./dist/${path.replace('$lib/', '')}.d.ts`;
+		const svelte = `./dist/${path.replace('$lib/', '')}`;
 		exports[key] = { types, svelte };
 
 		verbose && console.log(exports[key]);

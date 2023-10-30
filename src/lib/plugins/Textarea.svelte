@@ -3,7 +3,7 @@
 	import type { TextareaPluginInputParams } from '@pangenerator/tweakpane-textarea-plugin/dist/types/plugin.js';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
-	import GenericInput from '../internal/GenericInput.svelte';
+	import GenericInput from '$lib/internal/GenericInput.svelte';
 
 	type $$Props = Omit<
 		ComponentProps<GenericInput<string, TextareaPluginInputParams>>,

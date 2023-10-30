@@ -11,7 +11,7 @@
 
 <script lang="ts">
 	import type { CubicBezierBladeParams as CubicBezierOptions } from '@tweakpane/plugin-essentials/dist/types/cubic-bezier/plugin.d.ts';
-	import GenericBladeFolding from '../../internal/GenericBladeFolding.svelte';
+	import GenericBladeFolding from '$lib/internal/GenericBladeFolding.svelte';
 	import type { CubicBezierApi as CubicBezierRef } from '@tweakpane/plugin-essentials';
 	import { CubicBezier } from '@tweakpane/plugin-essentials';
 	import * as pluginModule from '@tweakpane/plugin-essentials';

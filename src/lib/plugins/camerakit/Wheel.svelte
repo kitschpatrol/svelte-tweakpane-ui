@@ -3,7 +3,7 @@
 	import type { WheelInputParams } from '@tweakpane/plugin-camerakit/dist/types/util.d.ts';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
-	import GenericSlider from '../../internal/GenericSlider.svelte';
+	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 
 	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'ref' | 'options' | 'plugin'> & {
 		/**

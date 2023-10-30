@@ -3,10 +3,10 @@
 	import { getContext, onDestroy, setContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
 	import { Pane as TpPane } from 'tweakpane';
-	import type { Theme } from '../theme.js';
-	import { applyTheme } from '../theme.js';
-	import type { Container } from '../utils.js';
-	import { updateCollapsability, type Plugin } from '../utils.js';
+	import type { Theme } from '$lib/theme.js';
+	import { applyTheme } from '$lib/theme.js';
+	import type { Container } from '$lib/utils.js';
+	import { updateCollapsability, type Plugin } from '$lib/utils.js';
 	// import type { BladeState } from '@tweakpane/core';
 
 	/**

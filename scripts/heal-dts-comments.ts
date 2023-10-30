@@ -16,6 +16,8 @@ import {
 // it needs access to the source files as well.
 // idempotent.
 
+// TODO a more robust approach that uses the typescript type checker (see ComponentInfo.ts)
+
 // extra logging
 const verbose = false;
 

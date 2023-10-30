@@ -4,9 +4,9 @@
 	import { getContext, onDestroy, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
-	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
-	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, updateCollapsability, type Container } from '../utils.js';
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
+	import type { Theme } from '$lib/theme.js';
+	import { getElementIndex, isRootPane, updateCollapsability, type Container } from '$lib/utils.js';
 
 	/**
 	 * Text in folder title bar.
@@ -102,7 +102,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane 
 @example	
 ```tsx
 <script lang="ts">
-	import { FolderApi, ButtonApi, Monitor, Checkbox  } from 'svelte-tweakpane-ui';
+	import { Folder, Button, Monitor, Checkbox  } from 'svelte-tweakpane-ui';
 
 	let expanded = true;
 	let count = 0;

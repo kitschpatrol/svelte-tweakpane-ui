@@ -1,11 +1,11 @@
 <script lang="ts">
 	// Inspired by https://github.com/MrFoxPro/solid-tweakpane/blob/master/src/automutable.tsx
 
-	import Binding from '../core/Binding.svelte';
-	import Folder from '../core/Folder.svelte';
-	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
-	import type { Theme } from '../theme.js';
-	import type { Container, BindingObject } from '../utils.js';
+	import Binding from '$lib/core/Binding.svelte';
+	import Folder from '$lib/core/Folder.svelte';
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
+	import type { Theme } from '$lib/theme.js';
+	import type { Container, BindingObject } from '$lib/utils.js';
 
 	import { BROWSER } from 'esm-env';
 	import { getContext } from 'svelte';

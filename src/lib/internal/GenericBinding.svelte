@@ -1,14 +1,14 @@
 <script lang="ts" context="module">
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import type { BindingRef, BindingOptions } from '../core/Binding.svelte';
+	import type { BindingRef, BindingOptions } from '$lib/core/Binding.svelte';
 </script>
 
 <script
 	lang="ts"
 	generics="T extends any, U extends BindingOptions = BindingOptions, V extends BindingRef = BindingRef"
 >
-	import Binding from '../core/Binding.svelte';
-	import type { BindingObject } from '../utils.js';
+	import Binding from '$lib/core/Binding.svelte';
+	import type { BindingObject } from '$lib/utils.js';
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 

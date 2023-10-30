@@ -1,7 +1,7 @@
 <script lang="ts">
-	import InternalPaneInline from '../internal/InternalPaneInline.svelte';
-	import type { Theme } from '../theme.js';
-	import { getElementIndex, isRootPane, type Container } from '../utils.js';
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
+	import type { Theme } from '$lib/theme.js';
+	import { getElementIndex, isRootPane, type Container } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -90,7 +90,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane pos
 @example	
 ```tsx
 <script lang="ts">
-	import { Tab, PageTransitionEvent, Button  } from 'svelte-tweakpane-ui';
+	import { Tab, Page, Button  } from 'svelte-tweakpane-ui';
 </script>
 
 <Tab>
