@@ -7,13 +7,7 @@
 
 <script lang="ts">
 	import type { PageServerData } from './$types';
-	import { base } from '$app/paths';
-	import { page } from '$app/stores';
-	import { SvelteComponent, onMount } from 'svelte';
-	import type { PageData } from '../$types';
 	export let data: PageServerData;
-
-	// let exampleComponent: SvelteComponent | undefined;
 </script>
 
 <h2>{data.name}</h2>
