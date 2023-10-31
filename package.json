@@ -17,6 +17,9 @@
     "url": "https://ericmika.com"
   },
   "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -168,11 +171,11 @@
     "format:1-eslint": "eslint --fix .",
     "format:2-prettier": "prettier --plugin prettier-plugin-svelte --write .",
     "library": "run-s --print-label library:*",
-    "library:1-generate-exports": "ts-node ./scripts/generate-exports.ts",
+    "library:1-generate-exports": "node --loader ts-node/esm ./scripts/generate-exports.ts",
     "library:2-package": "svelte-kit sync && svelte-package && publint",
-    "library:3-heal-dts-comments": "ts-node ./scripts/heal-dts-comments.ts",
-    "library:4-strip-component-docs": "ts-node ./scripts/strip-component-docs.ts",
-    "library:5-add-source-links": "ts-node ./scripts/add-source-links.ts",
+    "library:3-heal-dts-comments": "node --loader ts-node/esm ./scripts/heal-dts-comments.ts",
+    "library:4-strip-component-docs": "node --loader ts-node/esm ./scripts/strip-component-docs.ts",
+    "library:5-add-source-links": "node --loader ts-node/esm ./scripts/add-source-links.ts",
     "library:6-format": "prettier --ignore-path --plugin prettier-plugin-svelte --write ./dist",
     "lint": "run-p --print-label lint:*",
     "lint:eslint": "eslint .",
@@ -182,8 +185,8 @@
     "prepublishOnly": "run-s library:*",
     "preview": "vite preview",
     "site": "run-s --print-label site:*",
-    "site:1-generate-doc-data": "ts-node ./scripts/generate-doc-data.ts && prettier --plugin prettier-plugin-svelte --write ./src/lib-docs/generated/data",
-    "site:2-generate-example-components": "ts-node ./scripts/generate-example-components.ts && prettier --plugin prettier-plugin-svelte --write ./src/lib-docs/generated/examples",
+    "site:1-generate-doc-data": "node --loader ts-node/esm ./scripts/generate-doc-data.ts && prettier --plugin prettier-plugin-svelte --write ./src/lib-docs/generated/data",
+    "site:2-generate-example-components": "node --loader ts-node/esm ./scripts/generate-example-components.ts && prettier --plugin prettier-plugin-svelte --write ./src/lib-docs/generated/examples",
     "site:3-vite": "vite build"
   },
   "peerDependencies": {
