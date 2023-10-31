@@ -133,7 +133,7 @@ TODO
 TODO
 ```
 
-@sourceLink
+@sourceLink [RotationEuler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/RotationEuler.svelte)
 -->
 
 {#if BROWSER}

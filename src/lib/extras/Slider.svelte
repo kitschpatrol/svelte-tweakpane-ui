@@ -47,7 +47,7 @@ See the `<Interval>` component for a multi-handle range-defining slider.
 </pre>
 ```
 
-@sourceLink
+@sourceLink [Slider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extras/Slider.svelte)
 -->
 
 {#if BROWSER}

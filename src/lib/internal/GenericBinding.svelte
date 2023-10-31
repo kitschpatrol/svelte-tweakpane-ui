@@ -50,7 +50,7 @@ This component is for internal use only.
 
 It abstracts the `param` object Tweakpane expects into an interface that looks like a bare value.
 
-@sourceLink
+@sourceLink [GenericBinding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericBinding.svelte)
 -->
 
 {#if BROWSER}

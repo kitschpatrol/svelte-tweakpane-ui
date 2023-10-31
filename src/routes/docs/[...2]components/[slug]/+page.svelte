@@ -11,7 +11,7 @@
 </script>
 
 <script lang="ts">
-	import { CodeFence, CodeInline } from '@svelteness/kit-docs';
+	import { CodeFence, CodeInline, Link, Chip, Admonition } from '@svelteness/kit-docs';
 
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
@@ -39,13 +39,21 @@
 	// $: stuff = URL.createObjectURL(new Blob([sourcecode], { type: 'text/javascript' }));
 </script>
 
+<Chip>hi</Chip>
+
+<Admonition type="experimental" title="Note">HI</Admonition>
+
 <h1>{component.name}</h1>
 <!-- {#await getComponent(stuff) then comp}
 	{console.log(comp.default)}
 	<svelte:component this={comp.default} />
 {/await} -->
 
+<h2>Overview</h2>
+
 {@html docHtml}
+
+<h2>Example</h2>
 
 {#await getComponentPromise(component.name) then exampleComponent}
 	<svelte:component this={exampleComponent.default} />
@@ -60,3 +68,5 @@
 	ext="ts"
 	linesCount={code.split('\n').length}
 />
+
+<h2>Props</h2>

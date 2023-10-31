@@ -97,7 +97,7 @@
 @component
 This component is for internal use only.
 
-@sourceLink
+@sourceLink [GenericInputFolding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericInputFolding.svelte)
 -->
 
 {#if BROWSER}

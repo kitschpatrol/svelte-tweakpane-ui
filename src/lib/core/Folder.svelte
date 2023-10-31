@@ -116,7 +116,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane 
 <Checkbox label="Expanded" bind:value={expanded} />
 ```
 
-@sourceLink
+@sourceLink [Folder.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Folder.svelte)
 -->
 
 {#if BROWSER}

@@ -108,7 +108,7 @@ TODO
 TODO
 ```
 
-@sourceLink
+@sourceLink [Profiler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/Profiler.svelte)
 -->
 
 {#if BROWSER}

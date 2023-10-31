@@ -244,7 +244,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the point picker in a
 </pre>
 ```
 
-@sourceLink
+@sourceLink [Point.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extras/Point.svelte)
 -->
 
 {#if BROWSER}

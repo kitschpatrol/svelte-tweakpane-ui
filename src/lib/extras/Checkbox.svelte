@@ -31,7 +31,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the checkbox in `<Pan
 </pre>
 ```
 
-@sourceLink
+@sourceLink [Checkbox.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extras/Checkbox.svelte)
 -->
 
 {#if BROWSER}

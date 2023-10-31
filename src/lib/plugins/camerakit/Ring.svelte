@@ -61,7 +61,7 @@ TODO
 TODO
 ```
 
-@sourceLink
+@sourceLink [Ring.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/camerakit/Ring.svelte)
 -->
 
 {#if BROWSER}

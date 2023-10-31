@@ -1,5 +1,5 @@
 export type {
 	ComponentInfo,
 	ComponentPartInfo,
-	ComponentPropCondition
+	ComponentDynamicPropTest
 } from '../../../scripts/component-info';

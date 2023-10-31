@@ -1,38 +1,42 @@
-// Replaces @sourceLink with GitHub URLs in dist .d.ts files.
+// Replaces @sourceLink in jsdocs with GitHub URLs in source files
 // References the git url provided in package.json.
 
 import fs from 'fs';
-import { globSync } from 'glob';
 import path from 'path';
+import { getAllLibFiles } from './ast-tools';
 
 const verbose = false;
 
 const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
 const sourceBaseUrl = packageJson.repository.url.replace('.git', '') + '/blob/main/';
-
-const definitionFiles = globSync(`./dist/**/*.d.ts`);
+const files = getAllLibFiles();
 
 function addLinksToComponentBlock(filePath: string, baseUrl: string): void {
 	const fileContent = fs.readFileSync(filePath, 'utf-8');
-	const componentName = path.basename(filePath).replace('.d.ts', '');
-	const url = baseUrl + filePath.replace('dist/', 'src/lib/').replace('.d.ts', '');
+	const fileName = path.basename(filePath);
+	const url = baseUrl + filePath;
 
-	const updatedContent = fileContent.replace('@sourceLink', `Source: [${componentName}](${url})`);
+	// if the markdown link is already there, it will work out to a no-op
+	// if it needs an update, this will do it...
+	const updatedContent = fileContent.replace(
+		/@sourceLink(.+\))?/,
+		`@sourceLink [${fileName}](${url})`
+	);
 
 	if (fileContent !== updatedContent) {
 		verbose && console.log(`Added source links to ${filePath}`);
 		fs.writeFileSync(filePath, updatedContent, 'utf-8');
 	} else {
 		// warn if we have undocumented svelte components
-		if (filePath.endsWith('svelte.d.ts')) {
+		if (filePath.endsWith('.svelte') && !fileContent.includes('* @sourceLink')) {
 			console.warn(`No @sourceLink found in ${url.replace(sourceBaseUrl, './')}`);
 		}
 	}
 }
 
-console.log(`Replacing @sourceLink with GitHub URLs in ${definitionFiles.length} files...`);
+console.log(`Replacing @sourceLink with GitHub URLs in ${files.length} files...`);
 
-definitionFiles.forEach((filePath) => {
+files.forEach((filePath) => {
 	addLinksToComponentBlock(filePath, sourceBaseUrl);
 });
 

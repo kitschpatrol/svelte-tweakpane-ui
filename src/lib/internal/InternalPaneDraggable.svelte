@@ -360,7 +360,7 @@
 @component
 This component is for internal use only.
 
-@sourceLink
+@sourceLink [InternalPaneDraggable.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalPaneDraggable.svelte)
 -->
 
 <svelte:window on:resize={setDocumentSize} />

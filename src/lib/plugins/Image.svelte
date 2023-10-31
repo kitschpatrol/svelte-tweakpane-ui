@@ -54,7 +54,7 @@ TODO
 TODO
 ```
 
-@sourceLink
+@sourceLink [Image.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/Image.svelte)
 -->
 
 {#if BROWSER}

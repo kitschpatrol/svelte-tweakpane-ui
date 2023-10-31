@@ -51,7 +51,7 @@ TODO
 TODO
 ```
 
-@sourceLink
+@sourceLink [Textarea.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/Textarea.svelte)
 -->
 
 {#if BROWSER}

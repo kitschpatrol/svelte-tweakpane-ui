@@ -100,7 +100,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pa
 <InternalMonitorNumber value={numberToMonitor} graph={true} min={-1} max={1} />
 ```
 
-@sourceLink
+@sourceLink [InternalMonitorNumber.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalMonitorNumber.svelte)
 -->
 
 {#if BROWSER}

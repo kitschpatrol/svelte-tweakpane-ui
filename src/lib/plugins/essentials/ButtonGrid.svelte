@@ -115,7 +115,7 @@ TODO
 TODO
 ```
 
-@sourceLink
+@sourceLink [ButtonGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/essentials/ButtonGrid.svelte)
 -->
 
 {#if BROWSER}

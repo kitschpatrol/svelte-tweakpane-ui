@@ -53,7 +53,7 @@
 @component
 This component is for internal use only.
 
-@sourceLink
+@sourceLink [InternalPaneInline.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalPaneInline.svelte)
 -->
 
 {#if BROWSER}

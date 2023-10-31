@@ -98,7 +98,7 @@ TODO
 TODO
 ```
 
-@sourceLink
+@sourceLink [CubicBezier.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/essentials/CubicBezier.svelte)
 -->
 
 {#if BROWSER}

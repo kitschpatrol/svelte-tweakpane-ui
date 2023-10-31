@@ -101,7 +101,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pa
 <pre>{JSON.stringify(object, null, 2)}</pre>
 ```
 
-@sourceLink
+@sourceLink [AutoObject.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extras/AutoObject.svelte)
 -->
 
 {#if BROWSER}

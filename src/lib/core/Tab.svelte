@@ -103,7 +103,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane pos
 </Tab>
 ```
 
-@sourceLink
+@sourceLink [Tab.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Tab.svelte)
 -->
 
 {#if BROWSER}

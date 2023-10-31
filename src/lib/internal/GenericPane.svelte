@@ -126,7 +126,7 @@
 @component
 This component is for internal use only.
 
-@sourceLink
+@sourceLink [GenericPane.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericPane.svelte)
 -->
 
 {#if BROWSER}

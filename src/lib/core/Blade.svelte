@@ -110,7 +110,7 @@ This component is not directly exposed since it lacks a use case in the Svelte c
 <Blade options={{ view: 'separator' }} />
 ```
 
-@sourceLink
+@sourceLink [Blade.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Blade.svelte)
 -->
 
 {#if BROWSER}

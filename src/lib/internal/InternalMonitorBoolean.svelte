@@ -54,7 +54,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pa
 <InternalMonitorBoolean value={booleanToMonitor} rows={5} bufferSize={5} />
 ```
 
-@sourceLink
+@sourceLink [InternalMonitorBoolean.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalMonitorBoolean.svelte)
 -->
 
 {#if BROWSER}

@@ -148,7 +148,7 @@ Value: {object.r}
 </pre>
 ```
 
-@sourceLink
+@sourceLink [Binding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Binding.svelte)
 -->
 
 {#if BROWSER}

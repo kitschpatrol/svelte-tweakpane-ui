@@ -5,11 +5,17 @@ import { LSAndTSDocResolver } from 'svelte-language-server/dist/src/plugins/type
 import { isNotNullOrUndefined, pathToUrl } from 'svelte-language-server/dist/src/utils';
 import ts from 'typescript';
 
+/**
+ * Records of jsdoc tag names (without the @) and their values
+ * e.g. { default: "`256`" }
+ */
+export type JSDocRecord = Record<string, string>;
+
 export type ComponentPartInfo = {
 	name: string;
 	type: string;
-	doc: ts.SymbolDisplayPart[];
-	jsDocs: ts.JSDocTagInfo[];
+	doc: string;
+	jsDocs: JSDocRecord;
 }[];
 
 export type ComponentPropCondition = Record<string, string | number | boolean>;
@@ -23,8 +29,8 @@ export type ComponentInfo = {
 	name: string;
 	path: string;
 	pathParts: string[];
-	doc: ts.SymbolDisplayPart[];
-	jsDocs: ts.JSDocTagInfo[];
+	doc: string;
+	jsDocs: JSDocRecord;
 	props: ComponentPartInfo;
 	events: ComponentPartInfo;
 	slots: ComponentPartInfo;
@@ -34,6 +40,14 @@ export type ComponentInfo = {
 		props: ComponentPartInfo;
 	}[];
 };
+
+function jsDocTagInfoToJsDocRecord(jsDocTags: ts.JSDocTagInfo[]): JSDocRecord {
+	const result: JSDocRecord = {};
+	for (const tag of jsDocTags) {
+		result[tag.name] = ts.displayPartsToString(tag.text);
+	}
+	return result;
+}
 
 // Basic, just get the static component's info
 async function getStaticComponentInfo(componentPath: string): Promise<ComponentInfo | undefined> {
@@ -87,8 +101,8 @@ async function getStaticComponentInfo(componentPath: string): Promise<ComponentI
 		name: componentPath.split('/').pop()!.replace('.svelte', ''),
 		path: componentPath,
 		pathParts: componentPath.split('/').slice(3, -1),
-		doc: classSymbol.getDocumentationComment(typeChecker),
-		jsDocs: classSymbol.getJsDocTags(),
+		doc: ts.displayPartsToString(classSymbol.getDocumentationComment(typeChecker)),
+		jsDocs: jsDocTagInfoToJsDocRecord(classSymbol.getJsDocTags()),
 		props: getInfoFor('$$prop_def', classType, typeChecker),
 		events: getInfoFor('$$events_def', classType, typeChecker),
 		slots: getInfoFor('$$slot_def', classType, typeChecker)
@@ -124,8 +138,8 @@ function mapPropertiesOfType(typeChecker: ts.TypeChecker, type: ts.Type) {
 			return {
 				name: prop.name,
 				type: typeChecker.typeToString(typeChecker.getTypeOfSymbolAtLocation(prop, declaration)),
-				doc: prop.getDocumentationComment(typeChecker),
-				jsDocs: prop.getJsDocTags()
+				doc: ts.displayPartsToString(prop.getDocumentationComment(typeChecker)),
+				jsDocs: jsDocTagInfoToJsDocRecord(prop.getJsDocTags())
 			};
 		})
 		.filter(isNotNullOrUndefined);
@@ -217,8 +231,8 @@ async function getDynamicComponentProps(
 			return {
 				name: entry.name,
 				type: typeChecker.typeToString(typeChecker.getTypeOfSymbol(completionSymbols!)),
-				doc: completionSymbols!.getDocumentationComment(typeChecker),
-				jsDocs: completionSymbols!.getJsDocTags()
+				doc: ts.displayPartsToString(completionSymbols!.getDocumentationComment(typeChecker)),
+				jsDocs: jsDocTagInfoToJsDocRecord(completionSymbols!.getJsDocTags())
 			};
 		}) ?? [];
 

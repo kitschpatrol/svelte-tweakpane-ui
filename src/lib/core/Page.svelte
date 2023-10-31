@@ -133,7 +133,7 @@ Count B: {countB}
 </pre>
 ```
 
-@sourceLink
+@sourceLink [Page.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Page.svelte)
 -->
 
 {#if BROWSER}

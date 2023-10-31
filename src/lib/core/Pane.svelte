@@ -104,7 +104,7 @@ Mode overview:
 </Pane>
 ```
 
-@sourceLink
+@sourceLink [Pane.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Pane.svelte)
 -->
 
 {#if BROWSER}

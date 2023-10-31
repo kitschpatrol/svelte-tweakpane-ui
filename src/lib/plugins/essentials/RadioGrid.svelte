@@ -121,7 +121,7 @@ Note about groupname
 TODO
 ```
 
-@sourceLink
+@sourceLink [RadioGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/essentials/RadioGrid.svelte)
 -->
 
 {#if BROWSER}

@@ -69,7 +69,7 @@ This component is for internal use only.
 
 Implements the default tweakpane behavior... opens in a fixed position.
 
-@sourceLink
+@sourceLink [InternalPaneFixed.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalPaneFixed.svelte)
 -->
 
 {#if BROWSER}

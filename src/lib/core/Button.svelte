@@ -113,7 +113,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the button in `<Pane 
 </pre>
 ```
 
-@sourceLink
+@sourceLink [Button.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Button.svelte)
 -->
 
 {#if BROWSER}

@@ -90,7 +90,7 @@
 @component
 This component is for internal use only.
 
-@sourceLink
+@sourceLink [GenericBladeFolding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericBladeFolding.svelte)
 -->
 
 {#if BROWSER}

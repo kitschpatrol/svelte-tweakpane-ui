@@ -70,7 +70,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pa
 <InternalMonitorString value={stringToMonitor} multiline={true} />
 ```
 
-@sourceLink
+@sourceLink [InternalMonitorString.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalMonitorString.svelte)
 -->
 
 {#if BROWSER}

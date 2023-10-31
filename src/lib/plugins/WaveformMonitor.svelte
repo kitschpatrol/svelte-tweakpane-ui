@@ -72,7 +72,7 @@ Note that `svelte-tweakpane-ui` embeds a [fork](https://github.com/kitschpatrol/
 TODO
 ```
 
-@sourceLink
+@sourceLink [WaveformMonitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/WaveformMonitor.svelte)
 -->
 
 {#if BROWSER}
