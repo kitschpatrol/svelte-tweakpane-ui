@@ -96,7 +96,7 @@ Mode overview:
 @example	
 ```tsx
 <script lang="ts">
-	import { Pane, Button  } from 'svelte-tweakpane-ui';
+	import { Pane, Button } from 'svelte-tweakpane-ui';
 </script>
 
 <Pane title="Drag Me Around">

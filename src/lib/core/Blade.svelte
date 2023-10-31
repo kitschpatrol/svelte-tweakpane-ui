@@ -107,7 +107,7 @@ This component is not directly exposed since it lacks a use case in the Svelte c
 	import { Blade } from 'svelte-tweakpane-ui';
 </script>
 
-<Blade options={{view: 'separator'}} />
+<Blade options={{ view: 'separator' }} />
 ```
 
 @sourceLink

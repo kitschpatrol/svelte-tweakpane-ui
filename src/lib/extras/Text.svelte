@@ -32,7 +32,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the text field in `<P
 
 	let text = 'Cosmic Manifold';
 </script>
-	
+
 <Text bind:value={text} label="The Message" />
 <pre>
 	Message: {text}

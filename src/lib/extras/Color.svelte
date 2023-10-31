@@ -57,7 +57,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the color picker in `
 ```tsx
 <script lang="ts">
 	import { Color } from 'svelte-tweakpane-ui';
-	
+
 	let startColor = '#fff000';
 	let endColor = {
 		r: 255,

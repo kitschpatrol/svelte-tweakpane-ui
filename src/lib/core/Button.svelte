@@ -107,11 +107,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the button in `<Pane 
 	let count = 0;
 </script>
 
-<Button
-	label="Count"
-	title="Increment"
-	on:click={() => count++}
-/>
+<Button label="Count" title="Increment" on:click={() => count++} />
 <pre>
 	Count: {count}
 </pre>

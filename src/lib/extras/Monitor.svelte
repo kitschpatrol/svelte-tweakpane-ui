@@ -73,8 +73,8 @@ Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pa
 	import { Monitor } from 'svelte-tweakpane-ui';
 
 	let booleanToMonitor = false;
-  let stringToMonitor = "Reticulating";
-  let numberToMonitor = 85;
+	let stringToMonitor = 'Reticulating';
+	let numberToMonitor = 85;
 
 	setInterval(() => {
 		numberToMonitor = Math.random() * 100;
@@ -88,7 +88,12 @@ Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pa
 
 <Monitor value={numberToMonitor} graph={true} />
 <Monitor label="Boolean Monitor" value={booleanToMonitor} />
-<Monitor label="String Monitor" value={stringToMonitor} multiline={true} bufferSize={5} />
+<Monitor
+	label="String Monitor"
+	value={stringToMonitor}
+	multiline={true}
+	bufferSize={5}
+/>
 ```
 
 @sourceLink

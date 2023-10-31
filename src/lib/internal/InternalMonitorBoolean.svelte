@@ -42,7 +42,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pa
 @example	
 ```tsx
 <script lang="ts">
-	import { InternalMonitorBoolean  } from 'svelte-tweakpane-ui';
+	import { InternalMonitorBoolean } from 'svelte-tweakpane-ui';
 
 	let booleanToMonitor = false;
 

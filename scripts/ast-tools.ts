@@ -44,6 +44,12 @@ export function getSourceFilePath(componentName: string, warn: boolean = true): 
 	return findFile('src/lib', componentName, '.svelte', warn);
 }
 
+export function getAllLibFiles(): string[] {
+	return globSync('./src/lib/**/*').filter((file) => {
+		return fs.statSync(file).isFile();
+	});
+}
+
 export function getAllLibComponentNames(): string[] {
 	// what happens with js components?
 	return globSync('./src/lib/**/*.svelte').map((file) => {

@@ -204,21 +204,37 @@ Usage outside of a `<Pane>` component will implicitly wrap the point picker in a
 @example	
 ```tsx
 <script lang="ts">
-	import { Point, type PointValue2d, type PointValue3d, type PointValue4d, type PointOptionsX } from 'svelte-tweakpane-ui';
-	
-	let point2d:PointValue2d = { x: 0, y: 0 };
-	
+	import {
+		Point,
+		type PointValue2d,
+		type PointValue3d,
+		type PointValue4d,
+		type PointOptionsX
+	} from 'svelte-tweakpane-ui';
+
+	let point2d: PointValue2d = { x: 0, y: 0 };
+
 	// tuples are also fine
-	let point3d:PointValue3d = [0, 0, 0];
+	let point3d: PointValue3d = [0, 0, 0];
 
 	// dimension-specific option type needs to know the type of the point value
 	let point3dXOptions: PointOptionsX<typeof point3d> = { min: -100, max: 100 };
 
-	let point4d:PointValue4d = { x: 0, y: 0, z: 0, w: 0 };
+	let point4d: PointValue4d = { x: 0, y: 0, z: 0, w: 0 };
 </script>
 
-<Point label="2D Point Picker" bind:value={point2d} picker="inline" expanded={true} clickToExpand={false} />
-<Point label="3D Point Picker" bind:value={point3d} optionsX={point3dXOptions} />
+<Point
+	label="2D Point Picker"
+	bind:value={point2d}
+	picker="inline"
+	expanded={true}
+	clickToExpand={false}
+/>
+<Point
+	label="3D Point Picker"
+	bind:value={point3d}
+	optionsX={point3dXOptions}
+/>
 <Point label="4D Point Picker" bind:value={point4d} min={0} max={100} />
 
 <pre>

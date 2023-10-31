@@ -170,6 +170,7 @@
     "format": "run-s --print-label library:5-format ",
     "format:1-eslint": "eslint --fix .",
     "format:2-prettier": "prettier --plugin prettier-plugin-svelte --write .",
+    "format:3-embedded": "bun run ./scripts/format-embedded-code.ts",
     "library": "run-s --print-label library:*",
     "library:1-generate-exports": "bun run ./scripts/generate-exports.ts",
     "library:2-package": "svelte-kit sync && svelte-package && publint",
@@ -185,9 +186,10 @@
     "prepublishOnly": "run-s library:*",
     "preview": "vite preview",
     "site": "run-s --print-label site:*",
-    "site:1-generate-doc-data": "bun run ./scripts/generate-doc-data.ts && prettier --plugin prettier-plugin-svelte --write ./src/lib-docs/generated/data",
-    "site:2-generate-example-components": "bun run ./scripts/generate-example-components.ts && prettier --plugin prettier-plugin-svelte --write ./src/lib-docs/generated/examples",
-    "site:3-vite": "vite build"
+    "site:1-format-embedded": "npm run format:3-embedded",
+    "site:2-generate-doc-data": "bun run ./scripts/generate-doc-data.ts && prettier --plugin prettier-plugin-svelte --write ./src/lib-docs/generated/data",
+    "site:3-generate-example-components": "bun run ./scripts/generate-example-components.ts && prettier --plugin prettier-plugin-svelte --write ./src/lib-docs/generated/examples",
+    "site:4-vite": "vite build"
   },
   "peerDependencies": {
     "svelte": "^4.0.0"

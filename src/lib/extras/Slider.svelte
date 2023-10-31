@@ -31,11 +31,17 @@ See the `<Interval>` component for a multi-handle range-defining slider.
 ```tsx
 <script lang="ts">
 	import { Slider } from 'svelte-tweakpane-ui';
-	
+
 	let value = 0;
 </script>
 
-<Slider bind:value label="Let it Slide" min={-1} max={1} format={(v) => v.toFixed(2)} />
+<Slider
+	bind:value
+	label="Let it Slide"
+	min={-1}
+	max={1}
+	format={(v) => v.toFixed(2)}
+/>
 <pre>
 	Value: {value}
 </pre>
