@@ -1,4 +1,4 @@
-import { getExportedComponents, getComponentExampleCode } from './ast-tools';
+import { getExportedComponents, getComponentExampleCodeFromSource } from './ast-tools';
 import fs from 'fs';
 import path from 'path';
 
@@ -7,7 +7,7 @@ import path from 'path';
 
 // returns true on success
 function generateExampleComponent(name: string, suffix: string, destination: string): boolean {
-	let exampleComponentText = getComponentExampleCode(name);
+	let exampleComponentText = getComponentExampleCodeFromSource(name);
 
 	if (exampleComponentText) {
 		// add comment

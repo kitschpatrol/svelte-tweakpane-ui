@@ -11,6 +11,8 @@ import {
 	type ClassDeclaration,
 	StringLiteral
 } from 'ts-morph';
+import { svelte2tsx } from 'svelte2tsx';
+import fs from 'fs';
 
 // this will break if multiple components with the same name exist in different folders
 function findFile(
@@ -130,12 +132,14 @@ function extractCodeBlock(inputString: string): string | undefined {
 	return;
 }
 
-export function getComponentExampleCode(source: string | Node): string | undefined {
-	// TODO pull from src instead
+export function getComponentExampleCodeFromSource(componentName: string): string | undefined {
+	const componentPath = getSourceFilePath(componentName);
+	if (!componentPath) return undefined;
+
+	const componentCode = svelte2tsx(fs.readFileSync(componentPath, 'utf-8')).code;
+
 	const classDeclaration = queryTree<ClassDeclaration>(
-		typeof source === 'string'
-			? new Project().addSourceFileAtPath(getDefinitionFilePath(source) ?? source)
-			: source,
+		new Project().createSourceFile('TempComponent.ts', componentCode),
 		'ClassDeclaration:has([jsDoc]):has(ExportKeyword)'
 	).at(0);
 
