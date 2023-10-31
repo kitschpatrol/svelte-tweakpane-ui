@@ -204,7 +204,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the point picker in a
 @example	
 ```tsx
 <script lang="ts">
-	import { Point, PointValue2d, PointValue3d, PointValue4d, PointOptionsX } from 'svelte-tweakpane-ui';
+	import { Point, type PointValue2d, type PointValue3d, type PointValue4d, type PointOptionsX } from 'svelte-tweakpane-ui';
 	
 	let point2d:PointValue2d = { x: 0, y: 0 };
 	

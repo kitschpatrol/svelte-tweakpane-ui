@@ -34,7 +34,8 @@ module.exports = {
     {
       files: ['src/routes/**/*.svelte'],
       rules: {
-        '@typescript-eslint/no-unused-vars': 'off'
+        '@typescript-eslint/no-unused-vars': 'off',
+        'no-at-html-tags': off
       }
     }
   ],

@@ -9,7 +9,7 @@
 	import AutoObject from '$lib/extras/AutoObject.svelte';
 	import Checkbox from '$lib/extras/Checkbox.svelte';
 	import Color from '$lib/extras/Color.svelte';
-	import List from '$lib/extras/List.svelte';
+	import type { ListOptions } from '$lib/extras/List.svelte';
 	import Monitor from '$lib/extras/Monitor.svelte';
 	import Point from '$lib/extras/Point.svelte';
 	import Separator from '$lib/extras/Separator.svelte';
@@ -28,10 +28,18 @@
 	import RotationQuaternion from '$lib/plugins/RotationQuaternion.svelte';
 	import Textarea from '$lib/plugins/Textarea.svelte';
 	import WaveformMonitor from '$lib/plugins/WaveformMonitor.svelte';
+
+	const options: ListOptions<number> = { a: 1, b: 2, c: 3 };
+	let selection: number = 1;
+	let multiline: boolean = false;
+	let stringToMonitor: string = 'Reticulating';
 </script>
 
 <h1>Hi</h1>
-<a href="/docs">Docs</a>
+
+<Pane position="draggable" maxWidth={5}>
+	<Monitor value={1} />
+</Pane>
 
 <!-- <Binding />
 <Blade />

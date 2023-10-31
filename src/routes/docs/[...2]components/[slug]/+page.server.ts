@@ -2,6 +2,10 @@ import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { startCase } from 'lodash-es';
 import type { ComponentInfo } from '$lib-docs/types/ComponentInfo';
+import { createMarkdownParser, parseMarkdownToSvelte } from '@svelteness/kit-docs/node';
+import ts from 'typescript';
+import { compile, preprocess } from 'svelte/compiler';
+import { vitePreprocess } from '@sveltejs/kit/vite';
 
 // function extractTsxContent(inputString: string): string | undefined {
 // 	const regex = /```tsx([\s\S]+?)```/gm;
@@ -38,8 +42,27 @@ export const load: PageServerLoad = async ({ params }) => {
 
 		// console.log(exampleComponent);
 
+		const parser = await createMarkdownParser();
+		const docHtml = parser.render(ts.displayPartsToString(component.doc));
+
+		// const componentWrapper = `<script>import { CodeFence, CodeInline } from '@svelteness/kit-docs';</script>\n${docHtml}`;
+
+		// const sveltePreprocessor = vitePreprocess();
+
+		// const preprocessed = await preprocess(componentWrapper, sveltePreprocessor);
+
+		// const sourcecode = compile(preprocessed.code, { generate: 'ssr' }).js.code;
+
+		// console.log(test);
+		// //const blob = new Blob([sourcecode], { type: 'text/javascript' });
+		// // const url = URL.createObjectURL(blob);
+		// // // console.log(url);
+		// // const component2 = await import(url);
+		// // console.log(component2);
+
 		return {
-			name: component.name
+			docHtml,
+			component
 		};
 	} else {
 		throw error(404, 'Not found');
