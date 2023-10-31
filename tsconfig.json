@@ -14,9 +14,5 @@
     "noErrorTruncation": true,
     "removeComments": false,
     "isolatedModules": true
-  },
-  "ts-node": {
-    "esm": true,
-    "experimentalSpecifierResolution": "node"
   }
 }
