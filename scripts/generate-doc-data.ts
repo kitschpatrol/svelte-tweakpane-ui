@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { getExportedComponents } from './ast-tools';
-import { getComponentInfo } from './component-info';
+import { getComponentInfo, ComponentDynamicPropTest } from './component-info';
 
 // figures out prop data from src components
 // and writes out a json file for each
@@ -12,10 +12,12 @@ import { getComponentInfo } from './component-info';
 async function generateComponentData(
 	componentName: string,
 	componentPath: string,
-	destination: string
+	destination: string,
+	testProps?: ComponentDynamicPropTest[] | undefined
 ): Promise<boolean> {
 	const unaliasedPath = componentPath.replace('$lib', './src/lib');
-	const componentInfo = await getComponentInfo(unaliasedPath);
+
+	const componentInfo = await getComponentInfo(unaliasedPath, testProps);
 
 	if (componentInfo) {
 		// overwrites existing, creates intermediate directories
@@ -41,14 +43,66 @@ if (fs.existsSync(destination)) {
 	fs.rmSync(destination, { recursive: true });
 }
 
-components.forEach(async ({ name, path }) => {
-	if (await generateComponentData(name, path, destination)) {
+for (const { name, path } of components) {
+	// TODO this is not pretty
+	// Pass custom dynamic prop test cases to certain components
+	let testProps: ComponentDynamicPropTest[] | undefined = undefined;
+
+	if (name === 'Pane') {
+		testProps = [
+			{
+				description: 'When `position` is `draggable`',
+				condition: {
+					position: 'draggable'
+				}
+			},
+			{
+				description: 'When `position` is `inline`',
+				condition: {
+					position: 'inline'
+				}
+			},
+			{
+				description: 'When `position` is `fixed`',
+				condition: {
+					position: 'fixed'
+				}
+			}
+		];
+	}
+
+	if (name === 'Monitor') {
+		testProps = [
+			{
+				description: 'When a `number` value is used',
+				condition: {
+					value: 1
+				}
+			},
+			{
+				description: 'When a `boolean` value is used',
+				condition: {
+					value: false
+				}
+			},
+			{
+				description: 'When a `string` value is used',
+				condition: {
+					value: 'i am a string'
+				}
+			}
+		];
+	}
+
+	const success = await generateComponentData(name, path, destination, testProps);
+
+	if (success) {
 		totalComponentsGenerated++;
 	} else {
 		console.warn(`Issue generating component data for "${name}.svelte"`);
 	}
-});
+}
 
 console.log(
-	`Done. Created ${totalComponentsGenerated} component docunmentation data files in "${destination}" .`
+	`Done. Created ${totalComponentsGenerated} component documentation data files in "${destination}" .`
 );

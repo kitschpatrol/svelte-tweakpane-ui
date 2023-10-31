@@ -14,6 +14,11 @@ export type ComponentPartInfo = {
 
 export type ComponentPropCondition = Record<string, string | number | boolean>;
 
+export type ComponentDynamicPropTest = {
+	description: string; // for documentation
+	condition: ComponentPropCondition;
+};
+
 export type ComponentInfo = {
 	name: string;
 	path: string;
@@ -24,6 +29,7 @@ export type ComponentInfo = {
 	events: ComponentPartInfo;
 	slots: ComponentPartInfo;
 	dynamicProps?: {
+		description: string;
 		condition: ComponentPropCondition;
 		props: ComponentPartInfo;
 	}[];
@@ -165,7 +171,7 @@ async function getDynamicComponentProps(
 	const componentName = componentPath.split('/').pop()!.replace('.svelte', '');
 	const testComponentSourceRows = [
 		'<script lang="ts">',
-		`import ${componentName} from '${componentPath.replace('src/lib/', '$lib/')}';`,
+		`import ${componentName} from '${componentPath.replace('./src/lib/', '$lib/')}';`,
 		'</script>',
 		`<${componentName} ${generateStringFromPropObject(testProps)} />`
 	];
@@ -231,7 +237,7 @@ function generateStringFromPropObject(propsObject: ComponentPropCondition): stri
 
 export async function getComponentInfo(
 	componentPath: string,
-	testProps?: ComponentPropCondition[]
+	testProps?: ComponentDynamicPropTest[]
 ): Promise<ComponentInfo | undefined> {
 	if (!ts.sys.fileExists(componentPath)) {
 		console.error(`File ${componentPath}" does not exist.`);
@@ -244,8 +250,9 @@ export async function getComponentInfo(
 		results!.dynamicProps = [];
 		for (const testProp of testProps) {
 			results!.dynamicProps.push({
-				condition: testProp,
-				props: await getDynamicComponentProps(componentPath, testProp)
+				description: testProp.description,
+				condition: testProp.condition,
+				props: await getDynamicComponentProps(componentPath, testProp.condition)
 			});
 		}
 	}
