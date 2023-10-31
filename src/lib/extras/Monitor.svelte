@@ -43,7 +43,7 @@
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = Omit<
 		ComponentProps<GenericMonitor<W, optionsForType<W>>>,
-		'options' | 'ref' | 'plugin' | 'value'
+		'options' | 'ref' | 'plugin'
 	> &
 		propsForType<W>;
 
