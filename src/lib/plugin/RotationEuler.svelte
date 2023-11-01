@@ -140,7 +140,7 @@ TODO
 </pre>
 ```
 
-@sourceLink [RotationEuler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/RotationEuler.svelte)
+@sourceLink [RotationEuler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/RotationEuler.svelte)
 -->
 
 {#if BROWSER}

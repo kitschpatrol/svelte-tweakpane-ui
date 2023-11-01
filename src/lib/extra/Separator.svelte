@@ -37,7 +37,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the separator in `<Pa
 <Button title="Water" />
 ```
 
-@sourceLink [Separator.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extras/Separator.svelte)
+@sourceLink [Separator.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Separator.svelte)
 -->
 
 {#if BROWSER}

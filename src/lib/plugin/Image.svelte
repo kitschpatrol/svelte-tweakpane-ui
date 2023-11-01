@@ -61,7 +61,7 @@ TODO
 </pre>
 ```
 
-@sourceLink [Image.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/Image.svelte)
+@sourceLink [Image.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/Image.svelte)
 -->
 
 {#if BROWSER}

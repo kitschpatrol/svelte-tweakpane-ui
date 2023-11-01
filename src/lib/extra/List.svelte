@@ -132,7 +132,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the color picker in `
 </pre>
 ```
 
-@sourceLink [List.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extras/List.svelte)
+@sourceLink [List.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/List.svelte)
 -->
 
 {#if BROWSER}

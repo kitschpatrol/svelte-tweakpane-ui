@@ -128,7 +128,7 @@ Note about groupname
 </pre>
 ```
 
-@sourceLink [RadioGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/essentials/RadioGrid.svelte)
+@sourceLink [RadioGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/RadioGrid.svelte)
 -->
 
 {#if BROWSER}

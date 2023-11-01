@@ -175,7 +175,7 @@ TODO
 </pre>
 ```
 
-@sourceLink [FpsGraph.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/essentials/FpsGraph.svelte)
+@sourceLink [FpsGraph.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/FpsGraph.svelte)
 -->
 
 {#if BROWSER}

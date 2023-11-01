@@ -74,7 +74,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the color picker in `
 </div>
 ```
 
-@sourceLink [Color.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extras/Color.svelte)
+@sourceLink [Color.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Color.svelte)
 -->
 
 {#if BROWSER}

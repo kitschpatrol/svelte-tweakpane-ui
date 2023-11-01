@@ -127,7 +127,7 @@ TODO
 </pre>
 ```
 
-@sourceLink [RotationQuaternion.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/RotationQuaternion.svelte)
+@sourceLink [RotationQuaternion.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/RotationQuaternion.svelte)
 -->
 
 {#if BROWSER}

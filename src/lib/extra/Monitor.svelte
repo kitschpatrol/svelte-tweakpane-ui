@@ -96,7 +96,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pa
 />
 ```
 
-@sourceLink [Monitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extras/Monitor.svelte)
+@sourceLink [Monitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Monitor.svelte)
 -->
 
 {#if BROWSER}

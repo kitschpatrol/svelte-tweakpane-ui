@@ -105,7 +105,7 @@ TODO
 </pre>
 ```
 
-@sourceLink [CubicBezier.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/essentials/CubicBezier.svelte)
+@sourceLink [CubicBezier.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/CubicBezier.svelte)
 -->
 
 {#if BROWSER}

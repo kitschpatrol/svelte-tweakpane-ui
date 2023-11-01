@@ -53,7 +53,7 @@ TODO
 </pre>
 ```
 
-@sourceLink [Wheel.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/camerakit/Wheel.svelte)
+@sourceLink [Wheel.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/camerakit/Wheel.svelte)
 -->
 
 {#if BROWSER}

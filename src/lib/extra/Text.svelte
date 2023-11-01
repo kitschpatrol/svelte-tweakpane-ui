@@ -39,7 +39,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the text field in `<P
 </pre>
 ```
 
-@sourceLink [Text.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extras/Text.svelte)
+@sourceLink [Text.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Text.svelte)
 -->
 
 {#if BROWSER}

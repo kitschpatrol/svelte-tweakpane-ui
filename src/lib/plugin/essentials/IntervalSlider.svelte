@@ -87,7 +87,7 @@ TODO
 </pre>
 ```
 
-@sourceLink [IntervalSlider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/essentials/IntervalSlider.svelte)
+@sourceLink [IntervalSlider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/IntervalSlider.svelte)
 -->
 
 {#if BROWSER}

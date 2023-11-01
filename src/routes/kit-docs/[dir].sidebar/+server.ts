@@ -1,6 +1,6 @@
 import type { RequestEvent } from '@sveltejs/kit';
 import { createSidebarRequestHandler } from '@svelteness/kit-docs/node';
-import type { ComponentInfo } from '$lib-docs/types/ComponentInfo';
+import type { ComponentInfo } from '$lib-docs/types';
 import { kebabCase, startCase, fromPairs, sortBy, toPairs } from 'lodash-es';
 
 type SidebarLink = { title: string; slug: string };

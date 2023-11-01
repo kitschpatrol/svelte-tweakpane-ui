@@ -122,7 +122,7 @@ TODO
 </pre>
 ```
 
-@sourceLink [ButtonGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/essentials/ButtonGrid.svelte)
+@sourceLink [ButtonGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/ButtonGrid.svelte)
 -->
 
 {#if BROWSER}
