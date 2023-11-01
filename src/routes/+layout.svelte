@@ -99,4 +99,10 @@
 	/* :global(.backdrop-blur-sm) {
 		backdrop-filter: unset;
 	} */
+
+	/* Fix for white scrollbar corner on chrome */
+	/* https://stackoverflow.com/questions/35968553/webkit-scrollbar-css-always-a-white-box-in-corner */
+	:global(::-webkit-scrollbar-corner) {
+		background-color: transparent;
+	}
 </style>
