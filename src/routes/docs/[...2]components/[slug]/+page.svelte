@@ -13,7 +13,6 @@
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
 
-	// has to be responsive...
 	$: ({ component } = data);
 </script>
 

@@ -2,4 +2,4 @@ export type {
 	ComponentInfo,
 	ComponentPartInfo,
 	ComponentDynamicPropTest
-} from '../../../scripts/component-info';
+} from '../../scripts/component-info';

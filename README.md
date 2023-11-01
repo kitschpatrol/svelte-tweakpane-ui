@@ -199,6 +199,7 @@ Two other projects provide integration between Tweakpane and Svelte:
 - Props must be passed manually instead of spreading `{...$$props}`. Spreading props breaks typechecking since the generated type definition allows any key / value to be passed to the component.
 - Using `type $$Props` instead of `interface $$Props` avoids `$$Props.Type` noise in hover tips.
 - https://github.com/khromov/sveltekit-dynamic-component-load-demo
+- https://github.com/HiDeoo/Typedown
 
 ## JSDoc Meanings
 
