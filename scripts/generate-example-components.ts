@@ -51,7 +51,7 @@ async function generateExampleMarkdown(
 
 		let component =
 			'<script>\n' +
-			"import CodeFence from '@svelteness/kit-docs/client/kit-docs/block/CodeFence.svelte';\n" +
+			"import { CodeFence } from '@svelteness/kit-docs';\n" +
 			'</script>\n' +
 			`${rendered}\n`;
 
