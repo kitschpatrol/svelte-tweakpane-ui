@@ -2,8 +2,8 @@ import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { startCase } from 'lodash-es';
 import type { ComponentInfo } from '$lib-docs/types';
-import { walkNestedObject } from '$lib-docs/utils';
 import markdownit from 'markdown-it';
+import traverse from 'traverse';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const components: Record<string, ComponentInfo> = structuredClone(
@@ -21,7 +21,6 @@ export const load: PageServerLoad = async ({ params }) => {
 
 	// render all markdown, except the example code fences which has to be
 	// its own component to make it through the KitDocs pipeline
-
 	// don't use createMarkdownParser(), because it replaces
 	// certain elements with custom components, and svelte doesn't want to
 	// compile and render them down without going out to a file first,
@@ -31,23 +30,27 @@ export const load: PageServerLoad = async ({ params }) => {
 	const md = new markdownit();
 
 	// render any markdown in-place, mutates in-place
-	walkNestedObject(component, (value, key, parentObj) => {
-		if (typeof value === 'string') {
-			// special handling of certain keys
-			switch (key) {
+	traverse(component).forEach(function (value) {
+		// ignore the root level default key, artifact of importing the json files
+		if (typeof value === 'string' && !(this.path.at(0) === 'default')) {
+			switch (this.key) {
 				case 'example':
 					// don't markdown render examples, instead we load pre-rendered
 					// markdown files from the genreated files
 					// (so we can use the KitDocs component in the page tempalate)
-					parentObj[key] = value;
 					break;
 				case 'doc':
-					// treat the big doc block as... blocks
-					parentObj[key] = md.render(value);
+					if (this.level === 1) {
+						// treat the big doc block as... blocks
+						// TODO consider for all levels?
+						this.update(md.render(value));
+					} else {
+						this.update(md.renderInline(value));
+					}
 					break;
 				default:
 					// treat everything else as inline
-					parentObj[key] = md.renderInline(value);
+					this.update(md.renderInline(value), true);
 					break;
 			}
 		}

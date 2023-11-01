@@ -23,3 +23,9 @@ description: Page description.
 	Count: {count}
 </pre>
 ```
+
+| Column 1     | Column 2 | Column 3      |
+| ------------ | -------- | ------------- |
+| left-aligned | centered | right-aligned |
+| left-aligned | centered | right-aligned |
+| left-aligned | centered | right-aligned |

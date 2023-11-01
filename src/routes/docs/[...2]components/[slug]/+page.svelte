@@ -11,10 +11,15 @@
 
 <script lang="ts">
 	import type { PageServerData } from './$types';
+	import PropTable from '$lib-docs/components/PropTable.svelte';
+
 	export let data: PageServerData;
 
 	$: ({ component } = data);
 </script>
+
+<h2>Props</h2>
+<PropTable data={component.props} />
 
 <h1>{component.name}</h1>
 
@@ -33,7 +38,5 @@
 		<svelte:component this={exampleMarkdown.default} />
 	{/await}
 {/if}
-
-<h2>Props</h2>
 
 TBD

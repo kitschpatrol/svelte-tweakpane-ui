@@ -20,7 +20,7 @@
 	export let label: string | undefined = undefined;
 
 	/**
-	 * Prevent interactivity. Defaults to `false`.
+	 * Prevent interactivity.
 	 * @default `false`
 	 * */
 	export let disabled: boolean = false;

@@ -105,4 +105,21 @@
 	:global(::-webkit-scrollbar-corner) {
 		background-color: transparent;
 	}
+
+	/* Remove excessive code backticking */
+	:global(code::before),
+	:global(code::after) {
+		content: none !important;
+	}
+
+	/* Remove leading padding on tables */
+	:global(
+			.prose
+				:where(tbody tr td:first-child code):not(
+					:where([class~='not-prose'], [class~='not-prose'] *)
+				)
+		) {
+		/* color: #6366f1; */
+		padding-left: unset;
+	}
 </style>
