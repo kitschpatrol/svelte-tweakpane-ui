@@ -70,29 +70,29 @@ Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pa
 @example	
 ```tsx
 <script lang="ts">
-	import { Monitor } from 'svelte-tweakpane-ui';
+  import { Monitor } from 'svelte-tweakpane-ui';
 
-	let booleanToMonitor = false;
-	let stringToMonitor = 'Reticulating';
-	let numberToMonitor = 85;
+  let booleanToMonitor = false;
+  let stringToMonitor = 'Reticulating';
+  let numberToMonitor = 85;
 
-	setInterval(() => {
-		numberToMonitor = Math.random() * 100;
-	}, 50);
+  setInterval(() => {
+    numberToMonitor = Math.random() * 100;
+  }, 50);
 
-	setInterval(() => {
-		booleanToMonitor = !booleanToMonitor;
-		stringToMonitor = stringToMonitor.split('').reverse().join('');
-	}, 1000);
+  setInterval(() => {
+    booleanToMonitor = !booleanToMonitor;
+    stringToMonitor = stringToMonitor.split('').reverse().join('');
+  }, 1000);
 </script>
 
 <Monitor value={numberToMonitor} graph={true} />
 <Monitor label="Boolean Monitor" value={booleanToMonitor} />
 <Monitor
-	label="String Monitor"
-	value={stringToMonitor}
-	multiline={true}
-	bufferSize={5}
+  label="String Monitor"
+  value={stringToMonitor}
+  multiline={true}
+  bufferSize={5}
 />
 ```
 

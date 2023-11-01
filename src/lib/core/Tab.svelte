@@ -90,16 +90,16 @@ Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane pos
 @example	
 ```tsx
 <script lang="ts">
-	import { Tab, Page, Button } from 'svelte-tweakpane-ui';
+  import { Tab, Page, Button } from 'svelte-tweakpane-ui';
 </script>
 
 <Tab>
-	<Page title="A">
-		<Button title="Button A" on:click={() => alert('A...')} />
-	</Page>
-	<Page title="B">
-		<Button title="Button B" on:click={() => alert('B...')} />
-	</Page>
+  <Page title="A">
+    <Button title="Button A" on:click={() => alert('A...')} />
+  </Page>
+  <Page title="B">
+    <Button title="Button B" on:click={() => alert('B...')} />
+  </Page>
 </Tab>
 ```
 

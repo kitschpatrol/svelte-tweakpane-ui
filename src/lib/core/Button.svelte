@@ -102,9 +102,9 @@ Usage outside of a `<Pane>` component will implicitly wrap the button in `<Pane 
 @example	
 ```tsx
 <script lang="ts">
-	import { Button } from 'svelte-tweakpane-ui';
+  import { Button } from 'svelte-tweakpane-ui';
 
-	let count = 0;
+  let count = 0;
 </script>
 
 <Button label="Count" title="Increment" on:click={() => count++} />

@@ -112,19 +112,19 @@ Usage outside of a `<Tab>` component wouldn't make much sense, but in such cases
 @example	
 ```tsx
 <script lang="ts">
-	import { Tab, Page, Button } from 'svelte-tweakpane-ui';
+  import { Tab, Page, Button } from 'svelte-tweakpane-ui';
 
-	let countA = 0;
-	let countB = 0;
+  let countA = 0;
+  let countB = 0;
 </script>
 
 <Tab>
-	<Page title="A">
-		<Button title="Button A" on:click={() => countA++} />
-	</Page>
-	<Page title="B">
-		<Button title="Button B" on:click={() => countB++} />
-	</Page>
+  <Page title="A">
+    <Button title="Button A" on:click={() => countA++} />
+  </Page>
+  <Page title="B">
+    <Button title="Button B" on:click={() => countB++} />
+  </Page>
 </Tab>
 
 <pre>

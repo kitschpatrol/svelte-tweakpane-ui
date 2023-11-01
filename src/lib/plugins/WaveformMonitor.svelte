@@ -69,7 +69,14 @@ Note that `svelte-tweakpane-ui` embeds a [fork](https://github.com/kitschpatrol/
 
 @example
 ```tsx
-TODO
+<script lang="ts">
+  import { TODO } from 'svelte-tweakpane-ui';
+  const status = 'TODO';
+</script>
+
+<pre>
+{status}
+</pre>
 ```
 
 @sourceLink [WaveformMonitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/WaveformMonitor.svelte)

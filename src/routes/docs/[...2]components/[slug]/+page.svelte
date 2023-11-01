@@ -1,72 +1,40 @@
 <script lang="ts" context="module">
-	const getComponentPromise = (name: string) => {
-		// $lib alias doesn't seem to work for dynamic imports
+	// $lib alias doesn't seem to work for dynamic imports
+	const getExampleComponentPromise = (name: string) => {
 		return import(`../../../../lib-docs/generated/examples/${name}Example.svelte`);
 	};
 
-	// const getComponent = (name: string) => {
-	// 	// $lib alias doesn't seem to work for dynamic imports
-	// 	return import(`${name}`);
-	// };
+	const getExampleMarkdownPromise = (name: string) => {
+		return import(`../../../../lib-docs/generated/markdown/${name}Example.svelte`);
+	};
 </script>
 
 <script lang="ts">
-	import { CodeFence, CodeInline, Link, Chip, Admonition } from '@svelteness/kit-docs';
-
 	import type { PageServerData } from './$types';
 	export let data: PageServerData;
 
 	// has to be responsive...
-	$: ({ component, docHtml } = data);
-
-	$: code = JSON.stringify(component, null, 2);
-
-	// title && `title="${title}"`,
-	// 	`lang="${language.name}"`,
-	// 	`ext="${language.ext}"`,
-	// 	`linesCount={${linesCount}}`,
-	// 	useLineNumbers && 'showLineNumbers',
-	// 	(highlightLinesRanges?.length ?? 0) > 0 && `highlightLines={${highlight}}`,
-	// 	showCopyCode && `rawCode={${JSON.stringify(rawCode)}}`,
-	// 	showCopyCode && 'showCopyCode',
-	// 	copyHighlightOnly && `copyHighlightOnly`,
-	// 	copySteps && 'copySteps',
-	// 	`code={${JSON.stringify(code)}}`,
-	// 	slot && `slot="${slot}"`;
-
-	// $: description = parser.render(component.doc[0].text);
-
-	// $: stuff = URL.createObjectURL(new Blob([sourcecode], { type: 'text/javascript' }));
+	$: ({ component } = data);
 </script>
 
-<Chip>hi</Chip>
-
-<Admonition type="experimental" title="Note">HI</Admonition>
-
 <h1>{component.name}</h1>
-<!-- {#await getComponent(stuff) then comp}
-	{console.log(comp.default)}
-	<svelte:component this={comp.default} />
-{/await} -->
 
 <h2>Overview</h2>
 
-{@html docHtml}
+{@html component.doc}
 
-<h2>Example</h2>
+{#if component.jsDocs.example}
+	<h2>Example</h2>
 
-{#await getComponentPromise(component.name) then exampleComponent}
-	<svelte:component this={exampleComponent.default} />
-{/await}
+	{#await getExampleComponentPromise(component.name) then exampleComponent}
+		<svelte:component this={exampleComponent.default} />
+	{/await}
 
-<CodeFence
-	title="{component.name}Example.svelte"
-	lang="json"
-	showCopyCode={true}
-	copyHighlightOnly={false}
-	{code}
-	ext="ts"
-	linesCount={code.split('\n').length}
-/>
+	{#await getExampleMarkdownPromise(component.name) then exampleMarkdown}
+		<svelte:component this={exampleMarkdown.default} />
+	{/await}
+{/if}
 
 <h2>Props</h2>
+
+TBD

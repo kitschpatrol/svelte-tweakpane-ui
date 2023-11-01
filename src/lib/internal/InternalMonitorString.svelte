@@ -55,16 +55,16 @@ Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pa
 @example	
 ```tsx
 <script lang="ts">
-	import { InternalMonitorString } from 'svelte-tweakpane-ui';
+  import { InternalMonitorString } from 'svelte-tweakpane-ui';
 
-	let stringToMonitor = 'bla\n\bla\nbla';
+  let stringToMonitor = 'bla\n\bla\nbla';
 
-	setInterval(() => {
-		stringToMonitor = stringToMonitor
-			.split('\n')
-			.map(() => Math.round(Math.random() * 100).toString())
-			.join('\n');
-	}, 100);
+  setInterval(() => {
+    stringToMonitor = stringToMonitor
+      .split('\n')
+      .map(() => Math.round(Math.random() * 100).toString())
+      .join('\n');
+  }, 100);
 </script>
 
 <InternalMonitorString value={stringToMonitor} multiline={true} />

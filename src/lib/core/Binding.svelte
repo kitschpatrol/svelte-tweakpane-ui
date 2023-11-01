@@ -137,9 +137,9 @@ Consider convenience components like `<Slider>`, `<Color>`, etc. before using th
 @example	
 ```tsx
 <script lang="ts">
-	import { Binding, type BindingObject } from 'svelte-tweakpane-ui';
+  import { Binding, type BindingObject } from 'svelte-tweakpane-ui';
 
-	let object: BindingObject = { r: 0 };
+  let object: BindingObject = { r: 0 };
 </script>
 
 <Binding bind:object key={'r'} label="Reticulation" />

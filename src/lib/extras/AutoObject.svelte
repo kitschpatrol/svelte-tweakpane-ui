@@ -70,30 +70,30 @@ Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pa
 @example	
 ```tsx
 <script lang="ts">
-	import { AutoObject } from 'svelte-tweakpane-ui';
+  import { AutoObject } from 'svelte-tweakpane-ui';
 
-	let object = {
-		someNumber: 1, // creates a
-		someBoolean: true, // creates a checkbox
-		someString: 'test', // creates a text field
-		somePoint: {
-			// creates a point picker
-			x: 1,
-			y: 2
-		},
-		someColor: {
-			// creates a color picker
-			r: 255,
-			g: 0,
-			b: 55
-		},
-		someFolder: {
-			// wraps children in a folder
-			a: 1,
-			b: 2,
-			c: 3
-		}
-	};
+  let object = {
+    someNumber: 1, // creates a
+    someBoolean: true, // creates a checkbox
+    someString: 'test', // creates a text field
+    somePoint: {
+      // creates a point picker
+      x: 1,
+      y: 2
+    },
+    someColor: {
+      // creates a color picker
+      r: 255,
+      g: 0,
+      b: 55
+    },
+    someFolder: {
+      // wraps children in a folder
+      a: 1,
+      b: 2,
+      c: 3
+    }
+  };
 </script>
 
 <AutoObject bind:object />

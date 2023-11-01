@@ -86,15 +86,15 @@ Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pa
 @example	
 ```tsx
 <script lang="ts">
-	import { InternalMonitorNumber } from 'svelte-tweakpane-ui';
+  import { InternalMonitorNumber } from 'svelte-tweakpane-ui';
 
-	let numberToMonitor = 0;
-	let t = 0;
+  let numberToMonitor = 0;
+  let t = 0;
 
-	setInterval(() => {
-		numberToMonitor = Math.sin(t);
-		t += 0.3;
-	}, 50);
+  setInterval(() => {
+    numberToMonitor = Math.sin(t);
+    t += 0.3;
+  }, 50);
 </script>
 
 <InternalMonitorNumber value={numberToMonitor} graph={true} min={-1} max={1} />

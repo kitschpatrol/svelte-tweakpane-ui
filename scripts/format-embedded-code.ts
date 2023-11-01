@@ -30,7 +30,8 @@ async function formatEmbeddedCode(file: string): Promise<number> {
 				const formattedCode = await format(code, {
 					...config,
 					printWidth: 80, // shorter than usual for display on the web
-					parser: 'svelte'
+					parser: 'svelte',
+					useTabs: false // spaces are better for code blocks
 				});
 				embedsFormatted++;
 				// Using the original opening and closing backticks

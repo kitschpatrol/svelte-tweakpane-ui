@@ -28,7 +28,7 @@ function addLinksToComponentBlock(filePath: string, baseUrl: string): void {
 		fs.writeFileSync(filePath, updatedContent, 'utf-8');
 	} else {
 		// warn if we have undocumented svelte components
-		if (filePath.endsWith('.svelte') && !fileContent.includes('* @sourceLink')) {
+		if (filePath.endsWith('.svelte') && !fileContent.includes('@sourceLink')) {
 			console.warn(`No @sourceLink found in ${url.replace(sourceBaseUrl, './')}`);
 		}
 	}

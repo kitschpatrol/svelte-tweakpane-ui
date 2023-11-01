@@ -120,10 +120,10 @@ Usage outside of a `<Pane>` component will implicitly wrap the color picker in `
 @example	
 ```tsx
 <script lang="ts">
-	import { List, type ListOptions } from 'svelte-tweakpane-ui';
+  import { List, type ListOptions } from 'svelte-tweakpane-ui';
 
-	const options: ListOptions<number> = { a: 1, b: 2, c: 3 };
-	let selection: number = 1;
+  const options: ListOptions<number> = { a: 1, b: 2, c: 3 };
+  let selection: number = 1;
 </script>
 
 <List label="Alphanumerics" bind:value={selection} {options} />

@@ -56,21 +56,21 @@ Usage outside of a `<Pane>` component will implicitly wrap the color picker in `
 @example	
 ```tsx
 <script lang="ts">
-	import { Color } from 'svelte-tweakpane-ui';
+  import { Color } from 'svelte-tweakpane-ui';
 
-	let startColor = '#fff000';
-	let endColor = {
-		r: 255,
-		g: 0,
-		b: 255
-	};
+  let startColor = '#fff000';
+  let endColor = {
+    r: 255,
+    g: 0,
+    b: 255
+  };
 </script>
 
 <div
-	style={`width: 300px; height: 300px; background: linear-gradient(${startColor}, rgb(${endColor.r}, ${endColor.g}, ${endColor.b}));`}
+  style={`width: 300px; height: 300px; background: linear-gradient(${startColor}, rgb(${endColor.r}, ${endColor.g}, ${endColor.b}));`}
 >
-	<Color label="Start Color" bind:value={startColor} />
-	<Color label="End Color" bind:value={endColor} />
+  <Color label="Start Color" bind:value={startColor} />
+  <Color label="End Color" bind:value={endColor} />
 </div>
 ```
 

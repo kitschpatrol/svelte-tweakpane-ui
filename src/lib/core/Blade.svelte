@@ -104,7 +104,7 @@ This component is not directly exposed since it lacks a use case in the Svelte c
 @example
 ```tsx
 <script lang="ts">
-	import { Blade } from 'svelte-tweakpane-ui';
+  import { Blade } from 'svelte-tweakpane-ui';
 </script>
 
 <Blade options={{ view: 'separator' }} />

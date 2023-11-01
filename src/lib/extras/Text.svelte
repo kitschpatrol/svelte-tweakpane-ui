@@ -28,9 +28,9 @@ Usage outside of a `<Pane>` component will implicitly wrap the text field in `<P
 @example	
 ```tsx
 <script lang="ts">
-	import { Text } from 'svelte-tweakpane-ui';
+  import { Text } from 'svelte-tweakpane-ui';
 
-	let text = 'Cosmic Manifold';
+  let text = 'Cosmic Manifold';
 </script>
 
 <Text bind:value={text} label="The Message" />

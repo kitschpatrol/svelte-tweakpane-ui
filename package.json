@@ -172,7 +172,7 @@
     "build:06-strip-component-docs": "bun run ./scripts/strip-component-docs.ts",
     "build:07-format-library": "npm run format:4-library",
     "build:08-generate-doc-data": "bun run ./scripts/generate-doc-data.ts && prettier --plugin prettier-plugin-svelte --write ./src/lib-docs/generated/data",
-    "build:09-generate-example-components": "bun run ./scripts/generate-example-components.ts && prettier --plugin prettier-plugin-svelte --write ./src/lib-docs/generated/examples",
+    "build:09-generate-example-components": "bun run ./scripts/generate-example-components.ts",
     "build:10-build-docs": "vite build",
     "check": "svelte-kit sync && svelte-check --ignore ./scratch --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --ignore ./scratch --tsconfig ./tsconfig.json --watch",

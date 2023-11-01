@@ -13,6 +13,7 @@ import {
 } from 'ts-morph';
 import { svelte2tsx } from 'svelte2tsx';
 import fs from 'fs';
+import { format, resolveConfig } from 'prettier';
 
 // this will break if multiple components with the same name exist in different folders
 function findFile(
@@ -138,7 +139,10 @@ function extractCodeBlock(inputString: string): string | undefined {
 	return;
 }
 
-export function getComponentExampleCodeFromSource(componentName: string): string | undefined {
+export async function getComponentExampleCodeFromSource(
+	componentName: string,
+	inclueMarkdown: boolean = false
+): Promise<string | undefined> {
 	const componentPath = getSourceFilePath(componentName);
 	if (!componentPath) return undefined;
 
@@ -159,8 +163,21 @@ export function getComponentExampleCodeFromSource(componentName: string): string
 				.find((tag) => tag.getTagName() === 'example')
 				?.getCommentText() ?? classDeclaration.getJsDocs()?.at(0)?.getCommentText();
 
+		// format, because it's lost in the AST
+		const prettierConfig = {
+			...(await resolveConfig('.')),
+			printWidth: 80, // shorter than usual for display on the web
+			parser: 'svelte'
+		};
+
 		if (comment) {
-			return extractCodeBlock(comment);
+			const formattedComment = await format(extractCodeBlock(comment)!, prettierConfig);
+
+			const wrappedComment = `${comment.split('\n').at(0)}\n${formattedComment}${comment
+				.split('\n')
+				.at(-1)}`;
+
+			return inclueMarkdown ? wrappedComment : formattedComment;
 		}
 	}
 

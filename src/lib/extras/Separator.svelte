@@ -29,7 +29,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the separator in `<Pa
 @example	
 ```tsx
 <script lang="ts">
-	import { Button, Separator } from 'svelte-tweakpane-ui';
+  import { Button, Separator } from 'svelte-tweakpane-ui';
 </script>
 
 <Button title="Oil" />

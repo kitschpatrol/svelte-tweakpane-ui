@@ -48,7 +48,14 @@ TODO
 
 @example
 ```tsx
-TODO
+<script lang="ts">
+  import { TODO } from 'svelte-tweakpane-ui';
+  const status = 'TODO';
+</script>
+
+<pre>
+{status}
+</pre>
 ```
 
 @sourceLink [Textarea.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugins/Textarea.svelte)
