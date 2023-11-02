@@ -45,7 +45,7 @@ export const load: PageServerLoad = async ({ params }) => {
 						// TODO consider for all levels?
 						this.update(md.render(value));
 					} else {
-						this.update(md.renderInline(value));
+						this.update(md.render(value));
 					}
 					break;
 				default:

@@ -71,7 +71,7 @@
 		maxWidth?: number;
 		/**
 		 * Identifier to be used if multiple `<Pane position='draggable'>` components with `storePositionLocally` set to true are used on the same page.
-		 * @default `"1"`
+		 * @default `'1'`
 		 */
 		localStoreId?: string;
 	};

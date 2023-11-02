@@ -8,9 +8,7 @@
 	import type { LayoutData } from './$types';
 	import { SocialLink } from '@svelteness/kit-docs';
 	import type { NavbarConfig, ResolvedSidebarConfig } from '@svelteness/kit-docs';
-
 	import { page } from '$app/stores';
-	import SvelteLogo from '$img/svelte-horizontal.svg?raw';
 
 	import { Button, KitDocs, KitDocsLayout, createSidebarContext } from '@svelteness/kit-docs';
 

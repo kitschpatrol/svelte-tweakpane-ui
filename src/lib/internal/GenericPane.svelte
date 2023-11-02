@@ -11,7 +11,7 @@
 
 	/**
 	 * Text in the pane's title bar.
-	 * @default `Tweakpane` (Unless `position="inline"`, in which case the default is `undefined` and no title bar is shown.)
+	 * @default `Tweakpane` (Unless `position='inline'`, in which case the default is `undefined` and no title bar is shown.)
 	 * */
 	export let title: string | undefined = undefined;
 
@@ -35,7 +35,7 @@
 	 *
 	 * Applies to all child components, but note that setting a different `theme` on a child component's prop will **not** override the parent pane's theme.
 	 *
-	 * Note that `<Pane position="inline" ...>` squares off rounded corners by default to better integrate with surrounding content.
+	 * Note that `<Pane positio'="inline' ...>` squares off rounded corners by default to better integrate with surrounding content.
 	 *
 	 * Simply pass a custom or default theme like `THEMES.standard` if you want rounded corners on an `inline` pane.
 	 *

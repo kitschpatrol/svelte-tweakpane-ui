@@ -20,7 +20,7 @@
 
 	type $$Props = Omit<
 		ComponentProps<GenericBladeFolding<CubicBezierOptions, CubicBezierRef>>,
-		'ref' | 'options' | 'plugin'
+		'buttonClass' | 'ref' | 'options' | 'plugin'
 	> & {
 		/**
 		 * The cubic bezier value to control.
