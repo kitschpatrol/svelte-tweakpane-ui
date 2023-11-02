@@ -6,25 +6,13 @@
 	import '@svelteness/kit-docs/client/styles/vars.css';
 
 	import type { LayoutData } from './$types';
-
+	import { SocialLink } from '@svelteness/kit-docs';
 	import type { NavbarConfig, ResolvedSidebarConfig } from '@svelteness/kit-docs';
 
 	import { page } from '$app/stores';
 	import SvelteLogo from '$img/svelte-horizontal.svg?raw';
 
 	import { Button, KitDocs, KitDocsLayout, createSidebarContext } from '@svelteness/kit-docs';
-
-	function augmentSidebar(sidebar?: ResolvedSidebarConfig) {
-		if (sidebar) {
-			sidebar.links['Components'] = [
-				{
-					title: 'bla',
-					slug: '/docs/components/bla'
-				}
-			];
-		}
-		return undefined;
-	}
 
 	export let data: LayoutData;
 
@@ -55,15 +43,23 @@
 <KitDocs {meta}>
 	<KitDocsLayout {navbar} {sidebar}>
 		<div class="logo" slot="navbar-left">
-			<Button href="/">
-				{@html SvelteLogo}
-			</Button>
+			<Button href="/">🎛️ Svelte Tweakpane UI</Button>
 		</div>
+
+		<div class="socials" slot="navbar-right-alt">
+			<SocialLink type="gitHub" href="https://github.com/kitschpatrol/svelte-tweakpane-ui" />
+		</div>
+
 		<slot />
 	</KitDocsLayout>
 </KitDocs>
 
 <style>
+	.socials {
+		display: flex;
+		margin-left: -0.25rem;
+	}
+
 	:global(:root) {
 		--kd-color-brand-rgb: 233, 127, 6;
 	}
@@ -93,7 +89,7 @@
 	/* Do not blur backgrounds  */
 	:global(.blur-bg) {
 		backdrop-filter: unset !important;
-		background-color: rgb(var(--kd-color-body) / 1);
+		background-color: rgb(var(--kd-color-body) / 100%);
 	}
 
 	/* :global(.backdrop-blur-sm) {
