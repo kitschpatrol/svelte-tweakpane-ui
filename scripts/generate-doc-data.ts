@@ -51,19 +51,19 @@ for (const { name, path } of components) {
 	if (name === 'Pane') {
 		testProps = [
 			{
-				description: 'When `position` is `draggable`',
+				description: "`position='draggable'`",
 				condition: {
 					position: 'draggable'
 				}
 			},
 			{
-				description: 'When `position` is `inline`',
+				description: "`position='inline'`",
 				condition: {
 					position: 'inline'
 				}
 			},
 			{
-				description: 'When `position` is `fixed`',
+				description: "`position='fixed'`",
 				condition: {
 					position: 'fixed'
 				}
@@ -74,19 +74,19 @@ for (const { name, path } of components) {
 	if (name === 'Monitor') {
 		testProps = [
 			{
-				description: 'When a `number` value is used',
+				description: "`typeof value === 'number'`",
 				condition: {
 					value: 1
 				}
 			},
 			{
-				description: 'When a `boolean` value is used',
+				description: "`typeof value === 'boolean'`",
 				condition: {
 					value: false
 				}
 			},
 			{
-				description: 'When a `string` value is used',
+				description: "`typeof value === 'string'`",
 				condition: {
 					value: 'i am a string'
 				}

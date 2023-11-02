@@ -3,6 +3,7 @@ import { Document, DocumentManager } from 'svelte-language-server/dist/src/lib/d
 import { LSConfigManager } from 'svelte-language-server/dist/src/ls-config';
 import { LSAndTSDocResolver } from 'svelte-language-server/dist/src/plugins/typescript/LSAndTSDocResolver';
 import { isNotNullOrUndefined, pathToUrl } from 'svelte-language-server/dist/src/utils';
+import { nanoid } from 'nanoid';
 import ts from 'typescript';
 
 /**
@@ -40,6 +41,10 @@ export type ComponentInfo = {
 		props: ComponentPartInfo;
 	}[];
 };
+
+function sortPropsByName(props: ComponentPartInfo): ComponentPartInfo {
+	return props.sort((a, b) => a.name.localeCompare(b.name));
+}
 
 function jsDocTagInfoToJsDocRecord(jsDocTags: ts.JSDocTagInfo[]): JSDocRecord {
 	const result: JSDocRecord = {};
@@ -103,9 +108,9 @@ async function getStaticComponentInfo(componentPath: string): Promise<ComponentI
 		pathParts: componentPath.split('/').slice(3, -1),
 		doc: ts.displayPartsToString(classSymbol.getDocumentationComment(typeChecker)),
 		jsDocs: jsDocTagInfoToJsDocRecord(classSymbol.getJsDocTags()),
-		props: getInfoFor('$$prop_def', classType, typeChecker),
-		events: getInfoFor('$$events_def', classType, typeChecker),
-		slots: getInfoFor('$$slot_def', classType, typeChecker)
+		props: sortPropsByName(getInfoFor('$$prop_def', classType, typeChecker)),
+		events: sortPropsByName(getInfoFor('$$events_def', classType, typeChecker)),
+		slots: sortPropsByName(getInfoFor('$$slot_def', classType, typeChecker))
 	};
 
 	lsAndTsDocResolver.deleteSnapshot(tsDoc.filePath);
@@ -190,9 +195,11 @@ async function getDynamicComponentProps(
 		`<${componentName} ${generateStringFromPropObject(testProps)} />`
 	];
 
+	// generated file name must be unique, cleanup doesn't seem to be enough
+	// to avoid stale autocompletion values across repeat invocations
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const document = docManager.openClientDocument(<any>{
-		uri: 'file:///inmemory.svelte',
+		uri: `file:///inmemory-${componentName}-${nanoid()}.svelte`,
 		text: testComponentSourceRows.join('\n')
 	});
 
@@ -266,7 +273,7 @@ export async function getComponentInfo(
 			results!.dynamicProps.push({
 				description: testProp.description,
 				condition: testProp.condition,
-				props: await getDynamicComponentProps(componentPath, testProp.condition)
+				props: sortPropsByName(await getDynamicComponentProps(componentPath, testProp.condition))
 			});
 		}
 	}

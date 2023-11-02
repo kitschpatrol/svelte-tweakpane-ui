@@ -41,7 +41,7 @@
 		 * Function wrapping the `measure` function.
 		 *
 		 * The defauly is fine for most cases.
-		 * @default `[new ProfilerBladeDefaultMeasureHandler()](https://github.com/kitschpatrol/tweakpane-plugin-profiler/blob/tweakpane-v4/src/ProfilerBladeDefaultMeasureHandler.ts)`
+		 * @default [`new ProfilerBladeDefaultMeasureHandler()`](https://github.com/kitschpatrol/tweakpane-plugin-profiler/blob/tweakpane-v4/src/ProfilerBladeDefaultMeasureHandler.ts)
 		 */
 		measureHandler?: ProfilerMeasureHandler;
 		/**

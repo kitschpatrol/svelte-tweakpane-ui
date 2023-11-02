@@ -84,6 +84,11 @@
 		font-weight: unset;
 	}
 
+	:global(a code) {
+		font-weight: unset;
+		font-weight: 600 !important;
+	}
+
 	/* Do not blur backgrounds  */
 	:global(.blur-bg) {
 		backdrop-filter: unset !important;

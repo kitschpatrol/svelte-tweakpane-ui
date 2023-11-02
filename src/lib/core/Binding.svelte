@@ -47,12 +47,14 @@
 	/**
 	 * Custom color scheme.
 	 *
-	 * Default: `undefined` (Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with `setGlobalDefaultTheme()`.)
+	 * @default `undefined` (Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with `setGlobalDefaultTheme()`.)
 	 * */
 	export let theme: Theme | undefined = undefined;
 
 	/**
 	 * Reference to internal TweakPane [BindingApi](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for this control.
+	 *
+	 * This is primarily for internal use, when implementing convenience components wrapping Binding's functionality.
 	 * @bindable
 	 * @readonly
 	 * */
@@ -60,6 +62,8 @@
 
 	/**
 	 * Imported Tweakpane `TpPluginBundle` (aliased as `Plugin`) module to automatically register in the binding's containing `<Pane>`.
+	 *
+	 * This is primarily for internal use, when implementing convenience components wrapping Binding's functionality in combination with a Tweakpane plugin.
 	 * @default `undefined`
 	 * */
 	export let plugin: Plugin | undefined = undefined;
@@ -131,6 +135,8 @@
 Wraps the Tweakpane [addBinding](https://tweakpane.github.io/docs/input-bindings/) method.
 
 Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane position='inline'>`.
+
+This component is provided for consistency with Tweakapne's API, but is not recommended for general use.
 
 Consider convenience components like `<Slider>`, `<Color>`, etc. before using this component directly.
 

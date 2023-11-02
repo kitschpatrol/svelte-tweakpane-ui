@@ -79,7 +79,6 @@
 	type $$Events = {
 		/**
 		 * Fires when the FPS value changes
-
 		 * @event
 		 * */
 		change: number;

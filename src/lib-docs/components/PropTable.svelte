@@ -1,9 +1,10 @@
 <script lang="ts">
 	import type { ComponentPartInfo } from '$lib-docs/types';
 	import { Table, Chip } from '@svelteness/kit-docs';
-	import BooleanIcon from './BooleanIcon.svelte';
 
 	export let data: ComponentPartInfo;
+	export let showDefault: boolean = true;
+	export let showFlags: boolean = true;
 
 	function cleanType(type: string): string {
 		return type
@@ -14,56 +15,90 @@
 
 	function cleanDefault(defaultValue: string | undefined): string {
 		if (defaultValue === undefined) return '';
-		return defaultValue.includes('undefined') ? '' : defaultValue;
+		return defaultValue;
 	}
 
 	function isRequired(type: string): boolean {
 		return !type.includes(' | undefined');
 	}
 
+	function getFlags(prop: ComponentPartInfo[0]): string[] {
+		const flags = Object.keys(prop.jsDocs)
+			// default gets its own row
+			.filter((key) => key !== 'default')
+			.map((key) => key);
+
+		// have to pull "required" from type
+		if (isRequired(prop.type)) {
+			flags.push('required');
+		} else {
+			flags.push('optional');
+		}
+
+		return flags;
+	}
+
 	// console.log(data);
 </script>
 
-<Table class="propTable">
+<Table class="prop-table">
 	<svelte:fragment slot="head">
 		<tr>
-			<th>Prop</th>
+			<th>Name</th>
 			<th>Description</th>
 			<th>Type</th>
-			<th>Default</th>
-			<th>Bindable</th>
-			<th>Required</th>
+			{#if showDefault}
+				<th>Default</th>
+			{/if}
+			{#if showFlags}
+				<th>Flags</th>
+			{/if}
 		</tr>
 	</svelte:fragment>
 	<svelte:fragment slot="body">
 		{#each data as prop}
 			<tr>
-				<td><code>{prop.name}</code></td>
-				<td>{@html prop.doc}</td>
-				<td><code>{@html cleanType(prop.type)}</code></td>
-				<td>{@html cleanDefault(prop.jsDocs.default)}</td>
-				<!-- <td><BooleanIcon showFalse={false} value={prop.jsDocs.bindable === ''} /></td>
-				<td><BooleanIcon showFalse={false} value={isRequired(prop.type)} /></td> -->
-				<td><em>{prop.jsDocs.bindable === '' ? 'bindable' : ''}</em></td>
-				<td><em>{isRequired(prop.type) ? 'required' : ''}</em></td>
+				<td>
+					<code>{prop.name}</code>
+				</td>
+				<td class="widest">{@html prop.doc}</td>
+				<td class="wide"><code>{@html cleanType(prop.type)}</code></td>
+				{#if showDefault}
+					<td class="wide">{@html cleanDefault(prop.jsDocs.default)}</td>
+				{/if}
+				{#if showFlags}
+					<td>
+						<div class="chip-stack">
+							{#each getFlags(prop) as flag}
+								<Chip>{flag}</Chip>
+							{/each}
+						</div>
+					</td>
+				{/if}
 			</tr>
 		{/each}
 	</svelte:fragment>
 </Table>
 
 <style>
-	:global(.propTable table) {
+	:global(.prop-table table) {
 		table-layout: auto;
 		border-collapse: collapse;
 		width: 100%;
 	}
 
-	:global(.propTable thead) {
+	:global(.prop-table thead) {
 		background-color: unset !important;
 	}
 
 	th {
 		font-size: 0.875rem;
+	}
+
+	.chip-stack {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
 	}
 
 	th,
@@ -81,14 +116,15 @@
 		font-weight: unset;
 	}
 
-	td:nth-child(2) {
-		width: 60%;
+	td.widest {
+		width: 100%;
+		min-width: 180px;
 		white-space: normal; /* Reset white space */
 	}
 
-	td:nth-child(4),
-	td:nth-child(3) {
+	td.wide {
 		width: 20%;
+		word-wrap: normal; /* Break long words */
 		white-space: normal; /* Reset white space */
 	}
 </style>

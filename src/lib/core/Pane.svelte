@@ -86,7 +86,7 @@ Mode overview:
 		If multiple `<Pane position='draggable' ...>` components are used on the same page with `storePositionLocally` set to true, then each must have a unique `localStoreId` prop set to avoid collisions.
 		
 		Double-clicking the width drag handle will expand or contract the pane between to its `minWidth` and `maxWidth` sizes.
-- **`<Pane position='inline'>`** is an inline version of the pane component, allowing the Tweakpane window to appear in the normal flow of the document.
+- **`<Pane position='inline' ...>`** is an inline version of the pane component, allowing the Tweakpane window to appear in the normal flow of the document.
 	  
 		All other `svelte-tweakpane-ui` components which are created without a containing `<Pane>` are nested implicitly inside a titleless `<Pane position='inline'>` component. As such, you do not necessarily need create `<Pane position='inline'>` components in most cases.
 	

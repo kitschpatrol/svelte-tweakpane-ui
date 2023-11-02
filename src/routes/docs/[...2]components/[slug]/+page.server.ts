@@ -1,9 +1,31 @@
 import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { startCase } from 'lodash-es';
+import { startCase, kebabCase } from 'lodash-es';
 import type { ComponentInfo } from '$lib-docs/types';
 import markdownit from 'markdown-it';
 import traverse from 'traverse';
+
+function linkifyComponentReferences(
+	str: string,
+	validComponentNames: string[],
+	markdownStyleLink: boolean = true
+): string {
+	return str.replaceAll(/(`?)<([A-Z]\w+)>(`?)/g, (match, prefix, name, postfix) => {
+		if (validComponentNames.includes(name)) {
+			// Replace with link
+			if (markdownStyleLink) {
+				return `[${prefix ?? ''}<${name}>${postfix ?? ''}](/docs/components/${kebabCase(name)})`;
+			} else {
+				return `${prefix ?? ''}<a href="/docs/components/${kebabCase(name)}">&lt;${name}&gt;</a>${
+					postfix ?? ''
+				}`;
+			}
+		} else {
+			// No replacement, return the original match
+			return match;
+		}
+	});
+}
 
 export const load: PageServerLoad = async ({ params }) => {
 	const components: Record<string, ComponentInfo> = structuredClone(
@@ -13,9 +35,13 @@ export const load: PageServerLoad = async ({ params }) => {
 		})
 	);
 
+	const componentNames = Object.values(components).map((component) => component.name);
+
 	const component = Object.values(components).find((component) => {
 		return component.name === startCase(params.slug).replace(/ /g, '');
 	});
+
+	// todo redirect to the component page for non-kebab params?
 
 	if (!component) throw error(404, 'Component not found');
 
@@ -40,17 +66,13 @@ export const load: PageServerLoad = async ({ params }) => {
 					// (so we can use the KitDocs component in the page tempalate)
 					break;
 				case 'doc':
-					if (this.level === 1) {
-						// treat the big doc block as... blocks
-						// TODO consider for all levels?
-						this.update(md.render(value));
-					} else {
-						this.update(md.render(value));
-					}
+					// expand component strings like <Button> into links
+					// treat the big doc block as... blocks
+					this.update(md.render(linkifyComponentReferences(value, componentNames)));
 					break;
 				default:
 					// treat everything else as inline
-					this.update(md.renderInline(value), true);
+					this.update(md.renderInline(linkifyComponentReferences(value, componentNames)), true);
 					break;
 			}
 		}

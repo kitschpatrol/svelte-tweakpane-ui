@@ -2,4 +2,4 @@
 	import Pane from '$lib/core/Pane.svelte';
 </script>
 
-<Pane position="draggable" />
+<Pane position="inline" />
