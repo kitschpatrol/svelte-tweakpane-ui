@@ -4,6 +4,7 @@ import { startCase, kebabCase } from 'lodash-es';
 import type { ComponentInfo } from '$lib-docs/types';
 import markdownit from 'markdown-it';
 import traverse from 'traverse';
+import { base } from '$app/paths';
 
 function linkifyComponentReferences(
 	str: string,
@@ -14,11 +15,13 @@ function linkifyComponentReferences(
 		if (validComponentNames.includes(name)) {
 			// Replace with link
 			if (markdownStyleLink) {
-				return `[${prefix ?? ''}<${name}>${postfix ?? ''}](/docs/components/${kebabCase(name)})`;
+				return `[${prefix ?? ''}<${name}>${postfix ?? ''}](${base}/docs/components/${kebabCase(
+					name
+				)})`;
 			} else {
-				return `${prefix ?? ''}<a href="/docs/components/${kebabCase(name)}">&lt;${name}&gt;</a>${
-					postfix ?? ''
-				}`;
+				return `${prefix ?? ''}<a href="${base}/docs/components/${kebabCase(
+					name
+				)}">&lt;${name}&gt;</a>${postfix ?? ''}`;
 			}
 		} else {
 			// No replacement, return the original match
