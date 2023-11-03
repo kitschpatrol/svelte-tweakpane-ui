@@ -46,7 +46,6 @@
 	});
 
 	$: width, BROWSER && paneRef !== undefined && setWidth();
-	$: BROWSER && paneRef !== undefined && console.log(paneRef.element);
 </script>
 
 <!--

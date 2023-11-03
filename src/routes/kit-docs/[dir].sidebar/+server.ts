@@ -17,7 +17,7 @@ const components: Record<string, ComponentInfo> = structuredClone(
 );
 
 export async function GET(request: RequestEvent) {
-	const handler = createSidebarRequestHandler();
+	const handler = createSidebarRequestHandler({ exclude: '/docs/components/**' });
 	const response = await handler(request);
 
 	const sidebarObject = JSON.parse(await response.text());
