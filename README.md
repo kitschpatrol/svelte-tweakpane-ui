@@ -20,8 +20,8 @@ npm install --development svelte-tweakpane-ui
 
 Import and use Tweakpane in your Svelte components:
 
-```
-TK
+```tsx
+TK;
 ```
 
 ## Philosophy and approach
@@ -200,6 +200,7 @@ Two other projects provide integration between Tweakpane and Svelte:
 - Using `type $$Props` instead of `interface $$Props` avoids `$$Props.Type` noise in hover tips.
 - https://github.com/khromov/sveltekit-dynamic-component-load-demo
 - https://github.com/HiDeoo/Typedown
+- Sveletpress example: https://github.com/Myrmod/svelte-babylon
 
 ## JSDoc Meanings
 

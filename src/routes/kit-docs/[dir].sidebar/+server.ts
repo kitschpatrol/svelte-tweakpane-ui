@@ -2,6 +2,7 @@ import type { RequestEvent } from '@sveltejs/kit';
 import { createSidebarRequestHandler } from '@svelteness/kit-docs/node';
 import type { ComponentInfo } from '$lib-docs/types';
 import { kebabCase, startCase, fromPairs, sortBy, toPairs } from 'lodash-es';
+import { base } from '$app/paths';
 
 type SidebarLink = { title: string; slug: string };
 
@@ -17,7 +18,10 @@ const components: Record<string, ComponentInfo> = structuredClone(
 );
 
 export async function GET(request: RequestEvent) {
-	const handler = createSidebarRequestHandler({ exclude: '/docs/components/**' });
+	const handler = createSidebarRequestHandler({
+		exclude: `${base}/docs/components/**`,
+		resolveSlug: ({ resolve }) => base + resolve()
+	});
 	const response = await handler(request);
 
 	const sidebarObject = JSON.parse(await response.text());
@@ -36,7 +40,7 @@ export async function GET(request: RequestEvent) {
 		componentLinks[categoryName] ??= [];
 		componentLinks[categoryName].push({
 			title: component.name,
-			slug: `/docs/components/${kebabCase(component.name)}`
+			slug: `${base}/docs/components/${kebabCase(component.name)}`
 		});
 	});
 

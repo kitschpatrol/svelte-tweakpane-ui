@@ -7,8 +7,9 @@
 
 	import type { LayoutData } from './$types';
 	import { SocialLink } from '@svelteness/kit-docs';
-	import type { NavbarConfig, ResolvedSidebarConfig } from '@svelteness/kit-docs';
+	import type { NavbarConfig } from '@svelteness/kit-docs';
 	import { page } from '$app/stores';
+	import { base } from '$app/paths';
 
 	import { Button, KitDocs, KitDocsLayout, createSidebarContext } from '@svelteness/kit-docs';
 
@@ -17,7 +18,7 @@
 	$: ({ meta, sidebar } = data);
 
 	const navbar: NavbarConfig = {
-		links: [{ title: 'Documentation', slug: '/docs', match: /\/docs/ }]
+		links: [{ title: 'Documentation', slug: `${base}/docs`, match: /\/docs/ }]
 	};
 
 	const { activeCategory } = createSidebarContext(sidebar);
@@ -41,7 +42,7 @@
 <KitDocs {meta}>
 	<KitDocsLayout {navbar} {sidebar}>
 		<div class="logo" slot="navbar-left">
-			<Button href="/">🎛️ Svelte Tweakpane UI</Button>
+			<Button href={base}>🎛️ Svelte Tweakpane UI</Button>
 		</div>
 
 		<div class="socials" slot="navbar-right-alt">

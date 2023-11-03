@@ -9,6 +9,8 @@ description: Page description.
 
 ## Test Heading 1
 
+I am a paragraph.
+
 ### Test Heading 2
 
 #### Test Heading 3

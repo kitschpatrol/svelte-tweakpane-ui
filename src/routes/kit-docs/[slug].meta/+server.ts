@@ -3,6 +3,7 @@ import type { RequestEvent } from '@sveltejs/kit';
 import { kebabToTitleCase } from '@svelteness/kit-docs';
 import { JSDOM } from 'jsdom';
 import { escape } from 'lodash-es';
+import { base } from '$app/paths';
 
 export async function GET(request: RequestEvent) {
 	if (request.params.slug?.includes('docs_components_')) {
@@ -15,7 +16,7 @@ export async function GET(request: RequestEvent) {
 		// ...would only do this on a fully prerendered site
 
 		// ಠ_ಠ
-		const pageUrl = `../${request.params.slug.replaceAll('_', '/')}`;
+		const pageUrl = `${base}/${request.params.slug.substring(base.length).replaceAll('_', '/')}`;
 		const res = await request.fetch(pageUrl);
 		const rawText = await res.text();
 
@@ -31,7 +32,9 @@ export async function GET(request: RequestEvent) {
 
 		return new Response(JSON.stringify(metaData));
 	} else {
-		const handler = createMetaRequestHandler();
+		const handler = createMetaRequestHandler({
+			resolve: (slug, { resolve }) => resolve(slug.substring(base.length))
+		});
 		const response = await handler(request);
 
 		// the default kitdocs request handler will return an empty body for
@@ -129,7 +132,12 @@ function resolveHeadersFromHtml(
 function resolveTitleFromHtml(htmlContent: string) {
 	const dom = new JSDOM(htmlContent);
 	const document = dom.window.document;
-	return document.querySelector('h1')?.textContent?.trim() || '';
+	return (
+		document
+			.querySelector('h1')
+			?.textContent?.replace(/\s*#+\s*/, '')
+			.trim() || ''
+	);
 }
 
 // Somewhere else to pull this from?

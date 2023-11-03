@@ -11,7 +11,8 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			'$lib-docs': './src/lib-docs'
-		}
+		},
+		paths: { base: '/svelte-tweakpane-ui' }
 	},
 	compilerOptions: {
 		preserveWhitespace: false,
