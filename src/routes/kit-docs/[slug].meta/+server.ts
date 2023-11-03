@@ -112,7 +112,7 @@ function resolveHeadersFromHtml(
 
 			if (stack.length > 0) {
 				// The last header in the stack is the parent
-				stack[0].children.push(currentHeader);
+				stack.at(0)?.children?.push(currentHeader);
 			} else {
 				// No parent, so it's another top-level header
 				headers.push(currentHeader);
@@ -132,7 +132,9 @@ function resolveTitleFromHtml(htmlContent: string) {
 	return document.querySelector('h1')?.textContent?.trim() || '';
 }
 
+// Somewhere else to pull this from?
 // src/node/markdown-plugin/parser/utils/slugify.ts
+// eslint-disable-next-line no-control-regex
 const rControl = /[\u0000-\u001f]/g;
 const rSpecial = /[\s~`!@#$%^&*()\-_+=[\]{}|\\;:"'“”‘’<>,.?/]+/g;
 const rCombining = /[\u0300-\u036F]/g;

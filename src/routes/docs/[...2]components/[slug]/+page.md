@@ -12,11 +12,18 @@
 <script lang="ts">
 	import type { PageServerData } from './$types';
 	import PropTable from '$lib-docs/components/PropTable.svelte';
+	import striptags from 'striptags';
 
 	export let data: PageServerData;
 
+	function cleanAnchor(str: string): string {
+		return striptags(str).replace(/['"]/g, '').replace(/\s/g, '-');
+	}
+
 	$: ({ component } = data);
 	$: hasDynamicProps = component.dynamicProps && component.dynamicProps.length > 0;
+
+	
 </script>
 
 # {component.name}
@@ -77,7 +84,8 @@ contingent on a previous value of the dynamic prop.
 {#if component.dynamicProps}
 {#each component.dynamicProps as dynamicPropExample}
 
-### Props when {@html dynamicPropExample.description}
+<!-- Have to do this manually instead of with a ### to get the dynamic id into the output -->
+<h3 id="props-when-{cleanAnchor(dynamicPropExample.description)}" tabindex="-1"><a href="#props-when-{cleanAnchor(dynamicPropExample.description)}" class="header-anchor" aria-hidden="true">#</a>{@html dynamicPropExample.description}</h3>
 
 <PropTable data={dynamicPropExample.props} />
 
