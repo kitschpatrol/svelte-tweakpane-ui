@@ -119,7 +119,7 @@
 		updateCollapsability(clickToExpand, paneRef.element, 'tp-rotv_b', 'tp-rotv_m');
 	$: BROWSER && paneRef && title && (paneRef.title = title);
 	$: BROWSER && paneRef && applyTheme(paneRef.element, theme);
-	$: BROWSER && paneRef && (paneRef.expanded = expanded);
+	$: BROWSER && paneRef && expanded !== undefined && (paneRef.expanded = expanded);
 </script>
 
 <!--
