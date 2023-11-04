@@ -4,7 +4,7 @@
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 
-	// TODO reset option?
+	// TODO more specific escape that just removes tweakpane css?
 	// TODO maybe expose scrollable prop?
 
 	type $$Props = Omit<
@@ -17,9 +17,17 @@
 		 * @default `undefined` (no max height)
 		 */
 		maxHeight?: boolean;
+		/**
+		 * Whether to reset the CSS of the element block to its default values.
+		 * Avoids inheritance of Tweakpane's CSS styles.
+		 * Note that this uses a simple `all: initial;` rule.
+		 * @default `true`
+		 */
+		resetStyle?: boolean;
 	};
 
 	export let maxHeight: $$Props['maxHeight'] = undefined;
+	export let resetStyle: $$Props['resetStyle'] = true;
 
 	// pretend we're a separator blade seems to require a view
 	// the <hr> is replaced immediately with the slot contents
@@ -56,58 +64,60 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
 @example
 ```tsx
 <script lang="ts">
-	import { Element, Pane, Wheel, Checkbox } from '$lib';
+  import { Element, Pane, Wheel, Checkbox } from '$lib';
 
-	let animationEnabled = true;
-	let angle = 45;
+  let animationEnabled = true;
+  let angle = 45;
 </script>
 
 <Pane title="Element Demo" position="inline">
-	<Wheel
-		bind:value={angle}
-		label="Gradient Angle"
-		pointerScale={-5}
-		format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
-	/>
-	<Element>
-		<div class="demo" style:--a="{angle}deg">
-			<p class:animated={animationEnabled}>
-				Whatever you want<br />inside the <code>&lt;Pane&gt;</code>.
-			</p>
-		</div>
-	</Element>
-	<Checkbox label="Animate" bind:value={animationEnabled} />
+  <Wheel
+    bind:value={angle}
+    label="Gradient Angle"
+    pointerScale={-5}
+    format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
+  />
+  <Element>
+    <div class="demo" style:--a="{angle}deg">
+      <p class:animated={animationEnabled}>
+        Whatever you want<br />inside the <code>&lt;Pane&gt;</code>.
+      </p>
+    </div>
+  </Element>
+  <Checkbox label="Animate" bind:value={animationEnabled} />
 </Pane>
 
 <style>
-	.demo {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		aspect-ratio: 1;
-		background: linear-gradient(var(--a), orange, magenta);
-	}
+  .demo {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    background: linear-gradient(var(--a), orange, magenta);
+    container-type: inline-size;
+  }
 
-	.demo > p {
-		text-align: center;
-		font-family: sans-serif;
-		font-size: 6cqw;
-		color: white;
-	}
+  .demo > p {
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 10cqw;
+    color: white;
+  }
 
-	.demo > p > code {
-		color: white;
-	}
+  .demo > p > code {
+    color: white;
+  }
 
-	.animated {
-		animation: rotate 10s linear infinite;
-	}
+  .animated {
+    animation: rotate 10s linear infinite;
+  }
 
-	@keyframes rotate {
-		to {
-			transform: rotate(360deg);
-		}
-	}
+  @keyframes rotate {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 </style>
 ```
 
@@ -118,7 +128,7 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
 	<Blade bind:ref {options} {...$$restProps} />
 	<div class="element" bind:this={sourceDiv}>
 		<div class="element-container" style:max-height="{maxHeight}px">
-			<div class="reset">
+			<div class:reset={resetStyle}>
 				<slot />
 			</div>
 		</div>
