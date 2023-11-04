@@ -89,10 +89,10 @@ const standard: Theme = {
 	labelForegroundColor: 'rgba(187, 188, 196, 0.7)',
 	monitorBackgroundColor: 'rgba(0, 0, 0, 0.2)',
 	monitorForegroundColor: 'rgba(187, 188, 196, 0.7)',
-	pluginImageDraggingColor: 'hsla(230, 100%, 66%, 1)',
-	pluginThumbnailListHeight: '400px',
-	pluginThumbnailListThumbSize: '20px',
-	pluginThumbnailListWidth: '200px'
+	pluginImageDraggingColor: 'hsla(230, 100%, 66%, 1)'
+	// pluginThumbnailListHeight: '400px',
+	// pluginThumbnailListThumbSize: '20px',
+	// pluginThumbnailListWidth: '200px'
 };
 
 const light: Theme = {
@@ -285,10 +285,10 @@ const keyToCssVariableMap = new Map([
 	['monitorBackgroundColor', '--tp-monitor-background-color'],
 	['monitorForegroundColor', '--tp-monitor-foreground-color'],
 	// Plugins
-	['pluginImageDraggingColor', '--tp-plugin-image-dragging-color'],
-	['pluginThumbnailListHeight', '--tp-plugin-thumbnail-list-height'],
-	['pluginThumbnailListThumbSize', '--tp-plugin-thumbnail-list-thumb-size'],
-	['pluginThumbnailListWidth', '--tp-plugin-thumbnail-list-width']
+	['pluginImageDraggingColor', '--tp-plugin-image-dragging-color']
+	// ['pluginThumbnailListHeight', '--tp-plugin-thumbnail-list-height'],
+	// ['pluginThumbnailListThumbSize', '--tp-plugin-thumbnail-list-thumb-size'],
+	// ['pluginThumbnailListWidth', '--tp-plugin-thumbnail-list-width']
 ]);
 
 // Just do it dynamically instead of the map?

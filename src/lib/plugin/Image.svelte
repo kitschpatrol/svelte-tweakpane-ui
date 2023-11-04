@@ -4,9 +4,9 @@
 
 <script lang="ts">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import * as pluginModule from 'tweakpane-image-plugin';
+	import * as pluginModule from '@kitschpatrol/tweakpane-image-plugin';
 	import type { ComponentProps } from 'svelte';
-	import type { PluginInputParams as ImageOptions } from 'tweakpane-image-plugin/dist/types/plugin.d.ts';
+	import type { PluginInputParams as ImageOptions } from '@kitschpatrol/tweakpane-image-plugin/dist/types/plugin.d.ts';
 	import { BROWSER } from 'esm-env';
 
 	type $$Props = Omit<ComponentProps<GenericInput<ImageValue>>, 'plugin' | 'value' | 'ref'> & {

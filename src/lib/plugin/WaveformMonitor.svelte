@@ -1,13 +1,13 @@
 <script lang="ts">
 	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
-	import * as pluginModule from 'tweakpane-plugin-waveform';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-waveform';
 	import type { GenericMonitorOptions } from '$lib/internal/GenericMonitor.svelte';
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 	import type {
 		WaveformStyles as WaveformMonitorLineStyle,
 		WaveformValue as WaveformMonitorValue
-	} from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
+	} from '@kitschpatrol/tweakpane-plugin-waveform/dist/types/view/waveform.js';
 
 	// Direct prop import is wrapped in some extra stuff we don't want
 	// import type { WaveformProps } from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import * as pluginModule from '@pangenerator/tweakpane-textarea-plugin';
-	import type { TextareaPluginInputParams } from '@pangenerator/tweakpane-textarea-plugin/dist/types/plugin.js';
+	import * as pluginModule from '@kitschpatrol/tweakpane-textarea-plugin';
+	import type { TextareaPluginInputParams } from '@kitschpatrol/tweakpane-textarea-plugin/dist/types/plugin.js';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 	import GenericInput from '$lib/internal/GenericInput.svelte';

@@ -14,11 +14,11 @@
 
 <script lang="ts">
 	// note name collission with options params
-	import * as pluginModule from '@0b5vr/tweakpane-plugin-rotation';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation';
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d';
 	import type { ComponentProps } from 'svelte';
-	import type { RotationInputPluginQuaternionParams as RotationQuaternionOptionsInternal } from '@0b5vr/tweakpane-plugin-rotation/dist/types/RotationInputPluginQuaternionParams';
+	import type { RotationInputPluginQuaternionParams as RotationQuaternionOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/RotationInputPluginQuaternionParams';
 	import { BROWSER } from 'esm-env';
 
 	type $$Props = Omit<

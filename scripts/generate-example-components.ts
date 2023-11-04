@@ -8,6 +8,8 @@ import { getComponentExampleCodeFromSource, getExportedComponents } from './ast-
 // code's technically already formatted in the source files, but it happens again in
 // getComponentExampleCodeFromSource because parsing to ast removes it
 
+const verbose = false;
+
 // returns true on success
 async function generateExampleComponent(
 	name: string,
@@ -61,8 +63,6 @@ async function generateExampleMarkdown(
 			`<CodeFence showLineNumbers showCopyCode title="${name}${suffix}.svelte" `
 		);
 
-		// component = await format(component, prettierConfig);
-
 		fs.writeFileSync(resolvedPath, component);
 		return true;
 	} else {
@@ -91,12 +91,14 @@ deleteExisting(componentDestination);
 deleteExisting(markdownDestination);
 
 for (const { name } of components) {
+	verbose && console.log(`Generating example component for "${name}"...`);
 	if (await generateExampleComponent(name, 'Example', componentDestination)) {
 		totalComponentsGenerated++;
 	} else {
 		console.warn(`No example code found in "${name}.svelte"`);
 	}
 
+	verbose && console.log(`Generating example markdown for "${name}"...`);
 	if (await generateExampleMarkdown(name, 'Example', markdownDestination)) {
 		totalMarkdownGenerated++;
 	} else {
