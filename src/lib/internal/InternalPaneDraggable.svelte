@@ -402,18 +402,18 @@ This component is for internal use only.
 	}
 
 	/* stylelint-disable-next-line selector-class-pattern */
-	:global(div.draggable-container div.tp-rotv_t) {
+	div.draggable-container :global(div.tp-rotv_t) {
 		cursor: grab;
 	}
 
-	:global(div.draggable-container.not-collapsable div.tp-rotv_t) {
+	div.draggable-container.not-collapsable :global(div.tp-rotv_t) {
 		/* TODO remove the magic numbers */
 		/* Expand the drag bar to fill the missing window shade icon space */
 		margin-left: -28px;
 		padding-left: 28px;
 	}
 
-	:global(div.draggable-container.not-resizeable div.tp-rotv_t) {
+	div.draggable-container.not-resizeable :global(div.tp-rotv_t) {
 		/* TODO remove the magic numbers */
 		/* Expand the drag bar to fill the missing width drag icon space */
 		margin-right: -28px;
@@ -421,23 +421,23 @@ This component is for internal use only.
 	}
 
 	/* stylelint-disable-next-line selector-class-pattern */
-	:global(div.draggable-container div.tp-lblv_l) {
+	div.draggable-container :global(div.tp-lblv_l) {
 		white-space: nowrap;
 	}
 
 	/* stylelint-disable-next-line selector-class-pattern */
-	:global(div.draggable-container div.tp-rotv_t:active) {
+	div.draggable-container :global(div.tp-rotv_t:active) {
 		cursor: grabbing;
 	}
 
 	/* stylelint-disable-next-line selector-class-pattern */
-	:global(div.draggable-container div.tp-rotv_m) {
+	div.draggable-container :global(div.tp-rotv_m) {
 		right: unset;
 		/* crazy calc but straight from the tp source */
 		left: calc(var(--cnt-hp) + (var(--cnt-usz) + 4px - 6px) / 2 - 2px);
 	}
 
-	:global(div.draggable-container div.tp-custom-width-handle) {
+	div.draggable-container :global(div.tp-custom-width-handle) {
 		position: absolute;
 		height: 100%;
 		aspect-ratio: 1;
