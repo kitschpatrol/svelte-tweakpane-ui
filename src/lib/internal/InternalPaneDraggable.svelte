@@ -375,7 +375,10 @@ This component is for internal use only.
 		class:not-collapsable={!clickToExpand}
 		bind:this={containerElement}
 		bind:clientHeight={containerHeight}
-		style={`width: ${width}px; left: ${x}px; top: ${y}px; z-index: ${zIndexLocal}`}
+		style:width="{width}px"
+		style:left="{x}px"
+		style:top="{y}px"
+		style:z-index={zIndexLocal}
 	>
 		<GenericPane bind:expanded bind:paneRef {title} {...removeKeys($$restProps, 'position')}>
 			<slot />

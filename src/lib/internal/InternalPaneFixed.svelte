@@ -37,28 +37,26 @@
 	let paneRef: TpPane;
 	let paneContainer: HTMLElement;
 
-	function setPosition() {
-		if (paneContainer !== undefined) {
-			if (x !== undefined) {
-				paneContainer.style.setProperty('right', 'unset');
-				paneContainer.style.setProperty('left', `${x}px`);
-			}
-			if (y !== undefined) {
-				paneContainer.style.setProperty('top', `${y}px`);
-			}
-			if (width !== undefined) {
-				paneContainer.style.setProperty('width', `${width}px`);
-			}
-		}
-	}
-
 	$: BROWSER &&
 		paneRef !== undefined &&
 		paneRef.element.parentElement &&
 		(paneContainer = paneRef.element.parentElement);
-	$: BROWSER && paneContainer !== undefined && x !== undefined && setPosition();
-	$: BROWSER && paneContainer !== undefined && y !== undefined && setPosition();
-	$: BROWSER && paneContainer !== undefined && width !== undefined && setPosition();
+
+	$: BROWSER &&
+		paneContainer !== undefined &&
+		x !== undefined &&
+		(paneContainer.style.setProperty('right', 'unset'),
+		paneContainer.style.setProperty('left', `${x}px`));
+
+	$: BROWSER &&
+		paneContainer !== undefined &&
+		y !== undefined &&
+		paneContainer.style.setProperty('top', `${y}px`);
+
+	$: BROWSER &&
+		paneContainer !== undefined &&
+		width !== undefined &&
+		paneContainer.style.setProperty('width', `${width}px`);
 
 	// div wrapper is required for element index calculation
 </script>
