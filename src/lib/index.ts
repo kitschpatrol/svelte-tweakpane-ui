@@ -15,6 +15,7 @@ export { default as Tab } from '$lib/core/Tab.svelte';
 
 // extra (svelte convenience components)
 export { default as AutoObject } from '$lib/extra/AutoObject.svelte';
+export { default as Element } from '$lib/extra/Element.svelte';
 export { default as Checkbox } from '$lib/extra/Checkbox.svelte';
 export { default as Color, type ColorValue } from '$lib/extra/Color.svelte';
 export { default as List, type ListOptions } from '$lib/extra/List.svelte';
