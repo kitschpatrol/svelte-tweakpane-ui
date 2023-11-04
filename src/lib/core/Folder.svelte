@@ -108,7 +108,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane 
   let count = 0;
 </script>
 
-<Folder title="Reticulaton Manager" {expanded}>
+<Folder title="Reticulaton Manager" bind:expanded>
   <Button title="Increment" on:click={() => count++} />
   <Monitor label="Count" value={count} />
 </Folder>
@@ -126,7 +126,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane 
 		</div>
 	{:else}
 		<InternalPaneInline userCreatedPane={false} {theme}>
-			<svelte:self {title} {disabled} {expanded} {clickToExpand}>
+			<svelte:self {title} {disabled} bind:expanded {clickToExpand}>
 				<slot />
 			</svelte:self>
 		</InternalPaneInline>
