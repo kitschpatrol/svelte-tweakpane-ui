@@ -64,27 +64,44 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
 @example
 ```tsx
 <script lang="ts">
-  import { Element, Pane, Wheel, Checkbox } from '$lib';
+  import { Element, Pane, Wheel, Button } from 'svelte-tweakpane-ui';
 
-  let animationEnabled = true;
-  let angle = 45;
+  let gradientAngle = 45;
+  let textAngle = 0;
 </script>
 
 <Pane title="Element Demo" position="inline">
   <Wheel
-    bind:value={angle}
+    bind:value={gradientAngle}
     label="Gradient Angle"
     pointerScale={-5}
     format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
   />
+  <Wheel
+    bind:value={textAngle}
+    label="Text Angle"
+    pointerScale={-2}
+    format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
+  />
   <Element>
-    <div class="demo" style:--a="{angle}deg">
-      <p class:animated={animationEnabled}>
-        Whatever you want<br />inside the <code>&lt;Pane&gt;</code>.
+    <div class="demo" style:--a="{gradientAngle}deg">
+      <p style:rotate="{textAngle}deg">
+        <code>&lt;Pane&gt;</code><br />
+        <code>&lt;Element&gt;</code><br />
+        Whatever you want.
+        <code>&lt;/Element&gt;</code><br />
+        <code>&lt;/Pane&gt;</code>
       </p>
     </div>
   </Element>
-  <Checkbox label="Animate" bind:value={animationEnabled} />
+  <Button
+    title="Reset"
+    disabled={gradientAngle == 45 && textAngle == 0}
+    on:click={() => {
+      gradientAngle = 45;
+      textAngle = 0;
+    }}
+  />
 </Pane>
 
 <style>
@@ -95,7 +112,6 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
     justify-content: center;
     aspect-ratio: 1;
     background: linear-gradient(var(--a), orange, magenta);
-    container-type: inline-size;
   }
 
   .demo > p {
@@ -108,20 +124,10 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
   .demo > p > code {
     color: white;
   }
-
-  .animated {
-    animation: rotate 10s linear infinite;
-  }
-
-  @keyframes rotate {
-    to {
-      transform: rotate(360deg);
-    }
-  }
 </style>
 ```
 
-@sourceLink
+@sourceLink [Element.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Element.svelte)
 -->
 
 {#if BROWSER}

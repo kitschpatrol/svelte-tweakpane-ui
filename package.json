@@ -57,6 +57,10 @@
       "types": "./dist/extra/AutoObject.svelte.d.ts",
       "svelte": "./dist/extra/AutoObject.svelte"
     },
+    "./Element.svelte": {
+      "types": "./dist/extra/Element.svelte.d.ts",
+      "svelte": "./dist/extra/Element.svelte"
+    },
     "./Checkbox.svelte": {
       "types": "./dist/extra/Checkbox.svelte.d.ts",
       "svelte": "./dist/extra/Checkbox.svelte"
