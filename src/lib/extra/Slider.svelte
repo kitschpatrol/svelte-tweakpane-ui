@@ -28,7 +28,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the slider in `<Pane 
 See the `<Interval>` component for a multi-handle range-defining slider.
 
 @example	
-```tsx
+```svelte
 <script lang="ts">
   import { Slider } from 'svelte-tweakpane-ui';
 

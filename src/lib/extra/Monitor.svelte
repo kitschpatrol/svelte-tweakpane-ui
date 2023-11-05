@@ -68,7 +68,7 @@ See also the `<Waveform>` component for a more advanced number visualization.
 Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane position='inline'>` component.
 
 @example	
-```tsx
+```svelte
 <script lang="ts">
   import { Monitor } from 'svelte-tweakpane-ui';
 

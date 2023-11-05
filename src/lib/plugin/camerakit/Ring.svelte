@@ -1,6 +1,34 @@
 <script lang="ts" context="module">
 	import type { RingSeries } from '@tweakpane/plugin-camerakit/dist/types/util.js';
-	import type { RingUnit } from '@tweakpane/plugin-camerakit/dist/types/view/ring.d.ts';
+	//  import type { RingUnit } from '@tweakpane/plugin-camerakit/dist/types/view/ring.d.ts';
+
+	// redefine RingUnit with additinoal documentation
+	type RingUnit = {
+		/**
+		 * The number of pixels per unit.
+		 *
+		 * This is the amount of space in pixels between each `value` labeled on the ring.
+		 * For example, if `pixels` is 100 and `value` is 10, you will see a value label
+		 * on the ring in the form of 10...(100 pixels)...20...(100 pixels)...30... etc.
+		 */
+		pixels: number;
+		/**
+		 * The number of vertical tick marks between each `value` label on the ring.
+		 *
+		 * For example, if `pixels` is `100`, `value` is `10, and `ticks` is `10`,
+		 * you will have a vertical tick mark every 10 pixels, and a value label
+		 * every 100 pixels.
+		 */
+		ticks: number;
+		/**
+		 * The value for the unit.
+		 *
+		 * This sets the interval between each `value` labeled on the ring.
+		 * For example a `value` of `20` will show value labels 0, 20, 40... etc.
+		 * spaced accrding to the `pixels` value.
+		 */
+		value: number;
+	};
 
 	export type { RingSeries, RingUnit };
 </script>
@@ -57,15 +85,36 @@
 TODO
 
 @example
-```tsx
+```svelte
 <script lang="ts">
-  import { TODO } from 'svelte-tweakpane-ui';
-  const status = 'TODO';
+  import { Ring, type RingUnit } from 'svelte-tweakpane-ui';
+
+  let unitConfig: RingUnit = {
+    pixels: 40,
+    ticks: 5,
+    value: 20
+  };
+
+  let angle = 45;
 </script>
 
-<pre>
-{status}
-</pre>
+<Ring
+  bind:value={angle}
+  unit={unitConfig}
+  pointerScale={-2.5}
+  format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
+  wide={true}
+/>
+
+<div class="demo" style:--a="{angle}deg" />
+
+<style>
+  div.demo {
+    background: linear-gradient(var(--a), magenta, orange);
+    width: 100%;
+    aspect-ratio: 1;
+  }
+</style>
 ```
 
 @sourceLink [Ring.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/camerakit/Ring.svelte)

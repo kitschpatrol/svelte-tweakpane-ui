@@ -47,14 +47,16 @@
 TODO
 
 @example
-```tsx
+```svelte
 <script lang="ts">
-  import { TODO } from 'svelte-tweakpane-ui';
-  const status = 'TODO';
+  import { Textarea } from 'svelte-tweakpane-ui';
+
+  let text = '';
 </script>
 
+<Textarea bind:value={text} placeholder="The void" rows={8} />
 <pre>
-{status}
+	{text}
 </pre>
 ```
 

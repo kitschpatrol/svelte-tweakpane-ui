@@ -94,7 +94,7 @@ Mode overview:
 - **`<Pane position='fixed' ...>`** exhibits the standard Vanilla JS Tweakpane behavior of displaying in a fixed position over the page.
 
 @example	
-```tsx
+```svelte
 <script lang="ts">
   import { Pane, Button } from 'svelte-tweakpane-ui';
 </script>

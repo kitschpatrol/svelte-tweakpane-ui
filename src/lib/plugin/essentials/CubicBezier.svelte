@@ -1,12 +1,12 @@
 <script lang="ts" context="module">
-	export type CubicBezierValue =
-		| {
-				x1: number;
-				y1: number;
-				x2: number;
-				y2: number;
-		  }
-		| [x1: number, y1: number, x2: number, y2: number];
+	export type CubicBezierValueObject = {
+		x1: number;
+		y1: number;
+		x2: number;
+		y2: number;
+	};
+	export type CubicBezierValueTuple = [x1: number, y1: number, x2: number, y2: number];
+	export type CubicBezierValue = CubicBezierValueObject | CubicBezierValueTuple;
 </script>
 
 <script lang="ts">
@@ -94,15 +94,98 @@
 TODO
 
 @example
-```tsx
+```svelte
 <script lang="ts">
-  import { TODO } from 'svelte-tweakpane-ui';
-  const status = 'TODO';
+  import {
+    CubicBezier,
+    Slider,
+    RadioGrid,
+    type CubicBezierValueTuple
+  } from 'svelte-tweakpane-ui';
+  import { tweened } from 'svelte/motion';
+
+  let value: CubicBezierValueTuple = [0.25, 0.1, 0.25, 1.0];
+  let duration = 1000;
+  let moods = ['Set', 'Rise'];
+  let mood: string = moods[0];
+
+  // calculates point on curve at time
+  // (or get this from your favorite library)
+  function cubicBezier(
+    t: number,
+    cubicBezier: CubicBezierValueTuple
+  ): [x: number, y: number] {
+    const p0 = [0, 0];
+    const p3 = [1, 1];
+
+    const x =
+      (1 - t) ** 3 * p0[0] +
+      (1 - t) ** 2 * t * 3 * cubicBezier[0] +
+      (1 - t) * t ** 2 * 3 * cubicBezier[2] +
+      t ** 3 * p3[0];
+    const y =
+      (1 - t) ** 3 * p0[1] +
+      (1 - t) ** 2 * t * 3 * cubicBezier[1] +
+      (1 - t) * t ** 2 * 3 * cubicBezier[3] +
+      t ** 3 * p3[1];
+
+    return [x, y];
+  }
+
+  function cubicEase(t: number): number {
+    return cubicBezier(t, value)[1];
+  }
+
+  function lerp(value: number, toLow: number, toHigh: number): number {
+    return toLow + ((value - 0) * (toHigh - toLow)) / (1 - 0);
+  }
+
+  const positionTween = tweened(0, {
+    duration,
+    easing: cubicEase
+  });
+
+  $: positionTween.set(mood === 'Set' ? 0 : 1, { duration });
+
+  $: celestialHeight = lerp($positionTween, 20, 80);
+  $: twilightAmount = lerp($positionTween, 20, -80);
 </script>
 
-<pre>
-{status}
-</pre>
+<CubicBezier bind:value picker="inline" expanded={true} />
+<Slider
+  label="Duration (Seconds)"
+  bind:value={duration}
+  min={0}
+  max={10000}
+  format={(v) => `${(v / 1000).toFixed(1)}`}
+/>
+<RadioGrid bind:value={mood} values={['Rise', 'Set']} />
+
+<div class="demo" style:--a="{twilightAmount}%">
+  <div class="celestial-object" style:--t="{celestialHeight}%" />
+</div>
+
+<style>
+  .demo {
+    width: 100%;
+    aspect-ratio: 1;
+    background: linear-gradient(to top, orange var(--a), magenta 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .celestial-object {
+    position: absolute;
+    left: 50%;
+    bottom: var(--t);
+    transform-origin: center;
+    transform: translate(-50%, 50%);
+    width: 10cqw;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: yellow;
+  }
+</style>
 ```
 
 @sourceLink [CubicBezier.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/CubicBezier.svelte)

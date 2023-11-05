@@ -6,6 +6,7 @@
 	import { BROWSER } from 'esm-env';
 	import { nanoid } from 'nanoid';
 
+	// TODO handle records and more complex types?
 	// duplicated here because it's not exported from the plugin...
 	// @tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
 	type RadioGridOptions<T> = GenericInputOptions & {
@@ -117,15 +118,49 @@ TODO
 Note about groupname
 
 @example
-```tsx
+```svelte
 <script lang="ts">
-  import { TODO } from 'svelte-tweakpane-ui';
-  const status = 'TODO';
+  import { RadioGrid } from 'svelte-tweakpane-ui';
+
+  // Svelte transition works around CSS gradient
+  // transition limitations
+  import { fade } from 'svelte/transition';
+
+  const radioValues = [
+    ['magenta', 'orange'],
+    ['yellow', 'red'],
+    ['violet', 'gold'],
+    ['red', 'rebeccapurple']
+  ];
+
+  let value = 1;
+
+  $: [start, end] = radioValues[value - 1];
 </script>
 
-<pre>
-{status}
-</pre>
+<RadioGrid bind:value values={[1, 2, 3, 4]} prefix="Color Scheme " />
+
+<div class="demo">
+  {#key value}
+    <div transition:fade class="swatch" style:--s={start} style:--e={end}></div>
+  {/key}
+</div>
+
+<style>
+  div.demo {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    background: white;
+  }
+
+  div.swatch {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: linear-gradient(45deg, var(--s), var(--e));
+  }
+</style>
 ```
 
 @sourceLink [RadioGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/RadioGrid.svelte)

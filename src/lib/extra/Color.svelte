@@ -54,7 +54,7 @@ Wraps Tweakpane's [color input binding](https://tweakpane.github.io/docs/input-b
 Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane position='inline'>`.
 
 @example	
-```tsx
+```svelte
 <script lang="ts">
   import { Color } from 'svelte-tweakpane-ui';
 

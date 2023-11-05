@@ -49,16 +49,56 @@
 @component
 TODO
 
+Note some layout issues with the component itself...
+
 @example
-```tsx
+```svelte
 <script lang="ts">
-  import { TODO } from 'svelte-tweakpane-ui';
-  const status = 'TODO';
+  import { Image, Button } from 'svelte-tweakpane-ui';
+
+  let src = 'placeholder';
+  let kittenIndex = 1;
 </script>
 
-<pre>
-{status}
-</pre>
+<Image fit="contain" label="Image" bind:value={src} />
+<Button
+  label="Random Placeholder"
+  title="Load Kitten"
+  on:click={() => {
+    src = `https://placekitten.com/1024/1024?image=${kittenIndex}`;
+    kittenIndex = (kittenIndex % 16) + 1;
+  }}
+/>
+
+<div class="demo">
+  {#if src === 'placeholder'}
+    <p>Tap “No Image” above to load an image from disk.</p>
+  {:else}
+    <img {src} alt="" />
+  {/if}
+</div>
+
+<style>
+  div.demo {
+    background: linear-gradient(magenta, orange);
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  div.demo > img {
+    max-width: 80%;
+    max-height: 80%;
+  }
+
+  div.demo > p {
+    text-align: center;
+    color: white;
+    max-width: 50%;
+  }
+</style>
 ```
 
 @sourceLink [Image.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/Image.svelte)

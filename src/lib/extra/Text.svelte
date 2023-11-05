@@ -26,7 +26,7 @@ Wraps Tweakpane's [string binding](https://tweakpane.github.io/docs/input-bindin
 Usage outside of a `<Pane>` component will implicitly wrap the text field in `<Pane position='inline'>`.
 
 @example	
-```tsx
+```svelte
 <script lang="ts">
   import { Text } from 'svelte-tweakpane-ui';
 

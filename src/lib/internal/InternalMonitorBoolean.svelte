@@ -40,7 +40,7 @@ Note that `interval` is not exposed because updates are driven by reactive chang
 Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane position='inline'>` component.
 
 @example	
-```tsx
+```svelte
 <script lang="ts">
   import { InternalMonitorBoolean } from 'svelte-tweakpane-ui';
 

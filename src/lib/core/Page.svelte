@@ -110,7 +110,7 @@ Provides `page` values to Tweakpane's [addTab](https://tweakpane.github.io/docs/
 Usage outside of a `<Tab>` component wouldn't make much sense, but in such cases the `<Page>` will be implicitly wrapped in a `<Tab>` and `<Pane position='inline'>`.
 
 @example	
-```tsx
+```svelte
 <script lang="ts">
   import { Tab, Page, Button } from 'svelte-tweakpane-ui';
 

@@ -27,18 +27,14 @@ I am a paragraph.
 
 ## Test Heading
 
-```tsx
+```svelte
 <script lang="ts">
-	import { Button } from 'svelte-tweakpane-ui';
+  import { Button } from 'svelte-tweakpane-ui';
 
-	let count = 0;
+  let count = 0;
 </script>
 
-<Button
-	label="Count"
-	title="Increment"
-	on:click={() => count++}
-/>
+<Button label="Count" title="Increment" on:click={() => count++} />
 <pre>
 	Count: {count}
 </pre>
@@ -49,3 +45,9 @@ I am a paragraph.
 | left-aligned | centered | right-aligned |
 | left-aligned | centered | right-aligned |
 | left-aligned | centered | right-aligned |
+
+### Events
+
+In the style of threlte
+
+### Naming conventions

@@ -42,15 +42,27 @@
 TODO
 
 @example
-```tsx
+```svelte
 <script lang="ts">
-  import { TODO } from 'svelte-tweakpane-ui';
-  const status = 'TODO';
+  import { Wheel } from '$lib';
+
+  let angle = 45;
 </script>
 
-<pre>
-{status}
-</pre>
+<Wheel
+  bind:value={angle}
+  format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
+/>
+
+<div class="demo" style:--a="{angle}deg" />
+
+<style>
+  div.demo {
+    background: linear-gradient(var(--a), magenta, orange);
+    width: 100%;
+    aspect-ratio: 1;
+  }
+</style>
 ```
 
 @sourceLink [Wheel.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/camerakit/Wheel.svelte)

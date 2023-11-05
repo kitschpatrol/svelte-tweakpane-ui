@@ -1,15 +1,19 @@
 <script lang="ts" context="module">
 	import type { PointDimensionParams } from '@tweakpane/core';
+	import type { Simplify } from '$lib/utils';
 
 	export type RotationQuaternionOptions = PointDimensionParams;
-	export type RotationQuaternionValue =
-		| {
-				x: number;
-				y: number;
-				z: number;
-				w: number;
-		  }
-		| [x: number, y: number, z: number, w: number];
+
+	export type RotationQuaternionValueObject = {
+		x: number;
+		y: number;
+		z: number;
+		w: number;
+	};
+	export type RotationQuaternionValueTuple = [x: number, y: number, z: number, w: number];
+	export type RotationQuaternionValue = Simplify<
+		RotationQuaternionValueObject | RotationQuaternionValueTuple
+	>;
 </script>
 
 <script lang="ts">
@@ -20,6 +24,8 @@
 	import type { ComponentProps } from 'svelte';
 	import type { RotationInputPluginQuaternionParams as RotationQuaternionOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/RotationInputPluginQuaternionParams';
 	import { BROWSER } from 'esm-env';
+
+	// TODO add some utility functions to get matrices etc. from quaternions?
 
 	type $$Props = Omit<
 		ComponentProps<GenericInputFolding<RotationQuaternionValue, RotationQuaternionOptionsInternal>>,
@@ -116,15 +122,73 @@
 TODO
 
 @example
-```tsx
+```svelte
 <script lang="ts">
-  import { TODO } from 'svelte-tweakpane-ui';
-  const status = 'TODO';
+  import {
+    Button,
+    RotationQuaternion,
+    type RotationQuaternionValue
+  } from 'svelte-tweakpane-ui';
+
+  // Value could also be an object
+  // e.g. {x: 0, y: 0, z: 0, w: 0}
+  let value: RotationQuaternionValue = [0, 0, 0, 0];
+
+  function getTransformFromQuaternion(
+    quaternion: RotationQuaternionValue
+  ): string {
+    const [x, y, z, w] = Array.isArray(quaternion)
+      ? quaternion
+      : Object.values(quaternion);
+
+    const m11 = 1 - 2 * y * y - 2 * z * z;
+    const m12 = 2 * x * y - 2 * z * w;
+    const m13 = 2 * x * z + 2 * y * w;
+    const m21 = 2 * x * y + 2 * z * w;
+    const m22 = 1 - 2 * x * x - 2 * z * z;
+    const m23 = 2 * y * z - 2 * x * w;
+    const m31 = 2 * x * z - 2 * y * w;
+    const m32 = 2 * y * z + 2 * x * w;
+    const m33 = 1 - 2 * x * x - 2 * y * y;
+
+    return `matrix3d(
+  		${m11}, ${m12}, ${m13}, 0,
+  		${m21}, ${m22}, ${m23}, 0,
+  		${m31}, ${m32}, ${m33}, 0,
+  		0, 0, 0, 1
+		)`;
+  }
+
+  $: transformValue = getTransformFromQuaternion(value);
+  $: valueRows = Array.isArray(value)
+    ? value.map((v) => `${v >= 0 ? '+' : ''}${v.toFixed(6)}`).join('\n')
+    : '';
 </script>
 
-<pre>
-{status}
-</pre>
+<RotationQuaternion
+  bind:value
+  expanded={true}
+  label="CSS Rotation"
+  picker={'inline'}
+/>
+<Button title="Reset" on:click={() => (value = [0, 0, 0, 0])} />
+
+<div class="billboard" style:transform={transformValue}>
+  <pre>
+		{valueRows}
+	</pre>
+</div>
+
+<style>
+  div.billboard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    width: 100%;
+    background: linear-gradient(45deg, magenta, orange);
+  }
+</style>
 ```
 
 @sourceLink [RotationQuaternion.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/RotationQuaternion.svelte)

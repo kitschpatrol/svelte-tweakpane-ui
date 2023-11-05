@@ -84,7 +84,7 @@ Note that `interval` is exposed to allow separate control over the reactive valu
 Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane position='inline'>` component.
 
 @example	
-```tsx
+```svelte
 <script lang="ts">
   import { InternalMonitorNumber } from 'svelte-tweakpane-ui';
 

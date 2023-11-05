@@ -2,17 +2,20 @@
 	import type { EulerOrder } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerOrder.js';
 	import type { EulerUnit } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerUnit.js';
 	import type { PointDimensionParams } from '@tweakpane/core';
+	import type { Simplify } from '$lib/utils';
 
 	export type RotationEulerOptions = PointDimensionParams;
 	export type RotationEulerOrder = EulerOrder;
 	export type RotationEulerUnit = EulerUnit;
-	export type RotationEulerValue =
-		| {
-				x: number;
-				y: number;
-				z: number;
-		  }
-		| [x: number, y: number, z: number];
+
+	export type RotationEulerValueObject = {
+		x: number;
+		y: number;
+		z: number;
+	};
+	export type RotationEulerValueTuple = [x: number, y: number, z: number];
+	export type RotationEulerValue = Simplify<RotationEulerValueObject | RotationEulerValueTuple>;
+
 	// don't support order, for now
 </script>
 
@@ -129,15 +132,50 @@
 TODO
 
 @example
-```tsx
+```svelte
 <script lang="ts">
-  import { TODO } from 'svelte-tweakpane-ui';
-  const status = 'TODO';
+  import {
+    Button,
+    RotationEuler,
+    type RotationEulerValueObject
+  } from 'svelte-tweakpane-ui';
+
+  // Value could also be a tuple
+  // e.g. [0, 0, 0]
+  let value: RotationEulerValueObject = { x: 0, y: 0, z: 0 };
+
+  $: valueRows = Object.values(value)
+    .map((v) => `${v >= 0 ? '+' : ''}${v.toFixed(6)}`)
+    .join('\n');
 </script>
 
-<pre>
-{status}
-</pre>
+<RotationEuler
+  bind:value
+  expanded={true}
+  label="CSS Rotation"
+  picker={'inline'}
+/>
+<Button title="Reset" on:click={() => (value = { x: 0, y: 0, z: 0 })} />
+
+<div
+  class="billboard"
+  style:transform="rotateX({value.x}rad) rotateY({value.y}rad) rotateZ({value.z}rad)"
+>
+  <pre>
+		{valueRows}
+	</pre>
+</div>
+
+<style>
+  div.billboard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    width: 100%;
+    background: linear-gradient(45deg, magenta, orange);
+  }
+</style>
 ```
 
 @sourceLink [RotationEuler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/RotationEuler.svelte)

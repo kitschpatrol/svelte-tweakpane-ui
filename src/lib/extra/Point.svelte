@@ -202,7 +202,7 @@ Extends the vanilla Tweakpane APIs to also support tuple values. (Useful when wo
 Usage outside of a `<Pane>` component will implicitly wrap the point picker in a `<Pane position='inline'>` component.
 
 @example	
-```tsx
+```svelte
 <script lang="ts">
   import {
     Point,

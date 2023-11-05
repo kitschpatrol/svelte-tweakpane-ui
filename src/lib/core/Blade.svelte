@@ -6,12 +6,18 @@
 </script>
 
 <script lang="ts" generics="U extends BladeOptions, V extends BladeRef">
-	import { BROWSER } from 'esm-env';
+	import { BROWSER, DEV } from 'esm-env';
 	import { getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
-	import { getElementIndex, isRootPane, type Container, type Plugin } from '$lib/utils.js';
+	import {
+		getElementIndex,
+		isRootPane,
+		enforceReadonly,
+		type Container,
+		type Plugin
+	} from '$lib/utils.js';
 
 	/**
 	 * Blade configuration exposing TweakPane's internal [BladeParams](https://tweakpane.github.io/docs/api/interfaces/BaseBladeParams.html).
@@ -49,14 +55,14 @@
 	const userCreatedPane = getContext('userCreatedPane');
 
 	let indexElement: HTMLDivElement;
-	let blade: V;
 	let index: number;
+	let _ref: V; // readonly shadow
 
 	function create() {
 		// console.log('blade created');
 
 		// must destroy to allow reactive parameters
-		if (blade) blade.dispose();
+		if (_ref) _ref.dispose();
 
 		if (plugin !== undefined) {
 			// calls function provided by context on the containing pane
@@ -64,12 +70,13 @@
 		}
 
 		// last one wins
-		blade = $parentStore.addBlade({
+		_ref = $parentStore.addBlade({
 			index,
 			...options,
 			disabled
 		}) as V; // todo can't shake ts(2322);
-		ref = blade;
+
+		ref = _ref;
 	}
 
 	onMount(() => {
@@ -77,11 +84,14 @@
 	});
 
 	onDestroy(() => {
-		blade?.dispose();
+		_ref?.dispose();
 	});
 
+	// readonly props
+	$: DEV && BROWSER && enforceReadonly(_ref, ref, 'Blade', 'ref', true);
+
 	$: options, BROWSER && $parentStore && index !== undefined && create();
-	$: BROWSER && blade && (blade.disabled = disabled);
+	$: BROWSER && _ref && (_ref.disabled = disabled);
 	$: BROWSER &&
 		theme &&
 		$parentStore &&
@@ -102,7 +112,7 @@ Tweakpane's Vanilla JS API offers Blades as as a way to create unbound component
 This component is not directly exposed since it lacks a use case in the Svelte context. Consider convenience components like `<Separator>`, etc. before using this component directly.
 
 @example
-```tsx
+```svelte
 <script lang="ts">
   import { Blade } from 'svelte-tweakpane-ui';
 </script>

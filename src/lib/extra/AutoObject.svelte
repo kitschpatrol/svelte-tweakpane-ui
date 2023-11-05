@@ -68,7 +68,7 @@ Records within the object will be wrap their contents in a `<Folder>` component.
 Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane position='inline'>`.
 
 @example	
-```tsx
+```svelte
 <script lang="ts">
   import { AutoObject } from 'svelte-tweakpane-ui';
 

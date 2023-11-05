@@ -1,10 +1,11 @@
 <script lang="ts" context="module">
-	export type IntervalSliderValue =
-		| {
-				min: number;
-				max: number;
-		  }
-		| [min: number, max: number];
+	import type { Simplify } from '$lib/utils';
+	export type IntervalSliderValueTuple = [min: number, max: number];
+	export type IntervalSliderValueObject = {
+		min: number;
+		max: number;
+	};
+	export type IntervalSliderValue = Simplify<IntervalSliderValueObject | IntervalSliderValueTuple>;
 </script>
 
 <script lang="ts">
@@ -76,15 +77,30 @@
 TODO
 
 @example
-```tsx
+```svelte
 <script lang="ts">
-  import { TODO } from 'svelte-tweakpane-ui';
-  const status = 'TODO';
+  import { IntervalSlider } from 'svelte-tweakpane-ui';
+
+  // Could specify convenience type IntervalSliderValueTuple here, or
+  // use the object {start: number, end: number} instead of a tuple
+  let value: [number, number] = [25, 75];
 </script>
 
-<pre>
-{status}
-</pre>
+<IntervalSlider
+  bind:value
+  min={0}
+  max={100}
+  format={(v) => `${v.toFixed(0)}%`}
+/>
+<div class="demo" style:--s="{value[0]}%" style:--e="{value[1]}%" />
+
+<style>
+  div.demo {
+    background: linear-gradient(45deg, magenta var(--s), orange var(--e));
+    width: 100%;
+    aspect-ratio: 1;
+  }
+</style>
 ```
 
 @sourceLink [IntervalSlider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/IntervalSlider.svelte)

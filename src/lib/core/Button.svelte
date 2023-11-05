@@ -1,3 +1,7 @@
+<script lang="ts" context="module">
+	export type ButtonClickEvent = CustomEvent<null>;
+</script>
+
 <script lang="ts">
 	import type { ButtonApi } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
@@ -5,7 +9,12 @@
 	import type { Writable } from 'svelte/store';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
-	import { getElementIndex, isRootPane, type Container } from '$lib/utils.js';
+	import {
+		getElementIndex,
+		isRootPane,
+		type Container,
+		type UnwrapCustomEvents
+	} from '$lib/utils.js';
 
 	/**
 	 * Text inside of the button.
@@ -40,10 +49,10 @@
 		 * Fires when the button is clicked.
 		 * @event
 		 * */
-		click: null;
+		click: ButtonClickEvent;
 	};
 
-	const dispatch = createEventDispatcher<$$Events>();
+	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
 
 	let indexElement: HTMLDivElement;
 	let button: ButtonApi;
@@ -100,7 +109,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the button in `<Pane 
 @emits {void} click - when the button is clicked
 
 @example	
-```tsx
+```svelte
 <script lang="ts">
   import { Button } from 'svelte-tweakpane-ui';
 

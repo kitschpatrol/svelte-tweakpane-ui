@@ -62,7 +62,7 @@ In many cases, this component should not be necesary because `svelte-tweakpane-u
 Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a case the `<Element>` will be implicitly wrapped in `<Pane position='inline'>`.
 
 @example
-```tsx
+```svelte
 <script lang="ts">
   import { Element, Pane, Wheel, Button } from 'svelte-tweakpane-ui';
 

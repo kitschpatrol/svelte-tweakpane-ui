@@ -11,13 +11,15 @@ export default defineConfig({
 	// ssr: {
 	// 	noExternal: ['svelte-tweakpane-ui']
 	// },
+
 	server: {
 		watch: {
 			usePolling: true
 		},
-		open: true,
+
+		open: true
 		// HMR is a mess with Kit Docs
-		hmr: false
+		// hmr: false
 	}
 	// build: {
 	// 	target: 'es6'

@@ -1,22 +1,21 @@
 <script lang="ts" context="module">
-	export type ButtonGridClickEvent = {
+	export type ButtonGridClickEvent = CustomEvent<{
 		index: number;
 		label: string;
 		cell: {
 			x: number;
 			y: number;
 		};
-	};
+	}>;
 </script>
 
 <script lang="ts">
 	import Blade from '$lib/core/Blade.svelte';
-	import { getGridDimensions } from '$lib/utils.js';
+	import { getGridDimensions, type UnwrapCustomEvents } from '$lib/utils.js';
 	import type { ButtonGridApi as ButtonGridRef } from '@tweakpane/plugin-essentials';
 	import type { ButtonGridBladeParams as ButtonGridOptions } from '@tweakpane/plugin-essentials/dist/types/button-grid/plugin.d.ts';
-	import { createEventDispatcher } from 'svelte';
 	import * as pluginModule from '@tweakpane/plugin-essentials';
-	import type { ComponentProps } from 'svelte';
+	import { createEventDispatcher, type ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 
 	type $$Props = Omit<
@@ -55,15 +54,19 @@
 	export let label: $$Props['label'] = undefined;
 
 	// Seems to be the only way to get event comments to work
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Events = {
 		/**
 		 * Fires when a button is clicked.
+		 *
+		 * Note that the values described in the `ButtonGridClickEvent`
+		 * type are available on the `event.detail` parameter.
 		 * @event
 		 * */
 		click: ButtonGridClickEvent;
 	};
 
-	const dispatch = createEventDispatcher<$$Events>();
+	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
 
 	let options: ButtonGridOptions;
 	let gridBlade: ButtonGridRef;
@@ -111,15 +114,64 @@ TODO
 @emits {ButtonGridClickEvent} click - when a button in the grid is clicked
 
 @example
-```tsx
+```svelte
 <script lang="ts">
-  import { TODO } from 'svelte-tweakpane-ui';
-  const status = 'TODO';
+  import {
+    Pane,
+    ButtonGrid,
+    Button,
+    type ButtonGridClickEvent
+  } from 'svelte-tweakpane-ui';
+
+  const keyboard = [
+    ...Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i)),
+    ',',
+    '.',
+    '!',
+    '⌫'
+  ];
+
+  let textBuffer = '';
+
+  function handleClick(e: ButtonGridClickEvent) {
+    textBuffer =
+      e.detail.label === '⌫'
+        ? textBuffer.slice(0, -1)
+        : textBuffer + e.detail.label;
+  }
 </script>
 
-<pre>
-{status}
-</pre>
+<Pane position="inline" title="Austerity Keyboard">
+  <ButtonGrid buttons={keyboard} on:click={handleClick} />
+  <Button title=" " on:click={() => (textBuffer += '\u2002')} />
+</Pane>
+<div class="demo">
+  <p>{textBuffer}</p>
+</div>
+
+<style>
+  .demo {
+    width: 100%;
+    aspect-ratio: 1;
+    background: linear-gradient(45deg, orange, magenta);
+  }
+
+  .demo > p {
+    margin: 0;
+    line-height: 1.2;
+    font-size: 8cqw;
+    padding: 0.5em;
+    font-family: monospace;
+    color: white;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  .demo > p::after {
+    content: '_';
+    opacity: 0.5;
+  }
+</style>
 ```
 
 @sourceLink [ButtonGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/ButtonGrid.svelte)

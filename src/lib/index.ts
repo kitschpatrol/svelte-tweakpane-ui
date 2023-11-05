@@ -7,7 +7,7 @@ export { THEMES, setGlobalDefaultTheme, type Theme } from '$lib/theme.js';
 // core (tweakpane building blocks)
 export { default as Binding, type BindingOptions, type BindingRef } from '$lib/core/Binding.svelte';
 export { default as Blade, type BladeOptions, type BladeRef } from '$lib/core/Blade.svelte';
-export { default as Button } from '$lib/core/Button.svelte';
+export { default as Button, type ButtonClickEvent } from '$lib/core/Button.svelte';
 export { default as Folder } from '$lib/core/Folder.svelte';
 export { default as Page } from '$lib/core/Page.svelte';
 export { default as Pane, type PanePosition } from '$lib/core/Pane.svelte';
@@ -41,12 +41,19 @@ export {
 } from '$lib/plugin/essentials/ButtonGrid.svelte';
 export {
 	default as CubicBezier,
-	type CubicBezierValue
+	type CubicBezierValue,
+	type CubicBezierValueObject,
+	type CubicBezierValueTuple
 } from '$lib/plugin/essentials/CubicBezier.svelte';
-export { default as FpsGraph } from '$lib/plugin/essentials/FpsGraph.svelte';
+export {
+	default as FpsGraph,
+	type FpsGraphChangeEvent
+} from '$lib/plugin/essentials/FpsGraph.svelte';
 export {
 	default as IntervalSlider,
-	type IntervalSliderValue
+	type IntervalSliderValue,
+	type IntervalSliderValueObject,
+	type IntervalSliderValueTuple
 } from '$lib/plugin/essentials/IntervalSlider.svelte';
 export { default as RadioGrid } from '$lib/plugin/essentials/RadioGrid.svelte';
 
@@ -67,11 +74,15 @@ export {
 	type RotationEulerOrder,
 	type RotationEulerUnit,
 	type RotationEulerValue,
+	type RotationEulerValueTuple,
+	type RotationEulerValueObject,
 	type RotationEulerOptions
 } from '$lib/plugin/RotationEuler.svelte';
 export {
 	default as RotationQuaternion,
 	type RotationQuaternionValue,
+	type RotationQuaternionValueTuple,
+	type RotationQuaternionValueObject,
 	type RotationQuaternionOptions
 } from '$lib/plugin/RotationQuaternion.svelte';
 export { default as Textarea } from '$lib/plugin/Textarea.svelte';

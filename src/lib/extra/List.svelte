@@ -118,7 +118,7 @@ Tweakpane's `addBlade` list variations is used instead of the `addBinding` metho
 Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane position='inline'>`.
 
 @example	
-```tsx
+```svelte
 <script lang="ts">
   import { List, type ListOptions } from 'svelte-tweakpane-ui';
 
@@ -128,7 +128,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the color picker in `
 
 <List label="Alphanumerics" bind:value={selection} {options} />
 <pre>
-	Selected Option: {Selection}
+	Selected Option: {selection}
 </pre>
 ```
 

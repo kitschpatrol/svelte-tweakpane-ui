@@ -17,7 +17,64 @@ export type SimplifyDeep<Type> = Type extends Theme // exclude Theme
 	? Type
 	: { [TypeKey in keyof Type]: SimplifyDeep<Type[TypeKey]> };
 
+export type ExtractTuple<T> = T extends (infer U)[] ? U : never;
+export type ExtractObject<T> = T extends object ? T : never;
+
+/**
+ * Needed to conveniently use $$Events as the single source of truth for component events
+ * Performs the transformation necessary (extracting detail types) to pass the $$Events
+ * type into createEventDispatcher(). See [documentation](https://svelte.dev/docs/typescript#script-lang-ts-events).
+ *
+ * An alternative would be to use a custom dispatcher, like [Threlte does])https://github.com/threlte/threlte/blob/main/packages/core/src/lib/lib/createRawEventDispatcher.ts_.
+ *
+ */
+export type UnwrapCustomEvents<T> = {
+	[P in keyof T]: T[P] extends CustomEvent<infer detail> ? detail : never;
+};
+
 // utility functions
+
+/**
+ * There's no way to enforce readonly properties in Svelte components, so this is a workaround.
+ * See [general approach](https://github.com/sveltejs/svelte/issues/7712#issuecomment-1642470141) and [runtime error approach](https://github.com/sveltejs/svelte/issues/7712#issuecomment-1642817764)
+ *
+ * Generally:
+ * ```svelte
+ * <script>
+ *   export let value = "foo"
+ *   let _value;
+ *   // if you want to set init value from outside
+ *   // uncomment this line:
+ *   // _value = value;
+ *   $: value = _value;
+ * 	 $: enforceReadonly(_value, value, "value");
+ * </script>
+ *
+ * <input bind:value={_value} />
+ *
+ * This is not perfect and there are some edge cases it doesn't catch because we have to
+ * allow assignment to undefined in some internal cases.
+ *
+ */
+export function enforceReadonly(
+	internal: unknown,
+	external: unknown,
+	componentName: string,
+	propName: string,
+	allowAssignmentToUndefined: boolean = false
+) {
+	if (
+		!(
+			external === internal ||
+			(allowAssignmentToUndefined && internal === undefined && external !== undefined)
+		)
+	) {
+		console.error(
+			`Svelte component "<${componentName}>" property "${propName}" is intended for readonly use.\nAssigning\n"${external}"\nto\n"${internal}"\nis not allowed.`
+		);
+	}
+}
+
 export function isRootPane(container: Container): boolean {
 	return container.constructor.name === 'Pane';
 }

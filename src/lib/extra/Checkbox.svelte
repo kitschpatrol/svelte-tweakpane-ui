@@ -18,7 +18,7 @@ Wraps Tweakpane's [boolean input binding](https://tweakpane.github.io/docs/input
 Usage outside of a `<Pane>` component will implicitly wrap the checkbox in `<Pane position='inline'>`.
 
 @example	
-```tsx
+```svelte
 <script lang="ts">
   import { Checkbox } from 'svelte-tweakpane-ui';
 

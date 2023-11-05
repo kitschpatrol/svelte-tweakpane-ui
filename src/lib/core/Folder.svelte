@@ -100,7 +100,7 @@ Wraps the Tweakpane [addFolder](https://tweakpane.github.io/docs/ui-components/#
 Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane position='inline'>`.
 
 @example	
-```tsx
+```svelte
 <script lang="ts">
   import { Folder, Button, Monitor, Checkbox } from 'svelte-tweakpane-ui';
 

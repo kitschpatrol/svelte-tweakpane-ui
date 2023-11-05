@@ -131,7 +131,7 @@ function getPropsInternal(
 // doc-specific
 
 function extractCodeBlock(inputString: string): string | undefined {
-	const regex = /```(?:tsx)([\s\S]+?)```/gm;
+	const regex = /```(?:\w*\n)([\s\S]+?)```/gm;
 	const match = regex.exec(inputString);
 	if (match && match[1]) {
 		return match[1].trim();
@@ -153,33 +153,71 @@ export async function getComponentExampleCodeFromSource(
 		'ClassDeclaration:has([jsDoc]):has(ExportKeyword)'
 	).at(0);
 
-	if (classDeclaration) {
+	// strip jsdoc comments
+	if (classDeclaration === undefined) {
+		console.error(`Class declaration not found in ${componentName}`);
+		return undefined;
+	}
+
+	// support two extraction strategies... sticking with AST for now
+	const useAst = true;
+
+	let exampleCommentWithFence: string | undefined;
+	if (useAst) {
+		// Note that this breaks if there are @ css blocks in the JSDoc comments,
+		// but so do a lot of other things so just don't do that!
+
 		// try for an actual @example tag in case there are multiple code block
-		const comment =
+		exampleCommentWithFence =
 			classDeclaration
 				.getJsDocs()
 				?.at(0)
 				?.getTags()
 				.find((tag) => tag.getTagName() === 'example')
 				?.getCommentText() ?? classDeclaration.getJsDocs()?.at(0)?.getCommentText();
+	} else {
+		// Get the full text of the JSDoc block and strip the JSDoc syntax
+		const fullCommentText = classDeclaration
+			.getJsDocs()
+			.at(0)
+			?.getFullText()
+			.replace(/^ ?\/*\*+[ /]?/gm, '');
 
-		// format, because it's lost in the AST
-		const prettierConfig = {
-			...(await resolveConfig('.')),
-			printWidth: 80, // shorter than usual for display on the web
-			parser: 'svelte'
-		};
-
-		if (comment) {
-			const formattedComment = await format(extractCodeBlock(comment)!, prettierConfig);
-
-			const wrappedComment = `${comment.split('\n').at(0)}\n${formattedComment}${comment
-				.split('\n')
-				.at(-1)}`;
-
-			return inclueMarkdown ? wrappedComment : formattedComment;
+		if (fullCommentText === undefined) {
+			console.error(`Class declaration comment not found in ${componentName}`);
+			return undefined;
 		}
+
+		// Pull out just the @example code fence
+		// TODO multiple example support (via .exec, /g doesn't work with .match)
+		exampleCommentWithFence = fullCommentText.match(/@example[\s\S]+(```[\s\S]+```)/m)?.at(1);
 	}
 
-	return undefined;
+	if (exampleCommentWithFence === undefined) {
+		console.error(`Example comment not found in ${componentName}`);
+		return undefined;
+	}
+
+	// format, because it's lost in the AST
+	const prettierConfig = {
+		...(await resolveConfig('.')),
+		printWidth: 80, // shorter than usual for display on the web
+		parser: 'svelte'
+	};
+
+	const exampleCommentWithoutFence = extractCodeBlock(exampleCommentWithFence);
+
+	if (exampleCommentWithoutFence === undefined) {
+		console.error(`Could not extract example code block in ${componentName}`);
+		return undefined;
+	}
+
+	const formattedComment = await format(exampleCommentWithoutFence, prettierConfig);
+
+	// put the formatted code block back inside the fence
+	const wrappedComment = `${exampleCommentWithFence
+		.split('\n')
+		.at(0)}\n${formattedComment}${exampleCommentWithFence.split('\n').at(-1)}`;
+
+	return inclueMarkdown ? wrappedComment : formattedComment;
 }

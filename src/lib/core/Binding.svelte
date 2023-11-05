@@ -10,12 +10,18 @@
 	lang="ts"
 	generics="T extends BindingObject, U extends BindingOptions, V extends BindingRef"
 >
-	import { BROWSER } from 'esm-env';
+	import { BROWSER, DEV } from 'esm-env';
 	import { getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
-	import { getElementIndex, isRootPane, type Container, type Plugin } from '$lib/utils.js';
+	import {
+		getElementIndex,
+		isRootPane,
+		enforceReadonly,
+		type Container,
+		type Plugin
+	} from '$lib/utils.js';
 
 	/**
 	 * The binding target object with values to manipulate.
@@ -72,7 +78,7 @@
 	const parentStore: Writable<Container> = getContext('parentStore');
 	const userCreatedPane = getContext('userCreatedPane');
 
-	let binding: V; // effectively makes ref read only
+	let _ref: V; // internal shadow ref
 	let indexElement: HTMLDivElement;
 	let index: number;
 
@@ -80,7 +86,7 @@
 		// console.log('binding created');
 
 		// must destroy to allow a reactive `key` parameter
-		if (binding) binding.dispose();
+		if (_ref) _ref.dispose();
 
 		if (plugin !== undefined) {
 			// calls function provided by context on the containing pane
@@ -88,18 +94,16 @@
 		}
 
 		// last one wins
-		binding = $parentStore.addBinding(object, key, {
+		_ref = $parentStore.addBinding(object, key, {
 			index,
 			label,
 			...options,
 			disabled
 		}) as V; // todo can't shake ts(2322)
 
-		ref = binding;
+		ref = _ref;
 
-		binding.on('change', () => {
-			// todo stick with reactive?
-			// dispatch('change', ev);
+		_ref.on('change', () => {
 			// trigger reactivity
 			object = object;
 		});
@@ -110,16 +114,19 @@
 	});
 
 	onDestroy(() => {
-		binding?.dispose();
+		_ref?.dispose();
 	});
+
+	// readonly props
+	$: DEV && BROWSER && enforceReadonly(_ref, ref, 'Binding', 'ref', true);
 
 	// options seem immutable... have to recreate
 	// old version supporting key changes
 	// $: key, options, BROWSER && $parentStore !== undefined && index !== undefined && create();
 	$: options, BROWSER && $parentStore !== undefined && index !== undefined && create();
-	$: object, BROWSER && binding !== undefined && binding.refresh();
-	$: BROWSER && binding !== undefined && (binding.disabled = disabled);
-	$: BROWSER && binding !== undefined && (binding.label = label);
+	$: object, BROWSER && _ref !== undefined && _ref.refresh();
+	$: BROWSER && _ref !== undefined && (_ref.disabled = disabled);
+	$: BROWSER && _ref !== undefined && (_ref.label = label);
 
 	$: BROWSER &&
 		theme &&
@@ -141,7 +148,7 @@ This component is provided for consistency with Tweakapne's API, but is not reco
 Consider convenience components like `<Slider>`, `<Color>`, etc. before using this component directly.
 
 @example	
-```tsx
+```svelte
 <script lang="ts">
   import { Binding, type BindingObject } from 'svelte-tweakpane-ui';
 

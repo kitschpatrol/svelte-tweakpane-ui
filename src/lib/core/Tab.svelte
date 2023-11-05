@@ -88,7 +88,7 @@ Wraps Tweakpane's [addTab](https://tweakpane.github.io/docs/ui-components/#tab) 
 Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane position='inline'>`.
 
 @example	
-```tsx
+```svelte
 <script lang="ts">
   import { Tab, Page, Button } from 'svelte-tweakpane-ui';
 </script>

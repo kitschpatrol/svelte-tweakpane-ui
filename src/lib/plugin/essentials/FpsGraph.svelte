@@ -1,8 +1,13 @@
+<script lang="ts" context="module">
+	export type FpsGraphChangeEvent = CustomEvent<number>;
+</script>
+
 <script lang="ts">
 	import Blade from '$lib/core/Blade.svelte';
+	import type { UnwrapCustomEvents } from '$lib/utils.js';
 	import type { FpsGraphBladeApi as FpsGraphRef } from '@tweakpane/plugin-essentials';
 	import type { FpsGraphBladeParams as FpsGraphOptions } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
-	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, createEventDispatcher } from 'svelte';
 	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
@@ -78,13 +83,16 @@
 	// Seems to be the only way to get event comments to work
 	type $$Events = {
 		/**
-		 * Fires when the FPS value changes
+		 * Fires when the FPS value changes, passing the latest FPS measurement.
+		 *
+		 * Note that the values described in the `FpsGraphChangeEvent`
+		 * type are available on the `event.detail` parameter.
 		 * @event
 		 * */
-		change: number;
+		change: FpsGraphChangeEvent;
 	};
 
-	const dispatch = createEventDispatcher<$$Events>();
+	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
 
 	onMount(() => {
 		startInternalLoop();
@@ -163,15 +171,69 @@ TODO
 @emits {number} change - when the FPS value changes
 
 @example
-```tsx
+```svelte
 <script lang="ts">
-  import { TODO } from 'svelte-tweakpane-ui';
-  const status = 'TODO';
+  import { FpsGraph, Slider, Monitor } from 'svelte-tweakpane-ui';
+  import { BROWSER } from 'esm-env';
+
+  let rotation = 0;
+  let rotationSpeed = 3;
+  let phase = 500;
+  let scale = 1.25;
+  let intensity = 4;
+
+  if (BROWSER) {
+    (function tick() {
+      rotation += rotationSpeed;
+      requestAnimationFrame(tick);
+    })();
+  }
+
+  $: gridSize = intensity ** 2;
 </script>
 
-<pre>
-{status}
-</pre>
+<FpsGraph rows={5} interval={50} />
+
+<Slider label="Intensity" bind:value={intensity} step={1} min={1} max={10} />
+<Monitor label="Boxes" value={gridSize ** 2} format={(v) => v.toFixed(0)} />
+<Slider label="Scale" bind:value={scale} min={0.25} max={2} />
+<Slider label="Phase" bind:value={phase} min={0} max={2000} />
+<Slider label="Rotation Speed" bind:value={rotationSpeed} />
+
+<div class="demo">
+  {#each Array.from({ length: gridSize }, (_, i) => i) as x}
+    {#each Array.from({ length: gridSize }, (_, i) => i) as y}
+      <div
+        class="box"
+        style:left="{(x / gridSize) * 100}%"
+        style:top="{(y / gridSize) * 100}%"
+        style:width="{100 / gridSize}%"
+        style:transform="rotateZ({rotation +
+          (x / gridSize) * phase +
+          (y / gridSize) * phase}deg)"
+        style:scale
+      />
+    {/each}
+  {/each}
+</div>
+
+<style>
+  .demo {
+    width: 100%;
+    aspect-ratio: 1;
+    background: linear-gradient(to top, gold, rebeccapurple);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .box {
+    position: absolute;
+    aspect-ratio: 1;
+    background: linear-gradient(to bottom, orange, magenta);
+    opacity: 0.5;
+    transform-origin: center;
+  }
+</style>
 ```
 
 @sourceLink [FpsGraph.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/FpsGraph.svelte)
