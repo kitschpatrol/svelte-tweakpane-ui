@@ -26,9 +26,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the checkbox in `<Pan
 </script>
 
 <Checkbox label="Reticulation" bind:value={reticulationEnabled} />
-<pre>
-	Enabled: {reticulationEnabled}
-</pre>
+<pre>Enabled: {reticulationEnabled}</pre>
 ```
 
 @sourceLink [Checkbox.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Checkbox.svelte)

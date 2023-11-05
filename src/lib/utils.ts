@@ -187,3 +187,62 @@ export function getGridDimensions(
 
 	return { rows, columns };
 }
+
+// public runtime helpers, mostly used in examples but re-exported for user's convenience
+// end exposed under the Utils namespace
+// alternative might be to scope these under the related component's module as static methods?
+
+import type { RotationQuaternionValue } from '$lib/plugin/RotationQuaternion.svelte';
+import type { RotationEulerValue, RotationEulerUnit } from '$lib/plugin/RotationEuler.svelte';
+import type { CubicBezierValue } from '$lib/plugin/essentials/CubicBezier.svelte';
+
+// utility functions
+function quaternionToCssTransform(quaternion: RotationQuaternionValue): string {
+	const [x, y, z, w] = Array.isArray(quaternion)
+		? quaternion
+		: [quaternion.x, quaternion.y, quaternion.z, quaternion.w];
+
+	const m11 = 1 - 2 * y * y - 2 * z * z;
+	const m12 = 2 * x * y - 2 * z * w;
+	const m13 = 2 * x * z + 2 * y * w;
+	const m21 = 2 * x * y + 2 * z * w;
+	const m22 = 1 - 2 * x * x - 2 * z * z;
+	const m23 = 2 * y * z - 2 * x * w;
+	const m31 = 2 * x * z - 2 * y * w;
+	const m32 = 2 * y * z + 2 * x * w;
+	const m33 = 1 - 2 * x * x - 2 * y * y;
+
+	return `matrix3d(
+  		${m11}, ${m12}, ${m13}, 0,
+  		${m21}, ${m22}, ${m23}, 0,
+  		${m31}, ${m32}, ${m33}, 0,
+  		0, 0, 0, 1
+		)`;
+}
+
+function eulerToCssTransform(
+	rotation: RotationEulerValue,
+	units: RotationEulerUnit = 'rad' // rad is component default
+): string {
+	const [x, y, z] = Array.isArray(rotation) ? rotation : [rotation.x, rotation.y, rotation.z];
+	// note negative z
+	return `rotateX(${x}${units}) rotateY(${y}${units}) rotateZ(${-z}${units})`;
+}
+
+function cubicBezierToEaseFunction(cubicBezier: CubicBezierValue): (t: number) => number {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const [x1, y1, x2, y2] = Array.isArray(cubicBezier)
+		? cubicBezier
+		: [cubicBezier.x1, cubicBezier.y1, cubicBezier.x2, cubicBezier.y2];
+
+	return (t: number): number => {
+		return (1 - t) ** 3 * 0 + (1 - t) ** 2 * t * 3 * y1 + (1 - t) * t ** 2 * 3 * y2 + t ** 3 * 1;
+	};
+}
+
+// public utils
+export const Utils = {
+	quaternionToCssTransform,
+	eulerToCssTransform,
+	cubicBezierToEaseFunction
+};

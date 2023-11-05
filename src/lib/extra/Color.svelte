@@ -1,10 +1,10 @@
 <script lang="ts" context="module">
+	import type { Simplify } from '$lib/utils';
+
 	import type {
 		RgbColorObject,
 		RgbaColorObject
 	} from '@tweakpane/core/dist/input-binding/color/model/color.js';
-
-	import type { Simplify } from '$lib/utils';
 
 	// TODO tuples, oklch, etc
 	export type ColorValueRgbObject = Simplify<RgbColorObject>;

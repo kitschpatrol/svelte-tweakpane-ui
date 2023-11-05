@@ -135,9 +135,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the color picker in `
 </script>
 
 <List label="Alphanumerics" bind:value={selection} {options} />
-<pre>
-	Selected Option: {selection}
-</pre>
+<pre>Selected Option: {selection}</pre>
 ```
 
 @sourceLink [List.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/List.svelte)

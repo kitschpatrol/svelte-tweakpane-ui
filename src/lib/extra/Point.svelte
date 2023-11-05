@@ -1,16 +1,8 @@
 <script lang="ts" context="module">
-	// extends Tweakpane's implementation to support tuples
-	import type { Point2dInputParams, Point3dInputParams, Point4dInputParams } from 'tweakpane';
 	import type { Simplify } from '$lib/utils';
+	import type { Point2dInputParams, Point3dInputParams, Point4dInputParams } from 'tweakpane';
 
-	type PointOptions<U> = U extends PointValue4d
-		? Point4dInputParams
-		: U extends PointValue3d
-		? Point3dInputParams & { w: unknown }
-		: U extends PointValue2d
-		? Point2dInputParams & { z: unknown; w: unknown }
-		: unknown;
-
+	// extends Tweakpane's implementation to support tuples
 	export type PointValue2dObject = { x: number; y: number };
 	export type PointValue2dTuple = [x: number, y: number];
 	export type PointValue2d = Simplify<PointValue2dObject | PointValue2dTuple>;
@@ -23,6 +15,14 @@
 	export type PointValue4dTuple = [x: number, y: number, z: number, w: number];
 	export type PointValue4d = Simplify<PointValue4dObject | PointValue4dTuple>;
 
+	type PointOptions<U> = U extends PointValue4d
+		? Point4dInputParams
+		: U extends PointValue3d
+		? Point3dInputParams & { w: unknown }
+		: U extends PointValue2d
+		? Point2dInputParams & { z: unknown; w: unknown }
+		: unknown;
+
 	export type PointOptionsX<T extends PointValue2d | PointValue3d | PointValue4d> =
 		PointOptions<T>['x'];
 	export type PointOptionsY<T extends PointValue2d | PointValue3d | PointValue4d> =
@@ -34,20 +34,17 @@
 </script>
 
 <script lang="ts" generics="T extends PointValue2d | PointValue3d | PointValue4d">
-	import type { Point2dObject } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js';
-	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
-	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d.js';
-	import type { ComponentProps } from 'svelte';
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 
 	// TODO weird behavior on HMRs?
 	type InternalPoint<U> = U extends PointValue4d
-		? Point4dObject
+		? PointValue4dObject
 		: U extends PointValue3d
-		? Point3dObject
+		? PointValue3dObject
 		: U extends PointValue2d
-		? Point2dObject
+		? PointValue2dObject
 		: unknown;
 
 	// some redefinition of props from GenericSlider, but redefining since we want to refine the documentation anyway

@@ -1,9 +1,9 @@
 <script lang="ts" context="module">
-	import type { PointDimensionParams } from '@tweakpane/core';
 	import type { Simplify } from '$lib/utils';
 
-	export type RotationQuaternionOptions = PointDimensionParams;
+	import type { PointDimensionParams } from '@tweakpane/core';
 
+	export type RotationQuaternionOptions = Simplify<PointDimensionParams>;
 	export type RotationQuaternionValueObject = {
 		x: number;
 		y: number;
@@ -18,15 +18,14 @@
 
 <script lang="ts">
 	// note name collission with options params
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation';
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
-	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d';
-	import type { ComponentProps } from 'svelte';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation';
 	import type { RotationInputPluginQuaternionParams as RotationQuaternionOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/RotationInputPluginQuaternionParams';
+	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d';
 	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 
 	// TODO add some utility functions to get matrices etc. from quaternions?
-
 	type $$Props = Omit<
 		ComponentProps<GenericInputFolding<RotationQuaternionValue, RotationQuaternionOptionsInternal>>,
 		'buttonClass' | 'options' | 'ref' | 'plugin'
@@ -127,39 +126,15 @@ TODO
   import {
     Button,
     RotationQuaternion,
-    type RotationQuaternionValue
+    type RotationQuaternionValue,
+    Utils
   } from 'svelte-tweakpane-ui';
 
   // Value could also be an object
   // e.g. {x: 0, y: 0, z: 0, w: 0}
   let value: RotationQuaternionValue = [0, 0, 0, 0];
 
-  function getTransformFromQuaternion(
-    quaternion: RotationQuaternionValue
-  ): string {
-    const [x, y, z, w] = Array.isArray(quaternion)
-      ? quaternion
-      : Object.values(quaternion);
-
-    const m11 = 1 - 2 * y * y - 2 * z * z;
-    const m12 = 2 * x * y - 2 * z * w;
-    const m13 = 2 * x * z + 2 * y * w;
-    const m21 = 2 * x * y + 2 * z * w;
-    const m22 = 1 - 2 * x * x - 2 * z * z;
-    const m23 = 2 * y * z - 2 * x * w;
-    const m31 = 2 * x * z - 2 * y * w;
-    const m32 = 2 * y * z + 2 * x * w;
-    const m33 = 1 - 2 * x * x - 2 * y * y;
-
-    return `matrix3d(
-  		${m11}, ${m12}, ${m13}, 0,
-  		${m21}, ${m22}, ${m23}, 0,
-  		${m31}, ${m32}, ${m33}, 0,
-  		0, 0, 0, 1
-		)`;
-  }
-
-  $: transformValue = getTransformFromQuaternion(value);
+  $: transform = Utils.quaternionToCssTransform(value);
   $: valueRows = Array.isArray(value)
     ? value.map((v) => `${v >= 0 ? '+' : ''}${v.toFixed(6)}`).join('\n')
     : '';
@@ -173,10 +148,8 @@ TODO
 />
 <Button title="Reset" on:click={() => (value = [0, 0, 0, 0])} />
 
-<div class="billboard" style:transform={transformValue}>
-  <pre>
-		{valueRows}
-	</pre>
+<div class="billboard" style:transform>
+  <pre>{valueRows}</pre>
 </div>
 
 <style>

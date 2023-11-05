@@ -34,9 +34,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the text field in `<P
 </script>
 
 <Text bind:value={text} label="The Message" />
-<pre>
-	Message: {text}
-</pre>
+<pre>Message: {text}</pre>
 ```
 
 @sourceLink [Text.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Text.svelte)

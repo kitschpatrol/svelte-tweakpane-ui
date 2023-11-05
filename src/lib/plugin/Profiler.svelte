@@ -1,6 +1,8 @@
 <script lang="ts" context="module">
 	import type { Simplify } from '$lib/utils';
+
 	import type { ProfilerBladeMeasureHandler } from '@kitschpatrol/tweakpane-plugin-profiler';
+
 	export type ProfilerMeasureHandler = Simplify<ProfilerBladeMeasureHandler>;
 	export type ProfilerCalcMode = 'frame' | 'mean' | 'median';
 	export type ProfilerMeasure = (name: string, fn: () => void) => void;
@@ -8,12 +10,12 @@
 
 <script lang="ts">
 	import Blade from '$lib/core/Blade.svelte';
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-profiler';
-	import type { ProfilerBladePluginParams as ProfilerOptions } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js';
-	import type { ProfilerBladeApi as ProfilerRef } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerApi.js';
-	import type { ComponentProps } from 'svelte';
 	import { enforceReadonly } from '$lib/utils';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-profiler';
+	import type { ProfilerBladeApi as ProfilerRef } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerApi.js';
+	import type { ProfilerBladePluginParams as ProfilerOptions } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js';
 	import { BROWSER, DEV } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 
 	type $$Props = Omit<
 		ComponentProps<Blade<ProfilerOptions, ProfilerRef>>,
@@ -134,10 +136,10 @@ TODO
   }
 
   onMount(() => {
-    function update() {
+    (function tick() {
       // Nesting measurements creates a hierarchy
       // in the Profile visualization
-      measure('Update', () => {
+      measure('Tick', () => {
         measure('Trigonometry', () => {
           hardWork(Math.sin, loopExponent);
           hardWork(Math.cos, loopExponent);
@@ -160,10 +162,8 @@ TODO
         });
       });
 
-      requestAnimationFrame(update);
-    }
-
-    update();
+      requestAnimationFrame(tick);
+    })();
   });
 </script>
 

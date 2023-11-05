@@ -42,9 +42,7 @@ See the `<Interval>` component for a multi-handle range-defining slider.
   max={1}
   format={(v) => v.toFixed(2)}
 />
-<pre>
-	Value: {value}
-</pre>
+<pre>Value: {value}</pre>
 ```
 
 @sourceLink [Slider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Slider.svelte)

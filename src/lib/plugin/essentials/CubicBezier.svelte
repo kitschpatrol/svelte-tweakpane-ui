@@ -1,4 +1,6 @@
 <script lang="ts" context="module">
+	import type { Simplify } from '$lib/utils';
+
 	export type CubicBezierValueObject = {
 		x1: number;
 		y1: number;
@@ -6,17 +8,17 @@
 		y2: number;
 	};
 	export type CubicBezierValueTuple = [x1: number, y1: number, x2: number, y2: number];
-	export type CubicBezierValue = CubicBezierValueObject | CubicBezierValueTuple;
+	export type CubicBezierValue = Simplify<CubicBezierValueObject | CubicBezierValueTuple>;
 </script>
 
 <script lang="ts">
-	import type { CubicBezierBladeParams as CubicBezierOptions } from '@tweakpane/plugin-essentials/dist/types/cubic-bezier/plugin.d.ts';
 	import GenericBladeFolding from '$lib/internal/GenericBladeFolding.svelte';
 	import type { CubicBezierApi as CubicBezierRef } from '@tweakpane/plugin-essentials';
-	import { CubicBezier } from '@tweakpane/plugin-essentials';
 	import * as pluginModule from '@tweakpane/plugin-essentials';
-	import type { ComponentProps } from 'svelte';
+	import { CubicBezier } from '@tweakpane/plugin-essentials';
+	import type { CubicBezierBladeParams as CubicBezierOptions } from '@tweakpane/plugin-essentials/dist/types/cubic-bezier/plugin.d.ts';
 	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 
 	type $$Props = Omit<
 		ComponentProps<GenericBladeFolding<CubicBezierOptions, CubicBezierRef>>,
@@ -100,52 +102,27 @@ TODO
     CubicBezier,
     Slider,
     RadioGrid,
-    type CubicBezierValueTuple
+    type CubicBezierValue,
+    Utils
   } from 'svelte-tweakpane-ui';
   import { tweened } from 'svelte/motion';
 
-  let value: CubicBezierValueTuple = [0.25, 0.1, 0.25, 1.0];
+  // could also be a tuple
+  let value: CubicBezierValue = { x1: 0.25, y1: 0.1, x2: 0.25, y2: 1.0 };
   let duration = 1000;
   let moods = ['Set', 'Rise'];
   let mood: string = moods[0];
 
-  // calculates point on curve at time
-  // (or get this from your favorite library)
-  function cubicBezier(
-    t: number,
-    cubicBezier: CubicBezierValueTuple
-  ): [x: number, y: number] {
-    const p0 = [0, 0];
-    const p3 = [1, 1];
-
-    const x =
-      (1 - t) ** 3 * p0[0] +
-      (1 - t) ** 2 * t * 3 * cubicBezier[0] +
-      (1 - t) * t ** 2 * 3 * cubicBezier[2] +
-      t ** 3 * p3[0];
-    const y =
-      (1 - t) ** 3 * p0[1] +
-      (1 - t) ** 2 * t * 3 * cubicBezier[1] +
-      (1 - t) * t ** 2 * 3 * cubicBezier[3] +
-      t ** 3 * p3[1];
-
-    return [x, y];
-  }
-
-  function cubicEase(t: number): number {
-    return cubicBezier(t, value)[1];
-  }
+  const positionTween = tweened(0);
 
   function lerp(value: number, toLow: number, toHigh: number): number {
     return toLow + ((value - 0) * (toHigh - toLow)) / (1 - 0);
   }
 
-  const positionTween = tweened(0, {
+  $: positionTween.set(mood === 'Set' ? 0 : 1, {
     duration,
-    easing: cubicEase
+    easing: Utils.cubicBezierToEaseFunction(value)
   });
-
-  $: positionTween.set(mood === 'Set' ? 0 : 1, { duration });
 
   $: celestialHeight = lerp($positionTween, 20, 80);
   $: twilightAmount = lerp($positionTween, 20, -80);

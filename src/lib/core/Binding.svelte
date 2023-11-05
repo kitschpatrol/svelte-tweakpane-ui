@@ -1,5 +1,4 @@
 <script lang="ts" context="module">
-	import type { Simplify } from '$lib/utils';
 	import type { BindingApi, BindingParams } from '@tweakpane/core';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BindingObject } from '$lib/utils';
@@ -157,9 +156,7 @@ Consider convenience components like `<Slider>`, `<Color>`, etc. before using th
 </script>
 
 <Binding bind:object key={'r'} label="Reticulation" />
-<pre>
-Value: {object.r}
-</pre>
+<pre>Value: {object.r}</pre>
 ```
 
 @sourceLink [Binding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Binding.svelte)

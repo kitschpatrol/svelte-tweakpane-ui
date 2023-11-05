@@ -174,7 +174,7 @@ TODO
 ```svelte
 <script lang="ts">
   import { FpsGraph, Slider, Monitor } from 'svelte-tweakpane-ui';
-  import { BROWSER } from 'esm-env';
+  import { onMount } from 'svelte';
 
   let rotation = 0;
   let rotationSpeed = 3;
@@ -182,12 +182,12 @@ TODO
   let scale = 1.25;
   let intensity = 4;
 
-  if (BROWSER) {
+  onMount(() => {
     (function tick() {
       rotation += rotationSpeed;
       requestAnimationFrame(tick);
     })();
-  }
+  });
 
   $: gridSize = intensity ** 2;
 </script>

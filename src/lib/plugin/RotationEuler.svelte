@@ -1,10 +1,11 @@
 <script lang="ts" context="module">
+	import type { Simplify } from '$lib/utils';
+
 	import type { EulerOrder } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerOrder.js';
 	import type { EulerUnit } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerUnit.js';
 	import type { PointDimensionParams } from '@tweakpane/core';
-	import type { Simplify } from '$lib/utils';
 
-	export type RotationEulerOptions = PointDimensionParams;
+	export type RotationEulerOptions = Simplify<PointDimensionParams>;
 	export type RotationEulerOrder = EulerOrder;
 	export type RotationEulerUnit = EulerUnit;
 
@@ -21,12 +22,12 @@
 
 <script lang="ts">
 	// note name collission with options params
+	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation';
 	import type { RotationInputPluginEulerParams as RotationEulerOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/RotationInputPluginEulerParams';
 	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 
 	type $$Props = Omit<
 		ComponentProps<GenericInputFolding<RotationEulerValue, RotationEulerOptionsInternal>>,
@@ -137,13 +138,16 @@ TODO
   import {
     Button,
     RotationEuler,
-    type RotationEulerValueObject
+    type RotationEulerValueObject,
+    type RotationEulerUnit,
+    Utils
   } from 'svelte-tweakpane-ui';
 
   // Value could also be a tuple
   // e.g. [0, 0, 0]
   let value: RotationEulerValueObject = { x: 0, y: 0, z: 0 };
 
+  $: transform = Utils.eulerToCssTransform(value);
   $: valueRows = Object.values(value)
     .map((v) => `${v >= 0 ? '+' : ''}${v.toFixed(6)}`)
     .join('\n');
@@ -157,13 +161,8 @@ TODO
 />
 <Button title="Reset" on:click={() => (value = { x: 0, y: 0, z: 0 })} />
 
-<div
-  class="billboard"
-  style:transform="rotateX({value.x}rad) rotateY({value.y}rad) rotateZ({value.z}rad)"
->
-  <pre>
-		{valueRows}
-	</pre>
+<div class="billboard" style:transform>
+  <pre>{valueRows}</pre>
 </div>
 
 <style>

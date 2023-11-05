@@ -1,8 +1,13 @@
-// shared
+// shared types
 export type { Plugin, BindingObject } from '$lib/utils.js';
 
 // themes
 export { THEMES, setGlobalDefaultTheme, type Theme } from '$lib/theme.js';
+
+// utilities
+export { Utils } from '$lib/utils.js';
+
+// components
 
 // core (tweakpane building blocks)
 export { default as Binding, type BindingOptions, type BindingRef } from '$lib/core/Binding.svelte';
