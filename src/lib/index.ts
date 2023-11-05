@@ -17,14 +17,32 @@ export { default as Tab } from '$lib/core/Tab.svelte';
 export { default as AutoObject } from '$lib/extra/AutoObject.svelte';
 export { default as Element } from '$lib/extra/Element.svelte';
 export { default as Checkbox } from '$lib/extra/Checkbox.svelte';
-export { default as Color, type ColorValue } from '$lib/extra/Color.svelte';
-export { default as List, type ListOptions } from '$lib/extra/List.svelte';
+export {
+	default as Color,
+	type ColorValue,
+	type ColorValueRgbObject,
+	type ColorValueRgbaObject,
+	type ColorValueString
+} from '$lib/extra/Color.svelte';
+export {
+	default as List,
+	type ListOptions,
+	type ListOptionsArray,
+	type ListOptionsObjectArray,
+	type ListOptionsRecord
+} from '$lib/extra/List.svelte';
 export { default as Monitor } from '$lib/extra/Monitor.svelte';
 export {
 	default as Point,
 	type PointValue2d,
+	type PointValue2dObject,
+	type PointValue2dTuple,
 	type PointValue3d,
+	type PointValue3dObject,
+	type PointValue3dTuple,
 	type PointValue4d,
+	type PointValue4dObject,
+	type PointValue4dTuple,
 	type PointOptionsX,
 	type PointOptionsY,
 	type PointOptionsZ,

@@ -1,6 +1,14 @@
 <script lang="ts" context="module">
+	import type { Simplify } from '$lib/utils';
+
 	// extends tweakpane to take arbitrary arrays of values
-	export type ListOptions<T> = { text: string; value: T }[] | { [text: string]: T } | T[];
+	export type ListOptionsArray<T> = T[];
+	export type ListOptionsObjectArray<T> = { text: string; value: T }[];
+	export type ListOptionsRecord<T> = { [text: string]: T };
+
+	export type ListOptions<T> = Simplify<
+		ListOptionsArray<T> | ListOptionsObjectArray<T> | ListOptionsRecord<T>
+	>;
 </script>
 
 <script lang="ts" generics="T extends any">

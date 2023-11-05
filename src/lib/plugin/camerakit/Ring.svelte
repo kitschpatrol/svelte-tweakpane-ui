@@ -1,8 +1,10 @@
 <script lang="ts" context="module">
 	import type { RingSeries } from '@tweakpane/plugin-camerakit/dist/types/util.js';
-	//  import type { RingUnit } from '@tweakpane/plugin-camerakit/dist/types/view/ring.d.ts';
 
-	// redefine RingUnit with additinoal documentation
+	// TODO maybe spread RingUnit into the top level props?
+
+	//  import type { RingUnit } from '@tweakpane/plugin-camerakit/dist/types/view/ring.d.ts';
+	// redefine RingUnit with additional documentation
 	type RingUnit = {
 		/**
 		 * The number of pixels per unit.

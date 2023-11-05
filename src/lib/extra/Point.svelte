@@ -1,6 +1,8 @@
 <script lang="ts" context="module">
 	// extends Tweakpane's implementation to support tuples
 	import type { Point2dInputParams, Point3dInputParams, Point4dInputParams } from 'tweakpane';
+	import type { Simplify } from '$lib/utils';
+
 	type PointOptions<U> = U extends PointValue4d
 		? Point4dInputParams
 		: U extends PointValue3d
@@ -9,13 +11,17 @@
 		? Point2dInputParams & { z: unknown; w: unknown }
 		: unknown;
 
-	export type PointValue2d = { x: number; y: number } | [x: number, y: number];
-	export type PointValue3d =
-		| { x: number; y: number; z: number }
-		| [x: number, y: number, z: number];
-	export type PointValue4d =
-		| { x: number; y: number; z: number; w: number }
-		| [x: number, y: number, z: number, w: number];
+	export type PointValue2dObject = { x: number; y: number };
+	export type PointValue2dTuple = [x: number, y: number];
+	export type PointValue2d = Simplify<PointValue2dObject | PointValue2dTuple>;
+
+	export type PointValue3dObject = { x: number; y: number; z: number };
+	export type PointValue3dTuple = [x: number, y: number, z: number];
+	export type PointValue3d = Simplify<PointValue3dObject | PointValue3dTuple>;
+
+	export type PointValue4dObject = { x: number; y: number; z: number; w: number };
+	export type PointValue4dTuple = [x: number, y: number, z: number, w: number];
+	export type PointValue4d = Simplify<PointValue4dObject | PointValue4dTuple>;
 
 	export type PointOptionsX<T extends PointValue2d | PointValue3d | PointValue4d> =
 		PointOptions<T>['x'];

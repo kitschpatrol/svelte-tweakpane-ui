@@ -4,7 +4,13 @@
 		RgbaColorObject
 	} from '@tweakpane/core/dist/input-binding/color/model/color.js';
 
-	export type ColorValue = string | RgbColorObject | RgbaColorObject;
+	import type { Simplify } from '$lib/utils';
+
+	// TODO tuples, oklch, etc
+	export type ColorValueRgbObject = Simplify<RgbColorObject>;
+	export type ColorValueRgbaObject = Simplify<RgbaColorObject>;
+	export type ColorValueString = string;
+	export type ColorValue = Simplify<ColorValueRgbObject | ColorValueRgbaObject | ColorValueString>;
 </script>
 
 <script lang="ts">

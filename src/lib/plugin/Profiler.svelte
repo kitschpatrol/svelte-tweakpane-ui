@@ -1,6 +1,7 @@
 <script lang="ts" context="module">
+	import type { Simplify } from '$lib/utils';
 	import type { ProfilerBladeMeasureHandler } from '@kitschpatrol/tweakpane-plugin-profiler';
-	export type ProfilerMeasureHandler = ProfilerBladeMeasureHandler;
+	export type ProfilerMeasureHandler = Simplify<ProfilerBladeMeasureHandler>;
 	export type ProfilerCalcMode = 'frame' | 'mean' | 'median';
 	export type ProfilerMeasure = (name: string, fn: () => void) => void;
 </script>

@@ -1,3 +1,5 @@
+// type aliases and utility functions
+
 import type { FolderApi, Pane, TabPageApi } from 'tweakpane';
 import type { Theme } from '$lib/theme';
 
@@ -7,18 +9,19 @@ export type { TpPluginBundle as Plugin, Bindable as BindingObject } from '@tweak
 // internal types
 export type Container = Pane | FolderApi | TabPageApi;
 
-// from
-// doesn't work for hover expansion when imported, only if defined in the file where it's used
+// from https://github.com/sindresorhus/type-fest
+// doesn't work for hover expansion when imported, only if defined in the file where it's used?
 export type Simplify<T> = { [KeyType in keyof T]: T[KeyType] } & NonNullable<unknown>;
 
-// from
-// this works
+// from https://github.com/sindresorhus/type-fest
+// this works?
 export type SimplifyDeep<Type> = Type extends Theme // exclude Theme
 	? Type
 	: { [TypeKey in keyof Type]: SimplifyDeep<Type[TypeKey]> };
 
-export type ExtractTuple<T> = T extends (infer U)[] ? U : never;
-export type ExtractObject<T> = T extends object ? T : never;
+// Possible alternative to all the explicitly defined value type variations
+// export type ExtractTuple<T> = T extends (infer U)[] ? U : never;
+// export type ExtractObject<T> = T extends object ? T : never;
 
 /**
  * Needed to conveniently use $$Events as the single source of truth for component events
@@ -53,24 +56,29 @@ export type UnwrapCustomEvents<T> = {
  * <input bind:value={_value} />
  *
  * This is not perfect and there are some edge cases it doesn't catch because we have to
- * allow assignment to undefined in some internal cases.
+ * allow assignment to undefined in some internal cases (via the `allowAssignmentToUndefined` flag).
  *
  */
 export function enforceReadonly(
 	internal: unknown,
 	external: unknown,
-	componentName: string,
-	propName: string,
-	allowAssignmentToUndefined: boolean = false
+	componentName?: string,
+	propName?: string,
+	allowAssignmentToUndefined?: boolean
 ) {
+	allowAssignmentToUndefined ??= false;
+
 	if (
 		!(
 			external === internal ||
 			(allowAssignmentToUndefined && internal === undefined && external !== undefined)
 		)
 	) {
+		const componentString = componentName ? `<${componentName}> ` : '';
+		const propString = propName ? `property "${propName}" ` : '';
+
 		console.error(
-			`Svelte component "<${componentName}>" property "${propName}" is intended for readonly use.\nAssigning\n"${external}"\nto\n"${internal}"\nis not allowed.`
+			`Svelte component ${componentString}property ${propString}is intended for readonly use.\nAssigning\n"${external}"\nto\n"${internal}"\nis not allowed.`
 		);
 	}
 }
@@ -141,23 +149,17 @@ export function updateCollapsability(
 	}
 }
 
-export function makeSafeKey(input: string | undefined, defaultKey: string = 'key'): string {
-	if (input === undefined) return defaultKey;
-
-	// Replace problematic keys and characters with a preceding underscore
-	return input.replace(/(__proto__|constructor|prototype|\s|\.)/g, (match) => {
-		if (match === ' ' || match === '.') {
-			return '_';
-		}
-		return '_' + match;
-	});
-}
-
-// tries to be smart about rows and columns
-// if none are provided, it makes the most square grid possible
-// if one is provided, it lets the undefined axis grow / shrink
-// as needed
-// if both are provided, values may will be clipped
+/**
+ * Infers grid dimensions for a given number of items, respecting
+ * optional maximums for rows and columns.
+ *
+ * If no constraints are provided, it creates the most square grid possible.
+ *
+ * If a single constraint is provided, it lets the undefined axis grow / shrink
+ * as needed.
+ *
+ * If both constaints are provided, values may be clipped.
+ */
 export function getGridDimensions(
 	itemCount: number,
 	maxColumns?: number,

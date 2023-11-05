@@ -1,4 +1,5 @@
 <script lang="ts" context="module">
+	import type { Simplify } from '$lib/utils';
 	import type { BindingApi, BindingParams } from '@tweakpane/core';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BindingObject } from '$lib/utils';
