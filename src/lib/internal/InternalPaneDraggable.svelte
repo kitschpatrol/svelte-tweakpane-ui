@@ -110,6 +110,7 @@
 	export let minWidth: $$Props['minWidth'] = 200;
 	export let maxWidth: $$Props['maxWidth'] = 600;
 	export let title: $$Props['title'] = 'Tweakpane';
+	export let scale: $$Props['scale'] = 1;
 
 	let paneRef: TpPane;
 	let containerElement: HTMLDivElement;
@@ -169,7 +170,7 @@
 
 			// ensure we "stick" to the correct quadrant
 			const centerPercentX = (x + width / 2) / documentWidth;
-			const centerPercentY = (y + containerHeight / 2) / documentHeight;
+			const centerPercentY = (y + containerHeightScaled / 2) / documentHeight;
 
 			if (!isNaN(dx) && centerPercentX >= 0.5) {
 				x += dx;
@@ -344,7 +345,7 @@
 	// additional checks in the width drag handler
 	$: if (
 		BROWSER &&
-		containerHeight !== undefined &&
+		containerHeightScaled !== undefined &&
 		documentWidth !== undefined &&
 		documentHeight !== undefined &&
 		x !== undefined &&
@@ -354,7 +355,7 @@
 		maxWidth !== undefined
 	) {
 		x = clamp(x, 0, documentWidth - width);
-		y = clamp(y, 0, documentHeight - containerHeight);
+		y = clamp(y, 0, documentHeight - containerHeightScaled);
 		if (documentWidth < width) {
 			width = Math.max(minWidth, Math.min(maxWidth, documentWidth));
 		}
@@ -378,6 +379,8 @@
 		width !== undefined &&
 		expanded !== undefined &&
 		positionStore?.set({ x, y, width, expanded });
+
+	$: containerHeightScaled = containerHeight * (scale ?? 1);
 </script>
 
 <!--
@@ -407,7 +410,13 @@ This component is for internal use only.
 		style:top="{y}px"
 		style:z-index={zIndexLocal}
 	>
-		<GenericPane bind:expanded bind:paneRef {title} {...removeKeys($$restProps, 'position')}>
+		<GenericPane
+			bind:expanded
+			bind:paneRef
+			{title}
+			{scale}
+			{...removeKeys($$restProps, 'position')}
+		>
 			<slot />
 		</GenericPane>
 	</div>

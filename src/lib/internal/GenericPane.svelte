@@ -7,6 +7,7 @@
 	import { applyTheme } from '$lib/theme.js';
 	import type { Container } from '$lib/utils.js';
 	import { updateCollapsability, type Plugin } from '$lib/utils.js';
+
 	// import type { BladeState } from '@tweakpane/core';
 
 	/**
@@ -44,6 +45,19 @@
 	 * */
 	export let theme: Theme | undefined = undefined;
 
+	/**
+	 * Scales the pane's elements by a factor of `scale` to make it easier to see.
+	 *
+	 * Holds the width of the pane constant, so the pane will grow taller as it is scaled and will continue to respect position- and size-related props.
+	 * If you need more breathing room, set the `width` property on the pane.
+	 *
+	 * Note that the scaling prop is only availabe on `<Pane>`, not on stand-alone (implicitly wrapped) inline elements.
+	 *
+	 * Negative values are ignored.
+	 * @default `1`
+	 */
+	export let scale: number = 1;
+
 	// export let state: BladeState | undefined = undefined;
 
 	// TODO Giant pain to pass through,
@@ -60,7 +74,10 @@
 	/** Internal use only. */
 	export let userCreatedPane = true;
 
-	/** Internal use only. */
+	/**
+	 * Internal use only.
+	 * @readonly
+	 * */
 	export let paneRef: TpPane | undefined = undefined;
 
 	const parentStore = writable<TpPane>();
@@ -114,6 +131,25 @@
 		});
 	}
 
+	function setScale(scale: number) {
+		if (paneRef) {
+			if (scale === 1) {
+				paneRef.element.style.removeProperty('transform-origin');
+				paneRef.element.style.removeProperty('transform');
+				paneRef.element.style.removeProperty('width');
+			} else {
+				const clampedScale = Math.max(0, scale);
+				paneRef.element.style.transformOrigin = '0 0';
+				paneRef.element.style.transform = `scale(${clampedScale})`;
+
+				// jitters a bit, but resizeObserver + rounding wasn't better
+				paneRef.element.style.width = `${100 / clampedScale}%`;
+			}
+		}
+	}
+
+	$: BROWSER && paneRef && setScale(scale);
+
 	$: BROWSER &&
 		paneRef &&
 		updateCollapsability(clickToExpand, paneRef.element, 'tp-rotv_b', 'tp-rotv_m');
@@ -132,3 +168,15 @@ This component is for internal use only.
 {#if BROWSER}
 	<slot />
 {/if}
+
+<style>
+	/* Breaks too many things */
+
+	/* :global(div.tp-lblv) {
+		overflow: hidden;
+	}
+
+	:global(div.tp-lblv:has(div.tp-popv-v)) {
+		overflow: visible !important;
+	} */
+</style>

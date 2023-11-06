@@ -9,7 +9,11 @@
 	type $$Props = Omit<ComponentProps<GenericPane>, 'paneRef'> & {
 		/**
 		 * Width of the pane, in pixels.
-		 * @default `undefined` (fills container width)
+		 *
+		 * If undefined, the pane will fill the width of its container. (This behavior is unique to `position="inline"`.)
+		 *
+		 * This value is particularly important in combination with `scale`, since a scaled inline pane will grow indefinitely wider if an intrinsic width is not specified and a containing element is not provided.
+		 * @default `undefined`
 		 * */
 		width?: number;
 	};
@@ -27,13 +31,7 @@
 	let paneRef: TpPane;
 	let containerElement: HTMLDivElement;
 
-	function setWidth() {
-		if (width !== undefined) {
-			paneRef.element.style.setProperty('width', `${width}px`);
-		} else {
-			paneRef.element.style.removeProperty('width');
-		}
-	}
+	$: console.log(width);
 
 	onMount(() => {
 		if (paneRef) {
@@ -44,8 +42,6 @@
 			console.warn('paneRef is undefined');
 		}
 	});
-
-	$: width, BROWSER && paneRef !== undefined && setWidth();
 </script>
 
 <!--
@@ -56,7 +52,7 @@ This component is for internal use only.
 -->
 
 {#if BROWSER}
-	<div bind:this={containerElement}>
+	<div bind:this={containerElement} style:width="{width}px">
 		<GenericPane bind:expanded bind:paneRef {theme} {...removeKeys($$restProps, 'position')}>
 			<slot />
 		</GenericPane>
