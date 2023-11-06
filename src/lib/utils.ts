@@ -113,6 +113,7 @@ export function removeKeys<T extends object>(obj: T, ...keys: string[]): T {
 
 function clickBlocker(e: MouseEvent) {
 	// only block user clicks, not programmatic ones
+	console.log(e.detail);
 	if (e.isTrusted) e.stopPropagation();
 }
 

@@ -15,6 +15,10 @@
 	import { persisted } from 'svelte-local-storage-store';
 	import type { Writable } from 'svelte/store';
 
+	// Maybe expose as props
+	const TITLEBAR_WINDOWSHADE_SINGLE_CLICK = true;
+	const TITLEBAR_WINDOWSHADE_DOUBLE_CLICK = false;
+
 	// Could extend from InternalPaneFixed, but need to revise documentation anyway
 	// Many gratuitous defined checks since NonNullable didn't work and not sure how to make an optional prop
 	// remain optional but with a default value in the $$Props type
@@ -179,6 +183,8 @@
 
 	const clickBlocker = (e: MouseEvent) => {
 		e.stopPropagation();
+		// e.preventDefault();
+		// e.stopImmediatePropagation();
 	};
 
 	let startWidth = 0;
@@ -187,16 +193,18 @@
 	let moveDistance = 0;
 
 	const doubleClickListener = (e: MouseEvent) => {
+		console.log('doubleclick');
 		e.stopPropagation();
-		if (e.target instanceof HTMLElement && paneRef && width !== undefined) {
-			if (e.target === dragBarElement) {
-				if (moveDistance < 3 && clickToExpand) paneRef.expanded = !paneRef.expanded;
-			} else if (e.target === widthHandleElement) {
+		if (e.target) {
+			if (width !== undefined && e.target === widthHandleElement) {
 				if (width < maxAvailablePanelWidth) {
 					width = maxAvailablePanelWidth;
 				} else {
 					width = minWidth;
 				}
+			} else if (TITLEBAR_WINDOWSHADE_DOUBLE_CLICK && e.target === dragBarElement) {
+				//if (moveDistance < 3 && clickToExpand)
+				paneRef.expanded = !paneRef.expanded;
 			}
 		}
 	};
@@ -210,7 +218,6 @@
 			e.target.addEventListener('pointerup', upListener);
 
 			startWidth = width ?? 0;
-
 			startOffsetX = x - e.pageX;
 			startOffsetY = y - e.pageY;
 		}
@@ -243,13 +250,22 @@
 		}
 	};
 
+	// TODO need to catch cancellations as well?
 	const upListener = (e: PointerEvent) => {
 		e.stopImmediatePropagation();
 		if (e.target instanceof HTMLElement) {
 			e.target.releasePointerCapture(e.pointerId);
 			e.target.removeEventListener('pointermove', moveListener);
 			e.target.removeEventListener('pointerup', upListener);
+
+			if (TITLEBAR_WINDOWSHADE_SINGLE_CLICK && e.target === dragBarElement) {
+				if (moveDistance < 3 && clickToExpand) paneRef.expanded = !paneRef.expanded;
+			}
 		}
+	};
+
+	const touchScrollBlocker = (e: TouchEvent) => {
+		e.preventDefault();
 	};
 
 	onMount(() => {
@@ -261,22 +277,26 @@
 			console.warn('no pane ref in draggable');
 		}
 
+		// prevent scrolling the background on mobile when dragging the pane or otherwise
+		containerElement.addEventListener('touchmove', touchScrollBlocker, { passive: false });
+
 		// make the pane draggable
-		// the tweakbar pane is NOT itself a svelte component, so we have to
-		// hook into it directly through the DOM
+		// the Tweakbar pane is NOT itself a svelte component, so we have to
+		// manage events directly through the DOM
+		// click blocking and handling collape in pointerup was most reliable cross-browser approach
 		dragBarElement = containerElement.getElementsByClassName('tp-rotv_t')[0] as HTMLElement;
-		// let single clicks trigger window shade as well, to match default behavior
-		dragBarElement.addEventListener('click', doubleClickListener);
+		dragBarElement.addEventListener('click', clickBlocker);
 		dragBarElement.addEventListener('dblclick', doubleClickListener);
 		dragBarElement.addEventListener('pointerdown', downListener);
 
-		// add width adjuster
+		// add width adjuster handle
 		widthHandleElement = dragBarElement.parentElement?.appendChild(document.createElement('div'));
 		if (widthHandleElement) {
 			widthHandleElement.className = 'tp-custom-width-handle';
 			widthHandleElement.innerText = '↔';
-			widthHandleElement.addEventListener('dblclick', doubleClickListener);
+
 			widthHandleElement.addEventListener('click', clickBlocker);
+			widthHandleElement.addEventListener('dblclick', doubleClickListener);
 			widthHandleElement.addEventListener('pointerdown', downListener);
 		}
 	});
@@ -285,17 +305,21 @@
 		if (dragBarElement) {
 			dragBarElement.removeEventListener('click', clickBlocker);
 			dragBarElement.removeEventListener('dblclick', doubleClickListener);
-			dragBarElement.removeEventListener('pointermove', moveListener);
-			dragBarElement.removeEventListener('pointerup', upListener);
 			dragBarElement.removeEventListener('pointerdown', downListener);
+			dragBarElement.removeEventListener('pointermove', moveListener); // might exist, set in down
+			dragBarElement.removeEventListener('pointerup', upListener); // might exist, set in down
 		}
 
 		if (widthHandleElement) {
 			widthHandleElement.removeEventListener('click', clickBlocker);
 			widthHandleElement.removeEventListener('dblclick', doubleClickListener);
-			widthHandleElement.removeEventListener('pointermove', moveListener);
-			widthHandleElement.removeEventListener('pointerup', upListener);
 			widthHandleElement.removeEventListener('pointerdown', downListener);
+			widthHandleElement.removeEventListener('pointermove', moveListener); // might exist, set in down
+			widthHandleElement.removeEventListener('pointerup', upListener); // might exist, set in down
+		}
+
+		if (containerElement) {
+			containerElement.removeEventListener('touchmove', touchScrollBlocker);
 		}
 
 		// clean up store id check, e.g. when cycling through the mode of a single pane
@@ -370,6 +394,9 @@ This component is for internal use only.
 		on:focus|capture={() => {
 			zIndexLocal = ++zIndexGlobal;
 		}}
+		on:pointerdown|capture={() => {
+			zIndexLocal = ++zIndexGlobal;
+		}}
 		class="draggable-container"
 		class:not-resizeable={!resizeable}
 		class:not-collapsable={!clickToExpand}
@@ -433,8 +460,9 @@ This component is for internal use only.
 	/* stylelint-disable-next-line selector-class-pattern */
 	div.draggable-container :global(div.tp-rotv_m) {
 		right: unset;
-		/* crazy calc but straight from the tp source */
-		left: calc(var(--cnt-hp) + (var(--cnt-usz) + 4px - 6px) / 2 - 2px);
+		left: 0;
+		/* inflate the icon into a better hit zone */
+		margin: auto calc((var(--cnt-usz) + (var(--cnt-hp)) - 6px) / 2);
 	}
 
 	div.draggable-container :global(div.tp-custom-width-handle) {
