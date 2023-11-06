@@ -178,3 +178,10 @@ TODO
 		{...$$restProps}
 	/>
 {/if}
+
+<style>
+	/* Fix overflow bug from the plugin TODO PR */
+	:global(div.tp-cbzv:not(tp-cbzv-expanded) div.tp-cbzv_p) {
+		overflow: hidden !important;
+	}
+</style>
