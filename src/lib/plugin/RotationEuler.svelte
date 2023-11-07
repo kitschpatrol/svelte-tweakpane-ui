@@ -127,10 +127,12 @@
 </script>
 
 <!--
-@component
-TODO
+@component  
+TODO Component documentation...
 
-@example
+TK
+
+@example  
 ```svelte
 <script lang="ts">
   import {

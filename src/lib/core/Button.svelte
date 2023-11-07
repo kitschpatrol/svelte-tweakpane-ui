@@ -99,7 +99,7 @@
 </script>
 
 <!--
-@component
+@component  
 A humble push button.
 
 Wraps the Tweakpane [addButton](https://tweakpane.github.io/docs/ui-components/#button) method.
@@ -108,7 +108,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the button in `<Pane 
 
 @emits {void} click - when the button is clicked
 
-@example	
+@example  
 ```svelte
 <script lang="ts">
   import { Button } from 'svelte-tweakpane-ui';

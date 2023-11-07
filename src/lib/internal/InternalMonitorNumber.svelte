@@ -70,7 +70,7 @@
 </script>
 
 <!--
-@component
+@component  
 This component is for internal use only.
 
 Documentation retained in case of a return to the non-dynamic component approach.
@@ -83,7 +83,7 @@ Note that `interval` is exposed to allow separate control over the reactive valu
 
 Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane position='inline'>` component.
 
-@example	
+@example  
 ```svelte
 <script lang="ts">
   import { InternalMonitorNumber } from 'svelte-tweakpane-ui';

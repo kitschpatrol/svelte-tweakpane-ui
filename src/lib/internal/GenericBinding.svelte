@@ -47,7 +47,7 @@
 </script>
 
 <!--
-@component
+@component  
 This component is for internal use only.
 
 It abstracts the `param` object Tweakpane expects into an interface that looks like a bare value.

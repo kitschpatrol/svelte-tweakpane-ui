@@ -195,7 +195,7 @@
 </script>
 
 <!--
-@component
+@component  
 Wraps the Tweakpane [point bindings](https://tweakpane.github.io/docs/input-bindings/#point).
 
 Provides a nice cartesian picker for 2D points, and numeric input fields for 3D and 4D points. See the `<RotationEuler>` and `<RotationQuaternion>` components for higher-dimension graphical pickers.
@@ -204,7 +204,7 @@ Extends the vanilla Tweakpane APIs to also support tuple values. (Useful when wo
 
 Usage outside of a `<Pane>` component will implicitly wrap the point picker in a `<Pane position='inline'>` component.
 
-@example	
+@example  
 ```svelte
 <script lang="ts">
   import {

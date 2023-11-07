@@ -112,12 +112,14 @@
 </script>
 
 <!--
-@component
-TODO
+@component  
+TODO Component documentation...
+
+TK
 
 Note about groupname
 
-@example
+@example  
 ```svelte
 <script lang="ts">
   import { RadioGrid } from 'svelte-tweakpane-ui';

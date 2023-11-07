@@ -10,14 +10,14 @@
 </script>
 
 <!--
-@component
+@component  
 A checkbox.
 
 Wraps Tweakpane's [boolean input binding](https://tweakpane.github.io/docs/input-bindings/#boolean).
 
 Usage outside of a `<Pane>` component will implicitly wrap the checkbox in `<Pane position='inline'>`.
 
-@example	
+@example  
 ```svelte
 <script lang="ts">
   import { Checkbox } from 'svelte-tweakpane-ui';

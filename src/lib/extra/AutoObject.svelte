@@ -57,7 +57,7 @@
 </script>
 
 <!--
-@component
+@component  
 Convenience component which automatically creates a set of Tweakpane controls for an arbitrary object.
 
 Object keys will be used as labels, and a (reasonably) appropriate Tweakpane control will be used for each value's type.
@@ -66,7 +66,7 @@ Records within the object will be wrap their contents in a `<Folder>` component.
 
 Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane position='inline'>`.
 
-@example	
+@example  
 ```svelte
 <script lang="ts">
   import { AutoObject } from 'svelte-tweakpane-ui';

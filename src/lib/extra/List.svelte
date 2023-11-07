@@ -114,7 +114,7 @@
 </script>
 
 <!--
-@component
+@component  
 An option list picker, similar to an HTML `<select>` element.
 
 Wraps Tweakpane's list blade. See Tweakpane's documentation for [list blades](https://tweakpane.github.io/docs/blades/#list).
@@ -125,7 +125,7 @@ Tweakpane's `addBlade` list variations is used instead of the `addBinding` metho
 
 Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane position='inline'>`.
 
-@example	
+@example  
 ```svelte
 <script lang="ts">
   import { List, type ListOptions } from 'svelte-tweakpane-ui';

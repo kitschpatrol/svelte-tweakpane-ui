@@ -63,7 +63,8 @@
 		 * Function wrapping the `measure` function.
 		 *
 		 * The default is fine for most cases.
-		 * @default [`new ProfilerBladeDefaultMeasureHandler()`](https://github.com/kitschpatrol/tweakpane-plugin-profiler/blob/tweakpane-v4/src/ProfilerBladeDefaultMeasureHandler.ts)
+		 * @default [`new
+		 * ProfilerBladeDefaultMeasureHandler()`](https://github.com/kitschpatrol/tweakpane-plugin-profiler/blob/tweakpane-v4/src/ProfilerBladeDefaultMeasureHandler.ts)
 		 */
 		measureHandler?: ProfilerMeasureHandler;
 		/**
@@ -73,8 +74,7 @@
 		targetDelta?: number;
 	};
 
-	// exporting a const function might be cleaner, but
-	// less expected by the user?
+	// exporting a const function might be cleaner, but less expected by the user?
 	function _measure(name: string, fn: () => void): void {
 		profilerBlade?.measure(name, fn);
 	}
@@ -110,10 +110,12 @@
 </script>
 
 <!--
-@component
-TODO
+@component  
+TODO Component documentation...
 
-@example
+TK
+
+@example  
 ```svelte
 <script lang="ts">
   import { onMount } from 'svelte';
@@ -176,7 +178,8 @@ TODO
 />
 ```
 
-@sourceLink [Profiler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/Profiler.svelte)
+@sourceLink
+[Profiler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/Profiler.svelte)
 -->
 
 {#if BROWSER}

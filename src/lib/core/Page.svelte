@@ -102,14 +102,14 @@
 </script>
 
 <!--
-@component
+@component  
 Contains a collection of Tweakpane controls to be presented as a group inside a `<Tab>` component. ("Tab" might be a more accurate description for this control.)
 
 Provides `page` values to Tweakpane's [addTab](https://tweakpane.github.io/docs/ui-components/#tab) method.
 
 Usage outside of a `<Tab>` component wouldn't make much sense, but in such cases the `<Page>` will be implicitly wrapped in a `<Tab>` and `<Pane position='inline'>`.
 
-@example	
+@example  
 ```svelte
 <script lang="ts">
   import { Button, Page, Tab } from 'svelte-tweakpane-ui';

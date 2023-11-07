@@ -102,7 +102,7 @@
 </script>
 
 <!--
-@component
+@component  
 Wraps the Tweakpane [addBlade](https://tweakpane.github.io/docs/blades/) method.
 
 Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane position='inline'>`.
@@ -111,7 +111,7 @@ Tweakpane's Vanilla JS API offers Blades as as a way to create unbound component
 
 This component is not directly exposed since it lacks a use case in the Svelte context. Consider convenience components like `<Separator>`, etc. before using this component directly.
 
-@example
+@example  
 ```svelte
 <script lang="ts">
   import { Blade } from 'svelte-tweakpane-ui';

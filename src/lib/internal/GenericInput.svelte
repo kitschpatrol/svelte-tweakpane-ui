@@ -29,7 +29,7 @@
 </script>
 
 <!--
-@component
+@component  
 This component is for internal use only.
 
 @sourceLink [GenericInput.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericInput.svelte)

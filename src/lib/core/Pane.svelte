@@ -62,7 +62,7 @@
 </script>
 
 <!--
-@component
+@component  
 The root `<Pane>` component, used for organizing controls into a single group and controlling how and where the Tweakpane is displayed.
 
 This component is a wrapper around Tweakpane's [Pane](https://tweakpane.github.io/docs/api/classes/Pane.html) class.
@@ -93,7 +93,7 @@ Mode overview:
 		This mode's behavior is similar to creating a Pane in Vanilla JS Tweakpane with its [`container`](https://tweakpane.github.io/docs/misc/#containerElement) property set to its parent element.
 - **`<Pane position='fixed' ...>`** exhibits the standard Vanilla JS Tweakpane behavior of displaying in a fixed position over the page.
 
-@example	
+@example  
 ```svelte
 <script lang="ts">
   import { Button, Pane } from 'svelte-tweakpane-ui';

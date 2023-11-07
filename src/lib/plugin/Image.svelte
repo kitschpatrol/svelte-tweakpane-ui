@@ -46,12 +46,14 @@
 </script>
 
 <!--
-@component
-TODO
+@component  
+TODO Component documentation...
+
+TK
 
 Note some layout issues with the component itself...
 
-@example
+@example  
 ```svelte
 <script lang="ts">
   import { Button, Image } from 'svelte-tweakpane-ui';

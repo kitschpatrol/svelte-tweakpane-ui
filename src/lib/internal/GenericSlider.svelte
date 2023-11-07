@@ -77,7 +77,7 @@
 </script>
 
 <!--
-@component
+@component  
 This component is for internal use only.
 
 Note that we go from a regular slider to a range / interval slider

@@ -16,7 +16,7 @@
 </script>
 
 <!--
-@component
+@component  
 A text field, in the spirit of the HTML `<input type="text">` element.
 
 Updates to the bound value only happen on blur, not on every keystroke. (@todo live update mode?)
@@ -25,7 +25,7 @@ Wraps Tweakpane's [string binding](https://tweakpane.github.io/docs/input-bindin
 
 Usage outside of a `<Pane>` component will implicitly wrap the text field in `<Pane position='inline'>`.
 
-@example	
+@example  
 ```svelte
 <script lang="ts">
   import { Text } from 'svelte-tweakpane-ui';

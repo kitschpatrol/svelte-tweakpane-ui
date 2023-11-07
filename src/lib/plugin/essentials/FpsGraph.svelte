@@ -165,12 +165,14 @@
 </script>
 
 <!--
-@component
-TODO
+@component  
+TODO Component documentation...
+
+TK
 
 @emits {number} change - when the FPS value changes
 
-@example
+@example  
 ```svelte
 <script lang="ts">
   import { onMount } from 'svelte';

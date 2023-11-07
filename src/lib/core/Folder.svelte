@@ -92,14 +92,14 @@
 </script>
 
 <!--
-@component
+@component  
 Organize multiple controls into a collapsable folder.
 
 Wraps the Tweakpane [addFolder](https://tweakpane.github.io/docs/ui-components/#folder) method.
 
 Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane position='inline'>`.
 
-@example	
+@example  
 ```svelte
 <script lang="ts">
   import { Button, Checkbox, Folder, Monitor } from 'svelte-tweakpane-ui';

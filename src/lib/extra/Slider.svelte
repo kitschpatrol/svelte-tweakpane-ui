@@ -16,7 +16,7 @@
 </script>
 
 <!--
-@component
+@component  
 A slider component providing fine-grained control over numerical values.
 
 Wraps Tweakpane's [number bindings](https://tweakpane.github.io/docs/input-bindings/#number).
@@ -27,7 +27,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the slider in `<Pane 
 
 See the `<Interval>` component for a multi-handle range-defining slider.
 
-@example	
+@example  
 ```svelte
 <script lang="ts">
   import { Slider } from 'svelte-tweakpane-ui';

@@ -108,12 +108,14 @@
 </script>
 
 <!--
-@component
-TODO
+@component  
+TODO Component documentation...
+
+TK
 
 @emits {ButtonGridClickEvent} click - when a button in the grid is clicked
 
-@example
+@example  
 ```svelte
 <script lang="ts">
   import {

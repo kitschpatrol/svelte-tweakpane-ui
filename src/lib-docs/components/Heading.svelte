@@ -14,7 +14,7 @@
 </script>
 
 <!-- 
-  @component 
+  @component  
   Reimplement KitDocs heading output for correct "on this page" behavior
   Leading space matches behavior of the built-in markdown renderer
 -->

@@ -384,7 +384,7 @@
 </script>
 
 <!--
-@component
+@component  
 This component is for internal use only.
 
 @sourceLink [InternalPaneDraggable.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalPaneDraggable.svelte)

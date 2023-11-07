@@ -94,7 +94,7 @@
 </script>
 
 <!--
-@component
+@component  
 This component is for internal use only.
 
 @sourceLink [GenericInputFolding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericInputFolding.svelte)

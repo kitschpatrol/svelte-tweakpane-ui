@@ -62,7 +62,7 @@
 </script>
 
 <!--
-@component
+@component  
 This component is for internal use only.
 
 Implements the default tweakpane behavior... opens in a fixed position.

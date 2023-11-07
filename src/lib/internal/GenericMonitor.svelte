@@ -57,7 +57,7 @@
 </script>
 
 <!--
-@component
+@component  
 This component is for internal use only.
 
 @sourceLink [GenericMonitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericMonitor.svelte)

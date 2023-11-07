@@ -138,7 +138,7 @@
 </script>
 
 <!--
-@component
+@component  
 Wraps the Tweakpane [addBinding](https://tweakpane.github.io/docs/input-bindings/) method.
 
 Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane position='inline'>`.
@@ -147,7 +147,7 @@ This component is provided for consistency with Tweakapne's API, but is not reco
 
 Consider convenience components like `<Slider>`, `<Color>`, etc. before using this component directly.
 
-@example	
+@example  
 ```svelte
 <script lang="ts">
   import { Binding, type BindingObject } from 'svelte-tweakpane-ui';
