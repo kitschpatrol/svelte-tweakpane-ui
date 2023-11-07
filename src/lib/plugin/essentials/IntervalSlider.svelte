@@ -97,9 +97,9 @@ TODO
 
 <style>
   div.demo {
-    background: linear-gradient(45deg, magenta var(--s), orange var(--e));
-    width: 100%;
     aspect-ratio: 1;
+    width: 100%;
+    background: linear-gradient(45deg, magenta var(--s), orange var(--e));
   }
 </style>
 ```

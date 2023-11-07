@@ -1,5 +1,5 @@
 {
-  "extends": ["stylelint-config-standard", "stylelint-config-html"],
+  "extends": ["stylelint-config-standard", "stylelint-config-clean-order", "stylelint-config-html"],
   "rules": {
     "color-hex-length": null,
     "comment-empty-line-before": null,
@@ -9,6 +9,8 @@
       {
         "ignorePseudoClasses": ["global"]
       }
-    ]
+    ],
+    "declaration-empty-line-before": "never",
+    "at-rule-empty-line-before": "never"
   }
 }

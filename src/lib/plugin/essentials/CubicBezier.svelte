@@ -144,23 +144,23 @@ TODO
 
 <style>
   .demo {
-    width: 100%;
-    aspect-ratio: 1;
-    background: linear-gradient(to top, orange var(--a), magenta 100%);
     position: relative;
     overflow: hidden;
+    aspect-ratio: 1;
+    width: 100%;
+    background: linear-gradient(to top, orange var(--a), magenta 100%);
   }
 
   .celestial-object {
     position: absolute;
-    left: 50%;
     bottom: var(--t);
+    left: 50%;
     transform-origin: center;
     transform: translate(-50%, 50%);
-    width: 10cqw;
     aspect-ratio: 1;
-    border-radius: 50%;
+    width: 10cqw;
     background-color: yellow;
+    border-radius: 50%;
   }
 </style>
 ```

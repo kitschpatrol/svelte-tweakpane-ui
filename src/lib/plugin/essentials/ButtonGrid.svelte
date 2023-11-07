@@ -151,20 +151,20 @@ TODO
 
 <style>
   .demo {
-    width: 100%;
     aspect-ratio: 1;
+    width: 100%;
     background: linear-gradient(45deg, orange, magenta);
   }
 
   .demo > p {
     margin: 0;
-    line-height: 1.2;
-    font-size: 8cqw;
     padding: 0.5em;
     font-family: monospace;
+    font-size: 8cqw;
+    line-height: 1.2;
     color: white;
-    white-space: pre-wrap;
     word-break: break-all;
+    white-space: pre-wrap;
   }
 
   .demo > p::after {

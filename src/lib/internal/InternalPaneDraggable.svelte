@@ -425,9 +425,9 @@ This component is for internal use only.
 <style>
 	div.draggable-container {
 		position: fixed;
+		z-index: auto;
 		/* 0.2s matches Tweakpane's internal animation duration */
 		transition: width 0.2s ease;
-		z-index: auto;
 	}
 
 	div.draggable-container:active {
@@ -475,12 +475,12 @@ This component is for internal use only.
 	}
 
 	div.draggable-container :global(div.tp-custom-width-handle) {
+		cursor: col-resize;
 		position: absolute;
-		height: 100%;
-		aspect-ratio: 1;
 		top: 0;
 		right: 0;
-		cursor: col-resize;
+		aspect-ratio: 1;
+		height: 100%;
 		font-size: 1.5em;
 		color: var(--tp-container-fg);
 		opacity: 0.5;

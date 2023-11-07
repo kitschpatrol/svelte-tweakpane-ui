@@ -103,12 +103,12 @@
 
 	th,
 	td {
-		padding-left: 0;
+		width: 1px; /* This will force the column to be as small as possible without content breaking */
 		margin-left: 0;
+		padding-left: 0;
 		text-align: left;
 		word-wrap: break-word; /* Break long words */
 		overflow-wrap: break-word; /* Modern property for wrapping */
-		width: 1px; /* This will force the column to be as small as possible without content breaking */
 		white-space: nowrap; /* This ensures the content does not break */
 	}
 

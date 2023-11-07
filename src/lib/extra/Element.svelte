@@ -106,19 +106,19 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
 
 <style>
   .demo {
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     aspect-ratio: 1;
+    width: 100%;
     background: linear-gradient(var(--a), orange, magenta);
   }
 
   .demo > p {
-    text-align: center;
     font-family: sans-serif;
     font-size: 10cqw;
     color: white;
+    text-align: center;
   }
 
   .demo > p > code {
@@ -143,13 +143,13 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
 
 <style>
 	div.element {
-		padding-left: var(--cnt-hp);
 		padding-right: var(--cnt-hp);
+		padding-left: var(--cnt-hp);
 	}
 
 	div.element-container {
-		border-radius: var(--bld-br);
 		overflow: hidden;
+		border-radius: var(--bld-br);
 	}
 
 	div.reset {

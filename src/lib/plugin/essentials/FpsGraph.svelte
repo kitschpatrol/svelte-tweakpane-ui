@@ -219,19 +219,19 @@ TODO
 
 <style>
   .demo {
-    width: 100%;
-    aspect-ratio: 1;
-    background: linear-gradient(to top, gold, rebeccapurple);
-    overflow: hidden;
     position: relative;
+    overflow: hidden;
+    aspect-ratio: 1;
+    width: 100%;
+    background: linear-gradient(to top, gold, rebeccapurple);
   }
 
   .box {
     position: absolute;
-    aspect-ratio: 1;
-    background: linear-gradient(to bottom, orange, magenta);
-    opacity: 0.5;
     transform-origin: center;
+    aspect-ratio: 1;
+    opacity: 0.5;
+    background: linear-gradient(to bottom, orange, magenta);
   }
 </style>
 ```

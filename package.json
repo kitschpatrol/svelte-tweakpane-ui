@@ -249,6 +249,7 @@
     "shiki": "^0.14.5",
     "striptags": "^3.2.0",
     "stylelint": "^15.11.0",
+    "stylelint-config-clean-order": "^5.2.0",
     "stylelint-config-html": "^1.1.0",
     "stylelint-config-standard": "^34.0.0",
     "svelte": "^4.2.2",

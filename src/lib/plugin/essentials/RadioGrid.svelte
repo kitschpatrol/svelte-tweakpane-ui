@@ -149,15 +149,15 @@ Note about groupname
 <style>
   div.demo {
     position: relative;
-    width: 100%;
     aspect-ratio: 1;
+    width: 100%;
     background: white;
   }
 
   div.swatch {
+    position: absolute;
     width: 100%;
     height: 100%;
-    position: absolute;
     background: linear-gradient(45deg, var(--s), var(--e));
   }
 </style>

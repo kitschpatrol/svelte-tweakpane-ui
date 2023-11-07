@@ -21,9 +21,9 @@
 	}
 
 	div.center-row {
+		min-width: 256px;
 		margin: 2rem 0;
 		background-color: rgb(83 83 83);
-		min-width: 256px;
 	}
 
 	div.center-row :global(pre) {

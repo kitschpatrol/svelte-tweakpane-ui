@@ -58,9 +58,9 @@ TODO
 
 <style>
   div.demo {
-    background: linear-gradient(var(--a), magenta, orange);
-    width: 100%;
     aspect-ratio: 1;
+    width: 100%;
+    background: linear-gradient(var(--a), magenta, orange);
   }
 </style>
 ```

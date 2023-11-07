@@ -80,12 +80,12 @@ Note some layout issues with the component itself...
 
 <style>
   div.demo {
-    background: linear-gradient(magenta, orange);
-    width: 100%;
-    aspect-ratio: 1;
     display: flex;
     align-items: center;
     justify-content: center;
+    aspect-ratio: 1;
+    width: 100%;
+    background: linear-gradient(magenta, orange);
   }
 
   div.demo > img {
@@ -94,9 +94,9 @@ Note some layout issues with the component itself...
   }
 
   div.demo > p {
-    text-align: center;
-    color: white;
     max-width: 50%;
+    color: white;
+    text-align: center;
   }
 </style>
 ```

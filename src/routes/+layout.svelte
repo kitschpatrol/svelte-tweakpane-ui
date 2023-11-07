@@ -72,8 +72,8 @@
 	}
 
 	.logo :global(svg) {
-		height: 36px;
 		overflow: hidden;
+		height: 36px;
 	}
 
 	/* KitDocs overrides */
@@ -90,8 +90,8 @@
 
 	/* Do not blur backgrounds  */
 	:global(.blur-bg) {
-		backdrop-filter: unset !important;
 		background-color: rgb(var(--kd-color-body) / 100%);
+		backdrop-filter: unset !important;
 	}
 
 	/* :global(.backdrop-blur-sm) {
