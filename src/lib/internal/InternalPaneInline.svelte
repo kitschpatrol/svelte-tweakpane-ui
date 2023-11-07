@@ -31,8 +31,6 @@
 	let paneRef: TpPane;
 	let containerElement: HTMLDivElement;
 
-	$: console.log(width);
-
 	onMount(() => {
 		if (paneRef) {
 			const fixedContainer = paneRef.element.parentElement;
