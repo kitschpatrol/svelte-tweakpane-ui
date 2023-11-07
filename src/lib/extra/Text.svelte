@@ -23,7 +23,8 @@ Updates to the bound value only happen on blur, not on every keystroke. (@todo l
 
 Wraps Tweakpane's [string binding](https://tweakpane.github.io/docs/input-bindings/#string).
 
-Usage outside of a `<Pane>` component will implicitly wrap the text field in `<Pane position='inline'>`.
+Usage outside of a `<Pane>` component will implicitly wrap the text field in `<Pane
+position='inline'>`.
 
 @example  
 ```svelte
@@ -37,7 +38,8 @@ Usage outside of a `<Pane>` component will implicitly wrap the text field in `<P
 <pre>Message: {text}</pre>
 ```
 
-@sourceLink [Text.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Text.svelte)
+@sourceLink
+[Text.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Text.svelte)
 -->
 
 {#if BROWSER}

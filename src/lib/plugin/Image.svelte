@@ -103,7 +103,8 @@ Note some layout issues with the component itself...
 </style>
 ```
 
-@sourceLink [Image.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/Image.svelte)
+@sourceLink
+[Image.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/Image.svelte)
 -->
 
 {#if BROWSER}

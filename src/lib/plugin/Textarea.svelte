@@ -60,7 +60,8 @@ TK
 <pre>{text}</pre>
 ```
 
-@sourceLink [Textarea.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/Textarea.svelte)
+@sourceLink
+[Textarea.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/Textarea.svelte)
 -->
 
 {#if BROWSER}

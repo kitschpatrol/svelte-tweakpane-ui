@@ -21,7 +21,8 @@ A slider component providing fine-grained control over numerical values.
 
 Wraps Tweakpane's [number bindings](https://tweakpane.github.io/docs/input-bindings/#number).
 
-Note that if `min` and `max` props are not defined, no linear slider widget will be provided and a input field with a draggable handle will be used instead.
+Note that if `min` and `max` props are not defined, no linear slider widget will be provided and a
+input field with a draggable handle will be used instead.
 
 Usage outside of a `<Pane>` component will implicitly wrap the slider in `<Pane position='inline'>`.
 
@@ -45,7 +46,8 @@ See the `<Interval>` component for a multi-handle range-defining slider.
 <pre>Value: {value}</pre>
 ```
 
-@sourceLink [Slider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Slider.svelte)
+@sourceLink
+[Slider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Slider.svelte)
 -->
 
 {#if BROWSER}

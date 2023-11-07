@@ -15,7 +15,8 @@ A checkbox.
 
 Wraps Tweakpane's [boolean input binding](https://tweakpane.github.io/docs/input-bindings/#boolean).
 
-Usage outside of a `<Pane>` component will implicitly wrap the checkbox in `<Pane position='inline'>`.
+Usage outside of a `<Pane>` component will implicitly wrap the checkbox in `<Pane
+position='inline'>`.
 
 @example  
 ```svelte
@@ -29,7 +30,8 @@ Usage outside of a `<Pane>` component will implicitly wrap the checkbox in `<Pan
 <pre>Enabled: {reticulationEnabled}</pre>
 ```
 
-@sourceLink [Checkbox.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Checkbox.svelte)
+@sourceLink
+[Checkbox.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Checkbox.svelte)
 -->
 
 {#if BROWSER}

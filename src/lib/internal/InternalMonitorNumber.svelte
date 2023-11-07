@@ -8,8 +8,8 @@
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
-	// multifile structure is legacy of previous non-dynamic component approach
-	// TODO consolidate eventually if dynamic components prove reliable
+	// multifile structure is legacy of previous non-dynamic component approach TODO consolidate
+	// eventually if dynamic components prove reliable
 
 	type $$Props = Omit<
 		ComponentProps<GenericMonitor<number, InternalMonitorNumberOptions>>,
@@ -31,7 +31,8 @@
 		max?: number;
 		/**
 		 * A function to customize the number's formatting (e.g. rounding, etc.).
-		 * @default `undefined` (normal `.toString()` formatting)
+		 * @default `undefined`  \
+		 * Normal `.toString()` formatting.
 		 * */
 		format?: (value: number) => string;
 		/**
@@ -52,11 +53,9 @@
 
 	let options: InternalMonitorNumberOptions;
 
-	// deal with format firing a change
-	// firing even when the function hasn't changed
-	// probably related to https://github.com/sveltejs/svelte/issues/4265
-	// possibly fixable with immutable=true but I don't want to go there
-	// TODO evaluate other non-primitive prop access
+	// deal with format firing a change firing even when the function hasn't changed probably
+	// related to https://github.com/sveltejs/svelte/issues/4265 possibly fixable with
+	// immutable=true but I don't want to go there TODO evaluate other non-primitive prop access
 	let formatProxy: typeof format = format;
 
 	$: BROWSER && formatProxy !== format && (formatProxy = format);
@@ -75,13 +74,18 @@ This component is for internal use only.
 
 Documentation retained in case of a return to the non-dynamic component approach.
 
-Wraps the Tweakpane [monitor binding](https://tweakpane.github.io/docs/monitor-bindings/) functionality for number values.
+Wraps the Tweakpane [monitor binding](https://tweakpane.github.io/docs/monitor-bindings/)
+functionality for number values.
 
-Technically, any unbound value on a normal `svelte-tweakpane-ui` component effectivel acts as a monitor, but additional monitor-specific components are provided to expose additional view options (e.g. `max` and `min`).
+Technically, any unbound value on a normal `svelte-tweakpane-ui` component effectivel acts as a
+monitor, but additional monitor-specific components are provided to expose additional view options
+(e.g. `max` and `min`).
 
-Note that `interval` is exposed to allow separate control over the reactive value's update rate and the graph's update rate.
+Note that `interval` is exposed to allow separate control over the reactive value's update rate and
+the graph's update rate.
 
-Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane position='inline'>` component.
+Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane
+position='inline'>` component.
 
 @example  
 ```svelte
@@ -100,7 +104,8 @@ Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pa
 <InternalMonitorNumber value={numberToMonitor} min={-1} max={1} graph={true} />
 ```
 
-@sourceLink [InternalMonitorNumber.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalMonitorNumber.svelte)
+@sourceLink
+[InternalMonitorNumber.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalMonitorNumber.svelte)
 -->
 
 {#if BROWSER}

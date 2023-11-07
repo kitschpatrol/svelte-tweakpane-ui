@@ -15,8 +15,8 @@
 	import CubicBezier from '$lib/plugin/essentials/CubicBezier.svelte';
 	import { onMount } from 'svelte';
 
-	// this is a readonly function handle assigned by Profiler component
-	// first used in onMount since it is not bound until then
+	// this is a readonly function handle assigned by Profiler component first used in onMount since
+	// it is not bound until then
 	let measure: ProfilerMeasure;
 
 	let loopExponent = 1;
@@ -33,8 +33,7 @@
 
 	onMount(() => {
 		(function tick() {
-			// Nesting measurements creates a hierarchy
-			// in the Profile visualization
+			// Nesting measurements creates a hierarchy in the Profile visualization
 			measure('Tick', () => {
 				measure('Trigonometry', () => {
 					hardWork(Math.sin, loopExponent);
@@ -85,7 +84,8 @@
 		bind:value={test}
 		clickToExpand={true}
 		expanded={false}
-		label="Quaternion Picker"
+		label="Quaternion
+	Picker"
 		picker={'inline'}
 	/>
 	<Profiler bind:measure label="Profiler" />

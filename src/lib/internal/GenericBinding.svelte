@@ -29,8 +29,8 @@
 	export let ref: $$Props['ref'] = undefined;
 	export let options: $$Props['options'] = undefined;
 
-	// see makeSafeKey() in past versions of utils.ts
-	// for an alternative which might provide easier debugging
+	// see makeSafeKey() in past versions of utils.ts for an alternative which might provide easier
+	// debugging
 	const key = Symbol('key');
 
 	function getValue(): T {
@@ -52,7 +52,8 @@ This component is for internal use only.
 
 It abstracts the `param` object Tweakpane expects into an interface that looks like a bare value.
 
-@sourceLink [GenericBinding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericBinding.svelte)
+@sourceLink
+[GenericBinding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericBinding.svelte)
 -->
 
 {#if BROWSER}

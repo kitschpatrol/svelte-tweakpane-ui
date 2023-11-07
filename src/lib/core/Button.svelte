@@ -36,7 +36,9 @@
 
 	/**
 	 * Custom color scheme.
-	 * @default `undefined` (Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with `setGlobalDefaultTheme()`.)*
+	 * @default `undefined`  \
+	 * Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with
+	 * `setGlobalDefaultTheme()`.)
 	 * */
 	export let theme: Theme | undefined = undefined;
 
@@ -71,8 +73,8 @@
 		});
 
 		button.on('click', () => {
-			// Event type? Does TpEvent with its target value make any sense?
-			// note that this event must be forwarded manually...
+			// Event type? Does TpEvent with its target value make any sense? note that this event
+			// must be forwarded manually...
 			dispatch('click');
 		});
 	}
@@ -120,7 +122,8 @@ Usage outside of a `<Pane>` component will implicitly wrap the button in `<Pane 
 <pre>Count: {count}</pre>
 ```
 
-@sourceLink [Button.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Button.svelte)
+@sourceLink
+[Button.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Button.svelte)
 -->
 
 {#if BROWSER}

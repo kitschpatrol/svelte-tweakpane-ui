@@ -7,13 +7,12 @@ import { escape } from 'lodash-es';
 
 export async function GET(request: RequestEvent) {
 	if (request.params.slug?.includes('docs_components_')) {
-		// kind of a mess, no real file in the filesystem for the [slug] endpoint,
-		// and the handler returned from createMetaRequestHandler() only works on the
-		// filesystem to find and tokenize markdown files
+		// kind of a mess, no real file in the filesystem for the [slug] endpoint, and the handler
+		// returned from createMetaRequestHandler() only works on the filesystem to find and
+		// tokenize markdown files
 
-		// instead, fetch the dynamic page as html, and parse the DOM to get
-		// the title and header metadata KitDocs wants
-		// ...would only do this on a fully prerendered site
+		// instead, fetch the dynamic page as html, and parse the DOM to get the title and header
+		// metadata KitDocs wants ...would only do this on a fully prerendered site
 
 		// ಠ_ಠ
 		const pageUrl = `${base}/${request.params.slug.substring(base.length).replaceAll('_', '/')}`;
@@ -37,9 +36,9 @@ export async function GET(request: RequestEvent) {
 		});
 		const response = await handler(request);
 
-		// the default kitdocs request handler will return an empty body for
-		// endpoints that are svelte components without frontmatter instead of
-		// markdown files, intercept these and add a rational title
+		// the default kitdocs request handler will return an empty body for endpoints that are
+		// svelte components without frontmatter instead of markdown files, intercept these and add
+		// a rational title
 		if (response.body) {
 			return response;
 		} else {
@@ -140,8 +139,7 @@ function resolveTitleFromHtml(htmlContent: string) {
 	);
 }
 
-// Somewhere else to pull this from?
-// src/node/markdown-plugin/parser/utils/slugify.ts
+// Somewhere else to pull this from? src/node/markdown-plugin/parser/utils/slugify.ts
 // eslint-disable-next-line no-control-regex
 const rControl = /[\u0000-\u001f]/g;
 const rSpecial = /[\s~`!@#$%^&*()\-_+=[\]{}|\\;:"'“”‘’<>,.?/]+/g;

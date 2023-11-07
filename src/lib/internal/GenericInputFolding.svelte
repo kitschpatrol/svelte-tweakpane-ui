@@ -53,8 +53,8 @@
 
 	let optionsInternal: GenericInputFoldingOptions;
 
-	// can't be right, but no 'fold' event or 'expanded' value seems to be available,
-	// and setting / reading directly from the ref doesn't seem to work
+	// can't be right, but no 'fold' event or 'expanded' value seems to be available, and setting /
+	// reading directly from the ref doesn't seem to work
 	let gotBinding = false;
 	const initialExpanded = expanded;
 	let internalExpanded = initialExpanded;
@@ -79,8 +79,7 @@
 			picker
 		});
 
-	// click instead of setting expanded
-	// to avoid  animation jankiness
+	// click instead of setting expanded to avoid  animation jankiness
 	$: BROWSER &&
 		ref &&
 		buttonClass &&
@@ -97,7 +96,8 @@
 @component  
 This component is for internal use only.
 
-@sourceLink [GenericInputFolding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericInputFolding.svelte)
+@sourceLink
+[GenericInputFolding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericInputFolding.svelte)
 -->
 
 {#if BROWSER}

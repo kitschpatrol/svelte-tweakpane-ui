@@ -1,5 +1,5 @@
-// Replaces @sourceLink in jsdocs with GitHub URLs in source files
-// References the git url provided in package.json.
+// Replaces @sourceLink in jsdocs with GitHub URLs in source files References the git url provided
+// in package.json.
 
 import { getAllLibFiles } from './ast-tools';
 import fs from 'fs';
@@ -16,11 +16,11 @@ function addLinksToComponentBlock(filePath: string, baseUrl: string): void {
 	const fileName = path.basename(filePath);
 	const url = baseUrl + filePath;
 
-	// if the markdown link is already there, it will work out to a no-op
-	// if it needs an update, this will do it...
+	// if the markdown link is already there, it will work out to a no-op if it needs an update, this
+	// will do it...
 	const updatedContent = fileContent.replace(
-		/@sourceLink(.+\))?/,
-		`@sourceLink [${fileName}](${url})`
+		/@sourceLink(.+\))?\n/s,
+		`@sourceLink\n[${fileName}](${url})\n`
 	);
 
 	if (fileContent !== updatedContent) {

@@ -16,12 +16,15 @@
 
 	/**
 	 * Custom color scheme.
-	 * @default `undefined` (Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with `setGlobalDefaultTheme()`.)
+	 * @default `undefined`  \
+	 * Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with
+	 * `setGlobalDefaultTheme()`.
 	 * */
 	export let theme: Theme | undefined = undefined;
 
 	/**
-	 * Transforms keys into more pleasant control labels (e.g. capitalization and spaces in lieu of camelCase, kebab-case, etc.)
+	 * Transforms keys into more pleasant control labels (e.g. capitalization and spaces in lieu of
+	 * camelCase, kebab-case, etc.)
 	 * @default `true`
 	 * */
 	export let prettyLabels: boolean = true;
@@ -29,7 +32,8 @@
 	/**
 	 * Object to create an automatic set of Tweakpane controls for.
 	 *
-	 * Keys will be used as labels, and a (reasonably) appropriate Tweakpane control will be used for each value's type.
+	 * Keys will be used as labels, and a (reasonably) appropriate Tweakpane control will be used
+	 * for each value's type.
 	 * @bindable
 	 * */
 	export let object: BindingObject;
@@ -44,8 +48,8 @@
 	function prettify(value: string, active: boolean = true) {
 		if (!active) return value;
 
-		// TODO title case would be nicer...
-		// Replace underscores, hyphens, and camel case with spaces, and capitalize the first letter of each word
+		// TODO title case would be nicer... Replace underscores, hyphens, and camel case with
+		// spaces, and capitalize the first letter of each word
 		return value
 			.replace(/([a-z0-9])([A-Z])/g, '$1 $2')
 			.replace(/[_-]+/g, ' ')
@@ -58,13 +62,17 @@
 
 <!--
 @component  
-Convenience component which automatically creates a set of Tweakpane controls for an arbitrary object.
+Convenience component which automatically creates a set of Tweakpane controls for an arbitrary
+object.
 
-Object keys will be used as labels, and a (reasonably) appropriate Tweakpane control will be used for each value's type.
+Object keys will be used as labels, and a (reasonably) appropriate Tweakpane control will be used
+for each value's type.
 
-Records within the object will be wrap their contents in a `<Folder>` component. Value objects in the shape of color or point objects will show a more specialized control.
+Records within the object will be wrap their contents in a `<Folder>` component. Value objects in
+the shape of color or point objects will show a more specialized control.
 
-Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane position='inline'>`.
+Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane
+position='inline'>`.
 
 @example  
 ```svelte
@@ -100,7 +108,8 @@ Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pa
 <pre>{JSON.stringify(object, null, 2)}</pre>
 ```
 
-@sourceLink [AutoObject.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/AutoObject.svelte)
+@sourceLink
+[AutoObject.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/AutoObject.svelte)
 -->
 
 {#if BROWSER}

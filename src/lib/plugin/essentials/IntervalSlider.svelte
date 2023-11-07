@@ -106,7 +106,8 @@ TK
 </style>
 ```
 
-@sourceLink [IntervalSlider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/IntervalSlider.svelte)
+@sourceLink
+[IntervalSlider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/IntervalSlider.svelte)
 -->
 
 {#if BROWSER}

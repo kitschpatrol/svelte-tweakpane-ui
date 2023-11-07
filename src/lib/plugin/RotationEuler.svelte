@@ -34,7 +34,8 @@
 		/**
 		 * The rotation value to control.
 		 *
-		 * Tuple values are a convenience added by `svelte-tweakpane-ui`, and is not part of the original TweakpaneRotationPlugin API.
+		 * Tuple values are a convenience added by `svelte-tweakpane-ui`, and is not part of the
+		 * original TweakpaneRotationPlugin API.
 		 *
 		 * See the `order` prop to specify the sequence in which rotations are applied.
 		 * @bindable
@@ -43,28 +44,33 @@
 		/**
 		 * Input parameters specific to the X dimension.
 		 *
-		 * Renamed from `x` in the original TweakpaneRotationPlugin API to clarify that it is an object of options, not a value.
+		 * Renamed from `x` in the original TweakpaneRotationPlugin API to clarify that it is an
+		 * object of options, not a value.
 		 * @default `undefined`
 		 * */
 		optionsX?: RotationEulerOptions;
 		/**
 		 * Input parameters specific to the Y dimension.
 		 *
-		 * Renamed from `y` in the original TweakpaneRotationPlugin API to clarify that it is an object of options, not a value.
+		 * Renamed from `y` in the original TweakpaneRotationPlugin API to clarify that it is an
+		 * object of options, not a value.
 		 * @default `undefined`
 		 * */
 		optionsY?: RotationEulerOptions;
 		/**
 		 * Input parameters specific to the Z dimension.
 		 *
-		 * Renamed from `z` in the original TweakpaneRotationPlugin API to clarify that it is an object of options, not a value.
+		 * Renamed from `z` in the original TweakpaneRotationPlugin API to clarify that it is an
+		 * object of options, not a value.
 		 * @default `undefined`
 		 * */
 		optionsZ?: RotationEulerOptions;
 		/**
 		 * Order of in which rotations are applied.
 		 *
-		 * Note that this is extrinsic rotations (used by Blender, Maya, and Unity). Three.js uses intrinsic rotations, so you have to reverse the order if you want to match Three.js' behavior.
+		 * Note that this is extrinsic rotations (used by Blender, Maya, and Unity). Three.js uses
+		 * intrinsic rotations, so you have to reverse the order if you want to match Three.js'
+		 * behavior.
 		 * @default `'XYZ'`
 		 * */
 		order?: RotationEulerOrder;
@@ -177,7 +183,8 @@ TK
 </style>
 ```
 
-@sourceLink [RotationEuler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/RotationEuler.svelte)
+@sourceLink
+[RotationEuler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/RotationEuler.svelte)
 -->
 
 {#if BROWSER}

@@ -53,7 +53,7 @@
 		label?: string;
 		/**
 		 * Function handle that wraps another function to measure its execution duration.
-		 * @example `measure('Hard Work', () => { ... })`);
+		 * @example `measure('Hard Work', () => { ... })`;
 		 * @bindable
 		 * @readonly
 		 * @default `undefined`
@@ -69,7 +69,8 @@
 		measureHandler?: ProfilerMeasureHandler;
 		/**
 		 * TODO Docs
-		 * @default `16.67` (60fps)
+		 * @default `16.67`  \
+		 * 60fps.
 		 */
 		targetDelta?: number;
 	};

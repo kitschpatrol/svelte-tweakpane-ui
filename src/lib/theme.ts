@@ -44,10 +44,8 @@ type ThemeKeys = {
 	monitorForegroundColor?: ThemeColorValue;
 	// Plugins
 	pluginImageDraggingColor?: ThemeColorValue;
-	// TODO broken
-	// pluginThumbnailListHeight?: ThemeValue;
-	// pluginThumbnailListThumbSize?: ThemeValue;
-	// pluginThumbnailListWidth?: ThemeValue;
+	// TODO broken pluginThumbnailListHeight?: ThemeValue; pluginThumbnailListThumbSize?:
+	// ThemeValue; pluginThumbnailListWidth?: ThemeValue;
 };
 
 type CustomThemeKeys = {
@@ -56,8 +54,8 @@ type CustomThemeKeys = {
 
 export type Theme = ThemeKeys & CustomThemeKeys;
 
-// Standard Tweakpane themes from https://tweakpane.github.io/docs/theming/#builder
-// Must be kept in sync with TP...
+// Standard Tweakpane themes from https://tweakpane.github.io/docs/theming/#builder Must be kept in
+// sync with TP...
 const standard: Theme = {
 	baseBackgroundColor: 'hsl(230, 7%, 17%)',
 	baseBorderRadius: '6px',
@@ -90,8 +88,7 @@ const standard: Theme = {
 	monitorBackgroundColor: 'rgba(0, 0, 0, 0.2)',
 	monitorForegroundColor: 'rgba(187, 188, 196, 0.7)',
 	pluginImageDraggingColor: 'hsla(230, 100%, 66%, 1)'
-	// pluginThumbnailListHeight: '400px',
-	// pluginThumbnailListThumbSize: '20px',
+	// pluginThumbnailListHeight: '400px', pluginThumbnailListThumbSize: '20px',
 	// pluginThumbnailListWidth: '200px'
 };
 
@@ -250,8 +247,7 @@ export const THEMES = {
 	vivid
 };
 
-// More humane theme names...
-// Note that the shorthand variables don't work
+// More humane theme names... Note that the shorthand variables don't work
 const keyToCssVariableMap = new Map([
 	// Tweakpane
 	['baseBackgroundColor', '--tp-base-background-color'],
@@ -291,9 +287,8 @@ const keyToCssVariableMap = new Map([
 	// ['pluginThumbnailListWidth', '--tp-plugin-thumbnail-list-width']
 ]);
 
-// Just do it dynamically instead of the map?
-// function transformToCustomProperty(str: string): string {
-//   return '--tp-' + str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
+// Just do it dynamically instead of the map? function transformToCustomProperty(str: string):
+// string { return '--tp-' + str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
 // }
 
 function themeValueToCssValue(v: ThemeColorValue | ThemeValue | undefined): string | undefined {
@@ -342,12 +337,10 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 			const value = themeValueToCssValue(v);
 			// console.log(`Inspecting ${key}: ${value}`);
 
-			// only set the variable if it deviates from the standard theme
-			// or  the root theme (set by setGlobalDefaultTheme)....
-			// but if theme is explicitly standard and not undefined, then apply
-			// it anyway so that any global theme is overridden
-			// TODO normalize color representation for comparison?
-			// TODO tests for this logic
+			// only set the variable if it deviates from the standard theme or  the root theme (set
+			// by setGlobalDefaultTheme).... but if theme is explicitly standard and not undefined,
+			// then apply it anyway so that any global theme is overridden TODO normalize color
+			// representation for comparison? TODO tests for this logic
 
 			const standardValue = standard[k] || undefined;
 			const rootValue = rootDoc.style.getPropertyValue(key) || undefined;

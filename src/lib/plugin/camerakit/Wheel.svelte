@@ -12,11 +12,14 @@
 		 * */
 		value: number;
 		/** The amount of the value to change per pixel of movement.
-		 * @default [dynamic based on magnitude of `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54)
+		 * @default `undefined`  \
+		 * [Dynamic based on magnitude of
+		 * `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54).
 		 */
 		amount?: number;
 		/**
-		 * When `true`, expand the width of the wheel control at the expense of the numerical input field.
+		 * When `true`, expand the width of the wheel control at the expense of the numerical input
+		 * field.
 		 * @default `false`
 		 * */
 		wide?: boolean;
@@ -67,7 +70,8 @@ TK
 </style>
 ```
 
-@sourceLink [Wheel.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/camerakit/Wheel.svelte)
+@sourceLink
+[Wheel.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/camerakit/Wheel.svelte)
 -->
 
 {#if BROWSER}

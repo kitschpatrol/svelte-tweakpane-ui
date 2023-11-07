@@ -15,7 +15,8 @@
 	type $$Props = ComponentProps<GenericBinding<T, U, V>> & {
 		/**
 		 * Number of past states to retain.
-		 * @default `1` (Or `64` if value is `number` and `graph` is `true`.)
+		 * @default `1`  \
+		 * Or `64` if value is `number` and `graph` is `true`.
 		 * */
 		bufferSize?: number;
 		/**
@@ -28,8 +29,10 @@
 		/**
 		 * Number of visible rows of state history.
 		 *
-		 * If `bufferSize` is larger, then the value window will scroll once state history exceeds row count.
-		 * @default `1` (Or `3` if value is `string` and `multiline` is `true`.)
+		 * If `bufferSize` is larger, then the value window will scroll once state history exceeds
+		 * row count.
+		 * @default `1`  \
+		 * Or `3` if value is `string` and `multiline` is `true`.
 		 * */
 		rows?: number;
 	};
@@ -60,7 +63,8 @@
 @component  
 This component is for internal use only.
 
-@sourceLink [GenericMonitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericMonitor.svelte)
+@sourceLink
+[GenericMonitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericMonitor.svelte)
 -->
 
 {#if BROWSER}

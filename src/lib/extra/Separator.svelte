@@ -20,11 +20,13 @@
 
 <!--
 @component  
-A convenience component providing a subtle visual separator between controls, in the spirit of the HTML `<hr>` element.
+A convenience component providing a subtle visual separator between controls, in the spirit of the
+HTML `<hr>` element.
 
 Wraps Tweakpane's [separator blade](https://tweakpane.github.io/docs/blades/#separator).
 
-Usage outside of a `<Pane>` component will implicitly wrap the separator in `<Pane position='inline'>`.
+Usage outside of a `<Pane>` component will implicitly wrap the separator in `<Pane
+position='inline'>`.
 
 @example  
 ```svelte
@@ -37,7 +39,8 @@ Usage outside of a `<Pane>` component will implicitly wrap the separator in `<Pa
 <Button title="Water" />
 ```
 
-@sourceLink [Separator.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Separator.svelte)
+@sourceLink
+[Separator.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Separator.svelte)
 -->
 
 {#if BROWSER}

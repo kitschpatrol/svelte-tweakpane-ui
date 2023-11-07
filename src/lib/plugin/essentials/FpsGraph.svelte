@@ -29,14 +29,16 @@
 		/**
 		 * Function to start a single frame measurement sample.
 		 *
-		 * If undefined, a `requestAnimationFrame` is used to indicate the overall performance of the page.
+		 * If undefined, a `requestAnimationFrame` is used to indicate the overall performance of
+		 * the page.
 		 * @default `undefined`
 		 * */
 		begin?: () => void;
 		/**
 		 * Function to end a single frame measurement sample.
 		 *
-		 * If undefined, a `requestAnimationFrame` is used to indicate the overall performance of the page.
+		 * If undefined, a `requestAnimationFrame` is used to indicate the overall performance of
+		 * the page.
 		 * @default `undefined`
 		 * */
 		end?: () => void;
@@ -85,8 +87,8 @@
 		/**
 		 * Fires when the FPS value changes, passing the latest FPS measurement.
 		 *
-		 * Note that the values described in the `FpsGraphChangeEvent`
-		 * type are available on the `event.detail` parameter.
+		 * Note that the values described in the `FpsGraphChangeEvent` type are available on the
+		 * `event.detail` parameter.
 		 * @event
 		 * */
 		change: FpsGraphChangeEvent;
@@ -119,9 +121,8 @@
 
 	let observer: MutationObserver | undefined = undefined;
 
-	// observe and update the measured fps value
-	// reading from the dom is kind of crazy, TBD better way to get this data from the
-	// fps blade
+	// observe and update the measured fps value reading from the dom is kind of crazy, TBD better
+	// way to get this data from the fps blade
 	function startObservingMeasuredFpsValue() {
 		// clean up if needed
 		stopObservingMeasuredFpsValue();
@@ -238,7 +239,8 @@ TK
 </style>
 ```
 
-@sourceLink [FpsGraph.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/FpsGraph.svelte)
+@sourceLink
+[FpsGraph.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/FpsGraph.svelte)
 -->
 
 {#if BROWSER}

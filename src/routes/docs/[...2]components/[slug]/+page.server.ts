@@ -48,13 +48,11 @@ export const load: PageServerLoad = async ({ params }) => {
 
 	if (!component) throw error(404, 'Component not found');
 
-	// render all markdown, except the example code fences which has to be
-	// its own component to make it through the KitDocs pipeline
-	// don't use createMarkdownParser(), because it replaces
-	// certain elements with custom components, and svelte doesn't want to
-	// compile and render them down without going out to a file first,
-	// which is not worth it for simple markdown in the code documentation
-	// various permutations of dynamic on-demand compilation, loading, and rendering
+	// render all markdown, except the example code fences which has to be its own component to make
+	// it through the KitDocs pipeline don't use createMarkdownParser(), because it replaces certain
+	// elements with custom components, and svelte doesn't want to compile and render them down
+	// without going out to a file first, which is not worth it for simple markdown in the code
+	// documentation various permutations of dynamic on-demand compilation, loading, and rendering
 	// were attempted without success
 	const md = new markdownit();
 
@@ -64,13 +62,13 @@ export const load: PageServerLoad = async ({ params }) => {
 		if (typeof value === 'string' && !(this.path.at(0) === 'default')) {
 			switch (this.key) {
 				case 'example':
-					// don't markdown render examples, instead we load pre-rendered
-					// markdown files from the genreated files
-					// (so we can use the KitDocs component in the page tempalate)
+					// don't markdown render examples, instead we load pre-rendered markdown files
+					// from the genreated files (so we can use the KitDocs component in the page
+					// tempalate)
 					break;
 				case 'doc':
-					// expand component strings like <Button> into links
-					// treat the big doc block as... blocks
+					// expand component strings like <Button> into links treat the big doc block
+					// as... blocks
 					this.update(md.render(linkifyComponentReferences(value, componentNames)));
 					break;
 				default:

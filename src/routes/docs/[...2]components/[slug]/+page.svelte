@@ -23,7 +23,8 @@
 
 <!-- 
 	@component  
-	This could technically be a .md file instead of .svelte, but loss of autocompletion and comingling of markdown and svelte syntax outweighed the inconvenience of wrapping headings etc.
+	This could technically be a .md file instead of .svelte, but loss of autocompletion and
+	comingling of markdown and svelte syntax outweighed the inconvenience of wrapping headings etc.
 -->
 
 <h1>{component.name}</h1>
@@ -31,8 +32,7 @@
 <!-- Component-level Documentation -->
 
 {#if component.doc}
-	<Heading level={2} text="Overview" />
-	{@html component.doc}
+	<Heading level={2} text="Overview" /> {@html component.doc}
 {/if}
 
 <!-- Example -->

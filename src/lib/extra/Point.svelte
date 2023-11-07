@@ -47,7 +47,8 @@
 		? PointValue2dObject
 		: unknown;
 
-	// some redefinition of props from GenericSlider, but redefining since we want to refine the documentation anyway
+	// some redefinition of props from GenericSlider, but redefining since we want to refine the
+	// documentation anyway
 	type $$Props = Omit<
 		ComponentProps<GenericInputFolding<T, PointOptions<T>>>,
 		'buttonClass' | 'options' | 'plugin' | 'ref'
@@ -55,68 +56,82 @@
 		/**
 		 * A 2D, 3D, or 4D point object to control.
 		 *
-		 * Takes a tuple with a `number` value for each dimension, or an object with at least `x` and `y` values, and optionally `z` and `w` values for additional dimensions.
+		 * Takes a tuple with a `number` value for each dimension, or an object with at least `x`
+		 * and `y` values, and optionally `z` and `w` values for additional dimensions.
 		 * @bindable
 		 * */
 		value: T;
 		/**
 		 * Input parameters specific to the X dimension.
 		 *
-		 * Renamed from `x` in Tweakpane API to clarify that it is an object of options, not a value.
+		 * Renamed from `x` in Tweakpane API to clarify that it is an object of options, not a
+		 * value.
 		 * @default `undefined`
 		 * */
 		optionsX?: PointOptionsX<T>;
 		/**
 		 * Input parameters specific to the Y dimension.
 		 *
-		 * For 2D point values, the object also includes the `inverted` key, which inverts the Y axis.
+		 * For 2D point values, the object also includes the `inverted` key, which inverts the Y
+		 * axis.
 		 *
-		 * Renamed from `y` in Tweakpane API to clarify that it is an object of options, not a value.
-		 * @default `undefined` (`inverted` is `false`)
+		 * Renamed from `y` in Tweakpane API to clarify that it is an object of options, not a
+		 * value.
+		 * @default `undefined`  \
+		 * `inverted` is `false`
 		 * */
 		optionsY?: PointOptionsY<T>;
 		/**
 		 * Input parameters specific to the Z dimension.
 		 *
-		 * Renamed from `z` in Tweakpane API to clarify that it is an object of options, not a value.
+		 * Renamed from `z` in Tweakpane API to clarify that it is an object of options, not a
+		 * value.
 		 * @default `undefined`
 		 * */
 		optionsZ?: PointOptionsZ<T>;
 		/**
 		 * Input parameters specific to the W dimension.
 		 *
-		 * Renamed from `w` in Tweakpane API to clarify that it is an object of options, not a value.
+		 * Renamed from `w` in Tweakpane API to clarify that it is an object of options, not a
+		 * value.
 		 * @default `undefined`
 		 * */
 		optionsW?: PointOptionsW<T>;
 		/**
 		 * The minimum value for all dimensions.
-		 * @default `undefined` (no minimum)
+		 * @default `undefined`  \
+		 * No minimum.
 		 * */
 		min?: number;
 		/**
 		 * The maximum value for all dimensions.
-		 * @default `undefined` (no maximum)
+		 * @default `undefined`  \
+		 * No maximum.
 		 * */
 		max?: number;
 		/**
 		 * A function to customize the point value's formatting (e.g. rounding, etc.).
-		 * @default `undefined` (normal `.toString()` formatting)
+		 * @default `undefined`  \
+		 * Normal `.toString()` formatting.
 		 * */
 		format?: (value: number) => string;
 		/**
 		 * The unit scale for key-based input for all dimensions (e.g. the up and down arrow keys).
-		 * @default `1` or `stepValue` if defined
+		 * @default `1`  \
+		 * Or `stepValue` if defined.
 		 *  */
 		keyScale?: number;
 		/**
 		 * The unit scale for pointer-based input for all dimensions.
-		 * @default [dynamic based on magnitude of `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54)
+		 * @default `undefined`  \
+		 * [Dynamic based on magnitude of
+		 * `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54).
 		 * */
 		pointerScale?: number;
 		/**
 		 * The minimum step interval for all dimensions.
-		 * @default `undefined` (no step constraint)
+		 * @default `undefined`  \
+		 * No step constraint.
 		 * */
 		step?: number;
 	};
@@ -198,11 +213,14 @@
 @component  
 Wraps the Tweakpane [point bindings](https://tweakpane.github.io/docs/input-bindings/#point).
 
-Provides a nice cartesian picker for 2D points, and numeric input fields for 3D and 4D points. See the `<RotationEuler>` and `<RotationQuaternion>` components for higher-dimension graphical pickers.
+Provides a nice cartesian picker for 2D points, and numeric input fields for 3D and 4D points. See
+the `<RotationEuler>` and `<RotationQuaternion>` components for higher-dimension graphical pickers.
 
-Extends the vanilla Tweakpane APIs to also support tuple values. (Useful when working with frameworks like [three.js](https://threejs.org).)
+Extends the vanilla Tweakpane APIs to also support tuple values. (Useful when working with
+frameworks like [three.js](https://threejs.org).)
 
-Usage outside of a `<Pane>` component will implicitly wrap the point picker in a `<Pane position='inline'>` component.
+Usage outside of a `<Pane>` component will implicitly wrap the point picker in a `<Pane
+position='inline'>` component.
 
 @example  
 ```svelte
@@ -241,13 +259,14 @@ Usage outside of a `<Pane>` component will implicitly wrap the point picker in a
 <Point bind:value={point4d} min={0} max={100} label="4D Point Picker" />
 
 <pre>
-	2D Value: {JSON.stringify(point2d)}
-	3D Value: {JSON.stringify(point3d)}
-	4D Value: {JSON.stringify(point4d)}
+    2D Value: {JSON.stringify(point2d)}
+    3D Value: {JSON.stringify(point3d)}
+    4D Value: {JSON.stringify(point4d)}
 </pre>
 ```
 
-@sourceLink [Point.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Point.svelte)
+@sourceLink
+[Point.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Point.svelte)
 -->
 
 {#if BROWSER}

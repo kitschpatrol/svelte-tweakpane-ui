@@ -27,7 +27,8 @@
 		/**
 		 * The cubic bezier value to control.
 		 *
-		 * Object value type is a convenience added by `svelte-tweakpane-ui`, and is not part of the original `@tweakpane/plugin-essentials` API.
+		 * Object value type is a convenience added by `svelte-tweakpane-ui`, and is not part of the
+		 * original `@tweakpane/plugin-essentials` API.
 		 * @type {CubicBezierValue}
 		 * @bindable
 		 */
@@ -167,7 +168,8 @@ TK
 </style>
 ```
 
-@sourceLink [CubicBezier.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/CubicBezier.svelte)
+@sourceLink
+[CubicBezier.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/CubicBezier.svelte)
 -->
 
 {#if BROWSER}

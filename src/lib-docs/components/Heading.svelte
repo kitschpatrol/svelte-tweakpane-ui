@@ -15,8 +15,8 @@
 
 <!-- 
   @component  
-  Reimplement KitDocs heading output for correct "on this page" behavior
-  Leading space matches behavior of the built-in markdown renderer
+  Reimplement KitDocs heading output for correct "on this page" behavior Leading space matches
+  behavior of the built-in markdown renderer
 -->
 
 <svelte:element this={tag} id={anchor} tabindex="-1">

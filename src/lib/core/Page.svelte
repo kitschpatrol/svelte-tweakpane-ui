@@ -31,7 +31,9 @@
 
 	/**
 	 * Custom color scheme.
-	 * @default `undefined` (Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with `setGlobalDefaultTheme()`.)*
+	 * @default `undefined`  \
+	 * Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with
+	 * `setGlobalDefaultTheme()`.)
 	 * */
 	export let theme: Theme | undefined = undefined;
 
@@ -59,11 +61,9 @@
 		// console.log('page created');
 
 		if (!$tabStore) {
-			// create tab if necessary
-			// this will be the tab's parent, not the page's
+			// create tab if necessary this will be the tab's parent, not the page's
 			$tabStore = $parentStore.addTab({
-				// tabs MUST be created with at least one page
-				// how to handle tabs with no children?
+				// tabs MUST be created with at least one page how to handle tabs with no children?
 				disabled: false,
 				index: $tabIndexStore,
 				// could be cleaner to have children create the tab as needed?
@@ -103,11 +103,14 @@
 
 <!--
 @component  
-Contains a collection of Tweakpane controls to be presented as a group inside a `<Tab>` component. ("Tab" might be a more accurate description for this control.)
+Contains a collection of Tweakpane controls to be presented as a group inside a `<Tab>` component.
+("Tab" might be a more accurate description for this control.)
 
-Provides `page` values to Tweakpane's [addTab](https://tweakpane.github.io/docs/ui-components/#tab) method.
+Provides `page` values to Tweakpane's [addTab](https://tweakpane.github.io/docs/ui-components/#tab)
+method.
 
-Usage outside of a `<Tab>` component wouldn't make much sense, but in such cases the `<Page>` will be implicitly wrapped in a `<Tab>` and `<Pane position='inline'>`.
+Usage outside of a `<Tab>` component wouldn't make much sense, but in such cases the `<Page>` will
+be implicitly wrapped in a `<Tab>` and `<Pane position='inline'>`.
 
 @example  
 ```svelte
@@ -133,7 +136,8 @@ Count B: {countB}
 </pre>
 ```
 
-@sourceLink [Page.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Page.svelte)
+@sourceLink
+[Page.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Page.svelte)
 -->
 
 {#if BROWSER}

@@ -31,35 +31,40 @@
 		/**
 		 * The quaternion value to control.
 		 *
-		 * Tuple values are a convenience added by `svelte-tweakpane-ui`, and is not part of the original TweakpaneRotationPlugin API.
+		 * Tuple values are a convenience added by `svelte-tweakpane-ui`, and is not part of the
+		 * original TweakpaneRotationPlugin API.
 		 * @bindable
 		 * */
 		value: RotationQuaternionValue;
 		/**
 		 * Input parameters specific to the X dimension.
 		 *
-		 * Renamed from `x` in TweakpaneRotationPlugin API to clarify that it is an object of options, not a value.
+		 * Renamed from `x` in TweakpaneRotationPlugin API to clarify that it is an object of
+		 * options, not a value.
 		 * @default `undefined`
 		 * */
 		optionsX?: RotationQuaternionOptions;
 		/**
 		 * Input parameters specific to the Y dimension.
 		 *
-		 * Renamed from `y` in TweakpaneRotationPlugin API to clarify that it is an object of options, not a value.
+		 * Renamed from `y` in TweakpaneRotationPlugin API to clarify that it is an object of
+		 * options, not a value.
 		 * @default `undefined`
 		 * */
 		optionsY?: RotationQuaternionOptions;
 		/**
 		 * Input parameters specific to the Z dimension.
 		 *
-		 * Renamed from `z` in TweakpaneRotationPlugin API to clarify that it is an object of options, not a value.
+		 * Renamed from `z` in TweakpaneRotationPlugin API to clarify that it is an object of
+		 * options, not a value.
 		 * @default `undefined`
 		 * */
 		optionsZ?: RotationQuaternionOptions;
 		/**
 		 * Input parameters specific to the W dimension.
 		 *
-		 * Renamed from `w` in TweakpaneRotationPlugin API to clarify that it is an object of options, not a value.
+		 * Renamed from `w` in TweakpaneRotationPlugin API to clarify that it is an object of
+		 * options, not a value.
 		 * @default `undefined`
 		 * */
 		optionsW?: RotationQuaternionOptions;
@@ -164,7 +169,8 @@ TK
 </style>
 ```
 
-@sourceLink [RotationQuaternion.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/RotationQuaternion.svelte)
+@sourceLink
+[RotationQuaternion.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/RotationQuaternion.svelte)
 -->
 
 {#if BROWSER}

@@ -23,22 +23,27 @@
 		max?: number;
 		/**
 		 * A function to customize the point value's formatting (e.g. rounding, etc.).
-		 * @default `undefined` (normal `.toString()` formatting)
+		 * @default `undefined`  \
+		 * Normal `.toString()` formatting.
 		 * */
 		format?: (value: number) => string;
 		/**
 		 * The unit scale for key-based input for all dimensions (e.g. the up and down arrow keys).
-		 * @default `1` or `stepValue` if defined
+		 * @default `1`  \
+		 * Or `stepValue` if defined.
 		 * */
 		keyScale?: number;
 		/**
 		 * The unit scale for pointer-based input for all dimensions.
-		 * @default [dynamic based on magnitude of `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54)
+		 * @default `undefined`  \
+		 * [Dynamic based on magnitude of
+		 * `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54).
 		 * */
 		pointerScale?: number;
 		/**
 		 * The minimum step interval.
-		 * @default `undefined` (no step constraint)
+		 * @default `undefined`  \
+		 * No step constraint.
 		 * */
 		step?: number;
 	};
@@ -53,17 +58,15 @@
 	export let keyScale: $$Props['keyScale'] = undefined;
 	export let format: $$Props['format'] = undefined;
 
-	// deal with format firing a change
-	// firing even when the function hasn't changed
-	// probably related to https://github.com/sveltejs/svelte/issues/4265
-	// possibly fixable with immutable=true but I don't want to go there
+	// deal with format firing a change firing even when the function hasn't changed probably
+	// related to https://github.com/sveltejs/svelte/issues/4265 possibly fixable with
+	// immutable=true but I don't want to go there
 	let formatProxy: typeof format = format;
 	$: BROWSER && formatProxy !== format && (formatProxy = format);
 
 	let optionsInternal: GenericSliderOptions;
 
-	// the IntervalInputParams type is identical
-	// to NumberInputParams, so don't bother with generics
+	// the IntervalInputParams type is identical to NumberInputParams, so don't bother with generics
 	$: BROWSER &&
 		(optionsInternal = {
 			min,
@@ -80,13 +83,12 @@
 @component  
 This component is for internal use only.
 
-Note that we go from a regular slider to a range / interval slider
-(via the essentials plugin) just by changing the input type
-For the sake of consistency and discoverability, `<IntervalSlider>`
-is implement as a separate component leveraging this generic
-implementation.
+Note that we go from a regular slider to a range / interval slider (via the essentials plugin) just
+by changing the input type For the sake of consistency and discoverability, `<IntervalSlider>` is
+implement as a separate component leveraging this generic implementation.
 
-@sourceLink [GenericSlider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericSlider.svelte)
+@sourceLink
+[GenericSlider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericSlider.svelte)
 -->
 
 {#if BROWSER}

@@ -23,7 +23,9 @@
 
 	/**
 	 * Custom color scheme.
-	 * @default `undefined` (Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with `setGlobalDefaultTheme()`.)
+	 * @default `undefined`  \
+	 * Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with
+	 * `setGlobalDefaultTheme()`.
 	 * */
 	export let theme: Theme | undefined = undefined;
 
@@ -40,12 +42,10 @@
 	let indexElement: HTMLDivElement;
 
 	onMount(() => {
-		// pass the tab context and index down as a store instead of a plain
-		// context, so that the child pages can edit it when needed
-		// that lets us support a childless <Tab /> component, where
-		// the first page to be added handles construction of the tab
-		// this is necessary because the tweakpane tab API can only construct
-		// tab groups with at least one page
+		// pass the tab context and index down as a store instead of a plain context, so that the
+		// child pages can edit it when needed that lets us support a childless <Tab /> component,
+		// where the first page to be added handles construction of the tab this is necessary
+		// because the tweakpane tab API can only construct tab groups with at least one page
 		$tabIndexStore = userCreatedPane ? getElementIndex(indexElement) : 0;
 	});
 
@@ -81,7 +81,8 @@
 
 <!--
 @component  
-Contains a collection of `<Page>` components to be presented as a tabs. ("TabGroup" might be a more accurate description for this control.)
+Contains a collection of `<Page>` components to be presented as a tabs. ("TabGroup" might be a more
+accurate description for this control.)
 
 Wraps Tweakpane's [addTab](https://tweakpane.github.io/docs/ui-components/#tab) method.
 
@@ -103,7 +104,8 @@ Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane pos
 </Tab>
 ```
 
-@sourceLink [Tab.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Tab.svelte)
+@sourceLink
+[Tab.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Tab.svelte)
 -->
 
 {#if BROWSER}

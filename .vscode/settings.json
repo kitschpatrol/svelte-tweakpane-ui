@@ -5,11 +5,10 @@
   },
   // Disable Prettier from running on save if it's set globally
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  // "editor.formatOnPaste": false, // required
-  // "editor.formatOnType": false, // required
+  // "editor.formatOnPaste": false, // required "editor.formatOnType": false, // required
   "editor.formatOnSave": true, // optional
-  // "editor.formatOnSaveMode": "file", // required to format on save
-  // "files.autoSave": "onFocusChange", // optional but recommended
+  // "editor.formatOnSaveMode": "file", // required to format on save "files.autoSave":
+  // "onFocusChange", // optional but recommended
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "svelte"],
   "prettier.documentSelectors": [
     "**/*.astro",
@@ -21,5 +20,6 @@
   ],
   "stylelint.validate": ["css", "html", "svelte"],
   "stylelint.configBasedir": ".",
-  "vs-code-prettier-eslint.prettierLast": true
+  //  "vs-code-prettier-eslint.prettierLast": true
+  "rewrap.wrappingColumn": 100
 }

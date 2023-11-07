@@ -75,8 +75,7 @@
 		buttonClass !== undefined &&
 		updateCollapsability(clickToExpand ?? true, ref.element, buttonClass);
 
-	// click isntead of setting expanded
-	// to avoid  animation jankiness
+	// click isntead of setting expanded to avoid  animation jankiness
 	$: BROWSER &&
 		ref &&
 		buttonClass !== undefined &&
@@ -89,7 +88,8 @@
 @component  
 This component is for internal use only.
 
-@sourceLink [GenericBladeFolding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericBladeFolding.svelte)
+@sourceLink
+[GenericBladeFolding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericBladeFolding.svelte)
 -->
 
 {#if BROWSER}

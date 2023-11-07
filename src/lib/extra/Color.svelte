@@ -25,7 +25,8 @@
 		/**
 		 * A color value to control.
 		 *
-		 * Use either a color-like string (e.g. #ff00ff), or an object with `r`, `b`, `g`, and optional `a` keys.
+		 * Use either a color-like string (e.g. #ff00ff), or an object with `r`, `b`, `g`, and
+		 * optional `a` keys.
 		 * @bindable
 		 * */
 		value: ColorValue;
@@ -38,12 +39,9 @@
 	// work-arounds for funky folding
 	const buttonClass = 'tp-colswv_b';
 
-	// TODO does this do anyhting?
-	// passing channel like 0x00ffd644 adds alpha automatically
-	// setting alpha to true on 0x00ffd6 doesn't add the control...
-	// were these both deprecated in 4.0? https://github.com/cocopon/tweakpane/issues/450
-	// options.color.alpha,
-	// options.color.type
+	// TODO does this do anyhting? passing channel like 0x00ffd644 adds alpha automatically setting
+	// alpha to true on 0x00ffd6 doesn't add the control... were these both deprecated in 4.0?
+	// https://github.com/cocopon/tweakpane/issues/450 options.color.alpha, options.color.type
 
 	const options: ColorOptions = {
 		view: 'color'
@@ -56,7 +54,8 @@ A color picker.
 
 Wraps Tweakpane's [color input binding](https://tweakpane.github.io/docs/input-bindings/#color).
 
-Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane position='inline'>`.
+Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane
+position='inline'>`.
 
 @example  
 ```svelte
@@ -79,7 +78,8 @@ Usage outside of a `<Pane>` component will implicitly wrap the color picker in `
 </div>
 ```
 
-@sourceLink [Color.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Color.svelte)
+@sourceLink
+[Color.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Color.svelte)
 -->
 
 {#if BROWSER}

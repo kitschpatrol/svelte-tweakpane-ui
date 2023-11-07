@@ -9,26 +9,27 @@ export type { Bindable as BindingObject, TpPluginBundle as Plugin } from '@tweak
 // internal types
 export type Container = FolderApi | Pane | TabPageApi;
 
-// from https://github.com/sindresorhus/type-fest
-// doesn't work for hover expansion when imported, only if defined in the file where it's used?
+// from https://github.com/sindresorhus/type-fest doesn't work for hover expansion when imported,
+// only if defined in the file where it's used?
 export type Simplify<T> = { [KeyType in keyof T]: T[KeyType] } & NonNullable<unknown>;
 
-// from https://github.com/sindresorhus/type-fest
-// this works?
+// from https://github.com/sindresorhus/type-fest this works?
 export type SimplifyDeep<Type> = Type extends Theme // exclude Theme
 	? Type
 	: { [TypeKey in keyof Type]: SimplifyDeep<Type[TypeKey]> };
 
-// Possible alternative to all the explicitly defined value type variations
-// export type ExtractTuple<T> = T extends (infer U)[] ? U : never;
-// export type ExtractObject<T> = T extends object ? T : never;
+// Possible alternative to all the explicitly defined value type variations export type
+// ExtractTuple<T> = T extends (infer U)[] ? U : never; export type ExtractObject<T> = T extends
+// object ? T : never;
 
 /**
- * Needed to conveniently use $$Events as the single source of truth for component events
- * Performs the transformation necessary (extracting detail types) to pass the $$Events
- * type into createEventDispatcher(). See [documentation](https://svelte.dev/docs/typescript#script-lang-ts-events).
+ * Needed to conveniently use $$Events as the single source of truth for component events Performs
+ * the transformation necessary (extracting detail types) to pass the $$Events type into
+ * createEventDispatcher(). See
+ * [documentation](https://svelte.dev/docs/typescript#script-lang-ts-events).
  *
- * An alternative would be to use a custom dispatcher, like [Threlte does])https://github.com/threlte/threlte/blob/main/packages/core/src/lib/lib/createRawEventDispatcher.ts_.
+ * An alternative would be to use a custom dispatcher, like [Threlte
+ * does])https://github.com/threlte/threlte/blob/main/packages/core/src/lib/lib/createRawEventDispatcher.ts_.
  *
  */
 export type UnwrapCustomEvents<T> = {
@@ -38,8 +39,9 @@ export type UnwrapCustomEvents<T> = {
 // utility functions
 
 /**
- * There's no way to enforce readonly properties in Svelte components, so this is a workaround.
- * See [general approach](https://github.com/sveltejs/svelte/issues/7712#issuecomment-1642470141) and [runtime error approach](https://github.com/sveltejs/svelte/issues/7712#issuecomment-1642817764)
+ * There's no way to enforce readonly properties in Svelte components, so this is a workaround. See
+ * [general approach](https://github.com/sveltejs/svelte/issues/7712#issuecomment-1642470141) and
+ * [runtime error approach](https://github.com/sveltejs/svelte/issues/7712#issuecomment-1642817764)
  *
  * Generally:
  * ```svelte
@@ -50,7 +52,7 @@ export type UnwrapCustomEvents<T> = {
  *   // uncomment this line:
  *   // _value = value;
  *   $: value = _value;
- * 	 $: enforceReadonly(_value, value, "value");
+ *   $: enforceReadonly(_value, value, "value");
  * </script>
  *
  * <input bind:value={_value} />
@@ -151,13 +153,12 @@ export function updateCollapsability(
 }
 
 /**
- * Infers grid dimensions for a given number of items, respecting
- * optional maximums for rows and columns.
+ * Infers grid dimensions for a given number of items, respecting optional maximums for rows and
+ * columns.
  *
  * If no constraints are provided, it creates the most square grid possible.
  *
- * If a single constraint is provided, it lets the undefined axis grow / shrink
- * as needed.
+ * If a single constraint is provided, it lets the undefined axis grow / shrink as needed.
  *
  * If both constaints are provided, values may be clipped.
  */
@@ -189,9 +190,9 @@ export function getGridDimensions(
 	return { columns, rows };
 }
 
-// public runtime helpers, mostly used in examples but re-exported for user's convenience
-// end exposed under the Utils namespace
-// alternative might be to scope these under the related component's module as static methods?
+// public runtime helpers, mostly used in examples but re-exported for user's convenience end
+// exposed under the Utils namespace alternative might be to scope these under the related
+// component's module as static methods?
 
 import type { CubicBezierValue } from '$lib/plugin/essentials/CubicBezier.svelte';
 import type { RotationEulerUnit, RotationEulerValue } from '$lib/plugin/RotationEuler.svelte';

@@ -19,14 +19,15 @@
 	const TITLEBAR_WINDOWSHADE_SINGLE_CLICK = true;
 	const TITLEBAR_WINDOWSHADE_DOUBLE_CLICK = false;
 
-	// Could extend from InternalPaneFixed, but need to revise documentation anyway
-	// Many gratuitous defined checks since NonNullable didn't work and not sure how to make an optional prop
-	// remain optional but with a default value in the $$Props type
+	// Could extend from InternalPaneFixed, but need to revise documentation anyway Many gratuitous
+	// defined checks since NonNullable didn't work and not sure how to make an optional prop remain
+	// optional but with a default value in the $$Props type
 	type $$Props = Omit<ComponentProps<GenericPane>, 'paneRef' | 'userCreatedPane'> & {
 		/**
 		 * Horizontal position of the pane relative to the left edge of the window, in pixels.
 		 *
-		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is positioned on the page. (So-named because of its similarity to CSS `position` property.)
+		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is
+		 * positioned on the page. (So-named because of its similarity to CSS `position` property.)
 		 * @default `0`
 		 * @bindable
 		 * */
@@ -34,7 +35,8 @@
 		/**
 		 * Vertical position of the pane relative to the top of the window, in pixels.
 		 *
-		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is positioned on the page. (So-named because of its similarity to CSS `position` property.)
+		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is
+		 * positioned on the page. (So-named because of its similarity to CSS `position` property.)
 		 * @default `0`
 		 * @bindable
 		 * */
@@ -50,19 +52,22 @@
 		 * */
 		maxWidth?: number;
 		/**
-		 * Identifier to be used if multiple `<Pane position='draggable'>` components with `storePositionLocally` set to true are used on the same page.
+		 * Identifier to be used if multiple `<Pane position='draggable'>` components with
+		 * `storePositionLocally` set to true are used on the same page.
 		 * @default `'1'`
 		 */
 		localStoreId?: string;
 		/**
-		 * Allow the user to resize the width of the pane by dragging the right corner of the title bar.
+		 * Allow the user to resize the width of the pane by dragging the right corner of the title
+		 * bar.
 		 * @default `true`
 		 * */
 		resizeable?: boolean;
 		/**
 		 * Store the pane's position and width when the user changes it interactively.
 		 *
-		 * Set the `localStoreId` prop if you have multiple draggable panes on the same page with `storePositionLocally` set to `true`.
+		 * Set the `localStoreId` prop if you have multiple draggable panes on the same page with
+		 * `storePositionLocally` set to `true`.
 		 * @default `true`
 		 * */
 		storePositionLocally?: boolean;
@@ -71,9 +76,11 @@
 		 *
 		 * Setting explicitly via a passed prop will override saved user-specified width.
 		 *
-		 * Use this prop to set a starting width, or to monitor changes in the the pane's width when a user resizes it.
+		 * Use this prop to set a starting width, or to monitor changes in the the pane's width when
+		 * a user resizes it.
 		 *
-		 * Note that height is not exposed because it is determined dynamically by the pane's contents and state of its foldable elements.
+		 * Note that height is not exposed because it is determined dynamically by the pane's
+		 * contents and state of its foldable elements.
 		 * @default `256`
 		 * @bindable
 		 * */
@@ -184,8 +191,7 @@
 
 	const clickBlocker = (e: MouseEvent) => {
 		e.stopPropagation();
-		// e.preventDefault();
-		// e.stopImmediatePropagation();
+		// e.preventDefault(); e.stopImmediatePropagation();
 	};
 
 	let startWidth = 0;
@@ -224,14 +230,11 @@
 		}
 	};
 
-	// Things that don't help drag latency:
-	// -[x] directly setting style
-	// -[x] awaiting ticking
-	// -[x] rounding to pixel values
-	// -[x] setting transform / translate instead of left / top
-	// -[x] managing separate requestAnimationFrame loop
-	// -[ ] using touch or mouse events instead of pointer
-	// -[ ] using the native drag / drop API (no reasonable control over drawing and bounds?)
+	// Things that don't help drag latency: -[x] directly setting style -[x] awaiting ticking -[x]
+	// rounding to pixel values -[x] setting transform / translate instead of left / top -[x]
+	// managing separate requestAnimationFrame loop -[ ] using touch or mouse events instead of
+	// pointer -[ ] using the native drag / drop API (no reasonable control over drawing and
+	// bounds?)
 	const moveListener = (e: PointerEvent) => {
 		if (
 			e.target instanceof HTMLElement &&
@@ -281,10 +284,9 @@
 		// prevent scrolling the background on mobile when dragging the pane or otherwise
 		containerElement.addEventListener('touchmove', touchScrollBlocker, { passive: false });
 
-		// make the pane draggable
-		// the Tweakbar pane is NOT itself a svelte component, so we have to
-		// manage events directly through the DOM
-		// click blocking and handling collape in pointerup was most reliable cross-browser approach
+		// make the pane draggable the Tweakbar pane is NOT itself a svelte component, so we have to
+		// manage events directly through the DOM click blocking and handling collape in pointerup
+		// was most reliable cross-browser approach
 		dragBarElement = containerElement.getElementsByClassName('tp-rotv_t')[0] as HTMLElement;
 		dragBarElement.addEventListener('click', clickBlocker);
 		dragBarElement.addEventListener('dblclick', doubleClickListener);
@@ -341,8 +343,7 @@
 
 	$: BROWSER && paneRef && resizeable && updateResizeability(resizeable);
 
-	// ensure the tweakpane panel is within the viewport
-	// additional checks in the width drag handler
+	// ensure the tweakpane panel is within the viewport additional checks in the width drag handler
 	$: if (
 		BROWSER &&
 		containerHeightScaled !== undefined &&
@@ -387,7 +388,8 @@
 @component  
 This component is for internal use only.
 
-@sourceLink [InternalPaneDraggable.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalPaneDraggable.svelte)
+@sourceLink
+[InternalPaneDraggable.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalPaneDraggable.svelte)
 -->
 
 <svelte:window on:resize={setDocumentSize} />

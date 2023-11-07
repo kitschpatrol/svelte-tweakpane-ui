@@ -6,9 +6,8 @@
 	import { nanoid } from 'nanoid';
 	import type { ComponentProps } from 'svelte';
 
-	// TODO handle records and more complex types?
-	// duplicated here because it's not exported from the plugin...
-	// @tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
+	// TODO handle records and more complex types? duplicated here because it's not exported from
+	// the plugin... @tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
 	type RadioGridOptions<T> = GenericInputOptions & {
 		cells: (
 			x: number,
@@ -42,8 +41,11 @@
 		/**
 		 * Name allowing multiple radio groups to share mutually exclusive selection state.
 		 *
-		 * Allows spanning exclusive selection state across multiple independent `<RadioGrid>` components, but should remain `undefined` for most use cases to keep exclusivitiy scoped to a single `<RadioGrid>`.
-		 * @default `undefined` (Which uses a dynamically generated globally unique id internally.)
+		 * Allows spanning exclusive selection state across multiple independent `<RadioGrid>`
+		 * components, but should remain `undefined` for most use cases to keep exclusivitiy scoped
+		 * to a single `<RadioGrid>`.
+		 * @default `undefined`  \
+		 * Uses a dynamically generated globally unique id internally.
 		 */
 		groupName?: string;
 		/**
@@ -62,13 +64,14 @@
 		 * */
 		suffix?: string;
 		/**
-		 * Array of `number`, `string` or `boolean` values, each of which will become a button in the radio grid.
+		 * Array of `number`, `string` or `boolean` values, each of which will become a button in
+		 * the radio grid.
 		 * */
 		values: T[];
 	};
 
-	// ensure no entangled selection across multiple RadioGrids,
-	// unless the user explicitly asks for it
+	// ensure no entangled selection across multiple RadioGrids, unless the user explicitly asks for
+	// it
 	const defaultGroupName = nanoid();
 
 	// reexport for bindability
@@ -165,7 +168,8 @@ Note about groupname
 </style>
 ```
 
-@sourceLink [RadioGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/RadioGrid.svelte)
+@sourceLink
+[RadioGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/RadioGrid.svelte)
 -->
 
 {#if BROWSER}

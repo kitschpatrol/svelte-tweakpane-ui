@@ -9,15 +9,19 @@
 		/**
 		 * Horizontal position of the pane relative to the left edge of the window, in pixels.
 		 *
-		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is positioned on the page. (So-named because of its similarity to CSS `position` property.)
-		 * @default `undefined` (8 pixels from the right edge of the window)
+		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is
+		 * positioned on the page. (So-named because of its similarity to CSS `position` property.)
+		 * @default `undefined`  \
+		 * 8 pixels from the right edge of the window.
 		 * */
 		x?: number;
 		/**
 		 * Vertical position of the pane relative to the top of the window, in pixels.
 		 *
-		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is positioned on the page. (So-named because of its similarity to CSS `position` property.)
-		 * @default `undefined` (8 pixels from the top edge of the window)
+		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is
+		 * positioned on the page. (So-named because of its similarity to CSS `position` property.)
+		 * @default `undefined`  \
+		 * 8 pixels from the top edge of the window.
 		 * */
 		y?: number;
 		/**
@@ -67,7 +71,8 @@ This component is for internal use only.
 
 Implements the default tweakpane behavior... opens in a fixed position.
 
-@sourceLink [InternalPaneFixed.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalPaneFixed.svelte)
+@sourceLink
+[InternalPaneFixed.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalPaneFixed.svelte)
 -->
 
 {#if BROWSER}

@@ -9,8 +9,8 @@
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
-	// Direct prop import is wrapped in some extra stuff we don't want
-	// import type { WaveformProps } from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
+	// Direct prop import is wrapped in some extra stuff we don't want import type { WaveformProps }
+	// from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
 	type WaveformMonitorOptions = GenericMonitorOptions & {
 		min?: number;
 		max?: number;
@@ -64,10 +64,14 @@
 @component  
 TODO Component documentation...
 
-TK
-Integrates [Simon Schödler's](https://shoedler.github.io) [tweakpane-plugin-waveform](https://github.com/shoedler/tweakpane-plugin-waveform).
+TK Integrates [Simon Schödler's](https://shoedler.github.io)
+[tweakpane-plugin-waveform](https://github.com/shoedler/tweakpane-plugin-waveform).
 
-Note that `svelte-tweakpane-ui` embeds a [fork](https://github.com/kitschpatrol/tweakpane-plugin-waveform) of the plugin with support for Tweakpane 4. The depdnency will be updated to point to the source repository if / when the open [pull request](https://github.com/shoedler/tweakpane-plugin-waveform/pull/2) with Tweakpane 4 support is merged.
+Note that `svelte-tweakpane-ui` embeds a
+[fork](https://github.com/kitschpatrol/tweakpane-plugin-waveform) of the plugin with support for
+Tweakpane 4. The depdnency will be updated to point to the source repository if / when the open
+[pull request](https://github.com/shoedler/tweakpane-plugin-waveform/pull/2) with Tweakpane 4
+support is merged.
 
 @example  
 ```svelte
@@ -106,7 +110,8 @@ Note that `svelte-tweakpane-ui` embeds a [fork](https://github.com/kitschpatrol/
 <WaveformMonitor value={uint32Array} min={0} max={Math.pow(2, 32)} />
 ```
 
-@sourceLink [WaveformMonitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/WaveformMonitor.svelte)
+@sourceLink
+[WaveformMonitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/WaveformMonitor.svelte)
 -->
 
 {#if BROWSER}

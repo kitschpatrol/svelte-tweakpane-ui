@@ -45,7 +45,9 @@
 	export let label: string | undefined = undefined;
 
 	/**
-	 * Control configuration exposing TweakPane's internal [BindingParams](https://tweakpane.github.io/docs/api/types/BindingParams.html), contingent on type of bound param.
+	 * Control configuration exposing TweakPane's internal
+	 * [BindingParams](https://tweakpane.github.io/docs/api/types/BindingParams.html), contingent on
+	 * type of bound param.
 	 * @default `undefined`
 	 * */
 	export let options: U | undefined = undefined;
@@ -53,23 +55,30 @@
 	/**
 	 * Custom color scheme.
 	 *
-	 * @default `undefined` (Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with `setGlobalDefaultTheme()`.)
+	 * @default `undefined`  \
+	 * Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with
+	 * `setGlobalDefaultTheme()`.
 	 * */
 	export let theme: Theme | undefined = undefined;
 
 	/**
-	 * Reference to internal TweakPane [BindingApi](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for this control.
+	 * Reference to internal TweakPane
+	 * [BindingApi](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for
+	 * this control.
 	 *
-	 * This is primarily for internal use, when implementing convenience components wrapping Binding's functionality.
+	 * This is primarily for internal use, when implementing convenience components wrapping
+	 * Binding's functionality.
 	 * @bindable
 	 * @readonly
 	 * */
 	export let ref: V | undefined = undefined;
 
 	/**
-	 * Imported Tweakpane `TpPluginBundle` (aliased as `Plugin`) module to automatically register in the binding's containing `<Pane>`.
+	 * Imported Tweakpane `TpPluginBundle` (aliased as `Plugin`) module to automatically register in
+	 * the binding's containing `<Pane>`.
 	 *
-	 * This is primarily for internal use, when implementing convenience components wrapping Binding's functionality in combination with a Tweakpane plugin.
+	 * This is primarily for internal use, when implementing convenience components wrapping
+	 * Binding's functionality in combination with a Tweakpane plugin.
 	 * @default `undefined`
 	 * */
 	export let plugin: Plugin | undefined = undefined;
@@ -120,9 +129,8 @@
 	// readonly props
 	$: DEV && BROWSER && enforceReadonly(_ref, ref, 'Binding', 'ref', true);
 
-	// options seem immutable... have to recreate
-	// old version supporting key changes
-	// $: key, options, BROWSER && $parentStore !== undefined && index !== undefined && create();
+	// options seem immutable... have to recreate old version supporting key changes $: key,
+	// options, BROWSER && $parentStore !== undefined && index !== undefined && create();
 	$: options, BROWSER && $parentStore !== undefined && index !== undefined && create();
 	$: object, BROWSER && _ref !== undefined && _ref.refresh();
 	$: BROWSER && _ref !== undefined && (_ref.disabled = disabled);
@@ -141,11 +149,14 @@
 @component  
 Wraps the Tweakpane [addBinding](https://tweakpane.github.io/docs/input-bindings/) method.
 
-Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane position='inline'>`.
+Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane
+position='inline'>`.
 
-This component is provided for consistency with Tweakapne's API, but is not recommended for general use.
+This component is provided for consistency with Tweakapne's API, but is not recommended for general
+use.
 
-Consider convenience components like `<Slider>`, `<Color>`, etc. before using this component directly.
+Consider convenience components like `<Slider>`, `<Color>`, etc. before using this component
+directly.
 
 @example  
 ```svelte
@@ -159,7 +170,8 @@ Consider convenience components like `<Slider>`, `<Color>`, etc. before using th
 <pre>Value: {object.r}</pre>
 ```
 
-@sourceLink [Binding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Binding.svelte)
+@sourceLink
+[Binding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Binding.svelte)
 -->
 
 {#if BROWSER}

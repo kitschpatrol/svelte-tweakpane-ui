@@ -17,8 +17,8 @@
 	import type { ComponentProps } from 'svelte';
 	import type { ListBladeApi, ListBladeParams, ListParamsOptions } from 'tweakpane';
 
-	// Use a blade instead of an input to allow for additional value types
-	// TODO expose key value option that lets you bind to the active key?
+	// Use a blade instead of an input to allow for additional value types TODO expose key value
+	// option that lets you bind to the active key?
 	type $$Props = Omit<
 		ComponentProps<Blade<ListBladeParams<T>, ListBladeApi<T>>>,
 		'options' | 'plugin' | 'ref'
@@ -117,13 +117,18 @@
 @component  
 An option list picker, similar to an HTML `<select>` element.
 
-Wraps Tweakpane's list blade. See Tweakpane's documentation for [list blades](https://tweakpane.github.io/docs/blades/#list).
+Wraps Tweakpane's list blade. See Tweakpane's documentation for [list
+blades](https://tweakpane.github.io/docs/blades/#list).
 
-`svelte-tweakpane-ui` extends Tweakpane's underlying implementation to allow for arbitrary arrays of values to be used as options. See the `ListOptions` type for details on how to provide specific labels to options.
+`svelte-tweakpane-ui` extends Tweakpane's underlying implementation to allow for arbitrary arrays of
+values to be used as options. See the `ListOptions` type for details on how to provide specific
+labels to options.
 
-Tweakpane's `addBlade` list variations is used instead of the `addBinding` method to allow for additional value types. The `value` remains bindable via Svelte's reactivity.
+Tweakpane's `addBlade` list variations is used instead of the `addBinding` method to allow for
+additional value types. The `value` remains bindable via Svelte's reactivity.
 
-Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane position='inline'>`.
+Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane
+position='inline'>`.
 
 @example  
 ```svelte
@@ -138,7 +143,8 @@ Usage outside of a `<Pane>` component will implicitly wrap the color picker in `
 <pre>Selected Option: {selection}</pre>
 ```
 
-@sourceLink [List.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/List.svelte)
+@sourceLink
+[List.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/List.svelte)
 -->
 
 {#if BROWSER}

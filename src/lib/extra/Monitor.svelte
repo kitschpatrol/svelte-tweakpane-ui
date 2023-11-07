@@ -15,8 +15,8 @@
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
-	// multifile structure is legacy of previous non-dynamic component approach
-	// TODO consolidate eventually if dynamic components prove reliable
+	// multifile structure is legacy of previous non-dynamic component approach TODO consolidate
+	// eventually if dynamic components prove reliable
 
 	type optionsForType<U> = U extends string
 		? InternalMonitorStringOptions
@@ -53,19 +53,26 @@
 
 <!--
 @component  
-Wraps the Tweakpane [monitor binding](https://tweakpane.github.io/docs/monitor-bindings/) functionality for `boolean`, `number`, and `string` values.
+Wraps the Tweakpane [monitor binding](https://tweakpane.github.io/docs/monitor-bindings/)
+functionality for `boolean`, `number`, and `string` values.
 
-Technically, any unbound value on a normal `svelte-tweakpane-ui` component effectively acts as a monitor, but additional monitor-specific components are provided to expose additional view options (e.g. `rows`).
+Technically, any unbound value on a normal `svelte-tweakpane-ui` component effectively acts as a
+monitor, but additional monitor-specific components are provided to expose additional view options
+(e.g. `rows`).
 
-`<Monitor>` is a dynamic component, and the availability of additional props will vary depending on the type of the defined `value`
+`<Monitor>` is a dynamic component, and the availability of additional props will vary depending on
+the type of the defined `value`
 
-Note that `interval` is not exposed on `boolean` and `string` monitors because updates are driven by reactive changes in the `value`.
+Note that `interval` is not exposed on `boolean` and `string` monitors because updates are driven by
+reactive changes in the `value`.
 
-However, `interval` _is_ exposed on `number` monitors Note to allow independent control over the reactive value's update rate and the graph's update rate.
+However, `interval` _is_ exposed on `number` monitors Note to allow independent control over the
+reactive value's update rate and the graph's update rate.
 
 See also the `<Waveform>` component for a more advanced number visualization.
 
-Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane position='inline'>` component.
+Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane
+position='inline'>` component.
 
 @example  
 ```svelte
@@ -96,7 +103,8 @@ Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pa
 />
 ```
 
-@sourceLink [Monitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Monitor.svelte)
+@sourceLink
+[Monitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Monitor.svelte)
 -->
 
 {#if BROWSER}

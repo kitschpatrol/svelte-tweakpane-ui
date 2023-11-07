@@ -29,8 +29,10 @@
 		/**
 		 * Number of columns to arrange the buttons into.
 		 *
-		 * Setting `columns` without setting `rows` will lock the column count and allow the row count to change dynamically based on the number of buttons.
-		 * @default dynamic based on quantity of `buttons`
+		 * Setting `columns` without setting `rows` will lock the column count and allow the row
+		 * count to change dynamically based on the number of buttons.
+		 * @default `undefined`  \
+		 * Dynamic based on quantity of `buttons`.
 		 * */
 		columns?: number;
 		/**
@@ -41,8 +43,10 @@
 		/**
 		 * Number of rows to arrange the buttons into.
 		 *
-		 * Setting `rows` without setting `columns` will lock the column count and allow the column count to change dynamically based on the number of buttons.
-		 * @default dynamic based on quantity of `buttons`
+		 * Setting `rows` without setting `columns` will lock the column count and allow the column
+		 * count to change dynamically based on the number of buttons.
+		 * @default `undefined`  \
+		 * Dynamic based on quantity of `buttons`.
 		 * */
 		rows?: number;
 	};
@@ -53,14 +57,14 @@
 	export let buttons: $$Props['buttons'] = [];
 	export let label: $$Props['label'] = undefined;
 
-	// Seems to be the only way to get event comments to work
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	// Seems to be the only way to get event comments to work eslint-disable-next-line
+	// @typescript-eslint/no-unused-vars
 	type $$Events = {
 		/**
 		 * Fires when a button is clicked.
 		 *
-		 * Note that the values described in the `ButtonGridClickEvent`
-		 * type are available on the `event.detail` parameter.
+		 * Note that the values described in the `ButtonGridClickEvent` type are available on the
+		 * `event.detail` parameter.
 		 * @event
 		 * */
 		click: ButtonGridClickEvent;
@@ -176,7 +180,8 @@ TK
 </style>
 ```
 
-@sourceLink [ButtonGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/ButtonGrid.svelte)
+@sourceLink
+[ButtonGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/ButtonGrid.svelte)
 -->
 
 {#if BROWSER}
