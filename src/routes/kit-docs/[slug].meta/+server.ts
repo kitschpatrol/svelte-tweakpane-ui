@@ -1,9 +1,9 @@
-import { createMetaRequestHandler } from '@svelteness/kit-docs/node';
 import type { RequestEvent } from '@sveltejs/kit';
 import { kebabToTitleCase } from '@svelteness/kit-docs';
+import { createMetaRequestHandler } from '@svelteness/kit-docs/node';
+import { base } from '$app/paths';
 import { JSDOM } from 'jsdom';
 import { escape } from 'lodash-es';
-import { base } from '$app/paths';
 
 export async function GET(request: RequestEvent) {
 	if (request.params.slug?.includes('docs_components_')) {
@@ -26,8 +26,8 @@ export async function GET(request: RequestEvent) {
 		});
 
 		const metaData = {
-			title,
-			headers
+			headers,
+			title
 		};
 
 		return new Response(JSON.stringify(metaData));
@@ -57,23 +57,23 @@ export async function GET(request: RequestEvent) {
 
 // Define the MarkdownHeader interface
 interface MarkdownHeader {
-	level: number;
-	title: string;
-	slug: string;
 	children?: MarkdownHeader[];
+	level: number;
+	slug: string;
+	title: string;
 }
 
 // The function to parse HTML content and extract headers
 function resolveHeadersFromHtml(
 	htmlContent: string,
 	{
-		levels,
 		allowHtml = false,
-		escapeText = false
+		escapeText = false,
+		levels
 	}: {
-		levels: number[];
 		allowHtml?: boolean;
 		escapeText?: boolean;
+		levels: number[];
 	}
 ): MarkdownHeader[] {
 	const headers: MarkdownHeader[] = [];
@@ -99,10 +99,10 @@ function resolveHeadersFromHtml(
 		}
 
 		const currentHeader: MarkdownHeader = {
+			children: [],
 			level: headerLevel,
-			title,
 			slug,
-			children: []
+			title
 		};
 
 		if (stack.length === 0) {

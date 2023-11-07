@@ -1,10 +1,10 @@
 import type { RequestEvent } from '@sveltejs/kit';
 import { createSidebarRequestHandler } from '@svelteness/kit-docs/node';
-import type { ComponentInfo } from '$lib-docs/types';
-import { kebabCase, startCase, fromPairs, sortBy, toPairs } from 'lodash-es';
 import { base } from '$app/paths';
+import type { ComponentInfo } from '$lib-docs/types';
+import { fromPairs, kebabCase, sortBy, startCase, toPairs } from 'lodash-es';
 
-type SidebarLink = { title: string; slug: string };
+type SidebarLink = { slug: string; title: string };
 
 function sortRecord(record: Record<string, unknown>): Record<string, unknown> {
 	return fromPairs(sortBy(toPairs(record), ([key]) => key));
@@ -12,8 +12,8 @@ function sortRecord(record: Record<string, unknown>): Record<string, unknown> {
 
 const components: Record<string, ComponentInfo> = structuredClone(
 	import.meta.glob('$lib-docs/generated/data/*.json', {
-		eager: true,
-		as: 'json'
+		as: 'json',
+		eager: true
 	})
 );
 
@@ -39,8 +39,8 @@ export async function GET(request: RequestEvent) {
 
 		componentLinks[categoryName] ??= [];
 		componentLinks[categoryName].push({
-			title: component.name,
-			slug: `${base}/docs/components/${kebabCase(component.name)}`
+			slug: `${base}/docs/components/${kebabCase(component.name)}`,
+			title: component.name
 		});
 	});
 

@@ -1,7 +1,7 @@
+import { getComponentExampleCodeFromSource, getExportedComponents } from './ast-tools';
 import { createMarkdownParser } from '@svelteness/kit-docs/node';
 import fs from 'fs';
 import path from 'path';
-import { getComponentExampleCodeFromSource, getExportedComponents } from './ast-tools';
 
 // fishes out all the @example sections of the component source files,
 // and writes out a svelte component for each

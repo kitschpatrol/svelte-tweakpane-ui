@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	const localStorePrefix = 'svelte-tweakpane-ui-draggable-position-';
 	const localStoreDefaultId = '1';
 	const localStoreIds: string[] = [];
@@ -7,13 +7,13 @@
 
 <script lang="ts">
 	import GenericPane from '$lib/internal/GenericPane.svelte';
-	import type { ComponentProps } from 'svelte';
 	import { clamp, removeKeys } from '$lib/utils.js';
-	import type { Pane as TpPane } from 'tweakpane';
 	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import { persisted } from 'svelte-local-storage-store';
 	import type { Writable } from 'svelte/store';
+	import type { Pane as TpPane } from 'tweakpane';
 
 	// Maybe expose as props
 	const TITLEBAR_WINDOWSHADE_SINGLE_CLICK = true;
@@ -40,30 +40,6 @@
 		 * */
 		y?: number;
 		/**
-		 * Width of the pane, in pixels.
-		 *
-		 * Setting explicitly via a passed prop will override saved user-specified width.
-		 *
-		 * Use this prop to set a starting width, or to monitor changes in the the pane's width when a user resizes it.
-		 *
-		 * Note that height is not exposed because it is determined dynamically by the pane's contents and state of its foldable elements.
-		 * @default `256`
-		 * @bindable
-		 * */
-		width?: number;
-		/**
-		 * Store the pane's position and width when the user changes it interactively.
-		 *
-		 * Set the `localStoreId` prop if you have multiple draggable panes on the same page with `storePositionLocally` set to `true`.
-		 * @default `true`
-		 * */
-		storePositionLocally?: boolean;
-		/**
-		 * Allow the user to resize the width of the pane by dragging the right corner of the title bar.
-		 * @default `true`
-		 * */
-		resizeable?: boolean;
-		/**
 		 * Minimum pane width in pixels.
 		 * @default `200`
 		 * */
@@ -78,6 +54,30 @@
 		 * @default `'1'`
 		 */
 		localStoreId?: string;
+		/**
+		 * Allow the user to resize the width of the pane by dragging the right corner of the title bar.
+		 * @default `true`
+		 * */
+		resizeable?: boolean;
+		/**
+		 * Store the pane's position and width when the user changes it interactively.
+		 *
+		 * Set the `localStoreId` prop if you have multiple draggable panes on the same page with `storePositionLocally` set to `true`.
+		 * @default `true`
+		 * */
+		storePositionLocally?: boolean;
+		/**
+		 * Width of the pane, in pixels.
+		 *
+		 * Setting explicitly via a passed prop will override saved user-specified width.
+		 *
+		 * Use this prop to set a starting width, or to monitor changes in the the pane's width when a user resizes it.
+		 *
+		 * Note that height is not exposed because it is determined dynamically by the pane's contents and state of its foldable elements.
+		 * @default `256`
+		 * @bindable
+		 * */
+		width?: number;
 	};
 
 	// reexport for bindability
@@ -86,18 +86,18 @@
 
 	// defaults are managed here, and must be set here
 	let positionStore: Writable<{
-		expanded: boolean;
-		width: number;
 		x: number;
 		y: number;
+		expanded: boolean;
+		width: number;
 	}>;
 
 	if (BROWSER && storePositionLocally) {
 		positionStore = persisted(`${localStorePrefix}${localStoreId}`, {
-			expanded: true,
-			width: 350,
 			x: 0,
-			y: 0
+			y: 0,
+			expanded: true,
+			width: 350
 		});
 	}
 
@@ -150,10 +150,10 @@
 			y !== undefined
 		) {
 			positionStore = persisted(`${localStorePrefix}${localStoreId}`, {
-				expanded,
-				width,
 				x,
-				y
+				y,
+				expanded,
+				width
 			});
 		}
 	}
@@ -378,7 +378,7 @@
 		y !== undefined &&
 		width !== undefined &&
 		expanded !== undefined &&
-		positionStore?.set({ x, y, width, expanded });
+		positionStore?.set({ x, y, expanded, width });
 
 	$: containerHeightScaled = containerHeight * (scale ?? 1);
 </script>
@@ -394,27 +394,27 @@ This component is for internal use only.
 
 {#if BROWSER}
 	<div
+		bind:this={containerElement}
+		bind:clientHeight={containerHeight}
+		class="draggable-container"
+		class:not-collapsable={!clickToExpand}
+		class:not-resizeable={!resizeable}
+		style:left="{x}px"
+		style:top="{y}px"
+		style:width="{width}px"
+		style:z-index={zIndexLocal}
 		on:focus|capture={() => {
 			zIndexLocal = ++zIndexGlobal;
 		}}
 		on:pointerdown|capture={() => {
 			zIndexLocal = ++zIndexGlobal;
 		}}
-		class="draggable-container"
-		class:not-resizeable={!resizeable}
-		class:not-collapsable={!clickToExpand}
-		bind:this={containerElement}
-		bind:clientHeight={containerHeight}
-		style:width="{width}px"
-		style:left="{x}px"
-		style:top="{y}px"
-		style:z-index={zIndexLocal}
 	>
 		<GenericPane
 			bind:expanded
 			bind:paneRef
-			{title}
 			{scale}
+			{title}
 			{...removeKeys($$restProps, 'position')}
 		>
 			<slot />

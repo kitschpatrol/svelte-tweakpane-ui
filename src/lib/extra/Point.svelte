@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	import type { Simplify } from '$lib/utils';
 	import type { Point2dInputParams, Point3dInputParams, Point4dInputParams } from 'tweakpane';
 
@@ -33,7 +33,7 @@
 		PointOptions<T>['w'];
 </script>
 
-<script lang="ts" generics="T extends PointValue2d | PointValue3d | PointValue4d">
+<script generics="T extends PointValue2d | PointValue3d | PointValue4d" lang="ts">
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
@@ -50,38 +50,15 @@
 	// some redefinition of props from GenericSlider, but redefining since we want to refine the documentation anyway
 	type $$Props = Omit<
 		ComponentProps<GenericInputFolding<T, PointOptions<T>>>,
-		'options' | 'buttonClass' | 'ref' | 'plugin'
+		'buttonClass' | 'options' | 'plugin' | 'ref'
 	> & {
 		/**
-		 * The minimum value for all dimensions.
-		 * @default `undefined` (no minimum)
+		 * A 2D, 3D, or 4D point object to control.
+		 *
+		 * Takes a tuple with a `number` value for each dimension, or an object with at least `x` and `y` values, and optionally `z` and `w` values for additional dimensions.
+		 * @bindable
 		 * */
-		min?: number;
-		/**
-		 * The maximum value for all dimensions.
-		 * @default `undefined` (no maximum)
-		 * */
-		max?: number;
-		/**
-		 * The minimum step interval for all dimensions.
-		 * @default `undefined` (no step constraint)
-		 * */
-		step?: number;
-		/**
-		 * The unit scale for pointer-based input for all dimensions.
-		 * @default [dynamic based on magnitude of `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54)
-		 * */
-		pointerScale?: number;
-		/**
-		 * The unit scale for key-based input for all dimensions (e.g. the up and down arrow keys).
-		 * @default `1` or `stepValue` if defined
-		 *  */
-		keyScale?: number;
-		/**
-		 * A function to customize the point value's formatting (e.g. rounding, etc.).
-		 * @default `undefined` (normal `.toString()` formatting)
-		 * */
-		format?: (value: number) => string;
+		value: T;
 		/**
 		 * Input parameters specific to the X dimension.
 		 *
@@ -113,12 +90,35 @@
 		 * */
 		optionsW?: PointOptionsW<T>;
 		/**
-		 * A 2D, 3D, or 4D point object to control.
-		 *
-		 * Takes a tuple with a `number` value for each dimension, or an object with at least `x` and `y` values, and optionally `z` and `w` values for additional dimensions.
-		 * @bindable
+		 * The minimum value for all dimensions.
+		 * @default `undefined` (no minimum)
 		 * */
-		value: T;
+		min?: number;
+		/**
+		 * The maximum value for all dimensions.
+		 * @default `undefined` (no maximum)
+		 * */
+		max?: number;
+		/**
+		 * A function to customize the point value's formatting (e.g. rounding, etc.).
+		 * @default `undefined` (normal `.toString()` formatting)
+		 * */
+		format?: (value: number) => string;
+		/**
+		 * The unit scale for key-based input for all dimensions (e.g. the up and down arrow keys).
+		 * @default `1` or `stepValue` if defined
+		 *  */
+		keyScale?: number;
+		/**
+		 * The unit scale for pointer-based input for all dimensions.
+		 * @default [dynamic based on magnitude of `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54)
+		 * */
+		pointerScale?: number;
+		/**
+		 * The minimum step interval for all dimensions.
+		 * @default `undefined` (no step constraint)
+		 * */
+		step?: number;
 	};
 
 	// reexported for bindability
@@ -181,16 +181,16 @@
 	$: internalValue, BROWSER && updateValue();
 	$: BROWSER &&
 		(options = {
-			pointerScale,
-			keyScale,
-			min,
-			max,
-			step,
 			x: optionsX,
 			y: optionsY,
 			z: optionsZ,
 			w: optionsW,
-			format
+			min,
+			max,
+			format,
+			keyScale,
+			pointerScale,
+			step
 		} as PointOptions<T>);
 </script>
 
@@ -209,10 +209,10 @@ Usage outside of a `<Pane>` component will implicitly wrap the point picker in a
 <script lang="ts">
   import {
     Point,
+    type PointOptionsX,
     type PointValue2d,
     type PointValue3d,
-    type PointValue4d,
-    type PointOptionsX
+    type PointValue4d
   } from 'svelte-tweakpane-ui';
 
   let point2d: PointValue2d = { x: 0, y: 0 };
@@ -227,18 +227,18 @@ Usage outside of a `<Pane>` component will implicitly wrap the point picker in a
 </script>
 
 <Point
-  label="2D Point Picker"
   bind:value={point2d}
-  picker="inline"
-  expanded={true}
   clickToExpand={false}
+  expanded={true}
+  label="2D Point Picker"
+  picker="inline"
 />
 <Point
-  label="3D Point Picker"
   bind:value={point3d}
+  label="3D Point Picker"
   optionsX={point3dXOptions}
 />
-<Point label="4D Point Picker" bind:value={point4d} min={0} max={100} />
+<Point bind:value={point4d} min={0} max={100} label="4D Point Picker" />
 
 <pre>
 	2D Value: {JSON.stringify(point2d)}

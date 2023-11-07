@@ -1,11 +1,11 @@
 <script lang="ts">
 	import * as pluginModule from '@tweakpane/plugin-camerakit';
 	import type { WheelInputParams } from '@tweakpane/plugin-camerakit/dist/types/util.d.ts';
+	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
-	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 
-	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'ref' | 'options' | 'plugin'> & {
+	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {
 		/**
 		 * A `number` value to control.
 		 * @bindable
@@ -31,8 +31,8 @@
 
 	$: BROWSER &&
 		(options = {
-			view: 'camerawheel',
 			amount,
+			view: 'camerawheel',
 			wide
 		});
 </script>

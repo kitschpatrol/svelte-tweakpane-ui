@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	import type { BindingApi, BindingParams } from '@tweakpane/core';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BindingObject } from '$lib/utils';
@@ -7,21 +7,21 @@
 </script>
 
 <script
-	lang="ts"
 	generics="T extends BindingObject, U extends BindingOptions, V extends BindingRef"
+	lang="ts"
 >
-	import { BROWSER, DEV } from 'esm-env';
-	import { getContext, onDestroy, onMount } from 'svelte';
-	import type { Writable } from 'svelte/store';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import {
-		getElementIndex,
-		isRootPane,
-		enforceReadonly,
 		type Container,
-		type Plugin
+		type Plugin,
+		enforceReadonly,
+		getElementIndex,
+		isRootPane
 	} from '$lib/utils.js';
+	import { BROWSER, DEV } from 'esm-env';
+	import { getContext, onDestroy, onMount } from 'svelte';
+	import type { Writable } from 'svelte/store';
 
 	/**
 	 * The binding target object with values to manipulate.
@@ -164,17 +164,17 @@ Consider convenience components like `<Slider>`, `<Color>`, etc. before using th
 
 {#if BROWSER}
 	{#if parentStore}
-		<div style="display: none;" bind:this={indexElement} />
+		<div bind:this={indexElement} style="display: none;" />
 	{:else}
-		<InternalPaneInline userCreatedPane={false} {theme}>
+		<InternalPaneInline {theme} userCreatedPane={false}>
 			<svelte:self
-				bind:key
 				bind:disabled
+				bind:key
 				bind:label
 				bind:object
-				bind:ref
 				bind:options
 				bind:plugin
+				bind:ref
 			/>
 		</InternalPaneInline>
 	{/if}

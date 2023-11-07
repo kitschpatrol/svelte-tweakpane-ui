@@ -1,7 +1,6 @@
-<script lang="ts" context="module">
-	import type { Simplify } from '$lib/utils';
-
+<script context="module" lang="ts">
 	import type { ProfilerBladeMeasureHandler } from '@kitschpatrol/tweakpane-plugin-profiler';
+	import type { Simplify } from '$lib/utils';
 
 	export type ProfilerMeasureHandler = Simplify<ProfilerBladeMeasureHandler>;
 	export type ProfilerCalcMode = 'frame' | 'mean' | 'median';
@@ -9,17 +8,17 @@
 </script>
 
 <script lang="ts">
-	import Blade from '$lib/core/Blade.svelte';
-	import { enforceReadonly } from '$lib/utils';
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-profiler';
 	import type { ProfilerBladeApi as ProfilerRef } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerApi.js';
 	import type { ProfilerBladePluginParams as ProfilerOptions } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js';
+	import Blade from '$lib/core/Blade.svelte';
+	import { enforceReadonly } from '$lib/utils';
 	import { BROWSER, DEV } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	type $$Props = Omit<
 		ComponentProps<Blade<ProfilerOptions, ProfilerRef>>,
-		'ref' | 'options' | 'plugin'
+		'options' | 'plugin' | 'ref'
 	> & {
 		/**
 		 * TODO Docs
@@ -42,17 +41,11 @@
 		 */
 		fractionDigits?: number;
 		/**
-		 * Function wrapping the `measure` function.
-		 *
-		 * The default is fine for most cases.
-		 * @default [`new ProfilerBladeDefaultMeasureHandler()`](https://github.com/kitschpatrol/tweakpane-plugin-profiler/blob/tweakpane-v4/src/ProfilerBladeDefaultMeasureHandler.ts)
+		 * Milliseconds between samples.
+		 * @todo more docs
+		 * @default `500`
 		 */
-		measureHandler?: ProfilerMeasureHandler;
-		/**
-		 * TODO Docs
-		 * @default `16.67` (60fps)
-		 */
-		targetDelta?: number;
+		interval?: number;
 		/**
 		 * Text displayed next to the profiler graph.
 		 * @default `undefined`
@@ -67,11 +60,17 @@
 		 */
 		measure?: ProfilerMeasure;
 		/**
-		 * Milliseconds between samples.
-		 * @todo more docs
-		 * @default `500`
+		 * Function wrapping the `measure` function.
+		 *
+		 * The default is fine for most cases.
+		 * @default [`new ProfilerBladeDefaultMeasureHandler()`](https://github.com/kitschpatrol/tweakpane-plugin-profiler/blob/tweakpane-v4/src/ProfilerBladeDefaultMeasureHandler.ts)
 		 */
-		interval?: number;
+		measureHandler?: ProfilerMeasureHandler;
+		/**
+		 * TODO Docs
+		 * @default `16.67` (60fps)
+		 */
+		targetDelta?: number;
 	};
 
 	// exporting a const function might be cleaner, but
@@ -99,14 +98,14 @@
 
 	$: BROWSER &&
 		(options = {
-			view: 'profiler',
 			bufferSize,
 			calcMode,
 			deltaUnit,
 			fractionDigits,
 			label,
 			measureHandler,
-			targetDelta
+			targetDelta,
+			view: 'profiler'
 		});
 </script>
 
@@ -117,8 +116,8 @@ TODO
 @example
 ```svelte
 <script lang="ts">
-  import { Profiler, Slider, type ProfilerMeasure } from 'svelte-tweakpane-ui';
   import { onMount } from 'svelte';
+  import { Profiler, type ProfilerMeasure, Slider } from 'svelte-tweakpane-ui';
 
   // this is a readonly function handle assigned by Profiler component
   // first used in onMount since it is not bound until then
@@ -169,10 +168,10 @@ TODO
 
 <Profiler bind:measure label="Profiler" />
 <Slider
-  label="Loop Exponent (Careful)"
   bind:value={loopExponent}
   min={1}
   max={5}
+  label="Loop Exponent (Careful)"
   step={1}
 />
 ```

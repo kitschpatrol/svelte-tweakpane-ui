@@ -1,9 +1,9 @@
+import { nanoid } from 'nanoid';
 import { join } from 'path';
 import { Document, DocumentManager } from 'svelte-language-server/dist/src/lib/documents';
 import { LSConfigManager } from 'svelte-language-server/dist/src/ls-config';
 import { LSAndTSDocResolver } from 'svelte-language-server/dist/src/plugins/typescript/LSAndTSDocResolver';
 import { isNotNullOrUndefined, pathToUrl } from 'svelte-language-server/dist/src/utils';
-import { nanoid } from 'nanoid';
 import ts from 'typescript';
 
 /**
@@ -13,33 +13,33 @@ import ts from 'typescript';
 export type JSDocRecord = Record<string, string>;
 
 export type ComponentPartInfo = {
-	name: string;
-	type: string;
 	doc: string;
 	jsDocs: JSDocRecord;
+	name: string;
+	type: string;
 }[];
 
-export type ComponentPropCondition = Record<string, string | number | boolean>;
+export type ComponentPropCondition = Record<string, boolean | number | string>;
 
 export type ComponentDynamicPropTest = {
-	description: string; // for documentation
 	condition: ComponentPropCondition;
+	description: string; // for documentation
 };
 
 export type ComponentInfo = {
+	doc: string;
+	dynamicProps?: {
+		condition: ComponentPropCondition;
+		description: string;
+		props: ComponentPartInfo;
+	}[];
+	events: ComponentPartInfo;
+	jsDocs: JSDocRecord;
 	name: string;
 	path: string;
 	pathParts: string[];
-	doc: string;
-	jsDocs: JSDocRecord;
 	props: ComponentPartInfo;
-	events: ComponentPartInfo;
 	slots: ComponentPartInfo;
-	dynamicProps?: {
-		description: string;
-		condition: ComponentPropCondition;
-		props: ComponentPartInfo;
-	}[];
 };
 
 function sortPropsByName(props: ComponentPartInfo): ComponentPartInfo {
@@ -74,8 +74,8 @@ async function getStaticComponentInfo(componentPath: string): Promise<ComponentI
 	// TODO gen test component for testprops?
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const document = docManager.openClientDocument(<any>{
-		uri: `file:///${path}`,
-		text: ts.sys.readFile(path)
+		text: ts.sys.readFile(path),
+		uri: `file:///${path}`
 	});
 
 	const { lang, tsDoc } = await lsAndTsDocResolver.getLSAndTSDoc(document);
@@ -103,13 +103,13 @@ async function getStaticComponentInfo(componentPath: string): Promise<ComponentI
 
 	// get props, events, slots
 	const results: ComponentInfo = {
+		doc: ts.displayPartsToString(classSymbol.getDocumentationComment(typeChecker)),
+		events: sortPropsByName(getInfoFor('$$events_def', classType, typeChecker)),
+		jsDocs: jsDocTagInfoToJsDocRecord(classSymbol.getJsDocTags()),
 		name: componentPath.split('/').pop()!.replace('.svelte', ''),
 		path: componentPath,
 		pathParts: componentPath.split('/').slice(3, -1),
-		doc: ts.displayPartsToString(classSymbol.getDocumentationComment(typeChecker)),
-		jsDocs: jsDocTagInfoToJsDocRecord(classSymbol.getJsDocTags()),
 		props: sortPropsByName(getInfoFor('$$prop_def', classType, typeChecker)),
-		events: sortPropsByName(getInfoFor('$$events_def', classType, typeChecker)),
 		slots: sortPropsByName(getInfoFor('$$slot_def', classType, typeChecker))
 	};
 
@@ -141,10 +141,10 @@ function mapPropertiesOfType(typeChecker: ts.TypeChecker, type: ts.Type) {
 			}
 
 			return {
-				name: prop.name,
-				type: typeChecker.typeToString(typeChecker.getTypeOfSymbolAtLocation(prop, declaration)),
 				doc: ts.displayPartsToString(prop.getDocumentationComment(typeChecker)),
-				jsDocs: jsDocTagInfoToJsDocRecord(prop.getJsDocTags())
+				jsDocs: jsDocTagInfoToJsDocRecord(prop.getJsDocTags()),
+				name: prop.name,
+				type: typeChecker.typeToString(typeChecker.getTypeOfSymbolAtLocation(prop, declaration))
 			};
 		})
 		.filter(isNotNullOrUndefined);
@@ -199,8 +199,8 @@ async function getDynamicComponentProps(
 	// to avoid stale autocompletion values across repeat invocations
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const document = docManager.openClientDocument(<any>{
-		uri: `file:///inmemory-${componentName}-${nanoid()}.svelte`,
-		text: testComponentSourceRows.join('\n')
+		text: testComponentSourceRows.join('\n'),
+		uri: `file:///inmemory-${componentName}-${nanoid()}.svelte`
 	});
 
 	const { lang, tsDoc } = await lsAndTsDocResolver.getLSAndTSDoc(document);
@@ -208,17 +208,17 @@ async function getDynamicComponentProps(
 	if (!program) return [];
 
 	const testPosition = {
-		line: testComponentSourceRows.length - 1,
-		character: testComponentSourceRows.at(-1)!.length - 2
+		character: testComponentSourceRows.at(-1)!.length - 2,
+		line: testComponentSourceRows.length - 1
 	};
 
 	const completions = lang.getCompletionsAtPosition(
 		tsDoc.filePath,
 		tsDoc.offsetAt(tsDoc.getGeneratedPosition(testPosition)),
 		{
+			allowIncompleteCompletions: true,
 			includeCompletionsForModuleExports: true,
 			includeCompletionsWithInsertText: false,
-			allowIncompleteCompletions: true,
 			triggerCharacter: '.',
 			useLabelDetailsInCompletionEntries: true
 		}
@@ -236,10 +236,10 @@ async function getDynamicComponentProps(
 			);
 
 			return {
-				name: entry.name,
-				type: typeChecker.typeToString(typeChecker.getTypeOfSymbol(completionSymbols!)),
 				doc: ts.displayPartsToString(completionSymbols!.getDocumentationComment(typeChecker)),
-				jsDocs: jsDocTagInfoToJsDocRecord(completionSymbols!.getJsDocTags())
+				jsDocs: jsDocTagInfoToJsDocRecord(completionSymbols!.getJsDocTags()),
+				name: entry.name,
+				type: typeChecker.typeToString(typeChecker.getTypeOfSymbol(completionSymbols!))
 			};
 		}) ?? [];
 
@@ -271,8 +271,8 @@ export async function getComponentInfo(
 		results!.dynamicProps = [];
 		for (const testProp of testProps) {
 			results!.dynamicProps.push({
-				description: testProp.description,
 				condition: testProp.condition,
+				description: testProp.description,
 				props: sortPropsByName(await getDynamicComponentProps(componentPath, testProp.condition))
 			});
 		}

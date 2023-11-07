@@ -1,9 +1,8 @@
-<script lang="ts" context="module">
-	import type { Simplify } from '$lib/utils';
-
+<script context="module" lang="ts">
 	import type { EulerOrder } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerOrder.js';
 	import type { EulerUnit } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerUnit.js';
 	import type { PointDimensionParams } from '@tweakpane/core';
+	import type { Simplify } from '$lib/utils';
 
 	export type RotationEulerOptions = Simplify<PointDimensionParams>;
 	export type RotationEulerOrder = EulerOrder;
@@ -21,30 +20,26 @@
 </script>
 
 <script lang="ts">
-	// note name collission with options params
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation';
 	import type { RotationInputPluginEulerParams as RotationEulerOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/RotationInputPluginEulerParams';
-	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
+	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js'; // note name collission with options params
+	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	type $$Props = Omit<
 		ComponentProps<GenericInputFolding<RotationEulerValue, RotationEulerOptionsInternal>>,
-		'buttonClass' | 'options' | 'ref' | 'plugin'
+		'buttonClass' | 'options' | 'plugin' | 'ref'
 	> & {
 		/**
-		 * Order of in which rotations are applied.
+		 * The rotation value to control.
 		 *
-		 * Note that this is extrinsic rotations (used by Blender, Maya, and Unity). Three.js uses intrinsic rotations, so you have to reverse the order if you want to match Three.js' behavior.
-		 * @default `'XYZ'`
+		 * Tuple values are a convenience added by `svelte-tweakpane-ui`, and is not part of the original TweakpaneRotationPlugin API.
+		 *
+		 * See the `order` prop to specify the sequence in which rotations are applied.
+		 * @bindable
 		 * */
-		order?: RotationEulerOrder;
-		/**
-		 * Units of rotation.
-		 * @default `'rad'`
-		 */
-		unit?: RotationEulerUnit;
+		value: RotationEulerValue;
 		/**
 		 * Input parameters specific to the X dimension.
 		 *
@@ -67,14 +62,17 @@
 		 * */
 		optionsZ?: RotationEulerOptions;
 		/**
-		 * The rotation value to control.
+		 * Order of in which rotations are applied.
 		 *
-		 * Tuple values are a convenience added by `svelte-tweakpane-ui`, and is not part of the original TweakpaneRotationPlugin API.
-		 *
-		 * See the `order` prop to specify the sequence in which rotations are applied.
-		 * @bindable
+		 * Note that this is extrinsic rotations (used by Blender, Maya, and Unity). Three.js uses intrinsic rotations, so you have to reverse the order if you want to match Three.js' behavior.
+		 * @default `'XYZ'`
 		 * */
-		value: RotationEulerValue;
+		order?: RotationEulerOrder;
+		/**
+		 * Units of rotation.
+		 * @default `'rad'`
+		 */
+		unit?: RotationEulerUnit;
 	};
 
 	// unique
@@ -118,13 +116,13 @@
 	$: internalValue, BROWSER && updateValue();
 	$: BROWSER &&
 		(options = {
-			view: 'rotation',
-			rotationMode: 'euler',
-			order,
-			unit,
 			x: optionsX,
 			y: optionsY,
-			z: optionsZ
+			z: optionsZ,
+			order,
+			rotationMode: 'euler',
+			unit,
+			view: 'rotation'
 		});
 </script>
 
@@ -138,8 +136,8 @@ TODO
   import {
     Button,
     RotationEuler,
-    type RotationEulerValueObject,
     type RotationEulerUnit,
+    type RotationEulerValueObject,
     Utils
   } from 'svelte-tweakpane-ui';
 
@@ -159,7 +157,7 @@ TODO
   label="CSS Rotation"
   picker={'inline'}
 />
-<Button title="Reset" on:click={() => (value = { x: 0, y: 0, z: 0 })} />
+<Button on:click={() => (value = { x: 0, y: 0, z: 0 })} title="Reset" />
 
 <div class="billboard" style:transform>
   <pre>{valueRows}</pre>
@@ -182,8 +180,8 @@ TODO
 
 {#if BROWSER}
 	<GenericInputFolding
-		bind:expanded
 		bind:value={internalValue}
+		bind:expanded
 		{buttonClass}
 		{options}
 		plugin={pluginModule}

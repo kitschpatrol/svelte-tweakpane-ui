@@ -1,46 +1,31 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	export type FpsGraphChangeEvent = CustomEvent<number>;
 </script>
 
 <script lang="ts">
+	import type { FpsGraphBladeApi as FpsGraphRef } from '@tweakpane/plugin-essentials';
+	import * as pluginModule from '@tweakpane/plugin-essentials';
+	import type { FpsGraphBladeParams as FpsGraphOptions } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
 	import Blade from '$lib/core/Blade.svelte';
 	import type { UnwrapCustomEvents } from '$lib/utils.js';
-	import type { FpsGraphBladeApi as FpsGraphRef } from '@tweakpane/plugin-essentials';
-	import type { FpsGraphBladeParams as FpsGraphOptions } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
-	import { onDestroy, onMount, createEventDispatcher } from 'svelte';
-	import * as pluginModule from '@tweakpane/plugin-essentials';
-	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
 	type $$Props = Omit<
 		ComponentProps<Blade<FpsGraphOptions, FpsGraphRef>>,
-		'ref' | 'options' | 'plugin'
+		'options' | 'plugin' | 'ref'
 	> & {
-		/**
-		 * Height of the FPS graph, in rows.
-		 * @default `2`
-		 * */
-		rows?: number;
-		/**
-		 * Time in milliseconds between updates to the graph.
-		 * @default `1000`
-		 * */
-		interval?: number;
-		/**
-		 * Upper bound of the FPS graph.
-		 * @default `90`
-		 * */
-		max?: number;
 		/**
 		 * Lower bound of the FPS graph.
 		 * @default `0`
 		 * */
 		min?: number;
 		/**
-		 * Text displayed next to the FPS graph.
-		 * @default `undefined`
+		 * Upper bound of the FPS graph.
+		 * @default `90`
 		 * */
-		label?: string;
+		max?: number;
 		/**
 		 * Function to start a single frame measurement sample.
 		 *
@@ -55,6 +40,21 @@
 		 * @default `undefined`
 		 * */
 		end?: () => void;
+		/**
+		 * Time in milliseconds between updates to the graph.
+		 * @default `1000`
+		 * */
+		interval?: number;
+		/**
+		 * Text displayed next to the FPS graph.
+		 * @default `undefined`
+		 * */
+		label?: string;
+		/**
+		 * Height of the FPS graph, in rows.
+		 * @default `2`
+		 * */
+		rows?: number;
 	};
 
 	// reexport for bindability
@@ -138,7 +138,7 @@
 		});
 
 		// Start observing
-		observer.observe(targetNode, { childList: true, characterData: true, subtree: true });
+		observer.observe(targetNode, { characterData: true, childList: true, subtree: true });
 	}
 
 	function stopObservingMeasuredFpsValue() {
@@ -153,12 +153,12 @@
 	let options: FpsGraphOptions;
 	$: BROWSER &&
 		(options = {
-			view: 'fpsgraph',
+			min,
+			max,
+			interval,
 			label,
 			rows,
-			max,
-			min,
-			interval
+			view: 'fpsgraph'
 		});
 
 	$: BROWSER && !implicitMode && stopInternalLoop();
@@ -173,8 +173,8 @@ TODO
 @example
 ```svelte
 <script lang="ts">
-  import { FpsGraph, Slider, Monitor } from 'svelte-tweakpane-ui';
   import { onMount } from 'svelte';
+  import { FpsGraph, Monitor, Slider } from 'svelte-tweakpane-ui';
 
   let rotation = 0;
   let rotationSpeed = 3;
@@ -192,13 +192,13 @@ TODO
   $: gridSize = intensity ** 2;
 </script>
 
-<FpsGraph rows={5} interval={50} />
+<FpsGraph interval={50} rows={5} />
 
-<Slider label="Intensity" bind:value={intensity} step={1} min={1} max={10} />
-<Monitor label="Boxes" value={gridSize ** 2} format={(v) => v.toFixed(0)} />
-<Slider label="Scale" bind:value={scale} min={0.25} max={2} />
-<Slider label="Phase" bind:value={phase} min={0} max={2000} />
-<Slider label="Rotation Speed" bind:value={rotationSpeed} />
+<Slider bind:value={intensity} min={1} max={10} label="Intensity" step={1} />
+<Monitor value={gridSize ** 2} format={(v) => v.toFixed(0)} label="Boxes" />
+<Slider bind:value={scale} min={0.25} max={2} label="Scale" />
+<Slider bind:value={phase} min={0} max={2000} label="Phase" />
+<Slider bind:value={rotationSpeed} label="Rotation Speed" />
 
 <div class="demo">
   {#each Array.from({ length: gridSize }, (_, i) => i) as x}
@@ -206,12 +206,12 @@ TODO
       <div
         class="box"
         style:left="{(x / gridSize) * 100}%"
+        style:scale
         style:top="{(y / gridSize) * 100}%"
-        style:width="{100 / gridSize}%"
         style:transform="rotateZ({rotation +
           (x / gridSize) * phase +
           (y / gridSize) * phase}deg)"
-        style:scale
+        style:width="{100 / gridSize}%"
       />
     {/each}
   {/each}

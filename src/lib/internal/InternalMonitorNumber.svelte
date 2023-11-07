@@ -1,44 +1,44 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	import type { NumberMonitorParams } from '@tweakpane/core';
 	export type InternalMonitorNumberOptions = Partial<NumberMonitorParams>;
 </script>
 
 <script lang="ts">
 	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
-	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 
 	// multifile structure is legacy of previous non-dynamic component approach
 	// TODO consolidate eventually if dynamic components prove reliable
 
 	type $$Props = Omit<
 		ComponentProps<GenericMonitor<number, InternalMonitorNumberOptions>>,
-		'options' | 'ref' | 'plugin'
+		'options' | 'plugin' | 'ref'
 	> & {
 		/**
-		 * Display a graph of the value's changes over time.
-		 * @default `false`
+		 * A `number` value to monitor.
 		 * */
-		graph?: boolean;
-		/**
-		 * A function to customize the number's formatting (e.g. rounding, etc.).
-		 * @default `undefined` (normal `.toString()` formatting)
-		 * */
-		format?: (value: number) => string;
-		/**
-		 * Maximum bound when `graph` is true.
-		 * @default `100`
-		 * */
-		max?: number;
+		value: number;
 		/**
 		 * Minimum bound when `graph` is true.
 		 * @default `0`
 		 */
 		min?: number;
 		/**
-		 * A `number` value to monitor.
+		 * Maximum bound when `graph` is true.
+		 * @default `100`
 		 * */
-		value: number;
+		max?: number;
+		/**
+		 * A function to customize the number's formatting (e.g. rounding, etc.).
+		 * @default `undefined` (normal `.toString()` formatting)
+		 * */
+		format?: (value: number) => string;
+		/**
+		 * Display a graph of the value's changes over time.
+		 * @default `false`
+		 * */
+		graph?: boolean;
 	};
 
 	// redeclare for bindability
@@ -62,10 +62,10 @@
 	$: BROWSER && formatProxy !== format && (formatProxy = format);
 	$: BROWSER &&
 		(options = {
-			view: graph ? 'graph' : undefined,
-			max,
 			min,
-			format: formatProxy
+			max,
+			format: formatProxy,
+			view: graph ? 'graph' : undefined
 		});
 </script>
 
@@ -97,7 +97,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pa
   }, 50);
 </script>
 
-<InternalMonitorNumber value={numberToMonitor} graph={true} min={-1} max={1} />
+<InternalMonitorNumber value={numberToMonitor} min={-1} max={1} graph={true} />
 ```
 
 @sourceLink [InternalMonitorNumber.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalMonitorNumber.svelte)

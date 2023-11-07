@@ -1,7 +1,7 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vite';
-import icons from 'unplugin-icons/vite';
 import kitDocs from '@svelteness/kit-docs/node';
+import icons from 'unplugin-icons/vite';
+import { defineConfig } from 'vite';
 
 process.env.BROWSER = 'google chrome';
 
@@ -13,11 +13,11 @@ export default defineConfig({
 	// },
 
 	server: {
+		open: true,
+
 		watch: {
 			usePolling: true
-		},
-
-		open: true
+		}
 		// HMR is a mess with Kit Docs
 		// hmr: false
 	}

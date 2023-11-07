@@ -1,30 +1,30 @@
 <script lang="ts">
 	import * as pluginModule from '@kitschpatrol/tweakpane-textarea-plugin';
 	import type { TextareaPluginInputParams } from '@kitschpatrol/tweakpane-textarea-plugin/dist/types/plugin.js';
+	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
-	import GenericInput from '$lib/internal/GenericInput.svelte';
 
 	type $$Props = Omit<
 		ComponentProps<GenericInput<string, TextareaPluginInputParams>>,
-		'options' | 'ref' | 'plugin'
+		'options' | 'plugin' | 'ref'
 	> & {
 		/**
-		 * The number of lines of text to display.
-		 * @todo can you still go over?
-		 * @default `3`
-		 */
-		rows?: number;
+		 * A `string` value to control.
+		 * @bindable
+		 * */
+		value: string;
 		/**
 		 * Placeholder text to display when the `value` is empty.
 		 * @default `'Enter text here'`
 		 */
 		placeholder?: string;
 		/**
-		 * A `string` value to control.
-		 * @bindable
-		 * */
-		value: string;
+		 * The number of lines of text to display.
+		 * @todo can you still go over?
+		 * @default `3`
+		 */
+		rows?: number;
 	};
 
 	// re-exported
@@ -36,9 +36,9 @@
 
 	$: BROWSER &&
 		(options = {
-			view: 'textarea',
+			placeholder,
 			rows,
-			placeholder
+			view: 'textarea'
 		});
 </script>
 

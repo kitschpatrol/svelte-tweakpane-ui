@@ -1,7 +1,6 @@
-<script lang="ts" context="module">
-	import type { Simplify } from '$lib/utils';
-
+<script context="module" lang="ts">
 	import type { PointDimensionParams } from '@tweakpane/core';
+	import type { Simplify } from '$lib/utils';
 
 	export type RotationQuaternionOptions = Simplify<PointDimensionParams>;
 	export type RotationQuaternionValueObject = {
@@ -17,19 +16,25 @@
 </script>
 
 <script lang="ts">
-	// note name collission with options params
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation';
 	import type { RotationInputPluginQuaternionParams as RotationQuaternionOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/RotationInputPluginQuaternionParams';
-	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d';
+	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d'; // note name collission with options params
+	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	// TODO add some utility functions to get matrices etc. from quaternions?
 	type $$Props = Omit<
 		ComponentProps<GenericInputFolding<RotationQuaternionValue, RotationQuaternionOptionsInternal>>,
-		'buttonClass' | 'options' | 'ref' | 'plugin'
+		'buttonClass' | 'options' | 'plugin' | 'ref'
 	> & {
+		/**
+		 * The quaternion value to control.
+		 *
+		 * Tuple values are a convenience added by `svelte-tweakpane-ui`, and is not part of the original TweakpaneRotationPlugin API.
+		 * @bindable
+		 * */
+		value: RotationQuaternionValue;
 		/**
 		 * Input parameters specific to the X dimension.
 		 *
@@ -58,13 +63,6 @@
 		 * @default `undefined`
 		 * */
 		optionsW?: RotationQuaternionOptions;
-		/**
-		 * The quaternion value to control.
-		 *
-		 * Tuple values are a convenience added by `svelte-tweakpane-ui`, and is not part of the original TweakpaneRotationPlugin API.
-		 * @bindable
-		 * */
-		value: RotationQuaternionValue;
 	};
 
 	// unique
@@ -107,12 +105,12 @@
 	$: internalValue, BROWSER && updateValue();
 	$: BROWSER &&
 		(options = {
-			view: 'rotation',
-			rotationMode: 'quaternion',
 			x: optionsX,
 			y: optionsY,
 			z: optionsZ,
-			w: optionsW
+			w: optionsW,
+			rotationMode: 'quaternion',
+			view: 'rotation'
 		});
 </script>
 
@@ -146,7 +144,7 @@ TODO
   label="CSS Rotation"
   picker={'inline'}
 />
-<Button title="Reset" on:click={() => (value = [0, 0, 0, 0])} />
+<Button on:click={() => (value = [0, 0, 0, 0])} title="Reset" />
 
 <div class="billboard" style:transform>
   <pre>{valueRows}</pre>
@@ -169,8 +167,8 @@ TODO
 
 {#if BROWSER}
 	<GenericInputFolding
-		bind:expanded
 		bind:value={internalValue}
+		bind:expanded
 		{buttonClass}
 		{options}
 		plugin={pluginModule}

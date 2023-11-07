@@ -1,9 +1,9 @@
 <script lang="ts">
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
-	import Tab from '$lib/core/Tab.svelte';
-	import type { Theme } from '$lib/theme.js';
-	import { getElementIndex, isRootPane, type Container } from '$lib/utils.js';
 	import type { TabPageApi as TabPageRef } from '@tweakpane/core';
+	import Tab from '$lib/core/Tab.svelte';
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
+	import type { Theme } from '$lib/theme.js';
+	import { type Container, getElementIndex, isRootPane } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -64,10 +64,10 @@
 			$tabStore = $parentStore.addTab({
 				// tabs MUST be created with at least one page
 				// how to handle tabs with no children?
-				// could be cleaner to have children create the tab as needed?
-				pages: [{ title }],
 				disabled: false,
-				index: $tabIndexStore
+				index: $tabIndexStore,
+				// could be cleaner to have children create the tab as needed?
+				pages: [{ title }]
 			});
 
 			$tabPageStore = $tabStore.pages[0];
@@ -76,7 +76,7 @@
 			selected = true;
 		} else if (!$tabPageStore && $tabStore) {
 			// add to existing tab
-			$tabPageStore = $tabStore.addPage({ title, index });
+			$tabPageStore = $tabStore.addPage({ index, title });
 		}
 
 		$tabStore?.on('select', () => {
@@ -112,7 +112,7 @@ Usage outside of a `<Tab>` component wouldn't make much sense, but in such cases
 @example	
 ```svelte
 <script lang="ts">
-  import { Tab, Page, Button } from 'svelte-tweakpane-ui';
+  import { Button, Page, Tab } from 'svelte-tweakpane-ui';
 
   let countA = 0;
   let countB = 0;
@@ -120,10 +120,10 @@ Usage outside of a `<Tab>` component wouldn't make much sense, but in such cases
 
 <Tab>
   <Page title="A">
-    <Button title="Button A" on:click={() => countA++} />
+    <Button on:click={() => countA++} title="Button A" />
   </Page>
   <Page title="B">
-    <Button title="Button B" on:click={() => countB++} />
+    <Button on:click={() => countB++} title="Button B" />
   </Page>
 </Tab>
 
@@ -138,14 +138,14 @@ Count B: {countB}
 
 {#if BROWSER}
 	{#if parentStore && tabIndexStore !== undefined}
-		<div style="display: none;" bind:this={indexElement}>
+		<div bind:this={indexElement} style="display: none;">
 			<slot />
 		</div>
 	{:else}
-		<InternalPaneInline userCreatedPane={false} {theme}>
+		<InternalPaneInline {theme} userCreatedPane={false}>
 			<Tab>
 				<!-- {...$$props} breaks types -->
-				<svelte:self {title} {disabled} {selected} {theme}>
+				<svelte:self {disabled} {selected} {theme} {title}>
 					<slot />
 				</svelte:self>
 			</Tab>

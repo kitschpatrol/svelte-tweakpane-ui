@@ -1,11 +1,11 @@
-import fs from 'fs';
 import { getExportedComponents } from './ast-tools';
+import fs from 'fs';
 
 // Inspired by https://github.com/shinokada/svelte-lib-helpers
 
 const verbose = false;
 
-type Export = { types: string; svelte: string };
+type Export = { svelte: string; types: string };
 type Exports = Record<string, Export>;
 
 // gets all props for a given component from its definition file
@@ -16,6 +16,7 @@ function addExports(sourceIndexFile: string, destinationPackageFile: string) {
 	const exports: Exports = {
 		'.': {
 			types: './dist/index.d.ts',
+			// eslint-disable-next-line perfectionist/sort-objects
 			svelte: './dist/index.js'
 		}
 	};
@@ -27,6 +28,7 @@ function addExports(sourceIndexFile: string, destinationPackageFile: string) {
 		const key = `./${name}.svelte`;
 		const types = `./dist/${path.replace('$lib/', '')}.d.ts`;
 		const svelte = `./dist/${path.replace('$lib/', '')}`;
+		// eslint-disable-next-line perfectionist/sort-objects
 		exports[key] = { types, svelte };
 
 		verbose && console.log(exports[key]);

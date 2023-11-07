@@ -1,16 +1,16 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import type { BindingRef, BindingOptions } from '$lib/core/Binding.svelte';
+	import type { BindingOptions, BindingRef } from '$lib/core/Binding.svelte';
 </script>
 
 <script
-	lang="ts"
 	generics="T extends any, U extends BindingOptions = BindingOptions, V extends BindingRef = BindingRef"
+	lang="ts"
 >
 	import Binding from '$lib/core/Binding.svelte';
 	import type { BindingObject } from '$lib/utils.js';
-	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 
 	type BindableValue = BindingObject & {
 		[x: string]: T;
@@ -56,5 +56,5 @@ It abstracts the `param` object Tweakpane expects into an interface that looks l
 -->
 
 {#if BROWSER}
-	<Binding bind:ref bind:object {options} {key} {...$$restProps} />
+	<Binding bind:object bind:ref {key} {options} {...$$restProps} />
 {/if}

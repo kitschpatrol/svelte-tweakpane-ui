@@ -1,15 +1,15 @@
 <script lang="ts">
-	import Blade from '$lib/core/Blade.svelte';
 	import type { BladeOptions, BladeRef } from '$lib/core/Blade.svelte';
-	import type { ComponentProps } from 'svelte';
+	import Blade from '$lib/core/Blade.svelte';
 	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 
 	// TODO more specific escape that just removes tweakpane css?
 	// TODO maybe expose scrollable prop?
 
 	type $$Props = Omit<
 		ComponentProps<Blade<BladeOptions, BladeRef>>,
-		'options' | 'disabled' | 'plugin' | 'ref'
+		'disabled' | 'options' | 'plugin' | 'ref'
 	> & {
 		/**
 		 * Maximum height of the element block, in pixels.
@@ -64,24 +64,24 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
 @example
 ```svelte
 <script lang="ts">
-  import { Element, Pane, Wheel, Button } from 'svelte-tweakpane-ui';
+  import { Button, Element, Pane, Wheel } from 'svelte-tweakpane-ui';
 
   let gradientAngle = 45;
   let textAngle = 0;
 </script>
 
-<Pane title="Element Demo" position="inline">
+<Pane position="inline" title="Element Demo">
   <Wheel
     bind:value={gradientAngle}
+    format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
     label="Gradient Angle"
     pointerScale={-5}
-    format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
   />
   <Wheel
     bind:value={textAngle}
+    format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
     label="Text Angle"
     pointerScale={-2}
-    format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
   />
   <Element>
     <div class="demo" style:--a="{gradientAngle}deg">
@@ -95,12 +95,12 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
     </div>
   </Element>
   <Button
-    title="Reset"
     disabled={gradientAngle == 45 && textAngle == 0}
     on:click={() => {
       gradientAngle = 45;
       textAngle = 0;
     }}
+    title="Reset"
   />
 </Pane>
 
@@ -132,7 +132,7 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
 
 {#if BROWSER}
 	<Blade bind:ref {options} {...$$restProps} />
-	<div class="element" bind:this={sourceDiv}>
+	<div bind:this={sourceDiv} class="element">
 		<div class="element-container" style:max-height="{maxHeight}px">
 			<div class:reset={resetStyle}>
 				<slot />

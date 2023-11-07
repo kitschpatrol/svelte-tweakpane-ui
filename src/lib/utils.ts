@@ -1,13 +1,13 @@
 // type aliases and utility functions
 
-import type { FolderApi, Pane, TabPageApi } from 'tweakpane';
 import type { Theme } from '$lib/theme';
+import type { FolderApi, Pane, TabPageApi } from 'tweakpane';
 
 // user-facing types
-export type { TpPluginBundle as Plugin, Bindable as BindingObject } from '@tweakpane/core';
+export type { Bindable as BindingObject, TpPluginBundle as Plugin } from '@tweakpane/core';
 
 // internal types
-export type Container = Pane | FolderApi | TabPageApi;
+export type Container = FolderApi | Pane | TabPageApi;
 
 // from https://github.com/sindresorhus/type-fest
 // doesn't work for hover expansion when imported, only if defined in the file where it's used?
@@ -165,7 +165,7 @@ export function getGridDimensions(
 	itemCount: number,
 	maxColumns?: number,
 	maxRows?: number
-): { rows: number; columns: number } {
+): { columns: number; rows: number } {
 	let rows: number, columns: number;
 
 	if (maxColumns && maxRows) {
@@ -186,16 +186,16 @@ export function getGridDimensions(
 		rows = Math.ceil(itemCount / columns);
 	}
 
-	return { rows, columns };
+	return { columns, rows };
 }
 
 // public runtime helpers, mostly used in examples but re-exported for user's convenience
 // end exposed under the Utils namespace
 // alternative might be to scope these under the related component's module as static methods?
 
-import type { RotationQuaternionValue } from '$lib/plugin/RotationQuaternion.svelte';
-import type { RotationEulerValue, RotationEulerUnit } from '$lib/plugin/RotationEuler.svelte';
 import type { CubicBezierValue } from '$lib/plugin/essentials/CubicBezier.svelte';
+import type { RotationEulerUnit, RotationEulerValue } from '$lib/plugin/RotationEuler.svelte';
+import type { RotationQuaternionValue } from '$lib/plugin/RotationQuaternion.svelte';
 
 // utility functions
 function quaternionToCssTransform(quaternion: RotationQuaternionValue): string {
@@ -243,7 +243,7 @@ function cubicBezierToEaseFunction(cubicBezier: CubicBezierValue): (t: number) =
 
 // public utils
 export const Utils = {
-	quaternionToCssTransform,
+	cubicBezierToEaseFunction,
 	eulerToCssTransform,
-	cubicBezierToEaseFunction
+	quaternionToCssTransform
 };

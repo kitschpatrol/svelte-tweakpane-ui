@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { Chip, Table } from '@svelteness/kit-docs';
 	import type { ComponentPartInfo } from '$lib-docs/types';
-	import { Table, Chip } from '@svelteness/kit-docs';
 
 	export let data: ComponentPartInfo;
 	export let showDefault: boolean = true;

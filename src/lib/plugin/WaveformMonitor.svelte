@@ -1,46 +1,46 @@
 <script lang="ts">
-	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-waveform';
-	import type { GenericMonitorOptions } from '$lib/internal/GenericMonitor.svelte';
-	import type { ComponentProps } from 'svelte';
-	import { BROWSER } from 'esm-env';
 	import type {
 		WaveformStyles as WaveformMonitorLineStyle,
 		WaveformValue as WaveformMonitorValue
 	} from '@kitschpatrol/tweakpane-plugin-waveform/dist/types/view/waveform.js';
+	import type { GenericMonitorOptions } from '$lib/internal/GenericMonitor.svelte';
+	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
+	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 
 	// Direct prop import is wrapped in some extra stuff we don't want
 	// import type { WaveformProps } from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
 	type WaveformMonitorOptions = GenericMonitorOptions & {
-		max?: number;
 		min?: number;
+		max?: number;
 		lineStyle?: WaveformMonitorLineStyle;
 	};
 
 	type $$Props = Omit<
 		ComponentProps<GenericMonitor<WaveformMonitorValue, WaveformMonitorOptions>>,
-		'options' | 'ref' | 'plugin'
+		'options' | 'plugin' | 'ref'
 	> & {
 		/**
-		 * Maximum graph bound.
-		 * @default `100`
+		 * Waveform values.
+		 * @bindable
 		 * */
-		max?: number;
+		value: Uint8Array | Uint16Array | Uint32Array | number[];
 		/**
 		 * Minimum graph bound.
 		 * @default `0`
 		 * */
 		min?: number;
 		/**
+		 * Maximum graph bound.
+		 * @default `100`
+		 * */
+		max?: number;
+		/**
 		 * Line style.
 		 * @default `'linear''`
 		 * */
-		lineStyle?: 'linear' | 'bezier';
-		/**
-		 * Waveform values.
-		 * @bindable
-		 * */
-		value: Uint8Array | Uint16Array | Uint32Array | number[];
+		lineStyle?: 'bezier' | 'linear';
 	};
 
 	// unique
@@ -53,10 +53,10 @@
 
 	$: BROWSER &&
 		(options = {
-			view: 'waveform',
-			max,
 			min,
-			lineStyle
+			max,
+			lineStyle,
+			view: 'waveform'
 		});
 </script>
 
@@ -108,5 +108,5 @@ Note that `svelte-tweakpane-ui` embeds a [fork](https://github.com/kitschpatrol/
 -->
 
 {#if BROWSER}
-	<GenericMonitor {options} {value} plugin={pluginModule} {...$$restProps} />
+	<GenericMonitor {value} {options} plugin={pluginModule} {...$$restProps} />
 {/if}

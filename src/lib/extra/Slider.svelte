@@ -1,7 +1,7 @@
 <script lang="ts">
 	import GenericSlider from '$lib/internal/GenericSlider.svelte';
-	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 
 	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options'> & {
 		/**
@@ -37,10 +37,10 @@ See the `<Interval>` component for a multi-handle range-defining slider.
 
 <Slider
   bind:value
-  label="Let it Slide"
   min={-1}
   max={1}
   format={(v) => v.toFixed(2)}
+  label="Let it Slide"
 />
 <pre>Value: {value}</pre>
 ```

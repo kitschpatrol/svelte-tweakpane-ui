@@ -1,15 +1,26 @@
-<script lang="ts" context="module">
-	export type ImageValue = 'placeholder' | HTMLImageElement | string | File | undefined;
+<script context="module" lang="ts">
+	export type ImageValue = 'placeholder' | File | HTMLImageElement | string | undefined;
 </script>
 
 <script lang="ts">
-	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import * as pluginModule from '@kitschpatrol/tweakpane-image-plugin';
 	import type { PluginInputParams as ImageOptions } from '@kitschpatrol/tweakpane-image-plugin/dist/types/plugin.d.ts';
+	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
-	type $$Props = Omit<ComponentProps<GenericInput<ImageValue>>, 'plugin' | 'value' | 'ref'> & {
+	type $$Props = Omit<ComponentProps<GenericInput<ImageValue>>, 'plugin' | 'ref' | 'value'> & {
+		/**
+		 * Image data
+		 * @default `'placeholder'`
+		 * @bindable
+		 */
+		value?: ImageValue;
+		/**
+		 * Array of image extension types to accept.
+		 * @default `['.jpg', '.png', '.gif']`
+		 */
+		extensions?: string[];
 		/**
 		 * How to display the image in the preview pane.
 		 *
@@ -17,17 +28,6 @@
 		 * @default `'cover'`
 		 */
 		fit?: 'contain' | 'cover';
-		/**
-		 * Array of image extension types to accept.
-		 * @default `['.jpg', '.png', '.gif']`
-		 */
-		extensions?: string[];
-		/**
-		 * Image data
-		 * @default `'placeholder'`
-		 * @bindable
-		 */
-		value?: ImageValue;
 	};
 
 	// unique
@@ -39,9 +39,9 @@
 
 	$: BROWSER &&
 		(options = {
-			view: 'input-image',
+			extensions,
 			imageFit: fit,
-			extensions
+			view: 'input-image'
 		});
 </script>
 
@@ -54,27 +54,27 @@ Note some layout issues with the component itself...
 @example
 ```svelte
 <script lang="ts">
-  import { Image, Button } from 'svelte-tweakpane-ui';
+  import { Button, Image } from 'svelte-tweakpane-ui';
 
   let src = 'placeholder';
   let kittenIndex = 1;
 </script>
 
-<Image fit="contain" label="Image" bind:value={src} />
+<Image bind:value={src} fit="contain" label="Image" />
 <Button
   label="Random Placeholder"
-  title="Load Kitten"
   on:click={() => {
     src = `https://placekitten.com/1024/1024?image=${kittenIndex}`;
     kittenIndex = (kittenIndex % 16) + 1;
   }}
+  title="Load Kitten"
 />
 
 <div class="demo">
   {#if src === 'placeholder'}
     <p>Tap “No Image” above to load an image from disk.</p>
   {:else}
-    <img {src} alt="" />
+    <img alt="" {src} />
   {/if}
 </div>
 

@@ -1,27 +1,31 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	export type ButtonGridClickEvent = CustomEvent<{
-		index: number;
-		label: string;
 		cell: {
 			x: number;
 			y: number;
 		};
+		index: number;
+		label: string;
 	}>;
 </script>
 
 <script lang="ts">
-	import Blade from '$lib/core/Blade.svelte';
-	import { getGridDimensions, type UnwrapCustomEvents } from '$lib/utils.js';
 	import type { ButtonGridApi as ButtonGridRef } from '@tweakpane/plugin-essentials';
-	import type { ButtonGridBladeParams as ButtonGridOptions } from '@tweakpane/plugin-essentials/dist/types/button-grid/plugin.d.ts';
 	import * as pluginModule from '@tweakpane/plugin-essentials';
-	import { createEventDispatcher, type ComponentProps } from 'svelte';
+	import type { ButtonGridBladeParams as ButtonGridOptions } from '@tweakpane/plugin-essentials/dist/types/button-grid/plugin.d.ts';
+	import Blade from '$lib/core/Blade.svelte';
+	import { type UnwrapCustomEvents, getGridDimensions } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
+	import { type ComponentProps, createEventDispatcher } from 'svelte';
 
 	type $$Props = Omit<
 		ComponentProps<Blade<ButtonGridOptions, ButtonGridRef>>,
-		'ref' | 'options' | 'plugin'
+		'options' | 'plugin' | 'ref'
 	> & {
+		/**
+		 * Array of names, each of which will become the title of a button in the grid.
+		 * */
+		buttons: string[];
 		/**
 		 * Number of columns to arrange the buttons into.
 		 *
@@ -30,21 +34,17 @@
 		 * */
 		columns?: number;
 		/**
+		 * Text displayed next to the button grid.
+		 * @default `undefined`
+		 */
+		label?: string;
+		/**
 		 * Number of rows to arrange the buttons into.
 		 *
 		 * Setting `rows` without setting `columns` will lock the column count and allow the column count to change dynamically based on the number of buttons.
 		 * @default dynamic based on quantity of `buttons`
 		 * */
 		rows?: number;
-		/**
-		 * Array of names, each of which will become the title of a button in the grid.
-		 * */
-		buttons: string[];
-		/**
-		 * Text displayed next to the button grid.
-		 * @default `undefined`
-		 */
-		label?: string;
 	};
 
 	// unique
@@ -70,7 +70,7 @@
 
 	let options: ButtonGridOptions;
 	let gridBlade: ButtonGridRef;
-	let gridDimensions: { rows: number; columns: number };
+	let gridDimensions: { columns: number; rows: number };
 
 	function cells(
 		x: number,
@@ -91,18 +91,18 @@
 	$: BROWSER && (gridDimensions = getGridDimensions(buttons.length, columns, rows));
 	$: BROWSER &&
 		(options = {
-			view: 'buttongrid',
+			cells,
 			label,
 			size: [gridDimensions.columns, gridDimensions.rows],
-			cells
+			view: 'buttongrid'
 		});
 	$: BROWSER &&
 		gridBlade &&
 		gridBlade.on('click', (ev) => {
 			dispatch('click', {
+				cell: { x: ev.index[0], y: ev.index[1] },
 				index: ev.index[1] * gridDimensions.columns + ev.index[0],
-				label: ev.cell.title,
-				cell: { x: ev.index[0], y: ev.index[1] }
+				label: ev.cell.title
 			});
 		});
 </script>
@@ -117,10 +117,10 @@ TODO
 ```svelte
 <script lang="ts">
   import {
-    Pane,
-    ButtonGrid,
     Button,
-    type ButtonGridClickEvent
+    ButtonGrid,
+    type ButtonGridClickEvent,
+    Pane
   } from 'svelte-tweakpane-ui';
 
   const keyboard = [
@@ -143,7 +143,7 @@ TODO
 
 <Pane position="inline" title="Austerity Keyboard">
   <ButtonGrid buttons={keyboard} on:click={handleClick} />
-  <Button title=" " on:click={() => (textBuffer += '\u2002')} />
+  <Button on:click={() => (textBuffer += '\u2002')} title=" " />
 </Pane>
 <div class="demo">
   <p>{textBuffer}</p>
@@ -178,5 +178,5 @@ TODO
 -->
 
 {#if BROWSER}
-	<Blade bind:ref={gridBlade} plugin={pluginModule} {options} {...$$restProps} />
+	<Blade bind:ref={gridBlade} {options} plugin={pluginModule} {...$$restProps} />
 {/if}

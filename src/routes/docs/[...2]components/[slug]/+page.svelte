@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	// $lib alias doesn't seem to work for dynamic imports
 	const getExampleComponentPromise = (name: string) => {
 		return import(`../../../../lib-docs/generated/examples/${name}Example.svelte`);
@@ -11,10 +11,10 @@
 
 <script lang="ts">
 	import type { PageServerData } from './$types';
-	import PropTable from '$lib-docs/components/PropTable.svelte';
+	import { Admonition } from '@svelteness/kit-docs';
 	import ExampleWrapper from '$lib-docs/components/ExampleWrapper.svelte';
 	import Heading from '$lib-docs/components/Heading.svelte';
-	import { Admonition } from '@svelteness/kit-docs';
+	import PropTable from '$lib-docs/components/PropTable.svelte';
 
 	export let data: PageServerData;
 
@@ -63,7 +63,7 @@
 	{#if !(component.dynamicProps && component.dynamicProps.length > 0)}
 		<PropTable data={component.props} />
 	{:else}
-		<Admonition type="experimental" title="Dynamic Props">
+		<Admonition title="Dynamic Props" type="experimental">
 			<strong
 				>&lt;{component.name}&gt; has dynamic props, which means the props available on the
 				component can change depending on the value or type of other props passed to the component.</strong

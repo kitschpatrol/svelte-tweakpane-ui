@@ -1,14 +1,14 @@
 import {
+	type RgbColorObject,
+	type RgbaColorObject,
 	getWindowDocument,
 	isRgbColorObject,
-	isRgbaColorObject,
-	type RgbColorObject,
-	type RgbaColorObject
+	isRgbaColorObject
 } from '@tweakpane/core';
 
 // only need undefined if we had nested themes... undefined shouldn't override global theme
 export type ThemeValue = string;
-export type ThemeColorValue = ThemeValue | RgbaColorObject | RgbColorObject;
+export type ThemeColorValue = RgbColorObject | RgbaColorObject | ThemeValue;
 
 type ThemeKeys = {
 	// Tweakpane
@@ -241,13 +241,13 @@ const vivid: Theme = {
 
 /** A collection of default theme color schemes.  */
 export const THEMES = {
-	standard,
-	light,
-	translucent,
-	vivid,
-	retro,
 	iceberg,
-	jetblack
+	jetblack,
+	light,
+	retro,
+	standard,
+	translucent,
+	vivid
 };
 
 // More humane theme names...
@@ -296,7 +296,7 @@ const keyToCssVariableMap = new Map([
 //   return '--tp-' + str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
 // }
 
-function themeValueToCssValue(v: ThemeValue | ThemeColorValue | undefined): string | undefined {
+function themeValueToCssValue(v: ThemeColorValue | ThemeValue | undefined): string | undefined {
 	if (v === undefined) {
 		return undefined;
 	} else if (typeof v === 'string') {

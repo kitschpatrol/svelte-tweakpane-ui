@@ -1,24 +1,22 @@
 <script lang="ts">
+	import type { LayoutData } from './$types';
+	import type { NavbarConfig } from '@svelteness/kit-docs';
+	import { SocialLink } from '@svelteness/kit-docs';
+	import { Button, KitDocs, KitDocsLayout, createSidebarContext } from '@svelteness/kit-docs';
 	import '@svelteness/kit-docs/client/polyfills/index.js';
-	import '@svelteness/kit-docs/client/styles/normalize.css';
 	import '@svelteness/kit-docs/client/styles/fonts.css';
+	import '@svelteness/kit-docs/client/styles/normalize.css';
 	import '@svelteness/kit-docs/client/styles/theme.css';
 	import '@svelteness/kit-docs/client/styles/vars.css';
-
-	import type { LayoutData } from './$types';
-	import { SocialLink } from '@svelteness/kit-docs';
-	import type { NavbarConfig } from '@svelteness/kit-docs';
-	import { page } from '$app/stores';
 	import { base } from '$app/paths';
-
-	import { Button, KitDocs, KitDocsLayout, createSidebarContext } from '@svelteness/kit-docs';
+	import { page } from '$app/stores';
 
 	export let data: LayoutData;
 
 	$: ({ meta, sidebar } = data);
 
 	const navbar: NavbarConfig = {
-		links: [{ title: 'Documentation', slug: `${base}/docs`, match: /\/docs/ }]
+		links: [{ match: /\/docs/, slug: `${base}/docs`, title: 'Documentation' }]
 	};
 
 	const { activeCategory } = createSidebarContext(sidebar);
@@ -34,7 +32,7 @@
 			<title>{title}</title>
 		{/if}
 		{#if description}
-			<meta name="description" content={description} />
+			<meta content={description} name="description" />
 		{/if}
 	{/key}
 </svelte:head>
@@ -46,7 +44,7 @@
 		</div>
 
 		<div class="socials" slot="navbar-right-alt">
-			<SocialLink type="gitHub" href="https://github.com/kitschpatrol/svelte-tweakpane-ui" />
+			<SocialLink href="https://github.com/kitschpatrol/svelte-tweakpane-ui" type="gitHub" />
 		</div>
 
 		<slot />

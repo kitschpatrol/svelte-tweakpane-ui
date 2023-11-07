@@ -1,9 +1,9 @@
 <script lang="ts">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 
-	type $$Props = Omit<ComponentProps<GenericInput<string>>, 'options' | 'ref' | 'plugin'> & {
+	type $$Props = Omit<ComponentProps<GenericInput<string>>, 'options' | 'plugin' | 'ref'> & {
 		/**
 		 * A `string` value to control.
 		 * @bindable

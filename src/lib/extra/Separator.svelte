@@ -1,16 +1,16 @@
 <script lang="ts">
 	import Blade from '$lib/core/Blade.svelte';
+	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 	import type {
-		SeparatorBladeParams as SeparatorOptions,
-		SeparatorBladeApi as SeparatorBladeRef
+		SeparatorBladeApi as SeparatorBladeRef,
+		SeparatorBladeParams as SeparatorOptions
 	} from 'tweakpane';
-	import { BROWSER } from 'esm-env';
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = Omit<
 		ComponentProps<Blade<SeparatorOptions, SeparatorBladeRef>>,
-		'options' | 'ref' | 'plugin'
+		'options' | 'plugin' | 'ref'
 	>;
 
 	const options: SeparatorOptions = {

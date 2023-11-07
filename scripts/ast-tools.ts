@@ -1,19 +1,20 @@
 // TypeScript AST traversal and extraction tools used by various scripts.
-
 import { query as tsquery } from '@phenomnomnominal/tsquery';
+import { ESLint } from 'eslint';
+import fs from 'fs';
 import { globSync } from 'glob';
 import path from 'path';
+import { format as prettierFormat, resolveConfig } from 'prettier';
+import stylelint from 'stylelint';
+import { svelte2tsx } from 'svelte2tsx';
 import {
-	Project,
+	type ClassDeclaration,
 	type MethodSignature,
 	type Node,
+	Project,
 	type PropertySignature,
-	type ClassDeclaration,
 	StringLiteral
 } from 'ts-morph';
-import { svelte2tsx } from 'svelte2tsx';
-import fs from 'fs';
-import { format, resolveConfig } from 'prettier';
 
 // this will break if multiple components with the same name exist in different folders
 function findFile(
@@ -84,7 +85,7 @@ export function queryTree<T extends Node>(node: Node, tsqueryString: string): T[
 	) as T[];
 }
 
-export type PropNode = PropertySignature | MethodSignature;
+export type PropNode = MethodSignature | PropertySignature;
 
 /**
  * @param source - either a string of source code, the name of a component with an existing definition file, or a Node
@@ -93,7 +94,7 @@ export type PropNode = PropertySignature | MethodSignature;
  * @returns an array of ts-morph Nodes representing the props meeting the argument criteria, or an empty array if none are found
  */
 export function getProp(
-	source: string | Node,
+	source: Node | string,
 	propName: string,
 	include: 'all' | 'commented' | 'uncommented' = 'all'
 ): PropNode | undefined {
@@ -106,14 +107,14 @@ export function getProp(
  * @returns an array of ts-morph Nodes representing the props meeting the argument criteria, or an empty array if none are found
  */
 export function getProps(
-	source: string | Node,
+	source: Node | string,
 	include: 'all' | 'commented' | 'uncommented' = 'all'
 ): PropNode[] {
 	return getPropsInternal(source, include);
 }
 
 function getPropsInternal(
-	source: string | Node,
+	source: Node | string,
 	include: 'all' | 'commented' | 'uncommented' = 'all',
 	propName?: string
 ): PropNode[] {
@@ -199,11 +200,6 @@ export async function getComponentExampleCodeFromSource(
 	}
 
 	// format, because it's lost in the AST
-	const prettierConfig = {
-		...(await resolveConfig('.')),
-		printWidth: 80, // shorter than usual for display on the web
-		parser: 'svelte'
-	};
 
 	const exampleCommentWithoutFence = extractCodeBlock(exampleCommentWithFence);
 
@@ -212,7 +208,7 @@ export async function getComponentExampleCodeFromSource(
 		return undefined;
 	}
 
-	const formattedComment = await format(exampleCommentWithoutFence, prettierConfig);
+	const formattedComment = await lintAndFormat(exampleCommentWithoutFence);
 
 	// put the formatted code block back inside the fence
 	const wrappedComment = `${exampleCommentWithFence
@@ -220,4 +216,66 @@ export async function getComponentExampleCodeFromSource(
 		.at(0)}\n${formattedComment}${exampleCommentWithFence.split('\n').at(-1)}`;
 
 	return inclueMarkdown ? wrappedComment : formattedComment;
+}
+
+// TODO better to format and lint?
+export async function lintAndFormat(
+	code: string,
+	fileExtension: string = 'svelte',
+	formatParser: string = 'svelte'
+): Promise<string> {
+	const lintedCode = await lint(code, fileExtension);
+	const styleLintedCode = await lintstyle(lintedCode, fileExtension);
+	const lintedAndFormattedCode = await format(styleLintedCode, formatParser);
+	return lintedAndFormattedCode;
+}
+
+async function lint(code: string, fileExtension: string): Promise<string> {
+	// Create an instance of the linter
+	const eslint = new ESLint({
+		fix: true,
+		useEslintrc: true
+	});
+
+	let result: ESLint.LintResult | undefined;
+	try {
+		[result] = await eslint.lintText(code, {
+			filePath: `example.${fileExtension}`
+		});
+	} catch (error) {
+		console.log(error);
+	}
+
+	// output is undefined when there are no errors
+
+	return result?.output ?? code;
+}
+
+async function lintstyle(code: string, fileExtension: string): Promise<string> {
+	// just passing the .stylelintrc doesn't seem to work...
+	const config = await stylelint.resolveConfig(`example.${fileExtension}`);
+
+	const result: stylelint.LinterResult = await stylelint.lint({
+		code: code,
+		config,
+		fix: true
+	});
+
+	return result?.output ?? code;
+}
+
+async function format(code: string, formatParser: string): Promise<string> {
+	// Resolve Prettier config for a given file path
+	const config = await resolveConfig('.');
+
+	if (!config) {
+		console.warn('No Prettier config file found, using default configuration.');
+	}
+
+	return await prettierFormat(code, {
+		...config,
+		parser: formatParser,
+		printWidth: 80, // shorter than usual for display on the web
+		useTabs: false // spaces are better for code blocks
+	});
 }

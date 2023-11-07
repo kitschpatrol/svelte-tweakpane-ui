@@ -1,5 +1,5 @@
-import { createKitDocsLoader } from '@svelteness/kit-docs';
 import type { LayoutLoad } from './$types';
+import { createKitDocsLoader } from '@svelteness/kit-docs';
 import { base } from '$app/paths';
 
 export const prerender = true;

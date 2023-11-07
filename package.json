@@ -57,10 +57,6 @@
       "types": "./dist/extra/AutoObject.svelte.d.ts",
       "svelte": "./dist/extra/AutoObject.svelte"
     },
-    "./Element.svelte": {
-      "types": "./dist/extra/Element.svelte.d.ts",
-      "svelte": "./dist/extra/Element.svelte"
-    },
     "./Checkbox.svelte": {
       "types": "./dist/extra/Checkbox.svelte.d.ts",
       "svelte": "./dist/extra/Checkbox.svelte"
@@ -68,6 +64,10 @@
     "./Color.svelte": {
       "types": "./dist/extra/Color.svelte.d.ts",
       "svelte": "./dist/extra/Color.svelte"
+    },
+    "./Element.svelte": {
+      "types": "./dist/extra/Element.svelte.d.ts",
+      "svelte": "./dist/extra/Element.svelte"
     },
     "./List.svelte": {
       "types": "./dist/extra/List.svelte.d.ts",
@@ -93,34 +93,6 @@
       "types": "./dist/extra/Text.svelte.d.ts",
       "svelte": "./dist/extra/Text.svelte"
     },
-    "./ButtonGrid.svelte": {
-      "types": "./dist/plugin/essentials/ButtonGrid.svelte.d.ts",
-      "svelte": "./dist/plugin/essentials/ButtonGrid.svelte"
-    },
-    "./CubicBezier.svelte": {
-      "types": "./dist/plugin/essentials/CubicBezier.svelte.d.ts",
-      "svelte": "./dist/plugin/essentials/CubicBezier.svelte"
-    },
-    "./FpsGraph.svelte": {
-      "types": "./dist/plugin/essentials/FpsGraph.svelte.d.ts",
-      "svelte": "./dist/plugin/essentials/FpsGraph.svelte"
-    },
-    "./IntervalSlider.svelte": {
-      "types": "./dist/plugin/essentials/IntervalSlider.svelte.d.ts",
-      "svelte": "./dist/plugin/essentials/IntervalSlider.svelte"
-    },
-    "./RadioGrid.svelte": {
-      "types": "./dist/plugin/essentials/RadioGrid.svelte.d.ts",
-      "svelte": "./dist/plugin/essentials/RadioGrid.svelte"
-    },
-    "./Ring.svelte": {
-      "types": "./dist/plugin/camerakit/Ring.svelte.d.ts",
-      "svelte": "./dist/plugin/camerakit/Ring.svelte"
-    },
-    "./Wheel.svelte": {
-      "types": "./dist/plugin/camerakit/Wheel.svelte.d.ts",
-      "svelte": "./dist/plugin/camerakit/Wheel.svelte"
-    },
     "./Image.svelte": {
       "types": "./dist/plugin/Image.svelte.d.ts",
       "svelte": "./dist/plugin/Image.svelte"
@@ -144,6 +116,34 @@
     "./WaveformMonitor.svelte": {
       "types": "./dist/plugin/WaveformMonitor.svelte.d.ts",
       "svelte": "./dist/plugin/WaveformMonitor.svelte"
+    },
+    "./Ring.svelte": {
+      "types": "./dist/plugin/camerakit/Ring.svelte.d.ts",
+      "svelte": "./dist/plugin/camerakit/Ring.svelte"
+    },
+    "./Wheel.svelte": {
+      "types": "./dist/plugin/camerakit/Wheel.svelte.d.ts",
+      "svelte": "./dist/plugin/camerakit/Wheel.svelte"
+    },
+    "./ButtonGrid.svelte": {
+      "types": "./dist/plugin/essentials/ButtonGrid.svelte.d.ts",
+      "svelte": "./dist/plugin/essentials/ButtonGrid.svelte"
+    },
+    "./CubicBezier.svelte": {
+      "types": "./dist/plugin/essentials/CubicBezier.svelte.d.ts",
+      "svelte": "./dist/plugin/essentials/CubicBezier.svelte"
+    },
+    "./FpsGraph.svelte": {
+      "types": "./dist/plugin/essentials/FpsGraph.svelte.d.ts",
+      "svelte": "./dist/plugin/essentials/FpsGraph.svelte"
+    },
+    "./IntervalSlider.svelte": {
+      "types": "./dist/plugin/essentials/IntervalSlider.svelte.d.ts",
+      "svelte": "./dist/plugin/essentials/IntervalSlider.svelte"
+    },
+    "./RadioGrid.svelte": {
+      "types": "./dist/plugin/essentials/RadioGrid.svelte.d.ts",
+      "svelte": "./dist/plugin/essentials/RadioGrid.svelte"
     }
   },
   "types": "./dist/index.d.ts",
@@ -170,22 +170,23 @@
     "build": "run-s --print-label build:*",
     "build:01-generate-exports": "bun run ./scripts/generate-exports.ts",
     "build:02-add-source-links": "bun run ./scripts/add-source-links.ts",
-    "build:03-format-embedded": "npm run format:3-embedded",
+    "build:03-format-embedded": "npm run format:4-embedded",
     "build:04-package": "svelte-kit sync && svelte-package && publint",
     "build:05-heal-dts-comments": "bun run ./scripts/heal-dts-comments.ts",
     "build:06-strip-component-docs": "bun run ./scripts/strip-component-docs.ts",
-    "build:07-format-library": "npm run format:4-library",
+    "build:07-format-library": "npm run format:5-library",
     "build:08-generate-doc-data": "bun run ./scripts/generate-doc-data.ts && prettier --plugin prettier-plugin-svelte --write ./src/lib-docs/generated/data",
     "build:09-generate-example-components": "bun run ./scripts/generate-example-components.ts",
     "build:10-build-docs": "vite build",
     "check": "svelte-kit sync && svelte-check --ignore ./scratch --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --ignore ./scratch --tsconfig ./tsconfig.json --watch",
     "dev": "vite dev",
-    "format": "run-s --print-label library:5-format ",
+    "format": "run-s --print-label format:*",
     "format:1-eslint": "eslint --fix .",
-    "format:2-prettier": "prettier --plugin prettier-plugin-svelte --write .",
-    "format:3-embedded": "bun run ./scripts/format-embedded-code.ts",
-    "format:4-library": "prettier --ignore-path --plugin prettier-plugin-svelte --write ./dist",
+    "format:2-stylelint": "stylelint --fix './src/**/*.{css,svelte}'",
+    "format:3-prettier": "prettier --plugin prettier-plugin-svelte --write .",
+    "format:4-embedded": "bun run ./scripts/format-embedded-code.ts",
+    "format:5-library": "prettier --ignore-path --plugin prettier-plugin-svelte --write ./dist",
     "lint": "run-p --print-label lint:*",
     "lint:eslint": "eslint .",
     "lint:markdown": "markdownlint **/*.{md,mdx} --ignore node_modules",
@@ -220,16 +221,19 @@
     "@sveltejs/kit": "^1.27.3",
     "@sveltejs/package": "^2.2.2",
     "@svelteness/kit-docs": "^1.1.5",
+    "@types/eslint": "^8.44.7",
     "@types/jsdom": "^21.1.4",
     "@types/lodash-es": "^4.17.10",
     "@types/markdown-it": "^13.0.5",
     "@types/node": "^20.8.10",
+    "@types/stylelint": "^14.0.0",
     "@types/traverse": "^0.6.34",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "@typescript-eslint/parser": "^6.9.1",
     "bun": "^1.0.9",
     "eslint": "^8.53.0",
     "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-perfectionist": "^2.2.0",
     "eslint-plugin-svelte": "^2.34.1",
     "glob": "^10.3.10",
     "jsdom": "^22.1.0",

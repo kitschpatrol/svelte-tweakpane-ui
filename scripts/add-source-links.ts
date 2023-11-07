@@ -1,9 +1,9 @@
 // Replaces @sourceLink in jsdocs with GitHub URLs in source files
 // References the git url provided in package.json.
 
+import { getAllLibFiles } from './ast-tools';
 import fs from 'fs';
 import path from 'path';
-import { getAllLibFiles } from './ast-tools';
 
 const verbose = false;
 

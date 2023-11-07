@@ -1,10 +1,10 @@
-<script lang="ts" generics="T extends number | string | boolean | undefined">
-	import GenericInput, { type GenericInputOptions } from '$lib/internal/GenericInput.svelte';
+<script generics="T extends number | string | boolean | undefined" lang="ts">
 	import * as pluginModule from '@tweakpane/plugin-essentials';
+	import GenericInput, { type GenericInputOptions } from '$lib/internal/GenericInput.svelte';
 	import { getGridDimensions } from '$lib/utils.js';
-	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
 	import { nanoid } from 'nanoid';
+	import type { ComponentProps } from 'svelte';
 
 	// TODO handle records and more complex types?
 	// duplicated here because it's not exported from the plugin...
@@ -14,8 +14,8 @@
 			x: number,
 			y: number
 		) => {
-			title: string;
 			value: T;
+			title: string;
 		};
 		groupName: string;
 		size: [number, number];
@@ -25,15 +25,8 @@
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = Omit<
 		ComponentProps<GenericInput<T, RadioGridOptions<T>>>,
-		'ref' | 'options' | 'plugin'
+		'options' | 'plugin' | 'ref'
 	> & {
-		/**
-		 * Name allowing multiple radio groups to share mutually exclusive selection state.
-		 *
-		 * Allows spanning exclusive selection state across multiple independent `<RadioGrid>` components, but should remain `undefined` for most use cases to keep exclusivitiy scoped to a single `<RadioGrid>`.
-		 * @default `undefined` (Which uses a dynamically generated globally unique id internally.)
-		 */
-		groupName?: string;
 		/**
 		 * Value of selected radio button.
 		 *
@@ -42,14 +35,22 @@
 		 *  */
 		value: T;
 		/**
-		 * Array of `number`, `string` or `boolean` values, each of which will become a button in the radio grid.
-		 * */
-		values: T[];
-		/**
 		 * Number of columns to arrange the radio buttons into.
 		 * @default `undefined`
 		 * */
 		columns?: number;
+		/**
+		 * Name allowing multiple radio groups to share mutually exclusive selection state.
+		 *
+		 * Allows spanning exclusive selection state across multiple independent `<RadioGrid>` components, but should remain `undefined` for most use cases to keep exclusivitiy scoped to a single `<RadioGrid>`.
+		 * @default `undefined` (Which uses a dynamically generated globally unique id internally.)
+		 */
+		groupName?: string;
+		/**
+		 * Text to show in the radio button label before the value.
+		 * @default `undefined`
+		 * */
+		prefix?: string;
 		/**
 		 * Number of rows to arrange the radio buttons into.
 		 * @default `undefined`
@@ -61,10 +62,9 @@
 		 * */
 		suffix?: string;
 		/**
-		 * Text to show in the radio button label before the value.
-		 * @default `undefined`
+		 * Array of `number`, `string` or `boolean` values, each of which will become a button in the radio grid.
 		 * */
-		prefix?: string;
+		values: T[];
 	};
 
 	// ensure no entangled selection across multiple RadioGrids,
@@ -87,27 +87,27 @@
 		x: number,
 		y: number
 	): {
-		title: string;
 		value: T;
+		title: string;
 	} {
 		const index = y * gridDimensions.columns + x;
 
 		if (index >= 0 && index < values.length) {
 			return {
-				title: `${prefix ?? ''}${values[index]}${suffix ?? ''}`,
-				value: values[index]
+				value: values[index],
+				title: `${prefix ?? ''}${values[index]}${suffix ?? ''}`
 			};
 		}
-		return { title: '', value: values[0] };
+		return { value: values[0], title: '' };
 	}
 
 	$: BROWSER && (gridDimensions = getGridDimensions(values.length, columns, rows));
 	$: BROWSER &&
 		(options = {
+			cells,
 			groupName: groupName ?? defaultGroupName,
-			view: 'radiogrid',
 			size: [gridDimensions.columns, gridDimensions.rows],
-			cells
+			view: 'radiogrid'
 		});
 </script>
 
@@ -138,11 +138,11 @@ Note about groupname
   $: [start, end] = radioValues[value - 1];
 </script>
 
-<RadioGrid bind:value values={[1, 2, 3, 4]} prefix="Color Scheme " />
+<RadioGrid bind:value prefix="Color Scheme " values={[1, 2, 3, 4]} />
 
 <div class="demo">
   {#key value}
-    <div transition:fade class="swatch" style:--s={start} style:--e={end}></div>
+    <div class="swatch" style:--e={end} style:--s={start} transition:fade></div>
   {/key}
 </div>
 

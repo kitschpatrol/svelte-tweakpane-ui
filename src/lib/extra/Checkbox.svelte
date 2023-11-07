@@ -3,7 +3,7 @@
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
-	type $$Props = Omit<ComponentProps<GenericInput<boolean>>, 'options' | 'ref' | 'plugin'>;
+	type $$Props = Omit<ComponentProps<GenericInput<boolean>>, 'options' | 'plugin' | 'ref'>;
 
 	// must redeclare for bindability
 	export let value: $$Props['value'];
@@ -25,7 +25,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the checkbox in `<Pan
   let reticulationEnabled: boolean = false;
 </script>
 
-<Checkbox label="Reticulation" bind:value={reticulationEnabled} />
+<Checkbox bind:value={reticulationEnabled} label="Reticulation" />
 <pre>Enabled: {reticulationEnabled}</pre>
 ```
 

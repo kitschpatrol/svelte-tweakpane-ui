@@ -1,29 +1,29 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	import type { StringMonitorParams } from '@tweakpane/core';
 	export type InternalMonitorStringOptions = Partial<StringMonitorParams>;
 </script>
 
 <script lang="ts">
 	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
-	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 
 	// multifile structure is legacy of previous non-dynamic component approach
 	// TODO consolidate eventually if dynamic components prove reliable
 
 	type $$Props = Omit<
 		ComponentProps<GenericMonitor<string, InternalMonitorStringOptions>>,
-		'options' | 'ref' | 'plugin' | 'interval'
+		'interval' | 'options' | 'plugin' | 'ref'
 	> & {
+		/**
+		 * A `string` value to monitor.
+		 * */
+		value: string;
 		/**
 		 * Display multiline strings.
 		 * @default `false`
 		 * */
 		multiline?: boolean;
-		/**
-		 * A `string` value to monitor.
-		 * */
-		value: string;
 	};
 
 	// redeclare for bindability
@@ -74,5 +74,5 @@ Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pa
 -->
 
 {#if BROWSER}
-	<GenericMonitor {options} {value} {...$$restProps} />
+	<GenericMonitor {value} {options} {...$$restProps} />
 {/if}

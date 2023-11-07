@@ -1,14 +1,13 @@
-import { Project, type JSDoc } from 'ts-morph';
-
 import {
-	getDefinitionFilePath,
-	getSourceFilePath,
+	type PropNode,
 	getAllLibComponentNames,
+	getDefinitionFilePath,
 	getProp,
 	getProps,
-	queryTree,
-	type PropNode
+	getSourceFilePath,
+	queryTree
 } from './ast-tools';
+import { type JSDoc, Project } from 'ts-morph';
 
 // works around https://github.com/sveltejs/language-tools/issues/2186 by
 // manually adding missing prop comments from ancestor components

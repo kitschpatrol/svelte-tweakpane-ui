@@ -1,6 +1,4 @@
-<script lang="ts" generics="W extends number | string | boolean | unknown">
-	import { BROWSER } from 'esm-env';
-	import type { ComponentProps } from 'svelte';
+<script generics="W extends number | string | boolean | unknown" lang="ts">
 	import type {
 		default as GenericMonitor,
 		GenericMonitorOptions
@@ -14,6 +12,8 @@
 	import InternalMonitorString, {
 		type InternalMonitorStringOptions
 	} from '$lib/internal/InternalMonitorString.svelte';
+	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 
 	// multifile structure is legacy of previous non-dynamic component approach
 	// TODO consolidate eventually if dynamic components prove reliable
@@ -37,13 +37,13 @@
 				 * A value to monitor.
 				 * @bindable
 				 * */
-				value: number | string | boolean;
+				value: boolean | number | string;
 		  };
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = Omit<
 		ComponentProps<GenericMonitor<W, optionsForType<W>>>,
-		'options' | 'ref' | 'plugin'
+		'options' | 'plugin' | 'ref'
 	> &
 		propsForType<W>;
 
@@ -87,12 +87,12 @@ Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pa
 </script>
 
 <Monitor value={numberToMonitor} graph={true} />
-<Monitor label="Boolean Monitor" value={booleanToMonitor} />
+<Monitor value={booleanToMonitor} label="Boolean Monitor" />
 <Monitor
-  label="String Monitor"
   value={stringToMonitor}
-  multiline={true}
   bufferSize={5}
+  label="String Monitor"
+  multiline={true}
 />
 ```
 

@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { BROWSER } from 'esm-env';
-	import { getContext, onDestroy, setContext } from 'svelte';
-	import { writable, type Writable } from 'svelte/store';
-	import { Pane as TpPane } from 'tweakpane';
 	import type { Theme } from '$lib/theme.js';
 	import { applyTheme } from '$lib/theme.js';
 	import type { Container } from '$lib/utils.js';
-	import { updateCollapsability, type Plugin } from '$lib/utils.js';
+	import { type Plugin, updateCollapsability } from '$lib/utils.js';
+	import { BROWSER } from 'esm-env';
+	import { getContext, onDestroy, setContext } from 'svelte';
+	import { type Writable, writable } from 'svelte/store';
+	import { Pane as TpPane } from 'tweakpane';
 
 	// import type { BladeState } from '@tweakpane/core';
 
@@ -111,7 +111,7 @@
 			console.warn('<Panes> must not be nested');
 		}
 
-		$parentStore = new TpPane({ title, expanded });
+		$parentStore = new TpPane({ expanded, title });
 
 		// plugins loaded dynamically at runtime as needed
 		// child components are responsible for registration via the

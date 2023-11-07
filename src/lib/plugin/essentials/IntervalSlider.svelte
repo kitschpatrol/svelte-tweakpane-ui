@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	import type { Simplify } from '$lib/utils';
 
 	export type IntervalSliderValueTuple = [min: number, max: number];
@@ -10,16 +10,16 @@
 </script>
 
 <script lang="ts">
-	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import type { IntervalObject } from '@tweakpane/plugin-essentials/dist/types/interval/model/interval.js';
+	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = Omit<
 		ComponentProps<GenericSlider<IntervalSliderValue>>,
-		'ref' | 'options' | 'plugin'
+		'options' | 'plugin' | 'ref'
 	> & {
 		/**
 		 * Interval value to control.
@@ -93,7 +93,7 @@ TODO
   max={100}
   format={(v) => `${v.toFixed(0)}%`}
 />
-<div class="demo" style:--s="{value[0]}%" style:--e="{value[1]}%" />
+<div class="demo" style:--e="{value[1]}%" style:--s="{value[0]}%" />
 
 <style>
   div.demo {

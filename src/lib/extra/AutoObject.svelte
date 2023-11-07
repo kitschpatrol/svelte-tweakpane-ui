@@ -1,19 +1,18 @@
 <script lang="ts">
 	// Inspired by https://github.com/MrFoxPro/solid-tweakpane/blob/master/src/automutable.tsx
 
-	import Binding from '$lib/core/Binding.svelte';
-	import Folder from '$lib/core/Folder.svelte';
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
-	import type { Theme } from '$lib/theme.js';
-	import type { Container, BindingObject } from '$lib/utils.js';
-
-	import { BROWSER } from 'esm-env';
-	import { getContext } from 'svelte';
-	import type { Writable } from 'svelte/store';
 	import { isColorObject } from '@tweakpane/core';
 	import { Point2d } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js';
 	import { Point3d } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
 	import { Point4d } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d.js';
+	import Binding from '$lib/core/Binding.svelte';
+	import Folder from '$lib/core/Folder.svelte';
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
+	import type { Theme } from '$lib/theme.js';
+	import type { BindingObject, Container } from '$lib/utils.js';
+	import { BROWSER } from 'esm-env';
+	import { getContext } from 'svelte';
+	import type { Writable } from 'svelte/store';
 
 	/**
 	 * Custom color scheme.
@@ -73,26 +72,26 @@ Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pa
   import { AutoObject } from 'svelte-tweakpane-ui';
 
   let object = {
-    someNumber: 1, // creates a
     someBoolean: true, // creates a checkbox
-    someString: 'test', // creates a text field
-    somePoint: {
-      // creates a point picker
-      x: 1,
-      y: 2
-    },
     someColor: {
-      // creates a color picker
-      r: 255,
+      b: 55,
       g: 0,
-      b: 55
+      // creates a color picker
+      r: 255
     },
     someFolder: {
       // wraps children in a folder
       a: 1,
       b: 2,
       c: 3
-    }
+    },
+    someNumber: 1, // creates a
+    somePoint: {
+      // creates a point picker
+      x: 1,
+      y: 2
+    },
+    someString: 'test' // creates a text field
   };
 </script>
 
@@ -112,11 +111,11 @@ Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pa
 					<svelte:self bind:object={object[key]} bind:prettyLabels />
 				</Folder>
 			{:else}
-				<Binding label={prettify(key, prettyLabels)} bind:object {key} />
+				<Binding bind:object {key} label={prettify(key, prettyLabels)} />
 			{/if}
 		{/each}
 	{:else}
-		<InternalPaneInline userCreatedPane={false} {theme}>
+		<InternalPaneInline {theme} userCreatedPane={false}>
 			<svelte:self bind:object bind:prettyLabels />
 		</InternalPaneInline>
 	{/if}

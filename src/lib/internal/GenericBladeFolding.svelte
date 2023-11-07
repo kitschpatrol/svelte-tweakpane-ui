@@ -1,16 +1,20 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BladeOptions, BladeRef } from '$lib/core/Blade.svelte';
 </script>
 
-<script lang="ts" generics="T extends BladeOptions, U extends BladeRef">
+<script generics="T extends BladeOptions, U extends BladeRef" lang="ts">
 	import Blade from '$lib/core/Blade.svelte';
 	import { updateCollapsability } from '$lib/utils';
-
-	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 
 	type $$Props = ComponentProps<Blade<T, U>> & {
+		/**
+		 * DOM class name of the button used to expand and collapse the blade's picker.
+		 * @default `undefined`
+		 * */
+		buttonClass?: string;
 		/**
 		 * Allow users to interactively expand / contract the value picker by clicking its icon.
 		 *
@@ -24,11 +28,6 @@
 		 * @bindable
 		 * */
 		expanded?: boolean;
-		/**
-		 * DOM class name of the button used to expand and collapse the blade's picker.
-		 * @default `undefined`
-		 * */
-		buttonClass?: string;
 		/**
 		 * The style of value "picker" to use in the blade.
 		 * @default `'popup'`
@@ -67,8 +66,8 @@
 	$: BROWSER &&
 		(options = {
 			...options,
-			picker,
-			expanded: initialExpanded // only set once
+			expanded: initialExpanded, // only set once
+			picker
 		});
 
 	$: BROWSER &&

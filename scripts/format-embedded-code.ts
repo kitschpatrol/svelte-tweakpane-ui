@@ -1,5 +1,4 @@
-import { getAllLibFiles } from './ast-tools';
-import { format, resolveConfig } from 'prettier';
+import { getAllLibFiles, lintAndFormat } from './ast-tools';
 import fs from 'fs';
 
 // assumes all code blocks are svelte-like
@@ -10,14 +9,7 @@ async function formatEmbeddedCode(file: string): Promise<number> {
 		let formattedData = '';
 		let lastIndex = 0;
 		const regex = /(```.*\n)([\s\S]*?)(\n```)/g;
-		let match;
-
-		// Resolve Prettier config for a given file path
-		const config = await resolveConfig(file);
-
-		if (!config) {
-			console.warn('No Prettier config file found, using default configuration.');
-		}
+		let match: RegExpExecArray | null;
 
 		while ((match = regex.exec(data)) !== null) {
 			const [fullMatch, opening, code, closing] = match;
@@ -27,12 +19,7 @@ async function formatEmbeddedCode(file: string): Promise<number> {
 			formattedData += data.slice(lastIndex, index);
 
 			try {
-				const formattedCode = await format(code, {
-					...config,
-					printWidth: 80, // shorter than usual for display on the web
-					parser: 'svelte',
-					useTabs: false // spaces are better for code blocks
-				});
+				const formattedCode = await lintAndFormat(code);
 				embedsFormatted++;
 				// Using the original opening and closing backticks
 				formattedData += `${opening}${formattedCode.trimEnd()}${closing}`;

@@ -1,20 +1,20 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	export type ButtonClickEvent = CustomEvent<null>;
 </script>
 
 <script lang="ts">
 	import type { ButtonApi } from '@tweakpane/core';
-	import { BROWSER } from 'esm-env';
-	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte';
-	import type { Writable } from 'svelte/store';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import {
-		getElementIndex,
-		isRootPane,
 		type Container,
-		type UnwrapCustomEvents
+		type UnwrapCustomEvents,
+		getElementIndex,
+		isRootPane
 	} from '$lib/utils.js';
+	import { BROWSER } from 'esm-env';
+	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte';
+	import type { Writable } from 'svelte/store';
 
 	/**
 	 * Text inside of the button.
@@ -64,10 +64,10 @@
 		if (button) button.dispose();
 
 		button = $parentStore.addButton({
-			title,
-			label,
 			disabled,
-			index
+			index,
+			label,
+			title
 		});
 
 		button.on('click', () => {
@@ -116,7 +116,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the button in `<Pane 
   let count = 0;
 </script>
 
-<Button label="Count" title="Increment" on:click={() => count++} />
+<Button label="Count" on:click={() => count++} title="Increment" />
 <pre>Count: {count}</pre>
 ```
 
@@ -125,10 +125,10 @@ Usage outside of a `<Pane>` component will implicitly wrap the button in `<Pane 
 
 {#if BROWSER}
 	{#if parentStore}
-		<div style="display: none;" bind:this={indexElement} />
+		<div bind:this={indexElement} style="display: none;" />
 	{:else}
-		<InternalPaneInline userCreatedPane={false} {theme}>
-			<svelte:self on:click {title} {label} {disabled} />
+		<InternalPaneInline {theme} userCreatedPane={false}>
+			<svelte:self {disabled} {label} on:click {title} />
 		</InternalPaneInline>
 	{/if}
 {/if}

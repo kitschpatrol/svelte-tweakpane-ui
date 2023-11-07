@@ -1,6 +1,6 @@
 <script lang="ts">
-	import striptags from 'striptags';
 	import { kebabCase } from 'lodash-es';
+	import striptags from 'striptags';
 
 	export let level: 1 | 2 | 3 | 4 | 5 | 6;
 	export let text: string;
@@ -20,6 +20,6 @@
 -->
 
 <svelte:element this={tag} id={anchor} tabindex="-1">
-	<a href="#{anchor}" class="header-anchor" aria-hidden="true">#</a>
+	<a class="header-anchor" aria-hidden="true" href="#{anchor}">#</a>
 	{@html text}
 </svelte:element>

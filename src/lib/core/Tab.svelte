@@ -1,7 +1,7 @@
 <script lang="ts">
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
-	import { getElementIndex, isRootPane, type Container } from '$lib/utils.js';
+	import { type Container, getElementIndex, isRootPane } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -90,15 +90,15 @@ Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane pos
 @example	
 ```svelte
 <script lang="ts">
-  import { Tab, Page, Button } from 'svelte-tweakpane-ui';
+  import { Button, Page, Tab } from 'svelte-tweakpane-ui';
 </script>
 
 <Tab>
   <Page title="A">
-    <Button title="Button A" on:click={() => alert('A...')} />
+    <Button on:click={() => alert('A...')} title="Button A" />
   </Page>
   <Page title="B">
-    <Button title="Button B" on:click={() => alert('B...')} />
+    <Button on:click={() => alert('B...')} title="Button B" />
   </Page>
 </Tab>
 ```
@@ -108,11 +108,11 @@ Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane pos
 
 {#if BROWSER}
 	{#if parentStore}
-		<div style="display: none;" bind:this={indexElement}>
+		<div bind:this={indexElement} style="display: none;">
 			<slot />
 		</div>
 	{:else}
-		<InternalPaneInline userCreatedPane={false} {theme}>
+		<InternalPaneInline {theme} userCreatedPane={false}>
 			<!--  {...$$props}> breaks types -->
 			<svelte:self bind:selectedIndex {disabled}>
 				<slot />

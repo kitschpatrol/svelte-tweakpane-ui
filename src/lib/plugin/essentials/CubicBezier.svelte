@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	import type { Simplify } from '$lib/utils';
 
 	export type CubicBezierValueObject = {
@@ -12,17 +12,17 @@
 </script>
 
 <script lang="ts">
-	import GenericBladeFolding from '$lib/internal/GenericBladeFolding.svelte';
 	import type { CubicBezierApi as CubicBezierRef } from '@tweakpane/plugin-essentials';
 	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import { CubicBezier } from '@tweakpane/plugin-essentials';
 	import type { CubicBezierBladeParams as CubicBezierOptions } from '@tweakpane/plugin-essentials/dist/types/cubic-bezier/plugin.d.ts';
+	import GenericBladeFolding from '$lib/internal/GenericBladeFolding.svelte';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	type $$Props = Omit<
 		ComponentProps<GenericBladeFolding<CubicBezierOptions, CubicBezierRef>>,
-		'buttonClass' | 'ref' | 'options' | 'plugin'
+		'buttonClass' | 'options' | 'plugin' | 'ref'
 	> & {
 		/**
 		 * The cubic bezier value to control.
@@ -40,8 +40,8 @@
 	};
 
 	// reexport for bindability
-	export let label: $$Props['label'] = undefined;
 	export let value: $$Props['value'];
+	export let label: $$Props['label'] = undefined;
 	export let expanded: $$Props['expanded'] = undefined;
 
 	let options: CubicBezierOptions;
@@ -73,8 +73,8 @@
 			} else {
 				value = {
 					x1: ev.value.x1,
-					x2: ev.value.x2,
 					y1: ev.value.y1,
+					x2: ev.value.x2,
 					y2: ev.value.y2
 				};
 			}
@@ -83,9 +83,9 @@
 
 	$: BROWSER &&
 		(options = {
-			view: 'cubicbezier',
+			value: getValue(),
 			label,
-			value: getValue()
+			view: 'cubicbezier'
 		});
 	$: BROWSER && cubicBezierBlade && addEvent();
 	$: value, BROWSER && cubicBezierBlade && setValue();
@@ -100,9 +100,9 @@ TODO
 <script lang="ts">
   import {
     CubicBezier,
-    Slider,
-    RadioGrid,
     type CubicBezierValue,
+    RadioGrid,
+    Slider,
     Utils
   } from 'svelte-tweakpane-ui';
   import { tweened } from 'svelte/motion';
@@ -128,13 +128,13 @@ TODO
   $: twilightAmount = lerp($positionTween, 20, -80);
 </script>
 
-<CubicBezier bind:value picker="inline" expanded={true} />
+<CubicBezier bind:value expanded={true} picker="inline" />
 <Slider
-  label="Duration (Seconds)"
   bind:value={duration}
   min={0}
   max={10000}
   format={(v) => `${(v / 1000).toFixed(1)}`}
+  label="Duration (Seconds)"
 />
 <RadioGrid bind:value={mood} values={['Rise', 'Set']} />
 
@@ -172,9 +172,9 @@ TODO
 	<GenericBladeFolding
 		bind:expanded
 		bind:ref={cubicBezierBlade}
-		plugin={pluginModule}
 		{buttonClass}
 		{options}
+		plugin={pluginModule}
 		{...$$restProps}
 	/>
 {/if}

@@ -1,16 +1,16 @@
-<script lang="ts" context="module">
-	import type { InputBindingApi, BaseInputParams } from '@tweakpane/core';
+<script context="module" lang="ts">
+	import type { BaseInputParams, InputBindingApi } from '@tweakpane/core';
 	export type GenericInputOptions = BaseInputParams;
 	export type GenericInputRef = InputBindingApi;
 </script>
 
 <script
-	lang="ts"
 	generics="T extends any, U extends GenericInputOptions = GenericInputOptions, V extends GenericInputRef = GenericInputRef"
+	lang="ts"
 >
 	import GenericBinding from '$lib/internal/GenericBinding.svelte';
-	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 
 	type $$Props = ComponentProps<GenericBinding<T, U, V>>;
 

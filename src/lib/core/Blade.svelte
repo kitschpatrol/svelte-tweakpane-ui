@@ -1,23 +1,23 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	import type { BaseBladeParams, BladeApi } from 'tweakpane';
 	export type { Plugin } from '$lib/utils.js';
 	export type BladeOptions = BaseBladeParams;
 	export type BladeRef = BladeApi; // required for input folding
 </script>
 
-<script lang="ts" generics="U extends BladeOptions, V extends BladeRef">
-	import { BROWSER, DEV } from 'esm-env';
-	import { getContext, onDestroy, onMount } from 'svelte';
-	import type { Writable } from 'svelte/store';
+<script generics="U extends BladeOptions, V extends BladeRef" lang="ts">
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import {
-		getElementIndex,
-		isRootPane,
-		enforceReadonly,
 		type Container,
-		type Plugin
+		type Plugin,
+		enforceReadonly,
+		getElementIndex,
+		isRootPane
 	} from '$lib/utils.js';
+	import { BROWSER, DEV } from 'esm-env';
+	import { getContext, onDestroy, onMount } from 'svelte';
+	import type { Writable } from 'svelte/store';
 
 	/**
 	 * Blade configuration exposing TweakPane's internal [BladeParams](https://tweakpane.github.io/docs/api/interfaces/BaseBladeParams.html).
@@ -125,10 +125,10 @@ This component is not directly exposed since it lacks a use case in the Svelte c
 
 {#if BROWSER}
 	{#if parentStore}
-		<div style="display: none;" bind:this={indexElement} />
+		<div bind:this={indexElement} style="display: none;" />
 	{:else}
-		<InternalPaneInline userCreatedPane={false} {theme}>
-			<svelte:self bind:disabled bind:ref bind:options bind:plugin />
+		<InternalPaneInline {theme} userCreatedPane={false}>
+			<svelte:self bind:disabled bind:options bind:plugin bind:ref />
 		</InternalPaneInline>
 	{/if}
 {/if}

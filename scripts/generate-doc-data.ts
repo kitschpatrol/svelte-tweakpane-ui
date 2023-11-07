@@ -1,8 +1,7 @@
+import { getExportedComponents } from './ast-tools';
+import { ComponentDynamicPropTest, getComponentInfo } from './component-info';
 import fs from 'fs';
 import path from 'path';
-
-import { getExportedComponents } from './ast-tools';
-import { getComponentInfo, ComponentDynamicPropTest } from './component-info';
 
 // figures out prop data from src components
 // and writes out a json file for each
@@ -51,22 +50,22 @@ for (const { name, path } of components) {
 	if (name === 'Pane') {
 		testProps = [
 			{
-				description: "`position='draggable'`",
 				condition: {
 					position: 'draggable'
-				}
+				},
+				description: "`position='draggable'`"
 			},
 			{
-				description: "`position='inline'`",
 				condition: {
 					position: 'inline'
-				}
+				},
+				description: "`position='inline'`"
 			},
 			{
-				description: "`position='fixed'`",
 				condition: {
 					position: 'fixed'
-				}
+				},
+				description: "`position='fixed'`"
 			}
 		];
 	}
@@ -74,22 +73,22 @@ for (const { name, path } of components) {
 	if (name === 'Monitor') {
 		testProps = [
 			{
-				description: "`typeof value === 'number'`",
 				condition: {
 					value: 1
-				}
+				},
+				description: "`typeof value === 'number'`"
 			},
 			{
-				description: "`typeof value === 'boolean'`",
 				condition: {
 					value: false
-				}
+				},
+				description: "`typeof value === 'boolean'`"
 			},
 			{
-				description: "`typeof value === 'string'`",
 				condition: {
 					value: 'i am a string'
-				}
+				},
+				description: "`typeof value === 'string'`"
 			}
 		];
 	}

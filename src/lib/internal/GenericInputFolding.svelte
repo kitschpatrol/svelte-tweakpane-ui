@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	import type { GenericInputOptions, GenericInputRef } from '$lib/internal/GenericInput.svelte';
 	// can't find picker options in the type definitions
 	export type GenericInputFoldingOptions = GenericInputOptions & { expanded?: boolean }; // technically not shared, but useful
@@ -6,17 +6,22 @@
 </script>
 
 <script
-	lang="ts"
 	generics="T extends any, U extends GenericInputFoldingOptions = GenericInputFoldingOptions, V extends GenericInputFoldingRef = GenericInputFoldingRef"
+	lang="ts"
 >
 	import type { PickerLayout } from '@tweakpane/core';
+	import GenericInput from '$lib/internal/GenericInput.svelte';
+	import { updateCollapsability } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
-	import { updateCollapsability } from '$lib/utils.js';
-	import GenericInput from '$lib/internal/GenericInput.svelte';
 
 	// TODO share prop definitions with GenericBladeFolding?
 	type $$Props = ComponentProps<GenericInput<T, U, V>> & {
+		/**
+		 * DOM class name of the button used to expand and collapse the input's picker.
+		 * @default `undefined`
+		 * */
+		buttonClass?: string;
 		/**
 		 * Allow users to interactively expand / contract the picker.
 		 * @default `true`
@@ -28,11 +33,6 @@
 		 * @bindable
 		 * */
 		expanded?: boolean;
-		/**
-		 * DOM class name of the button used to expand and collapse the input's picker.
-		 * @default `undefined`
-		 * */
-		buttonClass?: string;
 		/**
 		 * The style of value "picker" to use in the input.
 		 * @default `'popup'`
@@ -75,8 +75,8 @@
 	$: BROWSER &&
 		(optionsInternal = {
 			...options,
-			picker,
-			expanded: initialExpanded // only set once
+			expanded: initialExpanded, // only set once
+			picker
 		});
 
 	// click instead of setting expanded

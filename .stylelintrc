@@ -1,6 +1,5 @@
 {
   "extends": ["stylelint-config-standard", "stylelint-config-html"],
-  "ignoreFiles": "./dist/**.*",
   "rules": {
     "color-hex-length": null,
     "comment-empty-line-before": null,

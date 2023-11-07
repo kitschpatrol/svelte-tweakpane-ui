@@ -1,10 +1,9 @@
-<script lang="ts" context="module">
-	import type { Simplify } from '$lib/utils';
-
+<script context="module" lang="ts">
 	import type {
 		RgbColorObject,
 		RgbaColorObject
 	} from '@tweakpane/core/dist/input-binding/color/model/color.js';
+	import type { Simplify } from '$lib/utils';
 
 	// TODO tuples, oklch, etc
 	export type ColorValueRgbObject = Simplify<RgbColorObject>;
@@ -15,13 +14,13 @@
 
 <script lang="ts">
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
+	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 	import type { ColorInputParams as ColorOptions } from 'tweakpane';
-	import { BROWSER } from 'esm-env';
 
 	type $$Props = Omit<
 		ComponentProps<GenericInputFolding<ColorValue, ColorOptions>>,
-		'buttonClass' | 'options' | 'ref' | 'plugin'
+		'buttonClass' | 'options' | 'plugin' | 'ref'
 	> & {
 		/**
 		 * A color value to control.
@@ -66,17 +65,17 @@ Usage outside of a `<Pane>` component will implicitly wrap the color picker in `
 
   let startColor = '#fff000';
   let endColor = {
-    r: 255,
+    b: 255,
     g: 0,
-    b: 255
+    r: 255
   };
 </script>
 
 <div
   style={`width: 300px; height: 300px; background: linear-gradient(${startColor}, rgb(${endColor.r}, ${endColor.g}, ${endColor.b}));`}
 >
-  <Color label="Start Color" bind:value={startColor} />
-  <Color label="End Color" bind:value={endColor} />
+  <Color bind:value={startColor} label="Start Color" />
+  <Color bind:value={endColor} label="End Color" />
 </div>
 ```
 
@@ -84,5 +83,5 @@ Usage outside of a `<Pane>` component will implicitly wrap the color picker in `
 -->
 
 {#if BROWSER}
-	<GenericInputFolding bind:expanded bind:value {options} {buttonClass} {...$$restProps} />
+	<GenericInputFolding bind:value bind:expanded {buttonClass} {options} {...$$restProps} />
 {/if}

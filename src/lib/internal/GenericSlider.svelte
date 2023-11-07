@@ -1,12 +1,10 @@
-<script lang="ts" generics="T extends number | IntervalSliderValue">
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+<script generics="T extends number | IntervalSliderValue" lang="ts">
+	import GenericInput from '$lib/internal/GenericInput.svelte'; // eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { IntervalSliderValue } from '$lib/plugin/essentials/IntervalSlider.svelte';
-
-	import GenericInput from '$lib/internal/GenericInput.svelte';
+	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 	import type { NumberInputParams as GenericSliderOptions } from 'tweakpane';
 	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane';
-	import type { ComponentProps } from 'svelte';
-	import { BROWSER } from 'esm-env';
 
 	type $$Props = ComponentProps<GenericInput<T, GenericSliderOptions, GenericSliderRef>> & {
 		/**
@@ -24,25 +22,25 @@
 		 * */
 		max?: number;
 		/**
-		 * The minimum step interval.
-		 * @default `undefined` (no step constraint)
+		 * A function to customize the point value's formatting (e.g. rounding, etc.).
+		 * @default `undefined` (normal `.toString()` formatting)
 		 * */
-		step?: number;
-		/**
-		 * The unit scale for pointer-based input for all dimensions.
-		 * @default [dynamic based on magnitude of `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54)
-		 * */
-		pointerScale?: number;
+		format?: (value: number) => string;
 		/**
 		 * The unit scale for key-based input for all dimensions (e.g. the up and down arrow keys).
 		 * @default `1` or `stepValue` if defined
 		 * */
 		keyScale?: number;
 		/**
-		 * A function to customize the point value's formatting (e.g. rounding, etc.).
-		 * @default `undefined` (normal `.toString()` formatting)
+		 * The unit scale for pointer-based input for all dimensions.
+		 * @default [dynamic based on magnitude of `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54)
 		 * */
-		format?: (value: number) => string;
+		pointerScale?: number;
+		/**
+		 * The minimum step interval.
+		 * @default `undefined` (no step constraint)
+		 * */
+		step?: number;
 	};
 
 	// redeclare for bindability
@@ -70,10 +68,10 @@
 		(optionsInternal = {
 			min,
 			max,
-			step,
-			pointerScale,
-			keyScale,
 			format: formatProxy,
+			keyScale,
+			pointerScale,
+			step,
 			...options
 		});
 </script>

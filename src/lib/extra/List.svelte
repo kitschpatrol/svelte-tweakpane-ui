@@ -1,9 +1,9 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	import type { Simplify } from '$lib/utils';
 
 	// extends tweakpane to take arbitrary arrays of values
 	export type ListOptionsArray<T> = T[];
-	export type ListOptionsObjectArray<T> = { text: string; value: T }[];
+	export type ListOptionsObjectArray<T> = { value: T; text: string }[];
 	export type ListOptionsRecord<T> = { [text: string]: T };
 
 	export type ListOptions<T> = Simplify<
@@ -11,17 +11,17 @@
 	>;
 </script>
 
-<script lang="ts" generics="T extends any">
+<script generics="T extends any" lang="ts">
+	import Blade from '$lib/core/Blade.svelte';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 	import type { ListBladeApi, ListBladeParams, ListParamsOptions } from 'tweakpane';
-	import Blade from '$lib/core/Blade.svelte';
 
 	// Use a blade instead of an input to allow for additional value types
 	// TODO expose key value option that lets you bind to the active key?
 	type $$Props = Omit<
 		ComponentProps<Blade<ListBladeParams<T>, ListBladeApi<T>>>,
-		'options' | 'ref' | 'plugin'
+		'options' | 'plugin' | 'ref'
 	> & {
 		/**
 		 * Value of the selected `options` item.
@@ -73,7 +73,7 @@
 	}
 
 	// Type Guards
-	function isArrayStyleListOptions<T>(obj: ListOptions<T>): obj is { text: string; value: T }[] {
+	function isArrayStyleListOptions<T>(obj: ListOptions<T>): obj is { value: T; text: string }[] {
 		return (
 			Array.isArray(obj) &&
 			obj.every(
@@ -93,7 +93,7 @@
 			return options;
 		} else {
 			return options.map((value) => {
-				return { text: JSON.stringify(value), value };
+				return { value, text: JSON.stringify(value) };
 			});
 		}
 	}
@@ -105,9 +105,9 @@
 	$: BROWSER &&
 		(bladeOptions = {
 			value: getInitialValue(),
-			view: 'list',
 			label,
-			options: getInternalOptions(options)
+			options: getInternalOptions(options),
+			view: 'list'
 		});
 	$: BROWSER && listBlade && addEvent();
 	$: value, BROWSER && listBlade && setValue();
@@ -134,7 +134,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the color picker in `
   let selection: number = 1;
 </script>
 
-<List label="Alphanumerics" bind:value={selection} {options} />
+<List bind:value={selection} label="Alphanumerics" {options} />
 <pre>Selected Option: {selection}</pre>
 ```
 

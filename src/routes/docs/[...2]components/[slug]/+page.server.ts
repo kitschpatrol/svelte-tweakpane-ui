@@ -1,10 +1,10 @@
-import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { startCase, kebabCase } from 'lodash-es';
+import { error } from '@sveltejs/kit';
+import { base } from '$app/paths';
 import type { ComponentInfo } from '$lib-docs/types';
+import { kebabCase, startCase } from 'lodash-es';
 import markdownit from 'markdown-it';
 import traverse from 'traverse';
-import { base } from '$app/paths';
 
 function linkifyComponentReferences(
 	str: string,
@@ -33,8 +33,8 @@ function linkifyComponentReferences(
 export const load: PageServerLoad = async ({ params }) => {
 	const components: Record<string, ComponentInfo> = structuredClone(
 		import.meta.glob('$lib-docs/generated/data/*.json', {
-			eager: true,
-			as: 'json'
+			as: 'json',
+			eager: true
 		})
 	);
 

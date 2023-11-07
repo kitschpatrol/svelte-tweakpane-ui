@@ -1,14 +1,14 @@
-<script lang="ts" context="module">
-	export type PanePosition = 'inline' | 'fixed' | 'draggable';
+<script context="module" lang="ts">
+	export type PanePosition = 'draggable' | 'fixed' | 'inline';
 </script>
 
 <script lang="ts">
-	import { beforeUpdate, type ComponentProps } from 'svelte';
 	import InternalPaneDraggable from '$lib/internal/InternalPaneDraggable.svelte';
 	import InternalPaneFixed from '$lib/internal/InternalPaneFixed.svelte';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import { removeKeys } from '$lib/utils';
 	import { BROWSER } from 'esm-env';
+	import { type ComponentProps, beforeUpdate } from 'svelte';
 
 	type $$Props = (
 		| (ComponentProps<InternalPaneDraggable> & {
@@ -41,8 +41,8 @@
 	// have to do this for bindings to work...
 	// maybe related to https://svelte.dev/repl/aacb7e0b8066497490d3204f8a57491c?version=3.2.2 ?
 	export let expanded: $$Props['expanded'] = undefined;
-	export let width: $$Props['width'] = undefined;
 	export let position: $$Props['position'] = undefined;
+	export let width: $$Props['width'] = undefined;
 
 	// redeclare types instead of referencing $$Props['key'] since certain keys aren't guaranteed
 	export let x: number | undefined = undefined;
@@ -96,11 +96,11 @@ Mode overview:
 @example	
 ```svelte
 <script lang="ts">
-  import { Pane, Button } from 'svelte-tweakpane-ui';
+  import { Button, Pane } from 'svelte-tweakpane-ui';
 </script>
 
 <Pane title="Drag Me Around">
-  <Button title="Reticulate" on:click={() => alert('Reticulation complete')} />
+  <Button on:click={() => alert('Reticulation complete')} title="Reticulate" />
 </Pane>
 ```
 
@@ -109,7 +109,7 @@ Mode overview:
 
 {#if BROWSER}
 	{#if position === undefined || position === 'draggable'}
-		<InternalPaneDraggable bind:x bind:y bind:width bind:expanded {...$$restProps}>
+		<InternalPaneDraggable bind:expanded bind:width bind:x bind:y {...$$restProps}>
 			<slot />
 		</InternalPaneDraggable>
 	{:else if position === 'inline'}

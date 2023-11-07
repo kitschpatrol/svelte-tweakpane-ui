@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type { FolderApi as FolderRef } from '@tweakpane/core';
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
+	import type { Theme } from '$lib/theme.js';
+	import { type Container, getElementIndex, isRootPane, updateCollapsability } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
-	import type { Theme } from '$lib/theme.js';
-	import { getElementIndex, isRootPane, updateCollapsability, type Container } from '$lib/utils.js';
 
 	/**
 	 * Text in folder title bar.
@@ -54,10 +54,10 @@
 		// console.log('folder created');
 
 		$folderStore = $parentStore.addFolder({
-			title,
 			disabled,
 			expanded,
-			index
+			index,
+			title
 		});
 
 		$folderStore.on('fold', () => {
@@ -102,18 +102,18 @@ Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane 
 @example	
 ```svelte
 <script lang="ts">
-  import { Folder, Button, Monitor, Checkbox } from 'svelte-tweakpane-ui';
+  import { Button, Checkbox, Folder, Monitor } from 'svelte-tweakpane-ui';
 
   let expanded = true;
   let count = 0;
 </script>
 
-<Folder title="Reticulaton Manager" bind:expanded>
-  <Button title="Increment" on:click={() => count++} />
-  <Monitor label="Count" value={count} />
+<Folder bind:expanded title="Reticulaton Manager">
+  <Button on:click={() => count++} title="Increment" />
+  <Monitor value={count} label="Count" />
 </Folder>
 
-<Checkbox label="Expanded" bind:value={expanded} />
+<Checkbox bind:value={expanded} label="Expanded" />
 ```
 
 @sourceLink [Folder.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Folder.svelte)
@@ -121,12 +121,12 @@ Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane 
 
 {#if BROWSER}
 	{#if parentStore}
-		<div style="display: none;" bind:this={indexElement}>
+		<div bind:this={indexElement} style="display: none;">
 			<slot />
 		</div>
 	{:else}
-		<InternalPaneInline userCreatedPane={false} {theme}>
-			<svelte:self {title} {disabled} bind:expanded {clickToExpand}>
+		<InternalPaneInline {theme} userCreatedPane={false}>
+			<svelte:self bind:expanded {clickToExpand} {disabled} {title}>
 				<slot />
 			</svelte:self>
 		</InternalPaneInline>

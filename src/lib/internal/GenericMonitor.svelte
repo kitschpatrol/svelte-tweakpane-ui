@@ -1,25 +1,18 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	import type { BaseMonitorParams, MonitorBindingApi } from '@tweakpane/core';
 	export type GenericMonitorOptions = Partial<BaseMonitorParams>; // we take care of readonly...
 	export type GenericMonitorRef = MonitorBindingApi;
 </script>
 
 <script
-	lang="ts"
 	generics="T extends any, U extends GenericMonitorOptions, V extends GenericMonitorRef = GenericMonitorRef"
+	lang="ts"
 >
 	import GenericBinding from '$lib/internal/GenericBinding.svelte';
-	import type { ComponentProps } from 'svelte';
 	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 
 	type $$Props = ComponentProps<GenericBinding<T, U, V>> & {
-		/**
-		 * Number of visible rows of state history.
-		 *
-		 * If `bufferSize` is larger, then the value window will scroll once state history exceeds row count.
-		 * @default `1` (Or `3` if value is `string` and `multiline` is `true`.)
-		 * */
-		rows?: number;
 		/**
 		 * Number of past states to retain.
 		 * @default `1` (Or `64` if value is `number` and `graph` is `true`.)
@@ -32,6 +25,13 @@
 		 * @default `0`
 		 * */
 		interval?: number;
+		/**
+		 * Number of visible rows of state history.
+		 *
+		 * If `bufferSize` is larger, then the value window will scroll once state history exceeds row count.
+		 * @default `1` (Or `3` if value is `string` and `multiline` is `true`.)
+		 * */
+		rows?: number;
 	};
 
 	// reexport for bindability
@@ -48,9 +48,9 @@
 
 	$: BROWSER &&
 		(optionsInternal = {
-			rows,
 			bufferSize,
 			interval: interval ?? 0, // zero confirmed as never updating (not same interface as setInterval())
+			rows,
 			...options,
 			readonly: true
 		});
@@ -64,5 +64,5 @@ This component is for internal use only.
 -->
 
 {#if BROWSER}
-	<GenericBinding bind:ref options={optionsInternal} {value} {...$$restProps} />
+	<GenericBinding {value} bind:ref options={optionsInternal} {...$$restProps} />
 {/if}

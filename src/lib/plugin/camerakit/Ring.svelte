@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script context="module" lang="ts">
 	import type { RingSeries } from '@tweakpane/plugin-camerakit/dist/types/util.js';
 
 	// TODO maybe spread RingUnit into the top level props?
@@ -6,6 +6,14 @@
 	//  import type { RingUnit } from '@tweakpane/plugin-camerakit/dist/types/view/ring.d.ts';
 	// redefine RingUnit with additional documentation
 	type RingUnit = {
+		/**
+		 * The value for the unit.
+		 *
+		 * This sets the interval between each `value` labeled on the ring.
+		 * For example a `value` of `20` will show value labels 0, 20, 40... etc.
+		 * spaced accrding to the `pixels` value.
+		 */
+		value: number;
 		/**
 		 * The number of pixels per unit.
 		 *
@@ -22,27 +30,19 @@
 		 * every 100 pixels.
 		 */
 		ticks: number;
-		/**
-		 * The value for the unit.
-		 *
-		 * This sets the interval between each `value` labeled on the ring.
-		 * For example a `value` of `20` will show value labels 0, 20, 40... etc.
-		 * spaced accrding to the `pixels` value.
-		 */
-		value: number;
 	};
 
 	export type { RingSeries, RingUnit };
 </script>
 
 <script lang="ts">
-	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import * as pluginModule from '@tweakpane/plugin-camerakit';
 	import type { RingInputParams } from '@tweakpane/plugin-camerakit/dist/types/util.d.ts';
-	import type { ComponentProps } from 'svelte';
+	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte';
 
-	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'ref' | 'options' | 'plugin'> & {
+	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {
 		/**
 		 * A `number` value to control.
 		 * @bindable
@@ -75,9 +75,9 @@
 
 	$: BROWSER &&
 		(options = {
-			view: 'cameraring',
 			series,
 			unit,
+			view: 'cameraring',
 			wide
 		});
 </script>
@@ -92,9 +92,9 @@ TODO
   import { Ring, type RingUnit } from 'svelte-tweakpane-ui';
 
   let unitConfig: RingUnit = {
+    value: 20,
     pixels: 40,
-    ticks: 5,
-    value: 20
+    ticks: 5
   };
 
   let angle = 45;
@@ -102,9 +102,9 @@ TODO
 
 <Ring
   bind:value={angle}
-  unit={unitConfig}
-  pointerScale={-2.5}
   format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
+  pointerScale={-2.5}
+  unit={unitConfig}
   wide={true}
 />
 
