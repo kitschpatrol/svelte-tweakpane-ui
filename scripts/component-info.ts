@@ -71,7 +71,7 @@ async function getStaticComponentInfo(componentPath: string): Promise<ComponentI
 		{ tsconfigPath: join(testDir, 'tsconfig.json') }
 	);
 
-	// TODO gen test component for testprops?
+	// TODO gen test component for test props?
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const document = docManager.openClientDocument(<any>{
 		text: ts.sys.readFile(path),
@@ -168,7 +168,7 @@ function getInfoFor(
 	return [];
 }
 
-// Similar to what you'd get from JsOrTsComponentInfoProvider, but includes jsdocs and condition for dynamic props
+// Similar to what you'd get from JsOrTsComponentInfoProvider, but includes JSDocs and condition for dynamic props
 async function getDynamicComponentProps(
 	componentPath: string,
 	testProps: ComponentPropCondition
@@ -200,7 +200,7 @@ async function getDynamicComponentProps(
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const document = docManager.openClientDocument(<any>{
 		text: testComponentSourceRows.join('\n'),
-		uri: `file:///inmemory-${componentName}-${nanoid()}.svelte`
+		uri: `file:///in-memory-${componentName}-${nanoid()}.svelte`
 	});
 
 	const { lang, tsDoc } = await lsAndTsDocResolver.getLSAndTSDoc(document);

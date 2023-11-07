@@ -18,7 +18,7 @@
 <script lang="ts">
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation';
 	import type { RotationInputPluginQuaternionParams as RotationQuaternionOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/RotationInputPluginQuaternionParams';
-	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d'; // note name collission with options params
+	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d'; // note name collision with options params
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
@@ -85,7 +85,7 @@
 	// proxy value since Tweakpane only supports Point4dObject type
 	let internalValue: Point4dObject;
 
-	// work-arounds for funky folding
+	// work-around for funky folding
 	const buttonClass = 'tp-rotationswatchv_b';
 
 	function updateInternalValue() {

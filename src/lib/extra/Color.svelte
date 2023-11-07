@@ -36,10 +36,10 @@
 	export let value: $$Props['value'];
 	export let expanded: $$Props['expanded'] = undefined;
 
-	// work-arounds for funky folding
+	// work-around for funky folding
 	const buttonClass = 'tp-colswv_b';
 
-	// TODO does this do anyhting? passing channel like 0x00ffd644 adds alpha automatically setting
+	// TODO does this do anything? passing channel like 0x00ffd644 adds alpha automatically setting
 	// alpha to true on 0x00ffd6 doesn't add the control... were these both deprecated in 4.0?
 	// https://github.com/cocopon/tweakpane/issues/450 options.color.alpha, options.color.type
 

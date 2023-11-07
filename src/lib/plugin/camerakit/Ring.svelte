@@ -10,7 +10,7 @@
 		 * The value for the unit.
 		 *
 		 * This sets the interval between each `value` labeled on the ring. For example a `value` of
-		 * `20` will show value labels 0, 20, 40... etc. spaced accrding to the `pixels` value.
+		 * `20` will show value labels 0, 20, 40... etc. spaced according to the `pixels` value.
 		 */
 		value: number;
 		/**

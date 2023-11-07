@@ -24,13 +24,13 @@
 		/**
 		 * Pane mode, one of three options:
 		 * - **'draggable'** *(default)*  \
-		 *   The pane is draggable and resizeable, and may be placed anywhere over the page.
+		 *   The pane is draggable and resizable, and may be placed anywhere over the page.
 		 * - **'inline'**  \
 		 *   The pane appears inline with other content in the normal flow of the document.  \
 		 *   *This is the default mode for components created outside of an explicit `<Pane>`
 		 *   component.*
 		 * - **'fixed'** \
-		 *   Standard TweakPane behavior where the pane is shown in a fixed position over the page.
+		 *   Standard Tweakpane behavior where the pane is shown in a fixed position over the page.
 		 *
 		 *   Note that `<Pane>` is a dynamic component, and availability of additional props will
 		 *   vary depending on the defined `position` value.
@@ -100,7 +100,7 @@ Mode overview:
 - **`<Pane position='inline' ...>`** is an inline version of the pane component, allowing the
   Tweakpane window to appear in the normal flow of the document.
 
-        All other `svelte-tweakpane-ui` components which are created without a containing `<Pane>` are nested implicitly inside a titleless `<Pane position='inline'>` component. As such, you do not necessarily need create `<Pane position='inline'>` components in most cases.
+        All other `svelte-tweakpane-ui` components which are created without a containing `<Pane>` are nested implicitly inside a title-less `<Pane position='inline'>` component. As such, you do not necessarily need create `<Pane position='inline'>` components in most cases.
 
         This mode's behavior is similar to creating a Pane in Vanilla JS Tweakpane with its [`container`](https://tweakpane.github.io/docs/misc/#containerElement) property set to its parent element.
 - **`<Pane position='fixed' ...>`** exhibits the standard Vanilla JS Tweakpane behavior of

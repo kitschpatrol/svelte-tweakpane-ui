@@ -22,7 +22,7 @@
 <script lang="ts">
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation';
 	import type { RotationInputPluginEulerParams as RotationEulerOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/RotationInputPluginEulerParams';
-	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js'; // note name collission with options params
+	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js'; // note name collision with options params
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
@@ -34,7 +34,7 @@
 		/**
 		 * The rotation value to control.
 		 *
-		 * Tuple values are a convenience added by `svelte-tweakpane-ui`, and is not part of the
+		 * Tuple values are a convenience added by `svelte-tweakpane-ui`, and are not part of the
 		 * original TweakpaneRotationPlugin API.
 		 *
 		 * See the `order` prop to specify the sequence in which rotations are applied.
@@ -97,7 +97,7 @@
 	// proxy value since Tweakpane only supports Point3dObject type
 	let internalValue: Point3dObject;
 
-	// work-arounds for funky folding
+	// work-around for funky folding
 	const buttonClass = 'tp-rotationswatchv_b';
 
 	function updateInternalValue() {

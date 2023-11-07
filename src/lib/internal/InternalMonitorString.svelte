@@ -8,7 +8,7 @@
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
-	// multifile structure is legacy of previous non-dynamic component approach TODO consolidate
+	// multi-file structure is legacy of previous non-dynamic component approach TODO consolidate
 	// eventually if dynamic components prove reliable
 
 	type $$Props = Omit<
@@ -47,7 +47,7 @@ Documentation retained in case of a return to the non-dynamic component approach
 Wraps the Tweakpane [monitor binding](https://tweakpane.github.io/docs/monitor-bindings/)
 functionality for string values.
 
-Technically, any unbound value on a normal `svelte-tweakpane-ui` component effectivel acts as a
+Technically, any unbound value on a normal `svelte-tweakpane-ui` component effectively acts as a
 monitor, but additional monitor-specific components are provided to expose additional view options
 (e.g. `multiline`).
 

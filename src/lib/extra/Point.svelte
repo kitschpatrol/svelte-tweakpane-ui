@@ -155,7 +155,7 @@
 
 	let options: PointOptions<T>;
 
-	// work-arounds for funky folding
+	// work-around for funky folding
 	const buttonClass = 'tp-p2dv_b';
 
 	function updateInternalValue() {

@@ -12,7 +12,7 @@ export async function GET(request: RequestEvent) {
 		// tokenize markdown files
 
 		// instead, fetch the dynamic page as html, and parse the DOM to get the title and header
-		// metadata KitDocs wants ...would only do this on a fully prerendered site
+		// metadata KitDocs wants ...would only do this on a fully pre-rendered site
 
 		// ಠ_ಠ
 		const pageUrl = `${base}/${request.params.slug.substring(base.length).replaceAll('_', '/')}`;

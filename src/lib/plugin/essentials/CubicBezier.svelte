@@ -48,7 +48,7 @@
 	let options: CubicBezierOptions;
 	let cubicBezierBlade: CubicBezierRef;
 
-	// work-arounds for funky folding
+	// work-around for funky folding
 	const buttonClass = 'tp-cbzv_b';
 
 	function getValue(): CubicBezierOptions['value'] {

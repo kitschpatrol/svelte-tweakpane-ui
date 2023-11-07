@@ -14,9 +14,9 @@ async function generateComponentData(
 	destination: string,
 	testProps?: ComponentDynamicPropTest[] | undefined
 ): Promise<boolean> {
-	const unaliasedPath = componentPath.replace('$lib', './src/lib');
+	const expandedPath = componentPath.replace('$lib', './src/lib');
 
-	const componentInfo = await getComponentInfo(unaliasedPath, testProps);
+	const componentInfo = await getComponentInfo(expandedPath, testProps);
 
 	if (componentInfo) {
 		// overwrites existing, creates intermediate directories

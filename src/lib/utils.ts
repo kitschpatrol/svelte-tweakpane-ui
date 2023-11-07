@@ -120,7 +120,7 @@ function clickBlocker(e: MouseEvent) {
 }
 
 // used by folder and pane
-export function updateCollapsability(
+export function updateCollapsibility(
 	isClickToExpandEnabled: boolean,
 	element: HTMLElement,
 	titleBarClass: string,
@@ -160,7 +160,7 @@ export function updateCollapsability(
  *
  * If a single constraint is provided, it lets the undefined axis grow / shrink as needed.
  *
- * If both constaints are provided, values may be clipped.
+ * If both constraints are provided, values may be clipped.
  */
 export function getGridDimensions(
 	itemCount: number,

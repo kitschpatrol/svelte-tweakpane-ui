@@ -39,7 +39,7 @@ function addExports(sourceIndexFile: string, destinationPackageFile: string) {
 	packageJson.exports = exports;
 	packageJson.types = './dist/index.d.ts';
 
-	// deprecated, astro complains
+	// Deprecated, Astro complains
 	// https://github.com/sveltejs/vite-plugin-svelte/blob/main/docs/faq.md#conflicts-in-svelte-resolve
 	// packageJson.svelte = './dist/index.d.ts';
 

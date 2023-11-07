@@ -15,7 +15,7 @@
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
-	// multifile structure is legacy of previous non-dynamic component approach TODO consolidate
+	// multi-file structure is legacy of previous non-dynamic component approach TODO consolidate
 	// eventually if dynamic components prove reliable
 
 	type optionsForType<U> = U extends string

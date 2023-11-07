@@ -20,7 +20,7 @@
 	import type { Writable } from 'svelte/store';
 
 	/**
-	 * Blade configuration exposing TweakPane's internal
+	 * Blade configuration exposing Tweakpane's internal
 	 * [BladeParams](https://tweakpane.github.io/docs/api/interfaces/BaseBladeParams.html).
 	 *
 	 * */
@@ -41,7 +41,7 @@
 	export let theme: Theme | undefined = undefined;
 
 	/**
-	 * Reference to internal TweakPane
+	 * Reference to internal Tweakpane
 	 * [BladeApi](https://tweakpane.github.io/docs/api/classes/BladeApi.html) for this blade.
 	 * @bindable
 	 * @readonly

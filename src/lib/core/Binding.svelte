@@ -45,7 +45,7 @@
 	export let label: string | undefined = undefined;
 
 	/**
-	 * Control configuration exposing TweakPane's internal
+	 * Control configuration exposing Tweakpane's internal
 	 * [BindingParams](https://tweakpane.github.io/docs/api/types/BindingParams.html), contingent on
 	 * type of bound param.
 	 * @default `undefined`
@@ -62,7 +62,7 @@
 	export let theme: Theme | undefined = undefined;
 
 	/**
-	 * Reference to internal TweakPane
+	 * Reference to internal Tweakpane
 	 * [BindingApi](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for
 	 * this control.
 	 *
@@ -152,7 +152,7 @@ Wraps the Tweakpane [addBinding](https://tweakpane.github.io/docs/input-bindings
 Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane
 position='inline'>`.
 
-This component is provided for consistency with Tweakapne's API, but is not recommended for general
+This component is provided for consistency with Tweakpane's API, but is not recommended for general
 use.
 
 Consider convenience components like `<Slider>`, `<Color>`, etc. before using this component

@@ -5,7 +5,7 @@
 
 <script generics="T extends BladeOptions, U extends BladeRef" lang="ts">
 	import Blade from '$lib/core/Blade.svelte';
-	import { updateCollapsability } from '$lib/utils';
+	import { updateCollapsibility } from '$lib/utils';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
@@ -73,9 +73,9 @@
 	$: BROWSER &&
 		ref &&
 		buttonClass !== undefined &&
-		updateCollapsability(clickToExpand ?? true, ref.element, buttonClass);
+		updateCollapsibility(clickToExpand ?? true, ref.element, buttonClass);
 
-	// click isntead of setting expanded to avoid  animation jankiness
+	// click instead of setting expanded to avoid  animation jankiness
 	$: BROWSER &&
 		ref &&
 		buttonClass !== undefined &&

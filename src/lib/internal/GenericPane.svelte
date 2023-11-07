@@ -2,7 +2,7 @@
 	import type { Theme } from '$lib/theme.js';
 	import { applyTheme } from '$lib/theme.js';
 	import type { Container } from '$lib/utils.js';
-	import { type Plugin, updateCollapsability } from '$lib/utils.js';
+	import { type Plugin, updateCollapsibility } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, setContext } from 'svelte';
 	import { type Writable, writable } from 'svelte/store';
@@ -60,7 +60,7 @@
 	 * continue to respect position- and size-related props. If you need more breathing room, set
 	 * the `width` property on the pane.
 	 *
-	 * Note that the scaling prop is only availabe on `<Pane>`, not on stand-alone (implicitly
+	 * Note that the scaling prop is only available on `<Pane>`, not on stand-alone (implicitly
 	 * wrapped) inline elements.
 	 *
 	 * Negative values are ignored.
@@ -161,7 +161,7 @@
 
 	$: BROWSER &&
 		paneRef &&
-		updateCollapsability(clickToExpand, paneRef.element, 'tp-rotv_b', 'tp-rotv_m');
+		updateCollapsibility(clickToExpand, paneRef.element, 'tp-rotv_b', 'tp-rotv_m');
 	$: BROWSER && paneRef && title && (paneRef.title = title);
 	$: BROWSER && paneRef && applyTheme(paneRef.element, theme);
 	$: BROWSER && paneRef && expanded !== undefined && (paneRef.expanded = expanded);

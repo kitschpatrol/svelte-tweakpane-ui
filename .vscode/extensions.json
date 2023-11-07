@@ -3,7 +3,8 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "svelte.svelte-vscode",
-    "stkb.rewrap"
+    "stkb.rewrap",
+    "streetsidesoftware.code-spell-checker"
   ],
   "unwantedRecommendations": []
 }

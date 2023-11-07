@@ -31,7 +31,7 @@ type ThemeKeys = {
 	containerForegroundColor?: ThemeColorValue;
 	containerHorizontalPadding?: ThemeValue;
 	containerUnitSize?: ThemeValue;
-	containerUnitSpacPing?: ThemeValue;
+	containerUnitSpacing?: ThemeValue;
 	containerVerticalPadding?: ThemeValue;
 	grooveForegroundColor?: ThemeColorValue;
 	inputBackgroundColor?: ThemeColorValue;

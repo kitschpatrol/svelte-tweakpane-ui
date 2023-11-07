@@ -42,7 +42,7 @@
 		 * Name allowing multiple radio groups to share mutually exclusive selection state.
 		 *
 		 * Allows spanning exclusive selection state across multiple independent `<RadioGrid>`
-		 * components, but should remain `undefined` for most use cases to keep exclusivitiy scoped
+		 * components, but should remain `undefined` for most use cases to keep exclusivity scoped
 		 * to a single `<RadioGrid>`.
 		 * @default `undefined`  \
 		 * Uses a dynamically generated globally unique id internally.

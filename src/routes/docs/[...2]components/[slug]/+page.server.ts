@@ -63,8 +63,8 @@ export const load: PageServerLoad = async ({ params }) => {
 			switch (this.key) {
 				case 'example':
 					// don't markdown render examples, instead we load pre-rendered markdown files
-					// from the genreated files (so we can use the KitDocs component in the page
-					// tempalate)
+					// from the generated files (so we can use the KitDocs component in the page
+					// template)
 					break;
 				case 'doc':
 					// expand component strings like <Button> into links treat the big doc block

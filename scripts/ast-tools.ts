@@ -142,7 +142,7 @@ function extractCodeBlock(inputString: string): string | undefined {
 
 export async function getComponentExampleCodeFromSource(
 	componentName: string,
-	inclueMarkdown: boolean = false
+	includeMarkdown: boolean = false
 ): Promise<string | undefined> {
 	const componentPath = getSourceFilePath(componentName);
 	if (!componentPath) return undefined;
@@ -215,7 +215,7 @@ export async function getComponentExampleCodeFromSource(
 		.split('\n')
 		.at(0)}\n${formattedComment}${exampleCommentWithFence.split('\n').at(-1)}`;
 
-	return inclueMarkdown ? wrappedComment : formattedComment;
+	return includeMarkdown ? wrappedComment : formattedComment;
 }
 
 // TODO better to format and lint?
@@ -225,7 +225,7 @@ export async function lintAndFormat(
 	formatParser: string = 'svelte'
 ): Promise<string> {
 	const lintedCode = await lint(code, fileExtension);
-	const styleLintedCode = await lintstyle(lintedCode, fileExtension);
+	const styleLintedCode = await lintStyle(lintedCode, fileExtension);
 	const lintedAndFormattedCode = await format(styleLintedCode, formatParser);
 	return lintedAndFormattedCode;
 }
@@ -251,8 +251,8 @@ async function lint(code: string, fileExtension: string): Promise<string> {
 	return result?.output ?? code;
 }
 
-async function lintstyle(code: string, fileExtension: string): Promise<string> {
-	// just passing the .stylelintrc doesn't seem to work...
+async function lintStyle(code: string, fileExtension: string): Promise<string> {
+	// just passing the .stylelintrc.cjs doesn't seem to work...
 	const config = await stylelint.resolveConfig(`example.${fileExtension}`);
 
 	const result: stylelint.LinterResult = await stylelint.lint({

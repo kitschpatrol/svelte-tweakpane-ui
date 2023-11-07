@@ -2,7 +2,7 @@
 	import type { FolderApi as FolderRef } from '@tweakpane/core';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
-	import { type Container, getElementIndex, isRootPane, updateCollapsability } from '$lib/utils.js';
+	import { type Container, getElementIndex, isRootPane, updateCollapsibility } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
 	import { getContext, onDestroy, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -80,7 +80,7 @@
 	$: BROWSER && $parentStore && !folderRef && index !== undefined && create();
 	$: BROWSER &&
 		folderRef &&
-		updateCollapsability(clickToExpand, folderRef.element, 'tp-fldv_b', 'tp-fldv_m');
+		updateCollapsibility(clickToExpand, folderRef.element, 'tp-fldv_b', 'tp-fldv_m');
 	$: BROWSER && folderRef && (folderRef.title = title);
 	$: BROWSER && folderRef && (folderRef.disabled = disabled);
 	$: BROWSER && folderRef && expanded !== undefined && (folderRef.expanded = expanded); // doing this on $folderStore causes issues
@@ -110,7 +110,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane 
   let count = 0;
 </script>
 
-<Folder bind:expanded title="Reticulaton Manager">
+<Folder bind:expanded title="Reticulation Manager">
   <Button on:click={() => count++} title="Increment" />
   <Monitor value={count} label="Count" />
 </Folder>

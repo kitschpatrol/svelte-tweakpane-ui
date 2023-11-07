@@ -11,7 +11,7 @@
 >
 	import type { PickerLayout } from '@tweakpane/core';
 	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import { updateCollapsability } from '$lib/utils.js';
+	import { updateCollapsibility } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
@@ -83,7 +83,7 @@
 	$: BROWSER &&
 		ref &&
 		buttonClass &&
-		updateCollapsability(clickToExpand ?? true, ref.element, buttonClass);
+		updateCollapsibility(clickToExpand ?? true, ref.element, buttonClass);
 	$: BROWSER &&
 		ref &&
 		buttonClass &&

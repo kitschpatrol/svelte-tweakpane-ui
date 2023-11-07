@@ -24,7 +24,7 @@
 <!-- 
 	@component  
 	This could technically be a .md file instead of .svelte, but loss of autocompletion and
-	comingling of markdown and svelte syntax outweighed the inconvenience of wrapping headings etc.
+	commingling of markdown and svelte syntax outweighed the inconvenience of wrapping headings etc.
 -->
 
 <h1>{component.name}</h1>

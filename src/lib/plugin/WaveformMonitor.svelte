@@ -69,7 +69,7 @@ TK Integrates [Simon Schödler's](https://shoedler.github.io)
 
 Note that `svelte-tweakpane-ui` embeds a
 [fork](https://github.com/kitschpatrol/tweakpane-plugin-waveform) of the plugin with support for
-Tweakpane 4. The depdnency will be updated to point to the source repository if / when the open
+Tweakpane 4. The dependency will be updated to point to the source repository if / when the open
 [pull request](https://github.com/shoedler/tweakpane-plugin-waveform/pull/2) with Tweakpane 4
 support is merged.
 

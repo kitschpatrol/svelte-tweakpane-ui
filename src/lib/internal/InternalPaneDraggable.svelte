@@ -16,8 +16,8 @@
 	import type { Pane as TpPane } from 'tweakpane';
 
 	// Maybe expose as props
-	const TITLEBAR_WINDOWSHADE_SINGLE_CLICK = true;
-	const TITLEBAR_WINDOWSHADE_DOUBLE_CLICK = false;
+	const TITLEBAR_WINDOW_SHADE_SINGLE_CLICK = true;
+	const TITLEBAR_WINDOW_SHADE_DOUBLE_CLICK = false;
 
 	// Could extend from InternalPaneFixed, but need to revise documentation anyway Many gratuitous
 	// defined checks since NonNullable didn't work and not sure how to make an optional prop remain
@@ -62,7 +62,7 @@
 		 * bar.
 		 * @default `true`
 		 * */
-		resizeable?: boolean;
+		resizable?: boolean;
 		/**
 		 * Store the pane's position and width when the user changes it interactively.
 		 *
@@ -112,7 +112,7 @@
 	export let x: $$Props['x'] = $positionStore?.x ?? 0;
 	export let y: $$Props['y'] = $positionStore?.y ?? 0;
 	export let width: $$Props['width'] = $positionStore?.width ?? 256;
-	export let resizeable: $$Props['resizeable'] = true;
+	export let resizable: $$Props['resizable'] = true;
 	export let clickToExpand: $$Props['clickToExpand'] = true;
 	export let minWidth: $$Props['minWidth'] = 200;
 	export let maxWidth: $$Props['maxWidth'] = 600;
@@ -200,7 +200,6 @@
 	let moveDistance = 0;
 
 	const doubleClickListener = (e: MouseEvent) => {
-		console.log('doubleclick');
 		e.stopPropagation();
 		if (e.target) {
 			if (width !== undefined && e.target === widthHandleElement) {
@@ -209,7 +208,7 @@
 				} else {
 					width = minWidth;
 				}
-			} else if (TITLEBAR_WINDOWSHADE_DOUBLE_CLICK && e.target === dragBarElement) {
+			} else if (TITLEBAR_WINDOW_SHADE_DOUBLE_CLICK && e.target === dragBarElement) {
 				//if (moveDistance < 3 && clickToExpand)
 				paneRef.expanded = !paneRef.expanded;
 			}
@@ -262,7 +261,7 @@
 			e.target.removeEventListener('pointermove', moveListener);
 			e.target.removeEventListener('pointerup', upListener);
 
-			if (TITLEBAR_WINDOWSHADE_SINGLE_CLICK && e.target === dragBarElement) {
+			if (TITLEBAR_WINDOW_SHADE_SINGLE_CLICK && e.target === dragBarElement) {
 				if (moveDistance < 3 && clickToExpand) paneRef.expanded = !paneRef.expanded;
 			}
 		}
@@ -284,9 +283,9 @@
 		// prevent scrolling the background on mobile when dragging the pane or otherwise
 		containerElement.addEventListener('touchmove', touchScrollBlocker, { passive: false });
 
-		// make the pane draggable the Tweakbar pane is NOT itself a svelte component, so we have to
-		// manage events directly through the DOM click blocking and handling collape in pointerup
-		// was most reliable cross-browser approach
+		// make the pane draggable the Tweakpane pane is NOT itself a svelte component, so we have
+		// to manage events directly through the DOM click blocking and handling collapse in
+		// pointerup was most reliable cross-browser approach
 		dragBarElement = containerElement.getElementsByClassName('tp-rotv_t')[0] as HTMLElement;
 		dragBarElement.addEventListener('click', clickBlocker);
 		dragBarElement.addEventListener('dblclick', doubleClickListener);
@@ -331,9 +330,9 @@
 		}
 	});
 
-	function updateResizeability(isresizeable: boolean) {
+	function updateResizability(isResizable: boolean) {
 		if (widthHandleElement) {
-			if (isresizeable) {
+			if (isResizable) {
 				widthHandleElement.style.display = 'block';
 			} else {
 				widthHandleElement.style.display = 'none';
@@ -341,7 +340,7 @@
 		}
 	}
 
-	$: BROWSER && paneRef && resizeable && updateResizeability(resizeable);
+	$: BROWSER && paneRef && resizable && updateResizability(resizable);
 
 	// ensure the tweakpane panel is within the viewport additional checks in the width drag handler
 	$: if (
@@ -400,7 +399,7 @@ This component is for internal use only.
 		bind:clientHeight={containerHeight}
 		class="draggable-container"
 		class:not-collapsable={!clickToExpand}
-		class:not-resizeable={!resizeable}
+		class:not-resizable={!resizable}
 		style:left="{x}px"
 		style:top="{y}px"
 		style:width="{width}px"
@@ -451,7 +450,7 @@ This component is for internal use only.
 		padding-left: 28px;
 	}
 
-	div.draggable-container.not-resizeable :global(div.tp-rotv_t) {
+	div.draggable-container.not-resizable :global(div.tp-rotv_t) {
 		/* TODO remove the magic numbers */
 		/* Expand the drag bar to fill the missing width drag icon space */
 		margin-right: -28px;

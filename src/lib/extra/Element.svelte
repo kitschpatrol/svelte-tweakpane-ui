@@ -58,10 +58,10 @@ built-in components.
 
 Think of this component as an escape hatch for getting something into the pane that you couldn't
 otherwise, but it's recommended to abstract new functionality for reuse by extending one of the
-internal component types in 'svelte-tweakplane-ui', or better yet by creating a new [Tweakpane
+internal component types in 'svelte-tweakpane-ui', or better yet by creating a new [Tweakpane
 Plugin](https://github.com/tweakpane/plugin-template).
 
-In many cases, this component should not be necesary because `svelte-tweakpane-ui` already makes it
+In many cases, this component should not be necessary because `svelte-tweakpane-ui` already makes it
 easy to combine tweakpane components with other inline elements simply by not using a wrapping
 `<Pane>` component. It should generally be the most useful when you're using `<Pane
 position='draggable'>`   or `<Pane position='fixed'>` and you want a custom element embedded in the

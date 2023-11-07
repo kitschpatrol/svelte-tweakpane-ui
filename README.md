@@ -36,7 +36,7 @@ themes
 
 This component collection exposes both the core building blocks of Tweakpane's vanilla JS API as Svelte components (e.g. `Bindings`, `Folder`, `Pane`, etc.), and builds on this foundation to provide a number of more specific components which provide both convenience, clarity of intent, and improved auto-completion through type narrowing (e.g. `Slider`, `Point`, etc.).
 
-These more specific components trade some dynamicism and flexibility for ease of use, but if you don't care for that tradeoff the higher level components remain available for use.
+These more specific components trade some flexibility for ease of use, but if you don't care for that tradeoff the higher level components remain available for use.
 
 ### Leave the binding to Svelte
 
@@ -111,11 +111,11 @@ Interval monitor
 
 Inline components
 
-Draggability
+Draggable
 
 Scoped theming
 
-Collapsability
+Collapsibility
 
 Tuple support (ThreeJs compatibility)
 
@@ -124,13 +124,13 @@ Certain aspects of the Tweakpane API don't make a ton of sense in the Svelte con
 - [index](https://tweakpane.github.io/docs/misc/#insert) is not exposed. The order of controls appearance matches the component hierarchy.
 - [visibility](https://tweakpane.github.io/docs/misc/#visibility) (e.g. `hidden`) is not exposed. Control the visibility of controls by adding / removing them from the component hierarchy.
 
-- Not really woth distinguishing between "readonly" / "monitor" and input? this differentiation is accomplished simply through whether or not the `value` parameter is bare or `bind:value`. The polling strategy also doesn't make a ton of sense in a reactive environment.
+- Not really worth distinguishing between "readonly" / "monitor" and input? this differentiation is accomplished simply through whether or not the `value` parameter is bare or `bind:value`. The polling strategy also doesn't make a ton of sense in a reactive environment.
 
 ## Plugins
 
 ### Bundled and integrated
 
-Tweakpane version 4 is realtively recent, and introduced a number of breaking changes for plugin developers. I've ported a number of the plugins below from Tweakpane 3 to Tweakpane 4, and and submitted PRs to the project owners. If the PRs are merged, I will update the dependencies in `svelte-tweakpane-ui` to point to the source instead of my fork.
+Tweakpane version 4 is relatively recent, and introduced a number of breaking changes for plugin developers. I've ported a number of the plugins below from Tweakpane 3 to Tweakpane 4, and and submitted PRs to the project owners. If the PRs are merged, I will update the dependencies in `svelte-tweakpane-ui` to point to the source instead of my fork.
 
 - [Essentials](https://github.com/tweakpane/plugin-essentials) (ButtonGrid, RadioGrid, CubicBezier, FpsGraph, Interval)
 - [CameraKit](https://github.com/tweakpane/plugin-camerakit) (Ring, Wheel)
@@ -143,7 +143,7 @@ Tweakpane version 4 is realtively recent, and introduced a number of breaking ch
 
 ### Integration candidates
 
-Additional Tweakplane plugins under consideration for integration with `svelte-tweakpane-ui`. If there's one you'd really like to see either integrated or added to the list, please open an issue or a PR:
+Additional Tweakpane plugins under consideration for integration with `svelte-tweakpane-ui`. If there's one you'd really like to see either integrated or added to the list, please open an issue or a PR:
 
 - [tweakpane-plugin-infodump](https://github.com/doersino/tweakpane-plugin-infodump) 🎛️v3 ⭐️×12
 - [tweakpane-plugin-chromatic](https://github.com/brunoimbrizi/tweakpane-plugin-chromatic) 🎛️v3 ⭐️×11
@@ -181,7 +181,7 @@ Two other projects provide integration between Tweakpane and Svelte:
 - [svelte-tweakpane](https://github.com/pierogis/svelte-tweakpane) by [Karl Moore](https://pierogis.live)
 - [svelte-gui](https://github.com/mattcroat/svelte-gui) by [Matija](https://matia.xyz/)
 
-`svelte-tweakpane-ui` drew some inspiration from these projects, but was developed indepdendently. The `-ui` suffix in `svelte-tweakpane-ui` is to avoid a naming colission with Karl Moore's work.
+`svelte-tweakpane-ui` drew some inspiration from these projects, but was developed independently. The `-ui` suffix in `svelte-tweakpane-ui` is to avoid a naming collision with Karl Moore's work.
 
 #### Tweakpane adaptations for reactive frameworks
 
@@ -200,7 +200,7 @@ Two other projects provide integration between Tweakpane and Svelte:
 - Using `type $$Props` instead of `interface $$Props` avoids `$$Props.Type` noise in hover tips.
 - https://github.com/khromov/sveltekit-dynamic-component-load-demo
 - https://github.com/HiDeoo/Typedown
-- Sveletpress example: https://github.com/Myrmod/svelte-babylon
+- Sveltepress example: https://github.com/Myrmod/svelte-babylon
 
 ## JSDoc Meanings
 

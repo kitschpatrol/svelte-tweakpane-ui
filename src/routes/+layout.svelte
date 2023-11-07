@@ -104,7 +104,7 @@
 		background-color: transparent;
 	}
 
-	/* Remove excessive code backticking */
+	/* Remove excessive code backticks */
 	:global(code::before),
 	:global(code::after) {
 		content: none !important;
