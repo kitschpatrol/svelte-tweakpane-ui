@@ -24,16 +24,16 @@
 	import type { Writable } from 'svelte/store';
 
 	/**
-	 * The binding target object with values to manipulate.
+	 * The binding's target object with values to manipulate.
 	 * @bindable
 	 * */
 	export let object: T;
 
-	/** The key for the value in the target object that the control should manipulate. */
+	/** The key for the value in the target `object` that the control should manipulate. */
 	export let key: keyof T;
 
 	/**
-	 * Prevent interactivity.
+	 * Prevent interactivity and gray out the control.
 	 * @default `false`
 	 * */
 	export let disabled: boolean = false;
@@ -45,9 +45,15 @@
 	export let label: string | undefined = undefined;
 
 	/**
-	 * Control configuration exposing Tweakpane's internal
-	 * [BindingParams](https://tweakpane.github.io/docs/api/types/BindingParams.html), contingent on
-	 * type of bound param.
+	 * Tweakpane's internal options object.
+	 *
+	 * See [BindingParams](https://tweakpane.github.io/docs/api/types/BindingParams.html).
+	 *
+	 * Valid types are contingent on the type of the value `key` points to in `object`.
+	 *
+	 * This is intended internal use, when implementing convenience components wrapping Binding's
+	 * functionality. Options of interest are instead exposed as top-level props in
+	 * `svelte-tweakpane-ui`.
 	 * @default `undefined`
 	 * */
 	export let options: U | undefined = undefined;
@@ -108,7 +114,7 @@
 			label,
 			...options,
 			disabled
-		}) as V; // todo can't shake ts(2322)
+		}) as V; // TODO can't shake ts(2322)
 
 		ref = _ref;
 
@@ -130,7 +136,7 @@
 	$: DEV && BROWSER && enforceReadonly(_ref, ref, 'Binding', 'ref', true);
 
 	// options seem immutable... have to recreate old version supporting key changes $: key,
-	// options, BROWSER && $parentStore !== undefined && index !== undefined && create();
+	// options,
 	$: options, BROWSER && $parentStore !== undefined && index !== undefined && create();
 	$: object, BROWSER && _ref !== undefined && _ref.refresh();
 	$: BROWSER && _ref !== undefined && (_ref.disabled = disabled);
@@ -149,14 +155,14 @@
 @component  
 Wraps the Tweakpane [addBinding](https://tweakpane.github.io/docs/input-bindings/) method.
 
+Important: This component is provided for consistency with Tweakpane's API, but is not recommended
+for general use in `svelte-tweakpane-ui` because more helpful abstractions are available.
+
+Please consider convenience components like `<Slider>`, `<Color>`, etc. etc. before using this
+component directly.
+
 Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane
 position='inline'>`.
-
-This component is provided for consistency with Tweakpane's API, but is not recommended for general
-use.
-
-Consider convenience components like `<Slider>`, `<Color>`, etc. before using this component
-directly.
 
 @example  
 ```svelte

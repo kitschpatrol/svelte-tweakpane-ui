@@ -14,6 +14,8 @@ const perfectionistSortOverrides = {
     w: '@(optionsW|w)',
     cb1: ['x1', 'y1'],
     cb2: ['x2', 'y2']
+    // width: 'width',
+    // height: 'height'
     // postM: '[n-z]*'
   },
   groups: ['value', 'x', 'y', 'z', 'w', 'min', 'max', 'cb1', 'cb2', 'unknown']

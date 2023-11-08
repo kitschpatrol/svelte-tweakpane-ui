@@ -44,9 +44,22 @@
 
 <!--
 @component  
-TODO Component documentation...
+A multi-line text input field, in the spirit of the HTML `<textarea>` element.
 
-TK
+Integrates the
+[tweakpane-textarea-plugin](https://github.com/panGenerator/tweakpane-textarea-plugin) by [Krzysztof
+Goliński](http://www.golinski.org) and [Jakub Koźniewski](https://pangenerator.com).
+
+See <Text> for a single-line input variation.
+
+Note that `svelte-tweakpane-ui` embeds a
+[fork](https://github.com/kitschpatrol/tweakpane-textarea-plugin) of the plugin with support for
+Tweakpane 4. The dependency will be updated to point to the source repository if / when the open
+[pull request](https://github.com/panGenerator/tweakpane-textarea-plugin/pull/4) with Tweakpane 4
+support is merged.
+
+Usage outside of a `<Pane>` component will implicitly wrap the text area in `<Pane
+position='inline'>`.
 
 @example  
 ```svelte

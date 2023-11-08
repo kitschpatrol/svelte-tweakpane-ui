@@ -9,7 +9,7 @@
 	import type { TabApi as TabRef } from 'tweakpane';
 
 	/**
-	 * Prevent interactivity.
+	 * Prevent interactivity and gray out the control.
 	 * @default `false`
 	 * */
 	export let disabled: boolean = false;

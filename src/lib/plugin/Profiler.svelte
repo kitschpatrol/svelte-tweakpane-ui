@@ -114,7 +114,17 @@
 @component  
 TODO Component documentation...
 
-TK
+Integrates [0b5vr's](https://0b5vr.com)
+[tweakpane-plugin-profiler](https://github.com/0b5vr/tweakpane-plugin-profiler).
+
+Note that `svelte-tweakpane-ui` embeds a
+[fork](https://github.com/kitschpatrol/tweakpane-plugin-profiler) of the plugin with support for
+Tweakpane 4. The dependency will be updated to point to the source repository if / when the open
+[pull request](https://github.com/0b5vr/tweakpane-plugin-profiler/pull/1) with Tweakpane 4 support
+is merged.
+
+Usage outside of a `<Pane>` component will implicitly wrap the profiler in `<Pane
+position='inline'>`.
 
 @example  
 ```svelte

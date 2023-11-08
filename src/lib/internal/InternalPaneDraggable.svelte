@@ -28,6 +28,8 @@
 		 *
 		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is
 		 * positioned on the page. (So-named because of its similarity to CSS `position` property.)
+		 *
+		 * By default, this position is saved to local storage for persistence across page loads.
 		 * @default `0`
 		 * @bindable
 		 * */
@@ -37,6 +39,8 @@
 		 *
 		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is
 		 * positioned on the page. (So-named because of its similarity to CSS `position` property.)
+		 *
+		 * By default, this position is saved to local storage for persistence across page loads.
 		 * @default `0`
 		 * @bindable
 		 * */
@@ -81,6 +85,8 @@
 		 *
 		 * Note that height is not exposed because it is determined dynamically by the pane's
 		 * contents and state of its foldable elements.
+		 *
+		 * By default, the width value is saved to local storage for persistence across page loads.
 		 * @default `256`
 		 * @bindable
 		 * */
@@ -457,17 +463,14 @@ This component is for internal use only.
 		padding-right: 28px;
 	}
 
-	/* stylelint-disable-next-line selector-class-pattern */
 	div.draggable-container :global(div.tp-lblv_l) {
 		white-space: nowrap;
 	}
 
-	/* stylelint-disable-next-line selector-class-pattern */
 	div.draggable-container :global(div.tp-rotv_t:active) {
 		cursor: grabbing;
 	}
 
-	/* stylelint-disable-next-line selector-class-pattern */
 	div.draggable-container :global(div.tp-rotv_m) {
 		right: unset;
 		left: 0;

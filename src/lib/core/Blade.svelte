@@ -1,8 +1,8 @@
 <script context="module" lang="ts">
 	import type { BaseBladeParams, BladeApi } from 'tweakpane';
-	export type { Plugin } from '$lib/utils.js';
-	export type BladeOptions = BaseBladeParams;
 	export type BladeRef = BladeApi; // required for input folding
+	export type BladeOptions = BaseBladeParams;
+	export type { Plugin } from '$lib/utils.js';
 </script>
 
 <script generics="U extends BladeOptions, V extends BladeRef" lang="ts">
@@ -27,7 +27,7 @@
 	export let options: U;
 
 	/**
-	 * Prevent interactivity.
+	 * Prevent interactivity and gray out the control.
 	 * @default `false`
 	 * */
 	export let disabled: boolean = false;
@@ -43,6 +43,9 @@
 	/**
 	 * Reference to internal Tweakpane
 	 * [BladeApi](https://tweakpane.github.io/docs/api/classes/BladeApi.html) for this blade.
+	 *
+	 * This is primarily for internal use, when implementing convenience components wrapping Blade's
+	 * functionality.
 	 * @bindable
 	 * @readonly
 	 * */
@@ -51,6 +54,9 @@
 	/**
 	 * Imported Tweakpane `TpPluginBundle` (Aliased as `Plugin`) module to register before creating
 	 * the blade.
+	 *
+	 * This is primarily for internal use, when implementing convenience components wrapping Blade's
+	 * functionality in combination with a Tweakpane plugin.
 	 * @default `undefined`
 	 * */
 	export let plugin: Plugin | undefined = undefined;
@@ -78,7 +84,7 @@
 		_ref = $parentStore.addBlade({
 			index,
 			...options,
-			disabled
+			disabled // why last?
 		}) as V; // todo can't shake ts(2322);
 
 		ref = _ref;
@@ -110,14 +116,20 @@
 @component  
 Wraps the Tweakpane [addBlade](https://tweakpane.github.io/docs/blades/) method.
 
+Important: This component is provided for consistency with Tweakpane's API, but is not recommended
+for general use in `svelte-tweakpane-ui` because more helpful abstractions are available.
+
+Please consider convenience components like `<Separator>`, etc. before using this component
+directly.
+
 Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane
 position='inline'>`.
 
-Tweakpane's Vanilla JS API offers Blades as as a way to create unbound components, but in Svelte the
-same can be achieved by simply not binding the component's value.
+Tweakpane's vanilla JS API offers Blades as as a way to create unbound components, but in Svelte the
+same is achieved by simply not binding the component's value.
 
-This component is not directly exposed since it lacks a use case in the Svelte context. Consider
-convenience components like `<Separator>`, etc. before using this component directly.
+In the example, a `<Separator>` component would be preferred over `<Blade>`, and would  obviate the
+need for the options param.
 
 @example  
 ```svelte

@@ -75,9 +75,18 @@
 
 <!--
 @component  
-TODO Component documentation...
+A twin-handled slider control for specifying range values.
 
-TK
+Integrates the [Interval](https://github.com/tweakpane/plugin-essentials#interval) control from
+Tweakpane-creator [Hiroki Kokubun's](https://cocopon.me)  [Essentials
+plugin](https://github.com/tweakpane/plugin-essentials).
+
+`svelte-tweakpane-ui` extends the original implementation to by supporting tuple values in addition
+to object values. It also exposes a `meanValue` prop for reading or setting the midpoint of the
+interval range value.
+
+Usage outside of a `<Pane>` component will implicitly wrap the interval slider in `<Pane
+position='inline'>`.
 
 @example  
 ```svelte

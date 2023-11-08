@@ -29,7 +29,7 @@
 	export let label: string | undefined = undefined;
 
 	/**
-	 * Prevent interactivity.
+	 * Prevent interactivity and gray out the control.
 	 * @default `false`
 	 * */
 	export let disabled: boolean = false;
@@ -102,13 +102,15 @@
 
 <!--
 @component  
-A humble push button.
+A humble but effective push button.
 
 Wraps the Tweakpane [addButton](https://tweakpane.github.io/docs/ui-components/#button) method.
 
 Usage outside of a `<Pane>` component will implicitly wrap the button in `<Pane position='inline'>`.
 
-@emits {void} click - when the button is clicked
+See the <ButtonGrid> and <RadioGrid> components for a convenient way to lay out multiple buttons.
+
+@emits {void} click - When the button is clicked.
 
 @example  
 ```svelte

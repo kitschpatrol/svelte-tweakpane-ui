@@ -15,13 +15,15 @@
 	export let title: string = 'Folder';
 
 	/**
-	 * Prevent interactivity.
+	 * Prevent interactivity and gray out the control.
 	 * @default `false`
 	 * */
 	export let disabled: boolean = false;
 
 	/**
 	 * Expand or collapse folder.
+	 *
+	 * When `bound` it will indicate whether the folder is expanded or collapsed.
 	 * @default `true`
 	 * @bindable
 	 * */
@@ -98,6 +100,9 @@
 Organize multiple controls into a collapsable folder.
 
 Wraps the Tweakpane [addFolder](https://tweakpane.github.io/docs/ui-components/#folder) method.
+
+May also be used to label and group multiple controls without user-collapsibility by setting
+`clickToExpand` to `false` and `expanded` to true.
 
 Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane position='inline'>`.
 

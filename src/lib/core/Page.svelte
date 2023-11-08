@@ -17,13 +17,15 @@
 	export let title: string = 'Tab Page';
 
 	/**
-	 * Prevent interactivity.
+	 * Prevent interactivity and gray out the control.
 	 * @default `false`
 	 * */
 	export let disabled: boolean = false;
 
 	/**
-	 * True when the page is the active tab.
+	 * Sets the page is the active tab.
+	 *
+	 * When `bound` it will indicate whether the tab is active.
 	 * @default `false`
 	 * @bindable
 	 * */
@@ -103,8 +105,8 @@
 
 <!--
 @component  
-Contains a collection of Tweakpane controls to be presented as a group inside a `<Tab>` component.
-("Tab" might be a more accurate description for this control.)
+Contains a collection of Tweakpane controls to be presented as a single group inside a `<Tab>`
+component. ("Tab" might be a more accurate description for this control.)
 
 Provides `page` values to Tweakpane's [addTab](https://tweakpane.github.io/docs/ui-components/#tab)
 method.
@@ -148,7 +150,6 @@ Count B: {countB}
 	{:else}
 		<InternalPaneInline {theme} userCreatedPane={false}>
 			<Tab>
-				<!-- {...$$props} breaks types -->
 				<svelte:self {disabled} {selected} {theme} {title}>
 					<slot />
 				</svelte:self>

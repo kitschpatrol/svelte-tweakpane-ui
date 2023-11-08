@@ -94,9 +94,24 @@
 
 <!--
 @component  
-TODO Component documentation...
 
-TK
+A control for editing a bezier curve. Ideal for tweaking animation easing values.
+
+Integrates the [Cubic Bezier](https://github.com/tweakpane/plugin-essentials#cubic-bezier) control
+from Tweakpane-creator [Hiroki Kokubun's](https://cocopon.me)  [Essentials
+plugin](https://github.com/tweakpane/plugin-essentials).
+
+`svelte-tweakpane-ui` extends the original implementation to by supporting tuple values in addition
+to object values.
+
+A utility function `Utils.cubicBezierToEaseFunction()` is also provided to easily convert a cubic
+bezier value to an easing function compatible with Svelte's built-in
+[motion](https://svelte.dev/docs/svelte-motion),
+[transition](https://svelte.dev/docs/svelte-transition), and
+[animate](https://svelte.dev/docs/svelte-animate) modules.
+
+Usage outside of a `<Pane>` component will implicitly wrap the cubic bezier control in `<Pane
+position='inline'>`.
 
 @example  
 ```svelte
@@ -118,8 +133,8 @@ TK
 
   const positionTween = tweened(0);
 
-  function lerp(value: number, toLow: number, toHigh: number): number {
-    return toLow + ((value - 0) * (toHigh - toLow)) / (1 - 0);
+  function lerp(value: number, low: number, high: number): number {
+    return (1 - value) * low + value * high;
   }
 
   $: positionTween.set(mood === 'Set' ? 0 : 1, {

@@ -49,9 +49,23 @@
 @component  
 TODO Component documentation...
 
+Note some layout issues with the component itself...
+
 TK
 
-Note some layout issues with the component itself...
+Integrates the [tweakpane-image-plugin](https://github.com/metehus/tweakpane-image-plugin),
+incorporating work by [Florian Morel](http://ayamflow.fr), [Matheus
+Dias](https://www.linkedin.com/in/matheusdbs/), [Palash Bansal](https://github.com/repalash), and
+others.
+
+Note that `svelte-tweakpane-ui` embeds a
+[fork](https://github.com/kitschpatrol/tweakpane-image-plugin) of the plugin with support for
+Tweakpane 4. The dependency will be updated to point to the source repository if / when the open
+[pull request](https://github.com/metehus/tweakpane-image-plugin/pull/1) with Tweakpane 4 support is
+merged.
+
+Usage outside of a `<Pane>` component will implicitly wrap the image control in `<Pane
+position='inline'>`.
 
 @example  
 ```svelte

@@ -217,7 +217,7 @@ Provides a nice cartesian picker for 2D points, and numeric input fields for 3D 
 the `<RotationEuler>` and `<RotationQuaternion>` components for higher-dimension graphical pickers.
 
 Extends the vanilla Tweakpane APIs to also support tuple values. (Useful when working with
-frameworks like [three.js](https://threejs.org).)
+frameworks like [three.js](https://threejs.org) / [threlte](https://threlte.xyz).)
 
 Usage outside of a `<Pane>` component will implicitly wrap the point picker in a `<Pane
 position='inline'>` component.

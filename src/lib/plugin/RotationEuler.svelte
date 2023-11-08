@@ -138,6 +138,29 @@ TODO Component documentation...
 
 TK
 
+Integrates the [euler
+rotation](https://github.com/0b5vr/tweakpane-plugin-rotation/blob/dev/src/RotationInputPluginEuler.ts)
+control from [0b5vr's](https://0b5vr.com)
+[tweakpane-plugin-rotation](https://github.com/0b5vr/tweakpane-plugin-rotation).
+
+`svelte-tweakpane-ui` extends the original API to support tuple values in addition to object values.
+(Useful when working with frameworks like [three.js](https://threejs.org) /
+[threlte](https://threlte.xyz).)
+
+A utility function `Utils.eulerToCssTransform()` is also provided to easily convert a quaternion
+value object or tuple into a CSS transform string.
+
+See also <RotationQuaternion> if you're feeling gimbal locked.
+
+Note that `svelte-tweakpane-ui` embeds a
+[fork](https://github.com/kitschpatrol/tweakpane-plugin-rotation) of the plugin with support for
+Tweakpane 4. The dependency will be updated to point to the source repository if / when the open
+[pull request](https://github.com/0b5vr/tweakpane-plugin-rotation/pull/2) with Tweakpane 4 support
+is merged.
+
+Usage outside of a `<Pane>` component will implicitly wrap the profiler in `<Pane
+position='inline'>`.
+
 @example  
 ```svelte
 <script lang="ts">

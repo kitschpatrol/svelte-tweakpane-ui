@@ -23,6 +23,8 @@ Updates to the bound value only happen on blur, not on every keystroke. (@todo l
 
 Wraps Tweakpane's [string binding](https://tweakpane.github.io/docs/input-bindings/#string).
 
+See <TextArea> for a multi-line input variation.
+
 Usage outside of a `<Pane>` component will implicitly wrap the text field in `<Pane
 position='inline'>`.
 

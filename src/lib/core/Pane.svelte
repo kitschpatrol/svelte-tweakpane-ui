@@ -71,13 +71,14 @@ and where the Tweakpane is displayed.
 This component is a wrapper around Tweakpane's
 [Pane](https://tweakpane.github.io/docs/api/classes/Pane.html) class.
 
-See the `position` property for important variations in display behavior.
+Important: Unlike the vanilla Tweakpane API, wrapping components in a `<Pane>` is not mandatory.
 
-If `position` is left undefined, `<Pane position='draggable'>` is used by default.
+Pane-less components will be automatically nested in a `<Pane position='inline'>` component and
+displayed in the regular block flow of the page. `<Pane>` is only necessary when you want to
+explicitly group a number of components, or when you want convenient means to control how and where
+the Tweakpane is shown on the page. (See an [important exception](https://example.com/TODO)
+regarding `svelte-tweakpane-ui` in island frameworks like Astro.)
 
-Wrapping components in a `<Pane>` is not mandatory. Pane-less components will be automatically
-nested in a `<Pane position='inline'>` component and displayed in the regular block flow of the
-page.
 
 Multiple `<Pane>` components of different modes may be added to a single page. If the panes are in
 `fixed` or `draggable` mode, you might want to set the `x` or `y` properties to prevent overlap.
@@ -85,7 +86,7 @@ Multiple `<Pane>` components of different modes may be added to a single page. I
 Note that `<Pane>` is a dynamic component, and availability of additional props will vary depending
 on the defined `position` value.
 
-Mode overview:
+Position mode overview:
 
 - **`<Pane position='draggable' ...>`** is an extension of Tweakpane's core functionality, which
   reasonably considers pane dragging outside of the library's scope. See discussion in Tweakpane
@@ -109,11 +110,19 @@ Mode overview:
 @example  
 ```svelte
 <script lang="ts">
-  import { Button, Pane } from 'svelte-tweakpane-ui';
+  import { Pane, type PanePosition, RadioGrid } from 'svelte-tweakpane-ui';
+
+  const options: PanePosition[] = ['inline', 'fixed', 'draggable'];
+  let position: PanePosition = options[0];
 </script>
 
-<Pane title="Drag Me Around">
-  <Button on:click={() => alert('Reticulation complete')} title="Reticulate" />
+<Pane {position} title="Pane" y={position === 'fixed' ? 72 : undefined}>
+  <RadioGrid
+    bind:value={position}
+    columns={1}
+    label="Pane Position Prop"
+    values={options}
+  />
 </Pane>
 ```
 

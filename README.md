@@ -42,6 +42,8 @@ These more specific components trade some flexibility for ease of use, but if yo
 
 Vanilla Tweakpane conveniently provides two-way bindings for manipulating object properties, but `svelte-tweakpane-ui` leaves binding up to the user via [Svelte's conventional approach](TK). This makes bindings explicit, and allows most components to function either as monitors or inputs depending on whether their value property is bound.
 
+Note that unlike vanilla Tweakpane, no explicit Plugin module import or registration is required in 'svelte-tweakpane-ui'.
+
 ### Implicit Panes
 
 Wrapping components in `<Pane>` components

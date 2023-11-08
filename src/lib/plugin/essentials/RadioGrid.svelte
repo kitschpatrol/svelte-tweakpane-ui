@@ -21,7 +21,6 @@
 		view: 'radiogrid';
 	};
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = Omit<
 		ComponentProps<GenericInput<T, RadioGridOptions<T>>>,
 		'options' | 'plugin' | 'ref'
@@ -116,11 +115,31 @@
 
 <!--
 @component  
-TODO Component documentation...
 
-TK
+A grid of radio buttons.
 
-Note about groupname
+Integrates the [Radio Grid](https://github.com/tweakpane/plugin-essentials#radio-grid) control from
+Tweakpane-creator [Hiroki Kokubun's](https://cocopon.me)  [Essentials
+plugin](https://github.com/tweakpane/plugin-essentials).
+
+See <ButtonGrid> for a button-flavored variation.
+
+Unlike the vanilla Tweakpane API, `svelte-tweakpane-ui` provides a unique `groupname` for each
+instance of RadioGrid by default for consistency with expectations around component isolation. You
+may still assign the `groupname` prop manually to create cross-component groups that share selection
+exclusivity.
+
+`svelte-tweakpane-ui` also includes some additional logic to manage default grid dimensions:
+
+    - If no `rows` or `columns` props are provided, it will create a grid with the squarest possible aspect ratio for the given quantity of `values`.
+
+    - If a single `rows` or `columns` prop is provided, it lets the undefined axis grow / shrink as needed to accommodate the quantity of `values`.
+
+    - If both `rows` _and_ `columns` props area provided, then buttons may be clipped if `rows * columns < values.length`.
+
+
+Usage outside of a `<Pane>` component will implicitly wrap the radio grid in `<Pane
+position='inline'>`.
 
 @example  
 ```svelte

@@ -167,11 +167,24 @@
 
 <!--
 @component  
-TODO Component documentation...
+A control for monitoring and graphing frame rates over time.
 
-TK
+Integrates the [FPS Graph](https://github.com/tweakpane/plugin-essentials#fps-graph) control from
+Tweakpane-creator [Hiroki Kokubun's](https://cocopon.me)  [Essentials
+plugin](https://github.com/tweakpane/plugin-essentials).
 
-@emits {number} change - when the FPS value changes
+By default, the component creates an internal `requestAnimationFrame` loop to measure the overall
+performance of the page. If you want to measure the performance of a specific block of code, you can
+bind the `begin` and `end` props for access to functions to fence the code of interest. (The default
+internal loop will be cleaned up automatically on the bound functions first use.)
+
+If you'd like to observe or visualize the frame rate data elsewhere, a `change` event is provided to
+notify when the FPS value changes.
+
+@emits {number} change - When the FPS value changes.
+
+Usage outside of a `<Pane>` component will implicitly wrap the FPS graph in `<Pane
+position='inline'>`.
 
 @example  
 ```svelte

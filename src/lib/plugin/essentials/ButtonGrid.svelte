@@ -113,11 +113,27 @@
 
 <!--
 @component  
-TODO Component documentation...
 
-TK
+A grid of <Button> components.
 
-@emits {ButtonGridClickEvent} click - when a button in the grid is clicked
+Integrates the [Button Grid](https://github.com/tweakpane/plugin-essentials#button-grid) control
+from Tweakpane-creator [Hiroki Kokubun's](https://cocopon.me)  [Essentials
+plugin](https://github.com/tweakpane/plugin-essentials).
+
+See `<RadioGrid>` for a radio-flavored variation.
+
+`svelte-tweakpane-ui` also includes some additional logic to manage default grid dimensions:
+
+    - If no `rows` or `columns` props are provided, it will create a grid with the squarest possible aspect ratio for the given quantity of `values`.
+
+    - If a single `rows` or `columns` prop is provided, it lets the undefined axis grow / shrink as needed to accommodate the quantity of `values`.
+
+    - If both `rows` _and_ `columns` props area provided, then buttons may be clipped if `rows * columns < values.length`.
+
+@emits {ButtonGridClickEvent} click - When a button in the grid is clicked.
+
+Usage outside of a `<Pane>` component will implicitly wrap the button grid in `<Pane
+position='inline'>`.
 
 @example  
 ```svelte

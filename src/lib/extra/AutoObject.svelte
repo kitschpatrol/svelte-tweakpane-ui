@@ -80,26 +80,26 @@ position='inline'>`.
   import { AutoObject } from 'svelte-tweakpane-ui';
 
   let object = {
-    someBoolean: true, // creates a checkbox
+    someBoolean: true, // Creates a <Checkbox>
     someColor: {
       b: 55,
       g: 0,
-      // creates a color picker
+      // Creates a <Color> picker
       r: 255
     },
     someFolder: {
-      // wraps children in a folder
+      // Wraps children in a <Folder>
       a: 1,
       b: 2,
       c: 3
     },
-    someNumber: 1, // creates a
+    someNumber: 1, // Creates a <Slider>
     somePoint: {
-      // creates a point picker
+      // creates a <Point>
       x: 1,
       y: 2
     },
-    someString: 'test' // creates a text field
+    someString: 'test' // Creates a <Text>
   };
 </script>
 
