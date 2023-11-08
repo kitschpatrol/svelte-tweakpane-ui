@@ -30,8 +30,10 @@
 		 *
 		 * Bind to this prop to receive updates when the user clicks a radio button.
 		 * @bindable
+		 * @default `undefined`
+		 * If undefined, the first value in the `values` array is assigned.
 		 *  */
-		value: T;
+		value?: T;
 		/**
 		 * Number of columns to arrange the radio buttons into.
 		 * @default `undefined`
@@ -75,8 +77,8 @@
 
 	// reexport for bindability
 	export let groupName: $$Props['groupName'] = undefined;
-	export let value: $$Props['value'];
-	export let values: $$Props['values'] = [value];
+	export let values: $$Props['values'];
+	export let value: $$Props['value'] = values[0];
 	export let columns: $$Props['columns'] = undefined;
 	export let rows: $$Props['rows'] = undefined;
 	export let suffix: $$Props['suffix'] = undefined;
