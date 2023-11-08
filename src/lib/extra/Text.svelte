@@ -1,7 +1,7 @@
 <script lang="ts">
-	import GenericInput from '$lib/internal/GenericInput.svelte';
+	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte';
 	import { BROWSER } from 'esm-env';
-	import type { ComponentProps } from 'svelte';
+	import { type ComponentProps, onDestroy } from 'svelte';
 
 	type $$Props = Omit<ComponentProps<GenericInput<string>>, 'options' | 'plugin' | 'ref'> & {
 		/**
@@ -9,19 +9,53 @@
 		 * @bindable
 		 * */
 		value: string;
+		/**
+		 * Whether to provide live updates on every keystroke.
+		 *
+		 * To match expectations around reactive components, the default here diverges from vanilla
+		 * Tweakpane's behavior, which only updates on blur.
+		 * @default `true`
+		 * */
+		live?: boolean;
 	};
 
 	// reexport for bindability
 	export let value: $$Props['value'];
+	export let live: $$Props['live'] = true;
+
+	// Tweakpane's implementation only sends updates on blur we extend it to send continues change
+	// updates if desired
+	let ref: GenericInputRef;
+
+	onDestroy(() => {
+		updateListeners(live ?? true, true);
+	});
+
+	function onInput(event: Event): void {
+		if (event.target) {
+			value = (event.target as HTMLInputElement).value;
+		}
+	}
+
+	function updateListeners(live: boolean, destroy: boolean = false) {
+		let input = ref?.controller.valueController.view.element.getElementsByTagName('input')[0];
+		if (input) {
+			input.removeEventListener('input', onInput);
+			!destroy && live && input.addEventListener('input', onInput);
+		}
+	}
+
+	$: BROWSER && ref && live !== undefined && updateListeners(live);
 </script>
 
 <!--
 @component  
 A text field, in the spirit of the HTML `<input type="text">` element.
 
-Updates to the bound value only happen on blur, not on every keystroke. (@todo live update mode?)
-
 Wraps Tweakpane's [string binding](https://tweakpane.github.io/docs/input-bindings/#string).
+
+Extends vanilla Tweakpane's API to update the bound value on every keystroke. (If you prefer the
+default behavior of only updating on blur, set `live={false}`.)
 
 See <TextArea> for a multi-line input variation.
 
@@ -45,5 +79,5 @@ position='inline'>`.
 -->
 
 {#if BROWSER}
-	<GenericInput bind:value {...$$restProps} />
+	<GenericInput bind:value bind:ref {...$$restProps} />
 {/if}

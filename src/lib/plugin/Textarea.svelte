@@ -1,9 +1,9 @@
 <script lang="ts">
 	import * as pluginModule from '@kitschpatrol/tweakpane-textarea-plugin';
 	import type { TextareaPluginInputParams } from '@kitschpatrol/tweakpane-textarea-plugin/dist/types/plugin.js';
-	import GenericInput from '$lib/internal/GenericInput.svelte';
+	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte';
 	import { BROWSER } from 'esm-env';
-	import type { ComponentProps } from 'svelte';
+	import { type ComponentProps, onDestroy } from 'svelte';
 
 	type $$Props = Omit<
 		ComponentProps<GenericInput<string, TextareaPluginInputParams>>,
@@ -14,6 +14,12 @@
 		 * @bindable
 		 * */
 		value: string;
+		/**
+		 * Whether to provide live updates on every keystroke.
+		 *
+		 * @default `true`
+		 * */
+		live?: boolean;
 		/**
 		 * Placeholder text to display when the `value` is empty.
 		 * @default `'Enter text here'`
@@ -29,11 +35,40 @@
 
 	// re-exported
 	export let value: $$Props['value'];
+	export let live: $$Props['live'] = true;
 	export let rows: $$Props['rows'] = undefined;
 	export let placeholder: $$Props['placeholder'] = undefined;
 
+	let _value = value; // not bound, update events handled in svelte to allow updates on blur
+	let ref: GenericInputRef;
 	let options: TextareaPluginInputParams;
 
+	onDestroy(() => {
+		updateListeners(live ?? true, true);
+	});
+
+	function onBlur(event: Event): void {
+		console.log('onblur');
+		value = (event.target as HTMLInputElement).value;
+	}
+
+	function onInput(event: Event): void {
+		console.log('input');
+		value = (event.target as HTMLInputElement).value;
+	}
+
+	function updateListeners(live: boolean, destroy: boolean = false) {
+		var input = ref?.controller.valueController.view.element.getElementsByTagName('textarea')[0];
+		if (input) {
+			input.removeEventListener('blur', onBlur);
+			input.removeEventListener('input', onInput);
+			!destroy && live && input.addEventListener('input', onInput);
+			!destroy && !live && input.addEventListener('blur', onBlur);
+		}
+	}
+
+	$: BROWSER && (_value = value);
+	$: BROWSER && ref && live !== undefined && updateListeners(live);
 	$: BROWSER &&
 		(options = {
 			placeholder,
@@ -50,7 +85,8 @@ Integrates the
 [tweakpane-textarea-plugin](https://github.com/panGenerator/tweakpane-textarea-plugin) by [Krzysztof
 Goliński](http://www.golinski.org) and [Jakub Koźniewski](https://pangenerator.com).
 
-See <Text> for a single-line input variation.
+Extends the underlying implementation with the `live` property to match the behavior of the
+`<Text>` component.
 
 Note that `svelte-tweakpane-ui` embeds a
 [fork](https://github.com/kitschpatrol/tweakpane-textarea-plugin) of the plugin with support for
@@ -78,5 +114,5 @@ position='inline'>`.
 -->
 
 {#if BROWSER}
-	<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />
+	<GenericInput value={_value} bind:ref {options} plugin={pluginModule} {...$$restProps} />
 {/if}
