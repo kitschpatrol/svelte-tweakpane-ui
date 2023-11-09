@@ -42,9 +42,9 @@ export type ComponentInfo = {
 	slots: ComponentPartInfo;
 };
 
-function sortPropsByName(props: ComponentPartInfo): ComponentPartInfo {
-	return props.sort((a, b) => a.name.localeCompare(b.name));
-}
+// function sortPropsByName(props: ComponentPartInfo): ComponentPartInfo {
+// 	return props.sort((a, b) => a.name.localeCompare(b.name));
+// }
 
 function jsDocTagInfoToJsDocRecord(jsDocTags: ts.JSDocTagInfo[]): JSDocRecord {
 	const result: JSDocRecord = {};
@@ -54,8 +54,34 @@ function jsDocTagInfoToJsDocRecord(jsDocTags: ts.JSDocTagInfo[]): JSDocRecord {
 	return result;
 }
 
-// Basic, just get the static component's info
+// Alt approach to get cleaner types... use the static approach for the basics,
+// then do a pass with the dynamic approach to get types even for static props
+// TODO figure out why my extraction approach is yielding different types than the language server
 async function getStaticComponentInfo(componentPath: string): Promise<ComponentInfo | undefined> {
+	// static approach
+	const info = await getStaticComponentInfoInternal(componentPath);
+	if (!info) return undefined;
+
+	// amend type data with dynamic approach
+	const lsPropInfo = await getDynamicComponentProps(componentPath, {});
+	for (const prop of info.props) {
+		const lsProp = lsPropInfo.find((p) => p.name === prop.name);
+
+		if (!lsProp) {
+			console.warn(`No LS prop found for ${prop.name}`);
+			continue;
+		}
+
+		prop.type = lsProp.type;
+	}
+
+	return info;
+}
+
+// Basic, just get the static component's info
+async function getStaticComponentInfoInternal(
+	componentPath: string
+): Promise<ComponentInfo | undefined> {
 	// set up language server
 	const testDir = '.';
 	const path = join(testDir, componentPath);
@@ -71,7 +97,6 @@ async function getStaticComponentInfo(componentPath: string): Promise<ComponentI
 		{ tsconfigPath: join(testDir, 'tsconfig.json') }
 	);
 
-	// TODO gen test component for test props?
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const document = docManager.openClientDocument(<any>{
 		text: ts.sys.readFile(path),
@@ -104,13 +129,13 @@ async function getStaticComponentInfo(componentPath: string): Promise<ComponentI
 	// get props, events, slots
 	const results: ComponentInfo = {
 		doc: ts.displayPartsToString(classSymbol.getDocumentationComment(typeChecker)),
-		events: sortPropsByName(getInfoFor('$$events_def', classType, typeChecker)),
+		events: getInfoFor('$$events_def', classType, typeChecker), // natural sorting...
 		jsDocs: jsDocTagInfoToJsDocRecord(classSymbol.getJsDocTags()),
 		name: componentPath.split('/').pop()!.replace('.svelte', ''),
 		path: componentPath,
 		pathParts: componentPath.split('/').slice(3, -1),
-		props: sortPropsByName(getInfoFor('$$prop_def', classType, typeChecker)),
-		slots: sortPropsByName(getInfoFor('$$slot_def', classType, typeChecker))
+		props: getInfoFor('$$prop_def', classType, typeChecker), // natural sorting...
+		slots: getInfoFor('$$slot_def', classType, typeChecker) // natural sorting...
 	};
 
 	lsAndTsDocResolver.deleteSnapshot(tsDoc.filePath);
@@ -140,6 +165,9 @@ function mapPropertiesOfType(typeChecker: ts.TypeChecker, type: ts.Type) {
 				return;
 			}
 
+			// TODO despite its resemblance to the language-server's ComponentInfoProvider implementation,
+			// this doesn't seem to give the same type strings
+			// for now, the type field is later discarded and replaced with the language-server's output
 			return {
 				doc: ts.displayPartsToString(prop.getDocumentationComment(typeChecker)),
 				jsDocs: jsDocTagInfoToJsDocRecord(prop.getJsDocTags()),
@@ -226,6 +254,11 @@ async function getDynamicComponentProps(
 
 	const typeChecker = program.getTypeChecker();
 
+	if (componentName === 'Point') {
+		console.log(testComponentSourceRows.join('\n'));
+		console.log(JSON.stringify(completions, null, 2));
+	}
+
 	const results =
 		completions?.entries.map((entry) => {
 			const completionSymbols = lang.getCompletionEntrySymbol(
@@ -273,7 +306,7 @@ export async function getComponentInfo(
 			results!.dynamicProps.push({
 				condition: testProp.condition,
 				description: testProp.description,
-				props: sortPropsByName(await getDynamicComponentProps(componentPath, testProp.condition))
+				props: await getDynamicComponentProps(componentPath, testProp.condition) // natural sorting...
 			});
 		}
 	}
