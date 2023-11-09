@@ -254,11 +254,6 @@ async function getDynamicComponentProps(
 
 	const typeChecker = program.getTypeChecker();
 
-	if (componentName === 'Point') {
-		console.log(testComponentSourceRows.join('\n'));
-		console.log(JSON.stringify(completions, null, 2));
-	}
-
 	const results =
 		completions?.entries.map((entry) => {
 			const completionSymbols = lang.getCompletionEntrySymbol(

@@ -2,6 +2,10 @@
 	import type { Simplify } from '$lib/utils';
 	import type { Point2dInputParams, Point3dInputParams, Point4dInputParams } from 'tweakpane';
 
+	export type PointValueLite =
+		| [x: number, y: number, z?: undefined, w?: undefined]
+		| { x: number; y: number; z?: undefined; w?: undefined };
+
 	// extends Tweakpane's implementation to support tuples
 	export type PointValue2dObject = { x: number; y: number };
 	export type PointValue2dTuple = [x: number, y: number];
@@ -15,30 +19,85 @@
 	export type PointValue4dTuple = [x: number, y: number, z: number, w: number];
 	export type PointValue4d = Simplify<PointValue4dObject | PointValue4dTuple>;
 
-	type PointOptions<U> = U extends PointValue4d
-		? Point4dInputParams
-		: U extends PointValue3d
-		? Point3dInputParams & { w: unknown }
-		: U extends PointValue2d
-		? Point2dInputParams & { z: unknown; w: unknown }
-		: unknown;
+	/**
+	 * TODO docs
+	 */
 
-	export type PointOptionsX<T extends PointValue2d | PointValue3d | PointValue4d> =
-		PointOptions<T>['x'];
-	export type PointOptionsY<T extends PointValue2d | PointValue3d | PointValue4d> =
-		PointOptions<T>['y'];
-	export type PointOptionsZ<T extends PointValue2d | PointValue3d | PointValue4d> =
-		PointOptions<T>['z'];
-	export type PointOptionsW<T extends PointValue2d | PointValue3d | PointValue4d> =
-		PointOptions<T>['w'];
+	export type PointOptions<
+		Dimensions extends '2' | '3' | '4',
+		Axis extends 'w' | 'x' | 'y' | 'z'
+	> = Dimensions extends '4'
+		? Point4dInputParams[Axis]
+		: Dimensions extends '3'
+		? Point3dInputParams[Axis]
+		: Dimensions extends '2'
+		? Point2dInputParams[Axis]
+		: never;
 </script>
 
 <script generics="T extends PointValue2d | PointValue3d | PointValue4d" lang="ts">
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
+	import type { HasKey } from '$lib/utils';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
-	// TODO weird behavior on HMRs?
+	type PointOptions<U> = U extends PointValue4d
+		? Point4dInputParams
+		: U extends PointValue3d
+		? Point3dInputParams
+		: U extends PointValue2d
+		? Point2dInputParams
+		: unknown;
+
+	type PropsForType<U> = (U extends PointValue2d | PointValue3d | PointValue4d
+		? {
+				/**
+				 * Input parameters specific to the X dimension.
+				 *
+				 * Renamed from `x` in Tweakpane API to clarify that it is an object of options, not
+				 * a value.
+				 * @default `undefined`
+				 * */
+				optionsX?: PointOptions<U>['x'];
+				/**
+				 * Input parameters specific to the Y dimension.
+				 *
+				 * For 2D point values, the object also includes the `inverted` key, which inverts
+				 * the Y axis.
+				 *
+				 * Renamed from `y` in Tweakpane API to clarify that it is an object of options, not
+				 * a value.
+				 * @default `undefined`  \
+				 * `inverted` is `false`
+				 * */
+				optionsY?: PointOptions<U>['y'];
+		  }
+		: unknown) &
+		(U extends PointValue3d | PointValue4d
+			? {
+					/**
+					 * Input parameters specific to the Z dimension.
+					 *
+					 * Renamed from `z` in Tweakpane API to clarify that it is an object of options,
+					 * not a value.
+					 * @default `undefined`
+					 * */
+					optionsZ?: PointOptions<U>['z'];
+			  }
+			: unknown) &
+		(U extends PointValue4d
+			? {
+					/**
+					 * Input parameters specific to the W dimension.
+					 *
+					 * Renamed from `w` in Tweakpane API to clarify that it is an object of options,
+					 * not a value.
+					 * @default `undefined`
+					 * */
+					optionsW?: PointOptions<U>['w'];
+			  }
+			: unknown);
+
 	type InternalPoint<U> = U extends PointValue4d
 		? PointValue4dObject
 		: U extends PointValue3d
@@ -48,7 +107,7 @@
 		: unknown;
 
 	// some redefinition of props from GenericSlider, but redefining since we want to refine the
-	// documentation anyway
+	// documentation anyway eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = Omit<
 		ComponentProps<GenericInputFolding<T, PointOptions<T>>>,
 		'buttonClass' | 'options' | 'plugin' | 'ref'
@@ -58,45 +117,11 @@
 		 *
 		 * Takes a tuple with a `number` value for each dimension, or an object with at least `x`
 		 * and `y` values, and optionally `z` and `w` values for additional dimensions.
+		 *
+		 * The type of this value will determine the availability of axis-specific option props.
 		 * @bindable
 		 * */
 		value: T;
-		/**
-		 * Input parameters specific to the X dimension.
-		 *
-		 * Renamed from `x` in Tweakpane API to clarify that it is an object of options, not a
-		 * value.
-		 * @default `undefined`
-		 * */
-		optionsX?: PointOptionsX<T>;
-		/**
-		 * Input parameters specific to the Y dimension.
-		 *
-		 * For 2D point values, the object also includes the `inverted` key, which inverts the Y
-		 * axis.
-		 *
-		 * Renamed from `y` in Tweakpane API to clarify that it is an object of options, not a
-		 * value.
-		 * @default `undefined`  \
-		 * `inverted` is `false`
-		 * */
-		optionsY?: PointOptionsY<T>;
-		/**
-		 * Input parameters specific to the Z dimension.
-		 *
-		 * Renamed from `z` in Tweakpane API to clarify that it is an object of options, not a
-		 * value.
-		 * @default `undefined`
-		 * */
-		optionsZ?: PointOptionsZ<T>;
-		/**
-		 * Input parameters specific to the W dimension.
-		 *
-		 * Renamed from `w` in Tweakpane API to clarify that it is an object of options, not a
-		 * value.
-		 * @default `undefined`
-		 * */
-		optionsW?: PointOptionsW<T>;
 		/**
 		 * The minimum value for all dimensions.
 		 * @default `undefined`  \
@@ -134,21 +159,23 @@
 		 * No step constraint.
 		 * */
 		step?: number;
-	};
+	} & PropsForType<T>;
 
-	// reexported for bindability
-	export let value: $$Props['value'];
-	export let expanded: $$Props['expanded'] = false;
-	export let pointerScale: $$Props['pointerScale'] = undefined;
-	export let keyScale: $$Props['keyScale'] = undefined;
-	export let min: $$Props['min'] = undefined;
-	export let max: $$Props['max'] = undefined;
-	export let step: $$Props['step'] = undefined;
-	export let optionsX: $$Props['optionsX'] = undefined; // no proxy needed
-	export let optionsY: $$Props['optionsY'] = undefined; // no proxy needed
-	export let optionsZ: $$Props['optionsZ'] = undefined; // no proxy needed
-	export let optionsW: $$Props['optionsW'] = undefined; // no proxy needed
-	export let format: $$Props['format'] = undefined; // no proxy needed
+	// bindable props must be re-exported
+	export let value: T;
+	export let expanded: boolean | undefined = $$props.expanded ?? undefined; //  $$Props['expanded']; not working here?
+
+	// no need to re-export non-bindable props
+	let pointerScale: $$Props['pointerScale'] = $$props['pointerScale'] ?? undefined;
+	let keyScale: $$Props['keyScale'] = $$props['keyScale'] ?? undefined;
+	let min: $$Props['min'] = $$props['min'] ?? undefined;
+	let max: $$Props['max'] = $$props['max'] ?? undefined;
+	let step: $$Props['step'] = $$props['step'] ?? undefined;
+	let optionsX: $$Props['optionsX'] = $$props['optionsX'] ?? undefined;
+	let optionsY: $$Props['optionsY'] = $$props['optionsY'] ?? undefined;
+	let optionsZ: HasKey<$$Props, 'optionsZ'> = $$props['optionsZ'] ?? undefined;
+	let optionsW: HasKey<$$Props, 'optionsW'> = $$props['optionsW'] ?? undefined;
+	let format: $$Props['format'] = $$props['format'] ?? undefined;
 
 	// proxy value since Tweakpane only supports PointNdObject type
 	let internalValue: InternalPoint<T>;
@@ -216,8 +243,11 @@ Wraps the Tweakpane [point bindings](https://tweakpane.github.io/docs/input-bind
 Provides a nice cartesian picker for 2D points, and numeric input fields for 3D and 4D points. See
 the `<RotationEuler>` and `<RotationQuaternion>` components for higher-dimension graphical pickers.
 
-Extends the vanilla Tweakpane APIs to also support tuple values. (Useful when working with
+Extends the vanilla JS Tweakpane APIs to also support tuple values. (Useful when working with
 frameworks like [three.js](https://threejs.org) / [threlte](https://threlte.xyz).)
+
+`<Point>` is a dynamic component, and the availability of the `optionsZ` and `optionsW` props will
+change depending on the number of dimensions in the `value`.
 
 Usage outside of a `<Pane>` component will implicitly wrap the point picker in a `<Pane
 position='inline'>` component.
@@ -227,7 +257,7 @@ position='inline'>` component.
 <script lang="ts">
   import {
     Point,
-    type PointOptionsX,
+    type PointOptions,
     type PointValue2d,
     type PointValue3d,
     type PointValue4d
@@ -239,7 +269,7 @@ position='inline'>` component.
   let point3d: PointValue3d = [0, 0, 0];
 
   // dimension-specific option type needs to know the type of the point value
-  let point3dXOptions: PointOptionsX<typeof point3d> = { min: -100, max: 100 };
+  let point3dXOptions: PointOptions<'3', 'x'> = { min: -100, max: 100 };
 
   let point4d: PointValue4d = { x: 0, y: 0, z: 0, w: 0 };
 </script>

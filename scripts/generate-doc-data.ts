@@ -53,19 +53,19 @@ for (const { name, path } of components) {
 				condition: {
 					position: 'draggable'
 				},
-				description: "`position='draggable'`"
+				description: 'position is draggable'
 			},
 			{
 				condition: {
 					position: 'inline'
 				},
-				description: "`position='inline'`"
+				description: 'position is inline'
 			},
 			{
 				condition: {
 					position: 'fixed'
 				},
-				description: "`position='fixed'`"
+				description: 'position is fixed'
 			}
 		];
 	}
@@ -76,19 +76,42 @@ for (const { name, path } of components) {
 				condition: {
 					value: 1
 				},
-				description: "`typeof value === 'number'`"
+				description: 'value is number'
 			},
 			{
 				condition: {
 					value: false
 				},
-				description: "`typeof value === 'boolean'`"
+				description: 'value is boolean'
 			},
 			{
 				condition: {
 					value: 'i am a string'
 				},
-				description: "`typeof value === 'string'`"
+				description: 'value is string'
+			}
+		];
+	}
+
+	if (name === 'Point') {
+		testProps = [
+			{
+				condition: {
+					value: '{[0, 0]}'
+				},
+				description: 'value is 2D'
+			},
+			{
+				condition: {
+					value: '{[0, 0, 0]}'
+				},
+				description: 'value is 3D'
+			},
+			{
+				condition: {
+					value: '{[0, 0, 0, 0]}'
+				},
+				description: 'value is 4D'
 			}
 		];
 	}

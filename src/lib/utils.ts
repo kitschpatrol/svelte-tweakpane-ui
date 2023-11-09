@@ -3,9 +3,6 @@
 import type { Theme } from '$lib/theme';
 import type { FolderApi, Pane, TabPageApi } from 'tweakpane';
 
-// user-facing types
-export type { Bindable as BindingObject, TpPluginBundle as Plugin } from '@tweakpane/core';
-
 // internal types
 export type Container = FolderApi | Pane | TabPageApi;
 
@@ -21,6 +18,13 @@ export type SimplifyDeep<Type> = Type extends Theme // exclude Theme
 // Possible alternative to all the explicitly defined value type variations export type
 // ExtractTuple<T> = T extends (infer U)[] ? U : never; export type ExtractObject<T> = T extends
 // object ? T : never;
+
+export type HasKey<U, V extends PropertyKey> = V extends keyof U ? U[V] : unknown;
+
+// user-facing types
+import type { Bindable, TpPluginBundle } from '@tweakpane/core';
+export type BindingObject = Bindable;
+export type Plugin = TpPluginBundle;
 
 /**
  * Needed to conveniently use $$Events as the single source of truth for component events Performs
