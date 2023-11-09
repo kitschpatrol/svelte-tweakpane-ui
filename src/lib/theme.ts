@@ -5,20 +5,21 @@ import {
 	isRgbColorObject,
 	isRgbaColorObject
 } from '@tweakpane/core';
+import type { Simplify } from '$lib/utils';
 
 // only need undefined if we had nested themes... undefined shouldn't override global theme
-export type ThemeValue = string;
-export type ThemeColorValue = RgbColorObject | RgbaColorObject | ThemeValue;
+export type ThemeColorValue = Simplify<RgbColorObject | RgbaColorObject | string>;
+export type Theme = Simplify<ThemeKeys & CustomThemeKeys>;
 
 type ThemeKeys = {
 	// Tweakpane
 	baseBackgroundColor?: ThemeColorValue;
-	baseBorderRadius?: ThemeValue;
-	baseFontFamily?: ThemeValue;
+	baseBorderRadius?: string;
+	baseFontFamily?: string;
 	baseShadowColor?: ThemeColorValue;
-	bladeBorderRadius?: ThemeValue;
-	bladeHorizontalPadding?: ThemeValue;
-	bladeValueWidth?: ThemeValue;
+	bladeBorderRadius?: string;
+	bladeHorizontalPadding?: string;
+	bladeValueWidth?: string;
 	buttonBackgroundColor?: ThemeColorValue;
 	buttonBackgroundColorActive?: ThemeColorValue;
 	buttonBackgroundColorFocus?: ThemeColorValue;
@@ -29,10 +30,10 @@ type ThemeKeys = {
 	containerBackgroundColorFocus?: ThemeColorValue;
 	containerBackgroundColorHover?: ThemeColorValue;
 	containerForegroundColor?: ThemeColorValue;
-	containerHorizontalPadding?: ThemeValue;
-	containerUnitSize?: ThemeValue;
-	containerUnitSpacing?: ThemeValue;
-	containerVerticalPadding?: ThemeValue;
+	containerHorizontalPadding?: string;
+	containerUnitSize?: string;
+	containerUnitSpacing?: string;
+	containerVerticalPadding?: string;
 	grooveForegroundColor?: ThemeColorValue;
 	inputBackgroundColor?: ThemeColorValue;
 	inputBackgroundColorActive?: ThemeColorValue;
@@ -44,15 +45,13 @@ type ThemeKeys = {
 	monitorForegroundColor?: ThemeColorValue;
 	// Plugins
 	pluginImageDraggingColor?: ThemeColorValue;
-	// TODO broken pluginThumbnailListHeight?: ThemeValue; pluginThumbnailListThumbSize?:
-	// ThemeValue; pluginThumbnailListWidth?: ThemeValue;
+	// TODO broken pluginThumbnailListHeight?: string; pluginThumbnailListThumbSize?: string;
+	// pluginThumbnailListWidth?: string;
 };
 
 type CustomThemeKeys = {
 	[key: string]: ThemeColorValue;
 };
-
-export type Theme = ThemeKeys & CustomThemeKeys;
 
 // Standard Tweakpane themes from https://tweakpane.github.io/docs/theming/#builder Must be kept in
 // sync with TP...
@@ -237,7 +236,7 @@ const vivid: Theme = {
 };
 
 /** A collection of default theme color schemes.  */
-export const THEMES = {
+export const PRESETS = {
 	iceberg,
 	jetblack,
 	light,
@@ -291,7 +290,7 @@ const keyToCssVariableMap = new Map([
 // string { return '--tp-' + str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
 // }
 
-function themeValueToCssValue(v: ThemeColorValue | ThemeValue | undefined): string | undefined {
+function stringToCssValue(v: ThemeColorValue | string | undefined): string | undefined {
 	if (v === undefined) {
 		return undefined;
 	} else if (typeof v === 'string') {
@@ -334,7 +333,7 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 	} else {
 		Object.entries(theme).forEach(([k, v]) => {
 			const key = expandVariableKey(k);
-			const value = themeValueToCssValue(v);
+			const value = stringToCssValue(v);
 			// console.log(`Inspecting ${key}: ${value}`);
 
 			// only set the variable if it deviates from the standard theme or  the root theme (set
@@ -365,10 +364,19 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 	}
 }
 
-/** Sets a default theme for all Tweakpane components on the page. */
+/**
+ * Sets a default theme for all Tweakpane components on the page. Useful if you have a light / dark
+ * mode toggle.
+ */
 export function setGlobalDefaultTheme(theme: Theme | undefined) {
 	// wait for dom ready... better outside?
 	if (typeof window !== 'undefined' && window.document) {
 		applyTheme(getWindowDocument().documentElement, theme);
 	}
 }
+
+// library exports
+export const ThemeUtils = {
+	PRESETS,
+	setGlobalDefaultTheme
+};

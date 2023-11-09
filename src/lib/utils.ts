@@ -246,7 +246,7 @@ function cubicBezierToEaseFunction(cubicBezier: CubicBezierValue): (t: number) =
 	};
 }
 
-// public utils
+// library exports
 export const Utils = {
 	cubicBezierToEaseFunction,
 	eulerToCssTransform,

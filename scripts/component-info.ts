@@ -244,11 +244,12 @@ async function getDynamicComponentProps(
 		tsDoc.filePath,
 		tsDoc.offsetAt(tsDoc.getGeneratedPosition(testPosition)),
 		{
-			allowIncompleteCompletions: true,
+			allowIncompleteCompletions: true, // no change to output
 			includeCompletionsForModuleExports: true,
 			includeCompletionsWithInsertText: false,
 			triggerCharacter: '.',
 			useLabelDetailsInCompletionEntries: true
+			// includeSymbol // TODO try this...
 		}
 	);
 

@@ -103,10 +103,9 @@ export {
 export { default as RadioGrid } from '$lib/plugin/essentials/RadioGrid.svelte';
 
 // themes
-export { THEMES, type Theme, setGlobalDefaultTheme } from '$lib/theme.js';
+export type { Theme, ThemeColorValue } from '$lib/theme.js';
+export { ThemeUtils } from '$lib/theme.js';
 
 // utilities
-export { Utils } from '$lib/utils.js';
-
-// shared types
 export type { BindingObject, Plugin } from '$lib/utils.js';
+export { Utils } from '$lib/utils.js';
