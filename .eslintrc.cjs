@@ -32,14 +32,15 @@ const perfectionistSvelteSortOverrides = {
     style: '@(style|style:*)',
     'style-props': '--style-props',
     this: 'this',
-    'use-directives': 'use:*'
+    'use-directives': 'use:*',
+    'on-directives': 'on:*'
   },
   groups: [
     'bind-this',
     'value',
     'min',
     'max',
-    ['bind-directives', 'use-directives'],
+    ['bind-directives', 'use-directives', 'on-directives'],
     'this',
     'class',
     'style',
@@ -88,7 +89,7 @@ module.exports = {
     extraFileExtensions: ['.svelte'],
     sourceType: 'module'
   },
-  // not needed?
+  // implicit above?
   // plugins: ['@typescript-eslint'],
   root: true,
   rules: {

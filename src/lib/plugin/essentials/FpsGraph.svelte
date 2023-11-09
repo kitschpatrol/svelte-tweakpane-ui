@@ -138,7 +138,6 @@
 			}
 		});
 
-		// Start observing
 		observer.observe(targetNode, { characterData: true, childList: true, subtree: true });
 	}
 
@@ -177,6 +176,8 @@ By default, the component creates an internal `requestAnimationFrame` loop to me
 performance of the page. If you want to measure the performance of a specific block of code, you can
 bind the `begin` and `end` props for access to functions to fence the code of interest. (The default
 internal loop will be cleaned up automatically on the bound functions first use.)
+
+See the `<Profiler>` component for a more advanced measurement and visualization strategies.
 
 If you'd like to observe or visualize the frame rate data elsewhere, a `change` event is provided to
 notify when the FPS value changes.

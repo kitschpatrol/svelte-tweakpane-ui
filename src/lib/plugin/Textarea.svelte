@@ -15,8 +15,7 @@
 		 * */
 		value: string;
 		/**
-		 * Whether to provide live updates on every keystroke.
-		 *
+		 * Whether to provide live updates to the bound `value` on every keystroke.
 		 * @default `true`
 		 * */
 		live?: boolean;
@@ -27,7 +26,8 @@
 		placeholder?: string;
 		/**
 		 * The number of lines of text to display.
-		 * @todo can you still go over?
+		 *
+		 * If lines of input exceed this value, then the text area will scroll.
 		 * @default `3`
 		 */
 		rows?: number;
@@ -85,8 +85,8 @@ Integrates the
 [tweakpane-textarea-plugin](https://github.com/panGenerator/tweakpane-textarea-plugin) by [Krzysztof
 Goliński](http://www.golinski.org) and [Jakub Koźniewski](https://pangenerator.com).
 
-Extends the underlying implementation with the `live` property to match the behavior of the
-`<Text>` component.
+Extends the underlying implementation with the `live` property to match the behavior of the `<Text>`
+component.
 
 Note that `svelte-tweakpane-ui` embeds a
 [fork](https://github.com/kitschpatrol/tweakpane-textarea-plugin) of the plugin with support for

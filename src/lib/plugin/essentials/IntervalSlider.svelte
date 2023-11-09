@@ -24,7 +24,7 @@
 		/**
 		 * Interval value to control.
 		 *
-		 * Tuples are a convenience addition to vanilla Tweakpane's API.
+		 * Tuples are a convenience addition to the vanilla JS Tweakpane API.
 		 * @bindable
 		 */
 		value: IntervalSliderValue;

@@ -1,4 +1,4 @@
-<script generics="T extends number | string | boolean | undefined" lang="ts">
+<script generics="T extends number | string | boolean" lang="ts">
 	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import GenericInput, { type GenericInputOptions } from '$lib/internal/GenericInput.svelte';
 	import { getGridDimensions } from '$lib/utils.js';
@@ -6,8 +6,9 @@
 	import { nanoid } from 'nanoid';
 	import type { ComponentProps } from 'svelte';
 
-	// TODO handle records and more complex types? duplicated here because it's not exported from
-	// the plugin... @tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
+	// TODO allow mixed values? TODO handle records and more complex types? duplicated here because
+	// it's not exported from the plugin...
+	// @tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
 	type RadioGridOptions<T> = GenericInputOptions & {
 		cells: (
 			x: number,
@@ -30,8 +31,7 @@
 		 *
 		 * Bind to this prop to receive updates when the user clicks a radio button.
 		 * @bindable
-		 * @default `undefined`
-		 * If undefined, the first value in the `values` array is assigned.
+		 * @default `undefined` If undefined, the first value in the `values` array is assigned.
 		 *  */
 		value?: T;
 		/**

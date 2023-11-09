@@ -9,7 +9,6 @@
 	generics="T extends any, U extends GenericInputFoldingOptions = GenericInputFoldingOptions, V extends GenericInputFoldingRef = GenericInputFoldingRef"
 	lang="ts"
 >
-	import type { PickerLayout } from '@tweakpane/core';
 	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import { updateCollapsibility } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
@@ -29,7 +28,7 @@
 		clickToExpand?: boolean;
 		/**
 		 * Expand or collapse the input's picker.
-		 * @default `true`
+		 * @default `false`
 		 * @bindable
 		 * */
 		expanded?: boolean;
@@ -37,7 +36,7 @@
 		 * The style of value "picker" to use in the input.
 		 * @default `'popup'`
 		 */
-		picker?: PickerLayout; // technically not guaranteed, but advantages to assuming it's there for coherent clickToExpand behavior
+		picker?: 'inline' | 'popup'; // technically not guaranteed, but advantages to assuming it's there for coherent clickToExpand behavior
 	};
 
 	// reexport for bindability
@@ -47,7 +46,7 @@
 
 	// unique props
 	export let clickToExpand: $$Props['clickToExpand'] = true;
-	export let expanded: $$Props['expanded'] = undefined;
+	export let expanded: $$Props['expanded'] = false;
 	export let buttonClass: $$Props['buttonClass'] = '';
 	export let picker: $$Props['picker'] = undefined;
 

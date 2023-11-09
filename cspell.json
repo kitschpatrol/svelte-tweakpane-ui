@@ -12,6 +12,7 @@
     "camerawheel",
     "cubicbezier",
     "discoverability",
+    "Dmitriy",
     "donmccurdy",
     "Florian",
     "fpsgraph",
@@ -34,6 +35,7 @@
     "Menlo",
     "metehus",
     "Mika",
+    "Nikiforov",
     "Palash",
     "phenomnomnominal",
     "radiogrid",
@@ -50,7 +52,13 @@
     "unplugin"
   ],
   "language": "en,en-US",
-  "ignorePaths": ["package.json"],
-  "ignoreRegExpList": ["tp-.+", "tweakpane-plugin-.+"],
-  "useGitignore": true
+  "ignorePaths": [
+    "package.json"
+  ],
+  "ignoreRegExpList": [
+    "tp-.+",
+    "tweakpane-plugin-.+"
+  ],
+  "useGitignore": true,
+  "enabled": true
 }

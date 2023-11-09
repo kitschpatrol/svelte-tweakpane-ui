@@ -2,9 +2,10 @@
 	import type { ProfilerBladeMeasureHandler } from '@kitschpatrol/tweakpane-plugin-profiler';
 	import type { Simplify } from '$lib/utils';
 
-	export type ProfilerMeasureHandler = Simplify<ProfilerBladeMeasureHandler>;
 	export type ProfilerCalcMode = 'frame' | 'mean' | 'median';
+	export type ProfilerChangeEvent = CustomEvent<number>;
 	export type ProfilerMeasure = (name: string, fn: () => void) => void;
+	export type ProfilerMeasureHandler = Simplify<ProfilerBladeMeasureHandler>;
 </script>
 
 <script lang="ts">
@@ -12,48 +13,61 @@
 	import type { ProfilerBladeApi as ProfilerRef } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerApi.js';
 	import type { ProfilerBladePluginParams as ProfilerOptions } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js';
 	import Blade from '$lib/core/Blade.svelte';
-	import { enforceReadonly } from '$lib/utils';
+	import { type UnwrapCustomEvents, enforceReadonly } from '$lib/utils';
 	import { BROWSER, DEV } from 'esm-env';
-	import type { ComponentProps } from 'svelte';
+	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte';
 
 	type $$Props = Omit<
 		ComponentProps<Blade<ProfilerOptions, ProfilerRef>>,
 		'options' | 'plugin' | 'ref'
 	> & {
 		/**
-		 * TODO Docs
+		 * Number of duration samples from which to calculate the delta value when `calcMode` is
+		 * `'mean'` or `'median'`.
 		 * @default `30`
 		 */
 		bufferSize?: number;
 		/**
-		 * TODO Docs
+		 * How to calculate the delta value.
+		 *
+		 * `'frame'` takes only the latest sample into account, while `'mean'` and `'median'` are
+		 * calculated from the samples in the buffer.
 		 * @default `'mean'`
 		 */
 		calcMode?: ProfilerCalcMode;
 		/**
-		 * TODO Docs
+		 * Label suffix for the delta values shown in the control.
+		 *
+		 * Possibly useful if you're using a custom `ProfilerBladeDefaultMeasureHandler` and are
+		 * measuring something other than time.
 		 * @default `'ms'`
 		 * */
 		deltaUnit?: string;
 		/**
-		 * TODO Docs
+		 * Precision of the delta values shown in the control.
 		 * @default `2`
 		 */
 		fractionDigits?: number;
 		/**
-		 * Milliseconds between samples.
-		 * @todo more docs
+		 * Milliseconds between updates to the profiler visualization and delta label text.
+		 *
+		 * Note that this does not affect the internal sampling rate of the profiler itself, which
+		 * is determined by your calls to the bound `measure` function.
 		 * @default `500`
 		 */
 		interval?: number;
 		/**
-		 * Text displayed next to the profiler graph.
+		 * Text displayed next to the profiler visualization.
 		 * @default `undefined`
 		 * */
 		label?: string;
 		/**
 		 * Function handle that wraps another function to measure its execution duration.
+		 *
 		 * @example `measure('Hard Work', () => { ... })`;
+		 *
+		 * If you want to measure something other than execution duration, customize
+		 * `ProfilerBladeDefaultMeasureHandler`.
 		 * @bindable
 		 * @readonly
 		 * @default `undefined`
@@ -62,13 +76,13 @@
 		/**
 		 * Function wrapping the `measure` function.
 		 *
-		 * The default is fine for most cases.
+		 * The default is fine for most cases when you want to measure a temporal duration.
 		 * @default [`new
 		 * ProfilerBladeDefaultMeasureHandler()`](https://github.com/kitschpatrol/tweakpane-plugin-profiler/blob/tweakpane-v4/src/ProfilerBladeDefaultMeasureHandler.ts)
 		 */
 		measureHandler?: ProfilerMeasureHandler;
 		/**
-		 * TODO Docs
+		 * Determines the horizontal scale and color mapping of the profiler visualization bars.
 		 * @default `16.67`  \
 		 * 60fps.
 		 */
@@ -88,12 +102,63 @@
 	export let fractionDigits: $$Props['fractionDigits'] = undefined;
 	export let measureHandler: $$Props['measureHandler'] = undefined;
 	export let measure: $$Props['measure'] = _measure;
+	export let interval: $$Props['interval'] = undefined;
 	export let targetDelta: $$Props['targetDelta'] = undefined;
 
 	// $: measure = _measure;
 
 	let profilerBlade: ProfilerRef;
 	let options: ProfilerOptions;
+
+	let observer: MutationObserver | undefined = undefined;
+
+	// Seems to be the only way to get event comments to work
+	type $$Events = {
+		/**
+		 * Fires when the overall delta value changes, passing the latest measurement.
+		 *
+		 * Note that the values described in the `ProfilerChangeEvent` type are available on the
+		 * `event.detail` parameter.
+		 * @event
+		 * */
+		change: ProfilerChangeEvent;
+	};
+
+	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
+
+	onDestroy(() => {
+		stopObservingMeasuredFpsValue();
+	});
+
+	// observe and update the measured fps value reading from the dom is kind of crazy, TBD better
+	// way to get this data from the fps blade
+	function startObservingMeasuredFpsValue() {
+		// clean up if needed
+		stopObservingMeasuredFpsValue();
+		const targetNode = profilerBlade.controller.view.valueElement;
+		if (!targetNode || !targetNode.innerHTML) return;
+
+		observer = new MutationObserver((mutations) => {
+			for (const mutation of mutations) {
+				if (mutation.type === 'characterData' || mutation.type === 'childList') {
+					// parse float ignore the deltaUnit suffix
+					const delta = parseFloat((mutation.target as HTMLElement).innerText);
+					!isNaN(delta) && dispatch('change', delta);
+				}
+			}
+		});
+
+		observer.observe(targetNode, { characterData: true, childList: true, subtree: true });
+	}
+
+	function stopObservingMeasuredFpsValue() {
+		if (observer) {
+			observer.disconnect();
+			observer = undefined;
+		}
+	}
+
+	$: BROWSER && profilerBlade && startObservingMeasuredFpsValue();
 
 	$: DEV && BROWSER && enforceReadonly(_measure, measure, 'Profiler', 'measure');
 
@@ -103,6 +168,7 @@
 			calcMode,
 			deltaUnit,
 			fractionDigits,
+			interval,
 			label,
 			measureHandler,
 			targetDelta,
@@ -112,10 +178,16 @@
 
 <!--
 @component  
-TODO Component documentation...
+
+Measure and visualize multiple quantities over time.
+
+Configured to measure a function's execution duration by default, but can be customized to measure
+anything.
 
 Integrates [0b5vr's](https://0b5vr.com)
 [tweakpane-plugin-profiler](https://github.com/0b5vr/tweakpane-plugin-profiler).
+
+See `<FpsGraph>` for a simpler alternative optimized for framerate visualization.
 
 Note that `svelte-tweakpane-ui` embeds a
 [fork](https://github.com/kitschpatrol/tweakpane-plugin-profiler) of the plugin with support for

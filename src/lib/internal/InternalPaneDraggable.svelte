@@ -403,6 +403,12 @@ This component is for internal use only.
 	<div
 		bind:this={containerElement}
 		bind:clientHeight={containerHeight}
+		on:focus|capture={() => {
+			zIndexLocal = ++zIndexGlobal;
+		}}
+		on:pointerdown|capture={() => {
+			zIndexLocal = ++zIndexGlobal;
+		}}
 		class="draggable-container"
 		class:not-collapsable={!clickToExpand}
 		class:not-resizable={!resizable}
@@ -410,12 +416,6 @@ This component is for internal use only.
 		style:top="{y}px"
 		style:width="{width}px"
 		style:z-index={zIndexLocal}
-		on:focus|capture={() => {
-			zIndexLocal = ++zIndexGlobal;
-		}}
-		on:pointerdown|capture={() => {
-			zIndexLocal = ++zIndexGlobal;
-		}}
 	>
 		<GenericPane
 			bind:expanded

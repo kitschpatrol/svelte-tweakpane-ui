@@ -104,11 +104,11 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
     </div>
   </Element>
   <Button
-    disabled={gradientAngle == 45 && textAngle == 0}
     on:click={() => {
       gradientAngle = 45;
       textAngle = 0;
     }}
+    disabled={gradientAngle == 45 && textAngle == 0}
     title="Reset"
   />
 </Pane>

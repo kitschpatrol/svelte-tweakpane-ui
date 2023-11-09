@@ -164,7 +164,7 @@ position='inline'>`.
 </script>
 
 <Pane position="inline" title="Austerity Keyboard">
-  <ButtonGrid buttons={keyboard} on:click={handleClick} />
+  <ButtonGrid on:click={handleClick} buttons={keyboard} />
   <Button on:click={() => (textBuffer += '\u2002')} title=" " />
 </Pane>
 <div class="demo">

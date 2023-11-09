@@ -10,10 +10,10 @@
 		 * */
 		value: string;
 		/**
-		 * Whether to provide live updates on every keystroke.
+		 * Whether to provide live updates to the bound `value` on every keystroke.
 		 *
-		 * To match expectations around reactive components, the default here diverges from vanilla
-		 * Tweakpane's behavior, which only updates on blur.
+		 * To match expectations around reactive components, the default here diverges from the
+		 * vanilla JS Tweakpane behavior, which only updates on blur.
 		 * @default `true`
 		 * */
 		live?: boolean;
@@ -54,8 +54,8 @@ A text field, in the spirit of the HTML `<input type="text">` element.
 
 Wraps Tweakpane's [string binding](https://tweakpane.github.io/docs/input-bindings/#string).
 
-Extends vanilla Tweakpane's API to update the bound value on every keystroke. (If you prefer the
-default behavior of only updating on blur, set `live={false}`.)
+Extends the vanilla JS Tweakpane API to update the bound value on every keystroke. (If you prefer
+the default behavior of only updating on blur, set `live={false}`.)
 
 See <TextArea> for a multi-line input variation.
 

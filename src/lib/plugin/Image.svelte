@@ -47,11 +47,8 @@
 
 <!--
 @component  
-TODO Component documentation...
 
-Note some layout issues with the component itself...
-
-TK
+An image input control.
 
 Integrates the [tweakpane-image-plugin](https://github.com/metehus/tweakpane-image-plugin),
 incorporating work by [Florian Morel](http://ayamflow.fr), [Matheus
@@ -78,11 +75,11 @@ position='inline'>`.
 
 <Image bind:value={src} fit="contain" label="Image" />
 <Button
-  label="Random Placeholder"
   on:click={() => {
     src = `https://placekitten.com/1024/1024?image=${kittenIndex}`;
     kittenIndex = (kittenIndex % 16) + 1;
   }}
+  label="Random Placeholder"
   title="Load Kitten"
 />
 

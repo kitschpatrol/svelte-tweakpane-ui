@@ -29,10 +29,7 @@ export {
 } from '$lib/extra/List.svelte';
 export { default as Monitor } from '$lib/extra/Monitor.svelte';
 export {
-	type PointOptionsW,
-	type PointOptionsX,
-	type PointOptionsY,
-	type PointOptionsZ,
+	type PointOptions,
 	type PointValue2d,
 	type PointValue2dObject,
 	type PointValue2dTuple,
@@ -73,7 +70,10 @@ export {
 	default as RotationQuaternion
 } from '$lib/plugin/RotationQuaternion.svelte';
 export { default as Textarea } from '$lib/plugin/Textarea.svelte';
-export { default as WaveformMonitor } from '$lib/plugin/WaveformMonitor.svelte';
+export {
+	type WaveformMonitorValue,
+	default as WaveformMonitor
+} from '$lib/plugin/WaveformMonitor.svelte';
 
 // camerakit (1st party plugins)
 export { type RingSeries, type RingUnit, default as Ring } from '$lib/plugin/camerakit/Ring.svelte';

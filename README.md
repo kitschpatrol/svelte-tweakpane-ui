@@ -203,6 +203,7 @@ Two other projects provide integration between Tweakpane and Svelte:
 - https://github.com/khromov/sveltekit-dynamic-component-load-demo
 - https://github.com/HiDeoo/Typedown
 - Sveltepress example: https://github.com/Myrmod/svelte-babylon
+- https://github.com/leveluptuts/bookit
 
 ## JSDoc Meanings
 

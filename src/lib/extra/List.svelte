@@ -36,7 +36,8 @@
 		/**
 		 * A collection of options to select from.
 		 *
-		 * The arbitrary array list type is a convenience addition to to vanilla Tweakpane's API.
+		 * The arbitrary array list type is a convenience addition to to the vanilla JS Tweakpane
+		 * API.
 		 * */
 		options: ListOptions<T>;
 	};

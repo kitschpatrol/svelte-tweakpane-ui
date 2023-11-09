@@ -1,6 +1,4 @@
 <script lang="ts">
-	// Inspired by https://github.com/MrFoxPro/solid-tweakpane/blob/master/src/automutable.tsx
-
 	import { isColorObject } from '@tweakpane/core';
 	import { Point2d } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js';
 	import { Point3d } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
@@ -68,11 +66,19 @@ object.
 Object keys will be used as labels, and a (reasonably) appropriate Tweakpane control will be used
 for each value's type.
 
-Records within the object will be wrap their contents in a `<Folder>` component. Value objects in
-the shape of color or point objects will show a more specialized control.
+Values are generally mapped to controls according to the logic outlined in the [Tweakpane input
+binding documentation](https://tweakpane.github.io/docs/input-bindings/).
+
+Records within the object will wrap their contents in a `<Folder>` component. Value objects in the
+shape of color or point objects will show a more specialized control.
 
 Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane
 position='inline'>`.
+
+`<AutoObject>` was inspired by the
+`[<TWPAutoMutable>](https://github.com/MrFoxPro/solid-tweakpane/blob/master/src/automutable.tsx)`
+component in [Dmitriy Nikiforov's](https://github.com/MrFoxPro)
+[solid-tweakpane](https://github.com/MrFoxPro/solid-tweakpane) library.
 
 @example  
 ```svelte

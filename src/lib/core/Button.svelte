@@ -120,7 +120,7 @@ See the <ButtonGrid> and <RadioGrid> components for a convenient way to lay out 
   let count = 0;
 </script>
 
-<Button label="Count" on:click={() => count++} title="Increment" />
+<Button on:click={() => count++} label="Count" title="Increment" />
 <pre>Count: {count}</pre>
 ```
 
@@ -133,7 +133,7 @@ See the <ButtonGrid> and <RadioGrid> components for a convenient way to lay out 
 		<div bind:this={indexElement} style="display: none;" />
 	{:else}
 		<InternalPaneInline {theme} userCreatedPane={false}>
-			<svelte:self {disabled} {label} on:click {title} />
+			<svelte:self on:click {disabled} {label} {title} />
 		</InternalPaneInline>
 	{/if}
 {/if}

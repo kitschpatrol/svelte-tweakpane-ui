@@ -3,7 +3,7 @@
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
-	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options'> & {
+	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {
 		/**
 		 * A `number` value to control.
 		 * @bindable.
