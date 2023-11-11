@@ -10,10 +10,26 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { slug } from "github-slugger";
 import path from "path";
 import { globSync } from "glob";
+
+type ComponentData = StarlightProps["entry"]["data"]["componentData"];
+type ComponentProp = NonNullable<ComponentData>["props"][number];
+
 const { BASE_URL } = import.meta.env;
 
 interface Props {
-  componentData: StarlightProps["entry"]["data"]["componentData"];
+  componentData: ComponentData;
+}
+
+function uniqueProps(
+  commonProps: ComponentProp[],
+  dynamicProps: ComponentProp[],
+): ComponentProp[] {
+  const uniqueProps = dynamicProps.filter((dynamicProp) => {
+    return !commonProps.find((commonProp) => {
+      return dynamicProp.name === commonProp.name;
+    });
+  });
+  return uniqueProps;
 }
 
 function linkifyComponentReferences(
@@ -100,12 +116,24 @@ const hasSlots = !!data?.slots.length;
             <>
               <DynamicPropAdmonition />
               <Tabs>
+                <TabItem label={`Common Props`}>
+                  <PropTable data={data.props} />
+                </TabItem>
                 {data.dynamicProps?.map((propInfo) => {
-                  return (
-                    <TabItem label={`Props when ${propInfo.description}`}>
-                      <PropTable data={propInfo.props} />
-                    </TabItem>
+                  // Find the unique properties for this dynamic prop
+                  const uniqueProperties = uniqueProps(
+                    data.props,
+                    propInfo.props,
                   );
+
+                  // Render the TabItem only if there are unique properties
+                  return uniqueProperties.length > 0 ? (
+                    <TabItem
+                      label={`Dynamic props when ${propInfo.description}`}
+                    >
+                      <PropTable data={uniqueProperties} />
+                    </TabItem>
+                  ) : null;
                 })}
               </Tabs>
             </>

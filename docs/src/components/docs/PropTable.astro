@@ -64,7 +64,7 @@ const { data, showDefault = true, showFlags = true } = Astro.props;
           <td>
             <code>{prop.name}</code>
           </td>
-          <td set:html={marked.parseInline(prop.doc, {})} />
+          <td set:html={marked.parse(prop.doc, {})} />
           <td>
             <code>{cleanType(prop.type)}</code>
           </td>
