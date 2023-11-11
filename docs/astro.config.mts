@@ -50,6 +50,10 @@ export default defineConfig({
           link: "/docs/utilities",
         },
         ...componentMenu(),
+        {
+          label: "Acknowledgments",
+          link: "/docs/acknowledgments",
+        },
       ],
       social: {
         github: "https://github.com/kitschpatrol/svelte-tweakpane-ui",

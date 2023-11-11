@@ -12,6 +12,7 @@
     "build": "pnpm run clean && astro check && astro build",
     "clean": "rimraf .astro dist",
     "dev": "astro dev",
+    "generate-acknowledgments-data": "license-checker-rseidelsohn --json --out ./src/content/acknowledgments/acknowledgments-docs.json",
     "preview": "astro preview",
     "start": "astro dev"
   },
@@ -32,6 +33,7 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
+    "license-checker-rseidelsohn": "^4.2.10",
     "prettier-plugin-astro": "^0.12.1",
     "prettier-plugin-pkg": "^0.18.0",
     "rimraf": "^5.0.5"
