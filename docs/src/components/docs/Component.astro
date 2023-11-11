@@ -4,7 +4,7 @@ import type { Props as StarlightProps } from "@astrojs/starlight/props";
 import { marked } from "marked";
 import Heading from "./Heading.astro";
 import PropTable from "./PropTable.astro";
-import ExampleWrapper from "../examples/ExampleWrapper.svelte";
+import ExampleLoader from "../examples/ExampleLoader.svelte";
 import DynamicPropAdmonition from "./DynamicPropAdmonition.md";
 import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { slug } from "github-slugger";
@@ -104,7 +104,7 @@ const hasSlots = !!data?.slots.length;
         <>
           <Heading level={2}>Example</Heading>
           <div class="not-content" style="width: 400px;">
-            <ExampleWrapper name={data.name} client:only="svelte" />
+            <ExampleLoader name={data.name} client:only="svelte" />
           </div>
           <ExampleCode />
         </>

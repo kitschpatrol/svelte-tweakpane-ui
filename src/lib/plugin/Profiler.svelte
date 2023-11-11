@@ -91,7 +91,7 @@
 		 *
 		 * The default is fine for most cases when you want to measure a temporal duration.
 		 * @default [`new
-		 * ProfilerBladeDefaultMeasureHandler()`](https://github.com/kitschpatrol/tweakpane-plugin-profiler/blob/tweakpane-v4/src/ProfilerBladeDefaultMeasureHandler.ts)
+		 * ProfilerBladeDefaultMeasureHandler()`](https://github.com/0b5vr/tweakpane-plugin-profiler/blob/dev/src/ProfilerBladeDefaultMeasureHandler.ts)
 		 */
 		measureHandler?: ProfilerMeasureHandler;
 		/**
