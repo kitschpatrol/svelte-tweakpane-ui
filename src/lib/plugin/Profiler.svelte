@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { ProfilerBladeMeasureHandler } from '@kitschpatrol/tweakpane-plugin-profiler';
+	import type { ProfilerBladeMeasureHandler } from '@0b5vr/tweakpane-plugin-profiler';
 	import type { Simplify } from '$lib/utils';
 
 	export type ProfilerCalcMode = 'frame' | 'mean' | 'median';
@@ -9,9 +9,9 @@
 </script>
 
 <script lang="ts">
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-profiler';
-	import type { ProfilerBladeApi as ProfilerRef } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerApi.js';
-	import type { ProfilerBladePluginParams as ProfilerOptions } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js';
+	import * as pluginModule from '@0b5vr/tweakpane-plugin-profiler';
+	import type { ProfilerBladeApi as ProfilerRef } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerApi.js';
+	import type { ProfilerBladePluginParams as ProfilerOptions } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js';
 	import Blade from '$lib/core/Blade.svelte';
 	import { type UnwrapCustomEvents, enforceReadonly } from '$lib/utils';
 	import { BROWSER, DEV } from 'esm-env';

@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import type { EulerOrder } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerOrder.js';
-	import type { EulerUnit } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerUnit.js';
+	import type { EulerOrder } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerOrder.js';
+	import type { EulerUnit } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerUnit.js';
 	import type { PointDimensionParams } from '@tweakpane/core';
 	import type { Simplify } from '$lib/utils';
 
@@ -20,8 +20,8 @@
 </script>
 
 <script lang="ts">
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation';
-	import type { RotationInputPluginEulerParams as RotationEulerOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/RotationInputPluginEulerParams';
+	import * as pluginModule from '@0b5vr/tweakpane-plugin-rotation';
+	import type { RotationInputPluginEulerParams as RotationEulerOptionsInternal } from '@0b5vr/tweakpane-plugin-rotation/dist/types/RotationInputPluginEulerParams';
 	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js'; // note name collision with options params
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import { BROWSER } from 'esm-env';

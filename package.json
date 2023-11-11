@@ -202,9 +202,9 @@
     "svelte": "^4.0.0"
   },
   "dependencies": {
+    "@0b5vr/tweakpane-plugin-profiler": "^0.4.1",
+    "@0b5vr/tweakpane-plugin-rotation": "^0.2.0",
     "@kitschpatrol/tweakpane-image-plugin": "^2.0.0",
-    "@kitschpatrol/tweakpane-plugin-profiler": "^1.0.1",
-    "@kitschpatrol/tweakpane-plugin-rotation": "^1.0.1",
     "@kitschpatrol/tweakpane-plugin-thumbnail-list": "^1.0.0",
     "@kitschpatrol/tweakpane-plugin-waveform": "^1.0.1",
     "@kitschpatrol/tweakpane-textarea-plugin": "^2.0.1",
