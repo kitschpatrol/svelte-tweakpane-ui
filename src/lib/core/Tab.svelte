@@ -29,6 +29,14 @@
 	 * */
 	export let theme: Theme | undefined = undefined;
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Slots = {
+		/**
+		 * A `<Page>` component.
+		 */
+		default: {};
+	};
+
 	const parentStore: Writable<Container> = getContext('parentStore');
 
 	const tabStore = writable<TabRef>();

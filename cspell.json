@@ -2,6 +2,7 @@
   "version": "0.2",
   "words": [
     "0b5vr",
+    "apos",
     "Astro",
     "astrojs",
     "ayamflow",
@@ -11,12 +12,14 @@
     "camerakit",
     "cameraring",
     "camerawheel",
+    "crossorigin",
     "cubicbezier",
     "discoverability",
     "Dmitriy",
     "donmccurdy",
     "Fira",
     "Florian",
+    "FOUC",
     "fpsgraph",
     "frontmatter",
     "Goliński",
@@ -39,20 +42,18 @@
     "Mika",
     "Nikiforov",
     "Palash",
-    "crossorigin",
     "phenomnomnominal",
     "radiogrid",
     "resizability",
     "Roboto",
     "Schödler",
-    "apos",
-    "thead",
-    "tbody",
     "shoedler",
     "stylelint",
     "stylelintrc",
     "svelteness",
     "Sveltepress",
+    "tbody",
+    "thead",
     "Threlte",
     "tsconfigs",
     "tsquery",
@@ -60,8 +61,14 @@
     "unplugin"
   ],
   "language": "en,en-US",
-  "ignorePaths": ["package.json", "*.svg"],
-  "ignoreRegExpList": ["tp-.+", "tweakpane-plugin-.+"],
+  "ignorePaths": [
+    "package.json",
+    "*.svg"
+  ],
+  "ignoreRegExpList": [
+    "tp-.+",
+    "tweakpane-plugin-.+"
+  ],
   "useGitignore": true,
   "enabled": true
 }

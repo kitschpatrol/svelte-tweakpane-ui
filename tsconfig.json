@@ -14,5 +14,6 @@
     "noErrorTruncation": true,
     "removeComments": false,
     "isolatedModules": true
-  }
+  },
+  "exclude": ["/docs/**"]
 }

@@ -14,7 +14,6 @@ const { BASE_URL } = import.meta.env;
 
 interface Props {
   componentData: StarlightProps["entry"]["data"]["componentData"];
-  greeting?: string;
 }
 
 function linkifyComponentReferences(
@@ -115,8 +114,18 @@ const hasSlots = !!data?.slots.length;
           )}
         </>
       )}
-      {hasEvents && <Heading level={2}>Events</Heading>}
-      {hasSlots && <Heading level={2}>Slots</Heading>}
+      {hasEvents && (
+        <>
+          <Heading level={2}>Events</Heading>
+          <PropTable data={data.events} showDefault={false} showFlags={false} />
+        </>
+      )}
+      {hasSlots && (
+        <>
+          <Heading level={2}>Slots</Heading>
+          <PropTable data={data.slots} showDefault={false} showFlags={false} />
+        </>
+      )}
     </>
   )
 }

@@ -90,6 +90,14 @@
 	 * */
 	export let paneRef: TpPane | undefined = undefined;
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Slots = {
+		/**
+		 * Any Tweakpane component, except another `<Pane>`.
+		 */
+		default: {};
+	};
+
 	const parentStore = writable<TpPane>();
 	const existingParentStore: Writable<Container | undefined> = getContext('parentStore'); // sanity checks
 

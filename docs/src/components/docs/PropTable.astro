@@ -8,6 +8,8 @@ type ComponentProps = NonNullable<
 
 interface Props {
   data: ComponentProps;
+  showDefault?: boolean;
+  showFlags?: boolean;
 }
 
 function cleanType(type: string): string {
@@ -42,7 +44,7 @@ function getFlags(prop: ComponentProps[0]): string[] {
   return flags;
 }
 
-const { data } = Astro.props;
+const { data, showDefault = true, showFlags = true } = Astro.props;
 ---
 
 <table>
@@ -51,8 +53,8 @@ const { data } = Astro.props;
       <th>Name</th>
       <th>Description</th>
       <th>Type</th>
-      <th>Default</th>
-      <th>Flags</th>
+      {showDefault && <th>Default</th>}
+      {showFlags && <th>Flags</th>}
     </tr>
   </thead>
   <tbody>
@@ -66,8 +68,8 @@ const { data } = Astro.props;
           <td>
             <code>{cleanType(prop.type)}</code>
           </td>
-          <td set:html={cleanDefault(prop.jsDocs.default)} />
-          <td>{getFlags(prop).join(" ")}</td>
+          {showDefault && <td set:html={cleanDefault(prop.jsDocs.default)} />}
+          {showFlags && <td>{getFlags(prop).join(" ")}</td>}
         </tr>
       ))
     }

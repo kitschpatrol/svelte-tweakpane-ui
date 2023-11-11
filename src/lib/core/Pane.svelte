@@ -39,6 +39,14 @@
 		position?: PanePosition;
 	};
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Slots = {
+		/**
+		 * Any Tweakpane component, except another `<Pane>`.
+		 */
+		default: {};
+	};
+
 	// have to do this for bindings to work... maybe related to
 	// https://svelte.dev/repl/aacb7e0b8066497490d3204f8a57491c?version=3.2.2 ?
 	export let expanded: $$Props['expanded'] = undefined;

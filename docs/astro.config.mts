@@ -26,6 +26,7 @@ export default defineConfig({
         baseUrl:
           "https://github.com/kitschpatrol/svelte-tweakpane-ui/edit/main/docs/",
       },
+      // prevents FOUC
       head: fontPreloadLinks([
         `${BASE_URL}fonts/Inter-VF.roman-latin.woff2`,
         `${BASE_URL}fonts/Inter-VF.italic-latin.woff2`,

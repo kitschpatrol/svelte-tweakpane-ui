@@ -39,6 +39,14 @@
 	 * */
 	export let theme: Theme | undefined = undefined;
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Slots = {
+		/**
+		 * Any Tweakpane component, except a `<Pane>`.
+		 */
+		default: {};
+	};
+
 	// get context from tab
 	const tabStore: Writable<TabRef> = getContext('tabStore');
 	const tabIndexStore: Writable<number> = getContext('tabIndexStore');

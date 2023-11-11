@@ -31,6 +31,14 @@
 		width?: number;
 	};
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Slots = {
+		/**
+		 * Any Tweakpane component, except another `<Pane>`.
+		 */
+		default: {};
+	};
+
 	// reexport for bindability
 	export let expanded: $$Props['expanded'] = undefined;
 	export let x: $$Props['x'] = undefined;

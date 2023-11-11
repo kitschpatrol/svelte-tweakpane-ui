@@ -25,6 +25,14 @@
 		resetStyle?: boolean;
 	};
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Slots = {
+		/**
+		 * Any HTML Element.
+		 */
+		default: {};
+	};
+
 	export let maxHeight: $$Props['maxHeight'] = undefined;
 	export let resetStyle: $$Props['resetStyle'] = true;
 

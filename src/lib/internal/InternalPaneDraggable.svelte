@@ -93,6 +93,14 @@
 		width?: number;
 	};
 
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Slots = {
+		/**
+		 * Any Tweakpane component, except another `<Pane>`.
+		 */
+		default: {};
+	};
+
 	// reexport for bindability
 	export let storePositionLocally: $$Props['storePositionLocally'] = true;
 	export let localStoreId: $$Props['localStoreId'] = localStoreDefaultId;
