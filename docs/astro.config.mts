@@ -9,8 +9,6 @@ import { defineConfig } from "astro/config";
 // concatenating with a css var doesn't work
 const BASE_URL = "/svelte-tweakpane-ui/";
 
-console.log(componentMenu());
-
 // https://astro.build/config
 export default defineConfig({
   base: BASE_URL,

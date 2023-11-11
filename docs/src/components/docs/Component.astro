@@ -9,6 +9,7 @@ import DynamicPropAdmonition from "./DynamicPropAdmonition.md";
 import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { slug } from "github-slugger";
 import path from "path";
+import { globSync } from "glob";
 const { BASE_URL } = import.meta.env;
 
 interface Props {
@@ -25,7 +26,10 @@ function linkifyComponentReferences(
   return str.replaceAll(
     /(`?)<([A-Z]\w+)>(`?)/g,
     (match, prefix, name, postfix) => {
-      if (validComponentNames.includes(name)) {
+      if (
+        validComponentNames.length > 0 &&
+        validComponentNames.includes(name)
+      ) {
         // Replace with link
         if (markdownStyleLink) {
           return `[${prefix ?? ""}<${name}>${
@@ -49,12 +53,7 @@ const { componentData: data } = Astro.props;
 // for automatic component linking...
 // all components except for the current one are valid
 const validComponentNames =
-  Object.keys(
-    import.meta.glob("../../content/docs/docs/components/*.md", {
-      as: "raw",
-      eager: false,
-    }),
-  )
+  globSync("../../content/docs/docs/components/*.md")
     .map((componentPath) => {
       return path.basename(componentPath, path.extname(componentPath));
     })
