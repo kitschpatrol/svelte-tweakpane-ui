@@ -2,9 +2,14 @@
   "name": "svelte-tweakpane-ui-docs",
   "version": "1.0.0",
   "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
   "scripts": {
     "astro": "astro",
-    "build": "npm run clean && astro check && astro build",
+    "build": "pnpm run clean && astro check && astro build",
     "clean": "rimraf .astro dist",
     "dev": "astro dev",
     "preview": "astro preview",
@@ -23,7 +28,7 @@
     "marked": "^9.1.6",
     "sharp": "^0.32.6",
     "svelte": "^4.2.3",
-    "svelte-tweakpane-ui": "file:..",
+    "svelte-tweakpane-ui": "link:..",
     "typescript": "^5.2.2"
   },
   "devDependencies": {

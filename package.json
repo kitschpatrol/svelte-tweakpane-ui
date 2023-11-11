@@ -18,7 +18,8 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
   },
   "exports": {
     ".": {
@@ -170,18 +171,18 @@
     "build": "run-s --print-label build:*",
     "build:01-generate-exports": "bun run ./scripts/generate-exports.ts",
     "build:02-add-source-links": "bun run ./scripts/add-source-links.ts",
-    "build:03-format": "npm run format",
+    "build:03-format": "pnpm run format",
     "build:04-package": "svelte-kit sync && svelte-package && publint",
     "build:05-heal-dts-comments": "bun run ./scripts/heal-dts-comments.ts",
     "build:06-strip-component-docs": "bun run ./scripts/strip-component-docs.ts",
     "build:07-format-library": "prettier --ignore-path --plugin prettier-plugin-svelte --write ./dist",
     "build:08-generate-doc-data": "bun run ./scripts/generate-doc-data.ts && bun run ./scripts/generate-example-components.ts",
-    "build:09-build-docs": "npm run docs:build",
+    "build:09-build-docs": "pnpm run docs:build",
     "check": "svelte-kit sync && svelte-check --ignore ./scratch --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --ignore ./scratch --tsconfig ./tsconfig.json --watch",
     "dev": "vite dev",
-    "docs:build": "cd ./docs && npm run build",
-    "docs:preview": "cd ./docs && npm run preview",
+    "docs:build": "pnpm -C ./docs run build",
+    "docs:preview": "pnpm -C ./docs run preview",
     "format": "run-s --print-label format:*",
     "format:1-wrap-comments": "rewrap -i --column 100 `find src -name '*.svelte' -o -name '*.ts'  -o -name '*.html' | grep -v src/lib-docs/generated`",
     "format:2-eslint": "eslint --fix ./src ./scripts",

@@ -5,7 +5,7 @@ import fs from 'fs';
 import { globSync } from 'glob';
 import path from 'path';
 import { format as prettierFormat, resolveConfig } from 'prettier';
-import stylelint from 'stylelint';
+// import stylelint from 'stylelint';
 import { svelte2tsx } from 'svelte2tsx';
 import {
 	type ClassDeclaration,
@@ -266,16 +266,22 @@ async function lint(code: string, fileExtension: string): Promise<string> {
 }
 
 async function lintStyle(code: string, fileExtension: string): Promise<string> {
+	fileExtension; // unused
+	return code;
+
+	// TODO
+	// broken...
 	// just passing the .stylelintrc.cjs doesn't seem to work...
-	const config = await stylelint.resolveConfig(`example.${fileExtension}`);
+	// const config = await stylelint.resolveConfig(`example.${fileExtension}`);
 
-	const result: stylelint.LinterResult = await stylelint.lint({
-		code: code,
-		config,
-		fix: true
-	});
+	// const result: stylelint.LinterResult = await stylelint.lint({
+	// 	code: code,
+	// 	config,
+	// 	configBasedir: process.cwd(),
+	// 	fix: true
+	// });
 
-	return result?.output ?? code;
+	// return result?.output ?? code;
 }
 
 export async function format(code: string, formatParser: string): Promise<string> {
