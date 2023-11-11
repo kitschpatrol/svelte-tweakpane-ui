@@ -8,6 +8,8 @@ import ExampleWrapper from "../examples/ExampleWrapper.svelte";
 import DynamicPropAdmonition from "./DynamicPropAdmonition.md";
 import { Tabs, TabItem } from "@astrojs/starlight/components";
 import { slug } from "github-slugger";
+import path from "path";
+const { BASE_URL } = import.meta.env;
 
 interface Props {
   componentData: StarlightProps["entry"]["data"]["componentData"];
@@ -17,7 +19,7 @@ interface Props {
 function linkifyComponentReferences(
   str: string,
   validComponentNames: string[],
-  base: string = "",
+  base: string = "/",
   markdownStyleLink: boolean = true,
 ): string {
   return str.replaceAll(
@@ -28,9 +30,9 @@ function linkifyComponentReferences(
         if (markdownStyleLink) {
           return `[${prefix ?? ""}<${name}>${
             postfix ?? ""
-          }](${base}/docs/components/${slug(name)})`;
+          }](${base}docs/components/${slug(name)})`;
         } else {
-          return `${prefix ?? ""}<a href="${base}/docs/components/${slug(
+          return `${prefix ?? ""}<a href="${base}docs/components/${slug(
             name,
           )}">&lt;${name}&gt;</a>${postfix ?? ""}`;
         }
@@ -49,12 +51,12 @@ const { componentData: data } = Astro.props;
 const validComponentNames =
   Object.keys(
     import.meta.glob("../../content/docs/docs/components/*.md", {
-      as: "json",
+      as: "raw",
       eager: false,
     }),
   )
-    .map((path) => {
-      return path.match(/\/([^/]+)\.md$/)![1];
+    .map((componentPath) => {
+      return path.basename(componentPath, path.extname(componentPath));
     })
     .filter((name) => {
       return name !== data?.name;
@@ -76,7 +78,12 @@ const hasSlots = !!data?.slots.length;
     <>
       <Fragment
         set:html={marked.parse(
-          linkifyComponentReferences(data.doc, validComponentNames, "", true),
+          linkifyComponentReferences(
+            data.doc,
+            validComponentNames,
+            BASE_URL,
+            true,
+          ),
         )}
       />
       {hasExample && (

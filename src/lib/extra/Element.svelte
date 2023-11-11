@@ -29,7 +29,7 @@
 	export let resetStyle: $$Props['resetStyle'] = true;
 
 	// pretend we're a separator blade seems to require a view the <hr> is replaced immediately with
-	// the slot contents
+	// the slot contents. proper way to do this would be an actual tweakpane plugin.
 	const options: BladeOptions = {
 		view: 'separator'
 	};
@@ -39,8 +39,6 @@
 
 	// hoist the slot into the blade
 	$: if (BROWSER && ref && ref.element) {
-		console.log('swapping separator');
-
 		ref.element.replaceChildren(sourceDiv);
 	}
 </script>

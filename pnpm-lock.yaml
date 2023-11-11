@@ -105,6 +105,9 @@ importers:
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
+      postcss-html:
+        specifier: ^1.5.0
+        version: 1.5.0
       prettier:
         specifier: ^3.0.3
         version: 3.0.3

@@ -16,7 +16,7 @@ async function generateComponentData(
 	componentName: string,
 	componentPath: string,
 	destination: string,
-	outputFormat: 'json' | 'mdx', // must match file extension, md inexplicably crashes vite with parse error on production builds
+	outputFormat: 'json' | 'md', // must match file extension
 	testProps?: ComponentDynamicPropTest[] | undefined
 ): Promise<boolean> {
 	const expandedPath = componentPath.replace('$lib', './src/lib');
@@ -30,7 +30,7 @@ async function generateComponentData(
 
 		let content: string;
 		switch (outputFormat) {
-			case 'mdx':
+			case 'md':
 				{
 					// Add some extra metadata for Astro
 					// The shape of this object needs to be coordinated with the Astro
@@ -174,7 +174,7 @@ for (const { name, path } of components) {
 		];
 	}
 
-	const success = await generateComponentData(name, path, destination, 'mdx', testProps);
+	const success = await generateComponentData(name, path, destination, 'md', testProps);
 
 	if (success) {
 		totalComponentsGenerated++;

@@ -35,7 +35,7 @@ export function componentMenu(
     label,
   };
 
-  globSync("src/content/docs/docs/components/*.mdx").map((file) => {
+  globSync("src/content/docs/docs/components/*.md").map((file) => {
     const { data } = matter.read(file);
 
     let currentMenu = menu;

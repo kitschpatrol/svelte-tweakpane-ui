@@ -11,13 +11,14 @@
 }
 
 /* Note matching font preload in astro.config.mjs */
-
+/* Note manual base path to match astro.config.mjs */
 @font-face {
   font-family: "Inter VF";
   font-weight: 100 900;
   font-style: normal;
   font-display: auto;
-  src: url("/fonts/Inter-VF.roman-latin.woff2") format("woff2");
+  src: url("/svelte-tweakpane-ui/fonts/Inter-VF.roman-latin.woff2")
+    format("woff2");
   /* stylelint-disable-next-line property-no-unknown */
   font-named-instance: "Regular";
 }
@@ -27,7 +28,8 @@
   font-weight: 100 900;
   font-style: italic;
   font-display: auto;
-  src: url("/fonts/Inter-VF.italic-latin.woff2") format("woff2");
+  src: url("/svelte-tweakpane-ui/fonts/Inter-VF.italic-latin.woff2")
+    format("woff2");
   /* stylelint-disable-next-line property-no-unknown */
   font-named-instance: "Italic";
 }
@@ -36,7 +38,8 @@
   font-family: "Fira Code VF";
   font-weight: 300 700;
   font-style: normal;
-  src: url("/fonts/FiraCode-VF.woff2") format("woff2-variations");
+  src: url("/svelte-tweakpane-ui/fonts/FiraCode-VF.woff2")
+    format("woff2-variations");
 }
 
 .font-mono {

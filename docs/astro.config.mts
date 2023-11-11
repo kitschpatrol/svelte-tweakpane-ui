@@ -3,8 +3,17 @@ import starlight from "@astrojs/starlight";
 import svelte from "@astrojs/svelte";
 import { defineConfig } from "astro/config";
 
+// declare this here for access inside
+// fontPreloadLinks()
+// note it must be manually applied in CSS url()s
+// concatenating with a css var doesn't work
+const BASE_URL = "/svelte-tweakpane-ui/";
+
+console.log(componentMenu());
+
 // https://astro.build/config
 export default defineConfig({
+  base: BASE_URL,
   integrations: [
     // https://starlight.astro.build/reference/configuration/
     starlight({
@@ -20,9 +29,9 @@ export default defineConfig({
           "https://github.com/kitschpatrol/svelte-tweakpane-ui/edit/main/docs/",
       },
       head: fontPreloadLinks([
-        "/fonts/Inter-VF.roman-latin.woff2",
-        "/fonts/Inter-VF.italic-latin.woff2",
-        "/fonts/FiraCode-VF.woff2",
+        `${BASE_URL}fonts/Inter-VF.roman-latin.woff2`,
+        `${BASE_URL}fonts/Inter-VF.italic-latin.woff2`,
+        `${BASE_URL}fonts/FiraCode-VF.woff2`,
       ]),
       sidebar: [
         {

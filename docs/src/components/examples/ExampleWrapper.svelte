@@ -9,8 +9,8 @@
   export let name: string;
 </script>
 
-<div class="not-content">
+
   {#await getExampleComponentPromise(name) then exampleComponent}
     <svelte:component this={exampleComponent.default} />
   {/await}
-</div>
+
