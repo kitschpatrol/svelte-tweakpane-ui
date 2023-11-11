@@ -121,11 +121,6 @@
 
 <!--
 @component  
-TODO Component documentation...
-
-TK
-
-
 Integrates the [quaternion
 rotation](https://github.com/0b5vr/tweakpane-plugin-rotation/blob/dev/src/RotationInputPluginQuaternion.ts)
 control from [0b5vr's](https://0b5vr.com)

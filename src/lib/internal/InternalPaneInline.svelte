@@ -27,8 +27,7 @@
 
 	// override theme defaults
 	export let theme: $$Props['theme'] = {
-		baseBorderRadius: '0px'
-		// bladeBorderRadius: '0px'
+		// baseBorderRadius: '0px' bladeBorderRadius: '0px'
 	};
 
 	let paneRef: TpPane;

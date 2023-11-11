@@ -1,5 +1,8 @@
-import { getComponentExampleCodeFromSource, getExportedComponents } from './ast-tools';
-import { createMarkdownParser } from '@svelteness/kit-docs/node';
+import {
+	getComponentExampleCodeFromSource,
+	getExportedComponents,
+	lintAndFormat
+} from './ast-tools';
 import fs from 'fs';
 import path from 'path';
 
@@ -20,10 +23,8 @@ async function generateExampleComponent(
 
 	if (exampleComponentText) {
 		// add comment
-		exampleComponentText = `<!-- /* Generated from @component example section in "${name}.svelte" */ -->\n${exampleComponentText.replace(
-			/'svelte-tweakpane-ui'/,
-			"'$lib'"
-		)}`;
+		// exampleComponentText = `${exampleComponentText.replace(/'svelte-tweakpane-ui'/, "'$lib'")}`;
+		exampleComponentText = await lintAndFormat(exampleComponentText);
 
 		// overwrites existing, creates intermediate directories
 		const resolvedPath = path.resolve(`${destination}/${name}${suffix}.svelte`);
@@ -41,29 +42,13 @@ async function generateExampleMarkdown(
 	suffix: string,
 	destination: string
 ): Promise<boolean> {
-	const exampleComponentText = await getComponentExampleCodeFromSource(name, true);
+	const exampleComponentText = (await getComponentExampleCodeFromSource(name, true)) + '\n';
 
 	if (exampleComponentText) {
 		// overwrites existing, creates intermediate directories
-		const resolvedPath = path.resolve(`${destination}/${name}${suffix}.svelte`);
+		const resolvedPath = path.resolve(`${destination}/${name}${suffix}.md`);
 		fs.mkdirSync(path.dirname(resolvedPath), { recursive: true });
-
-		const parser = await createMarkdownParser();
-		const rendered = parser.render(exampleComponentText);
-
-		let component =
-			'<script>\n' +
-			"import { CodeFence } from '@svelteness/kit-docs';\n" +
-			'</script>\n' +
-			`${rendered}\n`;
-
-		// Set some options
-		component = component.replace(
-			'<CodeFence ',
-			`<CodeFence showLineNumbers showCopyCode title="${name}${suffix}.svelte" `
-		);
-
-		fs.writeFileSync(resolvedPath, component);
+		fs.writeFileSync(resolvedPath, exampleComponentText);
 		return true;
 	} else {
 		return false;
@@ -82,8 +67,8 @@ let totalComponentsGenerated = 0;
 let totalMarkdownGenerated = 0;
 
 const components = getExportedComponents('./src/lib/index.ts');
-const componentDestination = './src/lib-docs/generated/examples';
-const markdownDestination = './src/lib-docs/generated/markdown';
+const markdownDestination = './docs/src/components/examples/markdown';
+const componentDestination = './docs/src/components/examples/svelte';
 
 console.log(`Generating documentation components for ${components.length} components...`);
 

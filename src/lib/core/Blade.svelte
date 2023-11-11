@@ -35,8 +35,8 @@
 	/**
 	 * Custom color scheme.
 	 * @default `undefined`  \
-	 * Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with
-	 * `setGlobalDefaultTheme()`.
+	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
+	 * set with `setGlobalDefaultTheme()`.
 	 * */
 	export let theme: Theme | undefined = undefined;
 

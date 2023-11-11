@@ -42,14 +42,14 @@
 	 * Note that `<Pane position="inline' ...>` squares off rounded corners by default to better
 	 * integrate with surrounding content.
 	 *
-	 * Simply pass a custom or default theme like `THEMES.standard` if you want rounded corners on
-	 * an `inline` pane.
+	 * Simply pass a custom or default theme like `ThemeUtils.presets.standard` if you want rounded
+	 * corners on an `inline` pane.
 	 *
 	 * See also the `setGlobalDefaultTheme()` for a way to set a custom default theme for all panes
 	 * on the page.
 	 * @default `undefined`  \
-	 * Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with
-	 * `setGlobalDefaultTheme()`.
+	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
+	 * set with `setGlobalDefaultTheme()`.
 	 * */
 	export let theme: Theme | undefined = undefined;
 

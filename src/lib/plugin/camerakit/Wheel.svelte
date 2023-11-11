@@ -56,7 +56,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the wheel in `<Pane p
 @example  
 ```svelte
 <script lang="ts">
-  import { Wheel } from '$lib';
+  import { Wheel } from 'svelte-tweakpane-ui';
 
   let angle = 45;
 </script>

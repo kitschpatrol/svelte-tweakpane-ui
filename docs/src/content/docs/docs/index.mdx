@@ -1,0 +1,52 @@
+---
+title: Overview
+description: Page description.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+## Test Heading 1
+
+I am a paragraph.
+
+```svelte
+<script lang="ts">
+  import { Button } from 'svelte-tweakpane-ui';
+
+  let count = 0;
+</script>
+
+<Button label="Count" title="Increment" on:click={() => count++} />
+<pre>
+	Count: {count}
+</pre>
+```
+
+### Test
+
+<Tabs>
+  <TabItem label="Stars">
+
+| Column 1     | Column 2 | Column 3      |
+| ------------ | -------- | ------------- |
+| left-aligned | centered | right-aligned |
+| left-aligned | centered | right-aligned |
+| left-aligned | centered | right-aligned |
+
+  </TabItem>
+  <TabItem label="Moons">
+	
+	| Column 1     | Column 2 | Column 3!      |
+| ------------ | -------- | ------------- |
+| left-aligned | centered | right-aligned |
+| left-aligned | centered | right-aligned |
+| left-aligned | centered | right-aligned |	
+	
+	</TabItem>
+</Tabs>
+
+### Events
+
+In the style of threlte
+
+### Naming conventions

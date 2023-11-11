@@ -35,6 +35,20 @@ function findFile(
 	}
 }
 
+export function getGithubUrlForSourceFile(filePath: string): string {
+	// gonna be slow
+	const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
+	const sourceBaseUrl = packageJson.repository.url.replace('.git', '') + '/blob/main/';
+	return sourceBaseUrl + filePath;
+}
+
+export function getEditUrlForSourceFile(filePath: string): string {
+	// gonna be slow
+	const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
+	const sourceBaseUrl = packageJson.repository.url.replace('.git', '') + '/edit/main/';
+	return sourceBaseUrl + filePath;
+}
+
 export function getDefinitionFilePath(
 	componentName: string,
 	warn: boolean = true
@@ -264,7 +278,7 @@ async function lintStyle(code: string, fileExtension: string): Promise<string> {
 	return result?.output ?? code;
 }
 
-async function format(code: string, formatParser: string): Promise<string> {
+export async function format(code: string, formatParser: string): Promise<string> {
 	// Resolve Prettier config for a given file path
 	const config = await resolveConfig('.');
 

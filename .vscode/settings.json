@@ -15,5 +15,6 @@
   ],
   "stylelint.validate": ["css", "html", "svelte"],
   "stylelint.configBasedir": ".",
-  "rewrap.wrappingColumn": 100
+  "rewrap.wrappingColumn": 100,
+  "cSpell.noConfigSearch": false
 }

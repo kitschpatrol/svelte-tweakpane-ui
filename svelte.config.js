@@ -8,15 +8,12 @@ const config = {
 		preserveWhitespace: false
 		// dev: true
 	},
-	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
-	extensions: ['.svelte', '.md'],
+	extensions: ['.svelte'],
 	kit: {
-		adapter: adapter(),
-		alias: {
-			'$lib-docs': './src/lib-docs'
-		},
-		paths: { base: '/svelte-tweakpane-ui' }
+		adapter: adapter()
+		// paths: { base: '/svelte-tweakpane-ui' }
 	},
+	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
 	// for more information about preprocessors
 	preprocess: vitePreprocess()
 };

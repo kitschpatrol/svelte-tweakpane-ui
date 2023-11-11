@@ -1,0 +1,34 @@
+{
+  "name": "svelte-tweakpane-ui-docs",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "astro": "astro",
+    "build": "npm run clean && astro check && astro build",
+    "clean": "rimraf .astro dist",
+    "dev": "astro dev",
+    "preview": "astro preview",
+    "start": "astro dev"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.3.1",
+    "@astrojs/starlight": "^0.12.0",
+    "@astrojs/svelte": "^4.0.3",
+    "@types/lodash-es": "^4.17.11",
+    "astro": "^3.5.2",
+    "github-slugger": "^2.0.0",
+    "glob": "^10.3.10",
+    "gray-matter": "^4.0.3",
+    "lodash-es": "^4.17.21",
+    "marked": "^9.1.6",
+    "sharp": "^0.32.6",
+    "svelte": "^4.2.3",
+    "svelte-tweakpane-ui": "file:..",
+    "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "prettier-plugin-astro": "^0.12.1",
+    "prettier-plugin-pkg": "^0.18.0",
+    "rimraf": "^5.0.5"
+  }
+}

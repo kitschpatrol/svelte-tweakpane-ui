@@ -9,7 +9,7 @@ import type { Simplify } from '$lib/utils';
 
 // only need undefined if we had nested themes... undefined shouldn't override global theme
 export type ThemeColorValue = Simplify<RgbColorObject | RgbaColorObject | string>;
-export type Theme = Simplify<ThemeKeys & CustomThemeKeys>;
+export type Theme = ThemeKeys & CustomThemeKeys;
 
 type ThemeKeys = {
 	// Tweakpane
@@ -236,7 +236,7 @@ const vivid: Theme = {
 };
 
 /** A collection of default theme color schemes.  */
-export const PRESETS = {
+export const presets = {
 	iceberg,
 	jetblack,
 	light,
@@ -377,6 +377,6 @@ export function setGlobalDefaultTheme(theme: Theme | undefined) {
 
 // library exports
 export const ThemeUtils = {
-	PRESETS,
+	presets,
 	setGlobalDefaultTheme
 };

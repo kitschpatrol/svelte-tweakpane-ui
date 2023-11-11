@@ -1,0 +1,12 @@
+{
+  
+  "plugins": ["prettier-plugin-pkg", "prettier-plugin-astro"],
+  "overrides": [
+    {
+      "files": "*.astro",
+      "options": {
+        "parser": "astro"
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+---
+import Default from "@astrojs/starlight/components/TableOfContents.astro";
+import type { Props } from "@astrojs/starlight/props";
+import { slug } from "github-slugger";
+
+// see https://github.com/withastro/starlight/blob/main/packages/starlight/utils/generateToC.ts
+
+const { componentData } = Astro.props.entry.data;
+
+// bad work-around for https://github.com/withastro/astro/issues/5084
+let localProps = Astro.props;
+if (componentData && localProps.toc) {
+  function tocItemForHeading(heading: string) {
+    return {
+      depth: 2,
+      slug: slug(heading),
+      text: heading,
+      children: [],
+    };
+  }
+
+  if (componentData.jsDocs && componentData.jsDocs["example"])
+    localProps.toc.items.push(tocItemForHeading("Example"));
+  if (componentData.props.length > 0)
+    localProps.toc.items.push(tocItemForHeading("Props"));
+  if (componentData.events.length > 0)
+    localProps.toc.items.push(tocItemForHeading("Events"));
+  if (componentData.slots.length > 0)
+    localProps.toc.items.push(tocItemForHeading("Slots"));
+}
+---
+
+<Default {...Astro.props} />

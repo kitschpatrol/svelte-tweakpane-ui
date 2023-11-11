@@ -114,7 +114,7 @@
 <!--
 @component  
 
-A grid of <Button> components.
+A grid of `<Button>` components.
 
 Integrates the [Button Grid](https://github.com/tweakpane/plugin-essentials#button-grid) control
 from Tweakpane-creator [Hiroki Kokubun's](https://cocopon.me)  [Essentials

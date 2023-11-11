@@ -1,0 +1,75 @@
+---
+import type { Props as StarlightProps } from "@astrojs/starlight/props";
+import { marked } from "marked";
+
+type ComponentProps = NonNullable<
+  StarlightProps["entry"]["data"]["componentData"]
+>["props"];
+
+interface Props {
+  data: ComponentProps;
+}
+
+function cleanType(type: string): string {
+  return type
+    .replace(/"/g, "'")
+    .replace(/&quot;/g, "&apos;")
+    .replace(" | undefined", "");
+}
+
+function cleanDefault(defaultValue: string | undefined): string {
+  if (defaultValue === undefined) return "";
+  return marked.parseInline(defaultValue) as string;
+}
+
+function isRequired(type: string): boolean {
+  return !type.includes(" | undefined");
+}
+
+function getFlags(prop: ComponentProps[0]): string[] {
+  const flags = Object.keys(prop.jsDocs)
+    // default gets its own row
+    .filter((key) => key !== "default")
+    .map((key) => key);
+
+  // have to pull "required" from type
+  if (isRequired(prop.type)) {
+    flags.push("required");
+  } else {
+    flags.push("optional");
+  }
+
+  return flags;
+}
+
+const { data } = Astro.props;
+---
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Flags</th>
+    </tr>
+  </thead>
+  <tbody>
+    {
+      data.map((prop) => (
+        <tr>
+          <td>
+            <code>{prop.name}</code>
+          </td>
+          <td set:html={marked.parseInline(prop.doc, {})} />
+          <td>
+            <code>{cleanType(prop.type)}</code>
+          </td>
+          <td set:html={cleanDefault(prop.jsDocs.default)} />
+          <td>{getFlags(prop).join(" ")}</td>
+        </tr>
+      ))
+    }
+  </tbody>
+</table>

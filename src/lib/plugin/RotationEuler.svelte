@@ -134,10 +134,6 @@
 
 <!--
 @component  
-TODO Component documentation...
-
-TK
-
 Integrates the [euler
 rotation](https://github.com/0b5vr/tweakpane-plugin-rotation/blob/dev/src/RotationInputPluginEuler.ts)
 control from [0b5vr's](https://0b5vr.com)
@@ -167,7 +163,6 @@ position='inline'>`.
   import {
     Button,
     RotationEuler,
-    type RotationEulerUnit,
     type RotationEulerValueObject,
     Utils
   } from 'svelte-tweakpane-ui';

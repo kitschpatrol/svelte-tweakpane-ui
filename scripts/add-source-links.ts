@@ -1,20 +1,18 @@
 // Replaces @sourceLink in JSDocs with GitHub URLs in source files References the git url provided
 // in package.json.
 
-import { getAllLibFiles } from './ast-tools';
+import { getAllLibFiles, getGithubUrlForSourceFile } from './ast-tools';
 import fs from 'fs';
 import path from 'path';
 
 const verbose = false;
 
-const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
-const sourceBaseUrl = packageJson.repository.url.replace('.git', '') + '/blob/main/';
 const files = getAllLibFiles();
 
-function addLinksToComponentBlock(filePath: string, baseUrl: string): void {
+function addLinksToComponentBlock(filePath: string): void {
 	const fileContent = fs.readFileSync(filePath, 'utf-8');
 	const fileName = path.basename(filePath);
-	const url = baseUrl + filePath;
+	const url = getGithubUrlForSourceFile(filePath);
 
 	// if the markdown link is already there, it will work out to a no-op if it needs an update, this
 	// will do it...
@@ -29,7 +27,7 @@ function addLinksToComponentBlock(filePath: string, baseUrl: string): void {
 	} else {
 		// warn if we have undocumented svelte components
 		if (filePath.endsWith('.svelte') && !fileContent.includes('@sourceLink')) {
-			console.warn(`No @sourceLink found in ${url.replace(sourceBaseUrl, './')}`);
+			console.warn(`No @sourceLink found in ${filePath}`);
 		}
 	}
 }
@@ -37,7 +35,7 @@ function addLinksToComponentBlock(filePath: string, baseUrl: string): void {
 console.log(`Replacing @sourceLink with GitHub URLs in ${files.length} files...`);
 
 files.forEach((filePath) => {
-	addLinksToComponentBlock(filePath, sourceBaseUrl);
+	addLinksToComponentBlock(filePath);
 });
 
 console.log(`Done.`);

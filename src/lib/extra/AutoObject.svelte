@@ -15,8 +15,8 @@
 	/**
 	 * Custom color scheme.
 	 * @default `undefined`  \
-	 * Inherits default Tweakpane theme equivalent to `THEMES.standard`, or the theme set with
-	 * `setGlobalDefaultTheme()`.
+	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
+	 * set with `setGlobalDefaultTheme()`.
 	 * */
 	export let theme: Theme | undefined = undefined;
 
@@ -76,7 +76,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pa
 position='inline'>`.
 
 `<AutoObject>` was inspired by the
-`[<TWPAutoMutable>](https://github.com/MrFoxPro/solid-tweakpane/blob/master/src/automutable.tsx)`
+[`<TWPAutoMutable>`](https://github.com/MrFoxPro/solid-tweakpane/blob/master/src/automutable.tsx)
 component in [Dmitriy Nikiforov's](https://github.com/MrFoxPro)
 [solid-tweakpane](https://github.com/MrFoxPro/solid-tweakpane) library.
 
@@ -88,9 +88,9 @@ component in [Dmitriy Nikiforov's](https://github.com/MrFoxPro)
   let object = {
     someBoolean: true, // Creates a <Checkbox>
     someColor: {
+      // Creates a <Color> picker
       b: 55,
       g: 0,
-      // Creates a <Color> picker
       r: 255
     },
     someFolder: {
