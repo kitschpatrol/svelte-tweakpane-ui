@@ -5,12 +5,13 @@
 	export type ProfilerCalcMode = 'frame' | 'mean' | 'median';
 	export type ProfilerChangeEvent = CustomEvent<number>;
 	export type ProfilerMeasure = (name: string, fn: () => void) => void;
+	export type ProfilerMeasureAsync = (name: string, fn: () => Promise<void>) => Promise<void>;
 	export type ProfilerMeasureHandler = Simplify<ProfilerBladeMeasureHandler>;
 </script>
 
 <script lang="ts">
 	import * as pluginModule from '@0b5vr/tweakpane-plugin-profiler';
-	import type { ProfilerBladeApi as ProfilerRef } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerApi.js';
+	import type { ProfilerBladeApi as ProfilerRef } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerBladeApi.js';
 	import type { ProfilerBladePluginParams as ProfilerOptions } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js';
 	import Blade from '$lib/core/Blade.svelte';
 	import { type UnwrapCustomEvents, enforceReadonly } from '$lib/utils';
@@ -74,6 +75,18 @@
 		 */
 		measure?: ProfilerMeasure;
 		/**
+		 * Async variation of function handle that wraps another function to measure its execution
+		 * duration.
+		 *
+		 * @example `measureAsync('Hard Work', async () => { ... })`;
+		 *
+		 * @bindable
+		 * @async
+		 * @readonly
+		 * @default `undefined`
+		 */
+		measureAsync?: ProfilerMeasureAsync;
+		/**
 		 * Function wrapping the `measure` function.
 		 *
 		 * The default is fine for most cases when you want to measure a temporal duration.
@@ -94,6 +107,10 @@
 		profilerBlade?.measure(name, fn);
 	}
 
+	async function _measureAsync(name: string, fn: () => Promise<void>): Promise<void> {
+		profilerBlade?.measureAsync(name, fn);
+	}
+
 	//unique
 	export let label: $$Props['label'] = undefined;
 	export let bufferSize: $$Props['bufferSize'] = undefined;
@@ -102,10 +119,11 @@
 	export let fractionDigits: $$Props['fractionDigits'] = undefined;
 	export let measureHandler: $$Props['measureHandler'] = undefined;
 	export let measure: $$Props['measure'] = _measure;
+	export let measureAsync: $$Props['measureAsync'] = _measureAsync;
 	export let interval: $$Props['interval'] = undefined;
 	export let targetDelta: $$Props['targetDelta'] = undefined;
 
-	// $: measure = _measure;
+	// $: _measure = measure;
 
 	let profilerBlade: ProfilerRef;
 	let options: ProfilerOptions;
@@ -127,14 +145,14 @@
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
 
 	onDestroy(() => {
-		stopObservingMeasuredFpsValue();
+		stopObservingMeasuredValue();
 	});
 
-	// observe and update the measured fps value reading from the dom is kind of crazy, TBD better
-	// way to get this data from the fps blade
-	function startObservingMeasuredFpsValue() {
+	// observe and update the measured profiler value from the dom This is is kind of crazy, TBD
+	// better way to get this data from the profiler blade
+	function startObservingMeasuredValue() {
 		// clean up if needed
-		stopObservingMeasuredFpsValue();
+		stopObservingMeasuredValue();
 		const targetNode = profilerBlade.controller.view.valueElement;
 		if (!targetNode || !targetNode.innerHTML) return;
 
@@ -151,16 +169,17 @@
 		observer.observe(targetNode, { characterData: true, childList: true, subtree: true });
 	}
 
-	function stopObservingMeasuredFpsValue() {
+	function stopObservingMeasuredValue() {
 		if (observer) {
 			observer.disconnect();
 			observer = undefined;
 		}
 	}
 
-	$: BROWSER && profilerBlade && startObservingMeasuredFpsValue();
+	$: BROWSER && profilerBlade && startObservingMeasuredValue();
 
 	$: DEV && BROWSER && enforceReadonly(_measure, measure, 'Profiler', 'measure');
+	$: DEV && BROWSER && enforceReadonly(_measureAsync, measureAsync, 'Profiler', 'measure');
 
 	$: BROWSER &&
 		(options = {
