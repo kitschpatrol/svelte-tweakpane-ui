@@ -114,7 +114,7 @@
 			label,
 			...options,
 			disabled
-		}) as V; // TODO can't shake ts(2322)
+		}) as V; // cast is required by Tweakpane's design
 
 		ref = _ref;
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { TabPageApi as TabPageRef } from '@tweakpane/core';
-	import Tab from '$lib/core/Tab.svelte';
+	import TabGroup from '$lib/core/TabGroup.svelte';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import { type Container, getElementIndex, isRootPane } from '$lib/utils.js';
@@ -8,7 +8,7 @@
 	import { getContext, onDestroy, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
-	import type { TabApi as TabRef } from 'tweakpane';
+	import type { TabApi as TabGroupRef } from 'tweakpane';
 
 	/**
 	 * Text in the tab.
@@ -48,7 +48,7 @@
 	};
 
 	// get context from tab
-	const tabStore: Writable<TabRef> = getContext('tabStore');
+	const tabGroupStore: Writable<TabGroupRef> = getContext('tabGroupStore');
 	const tabIndexStore: Writable<number> = getContext('tabIndexStore');
 	const userCreatedPane = getContext('userCreatedPane');
 
@@ -70,9 +70,9 @@
 	function create() {
 		// console.log('page created');
 
-		if (!$tabStore) {
+		if (!$tabGroupStore) {
 			// create tab if necessary this will be the tab's parent, not the page's
-			$tabStore = $parentStore.addTab({
+			$tabGroupStore = $parentStore.addTab({
 				// tabs MUST be created with at least one page how to handle tabs with no children?
 				disabled: false,
 				index: $tabIndexStore,
@@ -80,16 +80,16 @@
 				pages: [{ title }]
 			});
 
-			$tabPageStore = $tabStore.pages[0];
+			$tabPageStore = $tabGroupStore.pages[0];
 
 			// first tab selected by default
 			selected = true;
-		} else if (!$tabPageStore && $tabStore) {
+		} else if (!$tabPageStore && $tabGroupStore) {
 			// add to existing tab
-			$tabPageStore = $tabStore.addPage({ index, title });
+			$tabPageStore = $tabGroupStore.addPage({ index, title });
 		}
 
-		$tabStore?.on('select', () => {
+		$tabGroupStore?.on('select', () => {
 			$tabPageStore && (selected = $tabPageStore.selected);
 		});
 	}
@@ -107,38 +107,42 @@
 		$parentStore &&
 		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
-			'Set theme on the <Pane> component, not on its children! (Check nested <Page> components for a theme prop.)'
+			'Set theme on the <Pane> component, not on its children! (Check nested <TabPage> components for a theme prop.)'
 		);
 </script>
 
 <!--
 @component  
-Contains a collection of Tweakpane controls to be presented as a single group inside a `<Tab>`
-component. ("Tab" might be a more accurate description for this control.)
+Contains a collection of Tweakpane controls to be presented as a single group inside a `<TabGroup>`
+component.
 
 Provides `page` values to Tweakpane's [addTab](https://tweakpane.github.io/docs/ui-components/#tab)
 method.
 
-Usage outside of a `<Tab>` component wouldn't make much sense, but in such cases the `<Page>` will
-be implicitly wrapped in a `<Tab>` and `<Pane position='inline'>`.
+The name of this concept within the underlying vanilla JS Tweakpane API is `page`, but it has been
+changed to `TabPage` in `svelte-tweakpane-ui` for clarity its relationship to the `<TabGroup>`
+component.
+
+Usage outside of a `<TabGroup>` component wouldn't make much sense, but in such cases the
+`<TabPage>` will be implicitly wrapped in a `<TabGroup>` and `<Pane position='inline'>`.
 
 @example  
 ```svelte
 <script lang="ts">
-  import { Button, Page, Tab } from 'svelte-tweakpane-ui';
+  import { Button, TabGroup, TabPage } from 'svelte-tweakpane-ui';
 
   let countA = 0;
   let countB = 0;
 </script>
 
-<Tab>
-  <Page title="A">
+<TabGroup>
+  <TabPage title="A">
     <Button on:click={() => countA++} title="Button A" />
-  </Page>
-  <Page title="B">
+  </TabPage>
+  <TabPage title="B">
     <Button on:click={() => countB++} title="Button B" />
-  </Page>
-</Tab>
+  </TabPage>
+</TabGroup>
 
 <pre>
 Count A: {countA}
@@ -147,7 +151,7 @@ Count B: {countB}
 ```
 
 @sourceLink
-[Page.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Page.svelte)
+[TabPage.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/TabPage.svelte)
 -->
 
 {#if BROWSER}
@@ -157,11 +161,11 @@ Count B: {countB}
 		</div>
 	{:else}
 		<InternalPaneInline {theme} userCreatedPane={false}>
-			<Tab>
+			<TabGroup>
 				<svelte:self {disabled} {selected} {theme} {title}>
 					<slot />
 				</svelte:self>
-			</Tab>
+			</TabGroup>
 		</InternalPaneInline>
 	{/if}
 {/if}

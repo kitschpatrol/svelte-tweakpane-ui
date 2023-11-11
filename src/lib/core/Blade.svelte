@@ -85,7 +85,7 @@
 			index,
 			...options,
 			disabled // why last?
-		}) as V; // todo can't shake ts(2322);
+		}) as V; // cast is required by Tweakpane's design
 
 		ref = _ref;
 	}

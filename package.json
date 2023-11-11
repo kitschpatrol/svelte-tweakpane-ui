@@ -42,17 +42,17 @@
       "types": "./dist/core/Folder.svelte.d.ts",
       "svelte": "./dist/core/Folder.svelte"
     },
-    "./Page.svelte": {
-      "types": "./dist/core/Page.svelte.d.ts",
-      "svelte": "./dist/core/Page.svelte"
-    },
     "./Pane.svelte": {
       "types": "./dist/core/Pane.svelte.d.ts",
       "svelte": "./dist/core/Pane.svelte"
     },
-    "./Tab.svelte": {
-      "types": "./dist/core/Tab.svelte.d.ts",
-      "svelte": "./dist/core/Tab.svelte"
+    "./TabGroup.svelte": {
+      "types": "./dist/core/TabGroup.svelte.d.ts",
+      "svelte": "./dist/core/TabGroup.svelte"
+    },
+    "./TabPage.svelte": {
+      "types": "./dist/core/TabPage.svelte.d.ts",
+      "svelte": "./dist/core/TabPage.svelte"
     },
     "./AutoObject.svelte": {
       "types": "./dist/extra/AutoObject.svelte.d.ts",
@@ -182,6 +182,7 @@
     "check:watch": "svelte-kit sync && svelte-check --ignore ./scratch --tsconfig ./tsconfig.json --watch",
     "dev": "vite dev",
     "docs:build": "pnpm -C ./docs run build",
+    "docs:dev": "pnpm -C ./docs run dev",
     "docs:preview": "pnpm -C ./docs run preview",
     "format": "run-s --print-label format:*",
     "format:1-wrap-comments": "rewrap -i --column 100 `find src -name '*.svelte' -o -name '*.ts'  -o -name '*.html' | grep -v src/lib-docs/generated`",

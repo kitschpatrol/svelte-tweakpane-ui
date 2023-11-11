@@ -5,9 +5,9 @@ export { type BindingOptions, type BindingRef, default as Binding } from '$lib/c
 export { type BladeOptions, type BladeRef, default as Blade } from '$lib/core/Blade.svelte';
 export { type ButtonClickEvent, default as Button } from '$lib/core/Button.svelte';
 export { default as Folder } from '$lib/core/Folder.svelte';
-export { default as Page } from '$lib/core/Page.svelte';
 export { type PanePosition, default as Pane } from '$lib/core/Pane.svelte';
-export { default as Tab } from '$lib/core/Tab.svelte';
+export { default as TabGroup } from '$lib/core/TabGroup.svelte';
+export { default as TabPage } from '$lib/core/TabPage.svelte';
 
 // extra (svelte convenience components)
 export { default as AutoObject } from '$lib/extra/AutoObject.svelte';
@@ -50,6 +50,7 @@ export { type ImageValue, default as Image } from '$lib/plugin/Image.svelte';
 export {
 	type ProfilerCalcMode,
 	type ProfilerMeasure,
+	type ProfilerMeasureAsync,
 	type ProfilerMeasureHandler,
 	default as Profiler
 } from '$lib/plugin/Profiler.svelte';

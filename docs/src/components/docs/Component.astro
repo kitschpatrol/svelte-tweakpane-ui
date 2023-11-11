@@ -68,7 +68,7 @@ const { componentData: data } = Astro.props;
 // for automatic component linking...
 // all components except for the current one are valid
 const validComponentNames =
-  globSync("../../content/docs/docs/components/*.md")
+  globSync("src/content/docs/docs/components/*.md")
     .map((componentPath) => {
       return path.basename(componentPath, path.extname(componentPath));
     })

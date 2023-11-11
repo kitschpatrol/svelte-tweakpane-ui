@@ -121,7 +121,7 @@
 
 	let observer: MutationObserver | undefined = undefined;
 
-	// observe and update the measured fps value reading from the dom is kind of crazy, TBD better
+	// observe and update the measured fps value from the dom This is is kind of crazy, TBD better
 	// way to get this data from the fps blade
 	function startObservingMeasuredFpsValue() {
 		// clean up if needed

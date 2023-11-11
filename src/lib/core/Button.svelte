@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-	import type { ButtonApi } from '@tweakpane/core';
+	import type { ButtonApi as ButtonRef } from '@tweakpane/core';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import {
@@ -57,7 +57,7 @@
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
 
 	let indexElement: HTMLDivElement;
-	let button: ButtonApi;
+	let button: ButtonRef;
 	let index: number;
 
 	function create() {

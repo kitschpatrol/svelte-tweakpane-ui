@@ -58,10 +58,11 @@ export default defineConfig({
       social: {
         github: "https://github.com/kitschpatrol/svelte-tweakpane-ui",
       },
-      title: "svelte-tweakpane-ui",
+      title: "Svelte Tweakpane UI",
     }),
     svelte(),
   ],
+  site: "https://kitschpatrol.com/svelte-tweakpane-ui",
   // pending https://github.com/withastro/starlight/pull/1023
   // trailingSlash: "never",
 });

@@ -6,7 +6,7 @@
 	import { getContext, onDestroy, onMount, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { writable } from 'svelte/store';
-	import type { TabApi as TabRef } from 'tweakpane';
+	import type { TabApi as TabGroupRef } from 'tweakpane';
 
 	/**
 	 * Prevent interactivity and gray out the control.
@@ -32,15 +32,15 @@
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {
 		/**
-		 * A `<Page>` component.
+		 * A `<TabPage>` component.
 		 */
 		default: {};
 	};
 
 	const parentStore: Writable<Container> = getContext('parentStore');
 
-	const tabStore = writable<TabRef>();
-	setContext('tabStore', tabStore);
+	const tabGroupStore = writable<TabGroupRef>();
+	setContext('tabGroupStore', tabGroupStore);
 
 	const tabIndexStore = writable<number>();
 	setContext('tabIndexStore', tabIndexStore);
@@ -51,69 +51,73 @@
 
 	onMount(() => {
 		// pass the tab context and index down as a store instead of a plain context, so that the
-		// child pages can edit it when needed that lets us support a childless <Tab /> component,
-		// where the first page to be added handles construction of the tab this is necessary
-		// because the tweakpane tab API can only construct tab groups with at least one page
+		// child pages can edit it when needed that lets us support a childless <TabGroup />
+		// component, where the first page to be added handles construction of the tab this is
+		// necessary because the tweakpane tab API can only construct tab groups with at least one
+		// page
 		$tabIndexStore = userCreatedPane ? getElementIndex(indexElement) : 0;
 	});
 
 	onDestroy(() => {
-		$tabStore?.dispose();
+		$tabGroupStore?.dispose();
 	});
 
 	// TODO does this need cleanup?
-	function setUpListeners(t: TabRef) {
+	function setUpListeners(t: TabGroupRef) {
 		t?.on('select', (e) => {
 			selectedIndex = e.index;
 		});
 	}
 
 	function setSelectedIndex(index: number) {
-		const tabPageApi = $tabStore?.pages.at(index);
+		const tabPageApi = $tabGroupStore?.pages.at(index);
 		if (tabPageApi) {
 			if (!tabPageApi.selected) tabPageApi.selected = true;
 		}
 	}
 
-	$: BROWSER && setUpListeners($tabStore);
+	$: BROWSER && setUpListeners($tabGroupStore);
 	$: BROWSER && setSelectedIndex(selectedIndex);
-	$: BROWSER && $tabStore && ($tabStore.disabled = disabled);
+	$: BROWSER && $tabGroupStore && ($tabGroupStore.disabled = disabled);
 	$: BROWSER &&
 		theme &&
 		$parentStore &&
 		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
-			'Set theme on the <Pane> component, not on its children! (Check nested <Tab> components for a theme prop.)'
+			'Set theme on the <Pane> component, not on its children! (Check nested <TabGroup> components for a theme prop.)'
 		);
 </script>
 
 <!--
 @component  
-Contains a collection of `<Page>` components to be presented as a tabs. ("TabGroup" might be a more
-accurate description for this control.)
+Contains a collection of `<TabPage>` components to be presented as a tabs.
 
 Wraps Tweakpane's [addTab](https://tweakpane.github.io/docs/ui-components/#tab) method.
+
+The name of this concept within the underlying vanilla JS Tweakpane API is `tab`, but it has been
+changed to `TabGroup` in `svelte-tweakpane-ui` to clarify it's relationship to the
+`<TabPage>` component.
 
 Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane position='inline'>`.
 
 @example  
 ```svelte
 <script lang="ts">
-  import { Button, Page, Tab } from 'svelte-tweakpane-ui';
+  import { Button, TabGroup, TabPage } from 'svelte-tweakpane-ui';
 </script>
 
-<Tab>
-  <Page title="A">
+<TabGroup>
+  <TabPage title="A">
     <Button on:click={() => alert('A...')} title="Button A" />
-  </Page>
-  <Page title="B">
+  </TabPage>
+  <TabPage title="B">
     <Button on:click={() => alert('B...')} title="Button B" />
-  </Page>
-</Tab>
+  </TabPage>
+</TabGroup>
 ```
 
 @sourceLink
-[Tab.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Tab.svelte)
+[TabGroup.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/TabGroup.svelte)
 -->
 
 {#if BROWSER}
