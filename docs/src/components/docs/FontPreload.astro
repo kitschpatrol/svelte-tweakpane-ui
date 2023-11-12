@@ -1,0 +1,29 @@
+---
+// must be maintained manually
+const fontsToPreload = [
+  "@fontsource-variable/inter/files/inter-latin-standard-normal.woff2",
+];
+
+// get the bundled font urls
+const importedFonts = await Promise.all(
+  fontsToPreload.map(async (font) => {
+    return (
+      await import(
+        "@fontsource-variable/inter/files/inter-latin-standard-normal.woff2"
+      )
+    ).default;
+  }),
+);
+---
+
+{
+  importedFonts.map((fontUrl) => (
+    <link
+      rel="preload"
+      as="font"
+      crossorigin="true"
+      type="font/woff2"
+      href={fontUrl}
+    />
+  ))
+}

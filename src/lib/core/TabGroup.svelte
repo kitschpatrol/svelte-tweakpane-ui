@@ -95,8 +95,8 @@ Contains a collection of `<TabPage>` components to be presented as a tabs.
 Wraps Tweakpane's [addTab](https://tweakpane.github.io/docs/ui-components/#tab) method.
 
 The name of this concept within the underlying vanilla JS Tweakpane API is `tab`, but it has been
-changed to `TabGroup` in `svelte-tweakpane-ui` to clarify it's relationship to the
-`<TabPage>` component.
+changed to `TabGroup` in `svelte-tweakpane-ui` to clarify it's relationship to the `<TabPage>`
+component.
 
 Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane position='inline'>`.
 

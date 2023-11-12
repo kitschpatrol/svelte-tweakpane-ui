@@ -1,3 +1,5 @@
+@import url("@fontsource-variable/inter/standard.css");
+
 /* src/styles/custom.css */
 :root {
   /* --sl-content-width: 60rem; */
@@ -5,43 +7,7 @@
   /* --sl-text-5xl: 3.5rem; */
 
   /* starlight handles fallbacks */
-  --sl-font: "Inter VF";
+  --sl-font: "Inter Variable";
   --sl-font-mono: "Fira Code VF";
   overflow-y: scroll;
-}
-
-/* Note matching font preload in astro.config.mjs */
-/* Note manual base path to match astro.config.mjs */
-@font-face {
-  font-family: "Inter VF";
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: auto;
-  src: url("/svelte-tweakpane-ui/fonts/Inter-VF.roman-latin.woff2")
-    format("woff2");
-  /* stylelint-disable-next-line property-no-unknown */
-  font-named-instance: "Regular";
-}
-
-@font-face {
-  font-family: "Inter VF";
-  font-weight: 100 900;
-  font-style: italic;
-  font-display: auto;
-  src: url("/svelte-tweakpane-ui/fonts/Inter-VF.italic-latin.woff2")
-    format("woff2");
-  /* stylelint-disable-next-line property-no-unknown */
-  font-named-instance: "Italic";
-}
-
-@font-face {
-  font-family: "Fira Code VF";
-  font-weight: 300 700;
-  font-style: normal;
-  src: url("/svelte-tweakpane-ui/fonts/FiraCode-VF.woff2")
-    format("woff2-variations");
-}
-
-.font-mono {
-  font-variant-ligatures: none;
 }

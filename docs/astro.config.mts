@@ -1,4 +1,4 @@
-import { componentMenu, fontPreloadLinks } from "./src/utils/config-helpers";
+import { componentMenu } from "./src/utils/config-helpers";
 import starlight from "@astrojs/starlight";
 import svelte from "@astrojs/svelte";
 import { defineConfig } from "astro/config";
@@ -12,11 +12,15 @@ const BASE_URL = "/svelte-tweakpane-ui/";
 // https://astro.build/config
 export default defineConfig({
   base: BASE_URL,
+  // experimental: {
+  //   devOverlay: true,
+  // },
   integrations: [
     // https://starlight.astro.build/reference/configuration/
     starlight({
       components: {
         EditLink: "./src/components/docs/CustomEditLink.astro",
+        Head: "./src/components/docs/CustomHead.astro",
         MarkdownContent: "./src/components/docs/CustomMarkdownContent.astro",
         TableOfContents: "./src/components/docs/CustomTableOfContents.astro",
       },
@@ -26,12 +30,7 @@ export default defineConfig({
         baseUrl:
           "https://github.com/kitschpatrol/svelte-tweakpane-ui/edit/main/docs/",
       },
-      // prevents FOUC
-      head: fontPreloadLinks([
-        `${BASE_URL}fonts/Inter-VF.roman-latin.woff2`,
-        `${BASE_URL}fonts/Inter-VF.italic-latin.woff2`,
-        `${BASE_URL}fonts/FiraCode-VF.woff2`,
-      ]),
+      lastUpdated: true,
       sidebar: [
         {
           label: "Overview",

@@ -56,10 +56,10 @@ importers:
         version: 0.1.0
       '@sveltejs/adapter-static':
         specifier: ^2.0.3
-        version: 2.0.3(@sveltejs/kit@1.27.4)
+        version: 2.0.3(@sveltejs/kit@1.27.5)
       '@sveltejs/kit':
-        specifier: ^1.27.4
-        version: 1.27.4(svelte@4.2.3)(vite@4.5.0)
+        specifier: ^1.27.5
+        version: 1.27.5(svelte@4.2.3)(vite@4.5.0)
       '@sveltejs/package':
         specifier: ^2.2.2
         version: 2.2.2(svelte@4.2.3)(typescript@5.2.2)
@@ -88,8 +88,8 @@ importers:
         specifier: ^9.0.0
         version: 9.0.0(eslint@8.53.0)
       eslint-plugin-perfectionist:
-        specifier: ^2.2.0
-        version: 2.2.0(eslint@8.53.0)(svelte@4.2.3)(typescript@5.2.2)
+        specifier: ^2.3.0
+        version: 2.3.0(eslint@8.53.0)(svelte@4.2.3)(typescript@5.2.2)
       eslint-plugin-svelte:
         specifier: ^2.35.0
         version: 2.35.0(eslint@8.53.0)(svelte@4.2.3)
@@ -177,6 +177,9 @@ importers:
       '@astrojs/svelte':
         specifier: ^4.0.3
         version: 4.0.3(astro@3.5.2)(svelte@4.2.3)(typescript@5.2.2)(vite@4.5.0)
+      '@fontsource-variable/inter':
+        specifier: ^5.0.15
+        version: 5.0.15
       '@types/lodash-es':
         specifier: ^4.17.11
         version: 4.17.11
@@ -196,8 +199,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       marked:
-        specifier: ^9.1.6
-        version: 9.1.6
+        specifier: ^10.0.0
+        version: 10.0.0
       sharp:
         specifier: ^0.32.6
         version: 0.32.6
@@ -211,6 +214,9 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2
     devDependencies:
+      license-checker-rseidelsohn:
+        specifier: ^4.2.10
+        version: 4.2.10
       prettier-plugin-astro:
         specifier: ^0.12.1
         version: 0.12.1
@@ -1416,6 +1422,10 @@ packages:
     engines: {node: '>=14'}
     dev: true
 
+  /@fontsource-variable/inter@5.0.15:
+    resolution: {integrity: sha512-CdQPQQgOVxg6ifmbrqYZeUqtQf7p2wPn6EvJ4M+vdNnsmYZgYwPPPQDNlIOU7LCUlSGaN26v6H0uA030WKn61g==}
+    dev: false
+
   /@humanwhocodes/config-array@0.11.13:
     resolution: {integrity: sha512-JSBDMiDKSzQVngfRjOdFXgFfklaXI4K9nLF49Auh21lmBWRLIK3+xTErTWD4KU54pb6coM6ESE7Awz/FNU3zgQ==}
     engines: {node: '>=10.10.0'}
@@ -1673,16 +1683,16 @@ packages:
       yargs: 17.7.2
     dev: true
 
-  /@sveltejs/adapter-static@2.0.3(@sveltejs/kit@1.27.4):
+  /@sveltejs/adapter-static@2.0.3(@sveltejs/kit@1.27.5):
     resolution: {integrity: sha512-VUqTfXsxYGugCpMqQv1U0LIdbR3S5nBkMMDmpjGVJyM6Q2jHVMFtdWJCkeHMySc6mZxJ+0eZK3T7IgmUCDrcUQ==}
     peerDependencies:
       '@sveltejs/kit': ^1.5.0
     dependencies:
-      '@sveltejs/kit': 1.27.4(svelte@4.2.3)(vite@4.5.0)
+      '@sveltejs/kit': 1.27.5(svelte@4.2.3)(vite@4.5.0)
     dev: true
 
-  /@sveltejs/kit@1.27.4(svelte@4.2.3)(vite@4.5.0):
-    resolution: {integrity: sha512-Vxl8Jf0C1+/8i/slsxFOnwJntCBDLueO/O6GJ0390KUnyW3Zs+4ZiIinD+cEcYnJPQQ9CRzVSr9Bn6DbmTn4Dw==}
+  /@sveltejs/kit@1.27.5(svelte@4.2.3)(vite@4.5.0):
+    resolution: {integrity: sha512-+L1WPs/ZYNjXoBFoFARypD4aZOjkT51vFpRCtQI45+Fmmfi4Y0dH/8VFlmYD6VlGe89ViIPg7lgf/JpGQ2tr7A==}
     engines: {node: ^16.14 || >=18}
     hasBin: true
     requiresBuild: true
@@ -3356,8 +3366,8 @@ packages:
       eslint: 8.53.0
     dev: true
 
-  /eslint-plugin-perfectionist@2.2.0(eslint@8.53.0)(svelte@4.2.3)(typescript@5.2.2):
-    resolution: {integrity: sha512-/nG2Uurd6AY7CI6zlgjHPOoiPY8B7EYMUWdNb5w+EzyauYiQjjD5lQwAI1FlkBbCCFFZw/CdZIPQhXumYoiyaw==}
+  /eslint-plugin-perfectionist@2.3.0(eslint@8.53.0)(svelte@4.2.3)(typescript@5.2.2):
+    resolution: {integrity: sha512-T/1HOysrsyExPr/N5apy3XFhejYqIturtejlSbTGy0WCw5dt72FDT92NOvRRKJvx8lftZDJ8AEIs5nHk9Pfa9Q==}
     peerDependencies:
       astro-eslint-parser: ^0.16.0
       eslint: '>=8.0.0'
@@ -4874,9 +4884,9 @@ packages:
       markdownlint-micromark: 0.1.7
     dev: true
 
-  /marked@9.1.6:
-    resolution: {integrity: sha512-jcByLnIFkd5gSXZmjNvS1TlmRhCXZjIzHYlaGkPlLIekG55JDR2Z4va9tZwCiP+/RDERiNhMOFu01xd6O5ct1Q==}
-    engines: {node: '>= 16'}
+  /marked@10.0.0:
+    resolution: {integrity: sha512-YiGcYcWj50YrwBgNzFoYhQ1hT6GmQbFG8SksnYJX1z4BXTHSOrz1GB5/Jm2yQvMg4nN1FHP4M6r03R10KrVUiA==}
+    engines: {node: '>= 18'}
     hasBin: true
     dev: false
 

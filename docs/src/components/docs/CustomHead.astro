@@ -1,0 +1,12 @@
+---
+// Inject fontsource font preloads
+// We have to do this here instead of in astro.config starlight.head
+// so we can get the bundled asset URL for the font files
+
+import type { Props } from "@astrojs/starlight/props";
+import Default from "@astrojs/starlight/components/Head.astro";
+import FontPreload from "./FontPreload.astro";
+---
+
+<FontPreload />
+<Default {...Astro.props} />

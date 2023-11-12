@@ -204,6 +204,7 @@ Two other projects provide integration between Tweakpane and Svelte:
 - https://github.com/HiDeoo/Typedown
 - Sveltepress example: https://github.com/Myrmod/svelte-babylon
 - https://github.com/leveluptuts/bookit
+- https://npm.io/package/svelte-doc-kit
 
 ## JSDoc Meanings
 

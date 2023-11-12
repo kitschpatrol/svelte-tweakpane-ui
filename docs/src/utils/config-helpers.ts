@@ -1,25 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { StarlightConfig } from "@astrojs/starlight/types";
 import { slug } from "github-slugger";
 import { globSync } from "glob";
 import matter from "gray-matter";
 import { capitalize } from "lodash-es";
-
-export function fontPreloadLinks(fonts: string[]): StarlightConfig["head"] {
-  return fonts.map((font) => {
-    return {
-      attrs: {
-        as: "font",
-        crossorigin: true,
-        href: font,
-        rel: "preload",
-        type: "font/woff2",
-      },
-      content: "",
-      tag: "link",
-    };
-  });
-}
 
 // create custom sidebar which nests differently from directory structure
 // can't seem to fish the menu type out of astro's public exports

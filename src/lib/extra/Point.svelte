@@ -37,7 +37,7 @@
 
 <script generics="T extends PointValue2d | PointValue3d | PointValue4d" lang="ts">
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
-	import type { HasKey } from '$lib/utils';
+	import { type HasKey, removeKeys } from '$lib/utils';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
@@ -305,6 +305,6 @@ position='inline'>` component.
 		bind:expanded
 		{buttonClass}
 		{options}
-		{...$$restProps}
+		{...removeKeys($$restProps, ...Object.keys(options))}
 	/>
 {/if}
