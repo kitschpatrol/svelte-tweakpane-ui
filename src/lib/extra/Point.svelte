@@ -305,6 +305,13 @@ position='inline'>` component.
 		bind:expanded
 		{buttonClass}
 		{options}
-		{...removeKeys($$restProps, ...Object.keys(options))}
+		{...removeKeys(
+			$$restProps,
+			...Object.keys(options),
+			'optionsX',
+			'optionsY',
+			'optionsZ',
+			'optionsW'
+		)}
 	/>
 {/if}
