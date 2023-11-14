@@ -7,13 +7,13 @@
 
 <script lang="ts">
 	import GenericPane from '$lib/internal/GenericPane.svelte';
-	import { clamp, removeKeys } from '$lib/utils.js';
+	import { clamp, getSwatchButton, pickerIsOpen, removeKeys } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import { persisted } from 'svelte-local-storage-store';
 	import type { Writable } from 'svelte/store';
-	import type { Pane as TpPane } from 'tweakpane';
+	import type { BladeApi, FolderApi, Pane as TpPane } from 'tweakpane';
 
 	// Maybe expose as props
 	const TITLEBAR_WINDOW_SHADE_SINGLE_CLICK = true;
@@ -55,6 +55,12 @@
 		 * @default `600`
 		 * */
 		maxWidth?: number;
+		/**
+		 * Automatically collapse open panels whey the available window size is less than the height of the pane.
+		 *
+		 * @default `false`
+		 * */
+		collapseChildrenToFit?: boolean;
 		/**
 		 * Identifier to be used if multiple `<Pane position='draggable'>` components with
 		 * `storePositionLocally` set to true are used on the same page.
@@ -123,6 +129,7 @@
 	}
 
 	export let expanded: $$Props['expanded'] = $positionStore?.expanded ?? true;
+	export let collapseChildrenToFit: $$Props['collapseChildrenToFit'] = false;
 	export let x: $$Props['x'] = $positionStore?.x ?? 0;
 	export let y: $$Props['y'] = $positionStore?.y ?? 0;
 	export let width: $$Props['width'] = $positionStore?.width ?? 256;
@@ -356,6 +363,34 @@
 
 	$: BROWSER && paneRef && resizable && updateResizability(resizable);
 
+	function recursiveCollapse(
+		children: BladeApi[],
+		maxToCollapse: number = Number.MAX_SAFE_INTEGER
+	) {
+		console.log(maxToCollapse);
+		if (maxToCollapse > 0) {
+			children.forEach((child: BladeApi) => {
+				if ('expanded' in child) {
+					if ((child as FolderApi).expanded) {
+						maxToCollapse--;
+						(child as FolderApi).expanded = false;
+					}
+
+					if ('children' in child) {
+						recursiveCollapse((child as FolderApi).children, maxToCollapse);
+					}
+				} else {
+					const swatchButton = getSwatchButton(child);
+					if (swatchButton && pickerIsOpen(child)) {
+						maxToCollapse--;
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						swatchButton.click();
+					}
+				}
+			});
+		}
+	}
+
 	// ensure the tweakpane panel is within the viewport additional checks in the width drag handler
 	$: if (
 		BROWSER &&
@@ -368,8 +403,16 @@
 		minWidth !== undefined &&
 		maxWidth !== undefined
 	) {
-		x = clamp(x, 0, documentWidth - width);
-		y = clamp(y, 0, documentHeight - containerHeightScaled);
+		// collapse children if needed
+		// TODO progressive collapsing not working because of container height update delays...
+		if (collapseChildrenToFit && containerHeightScaled > documentHeight) {
+			recursiveCollapse(paneRef.children);
+		}
+
+		// prioritize visibility of the top / left corner
+		x = clamp(x, 0, Math.max(0, documentWidth - width));
+		y = clamp(y, 0, Math.max(0, documentHeight - containerHeightScaled));
+
 		if (documentWidth < width) {
 			width = Math.max(minWidth, Math.min(maxWidth, documentWidth));
 		}
@@ -417,7 +460,7 @@ This component is for internal use only.
 		on:pointerdown|capture={() => {
 			zIndexLocal = ++zIndexGlobal;
 		}}
-		class="draggable-container"
+		class="svelte-tweakpane-ui draggable-container"
 		class:not-collapsable={!clickToExpand}
 		class:not-resizable={!resizable}
 		style:left="{x}px"

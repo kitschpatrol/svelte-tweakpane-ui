@@ -22,7 +22,7 @@ export type SimplifyDeep<Type> = Type extends Theme // exclude Theme
 export type HasKey<U, V extends PropertyKey> = V extends keyof U ? U[V] : unknown;
 
 // user-facing types
-import type { Bindable, TpPluginBundle } from '@tweakpane/core';
+import type { Bindable, BladeApi, BladeController, TpPluginBundle, View } from '@tweakpane/core';
 export type BindingObject = Bindable;
 export type Plugin = TpPluginBundle;
 
@@ -94,6 +94,7 @@ export function isRootPane(container: Container): boolean {
 }
 
 export function clamp(value: number, min: number, max: number): number {
+	// prioritize min over max
 	return Math.min(Math.max(value, min), max);
 }
 
@@ -193,6 +194,66 @@ export function getGridDimensions(
 
 	return { columns, rows };
 }
+
+export function tupleToObject<T extends string, O extends { [K in T]: number }>(
+	tuple: number[],
+	keys: T[]
+): O {
+	const result = {} as O;
+
+	keys.forEach((key, index) => {
+		// Assert that the assignment is safe
+		result[key as keyof O] = tuple[index] as O[keyof O];
+	});
+
+	return result;
+}
+
+export function objectToTuple<T extends string, O extends Record<T, number>>(
+	obj: O,
+	keys: [T]
+): [number];
+export function objectToTuple<T extends string, O extends Record<T, number>>(
+	obj: O,
+	keys: [T, T]
+): [number, number];
+export function objectToTuple<T extends string, O extends Record<T, number>>(
+	obj: O,
+	keys: [T, T, T]
+): [number, number, number];
+export function objectToTuple<T extends string, O extends Record<T, number>>(
+	obj: O,
+	keys: [T, T, T, T]
+): [number, number, number, number];
+export function objectToTuple<T extends string, O extends Record<T, number>>(
+	obj: O,
+	keys: T[]
+): number[] {
+	return keys.map((key) => obj[key]);
+}
+
+// tweakpane  helpers
+
+export function pickerIsOpen(blade: BladeApi<BladeController<View>>): boolean {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	return (blade.controller as any).valueController?.foldable_?.valMap_?.expanded?.value_;
+}
+
+export function getSwatchButton(
+	blade: BladeApi<BladeController<View>>
+): HTMLButtonElement | undefined {
+	const swatch =
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		((blade.controller as any)?.valueController?.view?.swatchElement?.querySelector('button') ??
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			(blade.controller as any)?.valueController?.view?.buttonElement) as
+			| HTMLButtonElement
+			| undefined;
+
+	return swatch;
+}
+
+// ------------------------
 
 // public runtime helpers, mostly used in examples but re-exported for user's convenience end
 // exposed under the Utils namespace alternative might be to scope these under the related
