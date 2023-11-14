@@ -1,17 +1,23 @@
 ---
 // must be maintained manually
+// we get Inter from a dedicated package instead of @fontsource so we can have
+// the alternate "ss02" feature set with the cooler I at least until
+// https://github.com/fontsource/fontsource/issues/39 is resolved
+
 const fontsToPreload = [
-  "@fontsource-variable/inter/files/inter-latin-standard-normal.woff2",
+  /* @ts-ignore - TS doesn't like the query */
+  import("inter-ui/Inter (web latin)/Inter-roman.var.woff2?v=3.19"),
+  /* @ts-ignore - TS doesn't like the query */
+  import("inter-ui/Inter (web latin)/Inter-italic.var.woff2?v=3.19"),
+  import(
+    "@fontsource-variable/fira-code/files/fira-code-latin-wght-normal.woff2"
+  ),
 ];
 
 // get the bundled font urls
 const importedFonts = await Promise.all(
   fontsToPreload.map(async (font) => {
-    return (
-      await import(
-        "@fontsource-variable/inter/files/inter-latin-standard-normal.woff2"
-      )
-    ).default;
+    return (await font).default;
   }),
 );
 ---

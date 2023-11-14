@@ -17,3 +17,9 @@ hero:
       icon: document
       variant: secondary
 ---
+
+import TweakpaneDemo from "../../components/examples/TweakpaneDemo.svelte";
+
+<div class="not-content">
+  <TweakpaneDemo client:only="svelte" x={100} y={100} />
+</div>

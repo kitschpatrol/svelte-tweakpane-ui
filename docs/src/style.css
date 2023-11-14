@@ -1,4 +1,5 @@
-@import url("@fontsource-variable/inter/standard.css");
+@import url("inter-ui/inter-latin.css");
+@import url("@fontsource-variable/fira-code/wght.css");
 
 /* src/styles/custom.css */
 :root {
@@ -7,7 +8,21 @@
   /* --sl-text-5xl: 3.5rem; */
 
   /* starlight handles fallbacks */
-  --sl-font: "Inter Variable";
-  --sl-font-mono: "Fira Code VF";
+  --sl-font: "Inter var";
+  --sl-font-mono: "Fira Code Variable";
+
   overflow-y: scroll;
+  font-feature-settings: "ss02";
+}
+
+:root[data-theme="light"] {
+  font-weight: 450 !important;
+}
+
+:root[data-theme="dark"] {
+  font-weight: 500 !important;
+}
+
+code {
+  font-variant-ligatures: none !important;
 }

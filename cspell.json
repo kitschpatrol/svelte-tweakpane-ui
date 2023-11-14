@@ -60,7 +60,8 @@
     "tsconfigs",
     "tsquery",
     "tweakpane",
-    "unplugin"
+    "unplugin",
+    "wght"
   ],
   "language": "en,en-US",
   "ignorePaths": [
