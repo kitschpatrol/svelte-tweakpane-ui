@@ -24,7 +24,7 @@
     "@fontsource-variable/inter": "^5.0.15",
     "@fontsource-variable/overpass": "^5.0.16",
     "@types/lodash-es": "^4.17.11",
-    "astro": "^3.5.2",
+    "astro": "^3.5.4",
     "github-slugger": "^2.0.0",
     "glob": "^10.3.10",
     "gray-matter": "^4.0.3",
@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "license-checker-rseidelsohn": "^4.2.10",
-    "prettier-plugin-astro": "^0.12.1",
+    "prettier-plugin-astro": "^0.12.2",
     "prettier-plugin-pkg": "^0.18.0",
     "rimraf": "^5.0.5"
   }
