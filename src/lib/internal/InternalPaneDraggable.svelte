@@ -68,6 +68,13 @@
 		 */
 		localStoreId?: string;
 		/**
+		 * CSS [padding property string](https://developer.mozilla.org/en-US/docs/Web/CSS/padding) to apply to the draggable pane container to prevent it from being dragged all the way to the edge of the window.
+		 *
+		 * Useful for keeping the pane away from of menu bars, etc.
+		 * @default `'0'`
+		 */
+		padding: string;
+		/**
 		 * Allow the user to resize the width of the pane by dragging the right corner of the title
 		 * bar.
 		 * @default `true`
@@ -139,12 +146,15 @@
 	export let maxWidth: $$Props['maxWidth'] = 600;
 	export let title: $$Props['title'] = 'Tweakpane';
 	export let scale: $$Props['scale'] = 1;
+	export let padding: $$Props['padding'] = '0';
 
 	let paneRef: TpPane;
 	let containerElement: HTMLDivElement;
 	let dragBarElement: HTMLElement; // added dynamically to tweakpane DOM
 	let widthHandleElement: HTMLDivElement | undefined;
 	let containerHeight: number; // driven by tweakpane's internal layout
+	let containerHeightScaled: number; // derived
+	let containerWidth: number; // for padding
 	let documentWidth: number;
 	let documentHeight: number;
 	let zIndexLocal = zIndexGlobal;
@@ -410,10 +420,10 @@
 		}
 
 		// prioritize visibility of the top / left corner
-		x = clamp(x, 0, Math.max(0, documentWidth - width));
+		x = clamp(x, 0, Math.max(0, documentWidth - containerWidth));
 		y = clamp(y, 0, Math.max(0, documentHeight - containerHeightScaled));
 
-		if (documentWidth < width) {
+		if (documentWidth < containerWidth) {
 			width = Math.max(minWidth, Math.min(maxWidth, documentWidth));
 		}
 	}
@@ -437,7 +447,18 @@
 		expanded !== undefined &&
 		positionStore?.set({ x, y, expanded, width });
 
-	$: containerHeightScaled = containerHeight * (scale ?? 1);
+	$: {
+		if (containerElement) {
+			if (scale === undefined || scale === 1.0) {
+				containerHeightScaled = containerHeight;
+			} else {
+				// padding doesn't scale
+				const style = window.getComputedStyle(containerElement);
+				const vPadding = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+				containerHeightScaled = (containerHeight - vPadding) * scale + vPadding;
+			}
+		}
+	}
 </script>
 
 <!--
@@ -450,10 +471,16 @@ This component is for internal use only.
 
 <svelte:window on:resize={setDocumentSize} />
 
+<pre>
+{containerHeight}
+{containerHeightScaled}
+</pre>
+
 {#if BROWSER}
 	<div
 		bind:this={containerElement}
 		bind:clientHeight={containerHeight}
+		bind:clientWidth={containerWidth}
 		on:focus|capture={() => {
 			zIndexLocal = ++zIndexGlobal;
 		}}
@@ -464,6 +491,7 @@ This component is for internal use only.
 		class:not-collapsable={!clickToExpand}
 		class:not-resizable={!resizable}
 		style:left="{x}px"
+		style:padding
 		style:top="{y}px"
 		style:width="{width}px"
 		style:z-index={zIndexLocal}
@@ -484,6 +512,7 @@ This component is for internal use only.
 	div.draggable-container {
 		position: fixed;
 		z-index: auto;
+		padding: 20px;
 		/* 0.2s matches Tweakpane's internal animation duration */
 		transition: width 0.2s ease;
 	}

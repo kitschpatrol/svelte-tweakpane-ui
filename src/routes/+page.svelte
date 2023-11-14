@@ -177,17 +177,24 @@
 			return (headingUp[index] ? mappedValue : Math.PI - mappedValue) - time - offsetAngle[index];
 		}) as PointValue4dTuple;
 	}
+
+	let scale = 1.0;
 </script>
 
+{width}
+
 <Pane
+	bind:width
 	collapseChildrenToFit={true}
+	padding="40px 0 0 0"
 	position="draggable"
+	{scale}
 	{theme}
 	title={`<Pane> ${text}`}
-	{width}
 	{x}
 	{y}
 >
+	<Slider bind:value={scale} min={0} max={2} />
 	<Text bind:value={text} label="<Text> Title" />
 	<List bind:value={themeKey} label="<List> Theme" options={themes} />
 	<FpsGraph label="<FpsGraph>" />
