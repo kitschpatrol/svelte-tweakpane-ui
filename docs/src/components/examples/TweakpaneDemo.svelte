@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import {
 		Button,
 		Checkbox,
@@ -21,8 +22,7 @@
 		Text,
 		type Theme,
 		ThemeUtils
-	} from '$lib';
-	import { onMount } from 'svelte';
+	} from 'svelte-tweakpane-ui';
 	import { type Writable, derived, writable } from 'svelte/store';
 
 	onMount(() => {
@@ -177,6 +177,7 @@
 			return (headingUp[index] ? mappedValue : Math.PI - mappedValue) - time - offsetAngle[index];
 		}) as PointValue4dTuple;
 	}
+
 </script>
 
 <Pane

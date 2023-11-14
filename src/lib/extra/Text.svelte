@@ -54,10 +54,10 @@ A text field, in the spirit of the HTML `<input type="text">` element.
 
 Wraps Tweakpane's [string binding](https://tweakpane.github.io/docs/input-bindings/#string).
 
-Extends the vanilla JS Tweakpane API to update the bound value on every keystroke. (If you prefer
-the default behavior of only updating on blur, set `live={false}`.)
+Extends the vanilla JS Tweakpane API to update the bound value on every keystroke. (If you
+prefer Tweakpane's default behavior of only updating on blur, set `live={false}`.)
 
-See <TextArea> for a multi-line input variation.
+See `<TextArea>` for a multi-line input variation.
 
 Usage outside of a `<Pane>` component will implicitly wrap the text field in `<Pane
 position='inline'>`.

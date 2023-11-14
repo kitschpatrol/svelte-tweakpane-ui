@@ -8,6 +8,14 @@ const perfectionistSortOverrides = {
     // preM: '[a-l]*',
     min: 'min*',
     max: 'max*',
+    r: 'r',
+    g: 'g',
+    b: 'b',
+    h: 'h',
+    s: 's',
+    l: 'l',
+    v: 'v',
+    a: 'a',
     x: '@(optionsX|x)',
     y: '@(optionsY|y)',
     z: '@(optionsZ|z)',
@@ -18,7 +26,27 @@ const perfectionistSortOverrides = {
     // height: 'height'
     // postM: '[n-z]*'
   },
-  groups: ['value', 'x', 'y', 'z', 'w', 'min', 'max', 'cb1', 'cb2', 'unknown']
+  groups: [
+    'value',
+    ['x', 'y', 'z'],
+    'x',
+    'y',
+    'z',
+    'w',
+    'h',
+    's',
+    'l',
+    'v',
+    'r',
+    'g',
+    'b',
+    'a',
+    'min',
+    'max',
+    'cb1',
+    'cb2',
+    'unknown'
+  ]
 };
 
 const perfectionistSvelteSortOverrides = {
