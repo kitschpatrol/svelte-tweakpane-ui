@@ -5,6 +5,7 @@
 	import { Point4d } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d.js';
 	import Binding from '$lib/core/Binding.svelte';
 	import Folder from '$lib/core/Folder.svelte';
+	import Text from '$lib/extra/Text.svelte';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import type { BindingObject, Container } from '$lib/utils.js';
@@ -88,16 +89,16 @@ component in [Dmitriy Nikiforov's](https://github.com/MrFoxPro)
   let object = {
     someBoolean: true, // Creates a <Checkbox>
     someColor: {
-      // Creates a <Color> picker
-      b: 55,
+      r: 255,
       g: 0,
-      r: 255
+      // Creates a <Color> picker
+      b: 55
     },
     someFolder: {
-      // Wraps children in a <Folder>
-      a: 1,
+      c: 3,
       b: 2,
-      c: 3
+      // Wraps children in a <Folder>
+      a: 1
     },
     someNumber: 1, // Creates a <Slider>
     somePoint: {
@@ -125,6 +126,8 @@ component in [Dmitriy Nikiforov's](https://github.com/MrFoxPro)
 				<Folder title={prettify(key, prettyLabels)}>
 					<svelte:self bind:object={object[key]} bind:prettyLabels />
 				</Folder>
+			{:else if typeof object[key] === 'string'}
+				<Text bind:value={object[key]} label={prettify(key, prettyLabels)} />
 			{:else}
 				<Binding bind:object {key} label={prettify(key, prettyLabels)} />
 			{/if}
