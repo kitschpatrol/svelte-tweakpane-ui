@@ -12,6 +12,7 @@
 </script>
 
 <script lang="ts">
+	// TODO calc util already in TP?
 	import type { CubicBezierApi as CubicBezierRef } from '@tweakpane/plugin-essentials';
 	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import { CubicBezier } from '@tweakpane/plugin-essentials';
@@ -60,6 +61,9 @@
 	}
 
 	function setValue() {
+		// CubicBezier is a blade, not a binding, so state must be synced manually pretty sure
+		// setting value is leaking memory from inside the plugin tracking in
+		// https://github.com/tweakpane/plugin-essentials/issues/18
 		if (Array.isArray(value)) {
 			cubicBezierBlade.value = new CubicBezier(value[0], value[1], value[2], value[3]);
 		} else {
@@ -112,6 +116,11 @@ bezier value to an easing function compatible with Svelte's built-in
 
 Usage outside of a `<Pane>` component will implicitly wrap the cubic bezier control in `<Pane
 position='inline'>`.
+
+_Note: A memory leak has been observed in situations when the `value` prop is written frequently
+from outside the component. See [issue
+#18](https://github.com/tweakpane/plugin-essentials/issues/18) on the Plugin Essentials repo for
+updates. Consider managing the lifecycle of this component with care until this issue is resolved._
 
 @example  
 ```svelte
