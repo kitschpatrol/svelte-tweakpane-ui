@@ -15,7 +15,9 @@ export { default as Checkbox } from '$lib/extra/Checkbox.svelte';
 export {
 	type ColorValue,
 	type ColorValueRgbObject,
+	type ColorValueRgbTuple,
 	type ColorValueRgbaObject,
+	type ColorValueRgbaTuple,
 	type ColorValueString,
 	default as Color
 } from '$lib/extra/Color.svelte';
