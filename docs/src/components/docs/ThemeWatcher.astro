@@ -1,0 +1,36 @@
+<script>
+	import ThemeUtils from 'svelte-tweakpane-ui/ThemeUtils.js';
+	const themeKey = 'data-theme';
+
+	function setTweakpaneThemeFromAstroTheme(astroTheme: string) {
+		switch (astroTheme) {
+			case 'dark':
+				ThemeUtils.setGlobalDefaultTheme(ThemeUtils.presets.standard);
+				break;
+			case 'light':
+				ThemeUtils.setGlobalDefaultTheme(ThemeUtils.presets.light);
+				break;
+			default:
+				ThemeUtils.setGlobalDefaultTheme(undefined);
+				break;
+		}
+	}
+
+	// set current
+	setTweakpaneThemeFromAstroTheme(document.documentElement.getAttribute(themeKey) ?? 'dark');
+
+	// watch for changes
+	const observer = new MutationObserver((mutations: MutationRecord[]) => {
+		for (const mutation of mutations) {
+			if (mutation.type === 'attributes' && mutation.attributeName === themeKey) {
+				setTweakpaneThemeFromAstroTheme(document.documentElement.getAttribute(themeKey) ?? 'dark');
+			}
+		}
+	});
+
+	observer.observe(document.documentElement, {
+		attributeFilter: [themeKey],
+		attributes: true
+	});
+	// TODO cleanup?
+</script>
