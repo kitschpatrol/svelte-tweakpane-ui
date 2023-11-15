@@ -145,6 +145,14 @@
     "./RadioGrid.svelte": {
       "types": "./dist/plugin/essentials/RadioGrid.svelte.d.ts",
       "svelte": "./dist/plugin/essentials/RadioGrid.svelte"
+    },
+    "./ThemeUtils.js": {
+      "types": "./dist/theme.d.ts",
+      "default": "./dist/theme.js"
+    },
+    "./Utils.js": {
+      "types": "./dist/utils.d.ts",
+      "default": "./dist/utils.js"
     }
   },
   "types": "./dist/index.d.ts",

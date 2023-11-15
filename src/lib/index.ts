@@ -105,10 +105,12 @@ export {
 } from '$lib/plugin/essentials/IntervalSlider.svelte';
 export { default as RadioGrid } from '$lib/plugin/essentials/RadioGrid.svelte';
 
-// themes
+// themes export default can still leak "internal" theme stuff, but worth it for simple file
+// structure at the moment
 export type { Theme, ThemeColorValue } from '$lib/theme.js';
-export { ThemeUtils } from '$lib/theme.js';
+export { default as ThemeUtils } from '$lib/theme.js';
 
-// utilities
+// utilities export default can still leak "internal" theme stuff, but worth it for simple file
+// structure at the moment
 export type { BindingObject, Plugin } from '$lib/utils.js';
-export { Utils } from '$lib/utils.js';
+export { default as Utils } from '$lib/utils.js';

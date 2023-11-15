@@ -87,6 +87,25 @@ export function getExportedComponents(indexPath: string): { name: string; path: 
 	});
 }
 
+// brittle
+export function getExportedJs(indexPath: string): { name: string; path: string }[] {
+	return queryTree<StringLiteral>(
+		new Project().addSourceFileAtPath(indexPath),
+		'ExportDeclaration[isTypeOnly=false]:has(StringLiteral[value=/.+.js/])'
+	).map((node) => {
+		const name = queryTree<StringLiteral>(node, 'Identifier.name').at(0)!.getText();
+		const path = queryTree<StringLiteral>(node, 'StringLiteral')
+			.at(0)!
+			.getText()
+			.replace(/['"]/g, '');
+
+		return {
+			name,
+			path
+		};
+	});
+}
+
 /**
  * wraps tsquery to return ts-morph Nodes
  * @see https://tsquery-playground.firebaseapp.com

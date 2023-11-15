@@ -1,11 +1,11 @@
-import { getExportedComponents } from './ast-tools';
+import { getExportedComponents, getExportedJs } from './ast-tools';
 import fs from 'fs';
 
 // Inspired by https://github.com/shinokada/svelte-lib-helpers
 
 const verbose = false;
 
-type Export = { svelte: string; types: string };
+type Export = { default?: string; svelte?: string; types: string };
 type Exports = Record<string, Export>;
 
 // gets all props for a given component from its definition file
@@ -21,7 +21,7 @@ function addExports(sourceIndexFile: string, destinationPackageFile: string) {
 		}
 	};
 
-	// extract from index file
+	// extract components from index file
 	getExportedComponents(sourceIndexFile).forEach((component) => {
 		const { name, path } = component;
 
@@ -30,6 +30,19 @@ function addExports(sourceIndexFile: string, destinationPackageFile: string) {
 		const svelte = `./dist/${path.replace('$lib/', '')}`;
 		// eslint-disable-next-line perfectionist/sort-objects
 		exports[key] = { types, svelte };
+
+		verbose && console.log(exports[key]);
+	});
+
+	// extract JS exports from index file (like Utils, etc.)
+	getExportedJs(sourceIndexFile).forEach((file) => {
+		const { name, path } = file;
+
+		const key = `./${name}.js`;
+		const types = `./dist/${path.replace('.js', '').replace('$lib/', '')}.d.ts`;
+		const defaultValue = `./dist/${path.replace('$lib/', '')}`;
+		// eslint-disable-next-line perfectionist/sort-objects
+		exports[key] = { types, default: defaultValue };
 
 		verbose && console.log(exports[key]);
 	});

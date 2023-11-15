@@ -308,7 +308,7 @@ function cubicBezierToEaseFunction(cubicBezier: CubicBezierValue): (t: number) =
 }
 
 // library exports
-export const Utils = {
+export default {
 	cubicBezierToEaseFunction,
 	eulerToCssTransform,
 	quaternionToCssTransform

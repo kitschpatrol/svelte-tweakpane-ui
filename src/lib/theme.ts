@@ -376,7 +376,7 @@ export function setGlobalDefaultTheme(theme: Theme | undefined) {
 }
 
 // library exports
-export const ThemeUtils = {
+export default {
 	presets,
 	setGlobalDefaultTheme
 };
