@@ -29,10 +29,10 @@
 	> = Dimensions extends '4'
 		? Point4dInputParams[Axis]
 		: Dimensions extends '3'
-		? Point3dInputParams[Axis]
-		: Dimensions extends '2'
-		? Point2dInputParams[Axis]
-		: never;
+		  ? Point3dInputParams[Axis]
+		  : Dimensions extends '2'
+		    ? Point2dInputParams[Axis]
+		    : never;
 </script>
 
 <script generics="T extends PointValue2d | PointValue3d | PointValue4d" lang="ts">
@@ -44,10 +44,10 @@
 	type PointOptions<U> = U extends PointValue4d
 		? Point4dInputParams
 		: U extends PointValue3d
-		? Point3dInputParams
-		: U extends PointValue2d
-		? Point2dInputParams
-		: unknown;
+		  ? Point3dInputParams
+		  : U extends PointValue2d
+		    ? Point2dInputParams
+		    : unknown;
 
 	type PropsForType<U> = (U extends PointValue2d | PointValue3d | PointValue4d
 		? {
@@ -101,10 +101,10 @@
 	type InternalPoint<U> = U extends PointValue4d
 		? PointValue4dObject
 		: U extends PointValue3d
-		? PointValue3dObject
-		: U extends PointValue2d
-		? PointValue2dObject
-		: unknown;
+		  ? PointValue3dObject
+		  : U extends PointValue2d
+		    ? PointValue2dObject
+		    : unknown;
 
 	// some redefinition of props from GenericSlider, but redefining since we want to refine the
 	// documentation anyway eslint-disable-next-line @typescript-eslint/no-unused-vars

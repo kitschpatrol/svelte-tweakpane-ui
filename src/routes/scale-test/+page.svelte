@@ -1,0 +1,45 @@
+<script lang="ts">
+	import { FpsGraph, Monitor, Pane, Slider } from '$lib';
+	import { onMount } from 'svelte';
+
+	let time = 0;
+
+	onMount(() => {
+		function tick(animationTime: number) {
+			time = Date.now() / 1000;
+			requestAnimationFrame(tick);
+		}
+		requestAnimationFrame(tick);
+	});
+
+	$: wave = Math.sin(time * 5);
+	let width = 360;
+	let scale1 = 1.0;
+	let scale2 = 2.0;
+	$: width1 = width * scale1;
+	$: width2 = width * scale2;
+</script>
+
+<Pane position="inline" scale={scale1} title={`Tweakpane Scale Test`} width={width1}>
+	<FpsGraph />
+	<Slider bind:value={scale1} min={0} max={2} label="Scale" />
+	<Monitor value={wave} min={-2} max={2} bufferSize={300} graph={true} label="Monitor" />
+</Pane>
+<br />
+<br />
+<Pane position="inline" scale={scale2} title={`Tweakpane Scale Test`} width={width2}>
+	<FpsGraph />
+	<Slider bind:value={scale2} min={0} max={2} label="Scale" />
+	<Monitor value={wave} min={-2} max={2} bufferSize={300} graph={true} label="Monitor" />
+</Pane>
+
+<style>
+	:global(html) {
+		display: flex;
+		gap: 10em;
+		align-items: center;
+		justify-content: center;
+		width: 100vw;
+		height: 100vh;
+	}
+</style>

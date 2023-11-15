@@ -56,7 +56,8 @@
 		 * */
 		maxWidth?: number;
 		/**
-		 * Automatically collapse open panels whey the available window size is less than the height of the pane.
+		 * Automatically collapse open panels whey the available window size is less than the height
+		 * of the pane.
 		 *
 		 * @default `false`
 		 * */
@@ -68,7 +69,9 @@
 		 */
 		localStoreId?: string;
 		/**
-		 * CSS [padding property string](https://developer.mozilla.org/en-US/docs/Web/CSS/padding) to apply to the draggable pane container to prevent it from being dragged all the way to the edge of the window.
+		 * CSS [padding property string](https://developer.mozilla.org/en-US/docs/Web/CSS/padding)
+		 * to apply to the draggable pane container to prevent it from being dragged all the way to
+		 * the edge of the window.
 		 *
 		 * Useful for keeping the pane away from of menu bars, etc.
 		 * @default `'0'`
@@ -413,8 +416,8 @@
 		minWidth !== undefined &&
 		maxWidth !== undefined
 	) {
-		// collapse children if needed
-		// TODO progressive collapsing not working because of container height update delays...
+		// collapse children if needed TODO progressive collapsing not working because of container
+		// height update delays...
 		if (collapseChildrenToFit && containerHeightScaled > documentHeight) {
 			recursiveCollapse(paneRef.children);
 		}
@@ -471,11 +474,6 @@ This component is for internal use only.
 
 <svelte:window on:resize={setDocumentSize} />
 
-<pre>
-{containerHeight}
-{containerHeightScaled}
-</pre>
-
 {#if BROWSER}
 	<div
 		bind:this={containerElement}
@@ -487,7 +485,8 @@ This component is for internal use only.
 		on:pointerdown|capture={() => {
 			zIndexLocal = ++zIndexGlobal;
 		}}
-		class="svelte-tweakpane-ui draggable-container"
+		class="svelte-tweakpane-ui
+	draggable-container"
 		class:not-collapsable={!clickToExpand}
 		class:not-resizable={!resizable}
 		style:left="{x}px"

@@ -95,10 +95,10 @@ component in [Dmitriy Nikiforov's](https://github.com/MrFoxPro)
       b: 55
     },
     someFolder: {
-      c: 3,
       b: 2,
       // Wraps children in a <Folder>
-      a: 1
+      a: 1,
+      c: 3
     },
     someNumber: 1, // Creates a <Slider>
     somePoint: {

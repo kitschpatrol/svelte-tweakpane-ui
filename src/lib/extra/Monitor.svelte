@@ -21,24 +21,24 @@
 	type optionsForType<U> = U extends string
 		? InternalMonitorStringOptions
 		: U extends boolean
-		? InternalMonitorBooleanOptions
-		: U extends number
-		? InternalMonitorNumberOptions
-		: GenericMonitorOptions;
+		  ? InternalMonitorBooleanOptions
+		  : U extends number
+		    ? InternalMonitorNumberOptions
+		    : GenericMonitorOptions;
 
 	type propsForType<U> = U extends string
 		? ComponentProps<InternalMonitorString>
 		: U extends boolean
-		? ComponentProps<InternalMonitorBoolean>
-		: U extends number
-		? ComponentProps<InternalMonitorNumber>
-		: {
-				/**
-				 * A value to monitor.
-				 * @bindable
-				 * */
-				value: boolean | number | string;
-		  };
+		  ? ComponentProps<InternalMonitorBoolean>
+		  : U extends number
+		    ? ComponentProps<InternalMonitorNumber>
+		    : {
+						/**
+						 * A value to monitor.
+						 * @bindable
+						 * */
+						value: boolean | number | string;
+		      };
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = Omit<

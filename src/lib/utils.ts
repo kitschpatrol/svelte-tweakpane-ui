@@ -124,8 +124,7 @@ function clickBlocker(e: MouseEvent) {
 	if (e.isTrusted) e.stopPropagation();
 }
 
-// used by folder and pane
-// todo rewrite to use getSwatchButton etc.
+// used by folder and pane todo rewrite to use getSwatchButton etc.
 export function updateCollapsibility(
 	isClickToExpandEnabled: boolean,
 	element: HTMLElement,
