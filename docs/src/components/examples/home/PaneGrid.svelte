@@ -33,7 +33,7 @@
 	let overdrawX: number = 1370;
 	let overdrawY: number = 1640;
 	let includeCenters: boolean = true;
-	let background = '#ffd700';
+	let background = '#ffd70000';
 </script>
 
 {#if mounted}

@@ -45,7 +45,7 @@
 	/*
 	 * Background color
 	 */
-	export let background = '#ffffff';
+	export let background = '#ffffff00';
 
 	/*
 	 * Draw a red dot at each grid point, for debugging
