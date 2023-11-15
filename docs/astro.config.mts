@@ -31,6 +31,10 @@ export default defineConfig({
           "https://github.com/kitschpatrol/svelte-tweakpane-ui/edit/main/docs/",
       },
       lastUpdated: true,
+      logo: {
+        dark: "./src/assets/svelte-tweakpane-ui-logo-dark.svg",
+        light: "./src/assets/svelte-tweakpane-ui-logo-light.svg",
+      },
       sidebar: [
         {
           label: "Overview",

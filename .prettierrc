@@ -4,7 +4,7 @@
   "singleQuote": true,
   "trailingComma": "none",
   "printWidth": 100,
-  "plugins": ["prettier-plugin-pkg", "prettier-plugin-svelte"],
+  "plugins": ["prettier-plugin-pkg", "prettier-plugin-svelte", "prettier-plugin-astro"],
   "overrides": [
     {
       "files": [".*", "*.json", "*.md", "*.mdx", "*.toml", "*.yml"],
@@ -17,6 +17,12 @@
       "options": {
         "plugins": ["prettier-plugin-svelte"],
         "parser": "svelte"
+      }
+    },
+    {
+      "files": "*.astro",
+      "options": {
+        "parser": "astro"
       }
     }
   ]

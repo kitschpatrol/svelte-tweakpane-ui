@@ -7,6 +7,10 @@ lastUpdated: false
 pagefind: false
 hero:
   tagline: A <a href="https://svelte.dev">Svelte</a> component library wrapping UI elements from <a href="https://cocopon.github.io/tweakpane/">Tweakpane</a>, plus some additional functionality for convenience and flexibility.
+  image:
+    alt: A combination of the Tweakpane and Svelte logos
+    dark: ../../assets/svelte-tweakpane-ui-logo-dark.svg
+    light: ../../assets/svelte-tweakpane-ui-logo-light.svg
   actions:
     - text: Get Started
       link: ./docs/getting-started
@@ -18,7 +22,7 @@ hero:
       variant: secondary
 ---
 
-import PaneGrid from "../../components/examples/home/PaneGrid.svelte";
+import PaneGrid from '../../components/examples/home/PaneGrid.svelte';
 
 <div style="position: relative; z-index: -1;" class="not-content">
   <PaneGrid client:only="svelte" />
