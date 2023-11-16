@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { FolderApi as FolderRef } from '@tweakpane/core';
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import { type Container, getElementIndex, isRootPane, updateCollapsibility } from '$lib/utils.js';
@@ -10,6 +11,9 @@
 
 	/**
 	 * Text in folder title bar.
+	 *
+	 * Unlike a `<Pane>`, a `<Folder>`'s title bar is always visible and the title is always shown.
+	 * It can be set to an empty string if you want an unadorned title bar.
 	 * @default `'Folder'`
 	 * */
 	export let title: string = 'Folder';
@@ -27,7 +31,7 @@
 	 * @default `true`
 	 * @bindable
 	 * */
-	export let expanded: boolean | undefined = undefined;
+	export let expanded: boolean = true;
 
 	/**
 	 * Allow the user to be collapse and expand the folder by clicking its title bar.
@@ -87,15 +91,12 @@
 		$folderStore?.dispose();
 	});
 
-	$: BROWSER && $parentStore && !folderRef && index !== undefined && create();
-	$: BROWSER &&
-		folderRef &&
-		updateCollapsibility(clickToExpand, folderRef.element, 'tp-fldv_b', 'tp-fldv_m');
-	$: BROWSER && folderRef && (folderRef.title = title);
-	$: BROWSER && folderRef && (folderRef.disabled = disabled);
-	$: BROWSER && folderRef && expanded !== undefined && (folderRef.expanded = expanded); // doing this on $folderStore causes issues
-	$: BROWSER &&
-		theme &&
+	$: $parentStore && !folderRef && index !== undefined && create();
+	$: folderRef && updateCollapsibility(clickToExpand, folderRef.element, 'tp-fldv_b', 'tp-fldv_m');
+	$: folderRef && (folderRef.title = title);
+	$: folderRef && (folderRef.disabled = disabled);
+	$: folderRef && expanded !== undefined && (folderRef.expanded = expanded); // doing this on $folderStore causes issues
+	$: theme &&
 		$parentStore &&
 		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
@@ -135,16 +136,22 @@ Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane 
 [Folder.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Folder.svelte)
 -->
 
-{#if BROWSER}
-	{#if parentStore}
+{#if parentStore}
+	{#if BROWSER}
 		<div bind:this={indexElement} style="display: none;">
 			<slot />
 		</div>
 	{:else}
-		<InternalPaneInline {theme} userCreatedPane={false}>
-			<svelte:self bind:expanded {clickToExpand} {disabled} {title}>
-				<slot />
-			</svelte:self>
-		</InternalPaneInline>
+		<ClsPad keysAdd={['containerUnitSize']} {theme} />
+		{#if expanded}
+			<ClsPad keysAdd={['containerVerticalPadding']} {theme} />
+			<slot />
+		{/if}
 	{/if}
+{:else}
+	<InternalPaneInline {theme} userCreatedPane={false}>
+		<svelte:self bind:expanded {clickToExpand} {disabled} {title}>
+			<slot />
+		</svelte:self>
+	</InternalPaneInline>
 {/if}

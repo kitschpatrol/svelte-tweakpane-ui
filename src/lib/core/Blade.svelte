@@ -6,6 +6,7 @@
 </script>
 
 <script generics="U extends BladeOptions, V extends BladeRef" lang="ts">
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import {
@@ -144,12 +145,14 @@ need for the options param.
 [Blade.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Blade.svelte)
 -->
 
-{#if BROWSER}
-	{#if parentStore}
+{#if parentStore}
+	{#if BROWSER}
 		<div bind:this={indexElement} style="display: none;" />
 	{:else}
-		<InternalPaneInline {theme} userCreatedPane={false}>
-			<svelte:self bind:disabled bind:options bind:plugin bind:ref />
-		</InternalPaneInline>
+		<ClsPad keysAdd={['containerVerticalPadding']} {theme} />
 	{/if}
+{:else}
+	<InternalPaneInline {theme} userCreatedPane={false}>
+		<svelte:self bind:disabled bind:options bind:plugin bind:ref />
+	</InternalPaneInline>
 {/if}

@@ -4,7 +4,9 @@
 </script>
 
 <script lang="ts">
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
+	import { fillWith, rowsForMonitor } from '$lib/utils';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
@@ -62,6 +64,10 @@ position='inline'>` component.
 [InternalMonitorBoolean.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalMonitorBoolean.svelte)
 -->
 
-{#if BROWSER}
-	<GenericMonitor {value} {...$$restProps} />
+<GenericMonitor {value} {...$$restProps} />
+{#if !BROWSER}
+	{@const totalRows = rowsForMonitor($$props.bufferSize, $$props.rows) - 1}
+	{#if totalRows > 0}
+		<ClsPad keysAdd={fillWith('containerUnitSize', totalRows)} theme={$$props.theme} />
+	{/if}
 {/if}

@@ -14,6 +14,8 @@
 	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import type { ButtonGridBladeParams as ButtonGridOptions } from '@tweakpane/plugin-essentials/dist/types/button-grid/plugin.d.ts';
 	import Blade from '$lib/core/Blade.svelte';
+	import ClsPad from '$lib/internal/ClsPad.svelte';
+	import { fillWith } from '$lib/utils';
 	import { type UnwrapCustomEvents, getGridDimensions } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
 	import { type ComponentProps, createEventDispatcher } from 'svelte';
@@ -92,16 +94,14 @@
 		return { title: '' };
 	}
 
-	$: BROWSER && (gridDimensions = getGridDimensions(buttons.length, columns, rows));
-	$: BROWSER &&
-		(options = {
-			cells,
-			label,
-			size: [gridDimensions.columns, gridDimensions.rows],
-			view: 'buttongrid'
-		});
-	$: BROWSER &&
-		gridBlade &&
+	$: gridDimensions = getGridDimensions(buttons.length, columns, rows);
+	$: options = {
+		cells,
+		label,
+		size: [gridDimensions.columns, gridDimensions.rows],
+		view: 'buttongrid'
+	};
+	$: gridBlade &&
 		gridBlade.on('click', (ev) => {
 			dispatch('click', {
 				cell: { x: ev.index[0], y: ev.index[1] },
@@ -200,6 +200,8 @@ position='inline'>`.
 [ButtonGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/ButtonGrid.svelte)
 -->
 
-{#if BROWSER}
-	<Blade bind:ref={gridBlade} {options} plugin={pluginModule} {...$$restProps} />
+<Blade bind:ref={gridBlade} {options} plugin={pluginModule} {...$$restProps} />
+{#if !BROWSER}
+	<ClsPad keysAdd={fillWith('containerUnitSize', gridDimensions.rows)} theme={$$props.theme} />
+	<ClsPad keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} />
 {/if}

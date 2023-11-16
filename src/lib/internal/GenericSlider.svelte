@@ -91,6 +91,4 @@ implement as a separate component leveraging this generic implementation.
 [GenericSlider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericSlider.svelte)
 -->
 
-{#if BROWSER}
-	<GenericInput bind:value options={optionsInternal} {...$$restProps} />
-{/if}
+<GenericInput bind:value options={optionsInternal} {...$$restProps} />

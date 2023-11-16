@@ -11,7 +11,6 @@
 >
 	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import { updateCollapsibility } from '$lib/utils.js';
-	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	// TODO share prop definitions with GenericBladeFolding?
@@ -58,7 +57,7 @@
 	const initialExpanded = expanded;
 	let internalExpanded = initialExpanded;
 
-	$: if (BROWSER && !gotBinding && ref) {
+	$: if (!gotBinding && ref) {
 		gotBinding = true;
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -71,20 +70,15 @@
 			});
 	}
 
-	$: BROWSER &&
-		(optionsInternal = {
-			...options,
-			expanded: initialExpanded, // only set once
-			picker
-		});
+	$: optionsInternal = {
+		...options,
+		expanded: initialExpanded, // only set once
+		picker
+	};
 
 	// click instead of setting expanded to avoid  animation jankiness
-	$: BROWSER &&
-		ref &&
-		buttonClass &&
-		updateCollapsibility(clickToExpand ?? true, ref.element, buttonClass);
-	$: BROWSER &&
-		ref &&
+	$: ref && buttonClass && updateCollapsibility(clickToExpand ?? true, ref.element, buttonClass);
+	$: ref &&
 		buttonClass &&
 		expanded !== internalExpanded &&
 		ref.element.getElementsByClassName(buttonClass).length > 0 &&
@@ -99,6 +93,4 @@ This component is for internal use only.
 [GenericInputFolding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericInputFolding.svelte)
 -->
 
-{#if BROWSER}
-	<GenericInput bind:value bind:ref options={optionsInternal} {...$$restProps} />
-{/if}
+<GenericInput bind:value bind:ref options={optionsInternal} {...$$restProps} />

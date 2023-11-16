@@ -13,7 +13,6 @@
 
 <script generics="T extends any" lang="ts">
 	import Blade from '$lib/core/Blade.svelte';
-	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 	import type { ListBladeApi, ListBladeParams, ListParamsOptions } from 'tweakpane';
 
@@ -103,15 +102,14 @@
 		listBlade.value = value;
 	}
 
-	$: BROWSER &&
-		(bladeOptions = {
-			value: getInitialValue(),
-			label,
-			options: getInternalOptions(options),
-			view: 'list'
-		});
-	$: BROWSER && listBlade && addEvent();
-	$: value, BROWSER && listBlade && setValue();
+	$: bladeOptions = {
+		value: getInitialValue(),
+		label,
+		options: getInternalOptions(options),
+		view: 'list'
+	};
+	$: listBlade && addEvent();
+	$: value, listBlade && setValue();
 </script>
 
 <!--
@@ -148,6 +146,4 @@ position='inline'>`.
 [List.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/List.svelte)
 -->
 
-{#if BROWSER}
-	<Blade bind:ref={listBlade} options={bladeOptions} {...$$restProps} />
-{/if}
+<Blade bind:ref={listBlade} options={bladeOptions} {...$$restProps} />

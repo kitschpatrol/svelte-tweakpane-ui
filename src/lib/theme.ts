@@ -91,6 +91,14 @@ const standard: Theme = {
 	// pluginThumbnailListWidth: '200px'
 };
 
+export const keys = Object.keys(standard).reduce(
+	(acc, key) => {
+		acc[key] = key;
+		return acc;
+	},
+	{} as Record<string, string>
+);
+
 const light: Theme = {
 	baseBackgroundColor: 'hsla(230, 5%, 90%, 1.00)',
 	baseShadowColor: 'hsla(0, 0%, 0%, 0.10)',
@@ -315,6 +323,17 @@ function expandVariableKey(name: string): string {
 		} else {
 			throw new Error(`Unknown Tweakpane CSS theme map variable key: "${name}"`);
 		}
+	}
+}
+
+/**
+ * Used during SSR to calculate metrics Returns CSS string.
+ */
+export function getValueOrFallback(theme: Theme | undefined, key: keyof ThemeKeys): string {
+	if (theme === undefined || theme[key] === undefined) {
+		return stringToCssValue(standard[key]!)!;
+	} else {
+		return stringToCssValue(theme[key]!)!;
 	}
 }
 

@@ -4,7 +4,9 @@
 </script>
 
 <script lang="ts">
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
+	import { fillWith, rowsForMonitor } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
@@ -58,14 +60,13 @@
 	// immutable=true but I don't want to go there TODO evaluate other non-primitive prop access
 	let formatProxy: typeof format = format;
 
-	$: BROWSER && formatProxy !== format && (formatProxy = format);
-	$: BROWSER &&
-		(options = {
-			min,
-			max,
-			format: formatProxy,
-			view: graph ? 'graph' : undefined
-		});
+	$: formatProxy !== format && (formatProxy = format);
+	$: options = {
+		min,
+		max,
+		format: formatProxy,
+		view: graph ? 'graph' : undefined
+	};
 </script>
 
 <!--
@@ -108,6 +109,10 @@ position='inline'>` component.
 [InternalMonitorNumber.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalMonitorNumber.svelte)
 -->
 
-{#if BROWSER}
-	<GenericMonitor {value} {options} {...$$restProps} />
+<GenericMonitor {value} {options} {...$$restProps} />
+{#if !BROWSER}
+	{@const totalRows = rowsForMonitor($$props.bufferSize, $$props.rows, graph) - 1}
+	{#if totalRows > 0}
+		<ClsPad keysAdd={fillWith('containerUnitSize', totalRows)} theme={$$props.theme} />
+	{/if}
 {/if}

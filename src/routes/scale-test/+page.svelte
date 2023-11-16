@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FpsGraph, Monitor, Pane, Slider } from '$lib';
+	import { CubicBezier, FpsGraph, Monitor, Pane, Ring, Slider, Wheel } from '$lib';
 	import { onMount } from 'svelte';
 
 	let time = 0;
@@ -24,6 +24,9 @@
 	<FpsGraph />
 	<Slider bind:value={scale1} min={0} max={2} label="Scale" />
 	<Monitor value={wave} min={-2} max={2} bufferSize={300} graph={true} label="Monitor" />
+	<CubicBezier value={[0, 0, 0, 0]} expanded={true} picker="inline" />
+	<Wheel value={1} />
+	<Ring value={1} />
 </Pane>
 <br />
 <br />
@@ -31,13 +34,16 @@
 	<FpsGraph />
 	<Slider bind:value={scale2} min={0} max={2} label="Scale" />
 	<Monitor value={wave} min={-2} max={2} bufferSize={300} graph={true} label="Monitor" />
+	<CubicBezier value={[0, 0, 0, 0]} expanded={true} picker="inline" />
+	<Wheel value={1} />
+	<Ring value={1} />
 </Pane>
 
 <style>
 	:global(html) {
 		display: flex;
 		gap: 10em;
-		align-items: center;
+		align-items: top;
 		justify-content: center;
 		width: 100vw;
 		height: 100vh;

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	type $$Props = Omit<ComponentProps<GenericInput<boolean>>, 'options' | 'plugin' | 'ref'>;
@@ -34,6 +33,4 @@ position='inline'>`.
 [Checkbox.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Checkbox.svelte)
 -->
 
-{#if BROWSER}
-	<GenericInput bind:value {...$$restProps} />
-{/if}
+<GenericInput bind:value {...$$restProps} />

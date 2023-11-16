@@ -14,7 +14,9 @@
 	import type { ProfilerBladeApi as ProfilerRef } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerBladeApi.js';
 	import type { ProfilerBladePluginParams as ProfilerOptions } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js';
 	import Blade from '$lib/core/Blade.svelte';
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import { type UnwrapCustomEvents, enforceReadonly } from '$lib/utils';
+	import { fillWith } from '$lib/utils';
 	import { BROWSER, DEV } from 'esm-env';
 	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte';
 
@@ -176,23 +178,22 @@
 		}
 	}
 
-	$: BROWSER && profilerBlade && startObservingMeasuredValue();
+	$: profilerBlade && startObservingMeasuredValue();
 
-	$: DEV && BROWSER && enforceReadonly(_measure, measure, 'Profiler', 'measure');
-	$: DEV && BROWSER && enforceReadonly(_measureAsync, measureAsync, 'Profiler', 'measure');
+	$: DEV && enforceReadonly(_measure, measure, 'Profiler', 'measure');
+	$: DEV && enforceReadonly(_measureAsync, measureAsync, 'Profiler', 'measure');
 
-	$: BROWSER &&
-		(options = {
-			bufferSize,
-			calcMode,
-			deltaUnit,
-			fractionDigits,
-			interval,
-			label,
-			measureHandler,
-			targetDelta,
-			view: 'profiler'
-		});
+	$: options = {
+		bufferSize,
+		calcMode,
+		deltaUnit,
+		fractionDigits,
+		interval,
+		label,
+		measureHandler,
+		targetDelta,
+		view: 'profiler'
+	};
 </script>
 
 <!--
@@ -284,6 +285,9 @@ position='inline'>`.
 [Profiler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/Profiler.svelte)
 -->
 
-{#if BROWSER}
-	<Blade bind:ref={profilerBlade} {options} plugin={pluginModule} {...$$restProps} />
+<Blade bind:ref={profilerBlade} {options} plugin={pluginModule} {...$$restProps} />
+{#if !BROWSER}
+	<ClsPad keysAdd={fillWith('containerUnitSize', 2)} theme={$$props.theme} />
+	<!-- TODO Magic number for label... -->
+	<ClsPad extra={14.287} keysAdd={fillWith('containerVerticalPadding', 1)} theme={$$props.theme} />
 {/if}

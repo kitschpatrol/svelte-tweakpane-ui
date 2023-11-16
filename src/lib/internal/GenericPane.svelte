@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Theme } from '$lib/theme.js';
-	import { applyTheme } from '$lib/theme.js';
+	import ClsPad from '$lib/internal/ClsPad.svelte';
+	import { type Theme, applyTheme } from '$lib/theme.js';
 	import type { Container } from '$lib/utils.js';
 	import { type Plugin, updateCollapsibility } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
@@ -123,12 +123,13 @@
 
 	// allow children to register plugins as needed
 	setContext('registerPlugin', registerPlugin);
+	setContext('userCreatedPane', userCreatedPane);
+
+	if ($existingParentStore !== undefined) {
+		console.warn('<Panes> must not be nested');
+	}
 
 	if (BROWSER) {
-		if ($existingParentStore !== undefined) {
-			console.warn('<Panes> must not be nested');
-		}
-
 		$parentStore = new TpPane({ expanded, title });
 
 		// plugins loaded dynamically at runtime as needed child components are responsible for
@@ -141,11 +142,13 @@
 		paneRef = $parentStore;
 
 		setContext('parentStore', parentStore);
-		setContext('userCreatedPane', userCreatedPane);
 
 		onDestroy(() => {
 			$parentStore.dispose();
 		});
+	} else {
+		// SSR
+		setContext('parentStore', writable<boolean>(true));
 	}
 
 	function setScale(scale: number) {
@@ -185,14 +188,12 @@ This component is for internal use only.
 
 {#if BROWSER}
 	<slot />
+{:else}
+	{#if title !== undefined}
+		<ClsPad keysAdd={['containerVerticalPadding', 'containerUnitSize']} {theme} />
+	{/if}
+	{#if expanded}
+		<ClsPad keysAdd={['containerVerticalPadding']} {theme} />
+		<slot />
+	{/if}
 {/if}
-
-<style>
-	/* Breaks too many things */
-
-	/* :global(div.tp-lblv) { overflow: hidden;
-	}
-
-	:global(div.tp-lblv:has(div.tp-popv-v)) { overflow: visible !important;
-	} */
-</style>

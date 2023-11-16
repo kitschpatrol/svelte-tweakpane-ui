@@ -1,7 +1,6 @@
 <script lang="ts">
 	import GenericPane from '$lib/internal/GenericPane.svelte';
 	import { removeKeys } from '$lib/utils.js';
-	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 	import { onMount } from 'svelte';
 	import type { Pane as TpPane } from 'tweakpane';
@@ -60,10 +59,8 @@ This component is for internal use only.
 [InternalPaneInline.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalPaneInline.svelte)
 -->
 
-{#if BROWSER}
-	<div bind:this={containerElement} style:width="{width}px">
-		<GenericPane bind:expanded bind:paneRef {theme} {...removeKeys($$restProps, 'position')}>
-			<slot />
-		</GenericPane>
-	</div>
-{/if}
+<div bind:this={containerElement} style:top={width !== undefined ? `${width}px` : null}>
+	<GenericPane bind:expanded bind:paneRef {theme} {...removeKeys($$restProps, 'position')}>
+		<slot />
+	</GenericPane>
+</div>

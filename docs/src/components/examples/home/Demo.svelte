@@ -217,93 +217,93 @@
 </script>
 
 <div bind:this={paneRef} class="wrapper">
-	{#if mounted}
-		<div transition:fade={{ duration: 1000 }}>
-			<Pane bind:width position="inline" {scale} {theme} title={`<Pane> ${text}`}>
-				<!-- <Slider bind:value={scale} min={0} max={2} /> -->
-				<List bind:value={themeKey} label="<List> Theme" options={themes} />
-				<Text bind:value={text} label="<Text> Title" />
-				<Checkbox bind:value={playing} label="<Checkbox> Play" />
-				<FpsGraph label="<FpsGraph>" />
-				<Separator />
-				<!-- <Button on:click={reset} label="<Button> Reset" title="Reset" /> -->
-				<Slider
-					bind:value={periodSeconds}
-					min={1}
-					max={60}
-					format={(v) => `${v.toFixed(1)}s`}
-					label="<Slider> Period"
-					step={1}
-				/>
-				<Separator />
-				<Folder title="<Folder> Axes">
-					{#each keys as k, i}
-						<Slider
-							bind:value={$point4[i]}
-							{min}
-							{max}
-							label={`<Slider> ${k}`}
-							pointerScale={0.002}
-						/>
-					{/each}
-				</Folder>
-				{#if cubicBezierEnabled}
-					<Separator />
-					<RotationEuler
-						bind:value={$point3}
-						expanded={true}
-						label="<RotationEuler> X Y Z"
-						picker="inline"
+	<!-- {#if mounted} -->
+	<div transition:fade={{ duration: 1000 }}>
+		<Pane bind:width position="inline" {scale} {theme} title={`<Pane> ${text}`}>
+			<!-- <Slider bind:value={scale} min={0} max={2} /> -->
+			<List bind:value={themeKey} label="<List> Theme" options={themes} />
+			<Text bind:value={text} label="<Text> Title" />
+			<Checkbox bind:value={playing} label="<Checkbox> Play" />
+			<FpsGraph label="<FpsGraph>" />
+			<Separator />
+			<!-- <Button on:click={reset} label="<Button> Reset" title="Reset" /> -->
+			<Slider
+				bind:value={periodSeconds}
+				min={1}
+				max={60}
+				format={(v) => `${v.toFixed(1)}s`}
+				label="<Slider> Period"
+				step={1}
+			/>
+			<Separator />
+			<Folder title="<Folder> Axes">
+				{#each keys as k, i}
+					<Slider
+						bind:value={$point4[i]}
+						{min}
+						{max}
+						label={`<Slider> ${k}`}
+						pointerScale={0.002}
 					/>
-					<!-- <IntervalSlider bind:value={interval2} min={0} max={1} label="<IntervalSlider> Min /
+				{/each}
+			</Folder>
+			{#if cubicBezierEnabled}
+				<Separator />
+				<RotationEuler
+					bind:value={$point3}
+					expanded={true}
+					label="<RotationEuler> X Y Z"
+					picker="inline"
+				/>
+				<!-- <IntervalSlider bind:value={interval2} min={0} max={1} label="<IntervalSlider> Min /
 Max"
 	/> -->
 
-					<Separator />
-					<TabGroup>
-						{#each keys as k, i}
-							<TabPage title={`<TabPage> ${k}`}>
-								<Monitor
-									value={$point4[i]}
-									min={-0.2}
-									max={1.2}
-									bufferSize={300}
-									graph={true}
-									label={`<Monitor> ${k}`}
-								/>
-							</TabPage>
-						{/each}
-					</TabGroup>
-					<Separator />
-					<Color
-						bind:value={$point4}
-						expanded={false}
-						label="<Color> R G B A"
-						picker="inline"
-						type={'float'}
-					/>
-					<Separator />
-					<Point
-						bind:value={$point2}
-						{min}
-						{max}
-						expanded={true}
-						label="<Point> X Y"
-						optionsY={{
-							min,
-							max,
-							inverted: true
-						}}
-						picker="inline"
-					/>
-					<CubicBezier
-						bind:value={$point4}
-						expanded={true}
-						label="<CubicBezier> X Y Z W"
-						picker="inline"
-					/>
-				{/if}
-			</Pane>
-		</div>
-	{/if}
+				<Separator />
+				<TabGroup>
+					{#each keys as k, i}
+						<TabPage title={`<TabPage> ${k}`}>
+							<Monitor
+								value={$point4[i]}
+								min={-0.2}
+								max={1.2}
+								bufferSize={300}
+								graph={true}
+								label={`<Monitor> ${k}`}
+							/>
+						</TabPage>
+					{/each}
+				</TabGroup>
+				<Separator />
+				<Color
+					bind:value={$point4}
+					expanded={false}
+					label="<Color> R G B A"
+					picker="inline"
+					type={'float'}
+				/>
+				<Separator />
+				<Point
+					bind:value={$point2}
+					{min}
+					{max}
+					expanded={true}
+					label="<Point> X Y"
+					optionsY={{
+						min,
+						max,
+						inverted: true
+					}}
+					picker="inline"
+				/>
+				<CubicBezier
+					bind:value={$point4}
+					expanded={true}
+					label="<CubicBezier> X Y Z W"
+					picker="inline"
+				/>
+			{/if}
+		</Pane>
+	</div>
+	<!-- {/if} -->
 </div>

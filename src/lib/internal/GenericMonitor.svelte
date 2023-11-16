@@ -9,7 +9,6 @@
 	lang="ts"
 >
 	import GenericBinding from '$lib/internal/GenericBinding.svelte';
-	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	type $$Props = ComponentProps<GenericBinding<T, U, V>> & {
@@ -49,14 +48,13 @@
 
 	let optionsInternal: GenericMonitorOptions;
 
-	$: BROWSER &&
-		(optionsInternal = {
-			bufferSize,
-			interval: interval ?? 0, // zero confirmed as never updating (not same interface as setInterval())
-			rows,
-			...options,
-			readonly: true
-		});
+	$: optionsInternal = {
+		bufferSize,
+		interval: interval ?? 0, // zero confirmed as never updating (not same interface as setInterval())
+		rows,
+		...options,
+		readonly: true
+	};
 </script>
 
 <!--
@@ -67,6 +65,4 @@ This component is for internal use only.
 [GenericMonitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericMonitor.svelte)
 -->
 
-{#if BROWSER}
-	<GenericBinding {value} bind:ref options={optionsInternal} {...$$restProps} />
-{/if}
+<GenericBinding {value} bind:ref options={optionsInternal} {...$$restProps} />

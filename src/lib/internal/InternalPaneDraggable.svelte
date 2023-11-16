@@ -8,7 +8,6 @@
 <script lang="ts">
 	import GenericPane from '$lib/internal/GenericPane.svelte';
 	import { clamp, getSwatchButton, pickerIsOpen, removeKeys } from '$lib/utils.js';
-	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import { persisted } from 'svelte-local-storage-store';
@@ -76,7 +75,7 @@
 		 * Useful for keeping the pane away from of menu bars, etc.
 		 * @default `'0'`
 		 */
-		padding: string;
+		padding?: string;
 		/**
 		 * Allow the user to resize the width of the pane by dragging the right corner of the title
 		 * bar.
@@ -129,7 +128,7 @@
 		width: number;
 	}>;
 
-	if (BROWSER && storePositionLocally) {
+	if (storePositionLocally) {
 		positionStore = persisted(`${localStorePrefix}${localStoreId}`, {
 			x: 0,
 			y: 0,
@@ -165,7 +164,7 @@
 	// Local storage helpers, warn about ID collisions
 	function addStorageId() {
 		if (localStoreId !== undefined) {
-			if (BROWSER && localStoreIds.includes(localStoreId)) {
+			if (localStoreIds.includes(localStoreId)) {
 				console.warn(
 					'Multiple instances of <Pane> with `mode="draggable"` and `storePositionLocally=true` detected. You must explicitly set unique localStoreId property on each component to avoid collisions.'
 				);
@@ -374,7 +373,7 @@
 		}
 	}
 
-	$: BROWSER && paneRef && resizable && updateResizability(resizable);
+	$: paneRef && resizable && updateResizability(resizable);
 
 	function recursiveCollapse(
 		children: BladeApi[],
@@ -406,7 +405,6 @@
 
 	// ensure the tweakpane panel is within the viewport additional checks in the width drag handler
 	$: if (
-		BROWSER &&
 		containerHeightScaled !== undefined &&
 		documentWidth !== undefined &&
 		documentHeight !== undefined &&
@@ -434,15 +432,12 @@
 	// no browser check...
 	$: maxAvailablePanelWidth = Math.min(maxWidth ?? 600, documentWidth - (x ?? 0));
 
-	$: localStoreId, BROWSER && storePositionLocally && addStorageId();
-	$: localStoreId, BROWSER && !storePositionLocally && removeStorageId();
-	$: BROWSER &&
-		localStoreId !== `${localStorePrefix}${localStoreId}` &&
-		updateLocalStoreId(localStoreId);
+	$: localStoreId, storePositionLocally && addStorageId();
+	$: localStoreId, !storePositionLocally && removeStorageId();
+	$: localStoreId !== `${localStorePrefix}${localStoreId}` && updateLocalStoreId(localStoreId);
 
 	// proxy everything to the store
-	$: BROWSER &&
-		storePositionLocally &&
+	$: storePositionLocally &&
 		localStoreId !== undefined &&
 		x !== undefined &&
 		y !== undefined &&
@@ -474,38 +469,30 @@ This component is for internal use only.
 
 <svelte:window on:resize={setDocumentSize} />
 
-{#if BROWSER}
-	<div
-		bind:this={containerElement}
-		bind:clientHeight={containerHeight}
-		bind:clientWidth={containerWidth}
-		on:focus|capture={() => {
-			zIndexLocal = ++zIndexGlobal;
-		}}
-		on:pointerdown|capture={() => {
-			zIndexLocal = ++zIndexGlobal;
-		}}
-		class="svelte-tweakpane-ui
-	draggable-container"
-		class:not-collapsable={!clickToExpand}
-		class:not-resizable={!resizable}
-		style:left="{x}px"
-		style:padding
-		style:top="{y}px"
-		style:width="{width}px"
-		style:z-index={zIndexLocal}
-	>
-		<GenericPane
-			bind:expanded
-			bind:paneRef
-			{scale}
-			{title}
-			{...removeKeys($$restProps, 'position')}
-		>
-			<slot />
-		</GenericPane>
-	</div>
-{/if}
+<div
+	bind:this={containerElement}
+	bind:clientHeight={containerHeight}
+	bind:clientWidth={containerWidth}
+	on:focus|capture={() => {
+		zIndexLocal = ++zIndexGlobal;
+	}}
+	on:pointerdown|capture={() => {
+		zIndexLocal = ++zIndexGlobal;
+	}}
+	class="svelte-tweakpane-ui
+draggable-container"
+	class:not-collapsable={!clickToExpand}
+	class:not-resizable={!resizable}
+	style:left="{x}px"
+	style:padding
+	style:top="{y}px"
+	style:width="{width}px"
+	style:z-index={zIndexLocal}
+>
+	<GenericPane bind:expanded bind:paneRef {scale} {title} {...removeKeys($$restProps, 'position')}>
+		<slot />
+	</GenericPane>
+</div>
 
 <style>
 	div.draggable-container {

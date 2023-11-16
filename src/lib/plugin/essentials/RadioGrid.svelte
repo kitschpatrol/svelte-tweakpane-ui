@@ -1,6 +1,8 @@
 <script generics="T extends number | string | boolean" lang="ts">
 	import * as pluginModule from '@tweakpane/plugin-essentials';
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericInput, { type GenericInputOptions } from '$lib/internal/GenericInput.svelte';
+	import { fillWith } from '$lib/utils';
 	import { getGridDimensions } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
 	import { nanoid } from 'nanoid';
@@ -105,14 +107,13 @@
 		return { value: values[0], title: '' };
 	}
 
-	$: BROWSER && (gridDimensions = getGridDimensions(values.length, columns, rows));
-	$: BROWSER &&
-		(options = {
-			cells,
-			groupName: groupName ?? defaultGroupName,
-			size: [gridDimensions.columns, gridDimensions.rows],
-			view: 'radiogrid'
-		});
+	$: gridDimensions = getGridDimensions(values.length, columns, rows);
+	$: options = {
+		cells,
+		groupName: groupName ?? defaultGroupName,
+		size: [gridDimensions.columns, gridDimensions.rows],
+		view: 'radiogrid'
+	};
 </script>
 
 <!--
@@ -193,6 +194,8 @@ position='inline'>`.
 [RadioGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/RadioGrid.svelte)
 -->
 
-{#if BROWSER}
-	<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />
+<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />
+{#if !BROWSER}
+	<ClsPad keysAdd={fillWith('containerUnitSize', gridDimensions.rows - 1)} theme={$$props.theme} />
+	<div style:height={`${2 * (gridDimensions.rows - 1)}px`} />
 {/if}

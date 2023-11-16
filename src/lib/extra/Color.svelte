@@ -22,8 +22,10 @@
 
 <script lang="ts">
 	import { isColorObject, isObject, isRgbColorObject, isRgbaColorObject } from '@tweakpane/core';
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import { objectToTuple, tupleToObject } from '$lib/utils';
+	import { fillWith } from '$lib/utils';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 	import type { ColorInputParams as ColorOptions, InputBindingApi as ColorRef } from 'tweakpane';
@@ -106,16 +108,15 @@
 		});
 	}
 
-	$: value, BROWSER && updateInternalValue();
-	$: internalValue, BROWSER && updateValue();
-	$: BROWSER && ref !== undefined && addListeners();
-	$: BROWSER &&
-		(options = {
-			color: {
-				type
-			},
-			view: 'color'
-		});
+	$: value, updateInternalValue();
+	$: internalValue, updateValue();
+	$: ref !== undefined && addListeners();
+	$: options = {
+		color: {
+			type
+		},
+		view: 'color'
+	};
 </script>
 
 <!--
@@ -152,13 +153,20 @@ position='inline'>`.
 [Color.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Color.svelte)
 -->
 
-{#if BROWSER}
-	<GenericInputFolding
-		bind:value={internalValue}
-		bind:expanded
-		bind:ref
-		{buttonClass}
-		{options}
-		{...$$restProps}
-	/>
+<GenericInputFolding
+	bind:value={internalValue}
+	bind:expanded
+	bind:ref
+	{buttonClass}
+	{options}
+	{...$$restProps}
+/>
+{#if !BROWSER && expanded && $$props.picker === 'inline'}
+	<!-- Main swatch -->
+	<ClsPad keysAdd={fillWith('containerUnitSize', 6)} theme={$$props.theme} />
+	<ClsPad keysAdd={fillWith('containerUnitSpacing', 3)} theme={$$props.theme} />
+	{#if isRgbaColorObject(internalValue)}
+		<ClsPad keysAdd={fillWith('containerUnitSize', 1)} theme={$$props.theme} />
+		<ClsPad extra={2} keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} />
+	{/if}
 {/if}

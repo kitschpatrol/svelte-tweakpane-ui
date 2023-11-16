@@ -7,6 +7,8 @@
 	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import type { FpsGraphBladeParams as FpsGraphOptions } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
 	import Blade from '$lib/core/Blade.svelte';
+	import ClsPad from '$lib/internal/ClsPad.svelte';
+	import { fillWith } from '$lib/utils';
 	import type { UnwrapCustomEvents } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
@@ -148,20 +150,19 @@
 		}
 	}
 
-	$: BROWSER && fpsBlade && startObservingMeasuredFpsValue();
+	$: fpsBlade && startObservingMeasuredFpsValue();
 
 	let options: FpsGraphOptions;
-	$: BROWSER &&
-		(options = {
-			min,
-			max,
-			interval,
-			label,
-			rows,
-			view: 'fpsgraph'
-		});
+	$: options = {
+		min,
+		max,
+		interval,
+		label,
+		rows,
+		view: 'fpsgraph'
+	};
 
-	$: BROWSER && !implicitMode && stopInternalLoop();
+	$: !implicitMode && stopInternalLoop();
 </script>
 
 <!--
@@ -257,6 +258,11 @@ position='inline'>`.
 [FpsGraph.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/FpsGraph.svelte)
 -->
 
-{#if BROWSER}
-	<Blade bind:ref={fpsBlade} {options} plugin={pluginModule} {...$$restProps} />
+<Blade bind:ref={fpsBlade} {options} plugin={pluginModule} {...$$restProps} />
+{#if !BROWSER}
+	{#if rows}
+		<ClsPad keysAdd={fillWith('containerUnitSize', rows)} theme={$$props.theme} />
+	{:else}
+		<ClsPad keysAdd={fillWith('containerUnitSize', 2)} theme={$$props.theme} />
+	{/if}
 {/if}

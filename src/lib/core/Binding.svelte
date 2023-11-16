@@ -10,6 +10,7 @@
 	generics="T extends BindingObject, U extends BindingOptions, V extends BindingRef"
 	lang="ts"
 >
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import {
@@ -133,17 +134,16 @@
 	});
 
 	// readonly props
-	$: DEV && BROWSER && enforceReadonly(_ref, ref, 'Binding', 'ref', true);
+	$: DEV && enforceReadonly(_ref, ref, 'Binding', 'ref', true);
 
 	// options seem immutable... have to recreate old version supporting key changes $: key,
 	// options,
-	$: options, BROWSER && $parentStore !== undefined && index !== undefined && create();
-	$: object, BROWSER && _ref !== undefined && _ref.refresh();
-	$: BROWSER && _ref !== undefined && (_ref.disabled = disabled);
-	$: BROWSER && _ref !== undefined && (_ref.label = label);
+	$: options, $parentStore !== undefined && index !== undefined && create();
+	$: object, _ref !== undefined && _ref.refresh();
+	$: _ref !== undefined && (_ref.disabled = disabled);
+	$: _ref !== undefined && (_ref.label = label);
 
-	$: BROWSER &&
-		theme &&
+	$: theme &&
 		$parentStore &&
 		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
@@ -180,20 +180,14 @@ position='inline'>`.
 [Binding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Binding.svelte)
 -->
 
-{#if BROWSER}
-	{#if parentStore}
+{#if parentStore}
+	{#if BROWSER}
 		<div bind:this={indexElement} style="display: none;" />
 	{:else}
-		<InternalPaneInline {theme} userCreatedPane={false}>
-			<svelte:self
-				bind:disabled
-				bind:key
-				bind:label
-				bind:object
-				bind:options
-				bind:plugin
-				bind:ref
-			/>
-		</InternalPaneInline>
+		<ClsPad keysAdd={['containerVerticalPadding', 'containerUnitSize']} {theme} />
 	{/if}
+{:else}
+	<InternalPaneInline {theme} userCreatedPane={false}>
+		<svelte:self bind:disabled bind:key bind:label bind:object bind:options bind:plugin bind:ref />
+	</InternalPaneInline>
 {/if}

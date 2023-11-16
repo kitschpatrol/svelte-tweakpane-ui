@@ -12,7 +12,6 @@
 	import InternalMonitorString, {
 		type InternalMonitorStringOptions
 	} from '$lib/internal/InternalMonitorString.svelte';
-	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	// multi-file structure is legacy of previous non-dynamic component approach TODO consolidate
@@ -107,12 +106,10 @@ position='inline'>` component.
 [Monitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Monitor.svelte)
 -->
 
-{#if BROWSER}
-	{#if value === undefined || typeof value === 'number'}
-		<InternalMonitorNumber {value} {...$$restProps} />
-	{:else if typeof value === 'boolean'}
-		<InternalMonitorBoolean {value} {...$$restProps} />
-	{:else if typeof value === 'string'}
-		<InternalMonitorString {value} {...$$restProps} />
-	{/if}
+{#if value === undefined || typeof value === 'number'}
+	<InternalMonitorNumber {value} {...$$restProps} />
+{:else if typeof value === 'boolean'}
+	<InternalMonitorBoolean {value} {...$$restProps} />
+{:else if typeof value === 'string'}
+	<InternalMonitorString {value} {...$$restProps} />
 {/if}

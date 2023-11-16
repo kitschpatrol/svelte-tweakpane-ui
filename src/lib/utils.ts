@@ -43,6 +43,37 @@ export type UnwrapCustomEvents<T> = {
 // utility functions
 
 /**
+ * For CLS SSR calculation
+ */
+export function rowsForMonitor(
+	buffer: number | undefined = undefined,
+	rows: number | undefined = undefined,
+	graph: boolean | undefined = undefined
+) {
+	if (graph) {
+		return Math.max(rows ?? 3, 3);
+	} else if (buffer === undefined && rows === undefined) {
+		return 1;
+	} else if (buffer === undefined && rows !== undefined) {
+		return 1;
+	} else if (buffer !== undefined && rows === undefined) {
+		return buffer > 1 ? 3 : 1;
+	} else if (buffer === 1) {
+		return 1;
+	} else {
+		// both defined
+		return rows ?? 1; // todo
+	}
+}
+
+/**
+ * Fills an array of length `quantity` with a `value`
+ */
+export function fillWith<T>(value: T, quantity: number): T[] {
+	return [...Array(quantity).fill(value)];
+}
+
+/**
  * There's no way to enforce readonly properties in Svelte components, so this is a workaround. See
  * [general approach](https://github.com/sveltejs/svelte/issues/7712#issuecomment-1642470141) and
  * [runtime error approach](https://github.com/sveltejs/svelte/issues/7712#issuecomment-1642817764)

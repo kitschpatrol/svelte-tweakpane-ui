@@ -4,6 +4,7 @@
 
 <script lang="ts">
 	import type { ButtonApi as ButtonRef } from '@tweakpane/core';
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import {
@@ -87,12 +88,11 @@
 		button?.dispose();
 	});
 
-	$: BROWSER && index !== undefined && $parentStore && !button && create();
-	$: BROWSER && button && (button.title = title);
-	$: BROWSER && button && (button.label = label);
-	$: BROWSER && button && (button.disabled = disabled);
-	$: BROWSER &&
-		theme &&
+	$: index !== undefined && $parentStore && !button && create();
+	$: button && (button.title = title);
+	$: button && (button.label = label);
+	$: button && (button.disabled = disabled);
+	$: theme &&
 		$parentStore &&
 		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
@@ -128,12 +128,14 @@ See the <ButtonGrid> and <RadioGrid> components for a convenient way to lay out 
 [Button.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Button.svelte)
 -->
 
-{#if BROWSER}
-	{#if parentStore}
+{#if parentStore}
+	{#if BROWSER}
 		<div bind:this={indexElement} style="display: none;" />
 	{:else}
-		<InternalPaneInline {theme} userCreatedPane={false}>
-			<svelte:self on:click {disabled} {label} {title} />
-		</InternalPaneInline>
+		<ClsPad keysAdd={['containerUnitSize', 'containerVerticalPadding']} {theme} />
 	{/if}
+{:else}
+	<InternalPaneInline {theme} userCreatedPane={false}>
+		<svelte:self on:click {disabled} {label} {title} />
+	</InternalPaneInline>
 {/if}

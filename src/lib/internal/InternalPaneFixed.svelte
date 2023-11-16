@@ -1,7 +1,6 @@
 <script lang="ts">
 	import GenericPane from '$lib/internal/GenericPane.svelte';
 	import { removeKeys } from '$lib/utils.js';
-	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 	import type { Pane as TpPane } from 'tweakpane';
 
@@ -49,24 +48,20 @@
 	let paneRef: TpPane;
 	let paneContainer: HTMLElement;
 
-	$: BROWSER &&
-		paneRef !== undefined &&
+	$: paneRef !== undefined &&
 		paneRef.element.parentElement &&
 		(paneContainer = paneRef.element.parentElement);
 
-	$: BROWSER &&
-		paneContainer !== undefined &&
+	$: paneContainer !== undefined &&
 		x !== undefined &&
 		(paneContainer.style.setProperty('right', 'unset'),
 		paneContainer.style.setProperty('left', `${x}px`));
 
-	$: BROWSER &&
-		paneContainer !== undefined &&
+	$: paneContainer !== undefined &&
 		y !== undefined &&
 		paneContainer.style.setProperty('top', `${y}px`);
 
-	$: BROWSER &&
-		paneContainer !== undefined &&
+	$: paneContainer !== undefined &&
 		width !== undefined &&
 		paneContainer.style.setProperty('width', `${width}px`);
 
@@ -83,10 +78,8 @@ Implements the default tweakpane behavior... opens in a fixed position.
 [InternalPaneFixed.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalPaneFixed.svelte)
 -->
 
-{#if BROWSER}
-	<div style="display: none;">
-		<GenericPane bind:expanded bind:paneRef {title} {...removeKeys($$restProps, 'position')}>
-			<slot />
-		</GenericPane>
-	</div>
-{/if}
+<div style="display: none;">
+	<GenericPane bind:expanded bind:paneRef {title} {...removeKeys($$restProps, 'position')}>
+		<slot />
+	</GenericPane>
+</div>

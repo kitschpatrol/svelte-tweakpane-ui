@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Blade from '$lib/core/Blade.svelte';
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 	import type {
@@ -45,4 +46,10 @@ position='inline'>`.
 
 {#if BROWSER}
 	<Blade {options} {...$$restProps} />
+{:else}
+	<ClsPad
+		extra={2}
+		keysAdd={['containerVerticalPadding', 'containerVerticalPadding']}
+		theme={$$props.theme}
+	/>
 {/if}

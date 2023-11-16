@@ -37,7 +37,6 @@
 	import * as pluginModule from '@tweakpane/plugin-camerakit';
 	import type { RingInputParams } from '@tweakpane/plugin-camerakit/dist/types/util.d.ts';
 	import GenericSlider from '$lib/internal/GenericSlider.svelte';
-	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {
@@ -72,13 +71,12 @@
 
 	let options: RingInputParams;
 
-	$: BROWSER &&
-		(options = {
-			series,
-			unit,
-			view: 'cameraring',
-			wide
-		});
+	$: options = {
+		series,
+		unit,
+		view: 'cameraring',
+		wide
+	};
 </script>
 
 <!--
@@ -131,6 +129,4 @@ Usage outside of a `<Pane>` component will implicitly wrap the ring in `<Pane po
 [Ring.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/camerakit/Ring.svelte)
 -->
 
-{#if BROWSER}
-	<GenericSlider bind:value {options} plugin={pluginModule} {...$$restProps} />
-{/if}
+<GenericSlider bind:value {options} plugin={pluginModule} {...$$restProps} />

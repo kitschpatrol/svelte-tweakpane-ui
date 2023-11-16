@@ -2,7 +2,6 @@
 	import * as pluginModule from '@tweakpane/plugin-camerakit';
 	import type { WheelInputParams } from '@tweakpane/plugin-camerakit/dist/types/util.d.ts';
 	import GenericSlider from '$lib/internal/GenericSlider.svelte';
-	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {
@@ -32,12 +31,11 @@
 
 	let options: WheelInputParams;
 
-	$: BROWSER &&
-		(options = {
-			amount,
-			view: 'camerawheel',
-			wide
-		});
+	$: options = {
+		amount,
+		view: 'camerawheel',
+		wide
+	};
 </script>
 
 <!--
@@ -81,6 +79,4 @@ Usage outside of a `<Pane>` component will implicitly wrap the wheel in `<Pane p
 [Wheel.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/camerakit/Wheel.svelte)
 -->
 
-{#if BROWSER}
-	<GenericSlider bind:value {options} plugin={pluginModule} {...$$restProps} />
-{/if}
+<GenericSlider bind:value {options} plugin={pluginModule} {...$$restProps} />

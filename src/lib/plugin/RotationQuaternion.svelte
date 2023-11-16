@@ -19,6 +19,7 @@
 	import * as pluginModule from '@0b5vr/tweakpane-plugin-rotation';
 	import type { RotationInputPluginQuaternionParams as RotationQuaternionOptionsInternal } from '@0b5vr/tweakpane-plugin-rotation/dist/types/RotationInputPluginQuaternionParams';
 	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d'; // note name collision with options params
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
@@ -106,17 +107,16 @@
 		}
 	}
 
-	$: value, BROWSER && updateInternalValue();
-	$: internalValue, BROWSER && updateValue();
-	$: BROWSER &&
-		(options = {
-			x: optionsX,
-			y: optionsY,
-			z: optionsZ,
-			w: optionsW,
-			rotationMode: 'quaternion',
-			view: 'rotation'
-		});
+	$: value, updateInternalValue();
+	$: internalValue, updateValue();
+	$: options = {
+		x: optionsX,
+		y: optionsY,
+		z: optionsZ,
+		w: optionsW,
+		rotationMode: 'quaternion',
+		view: 'rotation'
+	};
 </script>
 
 <!--
@@ -197,13 +197,24 @@ position='inline'>`.
 [RotationQuaternion.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/RotationQuaternion.svelte)
 -->
 
-{#if BROWSER}
-	<GenericInputFolding
-		bind:value={internalValue}
-		bind:expanded
-		{buttonClass}
-		{options}
-		plugin={pluginModule}
-		{...$$restProps}
-	/>
+<GenericInputFolding
+	bind:value={internalValue}
+	bind:expanded
+	{buttonClass}
+	{options}
+	plugin={pluginModule}
+	{...$$restProps}
+/>
+{#if !BROWSER && expanded && $$props.picker === 'inline'}
+	{#if $$props.label !== undefined}
+		<ClsPad
+			keysAdd={['bladeValueWidth']}
+			keysSubtract={[`containerUnitSize`]}
+			theme={$$props.theme}
+		/>
+	{:else}
+		<!-- Without a label, the grid takes the full width of the control -->
+		<!-- TODO remove magic number -->
+		<div style="aspect-ratio: 1; width: calc(100% - 28px);" />
+	{/if}
 {/if}

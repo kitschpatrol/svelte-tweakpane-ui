@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { TabPageApi as TabPageRef } from '@tweakpane/core';
 	import TabGroup from '$lib/core/TabGroup.svelte';
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import { type Container, getElementIndex, isRootPane } from '$lib/utils.js';
@@ -98,12 +99,11 @@
 		$tabPageStore?.dispose();
 	});
 
-	$: BROWSER && index !== undefined && $parentStore && $tabIndexStore !== undefined && create();
-	$: BROWSER && $tabPageStore && ($tabPageStore.title = title);
-	$: BROWSER && $tabPageStore && ($tabPageStore.disabled = disabled);
-	$: BROWSER && $tabPageStore && ($tabPageStore.selected = selected);
-	$: BROWSER &&
-		theme &&
+	$: index !== undefined && $parentStore && $tabIndexStore !== undefined && create();
+	$: $tabPageStore && ($tabPageStore.title = title);
+	$: $tabPageStore && ($tabPageStore.disabled = disabled);
+	$: $tabPageStore && ($tabPageStore.selected = selected);
+	$: theme &&
 		$parentStore &&
 		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
@@ -154,18 +154,32 @@ Count B: {countB}
 [TabPage.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/TabPage.svelte)
 -->
 
-{#if BROWSER}
-	{#if parentStore && tabIndexStore !== undefined}
+{#if parentStore && tabIndexStore !== undefined}
+	{#if BROWSER}
 		<div bind:this={indexElement} style="display: none;">
 			<slot />
 		</div>
 	{:else}
-		<InternalPaneInline {theme} userCreatedPane={false}>
-			<TabGroup>
-				<svelte:self {disabled} {selected} {theme} {title}>
-					<slot />
-				</svelte:self>
-			</TabGroup>
-		</InternalPaneInline>
+		<div class="ssr-tab-page">
+			<!-- Tab bar -->
+			<ClsPad keysAdd={['containerUnitSize']} {theme} />
+			<slot />
+		</div>
 	{/if}
+{:else}
+	<InternalPaneInline {theme} userCreatedPane={false}>
+		<TabGroup>
+			<svelte:self {disabled} {selected} {theme} {title}>
+				<slot />
+			</svelte:self>
+		</TabGroup>
+	</InternalPaneInline>
 {/if}
+
+<style>
+	/* Measure only the first (most likely active) tab */
+	div.ssr-tab-page:not(:first-child) {
+		overflow: hidden;
+		display: none;
+	}
+</style>

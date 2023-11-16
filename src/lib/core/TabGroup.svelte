@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import { type Container, getElementIndex, isRootPane } from '$lib/utils.js';
@@ -16,6 +17,9 @@
 
 	/**
 	 * Active page index.
+	 *
+	 * Note that SSR will always render the first page height, regardless of the initial active
+	 * index.
 	 * @default `0`
 	 * @bindable
 	 * */
@@ -120,17 +124,21 @@ Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane pos
 [TabGroup.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/TabGroup.svelte)
 -->
 
-{#if BROWSER}
-	{#if parentStore}
+{#if parentStore}
+	{#if BROWSER}
 		<div bind:this={indexElement} style="display: none;">
 			<slot />
 		</div>
 	{:else}
-		<InternalPaneInline {theme} userCreatedPane={false}>
-			<!--  {...$$props}> breaks types -->
-			<svelte:self bind:selectedIndex {disabled}>
-				<slot />
-			</svelte:self>
-		</InternalPaneInline>
+		<ClsPad keysAdd={['containerVerticalPadding']} {theme} />
+		<div>
+			<slot />
+		</div>
 	{/if}
+{:else}
+	<InternalPaneInline {theme} userCreatedPane={false}>
+		<svelte:self bind:selectedIndex {disabled}>
+			<slot />
+		</svelte:self>
+	</InternalPaneInline>
 {/if}

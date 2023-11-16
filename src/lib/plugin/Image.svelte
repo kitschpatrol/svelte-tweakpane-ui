@@ -3,9 +3,13 @@
 </script>
 
 <script lang="ts">
+	// TODO CLS prerendering slightly broken because component has fractional heights
+
 	import * as pluginModule from '@kitschpatrol/tweakpane-image-plugin';
 	import type { PluginInputParams as ImageOptions } from '@kitschpatrol/tweakpane-image-plugin/dist/types/plugin.d.ts';
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericInput from '$lib/internal/GenericInput.svelte';
+	import { fillWith } from '$lib/utils';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
@@ -37,12 +41,11 @@
 
 	let options: ImageOptions;
 
-	$: BROWSER &&
-		(options = {
-			extensions,
-			imageFit: fit,
-			view: 'input-image'
-		});
+	$: options = {
+		extensions,
+		imageFit: fit,
+		view: 'input-image'
+	};
 </script>
 
 <!--
@@ -118,6 +121,7 @@ position='inline'>`.
 [Image.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/Image.svelte)
 -->
 
-{#if BROWSER}
-	<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />
+<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />
+{#if !BROWSER}
+	<ClsPad keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} />
 {/if}

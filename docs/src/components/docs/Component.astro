@@ -1,66 +1,55 @@
 ---
-import type { Props as StarlightProps } from "@astrojs/starlight/props";
+import type { Props as StarlightProps } from '@astrojs/starlight/props';
 // bypasses any markdown customization in starlight...
-import { marked } from "marked";
-import Heading from "./Heading.astro";
-import PropTable from "./PropTable.astro";
-import ExampleLoader from "../examples/ExampleLoader.svelte";
-import DynamicPropAdmonition from "./DynamicPropAdmonition.md";
-import { Tabs, TabItem } from "@astrojs/starlight/components";
-import { slug } from "github-slugger";
-import path from "path";
-import { globSync } from "glob";
+import { marked } from 'marked';
+import Heading from './Heading.astro';
+import PropTable from './PropTable.astro';
+import ExampleLoader from '../examples/ExampleLoader.svelte';
+import DynamicPropAdmonition from './DynamicPropAdmonition.md';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { slug } from 'github-slugger';
+import path from 'path';
+import { globSync } from 'glob';
 
-type ComponentData = StarlightProps["entry"]["data"]["componentData"];
-type ComponentProp = NonNullable<ComponentData>["props"][number];
+type ComponentData = StarlightProps['entry']['data']['componentData'];
+type ComponentProp = NonNullable<ComponentData>['props'][number];
 
 const { BASE_URL } = import.meta.env;
 
 interface Props {
-  componentData: ComponentData;
+	componentData: ComponentData;
 }
 
-function uniqueProps(
-  commonProps: ComponentProp[],
-  dynamicProps: ComponentProp[],
-): ComponentProp[] {
-  const uniqueProps = dynamicProps.filter((dynamicProp) => {
-    return !commonProps.find((commonProp) => {
-      return dynamicProp.name === commonProp.name;
-    });
-  });
-  return uniqueProps;
+function uniqueProps(commonProps: ComponentProp[], dynamicProps: ComponentProp[]): ComponentProp[] {
+	const uniqueProps = dynamicProps.filter((dynamicProp) => {
+		return !commonProps.find((commonProp) => {
+			return dynamicProp.name === commonProp.name;
+		});
+	});
+	return uniqueProps;
 }
 
 function linkifyComponentReferences(
-  str: string,
-  validComponentNames: string[],
-  base: string = "/",
-  markdownStyleLink: boolean = true,
+	str: string,
+	validComponentNames: string[],
+	base: string = '/',
+	markdownStyleLink: boolean = true
 ): string {
-  return str.replaceAll(
-    /(`?)<([A-Z]\w+)>(`?)/g,
-    (match, prefix, name, postfix) => {
-      if (
-        validComponentNames.length > 0 &&
-        validComponentNames.includes(name)
-      ) {
-        // Replace with link
-        if (markdownStyleLink) {
-          return `[${prefix ?? ""}<${name}>${
-            postfix ?? ""
-          }](${base}docs/components/${slug(name)})`;
-        } else {
-          return `${prefix ?? ""}<a href="${base}docs/components/${slug(
-            name,
-          )}">&lt;${name}&gt;</a>${postfix ?? ""}`;
-        }
-      } else {
-        // No replacement, return the original match
-        return match;
-      }
-    },
-  );
+	return str.replaceAll(/(`?)<([A-Z]\w+)>(`?)/g, (match, prefix, name, postfix) => {
+		if (validComponentNames.length > 0 && validComponentNames.includes(name)) {
+			// Replace with link
+			if (markdownStyleLink) {
+				return `[${prefix ?? ''}<${name}>${postfix ?? ''}](${base}docs/components/${slug(name)})`;
+			} else {
+				return `${prefix ?? ''}<a href="${base}docs/components/${slug(name)}">&lt;${name}&gt;</a>${
+					postfix ?? ''
+				}`;
+			}
+		} else {
+			// No replacement, return the original match
+			return match;
+		}
+	});
 }
 
 const { componentData: data } = Astro.props;
@@ -68,17 +57,15 @@ const { componentData: data } = Astro.props;
 // for automatic component linking...
 // all components except for the current one are valid
 const validComponentNames =
-  globSync("src/content/docs/docs/components/*.md")
-    .map((componentPath) => {
-      return path.basename(componentPath, path.extname(componentPath));
-    })
-    .filter((name) => {
-      return name !== data?.name;
-    }) ?? [];
+	globSync('src/content/docs/docs/components/*.md')
+		.map((componentPath) => {
+			return path.basename(componentPath, path.extname(componentPath));
+		})
+		.filter((name) => {
+			return name !== data?.name;
+		}) ?? [];
 
-const ExampleCode = (
-  await import(`../examples/markdown/${data?.name}Example.md`)
-).default;
+const ExampleCode = (await import(`../examples/markdown/${data?.name}Example.md`)).default;
 
 const hasExample = !!data?.jsDocs?.example;
 const hasProps = !!data?.props.length;
@@ -88,72 +75,62 @@ const hasSlots = !!data?.slots.length;
 ---
 
 {
-  data && (
-    <>
-      <Fragment
-        set:html={marked.parse(
-          linkifyComponentReferences(
-            data.doc,
-            validComponentNames,
-            BASE_URL,
-            true,
-          ),
-        )}
-      />
-      {hasExample && (
-        <>
-          <Heading level={2}>Example</Heading>
-          <div class="not-content" style="width: 400px;">
-            <ExampleLoader name={data.name} client:only="svelte" />
-          </div>
-          <ExampleCode />
-        </>
-      )}
-      {hasProps && (
-        <>
-          <Heading level={2}>Props</Heading>
-          {hasDynamicProps ? (
-            <>
-              <DynamicPropAdmonition />
-              <Tabs>
-                <TabItem label={`Common Props`}>
-                  <PropTable data={data.props} />
-                </TabItem>
-                {data.dynamicProps?.map((propInfo) => {
-                  // Find the unique properties for this dynamic prop
-                  const uniqueProperties = uniqueProps(
-                    data.props,
-                    propInfo.props,
-                  );
+	data && (
+		<>
+			<Fragment
+				set:html={marked.parse(
+					linkifyComponentReferences(data.doc, validComponentNames, BASE_URL, true)
+				)}
+			/>
+			{hasExample && (
+				<>
+					<Heading level={2}>Example</Heading>
+					<div class="not-content" style="width: 400px;">
+						<ExampleLoader name={data.name} client:load />
+					</div>
+					<ExampleCode />
+				</>
+			)}
+			{hasProps && (
+				<>
+					<Heading level={2}>Props</Heading>
+					{hasDynamicProps ? (
+						<>
+							<DynamicPropAdmonition />
+							<Tabs>
+								<TabItem label={`Common Props`}>
+									<PropTable data={data.props} />
+								</TabItem>
+								{data.dynamicProps?.map((propInfo) => {
+									// Find the unique properties for this dynamic prop
+									const uniqueProperties = uniqueProps(data.props, propInfo.props);
 
-                  // Render the TabItem only if there are unique properties
-                  return uniqueProperties.length > 0 ? (
-                    <TabItem
-                      label={`Dynamic props when ${propInfo.description}`}
-                    >
-                      <PropTable data={uniqueProperties} />
-                    </TabItem>
-                  ) : null;
-                })}
-              </Tabs>
-            </>
-          ) : (
-            <PropTable data={data.props} />
-          )}
-        </>
-      )}
-      {hasEvents && (
-        <>
-          <Heading level={2}>Events</Heading>
-          <PropTable data={data.events} showDefault={false} showFlags={false} />
-        </>
-      )}
-      {hasSlots && (
-        <>
-          <Heading level={2}>Slots</Heading>
-          <PropTable data={data.slots} showDefault={false} showFlags={false} />
-        </>
-      )}
-    </>
-  )
+									// Render the TabItem only if there are unique properties
+									return uniqueProperties.length > 0 ? (
+										<TabItem label={`Dynamic props when ${propInfo.description}`}>
+											<PropTable data={uniqueProperties} />
+										</TabItem>
+									) : null;
+								})}
+							</Tabs>
+						</>
+					) : (
+						<PropTable data={data.props} />
+					)}
+				</>
+			)}
+			{hasEvents && (
+				<>
+					<Heading level={2}>Events</Heading>
+					<PropTable data={data.events} showDefault={false} showFlags={false} />
+				</>
+			)}
+			{hasSlots && (
+				<>
+					<Heading level={2}>Slots</Heading>
+					<PropTable data={data.slots} showDefault={false} showFlags={false} />
+				</>
+			)}
+		</>
+	)
 }

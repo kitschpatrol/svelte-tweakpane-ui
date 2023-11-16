@@ -9,7 +9,6 @@
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import type { BindingObject, Container } from '$lib/utils.js';
-	import { BROWSER } from 'esm-env';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
@@ -119,22 +118,20 @@ component in [Dmitriy Nikiforov's](https://github.com/MrFoxPro)
 [AutoObject.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/AutoObject.svelte)
 -->
 
-{#if BROWSER}
-	{#if parentStore}
-		{#each Object.keys(object) as key (key)}
-			{#if object[key].constructor === Object && !isColorObject(object[key]) && !isPointObject(object[key])}
-				<Folder title={prettify(key, prettyLabels)}>
-					<svelte:self bind:object={object[key]} bind:prettyLabels />
-				</Folder>
-			{:else if typeof object[key] === 'string'}
-				<Text bind:value={object[key]} label={prettify(key, prettyLabels)} />
-			{:else}
-				<Binding bind:object {key} label={prettify(key, prettyLabels)} />
-			{/if}
-		{/each}
-	{:else}
-		<InternalPaneInline {theme} userCreatedPane={false}>
-			<svelte:self bind:object bind:prettyLabels />
-		</InternalPaneInline>
-	{/if}
+{#if parentStore}
+	{#each Object.keys(object) as key (key)}
+		{#if object[key].constructor === Object && !isColorObject(object[key]) && !isPointObject(object[key])}
+			<Folder title={prettify(key, prettyLabels)}>
+				<svelte:self bind:object={object[key]} bind:prettyLabels />
+			</Folder>
+		{:else if typeof object[key] === 'string'}
+			<Text bind:value={object[key]} label={prettify(key, prettyLabels)} />
+		{:else}
+			<Binding bind:object {key} label={prettify(key, prettyLabels)} />
+		{/if}
+	{/each}
+{:else}
+	<InternalPaneInline {theme} userCreatedPane={false}>
+		<svelte:self bind:object bind:prettyLabels />
+	</InternalPaneInline>
 {/if}

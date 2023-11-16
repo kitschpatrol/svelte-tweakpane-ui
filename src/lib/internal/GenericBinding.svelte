@@ -9,7 +9,6 @@
 >
 	import Binding from '$lib/core/Binding.svelte';
 	import type { BindingObject } from '$lib/utils.js';
-	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	type BindableValue = BindingObject & {
@@ -56,6 +55,4 @@ It abstracts the `param` object Tweakpane expects into an interface that looks l
 [GenericBinding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericBinding.svelte)
 -->
 
-{#if BROWSER}
-	<Binding bind:object bind:ref {key} {options} {...$$restProps} />
-{/if}
+<Binding bind:object bind:ref {key} {options} {...$$restProps} />

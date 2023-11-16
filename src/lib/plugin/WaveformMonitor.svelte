@@ -5,8 +5,10 @@
 <script lang="ts">
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-waveform';
 	import type { WaveformStyles as WaveformMonitorLineStyle } from '@kitschpatrol/tweakpane-plugin-waveform/dist/types/view/waveform.js';
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import type { GenericMonitorOptions } from '$lib/internal/GenericMonitor.svelte';
 	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
+	import { fillWith } from '$lib/utils';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
@@ -52,13 +54,12 @@
 
 	let options: WaveformMonitorOptions;
 
-	$: BROWSER &&
-		(options = {
-			min,
-			max,
-			lineStyle,
-			view: 'waveform'
-		});
+	$: options = {
+		min,
+		max,
+		lineStyle,
+		view: 'waveform'
+	};
 </script>
 
 <!--
@@ -100,6 +101,7 @@ position='inline'>`.
 [WaveformMonitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/WaveformMonitor.svelte)
 -->
 
-{#if BROWSER}
-	<GenericMonitor {value} {options} plugin={pluginModule} {...$$restProps} />
+<GenericMonitor {value} {options} plugin={pluginModule} {...$$restProps} />
+{#if !BROWSER}
+	<ClsPad keysAdd={fillWith('containerUnitSize', 2)} theme={$$props.theme} />
 {/if}

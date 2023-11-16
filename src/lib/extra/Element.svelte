@@ -1,10 +1,12 @@
 <script lang="ts">
 	import type { BladeOptions, BladeRef } from '$lib/core/Blade.svelte';
 	import Blade from '$lib/core/Blade.svelte';
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	// TODO more specific escape that just removes tweakpane css? TODO maybe expose scrollable prop?
+	// TODO sanitize?
 
 	type $$Props = Omit<
 		ComponentProps<Blade<BladeOptions, BladeRef>>,
@@ -13,10 +15,15 @@
 		/**
 		 * Maximum height of the element block, in pixels. By default, the element block will expand
 		 * vertically to fit its contents, but clip any horizontal excess.
+		 *
+		 * If a max height is set, it is used as the component height during SSR. If the actual
+		 * element content is less than the max, you will see CLS. If it is not set, the contents
+		 * are rendered... but keep in mind that style and other contextual changes during the
+		 * client render could result in CLS.
 		 * @default `undefined`  \
 		 * No max height.
 		 */
-		maxHeight?: boolean;
+		maxHeight?: number;
 		/**
 		 * Whether to reset the CSS of the element block to its default values. Avoids inheritance
 		 * of Tweakpane's CSS styles. Note that this uses a simple `all: initial;` rule.
@@ -46,7 +53,7 @@
 	let sourceDiv: HTMLDivElement;
 
 	// hoist the slot into the blade
-	$: if (BROWSER && ref && ref.element) {
+	$: if (ref && ref.element) {
 		ref.element.replaceChildren(sourceDiv);
 	}
 </script>
@@ -148,14 +155,25 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
 
 {#if BROWSER}
 	<Blade bind:ref {options} {...$$restProps} />
-	<div bind:this={sourceDiv} class="element">
-		<div class="element-container" style:max-height="{maxHeight}px">
-			<div class:reset={resetStyle}>
-				<slot />
-			</div>
+{:else}
+	<ClsPad
+		keysAdd={['containerVerticalPadding', 'containerVerticalPadding']}
+		theme={$$props.theme}
+	/>
+{/if}
+
+<div bind:this={sourceDiv} class="element">
+	<div
+		class="element-container"
+		style:height={BROWSER ? null : `${maxHeight}px`}
+		style:max-height={maxHeight !== undefined ? `${maxHeight}px` : null}
+		style:overflow={BROWSER ? null : 'hidden'}
+	>
+		<div class:reset={resetStyle}>
+			<slot />
 		</div>
 	</div>
-{/if}
+</div>
 
 <style>
 	div.element {

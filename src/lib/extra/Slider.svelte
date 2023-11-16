@@ -1,6 +1,5 @@
 <script lang="ts">
 	import GenericSlider from '$lib/internal/GenericSlider.svelte';
-	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {
@@ -50,6 +49,4 @@ See the `<Interval>` component for a multi-handle range-defining slider.
 [Slider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Slider.svelte)
 -->
 
-{#if BROWSER}
-	<GenericSlider bind:value {...$$restProps} />
-{/if}
+<GenericSlider bind:value {...$$restProps} />

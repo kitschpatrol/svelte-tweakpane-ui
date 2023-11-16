@@ -36,6 +36,4 @@ This component is for internal use only.
 [GenericInput.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericInput.svelte)
 -->
 
-{#if BROWSER}
-	<GenericBinding bind:value bind:ref options={optionsInternal} {...$$restProps} />
-{/if}
+<GenericBinding bind:value bind:ref options={optionsInternal} {...$$restProps} />

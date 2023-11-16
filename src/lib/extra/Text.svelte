@@ -1,6 +1,5 @@
 <script lang="ts">
 	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte';
-	import { BROWSER } from 'esm-env';
 	import { type ComponentProps, onDestroy } from 'svelte';
 
 	type $$Props = Omit<ComponentProps<GenericInput<string>>, 'options' | 'plugin' | 'ref'> & {
@@ -45,7 +44,7 @@
 		}
 	}
 
-	$: BROWSER && ref && live !== undefined && updateListeners(live);
+	$: ref && live !== undefined && updateListeners(live);
 </script>
 
 <!--
@@ -78,6 +77,4 @@ position='inline'>`.
 [Text.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Text.svelte)
 -->
 
-{#if BROWSER}
-	<GenericInput bind:value bind:ref {...$$restProps} />
-{/if}
+<GenericInput bind:value bind:ref {...$$restProps} />

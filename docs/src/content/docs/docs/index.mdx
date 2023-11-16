@@ -3,10 +3,14 @@ title: Overview
 description: Page description.
 ---
 
-import { Tabs, TabItem } from "@astrojs/starlight/components";
+import Demo from '../../../components/examples/home/Demo.svelte';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<div class="not-content">
+  <Demo client:load />
+</div>
 
 ## Test Heading 1 é
-
 
 ## _Italic Heading 1_
 

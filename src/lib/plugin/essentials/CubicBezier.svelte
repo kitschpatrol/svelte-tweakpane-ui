@@ -17,7 +17,9 @@
 	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import { CubicBezier } from '@tweakpane/plugin-essentials';
 	import type { CubicBezierBladeParams as CubicBezierOptions } from '@tweakpane/plugin-essentials/dist/types/cubic-bezier/plugin.d.ts';
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericBladeFolding from '$lib/internal/GenericBladeFolding.svelte';
+	import { fillWith } from '$lib/utils';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
@@ -86,14 +88,13 @@
 		});
 	}
 
-	$: BROWSER &&
-		(options = {
-			value: getValue(),
-			label,
-			view: 'cubicbezier'
-		});
-	$: BROWSER && cubicBezierBlade && addEvent();
-	$: value, BROWSER && cubicBezierBlade && setValue();
+	$: options = {
+		value: getValue(),
+		label,
+		view: 'cubicbezier'
+	};
+	$: cubicBezierBlade && addEvent();
+	$: value, cubicBezierBlade && setValue();
 </script>
 
 <!--
@@ -196,15 +197,20 @@ updates. Consider managing the lifecycle of this component with care until this 
 [CubicBezier.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/CubicBezier.svelte)
 -->
 
-{#if BROWSER}
-	<GenericBladeFolding
-		bind:expanded
-		bind:ref={cubicBezierBlade}
-		{buttonClass}
-		{options}
-		plugin={pluginModule}
-		{...$$restProps}
-	/>
+<GenericBladeFolding
+	bind:expanded
+	bind:ref={cubicBezierBlade}
+	{buttonClass}
+	{options}
+	plugin={pluginModule}
+	{...$$restProps}
+/>
+{#if !BROWSER}
+	<ClsPad keysAdd={fillWith('containerUnitSize', 1)} theme={$$props.theme} />
+	{#if expanded && $$props.picker === 'inline'}
+		<ClsPad keysAdd={fillWith('containerUnitSize', 6)} theme={$$props.theme} />
+		<ClsPad keysAdd={fillWith('containerUnitSpacing', 2)} theme={$$props.theme} />
+	{/if}
 {/if}
 
 <style>

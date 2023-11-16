@@ -13,7 +13,6 @@
 	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import type { IntervalObject } from '@tweakpane/plugin-essentials/dist/types/interval/model/interval.js';
 	import GenericSlider from '$lib/internal/GenericSlider.svelte';
-	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -67,10 +66,10 @@
 		}
 	}
 
-	$: value, BROWSER && updateInternalValue();
-	$: internalValue, BROWSER && updateValue();
-	$: BROWSER && (meanValue = (internalValue.min + internalValue.max) / 2);
-	$: meanValue, BROWSER && updateValueFromMean();
+	$: value, updateInternalValue();
+	$: internalValue, updateValue();
+	$: meanValue = (internalValue.min + internalValue.max) / 2;
+	$: meanValue, updateValueFromMean();
 </script>
 
 <!--
@@ -119,6 +118,4 @@ position='inline'>`.
 [IntervalSlider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/IntervalSlider.svelte)
 -->
 
-{#if BROWSER}
-	<GenericSlider bind:value={internalValue} plugin={pluginModule} {...$$restProps} />
-{/if}
+<GenericSlider bind:value={internalValue} plugin={pluginModule} {...$$restProps} />

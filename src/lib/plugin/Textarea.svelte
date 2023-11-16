@@ -67,14 +67,13 @@
 		}
 	}
 
-	$: BROWSER && (_value = value);
-	$: BROWSER && ref && live !== undefined && updateListeners(live);
-	$: BROWSER &&
-		(options = {
-			placeholder,
-			rows,
-			view: 'textarea'
-		});
+	$: _value = value;
+	$: ref && live !== undefined && updateListeners(live);
+	$: options = {
+		placeholder,
+		rows,
+		view: 'textarea'
+	};
 </script>
 
 <!--
@@ -113,6 +112,9 @@ position='inline'>`.
 [Textarea.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/Textarea.svelte)
 -->
 
-{#if BROWSER}
-	<GenericInput value={_value} bind:ref {options} plugin={pluginModule} {...$$restProps} />
+<GenericInput value={_value} bind:ref {options} plugin={pluginModule} {...$$restProps} />
+{#if !BROWSER}
+	<!-- TODO magic numbers -->
+	<div style:background="red" style:height={`calc(${16 * (rows ?? 3)}px - 14px)`} />
+	<!-- <ClsPad keysAdd={fillWith('containerUnitSize', 1)} theme={$$props.theme} /> -->
 {/if}

@@ -151,18 +151,30 @@ Position mode overview:
 [Pane.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Pane.svelte)
 -->
 
-{#if BROWSER}
-	{#if position === undefined || position === 'draggable'}
+<!-- Only prerender inline panes, because fixed / absolute positioned objects don't affect layout
+-->
+{#if position === undefined || position === 'draggable'}
+	{#if BROWSER}
 		<InternalPaneDraggable bind:expanded bind:width bind:x bind:y {...$$restProps}>
 			<slot />
 		</InternalPaneDraggable>
-	{:else if position === 'inline'}
-		<InternalPaneInline bind:expanded {width} {...removeKeys($$restProps, 'storePositionLocally')}>
+	{:else}
+		<div style="display: none;">
 			<slot />
-		</InternalPaneInline>
-	{:else if position === 'fixed'}
+		</div>
+	{/if}
+{:else if position === 'inline'}
+	<InternalPaneInline bind:expanded {width} {...removeKeys($$restProps, 'storePositionLocally')}>
+		<slot />
+	</InternalPaneInline>
+{:else if position === 'fixed'}
+	{#if BROWSER}
 		<InternalPaneFixed bind:expanded bind:x bind:y {width} {...$$restProps}>
 			<slot />
 		</InternalPaneFixed>
+	{:else}
+		<div style="display: none;">
+			<slot />
+		</div>
 	{/if}
 {/if}

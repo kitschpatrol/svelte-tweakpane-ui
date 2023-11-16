@@ -36,6 +36,7 @@
 </script>
 
 <script generics="T extends PointValue2d | PointValue3d | PointValue4d" lang="ts">
+	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import { type HasKey, removeKeys } from '$lib/utils';
 	import { BROWSER } from 'esm-env';
@@ -219,21 +220,20 @@
 		}
 	}
 
-	$: value, BROWSER && updateInternalValue();
-	$: internalValue, BROWSER && updateValue();
-	$: BROWSER &&
-		(options = {
-			x: optionsX,
-			y: optionsY,
-			z: optionsZ,
-			w: optionsW,
-			min,
-			max,
-			format,
-			keyScale,
-			pointerScale,
-			step
-		} as PointOptions<T>);
+	$: value, updateInternalValue();
+	$: internalValue, updateValue();
+	$: options = {
+		x: optionsX,
+		y: optionsY,
+		z: optionsZ,
+		w: optionsW,
+		min,
+		max,
+		format,
+		keyScale,
+		pointerScale,
+		step
+	} as PointOptions<T>;
 </script>
 
 <!--
@@ -299,19 +299,33 @@ position='inline'>` component.
 [Point.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Point.svelte)
 -->
 
-{#if BROWSER}
-	<GenericInputFolding
-		bind:value={internalValue}
-		bind:expanded
-		{buttonClass}
-		{options}
-		{...removeKeys(
-			$$restProps,
-			...Object.keys(options),
-			'optionsX',
-			'optionsY',
-			'optionsZ',
-			'optionsW'
-		)}
-	/>
+<GenericInputFolding
+	bind:value={internalValue}
+	bind:expanded
+	{buttonClass}
+	{options}
+	{...removeKeys(
+		$$restProps,
+		...Object.keys(options),
+		'optionsX',
+		'optionsY',
+		'optionsZ',
+		'optionsW'
+	)}
+/>
+{#if !BROWSER && !('z' in internalValue)}
+	<!-- 2D points only -->
+	{#if expanded && $$props.picker === 'inline'}
+		{#if $$props.label !== undefined}
+			<ClsPad
+				keysAdd={['bladeValueWidth']}
+				keysSubtract={[`containerUnitSize`]}
+				theme={$$props.theme}
+			/>
+		{:else}
+			<!-- Without a label, the grid takes the full width of the control -->
+			<!-- TODO remove magic number -->
+			<div style="aspect-ratio: 1; width: calc(100% - 28px);" />
+		{/if}
+	{/if}
 {/if}

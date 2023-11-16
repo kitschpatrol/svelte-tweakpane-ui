@@ -6,7 +6,6 @@
 <script generics="T extends BladeOptions, U extends BladeRef" lang="ts">
 	import Blade from '$lib/core/Blade.svelte';
 	import { updateCollapsibility } from '$lib/utils';
-	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	type $$Props = ComponentProps<Blade<T, U>> & {
@@ -50,7 +49,7 @@
 	const initialExpanded = expanded;
 	let internalExpanded = initialExpanded;
 
-	$: if (BROWSER && !gotBlade && ref) {
+	$: if (!gotBlade && ref) {
 		gotBlade = true;
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -63,21 +62,18 @@
 			});
 	}
 
-	$: BROWSER &&
-		(options = {
-			...options,
-			expanded: initialExpanded, // only set once
-			picker
-		});
+	$: options = {
+		...options,
+		expanded: initialExpanded, // only set once
+		picker
+	};
 
-	$: BROWSER &&
-		ref &&
+	$: ref &&
 		buttonClass !== undefined &&
 		updateCollapsibility(clickToExpand ?? true, ref.element, buttonClass);
 
 	// click instead of setting expanded to avoid  animation jankiness
-	$: BROWSER &&
-		ref &&
+	$: ref &&
 		buttonClass !== undefined &&
 		expanded !== internalExpanded &&
 		ref.element.getElementsByClassName(buttonClass).length > 0 &&
@@ -92,6 +88,4 @@ This component is for internal use only.
 [GenericBladeFolding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericBladeFolding.svelte)
 -->
 
-{#if BROWSER}
-	<Blade bind:ref {options} {...$$restProps} />
-{/if}
+<Blade bind:ref {options} {...$$restProps} />
