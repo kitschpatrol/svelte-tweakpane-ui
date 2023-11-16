@@ -1,0 +1,19 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+import { capitalize } from 'lodash-es';
+
+const { componentData } = Astro.props.entry.data;
+---
+
+{componentData && <strong>{capitalize(componentData.pathParts[0])} Components</strong>}
+
+<Default {...Astro.props} />
+
+<style>
+	strong {
+		display: block;
+		color: var(--sl-color-gray-4);
+		margin-bottom: -1rem;
+	}
+</style>

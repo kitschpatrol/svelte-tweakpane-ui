@@ -242,6 +242,7 @@
 						bind:value={$point4[i]}
 						{min}
 						{max}
+						format={(v) => `${v.toFixed(2)}`}
 						label={`<Slider> ${k}`}
 						pointerScale={0.002}
 					/>
