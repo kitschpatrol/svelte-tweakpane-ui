@@ -84,7 +84,7 @@ position='inline'>` component.
 
   setInterval(() => {
     numberToMonitor = Math.random() * 100;
-  }, 50);
+  }, 100);
 
   setInterval(() => {
     booleanToMonitor = !booleanToMonitor;

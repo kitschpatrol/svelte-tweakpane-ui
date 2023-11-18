@@ -99,7 +99,7 @@ position='inline'>` component.
   setInterval(() => {
     numberToMonitor = Math.sin(t);
     t += 0.3;
-  }, 50);
+  }, 100);
 </script>
 
 <InternalMonitorNumber value={numberToMonitor} min={-1} max={1} graph={true} />

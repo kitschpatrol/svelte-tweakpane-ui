@@ -84,6 +84,7 @@ const hasSlots = !!data?.slots.length;
 			/>
 			{hasExample && (
 				<>
+					<hr />
 					<Heading level={2}>Example</Heading>
 					<div class="not-content" style="width: 400px;">
 						<ExampleLoader name={data.name} client:load />
@@ -93,6 +94,7 @@ const hasSlots = !!data?.slots.length;
 			)}
 			{hasProps && (
 				<>
+					<hr />
 					<Heading level={2}>Props</Heading>
 					{hasDynamicProps ? (
 						<>
@@ -121,12 +123,14 @@ const hasSlots = !!data?.slots.length;
 			)}
 			{hasEvents && (
 				<>
+					<hr />
 					<Heading level={2}>Events</Heading>
 					<PropTable data={data.events} showDefault={false} showFlags={false} />
 				</>
 			)}
 			{hasSlots && (
 				<>
+					<hr />
 					<Heading level={2}>Slots</Heading>
 					<PropTable data={data.slots} showDefault={false} showFlags={false} />
 				</>

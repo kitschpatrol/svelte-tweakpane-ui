@@ -1,28 +1,75 @@
-@import url("inter-ui/inter-latin.css");
-@import url("@fontsource-variable/fira-code/wght.css");
+@import url('inter-ui/inter-latin.css');
+@import url('@fontsource-variable/fira-code/wght.css');
 
-/* src/styles/custom.css */
+/* https://github.com/withastro/starlight/blob/main/packages/starlight/style/props.css */
+
 :root {
-  /* --sl-content-width: 60rem; */
-  /* --sl-content-inline-start: 0; */
-  /* --sl-text-5xl: 3.5rem; */
+	/* --sl-content-width: 60rem; */
+	/* --sl-content-inline-start: 0; */
+	/* --sl-text-5xl: 3.5rem; */
 
-  /* starlight handles fallbacks */
-  --sl-font: "Inter var";
-  --sl-font-mono: "Fira Code Variable";
+	/* starlight handles fallbacks */
+	--sl-font: 'Inter var';
+	--sl-font-mono: 'Fira Code Variable';
 
-  overflow-y: scroll;
-  font-feature-settings: "ss02";
+	/* code size */
+	--sl-text-code: 0.9rem;
+	--sl-text-code-sm: 1rem;
+
+	/* text size */
+
+	/* Dark mode colors. */
+	--sl-color-accent-low: #f6f6f6;
+	--sl-color-accent: #ff3e00;
+	--sl-color-accent-high: #ff3e00;
+	--sl-color-white: #f4f4f4;
+	--sl-color-gray-1: #eeeeee;
+	--sl-color-gray-2: #c2c2c2;
+	--sl-color-gray-3: #757575;
+	--sl-color-gray-4: #585858;
+	--sl-color-gray-5: #383838;
+	--sl-color-gray-6: #272727;
+	--sl-color-black: #181818;
+
+	/* code colors */
+	--astro-code-token-string-expression: #ff5b5b;
+
+	/* overflow-y: scroll; */
+	/* font-feature-settings: 'ss02'; */
+	font-weight: 500 !important;
 }
 
-:root[data-theme="light"] {
-  font-weight: 450 !important;
-}
-
-:root[data-theme="dark"] {
-  font-weight: 500 !important;
+:root[data-theme='light'] {
+	--sl-color-accent-low: #ff3e00;
+	--sl-color-accent: #ff3e00;
+	--sl-color-accent-high: #ff3e00;
+	--sl-color-white: #171717;
+	--sl-color-gray-1: #313131;
+	--sl-color-gray-2: #383838;
+	--sl-color-gray-3: #6c6c6c;
+	--sl-color-gray-4: #8b8b8b;
+	--sl-color-gray-5: #d8d8d8;
+	--sl-color-gray-6: #f1f1f1;
+	--sl-color-gray-7: #f6f6f6;
+	--sl-color-black: #f9f9f9;
+	font-weight: 450 !important;
 }
 
 code {
-  font-variant-ligatures: none !important;
+	font-variant-ligatures: none !important;
+}
+
+a {
+	text-underline-offset: 0.125em;
+}
+
+/* Scroll sidebar content, not container... */
+/* stylelint-disable-next-line selector-id-pattern */
+div#starlight__sidebar {
+	overflow: hidden;
+}
+
+/* stylelint-disable-next-line selector-id-pattern */
+div#starlight__sidebar > div.sidebar-content {
+	overflow-y: auto;
 }

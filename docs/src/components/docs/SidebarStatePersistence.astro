@@ -1,0 +1,76 @@
+<script is:inline>
+	(() => {
+		const key = 'sl-sidebar-state';
+		let savedState;
+
+		const savedStateJson = sessionStorage.getItem(key);
+		if (savedStateJson) {
+			try {
+				savedState = JSON.parse(savedStateJson);
+			} catch (e) {
+				console.error('Error parsing saved position:', e);
+			}
+		}
+
+		// Watch for the sidebar's debut in the DOM
+		const observer = new MutationObserver((mutationsList, observer) => {
+			for (const mutation of mutationsList) {
+				if (mutation.type === 'childList') {
+					const sidebarContent = document.getElementById('starlight__sidebar')?.firstElementChild;
+					if (sidebarContent) {
+						// open ancestor details of the active item
+						const activeLinkDetailElements = Array.from(
+							sidebarContent.querySelectorAll('details:has(a[aria-current="page"])')
+						);
+
+						activeLinkDetailElements.forEach((detail) => {
+							detail.setAttribute('open', '');
+						});
+
+						// Restore state from previous navigation
+						// (but keep the active item's ancestors open regardless)
+						const detailElements = Array.from(sidebarContent.querySelectorAll('details'));
+
+						if (savedState) {
+							savedState.details.forEach((isOpen, i) => {
+								if (isOpen) {
+									detailElements[i].setAttribute('open', '');
+								} else if (!activeLinkDetailElements.includes(detailElements[i])) {
+									detailElements[i].removeAttribute('open');
+								}
+							});
+
+							sidebarContent.scrollTop = savedState.scrollTop;
+						}
+
+						// Scroll the active list item into view if necessary
+						const activeLi = sidebarContent.querySelector('a[aria-current="page"]').parentElement;
+						if (activeLi) {
+							const sidebarRect = sidebarContent.getBoundingClientRect();
+							const liRect = activeLi.getBoundingClientRect();
+							if (liRect.top < sidebarRect.top || liRect.bottom > sidebarRect.bottom) {
+								activeLi.scrollIntoView({ behavior: 'instant', block: 'nearest' });
+							}
+						}
+
+						// Save user state before navigating
+						window.addEventListener('beforeunload', () => {
+							sessionStorage.setItem(
+								key,
+								JSON.stringify({
+									details: detailElements.map((detail) => detail.hasAttribute('open')),
+									scrollTop: sidebarContent.scrollTop
+								})
+							);
+						});
+
+						observer.disconnect();
+						break;
+					}
+				}
+			}
+		});
+
+		observer.observe(document, { childList: true, subtree: true });
+	})();
+</script>
