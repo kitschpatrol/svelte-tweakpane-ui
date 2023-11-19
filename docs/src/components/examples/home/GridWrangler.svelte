@@ -43,9 +43,19 @@
 	export let includeCenters: boolean = true;
 
 	/*
-	 * Background color
+	 * Show background
 	 */
-	export let background = '#ffffff00';
+	export let showBackground = false;
+
+	/*
+	 * Background color gradient start
+	 */
+	export let backgroundA = '#ffffff';
+
+	/*
+	 * Background color gradient end
+	 */
+	export let backgroundB = '#ffffff';
 
 	/*
 	 * Draw a red dot at each grid point, for debugging
@@ -102,14 +112,16 @@
 	<div bind:clientHeight={wrapperHeight} bind:clientWidth={wrapperWidth} class="wrapper">
 		<div
 			class="grid-group"
-			style={`transform: ${Utils.eulerToCssTransform(rotationExtrinsic)}`}
-			style:background
+			style={`transform: ${Utils.eulerToCssTransform(rotationExtrinsic)};`}
+			style:background={showBackground
+				? `linear-gradient(45deg, ${backgroundA}, ${backgroundB})`
+				: null}
 			style:height="{groupHeight}px"
 			style:left="{-overdrawX / 2}px"
 			style:top="{-overdrawY / 2}px"
 			style:width="{groupWidth}px"
 		>
-			{#each grid as [x, y]}
+			{#each grid as [x, y], gridIndex}
 				<div
 					class="grid-item"
 					style={`transform: translate(-50%, -50%)
@@ -117,7 +129,7 @@
 					style:left="{x}px"
 					style:top="{y}px"
 				>
-					<slot />
+					<slot {gridIndex} />
 				</div>
 			{/each}
 			{#if drawOrigins}

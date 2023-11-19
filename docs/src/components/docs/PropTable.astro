@@ -1,77 +1,104 @@
 ---
-import type { Props as StarlightProps } from "@astrojs/starlight/props";
-import { marked } from "marked";
+import type { Props as StarlightProps } from '@astrojs/starlight/props';
+import { marked } from 'marked';
+import Heading from './Heading.astro';
 
-type ComponentProps = NonNullable<
-  StarlightProps["entry"]["data"]["componentData"]
->["props"];
+type ComponentProps = NonNullable<StarlightProps['entry']['data']['componentData']>['props'];
 
 interface Props {
-  data: ComponentProps;
-  showDefault?: boolean;
-  showFlags?: boolean;
+	data: ComponentProps;
+	showDefault?: boolean;
+	showFlags?: boolean;
+	monoTable?: boolean;
 }
 
 function cleanType(type: string): string {
-  return type
-    .replace(/"/g, "'")
-    .replace(/&quot;/g, "&apos;")
-    .replace(" | undefined", "");
+	return type
+		.replace(/"/g, "'")
+		.replace(/&quot;/g, '&apos;')
+		.replace(' | undefined', '');
 }
 
 function cleanDefault(defaultValue: string | undefined): string {
-  if (defaultValue === undefined) return "";
-  return marked.parseInline(defaultValue) as string;
+	if (defaultValue === undefined) return '';
+	return marked.parseInline(defaultValue) as string;
 }
 
 function isRequired(type: string): boolean {
-  return !type.includes(" | undefined");
+	return !type.includes(' | undefined');
 }
 
 function getFlags(prop: ComponentProps[0]): string[] {
-  const flags = Object.keys(prop.jsDocs)
-    // default gets its own row
-    .filter((key) => key !== "default")
-    .map((key) => key);
+	const flags = Object.keys(prop.jsDocs)
+		// default gets its own row
+		.filter((key) => key !== 'default')
+		.map((key) => key);
 
-  // have to pull "required" from type
-  if (isRequired(prop.type)) {
-    flags.push("required");
-  } else {
-    flags.push("optional");
-  }
+	// have to pull "required" from type
+	if (isRequired(prop.type)) {
+		flags.push('required');
+	} else {
+		flags.push('optional');
+	}
 
-  return flags;
+	return flags;
 }
 
-const { data, showDefault = true, showFlags = true } = Astro.props;
+const { data, showDefault = true, showFlags = true, monoTable = false } = Astro.props;
 ---
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Type</th>
-      {showDefault && <th>Default</th>}
-      {showFlags && <th>Flags</th>}
-    </tr>
-  </thead>
-  <tbody>
-    {
-      data.map((prop) => (
-        <tr>
-          <td>
-            <code>{prop.name}</code>
-          </td>
-          <td set:html={marked.parse(prop.doc, {})} />
-          <td>
-            <code>{cleanType(prop.type)}</code>
-          </td>
-          {showDefault && <td set:html={cleanDefault(prop.jsDocs.default)} />}
-          {showFlags && <td>{getFlags(prop).join(" ")}</td>}
-        </tr>
-      ))
-    }
-  </tbody>
-</table>
+{
+	monoTable ? (
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Type</th>
+					{showDefault && <th>Default</th>}
+					{showFlags && <th>Flags</th>}
+				</tr>
+			</thead>
+			<tbody>
+				{data.map((prop) => (
+					<tr>
+						<td>
+							<code>{prop.name}</code>
+						</td>
+						<td set:html={marked.parse(prop.doc, {})} />
+						<td>
+							<code>{cleanType(prop.type)}</code>
+						</td>
+						{showDefault && <td set:html={cleanDefault(prop.jsDocs.default)} />}
+						{showFlags && <td>{getFlags(prop).join(' ')}</td>}
+					</tr>
+				))}
+			</tbody>
+		</table>
+	) : (
+		data.map((prop) => (
+			<>
+				<Heading level={3} set:html={prop.name} />
+				<span>{showFlags && getFlags(prop).join(' ')}</span>
+				<table>
+					<tr>
+						<th>Description</th>
+						<td set:html={marked.parse(prop.doc, {})} />
+					</tr>
+					<tr>
+						<th>Type</th>
+						<td>
+							<code>{cleanType(prop.type)}</code>
+						</td>
+					</tr>
+					{showDefault && !isRequired(prop.type) && (
+						<tr>
+							<th>Default</th>
+							<td set:html={cleanDefault(prop.jsDocs.default)} />
+						</tr>
+					)}
+				</table>
+			</>
+		))
+	)
+}

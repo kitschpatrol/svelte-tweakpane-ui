@@ -1,67 +1,58 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection, type CollectionEntry } from 'astro:content';
 
 interface Props {
-  scope: "lib" | "docs" | "all";
+	scope: 'lib' | 'docs' | 'all';
 }
 
 function titleCase(str: string) {
-  return str
-    .split(" ")
-    .map((word) => {
-      return word.charAt(0).toUpperCase() + word.slice(1);
-    })
-    .join(" ");
+	return str
+		.split(' ')
+		.map((word) => {
+			return word.charAt(0).toUpperCase() + word.slice(1);
+		})
+		.join(' ');
 }
 
-type LicenseEntry = CollectionEntry<"acknowledgments">["data"];
+type LicenseEntry = CollectionEntry<'acknowledgments'>['data'];
 
 const { scope } = Astro.props;
 
 const data = Object.entries(
-  (
-    await getCollection(
-      "acknowledgments",
-      (f) => scope === "all" || f.id === `acknowledgments-${scope}`,
-    )
-  ).reduce((acc, entry) => {
-    return { ...acc, ...entry.data };
-  }, {} as LicenseEntry),
+	(
+		await getCollection(
+			'acknowledgments',
+			(f) => scope === 'all' || f.id === `acknowledgments-${scope}`
+		)
+	).reduce((acc, entry) => {
+		return { ...acc, ...entry.data };
+	}, {} as LicenseEntry)
 ).map(([key, value]) => {
-  return { name: key, ...value };
+	return { name: key, ...value };
 });
 
 // Get unique list of publisher names
 const names = data
-  .reduce((acc: string[], { publisher }) => {
-    if (publisher) {
-      // Split compound comma-delimited publishers as needed
-      publisher.split(",").forEach((subItem) => {
-        const subPublisher = titleCase(subItem.trim());
-        if (subPublisher && !acc.includes(subPublisher)) {
-          acc.push(subPublisher);
-        }
-      });
-    }
-    return acc;
-  }, [])
-  .sort((a, b) => {
-    return a
-      .split(" ")
-      .at(-1)!
-      .toLowerCase()
-      .localeCompare(b.split(" ").at(-1)!.toLowerCase());
-  })
-  // Exclude me
-  .filter((name) => name !== "Eric Mika");
+	.reduce((acc: string[], { publisher }) => {
+		if (publisher) {
+			// Split compound comma-delimited publishers as needed
+			publisher.split(',').forEach((subItem) => {
+				const subPublisher = titleCase(subItem.trim());
+				if (subPublisher && !acc.includes(subPublisher)) {
+					acc.push(subPublisher);
+				}
+			});
+		}
+		return acc;
+	}, [])
+	// Exclude me
+	.filter((name) => name !== 'Eric Mika')
+	// Don't break names
+	.map((n) => n.replace(/ /, '\u00a0'))
+	// Sort by last name
+	.sort((a, b) => {
+		return a.split(' ').at(-1)!.toLowerCase().localeCompare(b.split(' ').at(-1)!.toLowerCase());
+	});
 ---
 
-{
-  names.length && (
-    <ul>
-      {names.map((name) => (
-        <li>{name}</li>
-      ))}
-    </ul>
-  )
-}
+{names.length && names.join(', ')}

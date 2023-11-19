@@ -1,14 +1,14 @@
 ---
 // Adds component data to components pages, if available
 
-import type { Props } from "@astrojs/starlight/props";
-import Default from "@astrojs/starlight/components/MarkdownContent.astro";
-import Component from "./Component.astro";
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/MarkdownContent.astro';
+import Component from './Component.astro';
 
 const { componentData } = Astro.props.entry.data;
 ---
 
 <Default {...Astro.props}>
-  <slot />
-  {componentData && <Component {componentData} />}
+	<slot />
+	{componentData && <Component {componentData} />}
 </Default>

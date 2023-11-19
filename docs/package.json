@@ -20,6 +20,7 @@
     "@astrojs/check": "^0.3.1",
     "@astrojs/starlight": "^0.12.0",
     "@astrojs/svelte": "^4.0.3",
+    "@fontsource-variable/cairo": "^5.0.17",
     "@fontsource-variable/fira-code": "^5.0.15",
     "@fontsource-variable/inter": "^5.0.15",
     "@fontsource-variable/overpass": "^5.0.16",

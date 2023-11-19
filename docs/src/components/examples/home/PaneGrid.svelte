@@ -9,11 +9,13 @@
 		Monitor,
 		Pane,
 		RotationEuler,
+		Separator,
 		Slider
 	} from 'svelte-tweakpane-ui';
 
 	let mounted = false;
 
+	export let showBackground = false;
 	export let showPane = false;
 
 	onMount(() => {
@@ -33,14 +35,20 @@
 	let overdrawX: number = 1370;
 	let overdrawY: number = 1640;
 	let includeCenters: boolean = true;
-	let background = '#ffd70000';
+	let backgroundA = '#FF00FFFF';
+	let backgroundB = '#ffa500FF';
 </script>
 
 {#if mounted}
 	{#if showPane}
-		<Pane position="fixed">
+		<Pane position="fixed" y={100}>
+			<Checkbox bind:value={showBackground} label="Show Background" />
+			{#if showBackground}
+				<Color bind:value={backgroundA} expanded={false} label="Background A" picker="inline" />
+				<Color bind:value={backgroundB} expanded={false} label="Background B" picker="inline" />
+				<Separator />
+			{/if}
 			<Monitor value={paneCount} format={(v) => v.toFixed(0)} label="Pane Count" />
-			<Color bind:value={background} expanded={true} label="Background" picker="inline" />
 			<Slider bind:value={overdrawX} min={0} max={2000} label="Overdraw X" step={1} />
 			<Slider bind:value={overdrawY} min={0} max={2000} label="Overdraw Y" step={1} />
 			<Checkbox bind:value={includeCenters} label="Include Centers" />
@@ -71,16 +79,19 @@
 	{/if}
 	<GridWrangler
 		bind:paneCount
-		{background}
+		{backgroundA}
+		{backgroundB}
 		{gridSpacingX}
 		{gridSpacingY}
 		{includeCenters}
+		let:gridIndex
 		{overdrawX}
 		{overdrawY}
 		{rotation}
 		{rotationExtrinsic}
 		{scale}
+		{showBackground}
 	>
-		<Demo width={paneWidth} />
+		<Demo i={gridIndex} width={paneWidth} />
 	</GridWrangler>
 {/if}

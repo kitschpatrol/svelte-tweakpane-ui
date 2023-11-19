@@ -90,8 +90,6 @@
 		};
 	});
 
-	$: mounted && console.log(astroTheme);
-
 	// helpers
 	function map(
 		value: number,
@@ -122,6 +120,10 @@
 
 	// props
 	export let width: number = 360;
+
+	// position in the grid... useful for transition delays
+	// eslint-disable-next-line svelte/valid-compile
+	export let i: number = 0;
 
 	// constants
 	const themes = Object.keys(ThemeUtils.presets);
@@ -216,9 +218,9 @@
 	let scale = 1;
 </script>
 
-<div bind:this={paneRef} class="wrapper">
+<div bind:this={paneRef}>
 	<!-- {#if mounted} -->
-	<div transition:fade={{ duration: 1000 }}>
+	<div transition:fade={{ duration: 1500 }}>
 		<Pane bind:width position="inline" {scale} {theme} title={`<Pane> ${text}`}>
 			<!-- <Slider bind:value={scale} min={0} max={2} /> -->
 			<List bind:value={themeKey} label="<List> Theme" options={themes} />

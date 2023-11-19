@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024px" height="1024px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>tweakpane-logo</title>
+    <g id="tweakpane-logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(512, 512) rotate(-330) translate(-512, -512)translate(109, 109)" fill="#BBBCC4" id="Tweakpane-Logo">
+            <path d="M537.333333,7.36547222e-13 C685.713836,7.36547222e-13 806,120.286164 806,268.666667 L806,537.333333 C806,685.713836 685.713836,806 537.333333,806 L537.333333,7.36547222e-13 Z M268.07619,0.000637054299 L268.07619,805.995276 L264.223772,805.964006 C117.892469,803.591467 -1.4777105e-12,684.230031 -1.4777105e-12,537.333333 L-1.4777105e-12,268.666667 C-1.4777105e-12,120.483347 119.966679,0.31974706 268.07619,0.000637054299 Z"></path>
+        </g>
+    </g>
+</svg>

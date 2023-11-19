@@ -177,6 +177,9 @@ importers:
       '@astrojs/svelte':
         specifier: ^4.0.3
         version: 4.0.3(astro@3.5.4)(svelte@4.2.3)(typescript@5.2.2)(vite@4.5.0)
+      '@fontsource-variable/cairo':
+        specifier: ^5.0.17
+        version: 5.0.17
       '@fontsource-variable/fira-code':
         specifier: ^5.0.15
         version: 5.0.15
@@ -1454,6 +1457,10 @@ packages:
     resolution: {integrity: sha512-JUFJad5lv7jxj926GPgymrWQxxjPYuJNiNjNMzqT+HiuP6Vl3dk5xzG+8sTX96np0ZAluvaMzPsjhHZ5rNuNQQ==}
     engines: {node: '>=14'}
     dev: true
+
+  /@fontsource-variable/cairo@5.0.17:
+    resolution: {integrity: sha512-CIpSEgBuyWrgKZU2qtcXrZZonBZZxUeszfjyZQnA39Hyo9YuCpv7FA4z2da9sXWPfakahuPXgceZzz1s8A5MTQ==}
+    dev: false
 
   /@fontsource-variable/fira-code@5.0.15:
     resolution: {integrity: sha512-tp56A54PjfH1RBJQ3Jdqh5cvrEHd4n302z3v6sGAnTKW9+oQgU0dK4WAMIXgDhFY35BrhpoIElowfkAT7NYJfA==}

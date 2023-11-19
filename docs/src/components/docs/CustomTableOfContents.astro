@@ -6,25 +6,43 @@ import { slug } from 'github-slugger';
 // see https://github.com/withastro/starlight/blob/main/packages/starlight/utils/generateToC.ts
 
 const { componentData } = Astro.props.entry.data;
+type PropData = NonNullable<Props['entry']['data']['componentData']>['props'];
 
 // mutate props to add ToC items on component pages
 // bad work-around for https://github.com/withastro/astro/issues/5084
 let localProps = Astro.props;
 if (componentData && localProps.toc) {
-	function tocItemForHeading(heading: string) {
+	function propHeadings(propData: PropData) {
+		return propData.map((prop) => {
+			return {
+				depth: 3,
+				slug: slug(prop.name),
+				text: prop.name,
+				children: []
+			};
+		});
+	}
+
+	function tocItemForHeading(heading: string, children: any[] = []) {
 		return {
 			depth: 2,
 			slug: slug(heading),
 			text: heading,
-			children: []
+			children: children
 		};
 	}
 
 	if (componentData.jsDocs && componentData.jsDocs['example'])
 		localProps.toc.items.push(tocItemForHeading('Example'));
-	if (componentData.props.length > 0) localProps.toc.items.push(tocItemForHeading('Props'));
-	if (componentData.events.length > 0) localProps.toc.items.push(tocItemForHeading('Events'));
-	if (componentData.slots.length > 0) localProps.toc.items.push(tocItemForHeading('Slots'));
+
+	if (componentData.props.length > 0)
+		localProps.toc.items.push(tocItemForHeading('Props', propHeadings(componentData.props)));
+
+	if (componentData.events.length > 0)
+		localProps.toc.items.push(tocItemForHeading('Events', propHeadings(componentData.events)));
+
+	if (componentData.slots.length > 0)
+		localProps.toc.items.push(tocItemForHeading('Slots', propHeadings(componentData.slots)));
 }
 ---
 

@@ -1,27 +1,34 @@
-@import url('inter-ui/inter-latin.css');
+@import url('@fontsource-variable/cairo/wght.css');
 @import url('@fontsource-variable/fira-code/wght.css');
 
 /* https://github.com/withastro/starlight/blob/main/packages/starlight/style/props.css */
 
 :root {
-	/* --sl-content-width: 60rem; */
-	/* --sl-content-inline-start: 0; */
-	/* --sl-text-5xl: 3.5rem; */
+	/* Tweakpane Specific */
+	--st-color-a: orange;
+	--st-color-b: magenta;
+	--st-gradient: linear-gradient(45deg in lch, var(--st-color-a), var(--st-color-b));
+	--st-gradient-alpha: linear-gradient(
+		45deg in lch,
+		color-mix(in lch, var(--st-color-b), transparent 35%),
+		color-mix(in lch, var(--st-color-a), transparent 35%)
+	);
 
-	/* starlight handles fallbacks */
-	--sl-font: 'Inter var';
-	--sl-font-mono: 'Fira Code Variable';
-
-	/* code size */
-	--sl-text-code: 0.9rem;
-	--sl-text-code-sm: 1rem;
+	/* --sl-content-width: 60rem; */ /* --sl-content-inline-start: 0; */
 
 	/* text size */
+	/* --sl-text-5xl: 3.5rem; */ /* starlight handles fallbacks */
+	/* --sl-font: 'Cairo Variable'; */
+	/* --sl-font-mono: 'Fira Code Variable'; */
+
+	/* code size */
+	/* --sl-text-code: 0.9rem; */
+	/* --sl-text-code-sm: 1rem; */
 
 	/* Dark mode colors. */
-	--sl-color-accent-low: #f6f6f6;
-	--sl-color-accent: #ff3e00;
-	--sl-color-accent-high: #ff3e00;
+	--sl-color-accent-low: #242424;
+	--sl-color-accent: #6a6a6a;
+	--sl-color-accent-high: #c8c8c8;
 	--sl-color-white: #f4f4f4;
 	--sl-color-gray-1: #eeeeee;
 	--sl-color-gray-2: #c2c2c2;
@@ -30,19 +37,23 @@
 	--sl-color-gray-5: #383838;
 	--sl-color-gray-6: #272727;
 	--sl-color-black: #181818;
+	/* --sl-color-white: #ffffff;
+	--sl-color-gray-1: #eeeeee;
+	--sl-color-gray-2: #c2c2c2;
+	--sl-color-gray-3: #8b8b8b;
+	--sl-color-gray-4: #585858;
+	--sl-color-gray-5: #383838;
+	--sl-color-gray-6: #272727;
+	--sl-color-black: #181818; */
 
-	/* code colors */
-	--astro-code-token-string-expression: #ff5b5b;
-
-	/* overflow-y: scroll; */
 	/* font-feature-settings: 'ss02'; */
-	font-weight: 500 !important;
+	/* font-weight: 500 !important; */
 }
 
 :root[data-theme='light'] {
-	--sl-color-accent-low: #ff3e00;
-	--sl-color-accent: #ff3e00;
-	--sl-color-accent-high: #ff3e00;
+	--sl-color-accent-low: #d7d7d7;
+	--sl-color-accent: #6b6b6b;
+	--sl-color-accent-high: #323232;
 	--sl-color-white: #171717;
 	--sl-color-gray-1: #313131;
 	--sl-color-gray-2: #383838;
@@ -52,7 +63,62 @@
 	--sl-color-gray-6: #f1f1f1;
 	--sl-color-gray-7: #f6f6f6;
 	--sl-color-black: #f9f9f9;
-	font-weight: 450 !important;
+	/* --sl-color-white: #181818;
+	--sl-color-gray-1: #272727;
+	--sl-color-gray-2: #383838;
+	--sl-color-gray-3: #585858;
+	--sl-color-gray-4: #8b8b8b;
+	--sl-color-gray-5: #c2c2c2;
+	--sl-color-gray-6: #eeeeee;
+	--sl-color-gray-7: #f6f6f6;
+	--sl-color-black: #ffffff; */
+
+	/* font-we	ight: 450 !important; */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	/* font-family: 'Cairo Variable'; */
+}
+
+a.site-title::before {
+	content: '🎛️';
+	margin-right: -0.5em;
+	font-size: var(--sl-text-h4);
+}
+
+.site-title span {
+	font-weight: 800;
+	color: transparent;
+	text-align: center;
+	background: linear-gradient(-45deg in lch, var(--st-color-a), var(--st-color-b));
+	/* stylelint-disable-next-line property-no-vendor-prefix */
+	-webkit-background-clip: text;
+	background-clip: text;
+}
+
+/* front page */
+html:not([data-has-sidebar]) div.page {
+	background: var(--st-gradient-alpha);
+}
+
+/* sidebar and toc */
+nav ul li a[aria-current='true'],
+nav ul li a[aria-current='page'] {
+	color: white;
+	background: var(--st-gradient-alpha);
+	transition: background-color 0.25s ease; /* Transition defined here */
+}
+
+nav ul li a[aria-current='true']:hover,
+nav ul li a[aria-current='page']:hover {
+	color: white;
+	background-color: var(--st-color-b);
+	transition: background-color 0s ease; /* Transition defined here */
 }
 
 code {
@@ -72,4 +138,54 @@ div#starlight__sidebar {
 /* stylelint-disable-next-line selector-id-pattern */
 div#starlight__sidebar > div.sidebar-content {
 	overflow-y: auto;
+}
+
+html:has(div.hero) {
+	overflow: hidden;
+}
+
+div.main-frame:has(div.hero) {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+}
+
+div.main-pane:has(div.hero) {
+	pointer-events: none;
+}
+
+div.hero {
+	grid-template-columns: unset;
+}
+
+div.hero .stack {
+	pointer-events: all;
+	padding: 1.5em;
+	/* background: color-mix(in lch, var(--sl-color-bg-inline-code), transparent 15%); */
+	background: var(--sl-color-bg-nav);
+	border: 1px solid var(--sl-color-gray-5);
+	box-shadow: var(--sl-shadow-md);
+}
+
+div.hero .tagline a {
+	color: #e7005d;
+}
+
+div.hero .tagline a img {
+	aspect-ratio: 1;
+	width: 1em;
+	vertical-align: text-bottom;
+}
+
+div.hero .tagline a:hover {
+}
+
+div.hero a.action {
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+}
+
+div.hero h1 {
+	display: none;
 }
