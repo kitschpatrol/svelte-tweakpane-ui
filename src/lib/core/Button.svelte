@@ -104,11 +104,12 @@
 @component  
 A humble but effective push button.
 
-Wraps the Tweakpane [addButton](https://tweakpane.github.io/docs/ui-components/#button) method.
+Wraps the Tweakpane [`addButton`](https://tweakpane.github.io/docs/ui-components/#button) method.
 
 Usage outside of a `<Pane>` component will implicitly wrap the button in `<Pane position='inline'>`.
 
-See the `<ButtonGrid>` and `<RadioGrid>` components for a convenient way to lay out multiple buttons.
+See the `<ButtonGrid>` and `<RadioGrid>` components for a convenient way to lay out multiple
+buttons.
 
 @emits {void} click - When the button is clicked.
 

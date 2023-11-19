@@ -108,7 +108,7 @@
 @component  
 Organize multiple controls into a collapsable folder.
 
-Wraps the Tweakpane [addFolder](https://tweakpane.github.io/docs/ui-components/#folder) method.
+Wraps the Tweakpane [`addFolder`](https://tweakpane.github.io/docs/ui-components/#folder) method.
 
 May also be used to label and group multiple controls without user-collapsibility by setting
 `clickToExpand` to `false` and `expanded` to true.

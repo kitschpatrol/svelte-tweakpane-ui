@@ -116,8 +116,8 @@
 Contains a collection of Tweakpane controls to be presented as a single group inside a `<TabGroup>`
 component.
 
-Provides `page` values to Tweakpane's [addTab](https://tweakpane.github.io/docs/ui-components/#tab)
-method.
+Provides `page` values to Tweakpane's
+[`addTab`](https://tweakpane.github.io/docs/ui-components/#tab) method.
 
 The name of this concept within the underlying vanilla JS Tweakpane API is `page`, but it has been
 changed to `TabPage` in `svelte-tweakpane-ui` for clarity its relationship to the `<TabGroup>`

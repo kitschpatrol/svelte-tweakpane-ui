@@ -48,7 +48,7 @@
 	/**
 	 * Tweakpane's internal options object.
 	 *
-	 * See [BindingParams](https://tweakpane.github.io/docs/api/types/BindingParams.html).
+	 * See [`BindingParams`](https://tweakpane.github.io/docs/api/types/BindingParams.html).
 	 *
 	 * Valid types are contingent on the type of the value `key` points to in `object`.
 	 *
@@ -70,7 +70,7 @@
 
 	/**
 	 * Reference to internal Tweakpane
-	 * [BindingApi](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for
+	 * [`BindingApi`](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for
 	 * this control.
 	 *
 	 * This is primarily for internal use, when implementing convenience components wrapping
@@ -153,7 +153,7 @@
 
 <!--
 @component  
-Wraps the Tweakpane [addBinding](https://tweakpane.github.io/docs/input-bindings/) method.
+Wraps the Tweakpane [`addBinding`](https://tweakpane.github.io/docs/input-bindings/) method.
 
 Important: This component is provided for consistency with Tweakpane's API, but is not recommended
 for general use in `svelte-tweakpane-ui` because more helpful abstractions are available.

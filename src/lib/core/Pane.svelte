@@ -77,7 +77,7 @@ The root `<Pane>` component, used for organizing controls into a single group an
 and where the Tweakpane is displayed.
 
 This component is a wrapper around Tweakpane's
-[Pane](https://tweakpane.github.io/docs/api/classes/Pane.html) class.
+[`Pane`](https://tweakpane.github.io/docs/api/classes/Pane.html) class.
 
 Important: Unlike the vanilla JS Tweakpane API, wrapping components in a `<Pane>` is not mandatory.
 

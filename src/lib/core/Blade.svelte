@@ -22,7 +22,7 @@
 
 	/**
 	 * Blade configuration exposing Tweakpane's internal
-	 * [BladeParams](https://tweakpane.github.io/docs/api/interfaces/BaseBladeParams.html).
+	 * [`BladeParams`](https://tweakpane.github.io/docs/api/interfaces/BaseBladeParams.html).
 	 *
 	 * */
 	export let options: U;
@@ -43,7 +43,7 @@
 
 	/**
 	 * Reference to internal Tweakpane
-	 * [BladeApi](https://tweakpane.github.io/docs/api/classes/BladeApi.html) for this blade.
+	 * [`BladeApi`](https://tweakpane.github.io/docs/api/classes/BladeApi.html) for this blade.
 	 *
 	 * This is primarily for internal use, when implementing convenience components wrapping Blade's
 	 * functionality.
@@ -115,7 +115,7 @@
 
 <!--
 @component  
-Wraps the Tweakpane [addBlade](https://tweakpane.github.io/docs/blades/) method.
+Wraps the Tweakpane [`addBlade`](https://tweakpane.github.io/docs/blades/) method.
 
 Important: This component is provided for consistency with Tweakpane's API, but is not recommended
 for general use in `svelte-tweakpane-ui` because more helpful abstractions are available.
