@@ -19,3 +19,86 @@ const { componentData } = Astro.props.entry.data;
 		)
 	}
 </Default>
+
+{
+	/* This is intentionally inlined to avoid FOUC. */
+	/* It lives here and not adjacent to the TableOfContents element */
+	/* because it needs access to the complete document outline. */
+}
+<script is:inline>
+	(async () => {
+		// Table of Contents Selection
+		const toc = document.querySelector('nav[aria-labelledby="starlight__on-this-page"]');
+		if (toc) {
+			const tocLinks = [...toc.querySelectorAll('a')];
+			const headings = tocLinks.map((link) => {
+				const id = link.getAttribute('href')?.slice(1);
+				return document.getElementById(id || '');
+			});
+
+			// cache styles
+			const headingsMarginTop = headings.map((heading) => {
+				const style = window.getComputedStyle(heading);
+				return parseInt(style.marginTop, 10);
+			});
+
+			const navBarHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
+			// `<summary>` only exists in mobile ToC, so will fall back to 0 in large viewport component.
+			// todo... guarantee existence?
+			const mobileTocHeight = toc.querySelector('summary')?.getBoundingClientRect().height || 0;
+			const activationThreshold = navBarHeight + mobileTocHeight;
+
+			let willScroll = false;
+
+			// find the id of the first heading that's in view
+			function findActiveHeadingId() {
+				for (let i = 0; i < headings.length; i++) {
+					const top = headings[i].getBoundingClientRect().top - headingsMarginTop[i];
+
+					if (top >= activationThreshold) {
+						return i === 0 ? headings[i].id : headings[i - 1].id;
+					}
+				}
+				return headings[headings.length - 1].id;
+			}
+
+			function activateTocLink(idOrHash) {
+				const id = idOrHash && idOrHash.startsWith('#') ? idOrHash.slice(1) : idOrHash;
+				tocLinks.forEach((link) => {
+					if (link.getAttribute('href')?.slice(1) === id) {
+						!link.hasAttribute('aria-current') && link.setAttribute('aria-current', 'true');
+					} else {
+						link.hasAttribute('aria-current') && link.removeAttribute('aria-current');
+					}
+				});
+			}
+
+			// special case, navigated to an anchor link
+			if (window.location.hash.length > 0) {
+				activateTocLink(window.location.hash);
+			} else {
+				activateTocLink(findActiveHeadingId());
+			}
+
+			// watch for hash changes
+			window.addEventListener('hashchange', () => {
+				willScroll = true;
+				activateTocLink(window.location.hash);
+			});
+
+			// watch for scroll
+			window.addEventListener(
+				'scroll',
+				() => {
+					// ignore hash-change-initiated scrolls
+					if (willScroll) {
+						willScroll = false;
+					} else {
+						activateTocLink(findActiveHeadingId());
+					}
+				},
+				{ passive: true }
+			);
+		}
+	})();
+</script>
