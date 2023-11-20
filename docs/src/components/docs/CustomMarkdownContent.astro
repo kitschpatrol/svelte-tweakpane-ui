@@ -9,6 +9,13 @@ const { componentData } = Astro.props.entry.data;
 ---
 
 <Default {...Astro.props}>
-	<slot />
-	{componentData && <Component {componentData} />}
+	{
+		componentData ? (
+			<Component {componentData}>
+				<slot />
+			</Component>
+		) : (
+			<slot />
+		)
+	}
 </Default>

@@ -16,7 +16,7 @@ async function generateComponentData(
 	componentName: string,
 	componentPath: string,
 	destination: string,
-	outputFormat: 'json' | 'md', // must match file extension
+	outputFormat: 'json' | 'mdx', // must match file extension
 	testProps?: ComponentDynamicPropTest[] | undefined
 ): Promise<boolean> {
 	const expandedPath = componentPath.replace('$lib', './src/lib');
@@ -30,7 +30,7 @@ async function generateComponentData(
 
 		let content: string;
 		switch (outputFormat) {
-			case 'md':
+			case 'mdx':
 				{
 					// Add some extra metadata for Astro
 					// The shape of this object needs to be coordinated with the Astro
@@ -50,6 +50,10 @@ async function generateComponentData(
 							lineWidth: 0
 						}
 					})}---\n`;
+
+					// Embed example component so we don't have to load it dynamically so that it can prerender to avoid cls
+					content += `\nimport Example from '../../../../components/examples/svelte/${componentName}Example.svelte';\n`;
+					content += `\n<Example client:load />\n`;
 
 					// this would be nicer to lay out in astro, but looking for ways around
 					// around https://github.com/withastro/astro/issues/5084
@@ -175,7 +179,7 @@ for (const { name, path } of components) {
 		];
 	}
 
-	const success = await generateComponentData(name, path, destination, 'md', testProps);
+	const success = await generateComponentData(name, path, destination, 'mdx', testProps);
 
 	if (success) {
 		totalComponentsGenerated++;

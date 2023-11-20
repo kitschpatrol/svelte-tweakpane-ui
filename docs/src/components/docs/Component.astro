@@ -57,7 +57,7 @@ const { componentData: data } = Astro.props;
 // for automatic component linking...
 // all components except for the current one are valid
 const validComponentNames =
-	globSync('src/content/docs/docs/components/*.md')
+	globSync('src/content/docs/docs/components/*.mdx')
 		.map((componentPath) => {
 			return path.basename(componentPath, path.extname(componentPath));
 		})
@@ -87,7 +87,7 @@ const hasSlots = !!data?.slots.length;
 					<hr />
 					<Heading level={2}>Example</Heading>
 					<div class="not-content" style="width: 400px;">
-						<ExampleLoader name={data.name} client:load />
+						<slot />
 					</div>
 					<ExampleCode />
 				</>
@@ -138,3 +138,4 @@ const hasSlots = !!data?.slots.length;
 		</>
 	)
 }
+ />
