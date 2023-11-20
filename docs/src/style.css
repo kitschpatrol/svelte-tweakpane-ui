@@ -1,6 +1,3 @@
-@import url('@fontsource-variable/cairo/wght.css');
-@import url('@fontsource-variable/fira-code/wght.css');
-
 /* https://github.com/withastro/starlight/blob/main/packages/starlight/style/props.css */
 
 :root {
@@ -18,8 +15,6 @@
 
 	/* text size */
 	/* --sl-text-5xl: 3.5rem; */ /* starlight handles fallbacks */
-	/* --sl-font: 'Cairo Variable'; */
-	/* --sl-font-mono: 'Fira Code Variable'; */
 
 	/* code size */
 	/* --sl-text-code: 0.9rem; */
@@ -74,15 +69,6 @@
 	--sl-color-black: #ffffff; */
 
 	/* font-weight: 450 !important; */
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	/* font-family: 'Cairo Variable'; */
 }
 
 a.site-title::before {
