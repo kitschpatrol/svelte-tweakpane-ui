@@ -73,7 +73,7 @@
 	--sl-color-gray-7: #f6f6f6;
 	--sl-color-black: #ffffff; */
 
-	/* font-we	ight: 450 !important; */
+	/* font-weight: 450 !important; */
 }
 
 h1,
@@ -135,6 +135,10 @@ div#starlight__sidebar > div.sidebar-content {
 	overflow-y: auto;
 }
 
+div.hero .tagline a {
+	color: #e7005d;
+}
+
 /* TOC code headings */
 
 nav[aria-labelledby='starlight__on-this-page'] li:has(> a[href='#props']) a,
@@ -185,10 +189,6 @@ div.hero .stack {
 	background: var(--sl-color-bg-nav);
 	border: 1px solid var(--sl-color-gray-5);
 	box-shadow: var(--sl-shadow-md);
-}
-
-div.hero .tagline a {
-	color: #e7005d;
 }
 
 div.hero .tagline a img {
