@@ -221,7 +221,7 @@
 <div bind:this={paneRef}>
 	<!-- {#if mounted} -->
 	<div transition:fade={{ duration: 1500 }}>
-		<Pane bind:width position="inline" {scale} {theme} title={`<Pane> ${text}`}>
+		<Pane position="inline" {scale} {theme} title={`<Pane> ${text}`} {width}>
 			<!-- <Slider bind:value={scale} min={0} max={2} /> -->
 			<List bind:value={themeKey} label="<List> Theme" options={themes} />
 			<Text bind:value={text} label="<Text> Title" />
