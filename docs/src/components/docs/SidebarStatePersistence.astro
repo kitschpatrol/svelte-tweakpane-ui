@@ -1,5 +1,5 @@
 <script is:inline>
-	(() => {
+	(async () => {
 		const key = 'sl-sidebar-state';
 		let savedState;
 
@@ -12,65 +12,94 @@
 			}
 		}
 
-		// Watch for the sidebar's debut in the DOM
-		const observer = new MutationObserver((mutationsList, observer) => {
-			for (const mutation of mutationsList) {
-				if (mutation.type === 'childList') {
-					const sidebarContent = document.getElementById('starlight__sidebar')?.firstElementChild;
-					if (sidebarContent) {
-						// open ancestor details of the active item
-						const activeLinkDetailElements = Array.from(
-							sidebarContent.querySelectorAll('details:has(a[aria-current="page"])')
-						);
-
-						activeLinkDetailElements.forEach((detail) => {
-							detail.setAttribute('open', '');
-						});
-
-						// Restore state from previous navigation
-						// (but keep the active item's ancestors open regardless)
-						const detailElements = Array.from(sidebarContent.querySelectorAll('details'));
-
-						if (savedState) {
-							savedState.details.forEach((isOpen, i) => {
-								if (isOpen) {
-									detailElements[i].setAttribute('open', '');
-								} else if (!activeLinkDetailElements.includes(detailElements[i])) {
-									detailElements[i].removeAttribute('open');
+		// Watch for an element's first debut in the DOM
+		async function observeDomUntilFound(query, scope = document, giveUpAfterLoad = true) {
+			return new Promise((resolve) => {
+				const element = scope.querySelector(query);
+				if (element) {
+					resolve(element);
+				} else {
+					const observer = new MutationObserver((mutationsList, observer) => {
+						for (const mutation of mutationsList) {
+							if (mutation.type === 'childList') {
+								const foundElement = scope.querySelector(query);
+								if (foundElement) {
+									observer.disconnect();
+									if (giveUpAfterLoad) {
+										window.removeEventListener('load', onLoad);
+									}
+									resolve(foundElement);
+									break;
 								}
-							});
-
-							sidebarContent.scrollTop = savedState.scrollTop;
-						}
-
-						// Scroll the active list item into view if necessary
-						const activeLi = sidebarContent.querySelector('a[aria-current="page"]').parentElement;
-						if (activeLi) {
-							const sidebarRect = sidebarContent.getBoundingClientRect();
-							const liRect = activeLi.getBoundingClientRect();
-							if (liRect.top < sidebarRect.top || liRect.bottom > sidebarRect.bottom) {
-								activeLi.scrollIntoView({ behavior: 'instant', block: 'nearest' });
 							}
 						}
+					});
 
-						// Save user state before navigating
-						window.addEventListener('beforeunload', () => {
-							sessionStorage.setItem(
-								key,
-								JSON.stringify({
-									details: detailElements.map((detail) => detail.hasAttribute('open')),
-									scrollTop: sidebarContent.scrollTop
-								})
-							);
-						});
-
+					function onLoad() {
+						// Window loaded without finding element, could be perfectly normal
 						observer.disconnect();
-						break;
+						resolve(undefined);
+					}
+
+					observer.observe(scope, { childList: true, subtree: true });
+					if (giveUpAfterLoad) {
+						window.addEventListener('load', onLoad, { once: true, passive: true });
 					}
 				}
-			}
-		});
+			});
+		}
 
-		observer.observe(document, { childList: true, subtree: true });
+		// Watch for the sidebar's debut in the DOM
+		const sidebarContent = await observeDomUntilFound(
+			'div#starlight__sidebar > div.sidebar-content'
+		);
+
+		if (sidebarContent) {
+			// open ancestor details of the active item
+			const activeLinkDetailElements = [
+				...sidebarContent.querySelectorAll('details:has(a[aria-current="page"])')
+			];
+
+			activeLinkDetailElements.forEach((detail) => {
+				detail.setAttribute('open', '');
+			});
+
+			// Restore state from previous navigation
+			// (but keep the active item's ancestors open regardless)
+			const detailElements = [...sidebarContent.querySelectorAll('details')];
+
+			if (savedState) {
+				savedState.details.forEach((isOpen, i) => {
+					if (isOpen) {
+						detailElements[i].setAttribute('open', '');
+					} else if (!activeLinkDetailElements.includes(detailElements[i])) {
+						detailElements[i].removeAttribute('open');
+					}
+				});
+
+				sidebarContent.scrollTop = savedState.scrollTop;
+			}
+
+			// Scroll the active list item into view if necessary
+			const activeLi = sidebarContent.querySelector('a[aria-current="page"]').parentElement;
+			if (activeLi) {
+				const sidebarRect = sidebarContent.getBoundingClientRect();
+				const liRect = activeLi.getBoundingClientRect();
+				if (liRect.top < sidebarRect.top || liRect.bottom > sidebarRect.bottom) {
+					activeLi.scrollIntoView({ behavior: 'instant', block: 'nearest' });
+				}
+			}
+
+			// Save user state before navigating
+			window.addEventListener('beforeunload', () => {
+				sessionStorage.setItem(
+					key,
+					JSON.stringify({
+						details: detailElements.map((detail) => detail.hasAttribute('open')),
+						scrollTop: sidebarContent.scrollTop
+					})
+				);
+			});
+		}
 	})();
 </script>

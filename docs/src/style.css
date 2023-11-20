@@ -101,11 +101,6 @@ a.site-title::before {
 	background-clip: text;
 }
 
-/* front page */
-html:not([data-has-sidebar]) div.page {
-	background: var(--st-gradient-alpha);
-}
-
 /* sidebar and toc */
 nav ul li a[aria-current='true'],
 nav ul li a[aria-current='page'] {
@@ -140,6 +135,31 @@ div#starlight__sidebar > div.sidebar-content {
 	overflow-y: auto;
 }
 
+/* TOC code headings */
+
+nav[aria-labelledby='starlight__on-this-page'] li:has(> a[href='#props']) a,
+nav[aria-labelledby='starlight__on-this-page'] li:has(> a[href='#slots']) a,
+nav[aria-labelledby='starlight__on-this-page'] li:has(> a[href='#events']) a {
+	font-family: var(--sl-font-system-mono);
+}
+
+/* Component pages */
+.component-section-heading ~ h1 {
+	font-family: var(--sl-font-system-mono);
+}
+
+.component-section-heading ~ h1::before {
+	content: '<';
+}
+
+.component-section-heading ~ h1::after {
+	content: '>';
+}
+
+html:has(div.hero) div.page {
+	background: var(--st-gradient-alpha);
+}
+
 html:has(div.hero) {
 	overflow: hidden;
 }
@@ -162,7 +182,6 @@ div.hero {
 div.hero .stack {
 	pointer-events: all;
 	padding: 1.5em;
-	/* background: color-mix(in lch, var(--sl-color-bg-inline-code), transparent 15%); */
 	background: var(--sl-color-bg-nav);
 	border: 1px solid var(--sl-color-gray-5);
 	box-shadow: var(--sl-shadow-md);
@@ -188,4 +207,11 @@ div.hero a.action {
 
 div.hero h1 {
 	display: none;
+}
+
+dialog::backdrop {
+	background-color: color-mix(in srgb, var(--sl-color-backdrop-overlay), black 30%);
+	/* stylelint-disable-next-line property-no-vendor-prefix */
+	-webkit-backdrop-filter: none;
+	backdrop-filter: none;
 }

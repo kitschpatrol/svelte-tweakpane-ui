@@ -1,7 +1,22 @@
 ---
-import Default from '@astrojs/starlight/components/TableOfContents.astro';
+// major override of '@astrojs/starlight/components/TableOfContents.astro';
 import type { Props } from '@astrojs/starlight/props';
 import { slug } from 'github-slugger';
+import TableOfContentsList from './TableOfContents/TableOfContentsList.astro';
+
+const { toc } = Astro.props;
+
+// Placeholder until this is figured out:
+// https://github.com/withastro/starlight/issues/860
+function t(key: string) {
+	switch (key) {
+		case 'tableOfContents.onThisPage':
+			return 'On this page';
+		default:
+			console.error(`No translation found for key: ${key}`);
+			return 'TRANSLATION MISSING';
+	}
+}
 
 // see https://github.com/withastro/starlight/blob/main/packages/starlight/utils/generateToC.ts
 
@@ -46,4 +61,129 @@ if (componentData && localProps.toc) {
 }
 ---
 
-<Default {...Astro.props} />
+{
+	toc && (
+		<nav aria-labelledby="starlight__on-this-page">
+			<h2 id="starlight__on-this-page">{t('tableOfContents.onThisPage')}</h2>
+			<TableOfContentsList toc={toc.items} />
+		</nav>
+	)
+}
+
+<!-- Replaces  -->
+<script is:inline>
+	(async () => {
+		// Watch for an element's first debut in the DOM
+		async function observeDomUntilFound(query, scope = document, giveUpAfterLoad = true) {
+			return new Promise((resolve) => {
+				const element = scope.querySelector(query);
+				if (element) {
+					resolve(element);
+				} else {
+					const observer = new MutationObserver((mutationsList, observer) => {
+						for (const mutation of mutationsList) {
+							if (mutation.type === 'childList') {
+								const foundElement = scope.querySelector(query);
+								if (foundElement) {
+									observer.disconnect();
+									if (giveUpAfterLoad) {
+										window.removeEventListener('load', onLoad);
+									}
+									resolve(foundElement);
+									break;
+								}
+							}
+						}
+					});
+
+					function onLoad() {
+						// Window loaded without finding element, could be perfectly normal
+						observer.disconnect();
+						resolve(undefined);
+					}
+
+					observer.observe(scope, { childList: true, subtree: true });
+					if (giveUpAfterLoad) {
+						window.addEventListener('load', onLoad, { once: true, passive: true });
+					}
+				}
+			});
+		}
+
+		const toc = await observeDomUntilFound('nav[aria-labelledby="starlight__on-this-page"]');
+		if (toc) {
+			const tocLinks = [...toc.querySelectorAll('a')];
+			const headingQueries = tocLinks.map((link) => link.getAttribute('href') || '');
+			const headings = await Promise.all(
+				headingQueries.map(async (id) => {
+					return await observeDomUntilFound(id);
+				})
+			);
+
+			// cache styles
+			const headingsMarginTop = headings.map((heading) => {
+				const style = window.getComputedStyle(heading);
+				return parseInt(style.marginTop, 10);
+			});
+
+			const navBarHeight =
+				(await observeDomUntilFound('header'))?.getBoundingClientRect().height || 0;
+			// `<summary>` only exists in mobile ToC, so will fall back to 0 in large viewport component.
+			// todo... guarantee existence?
+			const mobileTocHeight = toc.querySelector('summary')?.getBoundingClientRect().height || 0;
+			const activationThreshold = navBarHeight + mobileTocHeight;
+
+			let willScroll = false;
+
+			// find the id of the first heading that's in view
+			function findActiveHeadingId() {
+				for (let i = 0; i < headings.length; i++) {
+					const top = headings[i].getBoundingClientRect().top - headingsMarginTop[i];
+
+					if (top >= activationThreshold) {
+						return i === 0 ? headings[i].id : headings[i - 1].id;
+					}
+				}
+				return headings[headings.length - 1].id;
+			}
+
+			function activateTocLink(idOrHash) {
+				const id = idOrHash && idOrHash.startsWith('#') ? idOrHash.slice(1) : idOrHash;
+				tocLinks.forEach((link) => {
+					if (link.getAttribute('href')?.slice(1) === id) {
+						!link.hasAttribute('aria-current') && link.setAttribute('aria-current', 'true');
+					} else {
+						link.hasAttribute('aria-current') && link.removeAttribute('aria-current');
+					}
+				});
+			}
+
+			// special case, navigated to an anchor link
+			if (window.location.hash.length > 0) {
+				activateTocLink(window.location.hash);
+			} else {
+				activateTocLink(findActiveHeadingId());
+			}
+
+			// watch for hash changes
+			window.addEventListener('hashchange', () => {
+				willScroll = true;
+				activateTocLink(window.location.hash);
+			});
+
+			// watch for scroll
+			window.addEventListener(
+				'scroll',
+				() => {
+					// ignore hash-change-initiated scrolls
+					if (willScroll) {
+						willScroll = false;
+					} else {
+						activateTocLink(findActiveHeadingId());
+					}
+				},
+				{ passive: true }
+			);
+		}
+	})();
+</script>
