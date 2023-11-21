@@ -27,14 +27,14 @@ importers:
         specifier: ^2.0.1
         version: 2.0.1(tweakpane@4.0.1)
       '@tweakpane/core':
-        specifier: link:../tweakpane/packages/core
-        version: link:../tweakpane/packages/core
+        specifier: ^2.0.1
+        version: 2.0.1
       '@tweakpane/plugin-camerakit':
         specifier: ^0.3.0
         version: 0.3.0(tweakpane@4.0.1)
       '@tweakpane/plugin-essentials':
-        specifier: link:../plugin-essentials
-        version: link:../plugin-essentials
+        specifier: ^0.2.0
+        version: 0.2.0(tweakpane@4.0.1)
       esm-env:
         specifier: ^1.0.0
         version: 1.0.0
@@ -45,7 +45,7 @@ importers:
         specifier: ^0.6.4
         version: 0.6.4(svelte@4.2.7)
       tweakpane:
-        specifier: link:../tweakpane/packages/tweakpane
+        specifier: ^4.0.1
         version: 4.0.1
     devDependencies:
       '@phenomnomnominal/tsquery':
@@ -1762,8 +1762,20 @@ packages:
       path-browserify: 1.0.1
     dev: true
 
+  /@tweakpane/core@2.0.1:
+    resolution: {integrity: sha512-iJNrLrLffQR0I8mWgAWcMVO9ZPNdNeXZl66WNT+Op5L9FW7BSF6lwG3izR6Ki9CaI3HzIownwjzYS5xWUaokTA==}
+    dev: false
+
   /@tweakpane/plugin-camerakit@0.3.0(tweakpane@4.0.1):
     resolution: {integrity: sha512-6UwgwDKU+oaAgXJ2D/pOoIpEAZts0RyeLmVzBJGs+VVNqSfkiHzL0i5XD+XnmSL2PaLXBne0dlz0bYOrjmeELw==}
+    peerDependencies:
+      tweakpane: ^4.0.0-beta.2
+    dependencies:
+      tweakpane: 4.0.1
+    dev: false
+
+  /@tweakpane/plugin-essentials@0.2.0(tweakpane@4.0.1):
+    resolution: {integrity: sha512-/kO90nfm0y0CYJPUvoNrjXhjNoqr+RaoySIdJmy++pb5vrSHi/DXdxG/sPszUPZggDY9M31RTacnxXi6Dv7r8Q==}
     peerDependencies:
       tweakpane: ^4.0.0-beta.2
     dependencies:
