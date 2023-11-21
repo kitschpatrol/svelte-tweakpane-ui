@@ -1,0 +1,25 @@
+name: Deploy Documentation
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set WEBHOOK_URL for main
+        if: github.ref == 'refs/heads/main'
+        run: echo "WEBHOOK_URL=${{ secrets.PAGES_DEPLOY_MAIN_WEBHOOK_URL }}" >> $GITHUB_ENV
+
+      - name: Set WEBHOOK_URL for develop
+        if: github.ref == 'refs/heads/develop'
+        run: echo "WEBHOOK_URL=${{ secrets.PAGES_DEPLOY_DEVELOP_WEBHOOK_URL }}" >> $GITHUB_ENV
+
+      - name: Send Cloudflare Pages Webhook POST request
+        run: |
+          - name: Send Cloudflare Pages Webhook POST request
+            run: |
+              curl -X POST $WEBHOOK_URL
