@@ -186,7 +186,7 @@
     "build:07-strip-component-docs": "tsx ./scripts/strip-component-docs.ts",
     "build:08-format-library": "prettier --ignore-path --plugin prettier-plugin-svelte --write ./dist",
     "build:09-generate-doc-data": "tsx ./scripts/generate-doc-data.ts && tsx ./scripts/generate-example-components.ts && run-s --print-label generate-acknowledgments-data:*",
-    "build:10-build-docs": "pnpm run docs:build",
+    "build:10-build-docs": "pnpm run docs-build",
     "check": "svelte-kit sync && svelte-check --ignore ./scratch --tsconfig ./tsconfig.json",
     "check-watch": "svelte-kit sync && svelte-check --ignore ./scratch --tsconfig ./tsconfig.json --watch",
     "docs-build": "pnpm -C ./docs run build",
