@@ -4,12 +4,12 @@ import type { Props as StarlightProps } from '@astrojs/starlight/props';
 import { marked } from 'marked';
 import Heading from './Heading.astro';
 import PropTable from './PropTable.astro';
-import ExampleLoader from '../examples/ExampleLoader.svelte';
 import DynamicPropAdmonition from './DynamicPropAdmonition.md';
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Tabs, TabItem, CardGrid, Card } from '@astrojs/starlight/components';
 import { slug } from 'github-slugger';
 import path from 'path';
 import { globSync } from 'glob';
+import ExampleWrapper from './ExampleWrapper.astro';
 
 type ComponentData = StarlightProps['entry']['data']['componentData'];
 type ComponentProp = NonNullable<ComponentData>['props'][number];
@@ -86,9 +86,11 @@ const hasSlots = !!data?.slots.length;
 				<>
 					<hr />
 					<Heading level={2}>Example</Heading>
-					<div class="not-content" style="width: 400px;">
+					<Heading level={3}>Demo</Heading>
+					<ExampleWrapper>
 						<slot />
-					</div>
+					</ExampleWrapper>
+					<Heading level={3}>Code</Heading>
 					<ExampleCode />
 				</>
 			)}

@@ -1,0 +1,57 @@
+---
+interface Props {}
+---
+
+<div class="example">
+	<div class="vertical-stage">
+		<div class="horizontal-stage">
+			<div class="not-content">
+				<slot />
+			</div>
+		</div>
+	</div>
+
+	<style>
+		div.example {
+			width: 100%;
+			border: 1px solid var(--sl-color-gray-5);
+			border-radius: 0.5rem;
+			background-color: var(--sl-color-gray-7);
+
+			padding: 0 1rem;
+		}
+
+		div.vertical-stage {
+			padding: 1.5rem 0;
+			border-left: 1px solid var(--sl-color-gray-5);
+			border-right: 1px solid var(--sl-color-gray-5);
+
+			width: 360px;
+
+			margin: auto;
+		}
+
+		div.horizontal-stage {
+			position: relative;
+
+			border-top: 1px solid var(--sl-color-gray-5);
+			border-bottom: 1px solid var(--sl-color-gray-5);
+
+			/* box-shadow: 0 2px 10px 0px rgba(0, 0, 0, 0.231); */
+		}
+
+		/* div.stage::before {
+		content: '';
+		position: absolute;
+		z-index: -1;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		filter: blur(10px);
+
+		background-color: rgba(0, 0, 0, 0.2);
+		clip-path: polygon(-40% 0, 140% 0, 140% 100%, -40% 100%);
+	} */
+	</style>
+</div>

@@ -33,6 +33,14 @@ export default defineConfig({
 			editLink: {
 				baseUrl: 'https://github.com/kitschpatrol/svelte-tweakpane-ui/edit/main/docs/'
 			},
+			expressiveCode: {
+				styleOverrides: {
+					frames: {
+						tooltipSuccessBackground: 'var(--sl-color-gray-3)'
+					}
+				}
+				// themes: ['github-dark', 'github-light']
+			},
 			lastUpdated: true,
 			// logo: {
 			// 	dark: './src/assets/svelte-tweakpane-ui-logo-dark.svg',
@@ -71,8 +79,6 @@ export default defineConfig({
 	server: {
 		open: true
 	},
-
-	site: 'https://kitschpatrol.com/svelte-tweakpane-ui'
-	// pending https://github.com/withastro/starlight/pull/1023
-	// trailingSlash: "never",
+	site: 'https://kitschpatrol.com/svelte-tweakpane-ui',
+	trailingSlash: 'never'
 });

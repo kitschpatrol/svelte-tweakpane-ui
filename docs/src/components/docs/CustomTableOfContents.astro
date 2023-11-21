@@ -28,19 +28,12 @@ type PropData = NonNullable<Props['entry']['data']['componentData']>['props'];
 let localProps = Astro.props;
 if (componentData && localProps.toc) {
 	function propHeadings(propData: PropData) {
-		return propData.map((prop) => {
-			return {
-				depth: 3,
-				slug: slug(prop.name),
-				text: prop.name,
-				children: []
-			};
-		});
+		return propData.map((prop) => tocItemForHeading(prop.name, 3));
 	}
 
-	function tocItemForHeading(heading: string, children: any[] = []) {
+	function tocItemForHeading(heading: string, depth: number, children: any[] = []) {
 		return {
-			depth: 2,
+			depth,
 			slug: slug(heading),
 			text: heading,
 			children: children
@@ -48,16 +41,18 @@ if (componentData && localProps.toc) {
 	}
 
 	if (componentData.jsDocs && componentData.jsDocs['example'])
-		localProps.toc.items.push(tocItemForHeading('Example'));
+		localProps.toc.items.push(
+			tocItemForHeading('Example', 2, [tocItemForHeading('Demo', 3), tocItemForHeading('Code', 3)])
+		);
 
 	if (componentData.props.length > 0)
-		localProps.toc.items.push(tocItemForHeading('Props', propHeadings(componentData.props)));
+		localProps.toc.items.push(tocItemForHeading('Props', 2, propHeadings(componentData.props)));
 
 	if (componentData.events.length > 0)
-		localProps.toc.items.push(tocItemForHeading('Events', propHeadings(componentData.events)));
+		localProps.toc.items.push(tocItemForHeading('Events', 2, propHeadings(componentData.events)));
 
 	if (componentData.slots.length > 0)
-		localProps.toc.items.push(tocItemForHeading('Slots', propHeadings(componentData.slots)));
+		localProps.toc.items.push(tocItemForHeading('Slots', 2, propHeadings(componentData.slots)));
 }
 ---
 

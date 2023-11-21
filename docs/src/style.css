@@ -45,6 +45,11 @@
 	/* font-weight: 500 !important; */
 }
 
+/* Expressive Code */
+div.feedback {
+	background-color: red;
+}
+
 :root[data-theme='light'] {
 	--sl-color-accent-low: #d7d7d7;
 	--sl-color-accent: #6b6b6b;
@@ -69,6 +74,17 @@
 	--sl-color-black: #ffffff; */
 
 	/* font-weight: 450 !important; */
+}
+
+.pill {
+	display: inline-block;
+	padding: 0.25em 0.5em;
+	font-size: 0.75em;
+	font-weight: 500;
+	color: var(--sl-color-gray-5);
+	background: var(--sl-color-gray-1);
+	border-width: 0.1;
+	border-radius: 0.25em;
 }
 
 a.site-title::before {
