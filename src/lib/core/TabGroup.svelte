@@ -130,7 +130,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane pos
 			<slot />
 		</div>
 	{:else}
-		<ClsPad keysAdd={['containerVerticalPadding']} {theme} />
+		<ClsPad keysAdd={['containerVerticalPadding', 'containerVerticalPadding']} {theme} />
 		<div>
 			<slot />
 		</div>

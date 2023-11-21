@@ -8,6 +8,8 @@
 		SeparatorBladeParams as SeparatorOptions
 	} from 'tweakpane';
 
+	// note stacking multiple separators breaks SSR?
+
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = Omit<
 		ComponentProps<Blade<SeparatorOptions, SeparatorBladeRef>>,
@@ -47,9 +49,5 @@ position='inline'>`.
 {#if BROWSER}
 	<Blade {options} {...$$restProps} />
 {:else}
-	<ClsPad
-		extra={2}
-		keysAdd={['containerVerticalPadding', 'containerVerticalPadding']}
-		theme={$$props.theme}
-	/>
+	<ClsPad extra={2} keysAdd={['containerVerticalPadding']} theme={$$props.theme} />
 {/if}

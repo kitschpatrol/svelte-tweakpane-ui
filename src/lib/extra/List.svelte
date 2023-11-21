@@ -13,6 +13,8 @@
 
 <script generics="T extends any" lang="ts">
 	import Blade from '$lib/core/Blade.svelte';
+	import ClsPad from '$lib/internal/ClsPad.svelte';
+	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 	import type { ListBladeApi, ListBladeParams, ListParamsOptions } from 'tweakpane';
 
@@ -147,3 +149,6 @@ position='inline'>`.
 -->
 
 <Blade bind:ref={listBlade} options={bladeOptions} {...$$restProps} />
+{#if !BROWSER}
+	<ClsPad keysAdd={['containerUnitSize']} theme={$$props.theme} />
+{/if}

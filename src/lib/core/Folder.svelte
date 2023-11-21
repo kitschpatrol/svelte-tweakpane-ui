@@ -144,7 +144,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane 
 	{:else}
 		<ClsPad keysAdd={['containerUnitSize']} {theme} />
 		{#if expanded}
-			<ClsPad keysAdd={['containerVerticalPadding']} {theme} />
+			<ClsPad keysAdd={['containerVerticalPadding', 'containerVerticalPadding']} {theme} />
 			<slot />
 		{/if}
 	{/if}
