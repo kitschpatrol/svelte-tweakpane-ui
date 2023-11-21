@@ -17,6 +17,9 @@ export default defineConfig({
 	// experimental: {
 	//   devOverlay: true,
 	// },
+	// build: {
+	// 	format: 'file'
+	// },
 	integrations: [
 		// https://starlight.astro.build/reference/configuration/
 		starlight({

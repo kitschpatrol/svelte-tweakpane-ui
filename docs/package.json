@@ -9,7 +9,7 @@
   },
   "scripts": {
     "astro": "astro",
-    "build": "pnpm run clean && astro check && astro build",
+    "build": "pnpm run clean && astro check && astro build && npx replace '\"/_astro/' '\"/svelte-tweakpane-ui/_astro/' ./dist --recursive --quiet",
     "clean": "rimraf .astro dist",
     "dev": "astro dev",
     "generate-acknowledgments-data": "license-checker-rseidelsohn --json --out ./src/content/acknowledgments/acknowledgments-docs.json",
@@ -36,6 +36,7 @@
     "license-checker-rseidelsohn": "^4.2.10",
     "prettier-plugin-astro": "^0.12.2",
     "prettier-plugin-pkg": "^0.18.0",
+    "replace": "^1.2.2",
     "rimraf": "^5.0.5"
   }
 }
