@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { type Theme, getValueOrFallback } from '$lib/theme.js';
+	import { DEV } from 'esm-env';
 
 	export let theme: Theme | undefined = undefined;
 	export let keysAdd: Parameters<typeof getValueOrFallback>[1][] = [];
@@ -10,9 +11,6 @@
 	 */
 	export let extra: number | undefined = undefined;
 
-	const debugRender = true;
-
-	// todo turn this of for prod
 	function getRandomCssColor() {
 		return '#' + Math.floor(Math.random() * 16777215).toString(16);
 	}
@@ -37,5 +35,5 @@
 </script>
 
 {#if total > 0}
-	<div style:background={debugRender ? getRandomCssColor() : null} style:height="{total}px" />
+	<div style:background={DEV ? getRandomCssColor() : null} style:height="{total}px" />
 {/if}

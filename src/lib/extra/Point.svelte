@@ -276,10 +276,10 @@ position='inline'>` component.
 
 <Point
   bind:value={point2d}
-  clickToExpand={false}
   expanded={true}
   label="2D Point Picker"
   picker="inline"
+  userExpandable={false}
 />
 <Point
   bind:value={point3d}

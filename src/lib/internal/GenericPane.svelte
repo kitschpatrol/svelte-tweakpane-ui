@@ -24,7 +24,7 @@
 	 * Hides the collapse button from the title bar when `false`.
 	 * @default `true`
 	 * */
-	export let clickToExpand: boolean = true;
+	export let userExpandable: boolean = true;
 
 	/**
 	 * Expand or collapse the pane into its title bar.
@@ -172,7 +172,7 @@
 
 	$: BROWSER &&
 		paneRef &&
-		updateCollapsibility(clickToExpand, paneRef.element, 'tp-rotv_b', 'tp-rotv_m');
+		updateCollapsibility(userExpandable, paneRef.element, 'tp-rotv_b', 'tp-rotv_m');
 	$: BROWSER && paneRef && title && (paneRef.title = title);
 	$: BROWSER && paneRef && applyTheme(paneRef.element, theme);
 	$: BROWSER && paneRef && expanded !== undefined && (paneRef.expanded = expanded);

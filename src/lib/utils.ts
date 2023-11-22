@@ -157,7 +157,7 @@ function clickBlocker(e: MouseEvent) {
 
 // used by folder and pane todo rewrite to use getSwatchButton etc.
 export function updateCollapsibility(
-	isClickToExpandEnabled: boolean,
+	isUserExpandableEnabled: boolean,
 	element: HTMLElement,
 	titleBarClass: string,
 	iconClass?: string
@@ -170,7 +170,7 @@ export function updateCollapsibility(
 				? (element.getElementsByClassName(iconClass)[0] as HTMLDivElement)
 				: undefined;
 
-			if (isClickToExpandEnabled) {
+			if (isUserExpandableEnabled) {
 				titleBarElement.removeEventListener('click', clickBlocker, { capture: true });
 				titleBarElement.style.cursor = 'pointer';
 

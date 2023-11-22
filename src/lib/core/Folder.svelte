@@ -37,7 +37,7 @@
 	 * Allow the user to be collapse and expand the folder by clicking its title bar.
 	 * @default `true`
 	 * */
-	export let clickToExpand: boolean = true;
+	export let userExpandable: boolean = true;
 
 	/**
 	 * Custom color scheme.
@@ -92,7 +92,7 @@
 	});
 
 	$: $parentStore && !folderRef && index !== undefined && create();
-	$: folderRef && updateCollapsibility(clickToExpand, folderRef.element, 'tp-fldv_b', 'tp-fldv_m');
+	$: folderRef && updateCollapsibility(userExpandable, folderRef.element, 'tp-fldv_b', 'tp-fldv_m');
 	$: folderRef && (folderRef.title = title);
 	$: folderRef && (folderRef.disabled = disabled);
 	$: folderRef && expanded !== undefined && (folderRef.expanded = expanded); // doing this on $folderStore causes issues
@@ -111,7 +111,7 @@ Organize multiple controls into a collapsable folder.
 Wraps the Tweakpane [`addFolder`](https://tweakpane.github.io/docs/ui-components/#folder) method.
 
 May also be used to label and group multiple controls without user-collapsibility by setting
-`clickToExpand` to `false` and `expanded` to true.
+`userExpandable` to `false` and `expanded` to true.
 
 Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane position='inline'>`.
 
@@ -150,7 +150,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane 
 	{/if}
 {:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
-		<svelte:self bind:expanded {clickToExpand} {disabled} {title}>
+		<svelte:self bind:expanded {disabled} {title} {userExpandable}>
 			<slot />
 		</svelte:self>
 	</InternalPaneInline>

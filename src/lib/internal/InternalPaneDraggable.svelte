@@ -143,7 +143,7 @@
 	export let y: $$Props['y'] = $positionStore?.y ?? 0;
 	export let width: $$Props['width'] = $positionStore?.width ?? 256;
 	export let resizable: $$Props['resizable'] = true;
-	export let clickToExpand: $$Props['clickToExpand'] = true;
+	export let userExpandable: $$Props['userExpandable'] = true;
 	export let minWidth: $$Props['minWidth'] = 200;
 	export let maxWidth: $$Props['maxWidth'] = 600;
 	export let title: $$Props['title'] = 'Tweakpane';
@@ -242,7 +242,7 @@
 					width = minWidth;
 				}
 			} else if (TITLEBAR_WINDOW_SHADE_DOUBLE_CLICK && e.target === dragBarElement) {
-				//if (moveDistance < 3 && clickToExpand)
+				//if (moveDistance < 3 && userExpandable)
 				paneRef.expanded = !paneRef.expanded;
 			}
 		}
@@ -295,7 +295,7 @@
 			e.target.removeEventListener('pointerup', upListener);
 
 			if (TITLEBAR_WINDOW_SHADE_SINGLE_CLICK && e.target === dragBarElement) {
-				if (moveDistance < 3 && clickToExpand) paneRef.expanded = !paneRef.expanded;
+				if (moveDistance < 3 && userExpandable) paneRef.expanded = !paneRef.expanded;
 			}
 		}
 	};
@@ -481,7 +481,7 @@ This component is for internal use only.
 	}}
 	class="svelte-tweakpane-ui
 draggable-container"
-	class:not-collapsable={!clickToExpand}
+	class:not-collapsable={!userExpandable}
 	class:not-resizable={!resizable}
 	style:left="{x}px"
 	style:padding

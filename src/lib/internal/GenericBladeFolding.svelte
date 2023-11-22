@@ -15,13 +15,6 @@
 		 * */
 		buttonClass?: string;
 		/**
-		 * Allow users to interactively expand / contract the value picker by clicking its icon.
-		 *
-		 * Most useful when `picker` is `inline`.
-		 * @default `true`
-		 * */
-		clickToExpand?: boolean;
-		/**
 		 * Expand or collapse the blade's picker.
 		 * @default `true`
 		 * @bindable
@@ -32,6 +25,13 @@
 		 * @default `'popup'`
 		 */
 		picker?: 'inline' | 'popup';
+		/**
+		 * Allow users to interactively expand / contract the value picker by clicking its icon.
+		 *
+		 * Most useful when `picker` is `inline`.
+		 * @default `true`
+		 * */
+		userExpandable?: boolean;
 	};
 
 	// reexport for bindability
@@ -39,10 +39,10 @@
 	export let ref: $$Props['ref'] = undefined;
 
 	// unique props
-	export let clickToExpand: $$Props['clickToExpand'] = true;
+	export let userExpandable: $$Props['userExpandable'] = true;
 	export let expanded: $$Props['expanded'] = undefined;
 	export let buttonClass: $$Props['buttonClass'] = '';
-	export let picker: $$Props['picker'] = undefined; // technically not guaranteed, but advantages to assuming it's there for coherent clickToExpand behavior
+	export let picker: $$Props['picker'] = undefined; // technically not guaranteed, but advantages to assuming it's there for coherent userExpandable behavior
 
 	//  can't be right, but no 'fold' event or 'expanded' value seems to be available
 	let gotBlade = false;
@@ -70,7 +70,7 @@
 
 	$: ref &&
 		buttonClass !== undefined &&
-		updateCollapsibility(clickToExpand ?? true, ref.element, buttonClass);
+		updateCollapsibility(userExpandable ?? true, ref.element, buttonClass);
 
 	// click instead of setting expanded to avoid  animation jankiness
 	$: ref &&

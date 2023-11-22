@@ -21,11 +21,6 @@
 		 * */
 		buttonClass?: string;
 		/**
-		 * Allow users to interactively expand / contract the picker.
-		 * @default `true`
-		 * */
-		clickToExpand?: boolean;
-		/**
 		 * Expand or collapse the input's picker.
 		 * @default `false`
 		 * @bindable
@@ -35,7 +30,12 @@
 		 * The style of value "picker" to use in the input.
 		 * @default `'popup'`
 		 */
-		picker?: 'inline' | 'popup'; // technically not guaranteed, but advantages to assuming it's there for coherent clickToExpand behavior
+		picker?: 'inline' | 'popup'; // technically not guaranteed, but advantages to assuming it's there for coherent userExpandable behavior
+		/**
+		 * Allow users to interactively expand / contract the picker.
+		 * @default `true`
+		 * */
+		userExpandable?: boolean;
 	};
 
 	// reexport for bindability
@@ -44,7 +44,7 @@
 	export let options: $$Props['options'] = undefined;
 
 	// unique props
-	export let clickToExpand: $$Props['clickToExpand'] = true;
+	export let userExpandable: $$Props['userExpandable'] = true;
 	export let expanded: $$Props['expanded'] = false;
 	export let buttonClass: $$Props['buttonClass'] = '';
 	export let picker: $$Props['picker'] = undefined;
@@ -77,7 +77,7 @@
 	};
 
 	// click instead of setting expanded to avoid  animation jankiness
-	$: ref && buttonClass && updateCollapsibility(clickToExpand ?? true, ref.element, buttonClass);
+	$: ref && buttonClass && updateCollapsibility(userExpandable ?? true, ref.element, buttonClass);
 	$: ref &&
 		buttonClass &&
 		expanded !== internalExpanded &&
