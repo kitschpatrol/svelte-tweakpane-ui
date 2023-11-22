@@ -1,8 +1,7 @@
 ---
-// major override of '@astrojs/starlight/components/TableOfContents.astro';
 import type { Props } from '@astrojs/starlight/props';
 import { slug } from 'github-slugger';
-import TableOfContentsList from './TableOfContents/TableOfContentsList.astro';
+import Default from '@astrojs/starlight/components/TableOfContents.astro';
 
 const { toc } = Astro.props;
 
@@ -56,11 +55,4 @@ if (componentData && localProps.toc) {
 }
 ---
 
-{
-	toc && (
-		<nav aria-labelledby="starlight__on-this-page">
-			<h2 id="starlight__on-this-page">{t('tableOfContents.onThisPage')}</h2>
-			<TableOfContentsList toc={toc.items} />
-		</nav>
-	)
-}
+<Default {...Astro.props} />

@@ -23,7 +23,6 @@ export default defineConfig({
 				Head: './src/components/docs/CustomHead.astro',
 				MarkdownContent: './src/components/docs/CustomMarkdownContent.astro',
 				PageTitle: './src/components/docs/CustomPageTitle.astro',
-				Sidebar: './src/components/docs/CustomSidebar.astro',
 				TableOfContents: './src/components/docs/CustomTableOfContents.astro'
 			},
 			customCss: ['./src/style.css'],

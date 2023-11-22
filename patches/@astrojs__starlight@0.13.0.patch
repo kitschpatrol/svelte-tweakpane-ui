@@ -1,3 +1,48 @@
+diff --git a/components/MarkdownContent.astro b/components/MarkdownContent.astro
+index 0d40cd47ed269a706b05242f0c7994ed2a95a43d..b7acad8f1c0e0cbe9e8434bc1b5ee0512e61abcf 100644
+--- a/components/MarkdownContent.astro
++++ b/components/MarkdownContent.astro
+@@ -4,3 +4,9 @@ import '../style/markdown.css';
+ ---
+ 
+ <div class="sl-markdown-content"><slot /></div>
++
++{/* Inlined to avoid FOUC. Uses global scope from `TableOfContents.astro`. Needs
++ to be called here for access to page headings. */}
++<script is:inline>
++	StarlightTableOfContentsSelector();
++</script>
+\ No newline at end of file
+diff --git a/components/MobileTableOfContents.astro b/components/MobileTableOfContents.astro
+index 03a4972f2bcacd2c7553a6d63830ba25d4d92830..5a93161c31614f3b895e70efb66baba676753775 100644
+--- a/components/MobileTableOfContents.astro
++++ b/components/MobileTableOfContents.astro
+@@ -1,7 +1,7 @@
+ ---
+ import { useTranslations } from '../utils/translations';
+ import Icon from '../user-components/Icon.astro';
+-import TableOfContentsList from './TableOfContents/TableOfContentsList.astro';
++import TableOfContentsList from './TableOfContentsList.astro';
+ import type { Props } from '../props';
+ 
+ const { locale, toc } = Astro.props;
+@@ -110,15 +110,7 @@ const t = useTranslations(locale);
+ </style>
+ 
+ <script>
+-	import { StarlightTOC } from './TableOfContents/starlight-toc';
+-
+-	class MobileStarlightTOC extends StarlightTOC {
+-		override set current(link: HTMLAnchorElement) {
+-			super.current = link;
+-			const display = this.querySelector('.display-current') as HTMLSpanElement;
+-			if (display) display.textContent = link.textContent;
+-		}
+-
++	class MobileStarlightTOC extends HTMLElement {
+ 		constructor() {
+ 			super();
+ 			const details = this.querySelector('details');
 diff --git a/components/Search.astro b/components/Search.astro
 index 4162f4001f981f8e60c7853651b4d4617f4fc681..94e88563c7a7cb806562e60ebbd728e2ecdb00ed 100644
 --- a/components/Search.astro
@@ -45,6 +90,218 @@ index 4162f4001f981f8e60c7853651b4d4617f4fc681..94e88563c7a7cb806562e60ebbd728e2
  					});
  				});
  			});
+diff --git a/components/Sidebar.astro b/components/Sidebar.astro
+index 38dc898d3697b5b15f8e812711258757927d8088..bc578a800bc0c555cd673aea93fed32a6702903f 100644
+--- a/components/Sidebar.astro
++++ b/components/Sidebar.astro
+@@ -11,3 +11,71 @@ const { sidebar } = Astro.props;
+ <div class="md:sl-hidden">
+ 	<MobileMenuFooter {...Astro.props} />
+ </div>
++
++{/* This is intentionally inlined to avoid FOUSC. */}
++<script is:inline>
++	(() => {
++		const sidebarContent = document.getElementById('starlight__sidebar')?.firstElementChild;
++
++		if (sidebarContent) {
++			// open ancestor details of the active item
++			const activeLinkDetailElements = [
++				...sidebarContent.querySelectorAll('details:has(a[aria-current="page"])')
++			];
++
++			activeLinkDetailElements.forEach((detail) => {
++				detail.setAttribute('open', '');
++			});
++
++			const detailElements = [...sidebarContent.querySelectorAll('details')];
++
++			// Restore state from previous navigation
++			// (but keep the active item's ancestors open regardless)
++			const key = 'sl-sidebar-state';
++			const savedStateJson = sessionStorage.getItem(key);
++
++			if (savedStateJson) {
++				let savedState;
++
++				try {
++					savedState = JSON.parse(savedStateJson);
++				} catch (e) {
++					console.error('Error parsing saved position:', e);
++				}
++
++				if (savedState) {
++					savedState.details.forEach((isOpen, i) => {
++						if (isOpen) {
++							detailElements[i].setAttribute('open', '');
++						} else if (!activeLinkDetailElements.includes(detailElements[i])) {
++							detailElements[i].removeAttribute('open');
++						}
++					});
++
++					sidebarContent.scrollTop = savedState.scrollTop;
++				}
++			}
++
++			// Scroll the active list item into view if necessary
++			const activeLi = sidebarContent.querySelector('a[aria-current="page"]').parentElement;
++			if (activeLi) {
++				const sidebarRect = sidebarContent.getBoundingClientRect();
++				const liRect = activeLi.getBoundingClientRect();
++				if (liRect.top < sidebarRect.top || liRect.bottom > sidebarRect.bottom) {
++					activeLi.scrollIntoView({ behavior: 'instant', block: 'nearest' });
++				}
++			}
++
++			// Save user state before navigating
++			window.addEventListener('beforeunload', () => {
++				sessionStorage.setItem(
++					key,
++					JSON.stringify({
++						details: detailElements.map((detail) => detail.hasAttribute('open')),
++						scrollTop: sidebarContent.scrollTop
++					})
++				);
++			});
++		}
++	})();
++</script>
+\ No newline at end of file
+diff --git a/components/TableOfContents/starlight-toc.ts b/components/TableOfContents/starlight-toc.ts
+deleted file mode 100644
+index a5de15bd336c198fbc6b788b6351e2a3ae278dd4..0000000000000000000000000000000000000000
+diff --git a/components/TableOfContents.astro b/components/TableOfContents.astro
+index 4b0f1d118b401c66c0f50c6da685cc62fb7fb7bf..0f96914b112c5fab7c70cc824fe6a33e54f8f3df 100644
+--- a/components/TableOfContents.astro
++++ b/components/TableOfContents.astro
+@@ -1,6 +1,6 @@
+ ---
+ import { useTranslations } from '../utils/translations';
+-import TableOfContentsList from './TableOfContents/TableOfContentsList.astro';
++import TableOfContentsList from './TableOfContentsList.astro';
+ import type { Props } from '../props';
+ 
+ const { locale, toc } = Astro.props;
+@@ -9,13 +9,102 @@ const t = useTranslations(locale);
+ 
+ {
+ 	toc && (
+-		<starlight-toc data-min-h={toc.minHeadingLevel} data-max-h={toc.maxHeadingLevel}>
+ 			<nav aria-labelledby="starlight__on-this-page">
+ 				<h2 id="starlight__on-this-page">{t('tableOfContents.onThisPage')}</h2>
+ 				<TableOfContentsList toc={toc.items} />
+ 			</nav>
+-		</starlight-toc>
+ 	)
+ }
+ 
+-<script src="./TableOfContents/starlight-toc"></script>
++{
++	/* This is intentionally inlined to avoid FOUC. It lives here to remain
++	adjacent to its related element, but is actually invoked in
++	MarkdownContentbecause because it needs access to the complete document
++	outline. */
++}
++<script is:inline>
++	window.StarlightTableOfContentsSelector = () => {
++		// Table of Contents Selection
++		const toc = document.querySelector('nav[aria-labelledby="starlight__on-this-page"]');
++		const mobileToc = document.querySelector('nav[aria-labelledby="starlight__on-this-page--mobile"]');
++
++		if (toc && mobileToc) {
++			const tocLinks = [...toc.querySelectorAll('a')];
++			const mobileTocLinks = [...mobileToc.querySelectorAll('a')];
++			const headings = tocLinks.map((link) => {
++				const id = link.getAttribute('href')?.slice(1);
++				return document.getElementById(id || '');
++			});
++
++			// cache styles
++			const headingsMarginTop = headings.map((heading) => {
++				const style = window.getComputedStyle(heading);
++				return parseInt(style.marginTop, 10);
++			});
++
++			const navBarHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
++			// `<summary>` only exists in mobile ToC, so will fall back to 0 in large viewport component.
++			// todo... guarantee existence?
++			const mobileTocHeight = toc.querySelector('summary')?.getBoundingClientRect().height || 0;
++			const activationThreshold = navBarHeight + mobileTocHeight;
++
++			let willScroll = false;
++
++			// find the id of the first heading that's in view
++			function findActiveHeadingId() {
++				for (let i = 0; i < headings.length; i++) {
++					const top = headings[i].getBoundingClientRect().top - headingsMarginTop[i];
++
++					if (top >= activationThreshold) {
++						return i === 0 ? headings[i].id : headings[i - 1].id;
++					}
++				}
++				return headings[headings.length - 1].id;
++			}
++
++			function activateTocLink(idOrHash) {
++				const id = idOrHash && idOrHash.startsWith('#') ? idOrHash.slice(1) : idOrHash;
++				let activeLink;
++				[...mobileTocLinks, ...tocLinks].forEach((link) => {
++					if (link.getAttribute('href')?.slice(1) === id) {
++						!link.hasAttribute('aria-current') && link.setAttribute('aria-current', 'true');
++						activeLink = link;
++					} else {
++						link.hasAttribute('aria-current') && link.removeAttribute('aria-current');
++					}
++				});
++
++				// update mobile ToC display
++				const display = mobileToc.querySelector('.display-current');
++				if (display) display.textContent = activeLink.textContent;
++			}
++
++			// special case, navigated to an anchor link
++			if (window.location.hash.length > 0) {
++				activateTocLink(window.location.hash);
++			} else {
++				activateTocLink(findActiveHeadingId());
++			}
++
++			// watch for hash changes
++			window.addEventListener('hashchange', () => {
++				willScroll = true;
++				activateTocLink(window.location.hash);
++			});
++
++			// watch for scroll
++			window.addEventListener(
++				'scroll',
++				() => {
++					// ignore hash-change-initiated scrolls
++					if (willScroll) {
++						willScroll = false;
++					} else {
++						activateTocLink(findActiveHeadingId());
++					}
++				},
++				{ passive: true }
++			);
++		}
++	};
++</script>
+diff --git a/components/TableOfContents/TableOfContentsList.astro b/components/TableOfContentsList.astro
+similarity index 97%
+rename from components/TableOfContents/TableOfContentsList.astro
+rename to components/TableOfContentsList.astro
+index db370b6126e9e3a7eb3562b9258ecbfcc29caa41..4090cdbfa46238f476bc87768ab59b9bb2fcd6c7 100644
+--- a/components/TableOfContents/TableOfContentsList.astro
++++ b/components/TableOfContentsList.astro
+@@ -1,5 +1,5 @@
+ ---
+-import type { TocItem } from '../../utils/generateToC';
++import type { TocItem } from '../utils/generateToC';
+ 
+ interface Props {
+ 	toc: TocItem[];
 diff --git a/utils/path.ts b/utils/path.ts
 index 68b1f5c2b7ac83f3a0927635e2a39065d3d7818c..73b6615870dee805932df98882640ff5288fc935 100644
 --- a/utils/path.ts
