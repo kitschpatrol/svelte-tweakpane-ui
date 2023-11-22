@@ -9,7 +9,11 @@
   },
   "scripts": {
     "astro": "astro",
-    "build": "pnpm run clean && astro check && astro build && npx replace '\"/_astro/' '\"/svelte-tweakpane-ui/_astro/' ./dist --recursive --quiet",
+    "build": "run-s --print-label build:*",
+    "build:0-astro": "pnpm run clean && astro check && astro build",
+    "build:1-add-link-prefix": "tsx ./scripts/add-link-prefix.ts",
+    "build:2-strip-link-suffix": "tsx ./scripts/strip-link-suffix.ts",
+    "build:3-trailing-slash-fix": "bash ./scripts/migrate-index.sh",
     "clean": "rimraf .astro dist",
     "dev": "astro dev",
     "generate-acknowledgments-data": "license-checker-rseidelsohn --json --out ./src/content/acknowledgments/acknowledgments-docs.json",
@@ -23,7 +27,6 @@
     "@types/lodash-es": "^4.17.11",
     "astro": "^3.5.5",
     "github-slugger": "^2.0.0",
-    "glob": "^10.3.10",
     "gray-matter": "^4.0.3",
     "lodash-es": "^4.17.21",
     "marked": "^10.0.0",
@@ -33,10 +36,14 @@
     "typescript": "^5.3.2"
   },
   "devDependencies": {
+    "@types/jsdom": "^21.1.6",
+    "glob": "^10.3.10",
+    "jsdom": "^22.1.0",
     "license-checker-rseidelsohn": "^4.2.10",
+    "npm-run-all": "^4.1.5",
     "prettier-plugin-astro": "^0.12.2",
     "prettier-plugin-pkg": "^0.18.0",
-    "replace": "^1.2.2",
-    "rimraf": "^5.0.5"
+    "rimraf": "^5.0.5",
+    "tsx": "^4.2.0"
   }
 }

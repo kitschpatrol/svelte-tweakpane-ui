@@ -272,5 +272,10 @@
     "typescript": "^5.3.2",
     "vite": "^4.5.0",
     "yaml": "^2.3.4"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@astrojs/starlight@0.13.0": "patches/@astrojs__starlight@0.13.0.patch"
+    }
   }
 }

@@ -3,20 +3,15 @@ import starlight from '@astrojs/starlight';
 import svelte from '@astrojs/svelte';
 import { defineConfig } from 'astro/config';
 
-// declare this here for access inside
-// fontPreloadLinks()
-// note it must be manually applied in CSS url()s
-// concatenating with a css var doesn't work
-const BASE_URL = '/svelte-tweakpane-ui/';
-
 process.env.BROWSER = 'google chrome';
 
 // https://astro.build/config
 export default defineConfig({
-	base: BASE_URL,
+	base: '/svelte-tweakpane-ui/',
 	// experimental: {
 	//   devOverlay: true,
 	// },
+	// messes up pagefind index if we want to strip the .html
 	// build: {
 	// 	format: 'file'
 	// },
@@ -82,6 +77,6 @@ export default defineConfig({
 	server: {
 		open: true
 	},
-	site: 'https://kitschpatrol.com/svelte-tweakpane-ui',
+	site: 'https://kitschpatrol.com/',
 	trailingSlash: 'never'
 });

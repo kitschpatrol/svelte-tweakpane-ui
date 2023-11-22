@@ -1,0 +1,134 @@
+diff --git a/components/Search.astro b/components/Search.astro
+index 4162f4001f981f8e60c7853651b4d4617f4fc681..94e88563c7a7cb806562e60ebbd728e2ecdb00ed 100644
+--- a/components/Search.astro
++++ b/components/Search.astro
+@@ -47,6 +47,9 @@ const pagefindTranslations = {
+ </site-search>
+ 
+ <script>
++	import { stripTrailingSlash, ensureTrailingSlash } from '../utils/path';
++	import project from 'virtual:starlight/project-context';
++
+ 	class SiteSearch extends HTMLElement {
+ 		constructor() {
+ 			super();
+@@ -54,6 +57,24 @@ const pagefindTranslations = {
+ 			const closeBtn = this.querySelector<HTMLButtonElement>('button[data-close-modal]')!;
+ 			const dialog = this.querySelector('dialog')!;
+ 			const dialogFrame = this.querySelector('.dialog-frame')!;
++			const processResult =
++				project.trailingSlash === 'always'
++					? ((result) => {
++							result.url = ensureTrailingSlash(result.url);
++							result.sub_results?.forEach((subResult) => {
++								subResult.url = ensureTrailingSlash(subResult.url);
++							});
++							return result;
++						})
++					: project.trailingSlash === 'never'
++						? ((result) => {
++								result.url = stripTrailingSlash(result.url);
++								result.sub_results?.forEach((subResult) => {
++									subResult.url = stripTrailingSlash(subResult.url);
++								});
++								return result;
++							})
++						: undefined;
+ 
+ 			/** Close the modal if a user clicks on a link or outside of the modal. */
+ 			const onClick = (event: MouseEvent) => {
+@@ -118,6 +139,7 @@ const pagefindTranslations = {
+ 						showImages: false,
+ 						translations,
+ 						showSubResults: true,
++						processResult
+ 					});
+ 				});
+ 			});
+diff --git a/utils/path.ts b/utils/path.ts
+index 68b1f5c2b7ac83f3a0927635e2a39065d3d7818c..73b6615870dee805932df98882640ff5288fc935 100644
+--- a/utils/path.ts
++++ b/utils/path.ts
+@@ -1,12 +1,26 @@
++/** Find end of URL path, before hash and query parameters if necessary */
++function getPathBoundary(href: string): number {
++	const hashIndex = href.indexOf("#");
++	const queryIndex = href.indexOf("?");
++	return hashIndex !== -1
++		? hashIndex
++		: queryIndex !== -1
++		? queryIndex
++		: href.length;
++}
++
+ /** Ensure the passed path starts with a leading slash. */
+ export function ensureLeadingSlash(href: string): string {
+-	if (href[0] !== '/') href = '/' + href;
++	if (href[0] !== "/") href = "/" + href;
+ 	return href;
+ }
+ 
+ /** Ensure the passed path ends with a trailing slash. */
+ export function ensureTrailingSlash(href: string): string {
+-	if (href[href.length - 1] !== '/') href += '/';
++	const pathBoundary = getPathBoundary(href);
++	if (href[pathBoundary - 1] !== "/") {
++		href = href.slice(0, pathBoundary) + "/" + href.slice(pathBoundary);
++	}
+ 	return href;
+ }
+ 
+@@ -18,14 +32,17 @@ export function ensureLeadingAndTrailingSlashes(href: string): string {
+ }
+ 
+ /** Ensure the passed path does not start with a leading slash. */
+-export function stripLeadingSlash(href: string) {
+-	if (href[0] === '/') href = href.slice(1);
++export function stripLeadingSlash(href: string): string {
++	if (href[0] === "/") href = href.slice(1);
+ 	return href;
+ }
+ 
+ /** Ensure the passed path does not end with a trailing slash. */
+-export function stripTrailingSlash(href: string) {
+-	if (href[href.length - 1] === '/') href = href.slice(0, -1);
++export function stripTrailingSlash(href: string): string {
++	const pathBoundary = getPathBoundary(href);
++	if (href[pathBoundary - 1] === "/") {
++		href = href.slice(0, pathBoundary - 1) + href.slice(pathBoundary);
++	}
+ 	return href;
+ }
+ 
+@@ -37,16 +54,26 @@ export function stripLeadingAndTrailingSlashes(href: string): string {
+ }
+ 
+ /** Remove the extension from a path. */
+-export function stripHtmlExtension(path: string) {
++export function stripHtmlExtension(path: string): string {
+ 	const pathWithoutTrailingSlash = stripTrailingSlash(path);
+-	return pathWithoutTrailingSlash.endsWith('.html') ? pathWithoutTrailingSlash.slice(0, -5) : path;
++	const pathBoundary = getPathBoundary(path);
++	const htmlIndex = pathWithoutTrailingSlash.indexOf(".html");
++	return htmlIndex !== -1 && htmlIndex === pathBoundary - 5
++		? pathWithoutTrailingSlash.slice(0, pathBoundary - 5) +
++				pathWithoutTrailingSlash.slice(pathBoundary)
++		: path;
+ }
+ 
+ /** Add '.html' extension to a path. */
+-export function ensureHtmlExtension(path: string) {
++export function ensureHtmlExtension(path: string): string {
+ 	path = stripLeadingAndTrailingSlashes(path);
+-	if (!path.endsWith('.html')) {
+-		path = path ? path + '.html' : '/index.html';
++	const pathBoundary = getPathBoundary(path);
++	const htmlIndex = path.indexOf(".html");
++	if (htmlIndex === -1 || htmlIndex !== pathBoundary - 5) {
++		path =
++			pathBoundary === 0
++				? "index.html" + path.slice(pathBoundary)
++				: path.slice(0, pathBoundary) + ".html" + path.slice(pathBoundary);
+ 	}
+ 	return ensureLeadingSlash(path);
+ }

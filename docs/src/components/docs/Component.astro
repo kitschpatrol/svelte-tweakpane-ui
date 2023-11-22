@@ -39,9 +39,9 @@ function linkifyComponentReferences(
 		if (validComponentNames.length > 0 && validComponentNames.includes(name)) {
 			// Replace with link
 			if (markdownStyleLink) {
-				return `[${prefix ?? ''}<${name}>${postfix ?? ''}](${base}docs/components/${slug(name)})`;
+				return `[${prefix ?? ''}<${name}>${postfix ?? ''}](${base}/docs/components/${slug(name)})`;
 			} else {
-				return `${prefix ?? ''}<a href="${base}docs/components/${slug(name)}">&lt;${name}&gt;</a>${
+				return `${prefix ?? ''}<a href="${base}/docs/components/${slug(name)}">&lt;${name}&gt;</a>${
 					postfix ?? ''
 				}`;
 			}
