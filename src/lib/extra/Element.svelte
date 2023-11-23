@@ -110,7 +110,7 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
       <p style:rotate="{textAngle}deg">
         <code>&lt;Pane&gt;</code><br />
         <code>&lt;Element&gt;</code><br />
-        Whatever you want.
+        Whatever you want.<br />
         <code>&lt;/Element&gt;</code><br />
         <code>&lt;/Pane&gt;</code>
       </p>
@@ -131,14 +131,14 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
     display: flex;
     align-items: center;
     justify-content: center;
-    aspect-ratio: 1;
     width: 100%;
+    height: 180px;
     background: linear-gradient(var(--a), orange, magenta);
   }
 
   .demo > p {
     font-family: sans-serif;
-    font-size: 10cqw;
+    font-size: 1rem;
     color: white;
     text-align: center;
   }

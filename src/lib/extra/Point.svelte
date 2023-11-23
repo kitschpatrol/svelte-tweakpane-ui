@@ -289,9 +289,14 @@ position='inline'>` component.
 <Point bind:value={point4d} min={0} max={100} label="4D Point Picker" />
 
 <pre>
-    2D Value: {JSON.stringify(point2d)}
-    3D Value: {JSON.stringify(point3d)}
-    4D Value: {JSON.stringify(point4d)}
+2D Value:
+{JSON.stringify(point2d, null, 2)}
+
+3D Value:
+{JSON.stringify(point3d, null, 2)}
+
+4D Value:
+{JSON.stringify(point4d, null, 2)}
 </pre>
 ```
 

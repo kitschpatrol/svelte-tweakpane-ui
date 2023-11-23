@@ -167,6 +167,7 @@ position='inline'>`.
   <ButtonGrid on:click={handleClick} buttons={keyboard} />
   <Button on:click={() => (textBuffer += '\u2002')} title=" " />
 </Pane>
+
 <div class="demo">
   <p>{textBuffer}</p>
 </div>
@@ -180,9 +181,9 @@ position='inline'>`.
 
   .demo > p {
     margin: 0;
-    padding: 0.5em;
+    padding: 0.5rem;
     font-family: monospace;
-    font-size: 8cqw;
+    font-size: 2rem;
     line-height: 1.2;
     color: white;
     word-break: break-all;

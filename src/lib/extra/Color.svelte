@@ -134,19 +134,21 @@ position='inline'>`.
   import { Color } from 'svelte-tweakpane-ui';
 
   let startColor = '#fff000';
-  let endColor = {
-    r: 255,
-    g: 0,
-    b: 255
-  };
+  let endColor = '#ff00ff';
 </script>
 
-<div
-  style={`width: 300px; height: 300px; background: linear-gradient(${startColor}, rgb(${endColor.r}, ${endColor.g}, ${endColor.b}));`}
->
-  <Color bind:value={startColor} label="Start Color" />
-  <Color bind:value={endColor} label="End Color" />
-</div>
+<Color bind:value={startColor} label="Start Color" />
+<Color bind:value={endColor} label="End Color" />
+
+<div class="demo" style:--a={startColor} style:--b={endColor} />
+
+<style>
+  .demo {
+    aspect-ratio: 1;
+    width: 100%;
+    background: linear-gradient(to top, var(--a), var(--b));
+  }
+</style>
 ```
 
 @sourceLink

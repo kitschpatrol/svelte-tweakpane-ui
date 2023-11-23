@@ -186,7 +186,7 @@ updates. Consider managing the lifecycle of this component with care until this 
     transform-origin: center;
     transform: translate(-50%, 50%);
     aspect-ratio: 1;
-    width: 10cqw;
+    width: 20%;
     background-color: yellow;
     border-radius: 50%;
   }

@@ -1,11 +1,9 @@
 ---
-import type { Props as StarlightProps } from '@astrojs/starlight/props';
 // bypasses any markdown customization in starlight...
 import { marked } from 'marked';
 import Heading from './Heading.astro';
 import PropTable from './PropTable.astro';
 import DynamicPropAdmonition from './DynamicPropAdmonition.md';
-import { Tabs, TabItem, CardGrid, Card } from '@astrojs/starlight/components';
 import { slug } from 'github-slugger';
 import path from 'path';
 import { globSync } from 'glob';

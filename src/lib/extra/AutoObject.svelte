@@ -86,26 +86,30 @@ component in [Dmitriy Nikiforov's](https://github.com/MrFoxPro)
   import { AutoObject } from 'svelte-tweakpane-ui';
 
   let object = {
-    someBoolean: true, // Creates a <Checkbox>
+    // Creates a <Checkbox>
+    someBoolean: true,
+    // Creates a <Color> picker
     someColor: {
       r: 255,
       g: 0,
-      // Creates a <Color> picker
+
       b: 55
     },
+    // Wraps children in a <Folder>
     someFolder: {
       b: 2,
-      // Wraps children in a <Folder>
       a: 1,
       c: 3
     },
-    someNumber: 1, // Creates a <Slider>
+    // Creates a <Slider>
+    someNumber: 1,
+    // creates a <Point>
     somePoint: {
-      // creates a <Point>
       x: 1,
       y: 2
     },
-    someString: 'test' // Creates a <Text>
+    // Creates a <Text>
+    someString: 'test'
   };
 </script>
 
