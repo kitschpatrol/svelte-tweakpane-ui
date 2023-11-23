@@ -1,5 +1,5 @@
 diff --git a/components/MarkdownContent.astro b/components/MarkdownContent.astro
-index 0d40cd47ed269a706b05242f0c7994ed2a95a43d..fb080a93fd4c68745523cd09be11d261b95de004 100644
+index 0d40cd47ed269a706b05242f0c7994ed2a95a43d..fafd0b98888ab528a343f75aa94e5c3f1e92e9ee 100644
 --- a/components/MarkdownContent.astro
 +++ b/components/MarkdownContent.astro
 @@ -4,3 +4,96 @@ import '../style/markdown.css';
@@ -16,8 +16,8 @@ index 0d40cd47ed269a706b05242f0c7994ed2a95a43d..fb080a93fd4c68745523cd09be11d261
 +<script is:inline>
 +	(() => {
 +		// Table of Contents Selection
-+		const toc = document.querySelector('nav[aria-labelledby="starlight__on-this-page"]');
-+		const mobileToc = document.querySelector('nav[aria-labelledby="starlight__on-this-page--mobile"]');
++		const toc = document.querySelector('starlight-toc nav');
++		const mobileToc = document.querySelector('mobile-starlight-toc nav');
 +
 +		if (toc && mobileToc) {
 +			const tocLinks = [...toc.querySelectorAll('a')];
@@ -177,10 +177,10 @@ index 4162f4001f981f8e60c7853651b4d4617f4fc681..94e88563c7a7cb806562e60ebbd728e2
  				});
  			});
 diff --git a/components/Sidebar.astro b/components/Sidebar.astro
-index 38dc898d3697b5b15f8e812711258757927d8088..bc578a800bc0c555cd673aea93fed32a6702903f 100644
+index 38dc898d3697b5b15f8e812711258757927d8088..293d0aa75fb4bf35f7f3559266fea4bad9f31e52 100644
 --- a/components/Sidebar.astro
 +++ b/components/Sidebar.astro
-@@ -11,3 +11,71 @@ const { sidebar } = Astro.props;
+@@ -11,3 +11,84 @@ const { sidebar } = Astro.props;
  <div class="md:sl-hidden">
  	<MobileMenuFooter {...Astro.props} />
  </div>
@@ -191,12 +191,25 @@ index 38dc898d3697b5b15f8e812711258757927d8088..bc578a800bc0c555cd673aea93fed32a
 +		const sidebarContent = document.getElementById('starlight__sidebar')?.firstElementChild;
 +
 +		if (sidebarContent) {
-+			// open ancestor details of the active item
-+			const activeLinkDetailElements = [
-+				...sidebarContent.querySelectorAll('details:has(a[aria-current="page"])')
-+			];
++			// could have been as simple as
++			// sidebarContent.querySelectorAll('details:has(a[aria-current="page"])')
++			function findAllDetailsAncestors(activeLink, boundaryElement) {
++				const detailsElements = new Set();
++				let parent = activeLink.parentElement;
++				while (parent && parent !== boundaryElement) {
++					if (parent.tagName === 'DETAILS') {
++						detailsElements.add(parent);
++					}
++					parent = parent.parentElement;
++				}
++				return [...detailsElements];
++			}
 +
-+			activeLinkDetailElements.forEach((detail) => {
++			// open ancestor details of the active item
++			const activeLink = sidebarContent.querySelector('a[aria-current="page"]');
++			const activeLinkDetailAncestors = findAllDetailsAncestors(activeLink, sidebarContent);
++
++			activeLinkDetailAncestors.forEach((detail) => {
 +				detail.setAttribute('open', '');
 +			});
 +
@@ -220,7 +233,7 @@ index 38dc898d3697b5b15f8e812711258757927d8088..bc578a800bc0c555cd673aea93fed32a
 +					savedState.details.forEach((isOpen, i) => {
 +						if (isOpen) {
 +							detailElements[i].setAttribute('open', '');
-+						} else if (!activeLinkDetailElements.includes(detailElements[i])) {
++						} else if (!activeLinkDetailAncestors.includes(detailElements[i])) {
 +							detailElements[i].removeAttribute('open');
 +						}
 +					});

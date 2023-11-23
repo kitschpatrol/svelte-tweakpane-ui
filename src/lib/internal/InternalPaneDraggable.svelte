@@ -55,7 +55,7 @@
 		 * */
 		maxWidth?: number;
 		/**
-		 * Automatically collapse open panels whey the available window size is less than the height
+		 * Automatically collapse open panels when the available window size is less than the height
 		 * of the pane.
 		 *
 		 * @default `false`

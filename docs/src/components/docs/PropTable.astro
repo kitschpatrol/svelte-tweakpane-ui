@@ -3,7 +3,7 @@ import type { Props as StarlightProps } from '@astrojs/starlight/props';
 import { marked } from 'marked';
 import Heading from './Heading.astro';
 
-import type { ComponentProp, Condition, ConditionsRecord } from '../../utils/prop-utils';
+import type { ComponentProp, ConditionsRecord } from '../../utils/prop-utils';
 
 interface Props {
 	data: ComponentProp[];
@@ -185,7 +185,7 @@ const {
 	span.prop-heading {
 		display: flex;
 		justify-content: space-between;
-		align-items: bottom;
+		align-items: end;
 	}
 
 	span.flag-pill-group {

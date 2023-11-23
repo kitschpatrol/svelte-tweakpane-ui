@@ -4,12 +4,8 @@
 	/* Tweakpane Specific */
 	--st-color-a: orange;
 	--st-color-b: magenta;
-	--st-gradient: linear-gradient(45deg in lch, var(--st-color-a), var(--st-color-b));
-	--st-gradient-alpha: linear-gradient(
-		45deg in lch,
-		color-mix(in lch, var(--st-color-b), transparent 35%),
-		color-mix(in lch, var(--st-color-a), transparent 35%)
-	);
+	--st-gradient: linear-gradient(45deg, var(--st-color-a), var(--st-color-b));
+	--st-gradient-alpha: linear-gradient(45deg, var(--st-color-b), var(--st-color-a));
 
 	/* --sl-content-width: 60rem; */ /* --sl-content-inline-start: 0; */
 
@@ -19,12 +15,6 @@
 	/* code size */
 	/* --sl-text-code: 0.9rem; */
 	/* --sl-text-code-sm: 1rem; */
-
-
-	
-
-
-
 
 	/* Dark mode colors. */
 	--sl-color-accent-low: #242424;
@@ -49,11 +39,6 @@
 
 	/* font-feature-settings: 'ss02'; */
 	/* font-weight: 500 !important; */
-}
-
-/* Expressive Code */
-div.feedback {
-	background-color: red;
 }
 
 :root[data-theme='light'] {
@@ -82,17 +67,12 @@ div.feedback {
 	/* font-weight: 450 !important; */
 }
 
-.pill {
-	display: inline-block;
-	padding: 0.25em 0.5em;
-	font-size: 0.75em;
-	font-weight: 500;
-	color: var(--sl-color-gray-5);
-	background: var(--sl-color-gray-1);
-	border-width: 0.1;
-	border-radius: 0.25em;
+/* Globals */
+a {
+	text-underline-offset: 0.125em;
 }
 
+/* Title */
 a.site-title::before {
 	content: '🎛️';
 	margin-right: -0.5em;
@@ -103,10 +83,20 @@ a.site-title::before {
 	font-weight: 800;
 	color: transparent;
 	text-align: center;
-	background: linear-gradient(-45deg in lch, var(--st-color-a), var(--st-color-b));
+	background: linear-gradient(-45deg, var(--st-color-a), var(--st-color-b));
 	/* stylelint-disable-next-line property-no-vendor-prefix */
 	-webkit-background-clip: text;
 	background-clip: text;
+}
+
+/* TOC code headings */
+mobile-starlight-toc a[href='#props'] + ul li a,
+mobile-starlight-toc a[href='#slots'] + ul li a,
+mobile-starlight-toc a[href='#events'] + ul li a,
+starlight-toc a[href='#props'] + ul li a,
+starlight-toc a[href='#slots'] + ul li a,
+starlight-toc a[href='#events'] + ul li a {
+	font-family: var(--sl-font-system-mono);
 }
 
 /* sidebar and toc */
@@ -124,14 +114,6 @@ nav ul li a[aria-current='page']:hover {
 	transition: background-color 0s ease; /* Transition defined here */
 }
 
-code {
-	font-variant-ligatures: none !important;
-}
-
-a {
-	text-underline-offset: 0.125em;
-}
-
 /* Scroll sidebar content, not container... */
 /* stylelint-disable-next-line selector-id-pattern */
 div#starlight__sidebar {
@@ -147,14 +129,6 @@ div.hero .tagline a {
 	color: #e7005d;
 }
 
-/* TOC code headings */
-
-div.right-sidebar nav li:has(> a[href='#props']) ul li a,
-div.right-sidebar nav li:has(> a[href='#slots']) ul li a,
-div.right-sidebar nav li:has(> a[href='#events']) ul li a {
-	font-family: var(--sl-font-system-mono);
-}
-
 /* Component pages */
 .component-section-heading ~ h1 {
 	font-family: var(--sl-font-system-mono);
@@ -168,22 +142,23 @@ div.right-sidebar nav li:has(> a[href='#events']) ul li a {
 	content: '>';
 }
 
-html:has(div.hero) div.page {
-	background: var(--st-gradient-alpha);
-}
-
-html:has(div.hero) {
+/* Home Page */
+html[data-has-hero] {
 	overflow: hidden;
 }
 
-div.main-frame:has(div.hero) {
+html[data-has-hero] div.page {
+	background: var(--st-gradient-alpha);
+}
+
+html[data-has-hero] div.main-frame {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	height: 100vh;
 }
 
-div.main-pane:has(div.hero) {
+html[data-has-hero] div.main-pane {
 	pointer-events: none;
 }
 
@@ -203,9 +178,6 @@ div.hero .tagline a img {
 	aspect-ratio: 1;
 	width: 1em;
 	vertical-align: text-bottom;
-}
-
-div.hero .tagline a:hover {
 }
 
 div.hero a.action {

@@ -4,24 +4,8 @@ import { slug } from 'github-slugger';
 import Default from '@astrojs/starlight/components/TableOfContents.astro';
 import { allProps } from '../../utils/prop-utils';
 
-const { toc } = Astro.props;
-
-// Placeholder until this is figured out:
-// https://github.com/withastro/starlight/issues/860
-function t(key: string) {
-	switch (key) {
-		case 'tableOfContents.onThisPage':
-			return 'On this page';
-		default:
-			console.error(`No translation found for key: ${key}`);
-			return 'TRANSLATION MISSING';
-	}
-}
-
-// see https://github.com/withastro/starlight/blob/main/packages/starlight/utils/generateToC.ts
-
 const { componentData } = Astro.props.entry.data;
-import type { ComponentData, ComponentProp } from '../../utils/prop-utils';
+import type { ComponentProp } from '../../utils/prop-utils';
 
 // mutate props to add ToC items on component pages
 // bad work-around for https://github.com/withastro/astro/issues/5084
