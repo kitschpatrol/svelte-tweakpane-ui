@@ -20,6 +20,12 @@
 	/* --sl-text-code: 0.9rem; */
 	/* --sl-text-code-sm: 1rem; */
 
+
+	
+
+
+
+
 	/* Dark mode colors. */
 	--sl-color-accent-low: #242424;
 	--sl-color-accent: #6a6a6a;
@@ -143,9 +149,9 @@ div.hero .tagline a {
 
 /* TOC code headings */
 
-nav[aria-labelledby='starlight__on-this-page'] li:has(> a[href='#props']) a,
-nav[aria-labelledby='starlight__on-this-page'] li:has(> a[href='#slots']) a,
-nav[aria-labelledby='starlight__on-this-page'] li:has(> a[href='#events']) a {
+div.right-sidebar nav li:has(> a[href='#props']) ul li a,
+div.right-sidebar nav li:has(> a[href='#slots']) ul li a,
+div.right-sidebar nav li:has(> a[href='#events']) ul li a {
 	font-family: var(--sl-font-system-mono);
 }
 

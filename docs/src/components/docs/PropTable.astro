@@ -3,10 +3,11 @@ import type { Props as StarlightProps } from '@astrojs/starlight/props';
 import { marked } from 'marked';
 import Heading from './Heading.astro';
 
-type ComponentProps = NonNullable<StarlightProps['entry']['data']['componentData']>['props'];
+import type { ComponentProp, Condition, ConditionsRecord } from '../../utils/prop-utils';
 
 interface Props {
-	data: ComponentProps;
+	data: ComponentProp[];
+	conditionData?: ConditionsRecord;
 	showDefault?: boolean;
 	showFlags?: boolean;
 	monoTable?: boolean;
@@ -24,11 +25,15 @@ function cleanDefault(defaultValue: string | undefined): string {
 	return marked.parseInline(defaultValue) as string;
 }
 
-function isRequired(type: string): boolean {
-	return !type.includes(' | undefined');
+function isReadonly(prop: ComponentProp): boolean {
+	return 'readonly' in prop.jsDocs;
 }
 
-function getFlags(prop: ComponentProps[0]): string[] {
+function isRequired(type: string): boolean {
+	return !type.includes('undefined');
+}
+
+function getFlags(prop: ComponentProp, dynamic: boolean = false): string[] {
 	const flags = Object.keys(prop.jsDocs)
 		// default gets its own row
 		.filter((key) => key !== 'default')
@@ -41,10 +46,20 @@ function getFlags(prop: ComponentProps[0]): string[] {
 		flags.push('optional');
 	}
 
+	if (dynamic) {
+		flags.push('dynamic');
+	}
+
 	return flags;
 }
 
-const { data, showDefault = true, showFlags = true, monoTable = false } = Astro.props;
+const {
+	data,
+	conditionData = {},
+	showDefault = true,
+	showFlags = true,
+	monoTable = false
+} = Astro.props;
 ---
 
 {
@@ -77,10 +92,21 @@ const { data, showDefault = true, showFlags = true, monoTable = false } = Astro.
 		</table>
 	) : (
 		data.map((prop) => (
-			<>
-				<Heading level={3} set:html={prop.name} />
-				<span>{showFlags && getFlags(prop).join(' ')}</span>
-				<table>
+			<table>
+				<tbody>
+					<tr>
+						<td colspan="2" class="propname">
+							<span class="prop-heading">
+								<Heading level={3} set:html={prop.name} />
+								<span class="flag-pill-group">
+									{showFlags &&
+										getFlags(prop, conditionData[prop.name] !== undefined).map((p) => (
+											<span class={`flag-pill flag-name-${p}`}>{p}</span>
+										))}
+								</span>
+							</span>
+						</td>
+					</tr>
 					<tr>
 						<th>Description</th>
 						<td set:html={marked.parse(prop.doc, {})} />
@@ -91,14 +117,115 @@ const { data, showDefault = true, showFlags = true, monoTable = false } = Astro.
 							<code>{cleanType(prop.type)}</code>
 						</td>
 					</tr>
-					{showDefault && !isRequired(prop.type) && (
+					{showDefault && !isRequired(prop.type) && !isReadonly(prop) && (
 						<tr>
 							<th>Default</th>
 							<td set:html={cleanDefault(prop.jsDocs.default)} />
 						</tr>
 					)}
-				</table>
-			</>
+					{conditionData[prop.name] !== undefined && (
+						<tr>
+							<th>Conditions</th>
+							<td>
+								Available when
+								{Object.values(conditionData[prop.name])
+									.map((value) => (
+										<code><!--
+										-->{Object.keys(value)[0]}="{Object.values(value)[0]}"<!--
+										--></code>
+									))
+									.reduce((prev, curr) => [prev, ' or ', curr])}
+							</td>
+						</tr>
+					)}
+				</tbody>
+			</table>
 		))
 	)
 }
+
+<style>
+
+
+
+	table {
+		table-layout: fixed;
+		margin-bottom: 4.5rem;
+	}
+
+	table tbody {
+		min-width: 100%;
+		display: table;
+	}
+
+	tr {
+		background: var(--sl-color-gray-7) !important;
+	}
+
+	th {
+		width: 1px;
+		font-weight: 500;
+		/* font-size: var(--sl-text-sm); */
+		/* background: var(--sl-color-gray-6) !important; */
+		vertical-align: top;
+		color: var(--sl-color-gray-4);
+	}
+
+	td {
+		width: auto;
+	}
+
+	table td.propname :global(h3) {
+		display: inline;
+		font-family: var(--sl-font-system-mono);
+		justify-self: flex-start;
+		font-size: var(--sl-text-xl);
+	}
+
+	span.prop-heading {
+		display: flex;
+		justify-content: space-between;
+		align-items: bottom;
+	}
+
+	span.flag-pill-group {
+		display: flex;
+		column-gap: 0.5em;
+		align-items: center;
+	}
+
+	span.flag-pill {
+		/* margin-left: auto; */
+		font-size: calc(var(--sl-text-code-sm) - 0.1em);
+		background: var(--sl-color-bg-inline-code);
+		font-family: var(--sl-font-system-mono);
+		border-radius: 1.15em;
+		padding: 0.075em 0.7em;
+	}
+
+	:global(span.flag-name-optional) {
+		color: var(--sl-color-green-high);
+		background: var(--sl-color-green-low);
+	}
+
+	:global(span.flag-name-dynamic) {
+		color: var(--sl-color-purple-high);
+		background: var(--sl-color-purple-low);
+	}
+
+	:global(span.flag-name-bindable) {
+		color: var(--sl-color-blue-high);
+		background: var(--sl-color-blue-low);
+	}
+
+	:global(span.flag-name-required) {
+		color: var(--sl-color-red-high);
+		background: var(--sl-color-red-low);
+	}
+
+
+
+	table th {
+		text-align: left;
+	}
+</style>

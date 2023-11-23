@@ -24,8 +24,8 @@
     "@astrojs/check": "^0.3.1",
     "@astrojs/starlight": "^0.13.0",
     "@astrojs/svelte": "^4.0.4",
-    "@types/lodash-es": "^4.17.11",
-    "astro": "^3.5.5",
+    "@types/lodash-es": "^4.17.12",
+    "astro": "^3.6.0",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
     "lodash-es": "^4.17.21",
@@ -44,6 +44,6 @@
     "prettier-plugin-astro": "^0.12.2",
     "prettier-plugin-pkg": "^0.18.0",
     "rimraf": "^5.0.5",
-    "tsx": "^4.2.0"
+    "tsx": "^4.3.0"
   }
 }

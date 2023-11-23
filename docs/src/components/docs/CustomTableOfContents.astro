@@ -2,6 +2,7 @@
 import type { Props } from '@astrojs/starlight/props';
 import { slug } from 'github-slugger';
 import Default from '@astrojs/starlight/components/TableOfContents.astro';
+import { allProps } from '../../utils/prop-utils';
 
 const { toc } = Astro.props;
 
@@ -20,13 +21,13 @@ function t(key: string) {
 // see https://github.com/withastro/starlight/blob/main/packages/starlight/utils/generateToC.ts
 
 const { componentData } = Astro.props.entry.data;
-type PropData = NonNullable<Props['entry']['data']['componentData']>['props'];
+import type { ComponentData, ComponentProp } from '../../utils/prop-utils';
 
 // mutate props to add ToC items on component pages
 // bad work-around for https://github.com/withastro/astro/issues/5084
 let localProps = Astro.props;
 if (componentData && localProps.toc) {
-	function propHeadings(propData: PropData) {
+	function propHeadings(propData: ComponentProp[]) {
 		return propData.map((prop) => tocItemForHeading(prop.name, 3));
 	}
 
@@ -45,7 +46,7 @@ if (componentData && localProps.toc) {
 		);
 
 	if (componentData.props.length > 0)
-		localProps.toc.items.push(tocItemForHeading('Props', 2, propHeadings(componentData.props)));
+		localProps.toc.items.push(tocItemForHeading('Props', 2, propHeadings(allProps(componentData))));
 
 	if (componentData.events.length > 0)
 		localProps.toc.items.push(tocItemForHeading('Events', 2, propHeadings(componentData.events)));
