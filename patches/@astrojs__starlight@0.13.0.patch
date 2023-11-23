@@ -1,18 +1,104 @@
 diff --git a/components/MarkdownContent.astro b/components/MarkdownContent.astro
-index 0d40cd47ed269a706b05242f0c7994ed2a95a43d..b7acad8f1c0e0cbe9e8434bc1b5ee0512e61abcf 100644
+index 0d40cd47ed269a706b05242f0c7994ed2a95a43d..fb080a93fd4c68745523cd09be11d261b95de004 100644
 --- a/components/MarkdownContent.astro
 +++ b/components/MarkdownContent.astro
-@@ -4,3 +4,9 @@ import '../style/markdown.css';
+@@ -4,3 +4,96 @@ import '../style/markdown.css';
  ---
  
  <div class="sl-markdown-content"><slot /></div>
 +
-+{/* Inlined to avoid FOUC. Uses global scope from `TableOfContents.astro`. Needs
-+ to be called here for access to page headings. */}
++{
++	/* This is intentionally inlined to avoid FOUC. It lives here and not in
++	TableOfContents.astro because because it needs access to the complete document
++	outline. Setting a global function in TableOfContents.astro and invoking it
++	here results in FOUC on Safari. */
++}
 +<script is:inline>
-+	StarlightTableOfContentsSelector();
++	(() => {
++		// Table of Contents Selection
++		const toc = document.querySelector('nav[aria-labelledby="starlight__on-this-page"]');
++		const mobileToc = document.querySelector('nav[aria-labelledby="starlight__on-this-page--mobile"]');
++
++		if (toc && mobileToc) {
++			const tocLinks = [...toc.querySelectorAll('a')];
++			const mobileTocLinks = [...mobileToc.querySelectorAll('a')];
++			const headings = tocLinks.map((link) => {
++				const id = link.getAttribute('href')?.slice(1);
++				return document.getElementById(id || '');
++			});
++
++			// cache styles
++			const headingsMarginTop = headings.map((heading) => {
++				const style = window.getComputedStyle(heading);
++				return parseInt(style.marginTop, 10);
++			});
++
++			const navBarHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
++			// `<summary>` only exists in mobile ToC, so will fall back to 0 in large viewport component.
++			// todo... guarantee existence?
++			const mobileTocHeight = toc.querySelector('summary')?.getBoundingClientRect().height || 0;
++			const activationThreshold = navBarHeight + mobileTocHeight;
++
++			let willScroll = false;
++
++			// find the id of the first heading that's in view
++			function findActiveHeadingId() {
++				for (let i = 0; i < headings.length; i++) {
++					const top = headings[i].getBoundingClientRect().top - headingsMarginTop[i];
++
++					if (top >= activationThreshold) {
++						return i === 0 ? headings[i].id : headings[i - 1].id;
++					}
++				}
++				return headings[headings.length - 1].id;
++			}
++
++			function activateTocLink(idOrHash) {
++				const id = idOrHash && idOrHash.startsWith('#') ? idOrHash.slice(1) : idOrHash;
++				let activeLink;
++				[...mobileTocLinks, ...tocLinks].forEach((link) => {
++					if (link.getAttribute('href')?.slice(1) === id) {
++						!link.hasAttribute('aria-current') && link.setAttribute('aria-current', 'true');
++						activeLink = link;
++					} else {
++						link.hasAttribute('aria-current') && link.removeAttribute('aria-current');
++					}
++				});
++
++				// update mobile ToC display
++				const display = mobileToc.querySelector('.display-current');
++				if (display) display.textContent = activeLink.textContent;
++			}
++
++			// special case, navigated to an anchor link
++			if (window.location.hash.length > 0) {
++				activateTocLink(window.location.hash);
++			} else {
++				activateTocLink(findActiveHeadingId());
++			}
++
++			// watch for hash changes
++			window.addEventListener('hashchange', () => {
++				willScroll = true;
++				activateTocLink(window.location.hash);
++			});
++
++			// watch for scroll
++			window.addEventListener(
++				'scroll',
++				() => {
++					// ignore hash-change-initiated scrolls
++					if (willScroll) {
++						willScroll = false;
++					} else {
++						activateTocLink(findActiveHeadingId());
++					}
++				},
++				{ passive: true }
++			);
++		}
++	})();
 +</script>
-\ No newline at end of file
 diff --git a/components/MobileTableOfContents.astro b/components/MobileTableOfContents.astro
 index 03a4972f2bcacd2c7553a6d63830ba25d4d92830..5a93161c31614f3b895e70efb66baba676753775 100644
 --- a/components/MobileTableOfContents.astro
@@ -171,7 +257,7 @@ diff --git a/components/TableOfContents/starlight-toc.ts b/components/TableOfCon
 deleted file mode 100644
 index a5de15bd336c198fbc6b788b6351e2a3ae278dd4..0000000000000000000000000000000000000000
 diff --git a/components/TableOfContents.astro b/components/TableOfContents.astro
-index 4b0f1d118b401c66c0f50c6da685cc62fb7fb7bf..160023dd93127c5941d7d866b0f3c2777cb95766 100644
+index 4b0f1d118b401c66c0f50c6da685cc62fb7fb7bf..ad393429565c337a61c3bdc741d47b787646b26c 100644
 --- a/components/TableOfContents.astro
 +++ b/components/TableOfContents.astro
 @@ -1,6 +1,6 @@
@@ -191,103 +277,12 @@ index 4b0f1d118b401c66c0f50c6da685cc62fb7fb7bf..160023dd93127c5941d7d866b0f3c277
  			<nav aria-labelledby="starlight__on-this-page">
  				<h2 id="starlight__on-this-page">{t('tableOfContents.onThisPage')}</h2>
  				<TableOfContentsList toc={toc.items} />
-@@ -18,4 +18,106 @@ const t = useTranslations(locale);
+@@ -18,4 +18,15 @@ const t = useTranslations(locale);
  	)
  }
  
 -<script src="./TableOfContents/starlight-toc"></script>
-+{
-+	/* This is intentionally inlined to avoid FOUC. It lives here to remain
-+	adjacent to its related element, but is actually invoked in
-+	MarkdownContentbecause because it needs access to the complete document
-+	outline. */
-+}
-+<script is:inline>
-+	window.StarlightTableOfContentsSelector = () => {
-+		// Table of Contents Selection
-+		const toc = document.querySelector('nav[aria-labelledby="starlight__on-this-page"]');
-+		const mobileToc = document.querySelector('nav[aria-labelledby="starlight__on-this-page--mobile"]');
-+
-+		if (toc && mobileToc) {
-+			const tocLinks = [...toc.querySelectorAll('a')];
-+			const mobileTocLinks = [...mobileToc.querySelectorAll('a')];
-+			const headings = tocLinks.map((link) => {
-+				const id = link.getAttribute('href')?.slice(1);
-+				return document.getElementById(id || '');
-+			});
-+
-+			// cache styles
-+			const headingsMarginTop = headings.map((heading) => {
-+				const style = window.getComputedStyle(heading);
-+				return parseInt(style.marginTop, 10);
-+			});
-+
-+			const navBarHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
-+			// `<summary>` only exists in mobile ToC, so will fall back to 0 in large viewport component.
-+			// todo... guarantee existence?
-+			const mobileTocHeight = toc.querySelector('summary')?.getBoundingClientRect().height || 0;
-+			const activationThreshold = navBarHeight + mobileTocHeight;
-+
-+			let willScroll = false;
-+
-+			// find the id of the first heading that's in view
-+			function findActiveHeadingId() {
-+				for (let i = 0; i < headings.length; i++) {
-+					const top = headings[i].getBoundingClientRect().top - headingsMarginTop[i];
-+
-+					if (top >= activationThreshold) {
-+						return i === 0 ? headings[i].id : headings[i - 1].id;
-+					}
-+				}
-+				return headings[headings.length - 1].id;
-+			}
-+
-+			function activateTocLink(idOrHash) {
-+				const id = idOrHash && idOrHash.startsWith('#') ? idOrHash.slice(1) : idOrHash;
-+				let activeLink;
-+				[...mobileTocLinks, ...tocLinks].forEach((link) => {
-+					if (link.getAttribute('href')?.slice(1) === id) {
-+						!link.hasAttribute('aria-current') && link.setAttribute('aria-current', 'true');
-+						activeLink = link;
-+					} else {
-+						link.hasAttribute('aria-current') && link.removeAttribute('aria-current');
-+					}
-+				});
-+
-+				// update mobile ToC display
-+				const display = mobileToc.querySelector('.display-current');
-+				if (display) display.textContent = activeLink.textContent;
-+			}
-+
-+			// special case, navigated to an anchor link
-+			if (window.location.hash.length > 0) {
-+				activateTocLink(window.location.hash);
-+			} else {
-+				activateTocLink(findActiveHeadingId());
-+			}
-+
-+			// watch for hash changes
-+			window.addEventListener('hashchange', () => {
-+				willScroll = true;
-+				activateTocLink(window.location.hash);
-+			});
-+
-+			// watch for scroll
-+			window.addEventListener(
-+				'scroll',
-+				() => {
-+					// ignore hash-change-initiated scrolls
-+					if (willScroll) {
-+						willScroll = false;
-+					} else {
-+						activateTocLink(findActiveHeadingId());
-+					}
-+				},
-+				{ passive: true }
-+			);
-+		}
-+	};
-+</script>
++{/* See script in MarkdownContent.astro to set active item. */}
 +
 +{/* This must remain to avoid FOUC */}
 +<script>
