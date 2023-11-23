@@ -5,7 +5,11 @@
 	--st-color-a: orange;
 	--st-color-b: magenta;
 	--st-gradient: linear-gradient(45deg, var(--st-color-a), var(--st-color-b));
-	--st-gradient-alpha: linear-gradient(45deg, var(--st-color-b), var(--st-color-a));
+	--st-gradient-alpha: linear-gradient(
+		45deg,
+		color-mix(in srgb, var(--st-color-b), transparent 30%),
+		color-mix(in srgb, var(--st-color-a), transparent 30%)
+	);
 
 	/* --sl-content-width: 60rem; */ /* --sl-content-inline-start: 0; */
 
@@ -194,4 +198,8 @@ dialog::backdrop {
 	/* stylelint-disable-next-line property-no-vendor-prefix */
 	-webkit-backdrop-filter: none;
 	backdrop-filter: none;
+}
+
+.example astro-island pre {
+	padding: 8px;
 }

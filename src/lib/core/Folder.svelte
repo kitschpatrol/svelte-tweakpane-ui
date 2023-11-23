@@ -124,7 +124,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane 
   let count = 0;
 </script>
 
-<Folder bind:expanded title="Reticulation Manager">
+<Folder bind:expanded title="Reticulation Management Folder">
   <Button on:click={() => count++} title="Increment" />
   <Monitor value={count} label="Count" />
 </Folder>

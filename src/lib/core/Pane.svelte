@@ -137,7 +137,7 @@ Position mode overview:
   let position: PanePosition = options[0];
 </script>
 
-<Pane {position} title="Pane" y={position === 'fixed' ? 72 : undefined}>
+<Pane {position} title="Pane" y={position === 'inline' ? undefined : 110}>
   <RadioGrid
     bind:value={position}
     columns={1}
@@ -145,6 +145,20 @@ Position mode overview:
     values={options}
   />
 </Pane>
+{#if position === 'fixed'}
+  <p>Pane is fixed at the top-right of the page.</p>
+{:else if position === 'draggable'}
+  <p>Pane is draggable at the top-right of the page.</p>
+{/if}
+
+<style>
+  p {
+    display: grid;
+    place-content: center;
+    width: 100%;
+    height: 96px;
+  }
+</style>
 ```
 
 @sourceLink

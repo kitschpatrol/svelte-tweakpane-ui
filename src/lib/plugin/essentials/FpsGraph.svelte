@@ -210,10 +210,19 @@ position='inline'>`.
   $: gridSize = intensity ** 2;
 </script>
 
-<FpsGraph interval={50} rows={5} />
-
-<Slider bind:value={intensity} min={1} max={10} label="Intensity" step={1} />
-<Monitor value={gridSize ** 2} format={(v) => v.toFixed(0)} label="Boxes" />
+<FpsGraph interval={50} label="FPS" rows={5} />
+<Slider
+  bind:value={intensity}
+  min={1}
+  max={10}
+  label="Intensity (Careful)"
+  step={1}
+/>
+<Monitor
+  value={gridSize ** 2}
+  format={(v) => v.toFixed(0)}
+  label="Boxes (Monitor)"
+/>
 <Slider bind:value={scale} min={0.25} max={2} label="Scale" />
 <Slider bind:value={phase} min={0} max={2000} label="Phase" />
 <Slider bind:value={rotationSpeed} label="Rotation Speed" />

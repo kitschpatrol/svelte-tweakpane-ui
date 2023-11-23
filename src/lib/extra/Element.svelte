@@ -128,11 +128,10 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
 
 <style>
   .demo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    place-content: center;
+    aspect-ratio: 1;
     width: 100%;
-    height: 180px;
     background: linear-gradient(var(--a), orange, magenta);
   }
 
