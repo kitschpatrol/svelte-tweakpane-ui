@@ -171,7 +171,7 @@ diff --git a/components/TableOfContents/starlight-toc.ts b/components/TableOfCon
 deleted file mode 100644
 index a5de15bd336c198fbc6b788b6351e2a3ae278dd4..0000000000000000000000000000000000000000
 diff --git a/components/TableOfContents.astro b/components/TableOfContents.astro
-index 4b0f1d118b401c66c0f50c6da685cc62fb7fb7bf..0f96914b112c5fab7c70cc824fe6a33e54f8f3df 100644
+index 4b0f1d118b401c66c0f50c6da685cc62fb7fb7bf..160023dd93127c5941d7d866b0f3c2777cb95766 100644
 --- a/components/TableOfContents.astro
 +++ b/components/TableOfContents.astro
 @@ -1,6 +1,6 @@
@@ -182,16 +182,16 @@ index 4b0f1d118b401c66c0f50c6da685cc62fb7fb7bf..0f96914b112c5fab7c70cc824fe6a33e
  import type { Props } from '../props';
  
  const { locale, toc } = Astro.props;
-@@ -9,13 +9,102 @@ const t = useTranslations(locale);
+@@ -9,7 +9,7 @@ const t = useTranslations(locale);
  
  {
  	toc && (
 -		<starlight-toc data-min-h={toc.minHeadingLevel} data-max-h={toc.maxHeadingLevel}>
++		<starlight-toc>
  			<nav aria-labelledby="starlight__on-this-page">
  				<h2 id="starlight__on-this-page">{t('tableOfContents.onThisPage')}</h2>
  				<TableOfContentsList toc={toc.items} />
- 			</nav>
--		</starlight-toc>
+@@ -18,4 +18,106 @@ const t = useTranslations(locale);
  	)
  }
  
@@ -288,6 +288,18 @@ index 4b0f1d118b401c66c0f50c6da685cc62fb7fb7bf..0f96914b112c5fab7c70cc824fe6a33e
 +		}
 +	};
 +</script>
++
++{/* This must remain to avoid FOUC */}
++<script>
++	class StarlightTOC extends HTMLElement {
++		constructor() {
++			super();
++		}
++	}
++
++	customElements.define('starlight-toc', StarlightTOC);
++</script>
+\ No newline at end of file
 diff --git a/components/TableOfContents/TableOfContentsList.astro b/components/TableOfContentsList.astro
 similarity index 97%
 rename from components/TableOfContents/TableOfContentsList.astro
