@@ -67,7 +67,8 @@ export default defineConfig({
 				}
 			],
 			social: {
-				github: 'https://github.com/kitschpatrol/svelte-tweakpane-ui'
+				github: 'https://github.com/kitschpatrol/svelte-tweakpane-ui',
+				mastodon: 'https://mastodon.social/@kitschpatrol'
 			},
 			title: 'Svelte Tweakpane UI'
 		}),
