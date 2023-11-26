@@ -3,14 +3,14 @@
 </script>
 
 <script lang="ts">
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-waveform';
-	import type { WaveformStyles as WaveformMonitorLineStyle } from '@kitschpatrol/tweakpane-plugin-waveform/dist/types/view/waveform.js';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import type { GenericMonitorOptions } from '$lib/internal/GenericMonitor.svelte';
 	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
 	import { fillWith } from '$lib/utils';
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
+	import * as pluginModule from 'tweakpane-plugin-waveform';
+	import type { WaveformStyles as WaveformMonitorLineStyle } from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
 
 	// Direct prop import is wrapped in some extra stuff we don't want import type { WaveformProps }
 	// from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
@@ -68,12 +68,6 @@ Visualize multiple numeric values as a waveform.
 
 Integrates [Simon Schödler's](https://shoedler.github.io)
 [tweakpane-plugin-waveform](https://github.com/shoedler/tweakpane-plugin-waveform).
-
-Note that `svelte-tweakpane-ui` embeds a
-[fork](https://github.com/kitschpatrol/tweakpane-plugin-waveform) of the plugin with support for
-Tweakpane 4. The dependency will be updated to point to the source repository if / when the open
-[pull request](https://github.com/shoedler/tweakpane-plugin-waveform/pull/2) with Tweakpane 4
-support is merged.
 
 See `<Monitor>` component if you want to graph a single value's change over time.
 

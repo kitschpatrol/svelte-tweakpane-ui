@@ -148,12 +148,6 @@ value object or tuple into a CSS transform string.
 
 See also <RotationQuaternion> if you're feeling gimbal locked.
 
-Note that `svelte-tweakpane-ui` embeds a
-[fork](https://github.com/kitschpatrol/tweakpane-plugin-rotation) of the plugin with support for
-Tweakpane 4. The dependency will be updated to point to the source repository if / when the open
-[pull request](https://github.com/0b5vr/tweakpane-plugin-rotation/pull/2) with Tweakpane 4 support
-is merged.
-
 Usage outside of a `<Pane>` component will implicitly wrap the profiler in `<Pane
 position='inline'>`.
 

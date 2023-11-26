@@ -3,7 +3,7 @@ import starlight from '@astrojs/starlight';
 import svelte from '@astrojs/svelte';
 import { defineConfig } from 'astro/config';
 
-process.env.BROWSER = 'google chrome';
+process.env.BROWSER = 'chromium';
 
 // https://astro.build/config
 export default defineConfig({
