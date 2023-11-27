@@ -1,7 +1,6 @@
 ---
 import StarlightThemeSelect from '@astrojs/starlight/components/ThemeSelect.astro'
 import type { Props } from '@astrojs/starlight/props'
-const currentPath = Astro.url.pathname;
 
 const { BASE_URL } = import.meta.env;
 
@@ -9,7 +8,7 @@ const { BASE_URL } = import.meta.env;
 ---
 
 {/* Only show documentaiton link on home page */}
-{currentPath === `${BASE_URL}/` && (
+{Astro.props.slug === '' && (
   <div>
     <a href=`${BASE_URL}/docs`>Documentation</a>
   </div>

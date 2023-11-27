@@ -1,0 +1,40 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { marked } from 'marked';
+
+interface Props {
+	scope?: string;
+}
+
+// const components = await Astro.glob(`/src/content/docs/docs/components/*.mdx`);
+
+const { scope } = Astro.props;
+
+const components = (await getCollection('docs')).filter((component: CollectionEntry<'docs'>) => {
+	return (
+		component.data.componentData !== undefined &&
+		(scope === undefined ? true : component.data.componentData.pathParts.includes(scope))
+	);
+});
+
+async function firstLine(str: string): Promise<string> {
+	return await marked.parseInline(str.split('\n\n')[0]);
+}
+---
+
+<ul>
+	{
+		components.map(async (component) => {
+			const { componentData } = component.data;
+			if (componentData) {
+				return (
+					<li>
+						<a href={component.slug}>{componentData.name}</a>
+						<br />
+						<fragment set:html={await firstLine(componentData.doc)} />
+					</li>
+				);
+			}
+		})
+	}
+</ul>

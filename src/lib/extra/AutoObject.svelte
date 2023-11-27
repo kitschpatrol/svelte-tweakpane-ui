@@ -60,7 +60,7 @@
 
 <!--
 @component  
-Convenience component which automatically creates a set of Tweakpane controls for an arbitrary
+Rapid-development component which automatically creates a set of Tweakpane controls for an arbitrary
 object.
 
 Object keys will be used as labels, and a (reasonably) appropriate Tweakpane control will be used
@@ -68,6 +68,12 @@ for each value's type.
 
 Values are generally mapped to controls according to the logic outlined in the [Tweakpane input
 binding documentation](https://tweakpane.github.io/docs/input-bindings/).
+
+This component is intended for quick tests where you want "best guess" non-customizable controls for
+an entire object, without considering the ideal component for each value.
+
+See `<AutoValue>` for a variation that works directly on a stand-alone value that isn't wrapped in
+an object.
 
 Records within the object will wrap their contents in a `<Folder>` component. Value objects in the
 shape of color or point objects will show a more specialized control.
@@ -79,6 +85,8 @@ position='inline'>`.
 [`<TWPAutoMutable>`](https://github.com/MrFoxPro/solid-tweakpane/blob/master/src/automutable.tsx)
 component in [Dmitriy Nikiforov's](https://github.com/MrFoxPro)
 [solid-tweakpane](https://github.com/MrFoxPro/solid-tweakpane) library.
+
+Plugin component behavior is not available in `<AutoObject>`.
 
 @example  
 ```svelte

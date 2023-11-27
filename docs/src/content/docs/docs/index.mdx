@@ -3,6 +3,11 @@ title: Overview
 description: Svelte Tweakpane UI basics.
 ---
 
+import ComponentList from '../../../components/docs/ComponentList.astro';
+import ComponentCount from '../../../components/docs/ComponentCount.astro';
+
+<ComponentCount />
+
 ## What is this?
 
 Svelte 4
@@ -24,6 +29,26 @@ Please see the [acknowledgements](./docs/acknowledgments) for a list of contribu
 
 ## Components
 
+Organized by provenance...
+
+### Core Components
+
+These components bla bla
+
+<ComponentList scope="core" />
+
+### Extra Components
+
+These components bla bla
+
+<ComponentList scope="extra" />
+
+### Plugin Components
+
+These components bla bla
+
+<ComponentList scope="plugin" />
+
 ---
 
 ## Design Approach
@@ -41,95 +66,6 @@ These more specific components trade some flexibility for ease of use, but if yo
 Vanilla Tweakpane conveniently provides two-way bindings for manipulating object properties, but `svelte-tweakpane-ui` leaves binding up to the user via [Svelte's conventional approach](TK). This makes bindings explicit, and allows most components to function either as monitors or inputs depending on whether their value property is bound.
 
 Note that unlike vanilla Tweakpane, no explicit Plugin module import or registration is required in 'svelte-tweakpane-ui'.
-
----
-
-## Features
-
-### Draggability
-
-### Tuple values
-
-### Scaling
-
-### Scoped theming
-
-### Global theming
-
-### Typescript
-
-### Inline components
-
-### Implicit Panes
-
-Wrapping components in `<Pane>` components
-
-### SSR Support
-
-### Collapsability
-
-Experimental
-
----
-
-## Differences
-
-Certain aspects of the Tweakpane API don't make a ton of sense in the Svelte context.
-
-- The [`container`](https://tweakpane.github.io/docs/misc/#container) [PaneConfig](https://tweakpane.github.io/docs/api/interfaces/_internal_.PaneConfig.html) option is not exposed, because correct placement in the containing DOM is managed by 'svelte-tweakpane-ui', and `<Pane position='inline' ...>` should be used where you'd like a pane to become part of the normal document flow.
-
-- The [`hidden`](https://tweakpane.github.io/docs/api/classes/Pane.html#hidden) / [visibility](https://tweakpane.github.io/docs/misc/#visibility) accessor is not exposed, because visibility a pane and its components may be managed directly in Svelte by adding / removing elements from the component template through `{#if}` conditionals and similar.
-
-- [index](https://tweakpane.github.io/docs/misc/#insert) is not exposed. The order of controls appearance matches their position in the component template.
-
-- Tab rename TODO
-
----
-
-## Plugins
-
-Tweakpane is enriched by a [wide array of third-party component plugins](TK). To keep these close at hand and to ensure plugin compatibility with Tweakpane version 4, this library includes a number of popular plugins right out of the box (while still allowing tree-shaking to keep the bundle size in check.)
-
-`svelte-tweakpane-ui` takes a slightly different approach to plugins than the underlying vanilla JS Tweakpane API. Instead of explicitly `npm` installing, importing, and then registering plugins on a `Pane` object, `svelte-tweakpane-ui` manages plugin import and registration automatically the first time they're used.
-
-From the user's perspective, they're just another component.
-
-Many of the most popular Tweakpane plugins are already bundled with `svelte-tweakpane-ui`, and have been "wrapped" according to the conventions of the library.
-
-To keep bundle size down, it's recommended to use [per-component imports](TK) when you're ready to go to production.
-
-### Bundled and integrated
-
-The following plugins are included with `svelte-tweakpane-ui`, and are ready to use out of the box:
-
-- [CameraKit](https://github.com/tweakpane/plugin-camerakit) `<Ring>`, `<Wheel>`
-- [Essentials](https://github.com/tweakpane/plugin-essentials) `<ButtonGrid>`, `<RadioGrid>`, `<CubicBezier>`, `<FpsGraph>`, `<Interval>`
-- [Image](https://github.com/kitschpatrol/tweakpane-image-plugin) `<Image>` _(forked from [ayamflow](https://github.com/ayamflow/tweakpane-image-plugin), [metehus](https://github.com/metehus/tweakpane-image-plugin), and [repalash](https://github.com/repalash/tweakpane-image-plugin) and ported to v4)\*_
-- [Profiler](https://github.com/0b5vr/tweakpane-plugin-profiler) `<Profiler>`
-- [Rotation](https://github.com/0b5vr/tweakpane-plugin-rotation) `<RotationQuaternion>`, `<RotationEuler>`
-- [Textarea](https://github.com/kitschpatrol/tweakpane-textarea-plugin) `<Textarea>` _(forked from [panGenerator](https://github.com/panGenerator/tweakpane-textarea-plugin) and ported to v4)\*_
-- [Waveform](https://github.com/kitschpatrol/tweakpane-plugin-waveform) `<Waveform>`
-
-_\*Tweakpane version 4 is a relatively recent release, and it introduced a number of breaking changes for plugin developers. I've ported the asterisked plugins above from Tweakpane 3 to Tweakpane 4, and and submitted PRs to the project owners. As soon as the PRs are merged, I will update the dependencies in `svelte-tweakpane-ui` to point to the source instead of my fork._
-
-### Plugin Candidates
-
-If you'd like to see additional Tweakpane plugins either integrated with `svelte-tweakpane-ui` or added to the list of candidates below, please open an [issue](https://github.com/kitschpatrol/svelte-tweakpane-ui/issues) or a pull request:
-
-- [tweakpane-plugin-thumbnail-list](https://github.com/kitschpatrol/tweakpane-plugin-thumbnail-list) (forked from [donmccurdy](https://github.com/donmccurdy/tweakpane-plugin-thumbnail-list) and ported to v4) 🎛️v4 ⭐️×26
-- [tweakpane-plugin-infodump](https://github.com/doersino/tweakpane-plugin-infodump) 🎛️v3 ⭐️×12
-- [tweakpane-plugin-chromatic](https://github.com/brunoimbrizi/tweakpane-plugin-chromatic) 🎛️v3 ⭐️×11
-- [tweakpane-table](https://github.com/amir-arad/tweakpane-table) 🎛️v3 ⭐️×6
-- [tweakpane-plugin-search-list](https://github.com/hirohe/tweakpane-plugin-search-list) 🎛️v3 ⭐️×6
-- [midi-control](https://github.com/mollerse/midi-control) 🎛️v3 ⭐️×4
-- [tweakpane-plugin-media](https://github.com/leochocolat/tweakpane-plugin-media) 🎛️v3 ⭐️×3
-- [tweakpane-plugin-file-import](https://github.com/LuchoTurtle/tweakpane-plugin-file-import) 🎛️v3 ⭐️×3
-- [tweakpane-plugin-audio-player](https://github.com/brunoimbrizi/tweakpane-plugin-audio-player) 🎛️v3 ⭐️×3
-- [tweakpane-plugin-grouplist](https://github.com/pierogis/tweakpane-plugin-grouplist) 🎛️v3 ⭐️×1
-- [tweakpane-media](https://github.com/vnvyvu/tweakpane-media) 🎛️v3 ⭐️×0
-- [tweakpane-multiple-select-plugin](https://github.com/IvanLi-CN/tweakpane-multiple-select-plugin) 🎛️v3 ⭐️×0
-
-Note that all of the above plugins target Tweakpane v3, and will need to be updated to work with Tweakpane v4 before they can be integrated with `svelte-tweakpane-ui`.
 
 ---
 

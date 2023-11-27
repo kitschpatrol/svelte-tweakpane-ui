@@ -1,0 +1,68 @@
+---
+title: Features
+description: A guide in my new Starlight docs site.
+---
+
+Introduction
+
+Tweakpane itself
+
+## Additions
+
+Implemented in the Svelte layer of the project.
+
+### Draggability
+
+### Additional Value Types
+
+Transparently handle
+
+Tuples (e.g. Point etc.)
+
+Objects (e.g. CubicBezier)
+
+Object lists
+
+### Scaling
+
+### Scoped theming
+
+### Global theming
+
+### Typescript
+
+### Element component
+
+### Inline components
+
+### Implicit Panes
+
+Wrapping components in `<Pane>` components
+
+### SSR Support _(experimental)_
+
+### Collapsability
+
+Experimental
+
+---
+
+## Differences
+
+Certain aspects of the Tweakpane API don't make a ton of sense in the Svelte context.
+
+### Containers
+
+- The [`container`](https://tweakpane.github.io/docs/misc/#container) [PaneConfig](https://tweakpane.github.io/docs/api/interfaces/_internal_.PaneConfig.html) option is not exposed, because correct placement in the containing DOM is managed by 'svelte-tweakpane-ui', and `<Pane position='inline' ...>` should be used where you'd like a pane to become part of the normal document flow.
+
+### Visibility
+
+- The [`hidden`](https://tweakpane.github.io/docs/api/classes/Pane.html#hidden) / [visibility](https://tweakpane.github.io/docs/misc/#visibility) accessor is not exposed, because visibility a pane and its components may be managed directly in Svelte by adding / removing elements from the component template through `{#if}` conditionals and similar.
+
+### Order
+
+- [index](https://tweakpane.github.io/docs/misc/#insert) is not exposed. The order of controls appearance matches their position in the component template.
+
+### Tab Rename
+
+- Tab rename TODO

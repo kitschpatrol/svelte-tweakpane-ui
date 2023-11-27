@@ -61,7 +61,7 @@
 <!--
 @component  
 
-A convenience component for embedding arbitrary HTML elements into a pane.
+A component for embedding arbitrary HTML elements into a pane.
 
 Any children wrapped in this component will be rendered into the pane. Any content larger than the
 pane in the horizontal axis will be clipped.

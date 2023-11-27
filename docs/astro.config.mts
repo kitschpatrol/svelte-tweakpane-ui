@@ -54,6 +54,14 @@ export default defineConfig({
 					link: '/docs/getting-started'
 				},
 				{
+					label: 'Features',
+					link: '/docs/features'
+				},
+				{
+					label: 'Plugins',
+					link: '/docs/plugins'
+				},
+				{
 					label: 'Themes',
 					link: '/docs/themes'
 				},

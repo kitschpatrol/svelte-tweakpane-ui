@@ -21,25 +21,25 @@ function nameifyEmail(name: string) {
 	return name;
 }
 
-
-type test = CollectionEntry<'acknowledgments'>;
 type LicenseEntry = CollectionEntry<'acknowledgments'>['data'][string][number];
 
 const { scope } = Astro.props;
 
-const data = 
-	(
-		await getCollection(
-			'acknowledgments',
-			(f) => scope === 'all' || f.id === `acknowledgments-${scope}`
-		)
+const data = (
+	await getCollection(
+		'acknowledgments',
+		(f) => scope === 'all' || f.id === `acknowledgments-${scope}`
 	)
+)
 	// each collection entry
 	.reduce((acc, collection) => {
-		return [...acc, ...Object.values(collection.data).reduce((acc, packages) => {
-			return [...acc, ...packages]
-		}, [] as LicenseEntry[])]
-	}, [] as LicenseEntry[])
+		return [
+			...acc,
+			...Object.values(collection.data).reduce((acc, packages) => {
+				return [...acc, ...packages];
+			}, [] as LicenseEntry[])
+		];
+	}, [] as LicenseEntry[]);
 
 // Get unique list of publisher names
 const names = data

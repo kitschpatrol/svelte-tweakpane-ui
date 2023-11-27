@@ -11,6 +11,7 @@ export { default as TabPage } from '$lib/core/TabPage.svelte';
 
 // extra (svelte convenience components)
 export { default as AutoObject } from '$lib/extra/AutoObject.svelte';
+export { default as AutoValue } from '$lib/extra/AutoValue.svelte';
 export { default as Checkbox } from '$lib/extra/Checkbox.svelte';
 export {
 	type ColorValue,

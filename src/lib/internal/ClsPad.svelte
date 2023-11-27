@@ -2,8 +2,19 @@
 	import { type Theme, getValueOrFallback } from '$lib/theme.js';
 	import { DEV } from 'esm-env';
 
+	/**
+	 * The theme to use when estimating the height of the pane.
+	 */
 	export let theme: Theme | undefined = undefined;
+
+	/**
+	 * Theme keys to add to the height estimate.
+	 */
 	export let keysAdd: Parameters<typeof getValueOrFallback>[1][] = [];
+
+	/**
+	 * Theme keys to subtract from the height estimate.
+	 */
 	export let keysSubtract: Parameters<typeof getValueOrFallback>[1][] = [];
 
 	/**

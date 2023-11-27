@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {
+		AutoValue,
 		Button,
 		Checkbox,
 		Color,
@@ -216,14 +217,28 @@
 	}
 
 	let scale = 1;
+	let value = 0;
+	let valueP = '#ff0000';
 </script>
 
+<AutoValue bind:value label="Yes" />
+<AutoValue bind:value={valueP} />
+{value}
+<hr />
 <Button label="Count" title="Increment" />
 <h2>Hi</h2>
 <div bind:this={paneRef}>
 	<!-- {#if mounted} -->
 	<div transition:fade={{ duration: 1500 }}>
-		<Pane expanded={false} position="inline" {scale} {theme} title={`<Pane> ${text}`} {width}>
+		<Pane
+			expanded={true}
+			position="inline"
+			{scale}
+			{theme}
+			title={`<Pane> ${text}`}
+			userExpandable={true}
+			{width}
+		>
 			<!-- <Slider bind:value={scale} min={0} max={2} /> -->
 			<Text bind:value={text} label="<Text> Title" />
 			<Checkbox bind:value={playing} label="<Checkbox> Play" />
