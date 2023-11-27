@@ -23,7 +23,8 @@ export default defineConfig({
 				Head: './src/components/docs/CustomHead.astro',
 				MarkdownContent: './src/components/docs/CustomMarkdownContent.astro',
 				PageTitle: './src/components/docs/CustomPageTitle.astro',
-				TableOfContents: './src/components/docs/CustomTableOfContents.astro'
+				TableOfContents: './src/components/docs/CustomTableOfContents.astro',
+				ThemeSelect: './src/components/overrides/ThemeSelect.astro'
 			},
 			customCss: ['./src/style.css'],
 			description: 'A Svelte Tweakpane UI component library.',
