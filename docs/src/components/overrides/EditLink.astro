@@ -1,7 +1,7 @@
 ---
 // Adds sibling to Edit Component
 // Simper than overriding entire Footer
-import Default from '@astrojs/starlight/components/EditLink.astro';
+import StarlightEditLink from '@astrojs/starlight/components/EditLink.astro';
 import type { Props } from '@astrojs/starlight/props';
 import { Icon } from '@astrojs/starlight/components';
 
@@ -9,7 +9,7 @@ import { Icon } from '@astrojs/starlight/components';
 const { sourceUrl } = Astro.props.entry.data;
 ---
 
-<Default {...Astro.props} />
+<StarlightEditLink {...Astro.props} />
 {
 	sourceUrl && (
 		<a href={sourceUrl} class="sl-flex">

@@ -1,6 +1,6 @@
 ---
 import type { Props } from '@astrojs/starlight/props';
-import Default from '@astrojs/starlight/components/PageTitle.astro';
+import StarlightPageTitle from '@astrojs/starlight/components/PageTitle.astro';
 import { capitalize } from 'lodash-es';
 
 const { componentData } = Astro.props.entry.data;
@@ -14,7 +14,7 @@ const { componentData } = Astro.props.entry.data;
 	)
 }
 
-<Default {...Astro.props} />
+<StarlightPageTitle {...Astro.props} />
 
 <style>
 	strong {

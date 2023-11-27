@@ -1,7 +1,7 @@
 ---
 import type { Props } from '@astrojs/starlight/props';
 import { slug } from 'github-slugger';
-import Default from '@astrojs/starlight/components/TableOfContents.astro';
+import StarlightTableOfContents from '@astrojs/starlight/components/TableOfContents.astro';
 import { allProps } from '../../utils/prop-utils';
 
 const { componentData } = Astro.props.entry.data;
@@ -40,4 +40,4 @@ if (componentData && localProps.toc) {
 }
 ---
 
-<Default {...Astro.props} />
+<StarlightTableOfContents {...Astro.props} />

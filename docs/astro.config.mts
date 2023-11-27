@@ -19,11 +19,11 @@ export default defineConfig({
 		// https://starlight.astro.build/reference/configuration/
 		starlight({
 			components: {
-				EditLink: './src/components/docs/CustomEditLink.astro',
-				Head: './src/components/docs/CustomHead.astro',
-				MarkdownContent: './src/components/docs/CustomMarkdownContent.astro',
-				PageTitle: './src/components/docs/CustomPageTitle.astro',
-				TableOfContents: './src/components/docs/CustomTableOfContents.astro',
+				EditLink: './src/components/overrides/EditLink.astro',
+				Head: './src/components/overrides/Head.astro',
+				MarkdownContent: './src/components/overrides/MarkdownContent.astro',
+				PageTitle: './src/components/overrides/PageTitle.astro',
+				TableOfContents: './src/components/overrides/TableOfContents.astro',
 				ThemeSelect: './src/components/overrides/ThemeSelect.astro'
 			},
 			customCss: ['./src/style.css'],
