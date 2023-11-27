@@ -1,18 +1,19 @@
 import { docsSchema, i18nSchema } from "@astrojs/starlight/schema";
 import { defineCollection, z } from "astro:content";
 
-// acknowledgments schema
-// as delivered from license-checker-rseidelsohn
+// acknowledgments schema as delivered from pnpm
+// license-checker-rseidelsohn is a good pnpm-agnostic alternative,
+// but it has a slightly different schema
 const acknowledgmentsSchema = z.record(
-  z.object({
-    email: z.string().min(1).optional(), // not all valid emails
-    licenseFile: z.string().min(1).optional(),
-    licenses: z.string().min(1),
+  z.array(z.object({
+    author: z.string().optional(),
+    description: z.string().optional(),
+    homepage: z.string().optional(),
+    license: z.string().min(1),
+    name: z.string().min(1),
     path: z.string().min(1),
-    publisher: z.string().min(1).optional(),
-    repository: z.string().min(1).optional(), // not always valid URLs...
-    url: z.string().min(1).optional(), // not all valid URLs
-  }),
+    version: z.string().min(1),
+  })),
 );
 
 // component documentation schema

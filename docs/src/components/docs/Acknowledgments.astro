@@ -14,30 +14,40 @@ function titleCase(str: string) {
 		.join(' ');
 }
 
-type LicenseEntry = CollectionEntry<'acknowledgments'>['data'];
+function nameifyEmail(name: string) {
+	if (name.includes('@')) {
+		return name.split('@')[0].replace(/[_-]/g, ' ');
+	}
+	return name;
+}
+
+
+type test = CollectionEntry<'acknowledgments'>;
+type LicenseEntry = CollectionEntry<'acknowledgments'>['data'][string][number];
 
 const { scope } = Astro.props;
 
-const data = Object.entries(
+const data = 
 	(
 		await getCollection(
 			'acknowledgments',
 			(f) => scope === 'all' || f.id === `acknowledgments-${scope}`
 		)
-	).reduce((acc, entry) => {
-		return { ...acc, ...entry.data };
-	}, {} as LicenseEntry)
-).map(([key, value]) => {
-	return { name: key, ...value };
-});
+	)
+	// each collection entry
+	.reduce((acc, collection) => {
+		return [...acc, ...Object.values(collection.data).reduce((acc, packages) => {
+			return [...acc, ...packages]
+		}, [] as LicenseEntry[])]
+	}, [] as LicenseEntry[])
 
 // Get unique list of publisher names
 const names = data
-	.reduce((acc: string[], { publisher }) => {
-		if (publisher) {
+	.reduce((acc: string[], { author }) => {
+		if (author) {
 			// Split compound comma-delimited publishers as needed
-			publisher.split(',').forEach((subItem) => {
-				const subPublisher = titleCase(subItem.trim());
+			author.split(',').forEach((subItem) => {
+				const subPublisher = titleCase(nameifyEmail(subItem.trim()));
 				if (subPublisher && !acc.includes(subPublisher)) {
 					acc.push(subPublisher);
 				}
