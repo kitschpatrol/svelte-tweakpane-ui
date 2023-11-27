@@ -1,13 +1,14 @@
 import { componentMenu } from './src/utils/config-helpers';
 import starlight from '@astrojs/starlight';
 import svelte from '@astrojs/svelte';
+import compress from 'astro-compress';
 import { defineConfig } from 'astro/config';
-
 process.env.BROWSER = 'chromium';
 
 // https://astro.build/config
 export default defineConfig({
 	base: '/svelte-tweakpane-ui/',
+	compressHTML: false, // handled via astro-compress
 	// experimental: {
 	//   devOverlay: true,
 	// },
@@ -39,6 +40,7 @@ export default defineConfig({
 				}
 				// themes: ['github-dark', 'github-light']
 			},
+
 			lastUpdated: true,
 			// logo: {
 			// 	dark: './src/assets/svelte-tweakpane-ui-logo-dark.svg',
@@ -81,7 +83,14 @@ export default defineConfig({
 			},
 			title: 'Svelte Tweakpane UI'
 		}),
-		svelte()
+		svelte(),
+		compress({
+			CSS: true,
+			HTML: true,
+			Image: false,
+			JavaScript: true,
+			SVG: true
+		})
 	],
 	server: {
 		open: true
