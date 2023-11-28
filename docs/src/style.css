@@ -67,14 +67,35 @@ a.site-title::before {
 	background-clip: text;
 }
 
+/* TOC code headings */
+mobile-starlight-toc a[href='#props'] + ul li a,
+mobile-starlight-toc a[href='#slots'] + ul li a,
+mobile-starlight-toc a[href='#events'] + ul li a,
+starlight-toc a[href='#props'] + ul li a,
+starlight-toc a[href='#slots'] + ul li a,
+starlight-toc a[href='#events'] + ul li a {
+	font-family: var(--sl-font-system-mono);
+}
+
+/* sidebar and toc */
+nav ul li a[aria-current='true'],
+nav ul li a[aria-current='page'] {
+	color: white;
+	background: var(--st-gradient-alpha);
+	transition: background-color 0.25s ease; /* Transition defined here */
+}
+
 /* Heading anchors */
 
 .heading-anchor-wrapper {
 	position: relative;
+	display: flex;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .heading-anchor-wrapper a {
 	position: absolute;
+	/* z-index: 10; */
 	top: 0;
 	left: 0;
 	transform: translateX(-100%);
@@ -97,22 +118,42 @@ a.site-title::before {
 	transition: opacity 0s ease;
 }
 
-/* TOC code headings */
-mobile-starlight-toc a[href='#props'] + ul li a,
-mobile-starlight-toc a[href='#slots'] + ul li a,
-mobile-starlight-toc a[href='#events'] + ul li a,
-starlight-toc a[href='#props'] + ul li a,
-starlight-toc a[href='#slots'] + ul li a,
-starlight-toc a[href='#events'] + ul li a {
-	font-family: var(--sl-font-system-mono);
+/* special case to push anchor outside table on prop links */
+/* stylelint-disable-next-line no-descending-specificity */
+table .heading-anchor-wrapper a {
+	justify-items: left;
+	aspect-ratio: 2;
 }
 
-/* sidebar and toc */
-nav ul li a[aria-current='true'],
-nav ul li a[aria-current='page'] {
-	color: white;
-	background: var(--st-gradient-alpha);
-	transition: background-color 0.25s ease; /* Transition defined here */
+table .heading-anchor-wrapper a span {
+	margin-left: 20%;
+}
+
+/* to the right if narrow */
+@media (width <= 92rem) {
+	.heading-anchor-wrapper {
+		display: grid;
+		grid-template-columns: auto auto;
+		justify-content: flex-start;
+	}
+
+	.heading-anchor-wrapper a {
+		position: unset;
+		transform: unset;
+		aspect-ratio: 1;
+		width: 170%;
+	}
+
+	table .heading-anchor-wrapper a {
+		aspect-ratio: unset;
+	}
+
+	table .heading-anchor-wrapper a span {
+		aspect-ratio: 1;
+		margin-top: -0.5em;
+		margin-bottom: -0.5em;
+		margin-left: 0s;
+	}
 }
 
 nav ul li a[aria-current='true']:hover,

@@ -75,7 +75,9 @@ const externalLinkAnnotator = defineDomTransformMiddleware((document, context) =
 	const localHostname = 'localhost';
 	const { hostname: ourHostname } = context.site ?? { hostname: '' };
 	// not on hero pages
-	document.querySelectorAll('html:not([data-has-hero]) a').forEach((element) => {
+	(
+		document.querySelectorAll('html:not([data-has-hero]) a') as NodeListOf<HTMLAnchorElement>
+	).forEach((element) => {
 		try {
 			const { hostname } = new URL(element.href);
 			if (hostname !== ourHostname && hostname !== localHostname && hostname !== '') {
@@ -124,7 +126,7 @@ const automaticPropLinks = defineDomTransformMiddleware((document, context) => {
 	}
 });
 
-const addLinkPrefix = defineDomTransformMiddleware((document, context) => {
+const addLinkPrefix = defineDomTransformMiddleware((document) => {
 	['href', 'src'].forEach((attribute) => {
 		document.querySelectorAll(`[${attribute}]`).forEach((element) => {
 			const attr = element.getAttribute(attribute);
