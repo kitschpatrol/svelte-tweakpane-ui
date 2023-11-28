@@ -9,17 +9,15 @@ const { BASE_URL } = import.meta.env;
 
 type APIContext = Parameters<MiddlewareEndpointHandler>[0];
 
-async function getComponentLinks(): Promise<Record<string, string>> {
-	return (await getCollection('docs')).reduce(
-		(acc, component) => {
-			if (component.data.componentData !== undefined) {
-				acc[component.data.componentData.name] = `${component.slug}`;
-			}
-			return acc;
-		},
-		{} as Record<string, string>
-	);
-}
+const componentLinks = (await getCollection('docs')).reduce(
+	(acc, component) => {
+		if (component.data.componentData !== undefined) {
+			acc[component.data.componentData.name] = `${component.slug}`;
+		}
+		return acc;
+	},
+	{} as Record<string, string>
+);
 
 function stripTrailingSlash(string: string): string {
 	if (string.endsWith('/')) {
@@ -27,8 +25,6 @@ function stripTrailingSlash(string: string): string {
 	}
 	return string;
 }
-
-const componentLinks = await getComponentLinks();
 
 // helper for dom transformations
 // document is mutated
@@ -66,7 +62,7 @@ function linkifyTerms(node: Node, termDictionary: { [key: string]: string }, bas
 			const link = node.ownerDocument.createElement('a');
 			// todo use Astro path functions...
 
-			link.href = `${base}/${termDictionary[text]}`;
+			link.href = `${base.length > 0 ? base + '/' : ''}${termDictionary[text]}`;
 
 			// wrap the node in the link
 			node.parentNode.insertBefore(link, node);
@@ -116,14 +112,14 @@ const automaticPropLinks = defineDomTransformMiddleware((document, context) => {
 
 		const propLinks = props.reduce(
 			(acc, prop) => {
-				acc[prop.name] = `${context.props.slug}#${slug(prop.name)}`;
+				acc[prop.name] = `#${slug(prop.name)}`;
 				return acc;
 			},
 			{} as Record<string, string>
 		);
 
 		[...document.getElementsByTagName('code')].forEach((element) => {
-			linkifyTerms(element, propLinks, BASE_URL);
+			linkifyTerms(element, propLinks);
 		});
 	}
 });
@@ -165,10 +161,44 @@ const stripLinkSuffix = defineDomTransformMiddleware((document, context) => {
 	}
 });
 
+// add heading anchor links (VuePress style)
+const addHeadingAnchorLinks = defineDomTransformMiddleware((document) => {
+	const tocLinks = [...document.querySelectorAll('starlight-toc nav a')] as HTMLAnchorElement[];
+	const headings = tocLinks.map((link) => {
+		const id = link.getAttribute('href')?.slice(1);
+		return document.getElementById(id || '');
+	}) as HTMLHeadingElement[];
+
+	headings.forEach((heading) => {
+		// skip h1
+		if (heading.nodeName !== 'H1') {
+			// create anchor link
+			const link = heading.ownerDocument.createElement('a');
+			link.href = `#${heading.id}`;
+
+			const span = heading.ownerDocument.createElement('span');
+			span.ariaHidden = 'true';
+			span.className = 'anchor-icon';
+			span.innerHTML = '🔗';
+
+			link.appendChild(span);
+
+			const wrapper = heading.ownerDocument.createElement('div');
+			wrapper.className = 'heading-anchor-wrapper';
+
+			// wrap the heading and link in a div
+			heading.parentNode?.insertBefore(wrapper, heading);
+			wrapper.appendChild(heading);
+			wrapper.appendChild(link);
+		}
+	});
+});
+
 export const onRequest = sequence(
 	externalLinkAnnotator,
 	automaticComponentLinks,
 	automaticPropLinks,
+	addHeadingAnchorLinks,
 	addLinkPrefix,
 	stripLinkSuffix
 );

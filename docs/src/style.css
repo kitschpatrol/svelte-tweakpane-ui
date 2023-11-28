@@ -67,6 +67,36 @@ a.site-title::before {
 	background-clip: text;
 }
 
+/* Heading anchors */
+
+.heading-anchor-wrapper {
+	position: relative;
+}
+
+.heading-anchor-wrapper a {
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform: translateX(-100%);
+	display: grid;
+	place-items: center;
+	aspect-ratio: 1;
+	height: 100%;
+	text-decoration: none;
+	opacity: 0;
+	transition: opacity 0.25s ease;
+}
+
+.heading-anchor-wrapper:hover a {
+	opacity: 0.5;
+	transition: opacity 0s ease;
+}
+
+.heading-anchor-wrapper a:hover {
+	opacity: 1;
+	transition: opacity 0s ease;
+}
+
 /* TOC code headings */
 mobile-starlight-toc a[href='#props'] + ul li a,
 mobile-starlight-toc a[href='#slots'] + ul li a,
