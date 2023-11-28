@@ -129,6 +129,8 @@
 		console.warn('<Panes> must not be nested');
 	}
 
+	let _expanded = expanded;
+
 	if (BROWSER) {
 		$parentStore = new TpPane({ expanded, title });
 
@@ -136,7 +138,7 @@
 		// registration via the registerPlugin context function
 
 		$parentStore.on('fold', () => {
-			expanded = $parentStore.expanded;
+			_expanded = $parentStore.expanded;
 		});
 
 		paneRef = $parentStore;
@@ -168,14 +170,21 @@
 		}
 	}
 
-	$: BROWSER && paneRef && setScale(scale);
+	function syncFolded() {
+		if (paneRef) {
+			paneRef.expanded = _expanded;
+		}
+		expanded = _expanded;
+	}
 
+	$: BROWSER && paneRef && setScale(scale);
 	$: BROWSER &&
 		paneRef &&
 		updateCollapsibility(userExpandable, paneRef.element, 'tp-rotv_b', 'tp-rotv_m');
 	$: BROWSER && paneRef && title && (paneRef.title = title);
 	$: BROWSER && paneRef && applyTheme(paneRef.element, theme);
-	$: BROWSER && paneRef && expanded !== undefined && (paneRef.expanded = expanded);
+	$: _expanded, BROWSER && paneRef && syncFolded();
+	$: BROWSER && paneRef && (_expanded = expanded);
 </script>
 
 <!--
