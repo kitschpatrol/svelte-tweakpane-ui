@@ -1,40 +1,42 @@
 ---
-import StarlightThemeSelect from '@astrojs/starlight/components/ThemeSelect.astro'
-import type { Props } from '@astrojs/starlight/props'
+import StarlightThemeSelect from '@astrojs/starlight/components/ThemeSelect.astro';
+import type { Props } from '@astrojs/starlight/props';
 
 const { BASE_URL } = import.meta.env;
 
 // Pulled from https://github.com/HiDeoo/starlight-blog/blob/main/packages/starlight-blog/overrides/ThemeSelect.astro
 ---
 
-{/* Only show documentaiton link on home page */}
-{Astro.props.slug === '' && (
-  <div>
-    <a href=`${BASE_URL}/docs`>Documentation</a>
-  </div>
-)}
+{/* Only show documentation link on home page */}
+{
+	Astro.props.slug === '' && (
+		<div>
+			<a href={BASE_URL + '/docs'}>Documentation</a>
+		</div>
+	)
+}
 <StarlightThemeSelect {...Astro.props}>
-  <slot />
+	<slot />
 </StarlightThemeSelect>
 
 <style>
-  div {
-    border-inline-end: 1px solid var(--sl-color-gray-5);
-    display: none;
-    height: 2rem;
-    padding-inline-end: 1rem;
-  }
+	div {
+		border-inline-end: 1px solid var(--sl-color-gray-5);
+		display: none;
+		height: 2rem;
+		padding-inline-end: 1rem;
+	}
 
-  @media (min-width: 50rem) {
-    div {
-      align-items: center;
-      display: flex;
-    }
-  }
+	@media (min-width: 50rem) {
+		div {
+			align-items: center;
+			display: flex;
+		}
+	}
 
-  a {
-    color: var(--sl-color-text-accent);
-    font-weight: 600;
-    text-decoration: none;
-  }
+	a {
+		color: var(--sl-color-text-accent);
+		font-weight: 600;
+		text-decoration: none;
+	}
 </style>

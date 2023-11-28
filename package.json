@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/kitschpatrol/svelte-tweakpane-ui"
   },
-  "homepage": "https://github.com/kitschpatrol/svelte-tweakpane-ui",
+  "homepage": "https:///kitschpatrol.com/svelte-tweakpane-ui",
   "bugs": {
     "url": "https://github.com/kitschpatrol/svelte-tweakpane-ui/issues",
     "email": "eric@ericmika.com"
@@ -182,15 +182,17 @@
   "scripts": {
     "build": "run-s --print-label build:*",
     "build:01-sync": "pnpm run check",
-    "build:02-generate-exports": "tsx ./scripts/generate-exports.ts",
+    "build:02-exports": "tsx ./scripts/generate-exports.ts",
     "build:03-add-source-links": "tsx ./scripts/add-source-links.ts",
     "build:04-format": "pnpm run format",
     "build:05-package": "svelte-package && publint",
     "build:06-heal-dts-comments": "tsx ./scripts/heal-dts-comments.ts",
     "build:07-strip-component-docs": "tsx ./scripts/strip-component-docs.ts",
     "build:08-format-library": "prettier --ignore-path --plugin prettier-plugin-svelte --write ./dist",
-    "build:09-generate-doc-data": "tsx ./scripts/generate-doc-data.ts && tsx ./scripts/generate-example-components.ts && run-s --print-label generate-acknowledgments-data:*",
-    "build:10-build-docs": "pnpm run docs-build",
+    "build:09-doc-data": "tsx ./scripts/generate-doc-data.ts",
+    "build:10-examples": "tsx ./scripts/generate-example-components.ts",
+    "build:11-acknowledgments-data": "mkdir -p ./docs/src/content/acknowledgments && pnpm licenses list --json > ./docs/src/content/acknowledgments/acknowledgments-lib.json",
+    "build:12-build-docs": "pnpm run docs-build",
     "check": "svelte-kit sync && svelte-check --ignore ./scratch --tsconfig ./tsconfig.json",
     "check-watch": "svelte-kit sync && svelte-check --ignore ./scratch --tsconfig ./tsconfig.json --watch",
     "clean": "git clean -fdX",
@@ -199,21 +201,18 @@
     "docs-preview": "pnpm -C ./docs run preview",
     "format": "run-s --print-label format:*",
     "format:1-wrap-comments": "rewrap -i --column 100 `find src -name '*.svelte' -o -name '*.ts'  -o -name '*.html' | grep -v src/lib-docs/generated`",
-    "format:2-eslint": "eslint --fix ./src ./scripts",
+    "format:2-eslint": "eslint --fix ./src ./scripts ./docs/src",
     "format:3-stylelint": "stylelint --fix './src/**/*.{css,svelte,html}'",
-    "format:4-prettier": "prettier --plugin prettier-plugin-svelte --write ./src ./scripts",
+    "format:4-prettier": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-astro --write .",
     "format:5-embedded": "tsx ./scripts/format-embedded-code.ts",
-    "generate-acknowledgments-data": "run-p --print-label generate-acknowledgments-data:*",
-    "generate-acknowledgments-data:docs": "mkdir -p ./docs/src/content/acknowledgments && pnpm licenses list --json > ./docs/src/content/acknowledgments/acknowledgments-lib.json",
-    "generate-acknowledgments-data:lib": "pnpm -C ./docs run generate-acknowledgments-data",
     "kit-build": "pnpm run kit-examples && vite build",
     "kit-dev": " pnpm run kit-examples && vite dev",
     "kit-examples": "tsx ./scripts/generate-kit-examples.ts",
     "kit-preview": "vite preview",
     "lint": "run-p --print-label lint:*",
-    "lint:eslint": "eslint .",
+    "lint:eslint": "eslint ./src ./scripts ./docs/src",
     "lint:markdown": "markdownlint **/*.{md,mdx} --ignore node_modules",
-    "lint:prettier": "prettier --plugin prettier-plugin-svelte --check .",
+    "lint:prettier": "prettier --plugin=prettier-plugin-svelte --plugin=prettier-plugin-astro --check .",
     "lint:spelling": "cspell --quiet .",
     "lint:stylelint": "stylelint './src/**/*.{css,svelte,html}'",
     "lint:typescript": "tsc --noEmit",
@@ -245,12 +244,12 @@
     "@sveltejs/package": "^2.2.3",
     "@types/eslint": "^8.44.7",
     "@types/node": "^20.10.0",
-    "@typescript-eslint/eslint-plugin": "^6.12.0",
-    "@typescript-eslint/parser": "^6.12.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/parser": "^6.13.1",
     "cspell": "^8.0.0",
     "eslint": "^8.54.0",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-perfectionist": "^2.4.2",
+    "eslint-plugin-perfectionist": "^2.5.0",
     "eslint-plugin-svelte": "^2.35.1",
     "glob": "^10.3.10",
     "markdownlint": "^0.32.1",
@@ -272,14 +271,14 @@
     "svelte2tsx": "^0.6.27",
     "ts-morph": "^20.0.0",
     "tslib": "^2.6.2",
-    "tsx": "^4.5.0",
+    "tsx": "^4.6.0",
     "typescript": "^5.3.2",
     "vite": "^4.5.0",
     "yaml": "^2.3.4"
   },
   "pnpm": {
     "patchedDependencies": {
-      "@astrojs/starlight@0.13.0": "patches/@astrojs__starlight@0.13.0.patch"
+      "@astrojs/starlight@0.13.1": "patches/@astrojs__starlight@0.13.1.patch"
     }
   }
 }

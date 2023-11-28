@@ -12,8 +12,8 @@ import ComponentCount from '../../../components/docs/ComponentCount.astro';
 
 `<Test>`
 
-```
-<Test>
+```html
+<Test></Test>
 ```
 
 Svelte 4
@@ -25,7 +25,7 @@ The components should be useful for quickly integrating controls and value monit
 
 Tweakpane represents many years of development effort by [Hiroki Kokubun](https://cocopon.me). The library's visual design offers a highly legible aesthetic, and its implementation provides fine specimens of many controls that are often a bit clunky in general-purpose component libraries.
 
-Please see the [acknowledgements](./docs/acknowledgments) for a list of contributors to the underlying projects.
+Please see the [acknowledgements](/docs/acknowledgments) for a list of contributors to the underlying projects.
 
 ---
 
@@ -69,7 +69,7 @@ These more specific components trade some flexibility for ease of use, but if yo
 
 ### Let Svelte bind
 
-Vanilla Tweakpane conveniently provides two-way bindings for manipulating object properties, but `svelte-tweakpane-ui` leaves binding up to the user via [Svelte's conventional approach](TK). This makes bindings explicit, and allows most components to function either as monitors or inputs depending on whether their value property is bound.
+Vanilla Tweakpane conveniently provides two-way bindings for manipulating object properties, but `svelte-tweakpane-ui` leaves binding up to the user via [Svelte's conventional approach](https://example.com/TODO). This makes bindings explicit, and allows most components to function either as monitors or inputs depending on whether their value property is bound.
 
 Note that unlike vanilla Tweakpane, no explicit Plugin module import or registration is required in 'svelte-tweakpane-ui'.
 

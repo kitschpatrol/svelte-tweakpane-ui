@@ -177,7 +177,6 @@
 			return (headingUp[index] ? mappedValue : Math.PI - mappedValue) - time - offsetAngle[index];
 		}) as PointValue4dTuple;
 	}
-
 </script>
 
 <Pane

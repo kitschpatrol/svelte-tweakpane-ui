@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { capitalize } from './string-utils.ts';
 import { slug } from 'github-slugger';
 import { globSync } from 'glob';
 import matter from 'gray-matter';
-import { capitalize } from 'lodash-es';
 
 // create custom sidebar which nests differently from directory structure
 // can't seem to fish the menu type out of astro's public exports
@@ -18,6 +18,8 @@ export function componentMenu(
 		label
 	};
 
+	// would prefer to use 'astro:content' here, but there's a chicken / egg problem
+	// since astro:content depends on the config to know where to look for content
 	globSync('src/content/docs/docs/components/*.mdx').map((file) => {
 		const { data } = matter.read(file);
 
@@ -40,7 +42,7 @@ export function componentMenu(
 		});
 
 		currentMenu.items?.unshift({
-			label: data.componentData?.name,
+			label: data.title,
 			link: `/docs/components/${slug(data.componentData?.name)}`
 		});
 	});

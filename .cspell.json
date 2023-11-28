@@ -13,11 +13,13 @@
     "camerakit",
     "cameraring",
     "camerawheel",
+    "colspan",
     "crossorigin",
     "cubicbezier",
     "discoverability",
     "Dmitriy",
     "donmccurdy",
+    "Draggability",
     "Fira",
     "Florian",
     "fontsource",
@@ -51,17 +53,22 @@
     "Palash",
     "phenomnomnominal",
     "radiogrid",
+    "repalash",
     "resizability",
+    "rgba",
     "Roboto",
     "rseidelsohn",
     "Schödler",
     "shoedler",
+    "STUI",
     "stylelint",
     "stylelintrc",
     "svelteness",
     "Sveltepress",
     "tbody",
     "thead",
+    "hashchange",
+    "FOUSC",
     "Threlte",
     "tsconfigs",
     "tsquery",
@@ -70,14 +77,9 @@
     "wght"
   ],
   "language": "en,en-US",
-  "ignorePaths": [
-    "package.json",
-    "*.svg"
-  ],
-  "ignoreRegExpList": [
-    "tp-.+",
-    "tweakpane-plugin-.+"
-  ],
+  "ignorePaths": ["package.json", "pnpm-lock.yaml", "*.svg"],
+  "ignoreRegExpList": ["tp-.+", "tweakpane-plugin-.+"],
   "useGitignore": true,
-  "enabled": true
+  "enabled": true,
+  "enableFiletypes": ["astro", "svelte", "mdx", "patch"]
 }

@@ -14,7 +14,7 @@ function titleCase(str: string) {
 		.join(' ');
 }
 
-function nameifyEmail(name: string) {
+function getNameFromEmail(name: string) {
 	if (name.includes('@')) {
 		return name.split('@')[0].replace(/[_-]/g, ' ');
 	}
@@ -47,7 +47,7 @@ const names = data
 		if (author) {
 			// Split compound comma-delimited publishers as needed
 			author.split(',').forEach((subItem) => {
-				const subPublisher = titleCase(nameifyEmail(subItem.trim()));
+				const subPublisher = titleCase(getNameFromEmail(subItem.trim()));
 				if (subPublisher && !acc.includes(subPublisher)) {
 					acc.push(subPublisher);
 				}

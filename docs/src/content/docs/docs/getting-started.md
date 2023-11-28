@@ -93,7 +93,7 @@ And that's it, you'll notice a few things right away if you're familiar with Twe
 
 - _**The button is in the regular page flow, not fixed in the top-right corner?**_
 
-  By default, `svelte-tweakpane-ui` components are added to the document flow, which makes them easy to integrate with your existing UI and to manipulate with Svelte's templating syntax. You can change this by wrapping your components in a [`<Pane>`](/components/pane) component and setting the `position` prop to `'draggable'` or `'fixed'`.
+  By default, `svelte-tweakpane-ui` components are added to the document flow, which makes them easy to integrate with your existing UI and to manipulate with Svelte's template syntax. You can change this by wrapping your components in a [`<Pane>`](/components/pane) component and setting the `position` prop to `'draggable'` or `'fixed'`.
 
 - _**I didn't have to create a pane around the `Button`?**_
 

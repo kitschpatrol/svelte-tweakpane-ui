@@ -68,7 +68,7 @@
 	}, 1000);
 
 	let rev: RotationEulerValueObject = { x: 0, y: 0, z: 0 };
-	let revq: RotationQuaternionValueObject = { x: 0, y: 0, z: 0, w: 0 };
+	let rev2: RotationQuaternionValueObject = { x: 0, y: 0, z: 0, w: 0 };
 	let text2 = '';
 	let object = {
 		someBoolean: true, // Creates a <Checkbox>
@@ -130,11 +130,7 @@
 		['magenta', 'orange'],
 		['yellow', 'red'],
 		['violet', 'gold'],
-		['red', 'rebeccapurple'],
-		['sadf', 'orange'],
-		['asdff', 'red'],
-		['asdf', 'gold'],
-		['asdfasdf', 'rebeccapurple']
+		['red', 'rebeccapurple']
 	];
 
 	let src = 'placeholder';
@@ -206,10 +202,10 @@
 
 <h1>Rotation</h1>
 
-<RotationQuaternion bind:value={revq} expanded={true} label="CSS Rotation" picker={'inline'} />
+<RotationQuaternion bind:value={rev2} expanded={true} label="CSS Rotation" picker={'inline'} />
 <h1>Rotation</h1>
 
-<RotationQuaternion bind:value={revq} expanded={true} picker={'inline'} />
+<RotationQuaternion bind:value={rev2} expanded={true} picker={'inline'} />
 <h1>Rotation</h1>
 
 <RotationEuler bind:value={rev} expanded={true} label="CSS Rotation" picker={'inline'} />

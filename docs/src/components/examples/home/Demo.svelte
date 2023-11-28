@@ -28,7 +28,7 @@
 	const themeDataKey = 'data-theme';
 	let astroTheme: 'dark' | 'light';
 	let paneRef: HTMLDivElement;
-	let mounted = false;
+	// let mounted = false;
 
 	onMount(() => {
 		// set up frame loop
@@ -75,7 +75,7 @@
 			attributes: true
 		});
 
-		mounted = true;
+		// mounted = true;
 
 		return () => {
 			if (frameId !== undefined) {
@@ -123,7 +123,7 @@
 
 	// position in the grid... useful for transition delays
 	// eslint-disable-next-line svelte/valid-compile
-	export let i: number = 0;
+	// export let i: number = 0;
 
 	// constants
 	const themes = Object.keys(ThemeUtils.presets);

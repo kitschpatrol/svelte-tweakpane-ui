@@ -2,6 +2,11 @@
   "name": "svelte-tweakpane-ui-docs",
   "version": "1.0.0",
   "type": "module",
+  "author": {
+    "name": "Eric Mika",
+    "email": "eric@ericmika.com",
+    "url": "https://ericmika.com"
+  },
   "license": "MIT",
   "engines": {
     "node": ">=18.0.0",
@@ -9,42 +14,28 @@
   },
   "scripts": {
     "astro": "astro",
-    "build": "run-s --print-label build:*",
-    "build:0-astro": "pnpm run clean && astro check && astro build",
-    "build:1-trailing-slash-fix": "bash ./scripts/migrate-index.sh",
-    "clean": "rimraf .astro dist",
-    "dev": "astro dev",
-    "generate-acknowledgments-data": "mkdir -p ./src/content/acknowledgments && pnpm licenses list --json > ./src/content/acknowledgments/acknowledgments-docs.json",
+    "build": "run-s --print-label clean build:*",
+    "build:01-acknowledgments-data": "mkdir -p ./src/content/acknowledgments && pnpm licenses list --json > ./src/content/acknowledgments/acknowledgments-docs.json",
+    "build:02-astro": "astro sync && astro check && astro build",
+    "build:03-cloudflare-fix": "bash ./scripts/migrate-index.sh",
+    "check": "astro check",
+    "clean": "rm -rf .astro && rm -rf dist",
     "preview": "astro preview",
     "start": "astro dev"
   },
   "dependencies": {
     "@astrojs/check": "^0.3.1",
-    "@astrojs/starlight": "^0.13.0",
+    "@astrojs/starlight": "^0.13.1",
     "@astrojs/svelte": "^4.0.4",
-    "@types/lodash-es": "^4.17.12",
-    "astro": "^3.6.0",
+    "astro": "^3.6.3",
     "astro-compress": "^2.2.3",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
-    "lodash-es": "^4.17.21",
     "sharp": "^0.32.6",
-    "svelte": "^4.2.7",
-    "svelte-tweakpane-ui": "link:..",
-    "typescript": "^5.3.2"
+    "svelte-tweakpane-ui": "link:.."
   },
   "devDependencies": {
-    "@types/html-escaper": "^3.0.2",
-    "@types/jsdom": "^21.1.6",
-    "glob": "^10.3.10",
-    "html-escaper": "^3.0.3",
-    "jsdom": "^22.1.0",
     "linkedom": "^0.16.4",
-    "marked": "^10.0.0",
-    "npm-run-all": "^4.1.5",
-    "prettier-plugin-astro": "^0.12.2",
-    "prettier-plugin-pkg": "^0.18.0",
-    "rimraf": "^5.0.5",
-    "tsx": "^4.5.0"
+    "marked": "^10.0.0"
   }
 }

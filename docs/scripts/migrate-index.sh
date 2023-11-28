@@ -1,4 +1,4 @@
-# Fix Cloudflare 308 trailing comma redrect issue
+# Fix Cloudflare 308 trailing comma redirect issue
 # https://community.cloudflare.com/t/cloudflare-pages-get-rid-of-redundat-308-redirect/324582/29
 # https://electricui.com/blog/switching-to-cloudflare-pages#how-to-disable-the-trailing-slash-on-cloudflare-pages
 

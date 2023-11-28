@@ -6,8 +6,6 @@ interface Props {
 	scope?: string;
 }
 
-// const components = await Astro.glob(`/src/content/docs/docs/components/*.mdx`);
-
 const { scope } = Astro.props;
 
 const components = (await getCollection('docs')).filter((component: CollectionEntry<'docs'>) => {

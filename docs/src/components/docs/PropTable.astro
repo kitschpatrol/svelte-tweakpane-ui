@@ -94,7 +94,7 @@ const {
 			<table>
 				<tbody>
 					<tr>
-						<td colspan="2" class="propname">
+						<td colspan="2" class="prop-name">
 							<span class="prop-heading">
 								<Heading level={3} set:html={prop.name} />
 								<span class="flag-pill-group">
@@ -127,13 +127,12 @@ const {
 							<th>Conditions</th>
 							<td>
 								Available when
+								{/* set:text below works around prettier */}
 								{Object.values(conditionData[prop.name])
 									.map((value) => (
-										<code><!--
-										-->{Object.keys(value)[0]}="{Object.values(value)[0]}"<!--
-										--></code>
+										<code set:text={`${Object.keys(value)[0]}="${Object.values(value)[0]}"`} />
 									))
-									.reduce((prev, curr) => [prev, ' or ', curr])}
+									.reduce((prev, current) => [prev, ' or ', current])}
 							</td>
 						</tr>
 					)}
@@ -144,20 +143,15 @@ const {
 }
 
 <style>
-
-
-
-	
 	table {
 		table-layout: fixed;
 		margin-bottom: 4.5rem;
 		overflow: visible !important; /*for anchor links*/
 	}
-	
+
 	table tbody {
 		min-width: 100%;
 		display: table;
-		
 	}
 
 	tr {
@@ -177,7 +171,7 @@ const {
 		width: auto;
 	}
 
-	table td.propname :global(h3) {
+	table td.prop-name :global(h3) {
 		display: inline;
 		font-family: var(--sl-font-system-mono);
 		justify-self: flex-start;
@@ -229,8 +223,6 @@ const {
 		color: var(--sl-color-orange-high);
 		background: var(--sl-color-orange-low);
 	}
-
-
 
 	table th {
 		text-align: left;
