@@ -91,6 +91,7 @@ TK;
 - https://npm.io/package/svelte-doc-kit
 - https://jordimarimon.github.io/ts-ast-parser/
 - [Tutorial](https://blog.logrocket.com/build-your-own-component-library-svelte/)
+- https://github.com/understanding-astro/understanding-astro-book
 
 ## JSDoc Meanings
 

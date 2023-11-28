@@ -4,53 +4,14 @@ import { marked } from 'marked';
 import Heading from './Heading.astro';
 import PropTable from './PropTable.astro';
 import DynamicPropAdmonition from './DynamicPropAdmonition.md';
-import { slug } from 'github-slugger';
-import path from 'path';
-import { globSync } from 'glob';
 import ExampleWrapper from './ExampleWrapper.astro';
 import { allProps, allPropConditions, type ComponentData } from '../../utils/prop-utils';
-
-const { BASE_URL } = import.meta.env;
 
 interface Props {
 	componentData: ComponentData;
 }
 
-function linkifyComponentReferences(
-	str: string,
-	validComponentNames: string[],
-	base: string = '/',
-	markdownStyleLink: boolean = true
-): string {
-	return str.replaceAll(/(`?)<([A-Z]\w+)>(`?)/g, (match, prefix, name, postfix) => {
-		if (validComponentNames.length > 0 && validComponentNames.includes(name)) {
-			// Replace with link
-			if (markdownStyleLink) {
-				return `[${prefix ?? ''}<${name}>${postfix ?? ''}](${base}/docs/components/${slug(name)})`;
-			} else {
-				return `${prefix ?? ''}<a href="${base}/docs/components/${slug(name)}">&lt;${name}&gt;</a>${
-					postfix ?? ''
-				}`;
-			}
-		} else {
-			// No replacement, return the original match
-			return match;
-		}
-	});
-}
-
 const { componentData: data } = Astro.props;
-
-// for automatic component linking...
-// all components except for the current one are valid
-const validComponentNames =
-	globSync('src/content/docs/docs/components/*.mdx')
-		.map((componentPath) => {
-			return path.basename(componentPath, path.extname(componentPath));
-		})
-		.filter((name) => {
-			return name !== data?.name;
-		}) ?? [];
 
 const ExampleCode = (await import(`../examples/markdown/${data?.name}Example.md`)).default;
 
@@ -64,11 +25,7 @@ const hasSlots = !!data?.slots.length;
 {
 	data && (
 		<>
-			<Fragment
-				set:html={marked.parse(
-					linkifyComponentReferences(data.doc, validComponentNames, BASE_URL, true)
-				)}
-			/>
+			<Fragment set:html={marked.parse(data.doc)} />
 			{hasExample && (
 				<>
 					<hr />

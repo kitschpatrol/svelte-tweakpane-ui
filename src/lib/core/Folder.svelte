@@ -27,7 +27,7 @@
 	/**
 	 * Expand or collapse folder.
 	 *
-	 * When `bound` it will indicate whether the folder is expanded or collapsed.
+	 * When bound it will indicate whether the folder is expanded or collapsed.
 	 * @default `true`
 	 * @bindable
 	 * */

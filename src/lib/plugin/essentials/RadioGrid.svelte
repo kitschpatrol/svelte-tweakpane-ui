@@ -125,7 +125,7 @@ Integrates the [Radio Grid](https://github.com/tweakpane/plugin-essentials#radio
 Tweakpane-creator [Hiroki Kokubun's](https://cocopon.me)  [Essentials
 plugin](https://github.com/tweakpane/plugin-essentials).
 
-See <ButtonGrid> for a button-flavored variation.
+See `<ButtonGrid>` for a button-flavored variation.
 
 Unlike the vanilla Tweakpane API, `svelte-tweakpane-ui` provides a unique `groupname` for each
 instance of RadioGrid by default for consistency with expectations around component isolation. You

@@ -182,3 +182,18 @@ dialog::backdrop {
 .example astro-island pre {
 	padding: 8px;
 }
+
+/* Works with middleware to annotate external links */
+
+main a.external-link {
+	position: relative;
+}
+
+main a.external-link:hover::after {
+	content: '↗';
+	position: absolute;
+	font-size: 0.5em;
+	font-weight: bold;
+	vertical-align: super;
+	opacity: 0.5;
+}

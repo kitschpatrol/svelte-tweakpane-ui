@@ -16,6 +16,7 @@ export default defineConfig({
 	// build: {
 	// 	format: 'file'
 	// },
+
 	integrations: [
 		// https://starlight.astro.build/reference/configuration/
 		starlight({
@@ -40,7 +41,6 @@ export default defineConfig({
 				}
 				// themes: ['github-dark', 'github-light']
 			},
-
 			lastUpdated: true,
 			// logo: {
 			// 	dark: './src/assets/svelte-tweakpane-ui-logo-dark.svg',

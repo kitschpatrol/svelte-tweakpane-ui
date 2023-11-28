@@ -26,7 +26,7 @@
 	/**
 	 * Sets the page is the active tab.
 	 *
-	 * When `bound` it will indicate whether the tab is active.
+	 * When bound it will indicate whether the tab is active.
 	 * @default `false`
 	 * @bindable
 	 * */

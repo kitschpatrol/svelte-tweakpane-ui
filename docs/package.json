@@ -11,9 +11,7 @@
     "astro": "astro",
     "build": "run-s --print-label build:*",
     "build:0-astro": "pnpm run clean && astro check && astro build",
-    "build:1-add-link-prefix": "tsx ./scripts/add-link-prefix.ts",
-    "build:2-strip-link-suffix": "tsx ./scripts/strip-link-suffix.ts",
-    "build:3-trailing-slash-fix": "bash ./scripts/migrate-index.sh",
+    "build:1-trailing-slash-fix": "bash ./scripts/migrate-index.sh",
     "clean": "rimraf .astro dist",
     "dev": "astro dev",
     "generate-acknowledgments-data": "mkdir -p ./src/content/acknowledgments && pnpm licenses list --json > ./src/content/acknowledgments/acknowledgments-docs.json",
@@ -36,9 +34,12 @@
     "typescript": "^5.3.2"
   },
   "devDependencies": {
+    "@types/html-escaper": "^3.0.2",
     "@types/jsdom": "^21.1.6",
     "glob": "^10.3.10",
+    "html-escaper": "^3.0.3",
     "jsdom": "^22.1.0",
+    "linkedom": "^0.16.4",
     "marked": "^10.0.0",
     "npm-run-all": "^4.1.5",
     "prettier-plugin-astro": "^0.12.2",
