@@ -13,13 +13,13 @@
     "pnpm": ">=8.0.0"
   },
   "scripts": {
-    "astro": "astro",
     "build": "run-s --print-label clean build:*",
     "build:01-acknowledgments-data": "mkdir -p ./src/content/acknowledgments && pnpm licenses list --json > ./src/content/acknowledgments/acknowledgments-docs.json",
     "build:02-astro": "astro sync && astro check && astro build",
     "build:03-cloudflare-fix": "bash ./scripts/migrate-index.sh",
     "check": "astro check",
     "clean": "rm -rf .astro && rm -rf dist",
+    "dev": "astro dev",
     "preview": "astro preview",
     "start": "astro dev"
   },
