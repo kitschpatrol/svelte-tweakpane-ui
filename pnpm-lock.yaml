@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   '@astrojs/starlight@0.13.1':
-    hash: hvu4oeno2uzwydnc5xpavtfi4m
+    hash: zsjyczpmfwcknkjyqawmjide3q
     path: patches/@astrojs__starlight@0.13.1.patch
 
 importers:
@@ -172,7 +172,7 @@ importers:
         version: 0.3.1(prettier-plugin-astro@0.12.2)(prettier@3.1.0)(typescript@5.3.2)
       '@astrojs/starlight':
         specifier: ^0.13.1
-        version: 0.13.1(patch_hash=hvu4oeno2uzwydnc5xpavtfi4m)(astro@3.6.3)
+        version: 0.13.1(patch_hash=zsjyczpmfwcknkjyqawmjide3q)(astro@3.6.3)
       '@astrojs/svelte':
         specifier: ^4.0.4
         version: 4.0.4(astro@3.6.3)(svelte@4.2.7)(typescript@5.3.2)(vite@4.5.0)
@@ -360,7 +360,7 @@ packages:
       zod: 3.22.4
     dev: false
 
-  /@astrojs/starlight@0.13.1(patch_hash=hvu4oeno2uzwydnc5xpavtfi4m)(astro@3.6.3):
+  /@astrojs/starlight@0.13.1(patch_hash=zsjyczpmfwcknkjyqawmjide3q)(astro@3.6.3):
     resolution: {integrity: sha512-cJ3WQcX3KAedH1uRApxp6usacCcRd76jsWT1V2j4rqWU817PBFrhF7xAsvm4aQaWPryqmsFOmBwSg+iOLsGNew==}
     peerDependencies:
       astro: ^3.2.0

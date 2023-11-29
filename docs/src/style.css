@@ -105,7 +105,6 @@ nav ul li a[aria-current='page'] {
 	height: 100%;
 	text-decoration: none;
 	opacity: 0;
-	background-color: red;
 	transition: opacity 0.25s ease;
 }
 

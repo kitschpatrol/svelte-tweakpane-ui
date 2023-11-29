@@ -1,5 +1,5 @@
 diff --git a/components/MarkdownContent.astro b/components/MarkdownContent.astro
-index 0d40cd47ed269a706b05242f0c7994ed2a95a43d..fafd0b98888ab528a343f75aa94e5c3f1e92e9ee 100644
+index 0d40cd47ed269a706b05242f0c7994ed2a95a43d..4ac5cd2744816c0c7f7cd327eb823328a0311b19 100644
 --- a/components/MarkdownContent.astro
 +++ b/components/MarkdownContent.astro
 @@ -4,3 +4,96 @@ import '../style/markdown.css';
@@ -36,7 +36,7 @@ index 0d40cd47ed269a706b05242f0c7994ed2a95a43d..fafd0b98888ab528a343f75aa94e5c3f
 +			const navBarHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
 +			// `<summary>` only exists in mobile ToC, so will fall back to 0 in large viewport component.
 +			// todo... guarantee existence?
-+			const mobileTocHeight = toc.querySelector('summary')?.getBoundingClientRect().height || 0;
++			const mobileTocHeight = mobileToc.querySelector('summary')?.getBoundingClientRect().height || 0;
 +			const activationThreshold = navBarHeight + mobileTocHeight;
 +
 +			let willScroll = false;
