@@ -5,7 +5,7 @@
 	let time = 0;
 
 	onMount(() => {
-		function tick(animationTime: number) {
+		function tick() {
 			time = Date.now() / 1000;
 			requestAnimationFrame(tick);
 		}

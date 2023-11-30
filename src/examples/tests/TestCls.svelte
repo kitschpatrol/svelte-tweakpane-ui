@@ -6,15 +6,12 @@
 		Blade,
 		Button,
 		ButtonGrid,
-		Checkbox,
 		Color,
 		CubicBezier,
-		type CubicBezierValue,
 		type CubicBezierValueTuple,
 		Element,
 		Folder,
 		FpsGraph,
-		Image,
 		List,
 		type ListOptions,
 		Monitor,
@@ -126,14 +123,14 @@
 	];
 
 	let rv = 1;
-	const radioValues = [
-		['magenta', 'orange'],
-		['yellow', 'red'],
-		['violet', 'gold'],
-		['red', 'rebeccapurple']
-	];
+	// const radioValues = [
+	// 	['magenta', 'orange'],
+	// 	['yellow', 'red'],
+	// 	['violet', 'gold'],
+	// 	['red', 'rebeccapurple']
+	// ];
 
-	let src = 'placeholder';
+	// let src = 'placeholder';
 
 	let point4d: PointValue4d = { x: 0, y: 0, z: 0, w: 0 };
 

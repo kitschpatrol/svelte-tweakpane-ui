@@ -1,0 +1,55 @@
+---
+title: Themes
+description: A guide in my new Starlight docs site.
+sourceUrl: https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/theme.ts
+---
+
+import ExampleWrapper from '../../../components/docs/ExampleWrapper.astro';
+
+Svelte Tweakpane UI exposes Tweakpane's robust theming system, and includes a few additional to make it easy to change the aesthetic of your tweakpanes.
+
+Theme-related helpers are exposed on the `ThemeUtils` object, and a `Theme` type is also available to provide auto-completion and type safety when defining or overriding themes.
+
+## Using bundled themes
+
+`ThemeUtils.presets` provides default dark and light themes, plus all of the themes defined in the [Panepaint](https://tweakpane.github.io/docs/theming/#builder) theme building tool on the Tweakpane site.
+
+Every Svelte Tweakpane UI component includes an optional `theme` prop, into which you can pass a `Theme` object. The `Theme` object can be a preset, a completely new theme of of your own creation, or a partial override of the global default theme (`standard`) by default.
+
+### Minimal Theme Example
+
+import ThemeBasic from '../../../examples/docs/svelte/ThemeBasic.svelte';
+import ThemeBasicCode from '../../../examples/docs/markdown/ThemeBasic.md';
+
+Passing a theme preset to the `theme` prop:
+
+<ThemeBasicCode />
+
+Applies the theme to a single component or pane on the page:
+
+<ExampleWrapper>
+  <ThemeBasic client:load />
+</ExampleWrapper>
+
+### Theme Picker Example
+
+import ThemePicker from '../../../examples/docs/svelte/ThemePicker.svelte';
+import ThemePickerCode from '../../../examples/docs/markdown/ThemePicker.md';
+
+Use a `<List>` to browse and select from the available themes:
+
+<ThemePickerCode />
+
+<ExampleWrapper>
+  <ThemePicker client:load />
+</ExampleWrapper>
+
+## Setting a global default
+
+## Overriding individual values
+
+## Creating a new theme
+
+:::note
+There's some additional logic behind the scenes on the documentation site to sync the Tweakpane theme with the documentation theme. The default Tweakpane theme is "dark" (`ThemeUtils.presets.standard`) regardless of `prefers-color-scheme`.
+:::

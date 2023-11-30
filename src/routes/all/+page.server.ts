@@ -3,7 +3,7 @@ import { error } from '@sveltejs/kit';
 import { globSync } from 'glob';
 
 export const load: PageServerLoad = async () => {
-	let examples = globSync('./src/routes/all-examples/examples/*.svelte');
+	let examples = globSync('./src/examples/**/*.svelte');
 
 	if (examples.length === 0) throw error(404, 'Component not found');
 
