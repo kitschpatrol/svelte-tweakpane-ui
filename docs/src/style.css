@@ -28,6 +28,17 @@
 	--sl-color-gray-5: #383838;
 	--sl-color-gray-6: #272727;
 	--sl-color-black: #181818;
+	--sl-color-bg-inline-code: color-mix(in srgb, var(--sl-color-gray-5), transparent 60%);
+
+	/* Code */
+	--sl-text-code-sm: var(--sl-text-sm);
+	/* --tmLineBrdCol: '0xff0000';
+	--tmLineBgCol: '0xff0000';
+	--ec-tm-insBg: '0xff0000'; */
+
+	--sl-color-blue-low: hsl(var(--sl-hue-blue) 60% 15%);
+	--sl-color-purple-low: hsl(var(--sl-hue-purple) 60% 15%);
+	--sl-color-orange-low: hsl(var(--sl-hue-orange) 60% 15%);
 }
 
 :root[data-theme='light'] {
@@ -43,10 +54,20 @@
 	--sl-color-gray-6: #f1f1f1;
 	--sl-color-gray-7: #f6f6f6;
 	--sl-color-black: #f9f9f9;
+	--sl-color-purple-low: hsl(var(--sl-hue-purple) 90% 95%);
+	--sl-color-orange-low: hsl(var(--sl-hue-orange) 90% 95%);
+	--sl-color-blue-low: hsl(var(--sl-hue-blue) 90% 95%);
+	--sl-color-bg-inline-code: color-mix(in srgb, var(--sl-color-gray-5), transparent 70%);
 }
 
 /* Globals */
 a {
+	text-decoration-color: color-mix(in srgb, var(--sl-color-text-accent), transparent 80%);
+	text-underline-offset: 0.125em;
+}
+
+a:hover {
+	text-decoration-color: var(--sl-color-text-accent);
 	text-underline-offset: 0.125em;
 }
 

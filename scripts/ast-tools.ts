@@ -1,5 +1,6 @@
 // TypeScript AST traversal and extraction tools used by various scripts.
 import { query as tsquery } from '@phenomnomnominal/tsquery';
+import { exec } from 'child_process';
 import { ESLint } from 'eslint';
 import fs from 'fs';
 import { globSync } from 'glob';
@@ -316,5 +317,22 @@ export async function format(code: string, formatParser: string): Promise<string
 		parser: formatParser,
 		printWidth: 80, // shorter than usual for display on the web
 		useTabs: false // spaces are better for code blocks
+	});
+}
+
+export async function getLastUpdatedDate(filePath: string): Promise<Date | undefined> {
+	return new Promise((resolve, reject) => {
+		exec(`git log -1 --format=%cd "${filePath}"`, (error, stdout) => {
+			if (error) {
+				reject(error);
+				return;
+			}
+			const date = new Date(stdout.trim());
+			if (isNaN(date.getTime())) {
+				resolve(undefined);
+			} else {
+				resolve(date);
+			}
+		});
 	});
 }

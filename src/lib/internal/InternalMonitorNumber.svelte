@@ -109,10 +109,7 @@ position='inline'>` component.
 [InternalMonitorNumber.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalMonitorNumber.svelte)
 -->
 
-<GenericMonitor {value} {options} {...$$restProps} />
-{#if !BROWSER}
-	{@const totalRows = rowsForMonitor($$props.bufferSize, $$props.rows, graph) - 1}
-	{#if totalRows > 0}
-		<ClsPad keysAdd={fillWith('containerUnitSize', totalRows)} theme={$$props.theme} />
-	{/if}
-{/if}
+<GenericMonitor {value} {options} {...$$restProps} /> {#if !BROWSER} {@const totalRows =
+rowsForMonitor($$props.bufferSize, $$props.rows, graph) - 1} {#if totalRows > 0}
+		<ClsPad keysAdd={fillWith('containerUnitSize', totalRows)} theme={$$props.theme} /> {/if}
+		{/if}

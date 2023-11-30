@@ -107,9 +107,6 @@ position='inline'>` component.
 -->
 
 {#if value === undefined || typeof value === 'number'}
-	<InternalMonitorNumber {value} {...$$restProps} />
-{:else if typeof value === 'boolean'}
-	<InternalMonitorBoolean {value} {...$$restProps} />
-{:else if typeof value === 'string'}
-	<InternalMonitorString {value} {...$$restProps} />
-{/if}
+	<InternalMonitorNumber {value} {...$$restProps} /> {:else if typeof value === 'boolean'}
+	<InternalMonitorBoolean {value} {...$$restProps} /> {:else if typeof value === 'string'}
+	<InternalMonitorString {value} {...$$restProps} /> {/if}

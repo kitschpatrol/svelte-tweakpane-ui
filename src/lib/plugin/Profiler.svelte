@@ -180,8 +180,9 @@
 
 	$: profilerBlade && startObservingMeasuredValue();
 
-	$: DEV && enforceReadonly(_measure, measure, 'Profiler', 'measure', true);
-	$: DEV && enforceReadonly(_measureAsync, measureAsync, 'Profiler', 'measureAsync', true);
+	// TODO... getting false alarms on this
+	// $: DEV && enforceReadonly(_measure, measure, 'Profiler', 'measure', true);
+	// $: DEV && enforceReadonly(_measureAsync, measureAsync, 'Profiler', 'measureAsync', true);
 
 	$: options = {
 		bufferSize,

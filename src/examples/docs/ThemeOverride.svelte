@@ -2,7 +2,4 @@
 	import { Button } from '$lib';
 </script>
 
-<Button
-	label="Rounded Parent Button"
-	theme={{ baseBackgroundColor: 'black', baseBorderRadius: '6px', bladeValueWidth: '60%' }}
-/>
+<Button label="Rounded Parent Button" theme={{ baseBorderRadius: '6px' }} />

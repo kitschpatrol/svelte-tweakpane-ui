@@ -8,5 +8,4 @@
 <h3>{data.match.split('/').at(-1)}</h3>
 
 {#await import(`/${data.match}`) then exampleComponent}
-	<svelte:component this={exampleComponent.default} />
-{/await}
+	<svelte:component this={exampleComponent.default} /> {/await}

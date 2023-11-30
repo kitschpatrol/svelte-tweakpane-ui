@@ -194,8 +194,7 @@ position='inline'>`.
 [RadioGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/RadioGrid.svelte)
 -->
 
-<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />
-{#if !BROWSER}
-	<ClsPad keysAdd={fillWith('containerUnitSize', gridDimensions.rows - 1)} theme={$$props.theme} />
-	<div style:height={`${2 * (gridDimensions.rows - 1)}px`} />
-{/if}
+<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} /> {#if !BROWSER}
+	<ClsPad keysAdd={fillWith('containerUnitSize', gridDimensions.rows - 1)} theme={$$props.theme}
+	/>
+	<div style:height={`${2 * (gridDimensions.rows - 1)}px`} /> {/if}

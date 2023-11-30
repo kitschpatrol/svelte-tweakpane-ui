@@ -199,24 +199,11 @@ position='inline'>`.
 [RotationEuler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/RotationEuler.svelte)
 -->
 
-<GenericInputFolding
-	bind:value={internalValue}
-	bind:expanded
-	{buttonClass}
-	{options}
-	plugin={pluginModule}
-	{...$$restProps}
-/>
-{#if !BROWSER && expanded && $$props.picker === 'inline'}
-	{#if $$props.label !== undefined}
-		<ClsPad
-			keysAdd={['bladeValueWidth']}
-			keysSubtract={[`containerUnitSize`]}
-			theme={$$props.theme}
-		/>
-	{:else}
+<GenericInputFolding bind:value={internalValue} bind:expanded {buttonClass} {options}
+plugin={pluginModule} {...$$restProps} /> {#if !BROWSER && expanded && $$props.picker === 'inline'}
+{#if $$props.label !== undefined}
+		<ClsPad keysAdd={['bladeValueWidth']} keysSubtract={[`containerUnitSize`]}
+		theme={$$props.theme} /> {:else}
 		<!-- Without a label, the grid takes the full width of the control -->
 		<!-- TODO remove magic number -->
-		<div style="aspect-ratio: 1; width: calc(100% - 28px);" />
-	{/if}
-{/if}
+		<div style="aspect-ratio: 1; width: calc(100% - 28px);" /> {/if} {/if}

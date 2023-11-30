@@ -153,21 +153,14 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
 -->
 
 {#if BROWSER}
-	<Blade bind:ref {options} {...$$restProps} />
-{:else}
-	<ClsPad
-		keysAdd={['containerVerticalPadding', 'containerVerticalPadding']}
-		theme={$$props.theme}
-	/>
-{/if}
+	<Blade bind:ref {options} {...$$restProps} /> {:else}
+	<ClsPad keysAdd={['containerVerticalPadding', 'containerVerticalPadding']} theme={$$props.theme}
+	/> {/if}
 
 <div bind:this={sourceDiv} class="element">
-	<div
-		class="element-container"
-		style:height={BROWSER ? null : `${maxHeight}px`}
-		style:max-height={maxHeight !== undefined ? `${maxHeight}px` : null}
-		style:overflow={BROWSER ? null : 'hidden'}
-	>
+	<div class="element-container" style:height={BROWSER ? null : `${maxHeight}px`}
+	style:max-height={maxHeight !== undefined ? `${maxHeight}px` : null} style:overflow={BROWSER ?
+	null : 'hidden'} >
 		<div class:reset={resetStyle}>
 			<slot />
 		</div>

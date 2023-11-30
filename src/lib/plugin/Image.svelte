@@ -121,7 +121,5 @@ position='inline'>`.
 [Image.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/Image.svelte)
 -->
 
-<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />
-{#if !BROWSER}
-	<ClsPad keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} />
-{/if}
+<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} /> {#if !BROWSER}
+	<ClsPad keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} /> {/if}

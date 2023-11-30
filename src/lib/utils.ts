@@ -295,6 +295,7 @@ import type { RotationEulerUnit, RotationEulerValue } from '$lib/plugin/Rotation
 import type { RotationQuaternionValue } from '$lib/plugin/RotationQuaternion.svelte';
 
 // utility functions
+
 function quaternionToCssTransform(quaternion: RotationQuaternionValue): string {
 	const [x, y, z, w] = Array.isArray(quaternion)
 		? quaternion
@@ -340,7 +341,23 @@ function cubicBezierToEaseFunction(cubicBezier: CubicBezierValue): (t: number) =
 
 // library exports
 export default {
+	/**
+	 * Convenience function for creating easing functions ready for Svelte's tween and animation systems
+	 * @param cubicBezier - `CubicBezierValue`, probably from a `<CubicBezier>` component
+	 * @returns Tween function
+	 */
 	cubicBezierToEaseFunction,
+	/**
+	 * Convenience function for creating CSS-ready euler rotation transforms
+	 * @param rotation - `RotationEulerValue`, probably from a `<RotationEuler>` component
+	 * @param quaternion
+	 * @returns CSS rotateX/Y/Z string ready to be passed into a CSS transform
+	 */
 	eulerToCssTransform,
+	/**
+	 * Convenience function for creating CSS-ready quaternion rotation transforms
+	 * @param rotation - RotationQuaternionValue, probably from a <RotationQuaternionValue> component
+	 * @returns CSS matrix3d string ready to be passed into a CSS transform
+	 */
 	quaternionToCssTransform
 };

@@ -9,18 +9,28 @@ import { Icon } from '@astrojs/starlight/components';
 const { sourceUrl } = Astro.props.entry.data;
 ---
 
-<StarlightEditLink {...Astro.props} />
-{
-	sourceUrl && (
-		<a href={sourceUrl} class="sl-flex">
-			<Icon name="github" size="1.2em" />
-			Source
-		</a>
-	)
-}
+<div>
+	<StarlightEditLink {...Astro.props} />
+
+	{
+		sourceUrl && (
+			<a href={sourceUrl} class="sl-flex">
+				<Icon name="github" size="1.2em" />
+				View source
+			</a>
+		)
+	}
+</div>
 
 <style>
+	div {
+		display: flex;
+		gap: 1rem;
+		justify-content: space-between;
+	}
+
 	a {
+		margin-left: auto;
 		gap: 0.5rem;
 		align-items: center;
 		text-decoration: none;

@@ -46,7 +46,7 @@ const names = data
 	.reduce((acc: string[], { author }) => {
 		if (author) {
 			// Split compound comma-delimited publishers as needed
-			author.split(',').forEach((subItem) => {
+			author.split(/\s*(?:\sand\s|,|&)\s*/).forEach((subItem) => {
 				const subPublisher = titleCase(getNameFromEmail(subItem.trim()));
 				if (subPublisher && !acc.includes(subPublisher)) {
 					acc.push(subPublisher);
@@ -55,14 +55,31 @@ const names = data
 		}
 		return acc;
 	}, [])
-	// Exclude me
-	.filter((name) => name !== 'Eric Mika')
+	// Exclude me and some other vague things
+	.filter((name) => !['Eric Mika', 'contributors', 'inc.'].includes(name.toLowerCase()))
+	// Filter out case-insensitive duplicates, but keep the version with the most capitalization
+	.filter((name, i, arr) => {
+		const lower = name.toLowerCase();
+		const index = arr.findIndex((n) => n.toLowerCase() === lower);
+		return index === i;
+	})
+	// remove duplicate names like Microsoft, Microsoft Corp., Microsoft Corporation, keep the one without the Corp or Corporation suffix
+	.filter((name, i, arr) => {
+		const lower = name.toLowerCase();
+		const index = arr.findIndex(
+			(n) => n.toLowerCase().replace(/(corp\.|corporation)$/, '') === lower
+		);
+		return index === i;
+	})
+
 	// Don't break names
 	.map((n) => n.replace(/ /, '\u00a0'))
 	// Sort by last name
 	.sort((a, b) => {
-		return a.split(' ').at(-1)!.toLowerCase().localeCompare(b.split(' ').at(-1)!.toLowerCase());
+		return a.localeCompare(b);
 	});
 ---
+
+{names.length}
 
 {names.length && names.join(', ')}

@@ -47,7 +47,5 @@ Plugin component behavior is not available in `<AutoValue>`.
 
 -->
 {#if typeof value === 'string'}
-	<Text bind:value {...$$restProps} />
-{:else}
-	<GenericBinding bind:value {...$$restProps} />
-{/if}
+	<Text bind:value {...$$restProps} /> {:else}
+	<GenericBinding bind:value {...$$restProps} /> {/if}

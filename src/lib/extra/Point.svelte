@@ -304,33 +304,13 @@ position='inline'>` component.
 [Point.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Point.svelte)
 -->
 
-<GenericInputFolding
-	bind:value={internalValue}
-	bind:expanded
-	{buttonClass}
-	{options}
-	{...removeKeys(
-		$$restProps,
-		...Object.keys(options),
-		'optionsX',
-		'optionsY',
-		'optionsZ',
-		'optionsW'
-	)}
-/>
-{#if !BROWSER && !('z' in internalValue)}
+<GenericInputFolding bind:value={internalValue} bind:expanded {buttonClass} {options}
+{...removeKeys( $$restProps, ...Object.keys(options), 'optionsX', 'optionsY', 'optionsZ', 'optionsW'
+)} /> {#if !BROWSER && !('z' in internalValue)}
 	<!-- 2D points only -->
-	{#if expanded && $$props.picker === 'inline'}
-		{#if $$props.label !== undefined}
-			<ClsPad
-				keysAdd={['bladeValueWidth']}
-				keysSubtract={[`containerUnitSize`]}
-				theme={$$props.theme}
-			/>
-		{:else}
+	{#if expanded && $$props.picker === 'inline'} {#if $$props.label !== undefined}
+			<ClsPad keysAdd={['bladeValueWidth']} keysSubtract={[`containerUnitSize`]}
+			theme={$$props.theme} /> {:else}
 			<!-- Without a label, the grid takes the full width of the control -->
 			<!-- TODO remove magic number -->
-			<div style="aspect-ratio: 1; width: calc(100% - 28px);" />
-		{/if}
-	{/if}
-{/if}
+			<div style="aspect-ratio: 1; width: calc(100% - 28px);" /> {/if} {/if} {/if}

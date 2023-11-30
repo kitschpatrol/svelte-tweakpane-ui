@@ -4,10 +4,16 @@ description: A guide in my new Starlight docs site.
 sourceUrl: https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/utils.ts
 ---
 
-## Example
+A few odds and ends are exported under the `Utils` object.
 
-## Props
+## Rotations
 
-## Events
+`Utils.eulerToCssTransform()` and `Utils.quaternionToCssTransform()` convert a rotation object or tuple to a CSS transform string.
 
-## Slots
+The `<RotationEuler>` and `<RotationQuaternion>` examples demonstrate these functions in action.
+
+## Tweens
+
+The `Utils.cubicBezierToEaseFunction()` creating easing functions from cubic bezier values that are ready for use with Svelte's tween stores and related animation systems.
+
+The `<CubicBezier>` example demonstrates this function in action.

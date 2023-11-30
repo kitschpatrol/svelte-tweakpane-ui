@@ -148,7 +148,5 @@ position='inline'>`.
 [List.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/List.svelte)
 -->
 
-<Blade bind:ref={listBlade} options={bladeOptions} {...$$restProps} />
-{#if !BROWSER}
-	<ClsPad keysAdd={['containerUnitSize']} theme={$$props.theme} />
-{/if}
+<Blade bind:ref={listBlade} options={bladeOptions} {...$$restProps} /> {#if !BROWSER}
+	<ClsPad keysAdd={['containerUnitSize']} theme={$$props.theme} /> {/if}

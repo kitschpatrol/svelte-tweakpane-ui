@@ -55,6 +55,7 @@ type CustomThemeKeys = {
 
 // Standard Tweakpane themes from https://tweakpane.github.io/docs/theming/#builder Must be kept in
 // sync with TP...
+
 const standard: Theme = {
 	baseBackgroundColor: 'hsl(230, 7%, 17%)',
 	baseBorderRadius: '6px',
@@ -243,14 +244,20 @@ const vivid: Theme = {
 	monitorForegroundColor: 'hsla(0, 0%, 100%, 0.5)'
 };
 
-/** A collection of default theme color schemes.  */
 export const presets = {
+	/** Dark blue theme. */
 	iceberg,
+	/** Extra dark theme. */
 	jetblack,
+	/** Standard Tweakpane light theme. */
 	light,
+	/** Light theme with CRT vibes. */
 	retro,
+	/** Standard Tweakpane dark theme. This is the default theme. */
 	standard,
+	/** Dark translucent theme. */
 	translucent,
+	/** Red theme. */
 	vivid
 };
 
@@ -396,6 +403,10 @@ export function setGlobalDefaultTheme(theme: Theme | undefined) {
 
 // library exports
 export default {
+	/**
+	 * A collection of default theme color schemes, matching those provided in the Tweakpane
+	 * [Panebuilder presets](https://tweakpane.github.io/docs/theming/#builder).
+	 * */
 	presets,
 	setGlobalDefaultTheme
 };

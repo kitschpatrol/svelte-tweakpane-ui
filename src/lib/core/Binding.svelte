@@ -180,14 +180,11 @@ position='inline'>`.
 [Binding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Binding.svelte)
 -->
 
-{#if parentStore}
-	{#if BROWSER}
-		<div bind:this={indexElement} style="display: none;" />
-	{:else}
-		<ClsPad keysAdd={['containerVerticalPadding', 'containerUnitSize']} {theme} />
-	{/if}
-{:else}
+{#if parentStore} {#if BROWSER}
+		<div bind:this={indexElement} style="display: none;" /> {:else}
+		<ClsPad keysAdd={['containerVerticalPadding', 'containerUnitSize']} {theme} /> {/if} {:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
-		<svelte:self bind:disabled bind:key bind:label bind:object bind:options bind:plugin bind:ref />
+		<svelte:self bind:disabled bind:key bind:label bind:object bind:options bind:plugin bind:ref
+		/>
 	</InternalPaneInline>
 {/if}

@@ -3,10 +3,10 @@
 	export let data: PageServerData;
 </script>
 
-<h1>Examples</h1>
+<h1>svelte-tweakpane-ui</h1>
 <strong>
-	This is mainly for development, see the <a href="https://kitschpatrol.com/svelte-tweakpane-ui"
-		>documentation</a
+	This is a scratch pad for development and integration testing, you probably want the <a
+		href="https://kitschpatrol.com/svelte-tweakpane-ui">documentation</a
 	> instead.
 </strong>
 

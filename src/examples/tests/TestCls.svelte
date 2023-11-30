@@ -123,11 +123,8 @@
 	];
 
 	let rv = 1;
-	// const radioValues = [
-	// 	['magenta', 'orange'],
-	// 	['yellow', 'red'],
-	// 	['violet', 'gold'],
-	// 	['red', 'rebeccapurple']
+	// const radioValues = [ ['magenta', 'orange'], ['yellow', 'red'], ['violet', 'gold'], ['red',
+	//  'rebeccapurple']
 	// ];
 
 	// let src = 'placeholder';

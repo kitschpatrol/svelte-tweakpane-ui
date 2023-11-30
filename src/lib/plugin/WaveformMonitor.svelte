@@ -95,7 +95,5 @@ position='inline'>`.
 [WaveformMonitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/WaveformMonitor.svelte)
 -->
 
-<GenericMonitor {value} {options} plugin={pluginModule} {...$$restProps} />
-{#if !BROWSER}
-	<ClsPad keysAdd={fillWith('containerUnitSize', 2)} theme={$$props.theme} />
-{/if}
+<GenericMonitor {value} {options} plugin={pluginModule} {...$$restProps} /> {#if !BROWSER}
+	<ClsPad keysAdd={fillWith('containerUnitSize', 2)} theme={$$props.theme} /> {/if}

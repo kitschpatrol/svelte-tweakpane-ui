@@ -64,10 +64,7 @@ position='inline'>` component.
 [InternalMonitorBoolean.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalMonitorBoolean.svelte)
 -->
 
-<GenericMonitor {value} {...$$restProps} />
-{#if !BROWSER}
-	{@const totalRows = rowsForMonitor($$props.bufferSize, $$props.rows) - 1}
-	{#if totalRows > 0}
-		<ClsPad keysAdd={fillWith('containerUnitSize', totalRows)} theme={$$props.theme} />
-	{/if}
-{/if}
+<GenericMonitor {value} {...$$restProps} /> {#if !BROWSER} {@const totalRows =
+rowsForMonitor($$props.bufferSize, $$props.rows) - 1} {#if totalRows > 0}
+		<ClsPad keysAdd={fillWith('containerUnitSize', totalRows)} theme={$$props.theme} /> {/if}
+		{/if}

@@ -267,11 +267,7 @@ position='inline'>`.
 [FpsGraph.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/FpsGraph.svelte)
 -->
 
-<Blade bind:ref={fpsBlade} {options} plugin={pluginModule} {...$$restProps} />
-{#if !BROWSER}
-	{#if rows}
-		<ClsPad keysAdd={fillWith('containerUnitSize', rows)} theme={$$props.theme} />
-	{:else}
-		<ClsPad keysAdd={fillWith('containerUnitSize', 2)} theme={$$props.theme} />
-	{/if}
-{/if}
+<Blade bind:ref={fpsBlade} {options} plugin={pluginModule} {...$$restProps} /> {#if !BROWSER} {#if
+rows}
+		<ClsPad keysAdd={fillWith('containerUnitSize', rows)} theme={$$props.theme} /> {:else}
+		<ClsPad keysAdd={fillWith('containerUnitSize', 2)} theme={$$props.theme} /> {/if} {/if}

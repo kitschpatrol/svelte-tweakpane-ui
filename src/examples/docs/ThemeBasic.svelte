@@ -2,4 +2,4 @@
 	import { Button, ThemeUtils } from '$lib';
 </script>
 
-<Button label="Themed Button" theme={ThemeUtils.presets.vivid} />
+<Button label="Jet Black Button" theme={ThemeUtils.presets.jetblack} />

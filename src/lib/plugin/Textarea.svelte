@@ -112,8 +112,8 @@ position='inline'>`.
 [Textarea.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/Textarea.svelte)
 -->
 
-<GenericInput value={_value} bind:ref {options} plugin={pluginModule} {...$$restProps} />
-{#if !BROWSER}
+<GenericInput value={_value} bind:ref {options} plugin={pluginModule} {...$$restProps} /> {#if
+!BROWSER}
 	<!-- TODO magic numbers -->
 	<div style:background="red" style:height={`calc(${16 * (rows ?? 3)}px - 14px)`} />
 	<!-- <ClsPad keysAdd={fillWith('containerUnitSize', 1)} theme={$$props.theme} /> -->

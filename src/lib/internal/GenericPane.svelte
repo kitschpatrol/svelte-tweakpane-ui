@@ -196,24 +196,11 @@ This component is for internal use only.
 -->
 
 {#if BROWSER}
-	<slot />
-{:else if expanded}
-	{#if title === undefined}
-		<ClsPad keysAdd={['containerVerticalPadding']} {theme} />
-	{:else}
-		<ClsPad
-			keysAdd={[
-				'containerVerticalPadding',
-				'containerVerticalPadding',
-				'containerVerticalPadding',
-				'containerUnitSize'
-			]}
-			{theme}
-		/>
-	{/if}
-	<slot />
-{:else if title === undefined}
+	<slot /> {:else if expanded} {#if title === undefined}
+		<ClsPad keysAdd={['containerVerticalPadding']} {theme} /> {:else}
+		<ClsPad keysAdd={[ 'containerVerticalPadding', 'containerVerticalPadding',
+		'containerVerticalPadding', 'containerUnitSize' ]} {theme} /> {/if}
+	<slot /> {:else if title === undefined}
 	<!-- Nothing renders -->
 {:else}
-	<ClsPad keysAdd={['containerVerticalPadding', 'containerUnitSize']} {theme} />
-{/if}
+	<ClsPad keysAdd={['containerVerticalPadding', 'containerUnitSize']} {theme} /> {/if}

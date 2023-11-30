@@ -167,8 +167,7 @@ Position mode overview:
 
 <!-- Only prerender inline panes, because fixed / absolute positioned objects don't affect layout
 -->
-{#if position === undefined || position === 'draggable'}
-	{#if BROWSER}
+{#if position === undefined || position === 'draggable'} {#if BROWSER}
 		<InternalPaneDraggable bind:expanded bind:width bind:x bind:y {...$$restProps}>
 			<slot />
 		</InternalPaneDraggable>
@@ -176,13 +175,11 @@ Position mode overview:
 		<div style="display: none;">
 			<slot />
 		</div>
-	{/if}
-{:else if position === 'inline'}
+	{/if} {:else if position === 'inline'}
 	<InternalPaneInline bind:expanded {width} {...removeKeys($$restProps, 'storePositionLocally')}>
 		<slot />
 	</InternalPaneInline>
-{:else if position === 'fixed'}
-	{#if BROWSER}
+{:else if position === 'fixed'} {#if BROWSER}
 		<InternalPaneFixed bind:expanded bind:x bind:y {width} {...$$restProps}>
 			<slot />
 		</InternalPaneFixed>
@@ -190,5 +187,4 @@ Position mode overview:
 		<div style="display: none;">
 			<slot />
 		</div>
-	{/if}
-{/if}
+	{/if} {/if}

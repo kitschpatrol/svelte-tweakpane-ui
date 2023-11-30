@@ -1,27 +1,40 @@
 ---
 title: Themes
-description: A guide in my new Starlight docs site.
+description: Guide to using themes in Svelte Tweakpane UI.
 sourceUrl: https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/theme.ts
 ---
 
 import ExampleWrapper from '../../../components/docs/ExampleWrapper.astro';
+import ThemeBasic from '../../../examples/docs/svelte/ThemeBasic.svelte';
+import ThemeBasicCode from '../../../examples/docs/markdown/ThemeBasic.md';
+import ThemePicker from '../../../examples/docs/svelte/ThemePicker.svelte';
+import ThemePickerCode from '../../../examples/docs/markdown/ThemePicker.md';
+import ThemeCustom from '../../../examples/docs/svelte/ThemeCustom.svelte';
+import ThemeCustomCode from '../../../examples/docs/markdown/ThemeCustom.md';
+import ThemeExtend from '../../../examples/docs/svelte/ThemeExtend.svelte';
+import ThemeExtendCode from '../../../examples/docs/markdown/ThemeExtend.md';
+import ThemeOverride from '../../../examples/docs/svelte/ThemeOverride.svelte';
+import ThemeOverrideCode from '../../../examples/docs/markdown/ThemeOverride.md';
 
-Svelte Tweakpane UI exposes Tweakpane's robust theming system, and includes a few additional to make it easy to change the aesthetic of your tweakpanes.
+Vanilla Tweakpane provides a robust [theming system](https://tweakpane.github.io/docs/theming/) based on CSS variables.
+
+Svelte Tweakpane UI provides abstractions over the underlying CSS variables with some additional conveniences, most notably:
+
+- Easy access to a collection of bundled preset themes.
+- Abstractions around scoping to simplify using different themes on the same page.
+- Type safety / autocompletion when defining custom themes or overriding existing ones.
 
 Theme-related helpers are exposed on the `ThemeUtils` object, and a `Theme` type is also available to provide auto-completion and type safety when defining or overriding themes.
 
-## Using bundled themes
+## Using preset themes
 
 `ThemeUtils.presets` provides default dark and light themes, plus all of the themes defined in the [Panepaint](https://tweakpane.github.io/docs/theming/#builder) theme building tool on the Tweakpane site.
 
-Every Svelte Tweakpane UI component includes an optional `theme` prop, into which you can pass a `Theme` object. The `Theme` object can be a preset, a completely new theme of of your own creation, or a partial override of the global default theme (`standard`) by default.
+Every Svelte Tweakpane UI component includes an optional `theme` prop, into which you can pass a `Theme` object. The `Theme` object can be a bundled preset, a completely new theme of of your own creation, an extension of a bundled preset, or a partial override of the global default theme (`standard`) by default.
 
-### Minimal Theme Example
+### Applying presets
 
-import ThemeBasic from '../../../examples/docs/svelte/ThemeBasic.svelte';
-import ThemeBasicCode from '../../../examples/docs/markdown/ThemeBasic.md';
-
-Passing a theme preset to the `theme` prop:
+Pass a theme preset to the `theme` prop:
 
 <ThemeBasicCode />
 
@@ -31,12 +44,13 @@ Applies the theme to a single component or pane on the page:
   <ThemeBasic client:load />
 </ExampleWrapper>
 
-### Theme Picker Example
+:::note
+On the Svelte Tweakpane UI documentation site, there's some additional logic behind the scenes to synchronize Tweakpane themes with the documentation site's light / dark theme selection. Without these interventions, the default Tweakpane theme is always "dark" (`ThemeUtils.presets.standard`), regardless of `prefers-color-scheme`. Due to the myriad ways to implement light / dark themes on the web, no theme synchronization logic is built into Svelte Tweakpane UI, but it should be [reasonably easy to implement](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/docs/src/components/docs/ThemeWatcher.astro).
+:::
 
-import ThemePicker from '../../../examples/docs/svelte/ThemePicker.svelte';
-import ThemePickerCode from '../../../examples/docs/markdown/ThemePicker.md';
+### Creating a theme picker
 
-Use a `<List>` to browse and select from the available themes:
+A quick example of using a `<List>` to browse and select from all the available preset themes:
 
 <ThemePickerCode />
 
@@ -44,12 +58,104 @@ Use a `<List>` to browse and select from the available themes:
   <ThemePicker client:load />
 </ExampleWrapper>
 
-## Setting a global default
+---
 
-## Overriding individual values
+## Scoping
 
-## Creating a new theme
+Svelte Tweakpane UI manages setting CSS variables at the right points in the DOM to ensure that themes are rationally scoped, and to allow for multiple themes to be used on the same page.
 
-:::note
-There's some additional logic behind the scenes on the documentation site to sync the Tweakpane theme with the documentation theme. The default Tweakpane theme is "dark" (`ThemeUtils.presets.standard`) regardless of `prefers-color-scheme`.
+Themes are scoped either to a **pane** via its `theme` prop, to a **standalone component** via its `theme` prop, or to the entire **window** via the `setGlobalDefaultTheme()` utility function.
+
+In the case of standalone Svelte Tweakpane UI components, the theme is still technically scoped to a `<Pane>`, because it is applied to the implicit pane that's created to contain the standalone element.
+
+### Panes
+
+Each pane on the page can have its own theme:
+
+```svelte
+<Pane theme={ThemeUtils.presets.jetblack} />
+  <Button />
+</Pane>
+
+<Pane theme={ThemeUtils.presets.standard} />
+  <Button />
+</Pane>
+```
+
+:::caution
+Currently, you can not override individual components' themes _within_ a pane:
+
+```svelte
+<Pane theme={ThemeUtils.presets.jetblack} />
+  <Button label="I'm still jet black" theme={ThemeUtils.presets.retro} />
+</Pane>
+```
+
+The pane's `theme` prop overrides all child components's `theme` prop. Svelte Tweakpane UI will warn you about this if you try to do it.
+
 :::
+
+### Standalone components
+
+Standalone components can also have their own themes:
+
+```svelte
+<Button label="I'm jet black" theme={ThemeUtils.presets.jetblack} />
+<Button label="I'm standard" theme={ThemeUtils.presets.standard} />
+```
+
+### Global default theme
+
+You can set a global default theme for all Tweakpane components on the page using the `setGlobalDefaultTheme()` utility function.
+
+Individual panes or standalone components can still override the global default theme via their `theme` prop.
+
+```svelte
+<script lang="ts">
+  import { Button, ThemeUtils } from 'svelte-tweakpane-ui';
+  ThemeUtils.setGlobalDefaultTheme(ThemeUtils.presets.jetblack);
+</script>
+
+<Button label="I'm jet black, the custom global default" />
+<Button label="I'm light" theme={ThemeUtils.presets.light} />
+```
+
+---
+
+## Customization
+
+### Creating a new theme
+
+Themes are plain old JavaScript objects with a key for each CSS variable that Tweakpane uses. Define all theme keys to ensure complete control over the output.
+
+<ThemeCustomCode />
+
+<ExampleWrapper>
+  <ThemeCustom client:load />
+</ExampleWrapper>
+
+:::tip
+Themes expose a number of values related to size, but if you simply want to make the entire pane bigger or smaller, take a look at the `scale` prop on `<Pane>`.
+:::
+
+### Customizing existing themes
+
+If you only want to override a few values, you can extend a preset theme. This approach ensures that none of the global default theme's values can reach your custom theme.
+
+<ThemeExtendCode />
+
+<ExampleWrapper>
+  <ThemeExtend client:load />
+</ExampleWrapper>
+
+### Overriding default values
+
+If you don't mind inheriting from the global default theme, then passing partial theme objects to the `theme` prop is a quick way to override a few keys of the global default theme.
+
+For example, to restore the rounded look to specific inline components, you can pass a specific `baseBorderRadius` value:
+
+<ThemeOverrideCode />
+
+<ExampleWrapper>
+  <ThemeOverride client:load />
+</ExampleWrapper>

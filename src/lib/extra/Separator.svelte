@@ -47,7 +47,5 @@ position='inline'>`.
 -->
 
 {#if BROWSER}
-	<Blade {options} {...$$restProps} />
-{:else}
-	<ClsPad extra={2} keysAdd={['containerVerticalPadding']} theme={$$props.theme} />
-{/if}
+	<Blade {options} {...$$restProps} /> {:else}
+	<ClsPad extra={2} keysAdd={['containerVerticalPadding']} theme={$$props.theme} /> {/if}
