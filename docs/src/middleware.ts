@@ -77,7 +77,7 @@ const externalLinkAnnotator = defineDomTransformMiddleware((document, context) =
 	// not on hero pages
 	(
 		document.querySelectorAll(
-			'html:not([data-has-hero]) sl-markdown-content a'
+			'html:not([data-has-hero]) div.sl-markdown-content a'
 		) as NodeListOf<HTMLAnchorElement>
 	).forEach((element) => {
 		try {

@@ -1,6 +1,7 @@
 ---
 import { marked } from 'marked';
 import Heading from './Heading.astro';
+import Flags from './Flags.astro';
 
 import type { ComponentProp, ConditionsRecord } from '../../utils/prop-utils';
 
@@ -97,12 +98,9 @@ const {
 						<td colspan="2" class="prop-name">
 							<span class="prop-heading">
 								<Heading level={3} set:html={prop.name} />
-								<span class="flag-pill-group">
-									{showFlags &&
-										getFlags(prop, conditionData[prop.name] !== undefined).map((p) => (
-											<span class={`flag-pill flag-name-${p}`}>{p}</span>
-										))}
-								</span>
+								{showFlags && (
+									<Flags names={getFlags(prop, conditionData[prop.name] !== undefined)} />
+								)}
 							</span>
 						</td>
 					</tr>
@@ -174,6 +172,7 @@ const {
 	table td.prop-name :global(h3) {
 		display: inline;
 		font-family: var(--sl-font-system-mono);
+		font-weight: normal;
 		justify-self: flex-start;
 		font-size: var(--sl-text-xl);
 	}
@@ -184,46 +183,6 @@ const {
 		flex-wrap: wrap;
 		justify-content: space-between;
 		align-items: end;
-	}
-
-	span.flag-pill-group {
-		display: flex;
-		column-gap: 0.5em;
-		align-items: center;
-	}
-
-	span.flag-pill {
-		/* margin-left: auto; */
-		font-size: calc(var(--sl-text-code-sm) - 0.1em);
-		background: var(--sl-color-bg-inline-code);
-		font-family: var(--sl-font-system-mono);
-		border-radius: 1.15em;
-		padding: 0.075em 0.7em;
-	}
-
-	:global(span.flag-name-optional) {
-		color: var(--sl-color-green-high);
-		background: var(--sl-color-green-low);
-	}
-
-	:global(span.flag-name-dynamic) {
-		color: var(--sl-color-purple-high);
-		background: var(--sl-color-purple-low);
-	}
-
-	:global(span.flag-name-bindable) {
-		color: var(--sl-color-blue-high);
-		background: var(--sl-color-blue-low);
-	}
-
-	:global(span.flag-name-required) {
-		color: var(--sl-color-red-high);
-		background: var(--sl-color-red-low);
-	}
-
-	:global(span.flag-name-readonly) {
-		color: var(--sl-color-orange-high);
-		background: var(--sl-color-orange-low);
 	}
 
 	table th {

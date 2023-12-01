@@ -1,0 +1,17 @@
+---
+interface Props {
+	src: string;
+}
+
+const { src } = Astro.props;
+---
+
+<img class="inline-image content" {src} />
+
+<style>
+	img.inline-image {
+		display: inline;
+		height: 1em;
+		margin-bottom: 0 !important;
+	}
+</style>

@@ -1,0 +1,57 @@
+---
+interface Props {
+	names: string[];
+}
+
+const { names } = Astro.props;
+---
+
+<span class="flag-pill-group">
+	{
+		names.map((name) => {
+			return <span class={`flag-pill flag-name-${name}`}>{name}</span>;
+		})
+	}
+</span>
+
+<style>
+	span.flag-pill-group {
+		display: inline-flex;
+		column-gap: 0.5em;
+		align-items: center;
+	}
+
+	span.flag-pill {
+		/* margin-left: auto; */
+		font-size: calc(var(--sl-text-code-sm) - 0.1em);
+		background: var(--sl-color-bg-inline-code);
+		font-family: var(--sl-font-system-mono);
+		border-radius: 1.15em;
+		padding: 0.075em 0.7em;
+	}
+
+	:global(span.flag-name-optional) {
+		color: var(--sl-color-green-high);
+		background: var(--sl-color-green-low);
+	}
+
+	:global(span.flag-name-dynamic) {
+		color: var(--sl-color-purple-high);
+		background: var(--sl-color-purple-low);
+	}
+
+	:global(span.flag-name-bindable) {
+		color: var(--sl-color-blue-high);
+		background: var(--sl-color-blue-low);
+	}
+
+	:global(span.flag-name-required) {
+		color: var(--sl-color-red-high);
+		background: var(--sl-color-red-low);
+	}
+
+	:global(span.flag-name-readonly) {
+		color: var(--sl-color-orange-high);
+		background: var(--sl-color-orange-low);
+	}
+</style>

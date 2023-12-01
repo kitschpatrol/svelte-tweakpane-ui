@@ -342,7 +342,8 @@ function cubicBezierToEaseFunction(cubicBezier: CubicBezierValue): (t: number) =
 // library exports
 export default {
 	/**
-	 * Convenience function for creating easing functions ready for Svelte's tween and animation systems
+	 * Convenience function for creating easing functions ready for Svelte's tween and animation
+	 * systems
 	 * @param cubicBezier - `CubicBezierValue`, probably from a `<CubicBezier>` component
 	 * @returns Tween function
 	 */
@@ -356,7 +357,8 @@ export default {
 	eulerToCssTransform,
 	/**
 	 * Convenience function for creating CSS-ready quaternion rotation transforms
-	 * @param rotation - RotationQuaternionValue, probably from a <RotationQuaternionValue> component
+	 * @param rotation - RotationQuaternionValue, probably from a <RotationQuaternionValue>
+	 * component
 	 * @returns CSS matrix3d string ready to be passed into a CSS transform
 	 */
 	quaternionToCssTransform

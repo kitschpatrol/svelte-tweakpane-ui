@@ -26,6 +26,12 @@ Svelte Tweakpane UI provides abstractions over the underlying CSS variables with
 
 Theme-related helpers are exposed on the `ThemeUtils` object, and a `Theme` type is also available to provide auto-completion and type safety when defining or overriding themes.
 
+:::note
+On the Svelte Tweakpane UI documentation site, there's some additional logic behind the scenes to synchronize Tweakpane themes with the documentation site's light / dark theme selection. Without these interventions, the default Tweakpane theme is always "dark" (`ThemeUtils.presets.standard`), regardless of `prefers-color-scheme`. Due to the myriad ways to implement light / dark themes on the web, no theme synchronization logic is built into Svelte Tweakpane UI, but it should be [reasonably easy to implement](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/docs/src/components/docs/ThemeWatcher.astro).
+:::
+
+---
+
 ## Using preset themes
 
 `ThemeUtils.presets` provides default dark and light themes, plus all of the themes defined in the [Panepaint](https://tweakpane.github.io/docs/theming/#builder) theme building tool on the Tweakpane site.
@@ -34,19 +40,15 @@ Every Svelte Tweakpane UI component includes an optional `theme` prop, into whic
 
 ### Applying presets
 
-Pass a theme preset to the `theme` prop:
+Pass a `ThemeUtils.presets` value to the `theme` prop of your Tweakpane component:
 
 <ThemeBasicCode />
 
-Applies the theme to a single component or pane on the page:
+This applies the theme to a single component or pane on the page:
 
 <ExampleWrapper>
   <ThemeBasic client:load />
 </ExampleWrapper>
-
-:::note
-On the Svelte Tweakpane UI documentation site, there's some additional logic behind the scenes to synchronize Tweakpane themes with the documentation site's light / dark theme selection. Without these interventions, the default Tweakpane theme is always "dark" (`ThemeUtils.presets.standard`), regardless of `prefers-color-scheme`. Due to the myriad ways to implement light / dark themes on the web, no theme synchronization logic is built into Svelte Tweakpane UI, but it should be [reasonably easy to implement](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/docs/src/components/docs/ThemeWatcher.astro).
-:::
 
 ### Creating a theme picker
 
@@ -159,3 +161,15 @@ For example, to restore the rounded look to specific inline components, you can 
 <ExampleWrapper>
   <ThemeOverride client:load />
 </ExampleWrapper>
+
+---
+
+## Defaults
+
+By default, all components will use the `ThemeUtils.presets.standard` theme, which is a dark theme.
+
+Svelte Tweakpane UI introduces one exception for inline panes and standalone components. "Inline" components include those created inside a `<Pane position="inline">` component, and "standalone" components that are not the child of a `<Pane>`.
+
+To better integrate with other inline elements on the page, and especially to avoid a strange scalloped aesthetic when stacking multiple standalone components, rounding is removed by default from inline and standalone the component backgrounds.
+
+If you want to restore the rounded look to specific inline components, you can pass a specific `baseBorderRadius` value to the `theme` prop of the component — or explicitly set the `ThemeUtils.presets.standard` theme.

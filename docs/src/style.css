@@ -2,8 +2,8 @@
 
 :root {
 	/* Tweakpane Specific */
-	--st-color-a: orange;
-	--st-color-b: magenta;
+	--st-color-a: rgb(255 196 0);
+	--st-color-b: rgb(217 0 105);
 	--st-gradient: linear-gradient(45deg, var(--st-color-a), var(--st-color-b));
 	--st-gradient-alpha: linear-gradient(
 		45deg,
@@ -103,7 +103,7 @@ nav ul li a[aria-current='true'],
 nav ul li a[aria-current='page'] {
 	color: white;
 	background: var(--st-gradient-alpha);
-	transition: background-color 0.25s ease; /* Transition defined here */
+	transition: background-color 0.25s ease;
 }
 
 /* Heading anchors */
@@ -121,7 +121,7 @@ nav ul li a[aria-current='page'] {
 	transform: unset;
 	display: grid;
 	place-items: center;
-	aspect-ratio: 1;
+	/* aspect-ratio: 1; Weird on safari? */
 	width: 200%;
 	height: 100%;
 	text-decoration: none;
@@ -182,7 +182,7 @@ nav ul li a[aria-current='true']:hover,
 nav ul li a[aria-current='page']:hover {
 	color: white;
 	background-color: var(--st-color-b);
-	transition: background-color 0s ease; /* Transition defined here */
+	transition: background-color 0s ease;
 }
 
 /* Scroll sidebar content, not container... */
@@ -207,6 +207,7 @@ div.hero .tagline a:hover {
 /* Component pages */
 .component-section-heading ~ h1 {
 	font-family: var(--sl-font-system-mono);
+	font-weight: normal;
 }
 
 .component-section-heading ~ h1::before {
@@ -282,11 +283,16 @@ main a.external-link {
 	position: relative;
 }
 
-main a.external-link:hover::after {
+main a.external-link::after {
 	content: '↗';
 	position: absolute;
-	font-size: 0.5em;
+	transform: scale(0.75) translate(-100%, -55%);
 	font-weight: bold;
-	vertical-align: super;
+	opacity: 0;
+	transition: opacity 0.25s ease;
+}
+
+main a.external-link:hover::after {
 	opacity: 0.5;
+	transition: opacity 0s ease;
 }

@@ -15,9 +15,9 @@
 	import type { ProfilerBladePluginParams as ProfilerOptions } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js';
 	import Blade from '$lib/core/Blade.svelte';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import { type UnwrapCustomEvents, enforceReadonly } from '$lib/utils';
+	import type { UnwrapCustomEvents } from '$lib/utils';
 	import { fillWith } from '$lib/utils';
-	import { BROWSER, DEV } from 'esm-env';
+	import { BROWSER } from 'esm-env';
 	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte';
 
 	type $$Props = Omit<
@@ -120,8 +120,8 @@
 	export let deltaUnit: $$Props['deltaUnit'] = undefined;
 	export let fractionDigits: $$Props['fractionDigits'] = undefined;
 	export let measureHandler: $$Props['measureHandler'] = undefined;
-	export let measure: $$Props['measure'] = _measure;
-	export let measureAsync: $$Props['measureAsync'] = _measureAsync;
+	export const measure: $$Props['measure'] = _measure;
+	export const measureAsync: $$Props['measureAsync'] = _measureAsync;
 	export let interval: $$Props['interval'] = undefined;
 	export let targetDelta: $$Props['targetDelta'] = undefined;
 
@@ -180,9 +180,9 @@
 
 	$: profilerBlade && startObservingMeasuredValue();
 
-	// TODO... getting false alarms on this
-	// $: DEV && enforceReadonly(_measure, measure, 'Profiler', 'measure', true);
-	// $: DEV && enforceReadonly(_measureAsync, measureAsync, 'Profiler', 'measureAsync', true);
+	// TODO... getting false alarms on this $: DEV && enforceReadonly(_measure, measure, 'Profiler',
+	// 'measure', true); $: DEV && enforceReadonly(_measureAsync, measureAsync, 'Profiler',
+	// 'measureAsync', true);
 
 	$: options = {
 		bufferSize,
@@ -280,9 +280,8 @@ position='inline'>`.
 [Profiler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/Profiler.svelte)
 -->
 
-<Blade bind:ref={profilerBlade} {options} plugin={pluginModule} {...$$restProps} />
-{#if !BROWSER}
+<Blade bind:ref={profilerBlade} {options} plugin={pluginModule} {...$$restProps} /> {#if !BROWSER}
 	<ClsPad keysAdd={fillWith('containerUnitSize', 2)} theme={$$props.theme} />
 	<!-- TODO Magic number for label... -->
-	<ClsPad extra={14.287} keysAdd={fillWith('containerVerticalPadding', 1)} theme={$$props.theme} />
-{/if}
+	<ClsPad extra={14.287} keysAdd={fillWith('containerVerticalPadding', 1)} theme={$$props.theme}
+	/> {/if}
