@@ -17,7 +17,7 @@ npm install svelte-tweakpane-ui
 
 Import and use Tweakpane components in your `.svelte` files:
 
-```svelte title="your-component.svelte"
+```svelte title="YourComponent.svelte"
 <script lang="ts">
   import { Button } from 'svelte-tweakpane-ui';
 </script>
@@ -61,6 +61,8 @@ cd svelte-tweakpane-sandbox
 npm install
 ```
 
+---
+
 ### Step 1: Add _Svelte Tweakpane UI_ to your project
 
 From the root of your project, run:
@@ -68,6 +70,8 @@ From the root of your project, run:
 ```sh
 npm install svelte-tweakpane-ui
 ```
+
+---
 
 ### Step 2: Import and use Tweakpane components
 
@@ -89,7 +93,11 @@ Then run the project:
 npm run dev -- --open
 ```
 
-And that's it, you'll notice a few things right away if you're familiar with Tweakpane:
+And you should see:
+
+![Minimal tweakpane screenshot](/svelte-tweakpane-ui/first-tweak.webp)
+
+You'll notice a few things right away if you're familiar with Tweakpane:
 
 - _**The button is in the regular page flow, not fixed in the top-right corner?**_
 

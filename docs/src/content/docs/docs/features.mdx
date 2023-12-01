@@ -9,6 +9,11 @@ A handful of additional features have been implemented in the Svelte layer of th
 
 ### Draggability
 
+<video autoplay loop muted playsinline>
+  <source src="/svelte-tweakpane-ui/draggability-demo.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
 With a single prop, you can make a `<Pane>` draggable and resizable. Position and size are persisted in local storage. (This is the default behavior for new `<Pane>`s.)
 
 ### Inline components
@@ -23,7 +28,7 @@ Throughout the library, almost anything that takes an object will now also toler
 
 For example, `<Point>` can be used with a tuple, and `<CubicBezier>` can be used with an object.
 
-This is particularly useful for interoperability with "tuple-forward" libraries like [Three.js](https://threejs.org) / [Threlte](https://threlte.xyz).
+This is particularly useful for interoperability with tuple-loving libraries like [Three.js](https://threejs.org) / [Threlte](https://threlte.xyz).
 
 ### Scaling
 
@@ -42,6 +47,10 @@ A `setGlobalDefaultTheme()` helper function makes it easy to define a default th
 ### Element component
 
 Sometimes you want to embed an arbitrary chunk of HTML in one of your panes. The `<Element>` component simplifies this.
+
+### Live text updates
+
+`<Text>` and `<Textarea>` components update their bound values every keystroke, not just on blur. (Though the old behavior remains is available via a prop.)
 
 ### Implicit Panes
 
@@ -92,3 +101,7 @@ A curation of first- and third-party Tweakpane Plugins have been wrapped in comp
 ### Tab rename
 
 The vanilla Tweakpane `Tab` is referred to as a `TabGroup` in _Svelte Tweakpane UI_, and the vanilla Tweakpane `Page` is referred to as a `<TabPage>`.
+
+### Params become props
+
+The Vanilla Tweakpane API organizes control configuration into [`Params` interfaces and objects](https://tweakpane.github.io/docs/api/interfaces/_internal_.BindingParams.html). _Svelte Tweakpane UI_ pushes these values up into top-level props on each component.

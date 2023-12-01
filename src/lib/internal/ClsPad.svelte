@@ -22,6 +22,8 @@
 	 */
 	export let extra: number | undefined = undefined;
 
+	const showDebugBlocks = false;
+
 	function getRandomCssColor() {
 		return '#' + Math.floor(Math.random() * 16777215).toString(16);
 	}
@@ -46,5 +48,8 @@
 </script>
 
 {#if total > 0}
-	<div style:background={DEV ? getRandomCssColor() : null} style:height="{total}px" />
+	<div
+		style:background={DEV && showDebugBlocks ? getRandomCssColor() : null}
+		style:height="{total}px"
+	/>
 {/if}

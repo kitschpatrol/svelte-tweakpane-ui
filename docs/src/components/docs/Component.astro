@@ -13,8 +13,7 @@ interface Props {
 
 const { componentData: data } = Astro.props;
 
-const ExampleCode = (await import(`../../examples/components/markdown/${data?.name}Example.md`))
-	.default;
+const ExampleCode = (await import(`../../examples/components/${data?.name}Example.md`)).default;
 
 const hasExample = !!data?.jsDocs?.example;
 const hasProps = !!data?.props.length;

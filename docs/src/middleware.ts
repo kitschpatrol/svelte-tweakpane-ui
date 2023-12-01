@@ -182,6 +182,7 @@ const addHeadingAnchorLinks = defineDomTransformMiddleware((document) => {
 
 			const span = heading.ownerDocument.createElement('span');
 			span.ariaHidden = 'true';
+			span.setAttribute('data-pagefind-ignore', 'true');
 			span.className = 'anchor-icon';
 			span.innerHTML = '🔗';
 

@@ -5,12 +5,20 @@ description: Svelte Tweakpane UI basics.
 
 import ComponentList from '../../../components/docs/ComponentList.astro';
 import ComponentCount from '../../../components/docs/ComponentCount.astro';
+import VanillaTweakpaneRangeCode from '../../../examples/docs/VanillaTweakpaneRange.md';
+import SvelteTweakpaneRangeCode from '../../../examples/docs/SvelteTweakpaneRange.md';
+import SvelteTweakpaneRange from '../../../examples/docs/SvelteTweakpaneRange.svelte';
+import ExampleWrapper from '../../../components/docs/ExampleWrapper.astro';
 
-🎛️ **_Svelte Tweakpane UI_ wraps user-interface elements from the excellent [Tweakpane](https://cocopon.github.io/tweakpane/) library in a collection of <ComponentCount /> idiomatic, fully-reactive, carefully-crafted [Svelte](https://svelte.dev) components.**
+<header>
+  🎛️ **_Svelte Tweakpane UI_** wraps user-interface elements from the excellent
+  [Tweakpane](https://cocopon.github.io/tweakpane/) library in a collection of <ComponentCount />{' '}
+  idiomatic, reactive, type-safe, carefully-crafted [Svelte](https://svelte.dev) components.
+</header>
 
-The library makes it easy to quickly add knobs and dials to your projects using declarative components that feel like they belong in the DOM. It also augments Tweakpane with a few [extra features]() for your convenience and enjoyment.
+The library makes it easy to quickly and declaratively add knobs and dials to your projects using components that feel like they belong in the DOM. It also augments Tweakpane with a few [extra features](./docs/features) for your convenience and enjoyment.
 
-The components should be useful for quickly integrating controls and value monitoring in parametrically driven artworks or simulations. For some use cases, it could also present a viable alternative to traditional component libraries altogether.
+The components should be useful for integrating controls and value monitoring in parametrically driven artworks or simulations. For some use cases, it could also present a viable alternative to traditional component libraries altogether.
 
 It's open-source, MIT-licensed, and is compatible with Svelte 4 and Tweakpane 4. It should work anywhere Svelte works, including [SvelteKit](https://kit.svelte.dev/) and "island" frameworks like [Astro](https://astro.build/). _Svelte Tweakpane UI_ is distributed as an [NPM package](http://npmjs.com/package/svelte-tweakpane-ui), and the source code is available on [GitHub](https://github.com/kitschpatrol/svelte-tweakpane-ui).
 
@@ -18,17 +26,39 @@ It's open-source, MIT-licensed, and is compatible with Svelte 4 and Tweakpane 4.
 
 ## Why use this?
 
-Tweakpane represents many years of development effort by [Hiroki Kokubun](https://cocopon.me). The library's visual design offers a highly legible aesthetic, and its implementation provides fine specimens of many controls that are often a bit clunky in general-purpose component libraries.
+You have values you want to control, and you're using Svelte.
 
-It has a very well-designed, well-documented, and well-tested Vanilla JS / TS API that's generally a pleasure to use.
+Tweakpane represents many years of development effort by [Hiroki Kokubun](https://cocopon.me). It has a well-designed, well-documented, and well-tested Vanilla JS / TS API that's generally a pleasure to use.
 
-This works great in many contexts, and has the advantage of being quite dynamic and flexible.
+This works great in many contexts, and has the advantage of being quite dynamic and flexible. In a Svelte project, though, it always takes some extra work to make an imperative API play well with the frameworks' paradigms for bindings, events, and component lifecycle management.
 
-In the context of a reactive framework like Svelte, it's often desirable to take a more declarative approach to UI construction, and to take advantage of the frameworks' paradigms for bindings, events, and component lifecycle management.
+_Svelte Tweakpane UI_ bridges this gap between Tweakpane's imperative API and Svelte's declarative approach.
 
-_Svelte Tweakpane UI_ bridges the gap between Tweakpane's imperative API and Svelte's declarative approach, providing a collection of components that can be used in place of Tweakpane's imperative API.
+To demonstrate, let's integrate a simple example like [range-bound number slider](https://cocopon.github.io/tweakpane/input-bindings/#number_range) as an inline element in a Svelte component.
 
-{/* TODO add a before / after example here */}
+##### Vanilla Tweakpane example
+
+This is what a transcription of the slider into a Svelte component via the Vanilla Tweakpane API might like in Svelte.
+
+<VanillaTweakpaneRangeCode />
+
+It takes a bit of extra code and reasoning to create the `PARAMS` object, manage binding, listen for update events, component lifecycle, place the control in the DOM, etc.
+
+##### _Svelte Tweakpane UI_ Example
+
+Here's the same example transcribed into _Svelte Tweakpane UI_:
+
+<SvelteTweakpaneRangeCode />
+
+Lifecycle, DOM placement, binding, and event handling are all handled by the component. The component will also dynamically update when any of its props change, reconstructing the entire component if needed.
+
+In this example, the code is a bit shorter, but the fundamental objectives are convenience, clarity of intent, and consistency with Svelte idioms — brevity is an occasional side-effect, but not a design priority.
+
+Both yield the same range-bound numeric slider:
+
+<ExampleWrapper>
+  <SvelteTweakpaneRange client:load />
+</ExampleWrapper>
 
 ---
 
@@ -47,33 +77,31 @@ Three reasons:
    - Multiple means of value input and manipulation (type, drag, click, etc.)
    - A general confidence that your users can handle a slider or two without decompensating
 
-   Tweakpane feels like something you can craft a sharp tool with. It's a nice break from the anodyne status quo wrought by the past decade's "UX"-driven interface designs.
-
 ---
 
 ## Components
 
-_Svelte Tweakpane UI's_ <ComponentCount /> components are exported from the `svelte-tweakpane-ui` package in a flat namespace, but internally they're structured into four basic functional groups, which are reflected in the documentation to help you find what you're looking for.
+_Svelte Tweakpane UI's_ <ComponentCount /> components are exported from the `svelte-tweakpane-ui` package in a flat namespace. Internally, they're structured into four basic functional groups: **core**, **control**, **monitor**, and **extra**, which are reflected in the documentation to help you find what you're looking for.
 
-### Core Components
+### Core components
 
 The Core components are generally concerned with the structure and containment of other UI elements, and closely mirror the building blocks of the Vanilla Tweakpane API. You'll see some familiar names here, like `Blade`, `Binding`, and `Button` — but bear in mind that higher-level components are available.
 
 <ComponentList scope="core" />
 
-### Control Components
+### Control components
 
 These provide component abstractions for the full range of Tweakpane controls — plus some extras from the Plugins ecosystem. They are generally used to manipulate values.
 
 <ComponentList scope="control" />
 
-### Monitor Components
+### Monitor components
 
 Components optimized for visualizing values rather than manipulating them.
 
 <ComponentList scope="monitor" />
 
-### Extra Components
+### Extra components
 
 These are misfits and novelties.
 
@@ -91,7 +119,7 @@ _Svelte Tweakpane UI_ takes a monolithic approach. A single dependency and impor
 
 This library exposes both the core building blocks of Tweakpane's vanilla JS API as Svelte components (e.g. `Bindings`, `Folder`, `Pane`, etc.), and builds on this foundation to provide a number of more specific components which provide both convenience, clarity of intent, and improved auto-completion through type narrowing (e.g. `Slider`, `Point`, etc.).
 
-These more specific components trade some flexibility for ease of use, but if you don't care for that tradeoff the lower-level components remain available for use.
+These more specific components trade some flexibility for ease of use. If that's not to your taste, the lower-level components remain available for use. (`<AutoObject>` and `<AutoValue>` are also well-suited for situations demanding more dynamism.).
 
 ### Let Svelte bind
 
@@ -156,9 +184,9 @@ It's verbose, but consistent and predictable.
 
 Most component names hew closely to the language used in the official Tweakpane documentation and API reference or in their originating Plugin, with one important exception:
 
-The vanilla Tweakpane `Tab` is referred to as a `TabGroup` in _Svelte Tweakpane UI_, and the vanilla Tweakpane `Page` is referred to as a `<TabPage>`.
+The vanilla Tweakpane `Tab` is referred to as a `<TabGroup>` in _Svelte Tweakpane UI_, and the vanilla Tweakpane `Page` is referred to as a `<TabPage>`.
 
-The names may seem quite terse, and likely to collide with other components (`Image`?), but this is by design since JavaScript and TypeScript provide reasonable techniques for creating namespaces and avoiding collisions.
+The names may seem quite terse, and likely to collide with other components (`<Image>`?), but this is by design since JavaScript and TypeScript provide reasonable techniques for creating namespaces and avoiding collisions.
 
 For example, a namespace import onto the alias `T`:
 
@@ -184,17 +212,17 @@ For example, instead of:
 <Button />
 ```
 
-You might use:
+You would use:
 
 ```svelte
 <script lang="ts">
-  import Button from 'svelte-tweakpane-ui/core/Button.svelte';
+  import Button from 'svelte-tweakpane-ui/Button.svelte';
 </script>
 
 <Button />
 ```
 
-_P.S. Tree shaking feels more like alchemy than forestry... I'm open to suggestions for a better ways to encourage the tree shaker to do its work thoroughly and completely._
+_P.S. Tree shaking resembles alchemy more than forestry... I'm open to suggestions for a better ways to encourage the tree shaker to do its work thoroughly._
 
 ### "Island" framework compatibility
 
@@ -224,9 +252,17 @@ You may see warnings if you change a dynamic prop at runtime while continuing to
 
 ### Tweak-oriented UI libraries
 
-- [dat.gui](https://github.com/dataarts/dat.gui) _The OG, Vanilla JS_
-- [leva](https://github.com/pmndrs/leva) _React-centric_
+#### JS
+
+- [dat.gui](https://github.com/dataarts/dat.gui)
+- [leva](https://github.com/pmndrs/leva) _(React)_
 - [svelte-knobby](https://github.com/Rich-Harris/svelte-knobby)
+
+#### C++
+
+- [ofxRemoteUI](https://github.com/armadillu/ofxRemoteUI)
+- [JUCE](https://juce.com/)
+- [Dear ImGui](https://github.com/ocornut/imgui)
 
 ### Svelte Tweakpane Wrappers
 
@@ -235,7 +271,7 @@ Two other projects provide integration between Tweakpane and Svelte:
 - [svelte-tweakpane](https://github.com/pierogis/svelte-tweakpane) by [Karl Moore](https://pierogis.live)
 - [svelte-pane](https://github.com/mattcroat/svelte-pane) by [Matija](https://matia.xyz/)
 
-_Svelte Tweakpane UI_ drew some inspiration from these projects, but was developed independently. The `-ui` suffix in _Svelte Tweakpane UI_ is to avoid a naming collision with Karl Moore's work.
+_Svelte Tweakpane UI_ drew some inspiration from these projects, but was developed independently. The `-ui` suffix in `svelte-tweakpane-ui` is to avoid a naming collision with Karl Moore's work.
 
 ### Tweakpane adaptations for reactive frameworks
 

@@ -1,8 +1,6 @@
-import {
-	getComponentExampleCodeFromSource,
-	getExportedComponents,
-	lintAndFormat
-} from './ast-tools';
+// extracts and saves example blocks from component jsdocs,
+
+import { getComponentExampleCodeFromSource, getExportedComponents } from './ast-tools';
 import fs from 'fs';
 
 const components = getExportedComponents('./src/lib/index.ts');
@@ -14,7 +12,7 @@ for (const { name } of components) {
 	if (code) {
 		fs.writeFileSync(
 			`./src/examples/components/${name}Example.svelte`,
-			await lintAndFormat(code.replace(/'svelte-tweakpane-ui/, "'$lib"))
+			code.replace(/'svelte-tweakpane-ui/, "'$lib")
 		);
 	}
 }

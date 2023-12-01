@@ -250,8 +250,8 @@
 					/>
 				{/each}
 			</Folder>
-			<Separator />
 			{#if cubicBezierEnabled}
+				<Separator />Z
 				<RotationEuler
 					bind:value={$point3}
 					expanded={true}

@@ -219,6 +219,11 @@ div.hero .tagline a:hover {
 	content: '>';
 }
 
+/* No pointless x scroll on mobile */
+body {
+	overflow-x: hidden;
+}
+
 /* Home Page */
 html[data-has-hero] {
 	overflow: hidden;
@@ -259,7 +264,7 @@ div.hero .tagline a img {
 	aspect-ratio: 1;
 	width: 1em;
 	margin-right: 0.1em;
-	vertical-align: text-bottom;
+	margin-bottom: -0.1em;
 }
 
 div.hero a.action {
@@ -300,4 +305,8 @@ main a.external-link::after {
 main a.external-link:hover::after {
 	opacity: 0.5;
 	transition: opacity 0s ease;
+}
+
+main div.sl-markdown-content header {
+	font-size: var(--sl-text-xl);
 }

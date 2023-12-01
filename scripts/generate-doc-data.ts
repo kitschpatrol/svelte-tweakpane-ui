@@ -52,7 +52,7 @@ async function generateComponentData(
 					})}---\n`;
 
 					// Embed example component so we don't have to load it dynamically so that it can prerender to avoid cls
-					content += `\nimport Example from '../../../../examples/components/svelte/${componentName}Example.svelte';\n`;
+					content += `\nimport Example from '../../../../examples/components/${componentName}Example.svelte';\n`;
 					content += `\n<Example client:load />\n`;
 
 					// this would be nicer to lay out in astro, but looking for ways around

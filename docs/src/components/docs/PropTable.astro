@@ -9,6 +9,7 @@ interface Props {
 	data: ComponentProp[];
 	conditionData?: ConditionsRecord;
 	showDefault?: boolean;
+	showExample?: boolean;
 	showFlags?: boolean;
 	monoTable?: boolean;
 }
@@ -25,6 +26,11 @@ function cleanDefault(defaultValue: string | undefined): string {
 	return marked.parseInline(defaultValue) as string;
 }
 
+function cleanExample(exampleValue: string | undefined): string {
+	if (exampleValue === undefined) return '';
+	return marked.parseInline(exampleValue) as string;
+}
+
 function isReadonly(prop: ComponentProp): boolean {
 	return 'readonly' in prop.jsDocs;
 }
@@ -35,8 +41,9 @@ function isRequired(type: string): boolean {
 
 function getFlags(prop: ComponentProp, dynamic: boolean = false): string[] {
 	const flags = Object.keys(prop.jsDocs)
-		// default gets its own row
+		// default gets its own row, and so does example
 		.filter((key) => key !== 'default')
+		.filter((key) => key !== 'example')
 		.map((key) => key);
 
 	// have to pull "required" from type
@@ -57,6 +64,7 @@ const {
 	data,
 	conditionData = {},
 	showDefault = true,
+	showExample = true,
 	showFlags = true,
 	monoTable = false
 } = Astro.props;
@@ -118,6 +126,12 @@ const {
 						<tr>
 							<th>Default</th>
 							<td set:html={cleanDefault(prop.jsDocs.default)} />
+						</tr>
+					)}
+					{showExample && 'example' in prop.jsDocs && (
+						<tr>
+							<th>Example</th>
+							<td set:html={cleanExample(prop.jsDocs.example)} />
 						</tr>
 					)}
 					{conditionData[prop.name] !== undefined && (

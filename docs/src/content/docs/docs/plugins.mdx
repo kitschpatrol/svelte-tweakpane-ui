@@ -5,24 +5,22 @@ description: Components from Tweakpane plugins.
 
 import ExampleWrapper from '../../../components/docs/ExampleWrapper.astro';
 import InlineImage from '../../../components/docs/InlineImage.astro';
-import PluginBasic from '../../../examples/docs/svelte/PluginBasic.svelte';
-import PluginBasicCode from '../../../examples/docs/markdown/PluginBasic.md';
+import SvelteTweakpanePluginExample from '../../../examples/docs/SvelteTweakpanePluginExample.svelte';
+import SvelteTweakpanePluginExampleCode from '../../../examples/docs/SvelteTweakpanePluginExample.md';
 
 Tweakpane is enriched by a [variety of first- and third-party component plugins](https://github.com/topics/tweakpane).
 
 To keep these close at hand and to ensure plugin compatibility with Tweakpane version 4, this library includes a number of popular plugins optimized for use in the _Svelte Tweakpane UI_ style (while still allowing tree-shaking to keep the bundle size in check.)
 
-## In name only
+## They're just components
 
 _Svelte Tweakpane UI_ takes a slightly different approach to plugins than the underlying vanilla JS Tweakpane API. Instead of explicitly `npm` installing, importing, and then registering plugins on a `Pane` object, _Svelte Tweakpane UI_ manages plugin import and registration automatically the first time they're used.
 
-**From the library user's perspective, they're just another component.**
+**From the library user's perspective, they're regular components.**
 
-So "Plugin" in _Svelte Tweakpane UI_ indicates the _provenance_ of a component, but doesn't change how it's used.
+To keep bundle size down, it's recommended to use [per-component imports](/svelte-tweakpane-ui/docs#importing-components) when you're ready to go to production.
 
-To keep bundle size down, it's recommended to use [per-component imports](https://example.com/TODO) when you're ready to go to production.
-
-Many of the most popular Tweakpane plugins are already bundled with _Svelte Tweakpane UI_, and have been "wrapped" according to the conventions of the library. Plugins _**not**_ currently bundled with the _Svelte Tweakpane UI_ library **will not work** seamlessly unless they are explicitly wrapped.
+Many of the most popular Tweakpane plugins are already bundled with _Svelte Tweakpane UI_, and have been "wrapped" according to the conventions of the library. Plugins _**not**_ currently bundled with the _Svelte Tweakpane UI_ library _**will not work**_ seamlessly unless they are explicitly wrapped.
 
 :::note[Implicit vs. Explicit Controls]
 
@@ -48,7 +46,7 @@ npm install @tweakpane/plugin-essentials
 
 Then importing, registering, and using the plugin:
 
-```js
+```js title="VanillaTweakpanePluginExample.js"
 import { Pane } from 'tweakpane';
 import * as EssentialsPlugin from '@tweakpane/plugin-essentials';
 
@@ -71,12 +69,12 @@ pane
 
 ### Svelte Tweakpane UI
 
-<PluginBasicCode />
+<SvelteTweakpanePluginExampleCode />
 
 The result should be the same:
 
 <ExampleWrapper>
-  <PluginBasic client:load />
+  <SvelteTweakpanePluginExample client:load />
 </ExampleWrapper>
 
 ---
@@ -91,7 +89,7 @@ The following plugins are included with _Svelte Tweakpane UI_, and are ready to 
 - [Profiler](https://github.com/0b5vr/tweakpane-plugin-profiler) `<Profiler>`
 - [Rotation](https://github.com/0b5vr/tweakpane-plugin-rotation) `<RotationQuaternion>`, `<RotationEuler>`
 - [Textarea](https://github.com/kitschpatrol/tweakpane-textarea-plugin) `<Textarea>` _(forked from [panGenerator](https://github.com/panGenerator/tweakpane-textarea-plugin) and ported to v4)\*_
-- [Waveform](https://github.com/kitschpatrol/tweakpane-plugin-waveform) `<Wave>`
+- [Waveform](https://github.com/kitschpatrol/tweakpane-plugin-waveform) `<WaveformMonitor>`
 
 \*_Tweakpane version 4 is a relatively recent release, and it introduced a number of breaking changes for plugin developers. I've ported the asterisked plugins above from Tweakpane 3 to Tweakpane 4, and and submitted PRs to the project owners. As soon as the PRs are merged, I will update the dependencies in Svelte Tweakpane UI to point to the source instead of my fork._
 

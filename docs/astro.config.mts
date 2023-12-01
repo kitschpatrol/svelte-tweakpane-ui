@@ -35,6 +35,7 @@ export default defineConfig({
 			},
 			expressiveCode: {
 				styleOverrides: {
+					codeLineHeight: '1.65',
 					frames: {
 						tooltipSuccessBackground: 'var(--sl-color-gray-3)'
 					}

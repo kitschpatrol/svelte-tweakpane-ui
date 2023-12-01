@@ -67,10 +67,11 @@
 		/**
 		 * Function handle that wraps another function to measure its execution duration.
 		 *
+		 *  If you want to measure something other than execution duration, customize
+		 * `ProfilerBladeDefaultMeasureHandler`.
+		 *
 		 * @example `measure('Hard Work', () => { ... })`;
 		 *
-		 * If you want to measure something other than execution duration, customize
-		 * `ProfilerBladeDefaultMeasureHandler`.
 		 * @bindable
 		 * @readonly
 		 * @default `undefined`
