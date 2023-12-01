@@ -188,7 +188,7 @@ position='inline'>`.
 ```
 
 @sourceLink
-[RotationQuaternion.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/RotationQuaternion.svelte)
+[RotationQuaternion.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/RotationQuaternion.svelte)
 -->
 
 <GenericInputFolding bind:value={internalValue} bind:expanded {buttonClass} {options}

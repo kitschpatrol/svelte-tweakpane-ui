@@ -46,7 +46,7 @@ See the `<Interval>` component for a multi-handle range-defining slider.
 ```
 
 @sourceLink
-[Slider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Slider.svelte)
+[Slider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Slider.svelte)
 -->
 
 <GenericSlider bind:value {...$$restProps} />

@@ -277,7 +277,7 @@ position='inline'>`.
 ```
 
 @sourceLink
-[Profiler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/Profiler.svelte)
+[Profiler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/monitor/Profiler.svelte)
 -->
 
 <Blade bind:ref={profilerBlade} {options} plugin={pluginModule} {...$$restProps} /> {#if !BROWSER}

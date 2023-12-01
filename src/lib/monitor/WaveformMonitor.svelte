@@ -58,6 +58,7 @@
 		min,
 		max,
 		lineStyle,
+		readonly: true,
 		view: 'waveform'
 	};
 </script>
@@ -92,7 +93,7 @@ position='inline'>`.
 ```
 
 @sourceLink
-[WaveformMonitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/WaveformMonitor.svelte)
+[WaveformMonitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/monitor/WaveformMonitor.svelte)
 -->
 
 <GenericMonitor {value} {options} plugin={pluginModule} {...$$restProps} /> {#if !BROWSER}

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Text from '$lib/extra/Text.svelte';
+	import Text from '$lib/control/Text.svelte';
 	import GenericBinding from '$lib/internal/GenericBinding.svelte';
 	import type { ComponentProps } from 'svelte';
 

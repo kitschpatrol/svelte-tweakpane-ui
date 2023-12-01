@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CubicBezier } from 'svelte-tweakpane-ui';
+	import { CubicBezier } from '$lib';
 
 	let value: [number, number, number, number] = [0.5, 0, 0.5, 1];
 

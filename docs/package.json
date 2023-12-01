@@ -27,7 +27,7 @@
     "@astrojs/check": "^0.3.1",
     "@astrojs/starlight": "^0.13.1",
     "@astrojs/svelte": "^4.0.4",
-    "astro": "^3.6.3",
+    "astro": "^3.6.4",
     "astro-compress": "^2.2.3",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",

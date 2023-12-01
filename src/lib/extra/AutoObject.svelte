@@ -3,9 +3,9 @@
 	import { Point2d } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js';
 	import { Point3d } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
 	import { Point4d } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d.js';
+	import Text from '$lib/control/Text.svelte';
 	import Binding from '$lib/core/Binding.svelte';
 	import Folder from '$lib/core/Folder.svelte';
-	import Text from '$lib/extra/Text.svelte';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
 	import type { BindingObject, Container } from '$lib/utils.js';

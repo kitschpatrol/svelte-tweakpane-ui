@@ -74,7 +74,7 @@ position='inline'>`.
 ```
 
 @sourceLink
-[Text.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Text.svelte)
+[Text.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Text.svelte)
 -->
 
 <GenericInput bind:value bind:ref {...$$restProps} />

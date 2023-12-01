@@ -264,7 +264,7 @@ position='inline'>`.
 ```
 
 @sourceLink
-[FpsGraph.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/FpsGraph.svelte)
+[FpsGraph.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/monitor/FpsGraph.svelte)
 -->
 
 <Blade bind:ref={fpsBlade} {options} plugin={pluginModule} {...$$restProps} /> {#if !BROWSER} {#if

@@ -191,7 +191,7 @@ position='inline'>`.
 ```
 
 @sourceLink
-[RadioGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/RadioGrid.svelte)
+[RadioGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/RadioGrid.svelte)
 -->
 
 <GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} /> {#if !BROWSER}

@@ -26,6 +26,70 @@
       "types": "./dist/index.d.ts",
       "svelte": "./dist/index.js"
     },
+    "./ButtonGrid.svelte": {
+      "types": "./dist/control/ButtonGrid.svelte.d.ts",
+      "svelte": "./dist/control/ButtonGrid.svelte"
+    },
+    "./Checkbox.svelte": {
+      "types": "./dist/control/Checkbox.svelte.d.ts",
+      "svelte": "./dist/control/Checkbox.svelte"
+    },
+    "./Color.svelte": {
+      "types": "./dist/control/Color.svelte.d.ts",
+      "svelte": "./dist/control/Color.svelte"
+    },
+    "./CubicBezier.svelte": {
+      "types": "./dist/control/CubicBezier.svelte.d.ts",
+      "svelte": "./dist/control/CubicBezier.svelte"
+    },
+    "./Image.svelte": {
+      "types": "./dist/control/Image.svelte.d.ts",
+      "svelte": "./dist/control/Image.svelte"
+    },
+    "./IntervalSlider.svelte": {
+      "types": "./dist/control/IntervalSlider.svelte.d.ts",
+      "svelte": "./dist/control/IntervalSlider.svelte"
+    },
+    "./List.svelte": {
+      "types": "./dist/control/List.svelte.d.ts",
+      "svelte": "./dist/control/List.svelte"
+    },
+    "./Point.svelte": {
+      "types": "./dist/control/Point.svelte.d.ts",
+      "svelte": "./dist/control/Point.svelte"
+    },
+    "./RadioGrid.svelte": {
+      "types": "./dist/control/RadioGrid.svelte.d.ts",
+      "svelte": "./dist/control/RadioGrid.svelte"
+    },
+    "./Ring.svelte": {
+      "types": "./dist/control/Ring.svelte.d.ts",
+      "svelte": "./dist/control/Ring.svelte"
+    },
+    "./RotationEuler.svelte": {
+      "types": "./dist/control/RotationEuler.svelte.d.ts",
+      "svelte": "./dist/control/RotationEuler.svelte"
+    },
+    "./RotationQuaternion.svelte": {
+      "types": "./dist/control/RotationQuaternion.svelte.d.ts",
+      "svelte": "./dist/control/RotationQuaternion.svelte"
+    },
+    "./Slider.svelte": {
+      "types": "./dist/control/Slider.svelte.d.ts",
+      "svelte": "./dist/control/Slider.svelte"
+    },
+    "./Text.svelte": {
+      "types": "./dist/control/Text.svelte.d.ts",
+      "svelte": "./dist/control/Text.svelte"
+    },
+    "./Textarea.svelte": {
+      "types": "./dist/control/Textarea.svelte.d.ts",
+      "svelte": "./dist/control/Textarea.svelte"
+    },
+    "./Wheel.svelte": {
+      "types": "./dist/control/Wheel.svelte.d.ts",
+      "svelte": "./dist/control/Wheel.svelte"
+    },
     "./Binding.svelte": {
       "types": "./dist/core/Binding.svelte.d.ts",
       "svelte": "./dist/core/Binding.svelte"
@@ -46,6 +110,10 @@
       "types": "./dist/core/Pane.svelte.d.ts",
       "svelte": "./dist/core/Pane.svelte"
     },
+    "./Separator.svelte": {
+      "types": "./dist/core/Separator.svelte.d.ts",
+      "svelte": "./dist/core/Separator.svelte"
+    },
     "./TabGroup.svelte": {
       "types": "./dist/core/TabGroup.svelte.d.ts",
       "svelte": "./dist/core/TabGroup.svelte"
@@ -62,93 +130,25 @@
       "types": "./dist/extra/AutoValue.svelte.d.ts",
       "svelte": "./dist/extra/AutoValue.svelte"
     },
-    "./Checkbox.svelte": {
-      "types": "./dist/extra/Checkbox.svelte.d.ts",
-      "svelte": "./dist/extra/Checkbox.svelte"
-    },
-    "./Color.svelte": {
-      "types": "./dist/extra/Color.svelte.d.ts",
-      "svelte": "./dist/extra/Color.svelte"
-    },
     "./Element.svelte": {
       "types": "./dist/extra/Element.svelte.d.ts",
       "svelte": "./dist/extra/Element.svelte"
     },
-    "./List.svelte": {
-      "types": "./dist/extra/List.svelte.d.ts",
-      "svelte": "./dist/extra/List.svelte"
+    "./FpsGraph.svelte": {
+      "types": "./dist/monitor/FpsGraph.svelte.d.ts",
+      "svelte": "./dist/monitor/FpsGraph.svelte"
     },
     "./Monitor.svelte": {
-      "types": "./dist/extra/Monitor.svelte.d.ts",
-      "svelte": "./dist/extra/Monitor.svelte"
-    },
-    "./Point.svelte": {
-      "types": "./dist/extra/Point.svelte.d.ts",
-      "svelte": "./dist/extra/Point.svelte"
-    },
-    "./Separator.svelte": {
-      "types": "./dist/extra/Separator.svelte.d.ts",
-      "svelte": "./dist/extra/Separator.svelte"
-    },
-    "./Slider.svelte": {
-      "types": "./dist/extra/Slider.svelte.d.ts",
-      "svelte": "./dist/extra/Slider.svelte"
-    },
-    "./Text.svelte": {
-      "types": "./dist/extra/Text.svelte.d.ts",
-      "svelte": "./dist/extra/Text.svelte"
-    },
-    "./Image.svelte": {
-      "types": "./dist/plugin/Image.svelte.d.ts",
-      "svelte": "./dist/plugin/Image.svelte"
+      "types": "./dist/monitor/Monitor.svelte.d.ts",
+      "svelte": "./dist/monitor/Monitor.svelte"
     },
     "./Profiler.svelte": {
-      "types": "./dist/plugin/Profiler.svelte.d.ts",
-      "svelte": "./dist/plugin/Profiler.svelte"
-    },
-    "./RotationEuler.svelte": {
-      "types": "./dist/plugin/RotationEuler.svelte.d.ts",
-      "svelte": "./dist/plugin/RotationEuler.svelte"
-    },
-    "./RotationQuaternion.svelte": {
-      "types": "./dist/plugin/RotationQuaternion.svelte.d.ts",
-      "svelte": "./dist/plugin/RotationQuaternion.svelte"
-    },
-    "./Textarea.svelte": {
-      "types": "./dist/plugin/Textarea.svelte.d.ts",
-      "svelte": "./dist/plugin/Textarea.svelte"
+      "types": "./dist/monitor/Profiler.svelte.d.ts",
+      "svelte": "./dist/monitor/Profiler.svelte"
     },
     "./WaveformMonitor.svelte": {
-      "types": "./dist/plugin/WaveformMonitor.svelte.d.ts",
-      "svelte": "./dist/plugin/WaveformMonitor.svelte"
-    },
-    "./Ring.svelte": {
-      "types": "./dist/plugin/camerakit/Ring.svelte.d.ts",
-      "svelte": "./dist/plugin/camerakit/Ring.svelte"
-    },
-    "./Wheel.svelte": {
-      "types": "./dist/plugin/camerakit/Wheel.svelte.d.ts",
-      "svelte": "./dist/plugin/camerakit/Wheel.svelte"
-    },
-    "./ButtonGrid.svelte": {
-      "types": "./dist/plugin/essentials/ButtonGrid.svelte.d.ts",
-      "svelte": "./dist/plugin/essentials/ButtonGrid.svelte"
-    },
-    "./CubicBezier.svelte": {
-      "types": "./dist/plugin/essentials/CubicBezier.svelte.d.ts",
-      "svelte": "./dist/plugin/essentials/CubicBezier.svelte"
-    },
-    "./FpsGraph.svelte": {
-      "types": "./dist/plugin/essentials/FpsGraph.svelte.d.ts",
-      "svelte": "./dist/plugin/essentials/FpsGraph.svelte"
-    },
-    "./IntervalSlider.svelte": {
-      "types": "./dist/plugin/essentials/IntervalSlider.svelte.d.ts",
-      "svelte": "./dist/plugin/essentials/IntervalSlider.svelte"
-    },
-    "./RadioGrid.svelte": {
-      "types": "./dist/plugin/essentials/RadioGrid.svelte.d.ts",
-      "svelte": "./dist/plugin/essentials/RadioGrid.svelte"
+      "types": "./dist/monitor/WaveformMonitor.svelte.d.ts",
+      "svelte": "./dist/monitor/WaveformMonitor.svelte"
     },
     "./ThemeUtils.js": {
       "types": "./dist/theme.d.ts",
@@ -243,9 +243,9 @@
     "@sveltejs/adapter-static": "^2.0.3",
     "@sveltejs/kit": "^1.27.6",
     "@sveltejs/package": "^2.2.3",
-    "@types/eslint": "^8.44.7",
+    "@types/eslint": "^8.44.8",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.10.0",
+    "@types/node": "^20.10.1",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
     "cspell": "^8.0.0",
@@ -268,13 +268,13 @@
     "stylelint-config-clean-order": "^5.2.0",
     "stylelint-config-html": "^1.1.0",
     "stylelint-config-standard": "^34.0.0",
-    "svelte": "^4.2.7",
+    "svelte": "^4.2.8",
     "svelte-check": "^3.6.2",
     "svelte-language-server": "^0.16.1",
     "svelte2tsx": "^0.6.27",
     "ts-morph": "^20.0.0",
     "tslib": "^2.6.2",
-    "tsx": "^4.6.0",
+    "tsx": "^4.6.1",
     "typescript": "^5.3.2",
     "vite": "^4.5.0",
     "yaml": "^2.3.4"

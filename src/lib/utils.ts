@@ -290,9 +290,9 @@ export function getSwatchButton(
 // exposed under the Utils namespace alternative might be to scope these under the related
 // component's module as static methods?
 
-import type { CubicBezierValue } from '$lib/plugin/essentials/CubicBezier.svelte';
-import type { RotationEulerUnit, RotationEulerValue } from '$lib/plugin/RotationEuler.svelte';
-import type { RotationQuaternionValue } from '$lib/plugin/RotationQuaternion.svelte';
+import type { CubicBezierValue } from '$lib/control/CubicBezier.svelte';
+import type { RotationEulerUnit, RotationEulerValue } from '$lib/control/RotationEuler.svelte';
+import type { RotationQuaternionValue } from '$lib/control/RotationQuaternion.svelte';
 
 // utility functions
 

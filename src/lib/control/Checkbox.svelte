@@ -30,7 +30,7 @@ position='inline'>`.
 ```
 
 @sourceLink
-[Checkbox.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Checkbox.svelte)
+[Checkbox.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Checkbox.svelte)
 -->
 
 <GenericInput bind:value {...$$restProps} />

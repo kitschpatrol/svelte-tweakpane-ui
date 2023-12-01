@@ -152,7 +152,7 @@ position='inline'>`.
 ```
 
 @sourceLink
-[Color.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Color.svelte)
+[Color.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Color.svelte)
 -->
 
 <GenericInputFolding bind:value={internalValue} bind:expanded bind:ref {buttonClass} {options}

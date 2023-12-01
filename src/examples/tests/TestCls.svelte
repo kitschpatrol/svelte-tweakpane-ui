@@ -273,7 +273,7 @@
 	<Point bind:value={point2d} expanded={true} picker="inline" />
 </Pane>
 
-<h1>waveform Monitor</h1>
+<h1>wave Monitor</h1>
 <WaveformMonitor value={waveData} min={-1} max={11} lineStyle={'bezier'} />
 <WaveformMonitor
 	value={waveData}

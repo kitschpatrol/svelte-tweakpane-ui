@@ -76,7 +76,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the wheel in `<Pane p
 ```
 
 @sourceLink
-[Wheel.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/camerakit/Wheel.svelte)
+[Wheel.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Wheel.svelte)
 -->
 
 <GenericSlider bind:value {options} plugin={pluginModule} {...$$restProps} />

@@ -43,7 +43,7 @@ position='inline'>`.
 ```
 
 @sourceLink
-[Separator.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Separator.svelte)
+[Separator.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Separator.svelte)
 -->
 
 {#if BROWSER}

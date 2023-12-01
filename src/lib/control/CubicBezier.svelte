@@ -194,7 +194,7 @@ updates. Consider managing the lifecycle of this component with care until this 
 ```
 
 @sourceLink
-[CubicBezier.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/CubicBezier.svelte)
+[CubicBezier.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/CubicBezier.svelte)
 -->
 
 <GenericBladeFolding bind:expanded bind:ref={cubicBezierBlade} {buttonClass} {options}

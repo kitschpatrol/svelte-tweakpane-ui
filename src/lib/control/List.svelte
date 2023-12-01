@@ -145,7 +145,7 @@ position='inline'>`.
 ```
 
 @sourceLink
-[List.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/List.svelte)
+[List.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/List.svelte)
 -->
 
 <Blade bind:ref={listBlade} options={bladeOptions} {...$$restProps} /> {#if !BROWSER}

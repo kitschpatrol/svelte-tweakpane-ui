@@ -198,7 +198,7 @@ position='inline'>`.
 ```
 
 @sourceLink
-[ButtonGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/ButtonGrid.svelte)
+[ButtonGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/ButtonGrid.svelte)
 -->
 
 <Blade bind:ref={gridBlade} {options} plugin={pluginModule} {...$$restProps} /> {#if !BROWSER}

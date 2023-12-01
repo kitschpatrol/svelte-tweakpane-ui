@@ -109,7 +109,7 @@ position='inline'>`.
 ```
 
 @sourceLink
-[Textarea.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/Textarea.svelte)
+[Textarea.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Textarea.svelte)
 -->
 
 <GenericInput value={_value} bind:ref {options} plugin={pluginModule} {...$$restProps} /> {#if

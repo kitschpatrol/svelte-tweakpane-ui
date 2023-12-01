@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import type { BaseMonitorParams, MonitorBindingApi } from '@tweakpane/core';
-	export type GenericMonitorOptions = Partial<BaseMonitorParams>; // we take care of readonly...
+	export type GenericMonitorOptions = BaseMonitorParams;
 	export type GenericMonitorRef = MonitorBindingApi;
 </script>
 

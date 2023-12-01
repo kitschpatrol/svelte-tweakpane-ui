@@ -301,7 +301,7 @@ position='inline'>` component.
 ```
 
 @sourceLink
-[Point.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Point.svelte)
+[Point.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Point.svelte)
 -->
 
 <GenericInputFolding bind:value={internalValue} bind:expanded {buttonClass} {options}

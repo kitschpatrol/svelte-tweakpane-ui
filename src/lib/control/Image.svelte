@@ -118,7 +118,7 @@ position='inline'>`.
 ```
 
 @sourceLink
-[Image.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/Image.svelte)
+[Image.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Image.svelte)
 -->
 
 <GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} /> {#if !BROWSER}

@@ -126,7 +126,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the ring in `<Pane po
 ```
 
 @sourceLink
-[Ring.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/camerakit/Ring.svelte)
+[Ring.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Ring.svelte)
 -->
 
 <GenericSlider bind:value {options} plugin={pluginModule} {...$$restProps} />

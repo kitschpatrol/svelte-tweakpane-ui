@@ -47,6 +47,27 @@ export function componentMenu(
 		});
 	});
 
+	// Custom sort order
+	const sortOrder = ['core', 'control', 'monitor', 'extra'];
+
+	menu.items?.sort((a: any, b: any) => {
+		const aLabel = a.label.toLowerCase();
+		const bLabel = b.label.toLowerCase();
+
+		const aIndex = sortOrder.indexOf(aLabel);
+		const bIndex = sortOrder.indexOf(bLabel);
+
+		if (aIndex >= 0 && bIndex >= 0) {
+			return aIndex - bIndex; // Both labels are in sortOrder
+		} else if (aIndex >= 0) {
+			return -1; // Only aLabel is in sortOrder
+		} else if (bIndex >= 0) {
+			return 1; // Only bLabel is in sortOrder
+		} else {
+			return aLabel.localeCompare(bLabel); // Neither label is in sortOrder, sort alphabetically
+		}
+	});
+
 	if (mergeTopLevel) {
 		// put all the second level items at the top level,
 		// suffixed with the original top level label

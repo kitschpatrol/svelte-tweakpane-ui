@@ -103,10 +103,10 @@ position='inline'>` component.
 ```
 
 @sourceLink
-[Monitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/Monitor.svelte)
+[Monitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/monitor/Monitor.svelte)
 -->
 
-{#if value === undefined || typeof value === 'number'}
+{#if typeof value === 'number'}
 	<InternalMonitorNumber {value} {...$$restProps} /> {:else if typeof value === 'boolean'}
 	<InternalMonitorBoolean {value} {...$$restProps} /> {:else if typeof value === 'string'}
 	<InternalMonitorString {value} {...$$restProps} /> {/if}

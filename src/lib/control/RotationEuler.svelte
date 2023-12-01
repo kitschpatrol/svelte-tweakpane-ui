@@ -196,7 +196,7 @@ position='inline'>`.
 ```
 
 @sourceLink
-[RotationEuler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/RotationEuler.svelte)
+[RotationEuler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/RotationEuler.svelte)
 -->
 
 <GenericInputFolding bind:value={internalValue} bind:expanded {buttonClass} {options}

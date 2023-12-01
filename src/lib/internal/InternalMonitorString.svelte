@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import type { StringMonitorParams } from '@tweakpane/core';
-	export type InternalMonitorStringOptions = Partial<StringMonitorParams>;
+	export type InternalMonitorStringOptions = StringMonitorParams;
 </script>
 
 <script lang="ts">
@@ -35,7 +35,8 @@
 	let options: InternalMonitorStringOptions;
 
 	$: options = {
-		multiline
+		multiline,
+		readonly: true
 	};
 </script>
 

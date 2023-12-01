@@ -115,7 +115,7 @@ position='inline'>`.
 ```
 
 @sourceLink
-[IntervalSlider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/plugin/essentials/IntervalSlider.svelte)
+[IntervalSlider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/IntervalSlider.svelte)
 -->
 
 <GenericSlider bind:value={internalValue} plugin={pluginModule} {...$$restProps} />
