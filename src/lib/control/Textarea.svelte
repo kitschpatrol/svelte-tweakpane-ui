@@ -87,7 +87,7 @@ Goliński](http://www.golinski.org) and [Jakub Koźniewski](https://pangenerator
 Extends the underlying implementation with the `live` property to match the behavior of the `<Text>`
 component.
 
-Note that `svelte-tweakpane-ui` embeds a
+Note that _Svelte Tweakpane UI_ embeds a
 [fork](https://github.com/kitschpatrol/tweakpane-textarea-plugin) of the plugin with support for
 Tweakpane 4. The dependency will be updated to point to the source repository if / when the open
 [pull request](https://github.com/panGenerator/tweakpane-textarea-plugin/pull/4) with Tweakpane 4
@@ -112,8 +112,8 @@ position='inline'>`.
 [Textarea.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Textarea.svelte)
 -->
 
-<GenericInput value={_value} bind:ref {options} plugin={pluginModule} {...$$restProps} /> {#if
-!BROWSER}
+<GenericInput value={_value} bind:ref {options} plugin={pluginModule} {...$$restProps} />
+{#if !BROWSER}
 	<!-- TODO magic numbers -->
 	<div style:background="red" style:height={`calc(${16 * (rows ?? 3)}px - 14px)`} />
 	<!-- <ClsPad keysAdd={fillWith('containerUnitSize', 1)} theme={$$props.theme} /> -->

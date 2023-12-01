@@ -54,7 +54,7 @@
 	 *
 	 * This is intended internal use, when implementing convenience components wrapping Binding's
 	 * functionality. Options of interest are instead exposed as top-level props in
-	 * `svelte-tweakpane-ui`.
+	 * _Svelte Tweakpane UI_.
 	 * @default `undefined`
 	 * */
 	export let options: U | undefined = undefined;
@@ -156,7 +156,7 @@
 Wraps the Tweakpane [`addBinding`](https://tweakpane.github.io/docs/input-bindings/) method.
 
 Important: This component is provided for consistency with Tweakpane's API, but is not recommended
-for general use in `svelte-tweakpane-ui` because more helpful abstractions are available.
+for general use in _Svelte Tweakpane UI_ because more helpful abstractions are available.
 
 Please consider convenience components like `<Slider>`, `<Color>`, etc. etc. before using this
 component directly.
@@ -180,11 +180,14 @@ position='inline'>`.
 [Binding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Binding.svelte)
 -->
 
-{#if parentStore} {#if BROWSER}
-		<div bind:this={indexElement} style="display: none;" /> {:else}
-		<ClsPad keysAdd={['containerVerticalPadding', 'containerUnitSize']} {theme} /> {/if} {:else}
+{#if parentStore}
+	{#if BROWSER}
+		<div bind:this={indexElement} style="display: none;" />
+	{:else}
+		<ClsPad keysAdd={['containerVerticalPadding', 'containerUnitSize']} {theme} />
+	{/if}
+{:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
-		<svelte:self bind:disabled bind:key bind:label bind:object bind:options bind:plugin bind:ref
-		/>
+		<svelte:self bind:disabled bind:key bind:label bind:object bind:options bind:plugin bind:ref />
 	</InternalPaneInline>
 {/if}

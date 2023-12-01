@@ -99,7 +99,7 @@ Contains a collection of `<TabPage>` components to be presented as a tabs.
 Wrapper around Tweakpane's [`addTab`](https://tweakpane.github.io/docs/ui-components/#tab) method.
 
 The name of this concept within the underlying vanilla JS Tweakpane API is `tab`, but it has been
-changed to `TabGroup` in `svelte-tweakpane-ui` to clarify it's relationship to the `<TabPage>`
+changed to `TabGroup` in _Svelte Tweakpane UI_ to clarify it's relationship to the `<TabPage>`
 component.
 
 Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane position='inline'>`.
@@ -124,7 +124,8 @@ Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane pos
 [TabGroup.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/TabGroup.svelte)
 -->
 
-{#if parentStore} {#if BROWSER}
+{#if parentStore}
+	{#if BROWSER}
 		<div bind:this={indexElement} style="display: none;">
 			<slot />
 		</div>
@@ -133,9 +134,11 @@ Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane pos
 		<div>
 			<slot />
 		</div>
-	{/if} {:else}
+	{/if}
+{:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
 		<svelte:self bind:selectedIndex {disabled}>
-			<slot /> </svelte:self>
+			<slot />
+		</svelte:self>
 	</InternalPaneInline>
 {/if}

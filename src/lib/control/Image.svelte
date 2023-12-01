@@ -58,7 +58,7 @@ incorporating work by [Florian Morel](http://ayamflow.fr), [Matheus
 Dias](https://www.linkedin.com/in/matheusdbs/), [Palash Bansal](https://github.com/repalash), and
 others.
 
-Note that `svelte-tweakpane-ui` embeds a
+Note that _Svelte Tweakpane UI_ embeds a
 [fork](https://github.com/kitschpatrol/tweakpane-image-plugin) of the plugin with support for
 Tweakpane 4. The dependency will be updated to point to the source repository if / when the open
 [pull request](https://github.com/metehus/tweakpane-image-plugin/pull/1) with Tweakpane 4 support is
@@ -121,5 +121,7 @@ position='inline'>`.
 [Image.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Image.svelte)
 -->
 
-<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} /> {#if !BROWSER}
-	<ClsPad keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} /> {/if}
+<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />
+{#if !BROWSER}
+	<ClsPad keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} />
+{/if}

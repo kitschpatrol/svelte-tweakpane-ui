@@ -127,12 +127,12 @@ plugin](https://github.com/tweakpane/plugin-essentials).
 
 See `<ButtonGrid>` for a button-flavored variation.
 
-Unlike the vanilla Tweakpane API, `svelte-tweakpane-ui` provides a unique `groupname` for each
+Unlike the vanilla Tweakpane API, _Svelte Tweakpane UI_ provides a unique `groupname` for each
 instance of RadioGrid by default for consistency with expectations around component isolation. You
 may still assign the `groupname` prop manually to create cross-component groups that share selection
 exclusivity.
 
-`svelte-tweakpane-ui` also includes some additional logic to manage default grid dimensions:
+_Svelte Tweakpane UI_ also includes some additional logic to manage default grid dimensions:
 
     - If no `rows` or `columns` props are provided, it will create a grid with the squarest possible aspect ratio for the given quantity of `values`.
 
@@ -194,7 +194,8 @@ position='inline'>`.
 [RadioGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/RadioGrid.svelte)
 -->
 
-<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} /> {#if !BROWSER}
-	<ClsPad keysAdd={fillWith('containerUnitSize', gridDimensions.rows - 1)} theme={$$props.theme}
-	/>
-	<div style:height={`${2 * (gridDimensions.rows - 1)}px`} /> {/if}
+<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />
+{#if !BROWSER}
+	<ClsPad keysAdd={fillWith('containerUnitSize', gridDimensions.rows - 1)} theme={$$props.theme} />
+	<div style:height={`${2 * (gridDimensions.rows - 1)}px`} />
+{/if}

@@ -122,7 +122,7 @@ plugin](https://github.com/tweakpane/plugin-essentials).
 
 See `<RadioGrid>` for a radio-flavored variation.
 
-`svelte-tweakpane-ui` also includes some additional logic to manage default grid dimensions:
+_Svelte Tweakpane UI_ also includes some additional logic to manage default grid dimensions:
 
     - If no `rows` or `columns` props are provided, it will create a grid with the squarest possible aspect ratio for the given quantity of `values`.
 
@@ -201,6 +201,8 @@ position='inline'>`.
 [ButtonGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/ButtonGrid.svelte)
 -->
 
-<Blade bind:ref={gridBlade} {options} plugin={pluginModule} {...$$restProps} /> {#if !BROWSER}
+<Blade bind:ref={gridBlade} {options} plugin={pluginModule} {...$$restProps} />
+{#if !BROWSER}
 	<ClsPad keysAdd={fillWith('containerUnitSize', gridDimensions.rows)} theme={$$props.theme} />
-	<ClsPad keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} /> {/if}
+	<ClsPad keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} />
+{/if}

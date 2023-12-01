@@ -35,7 +35,7 @@
 		/**
 		 * The rotation value to control.
 		 *
-		 * Tuple values are a convenience added by `svelte-tweakpane-ui`, and are not part of the
+		 * Tuple values are a convenience added by _Svelte Tweakpane UI_, and are not part of the
 		 * original TweakpaneRotationPlugin API.
 		 *
 		 * See the `order` prop to specify the sequence in which rotations are applied.
@@ -139,7 +139,7 @@ rotation](https://github.com/0b5vr/tweakpane-plugin-rotation/blob/dev/src/Rotati
 control from [0b5vr's](https://0b5vr.com)
 [tweakpane-plugin-rotation](https://github.com/0b5vr/tweakpane-plugin-rotation).
 
-`svelte-tweakpane-ui` extends the original API to support tuple values in addition to object values.
+_Svelte Tweakpane UI_ extends the original API to support tuple values in addition to object values.
 (Useful when working with frameworks like [three.js](https://threejs.org) /
 [threlte](https://threlte.xyz).)
 
@@ -199,11 +199,24 @@ position='inline'>`.
 [RotationEuler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/RotationEuler.svelte)
 -->
 
-<GenericInputFolding bind:value={internalValue} bind:expanded {buttonClass} {options}
-plugin={pluginModule} {...$$restProps} /> {#if !BROWSER && expanded && $$props.picker === 'inline'}
-{#if $$props.label !== undefined}
-		<ClsPad keysAdd={['bladeValueWidth']} keysSubtract={[`containerUnitSize`]}
-		theme={$$props.theme} /> {:else}
+<GenericInputFolding
+	bind:value={internalValue}
+	bind:expanded
+	{buttonClass}
+	{options}
+	plugin={pluginModule}
+	{...$$restProps}
+/>
+{#if !BROWSER && expanded && $$props.picker === 'inline'}
+	{#if $$props.label !== undefined}
+		<ClsPad
+			keysAdd={['bladeValueWidth']}
+			keysSubtract={[`containerUnitSize`]}
+			theme={$$props.theme}
+		/>
+	{:else}
 		<!-- Without a label, the grid takes the full width of the control -->
 		<!-- TODO remove magic number -->
-		<div style="aspect-ratio: 1; width: calc(100% - 28px);" /> {/if} {/if}
+		<div style="aspect-ratio: 1; width: calc(100% - 28px);" />
+	{/if}
+{/if}

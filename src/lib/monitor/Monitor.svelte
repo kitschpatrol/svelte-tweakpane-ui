@@ -55,7 +55,7 @@
 Wraps the Tweakpane [monitor binding](https://tweakpane.github.io/docs/monitor-bindings/)
 functionality for `boolean`, `number`, and `string` values.
 
-Technically, any unbound value on a normal `svelte-tweakpane-ui` component effectively acts as a
+Technically, any unbound value on a normal _Svelte Tweakpane UI_ component effectively acts as a
 monitor, but additional monitor-specific components are provided to expose additional view options
 (e.g. `rows`).
 
@@ -107,6 +107,9 @@ position='inline'>` component.
 -->
 
 {#if typeof value === 'number'}
-	<InternalMonitorNumber {value} {...$$restProps} /> {:else if typeof value === 'boolean'}
-	<InternalMonitorBoolean {value} {...$$restProps} /> {:else if typeof value === 'string'}
-	<InternalMonitorString {value} {...$$restProps} /> {/if}
+	<InternalMonitorNumber {value} {...$$restProps} />
+{:else if typeof value === 'boolean'}
+	<InternalMonitorBoolean {value} {...$$restProps} />
+{:else if typeof value === 'string'}
+	<InternalMonitorString {value} {...$$restProps} />
+{/if}

@@ -121,7 +121,7 @@ An option list picker, similar to an HTML `<select>` element.
 Wraps Tweakpane's list blade. See Tweakpane's documentation for [list
 blades](https://tweakpane.github.io/docs/blades/#list).
 
-`svelte-tweakpane-ui` extends Tweakpane's underlying implementation to allow for arbitrary arrays of
+_Svelte Tweakpane UI_ extends Tweakpane's underlying implementation to allow for arbitrary arrays of
 values to be used as options. See the `ListOptions` type for details on how to provide specific
 labels to options.
 
@@ -148,5 +148,7 @@ position='inline'>`.
 [List.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/List.svelte)
 -->
 
-<Blade bind:ref={listBlade} options={bladeOptions} {...$$restProps} /> {#if !BROWSER}
-	<ClsPad keysAdd={['containerUnitSize']} theme={$$props.theme} /> {/if}
+<Blade bind:ref={listBlade} options={bladeOptions} {...$$restProps} />
+{#if !BROWSER}
+	<ClsPad keysAdd={['containerUnitSize']} theme={$$props.theme} />
+{/if}

@@ -85,7 +85,7 @@ Pane-less components will be automatically nested in a `<Pane position='inline'>
 displayed in the regular block flow of the page. `<Pane>` is only necessary when you want to
 explicitly group a number of components, or when you want convenient means to control how and where
 the Tweakpane is shown on the page. (See an [important exception](https://example.com/TODO)
-regarding `svelte-tweakpane-ui` in island frameworks like Astro.)
+regarding _Svelte Tweakpane UI_ in island frameworks like Astro.)
 
 
 Multiple `<Pane>` components of different modes may be added to a single page. If the panes are in
@@ -116,7 +116,7 @@ Position mode overview:
     Provides an inline version of the pane component, allowing the Tweakpane window to appear in the
   normal flow of the document.  
       \
-  All other `svelte-tweakpane-ui` components which are created without a containing `<Pane>` are
+  All other _Svelte Tweakpane UI_ components which are created without a containing `<Pane>` are
   nested implicitly inside a title-less `<Pane position='inline'>` component. As such, you do not
   necessarily need create `<Pane position='inline'>` components in most cases.  
       \
@@ -167,7 +167,8 @@ Position mode overview:
 
 <!-- Only prerender inline panes, because fixed / absolute positioned objects don't affect layout
 -->
-{#if position === undefined || position === 'draggable'} {#if BROWSER}
+{#if position === undefined || position === 'draggable'}
+	{#if BROWSER}
 		<InternalPaneDraggable bind:expanded bind:width bind:x bind:y {...$$restProps}>
 			<slot />
 		</InternalPaneDraggable>
@@ -175,11 +176,13 @@ Position mode overview:
 		<div style="display: none;">
 			<slot />
 		</div>
-	{/if} {:else if position === 'inline'}
+	{/if}
+{:else if position === 'inline'}
 	<InternalPaneInline bind:expanded {width} {...removeKeys($$restProps, 'storePositionLocally')}>
 		<slot />
 	</InternalPaneInline>
-{:else if position === 'fixed'} {#if BROWSER}
+{:else if position === 'fixed'}
+	{#if BROWSER}
 		<InternalPaneFixed bind:expanded bind:x bind:y {width} {...$$restProps}>
 			<slot />
 		</InternalPaneFixed>
@@ -187,4 +190,5 @@ Position mode overview:
 		<div style="display: none;">
 			<slot />
 		</div>
-	{/if} {/if}
+	{/if}
+{/if}

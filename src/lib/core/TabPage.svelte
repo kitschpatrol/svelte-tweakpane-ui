@@ -120,7 +120,7 @@ Provides `page` values to Tweakpane's
 [`addTab`](https://tweakpane.github.io/docs/ui-components/#tab) method.
 
 The name of this concept within the underlying vanilla JS Tweakpane API is `page`, but it has been
-changed to `TabPage` in `svelte-tweakpane-ui` for clarity its relationship to the `<TabGroup>`
+changed to `TabPage` in _Svelte Tweakpane UI_ for clarity its relationship to the `<TabGroup>`
 component.
 
 Usage outside of a `<TabGroup>` component wouldn't make much sense, but in such cases the
@@ -154,7 +154,8 @@ Count B: {countB}
 [TabPage.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/TabPage.svelte)
 -->
 
-{#if parentStore && tabIndexStore !== undefined} {#if BROWSER}
+{#if parentStore && tabIndexStore !== undefined}
+	{#if BROWSER}
 		<div bind:this={indexElement} style="display: none;">
 			<slot />
 		</div>
@@ -164,11 +165,13 @@ Count B: {countB}
 			<ClsPad keysAdd={['containerUnitSize']} {theme} />
 			<slot />
 		</div>
-	{/if} {:else}
+	{/if}
+{:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
 		<TabGroup>
 			<svelte:self {disabled} {selected} {theme} {title}>
-				<slot /> </svelte:self>
+				<slot />
+			</svelte:self>
 		</TabGroup>
 	</InternalPaneInline>
 {/if}

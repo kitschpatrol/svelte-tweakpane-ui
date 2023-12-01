@@ -74,7 +74,7 @@ otherwise, but it's recommended to abstract new functionality for reuse by exten
 internal component types in 'svelte-tweakpane-ui', or better yet by creating a new [Tweakpane
 Plugin](https://github.com/tweakpane/plugin-template).
 
-In many cases, this component should not be necessary because `svelte-tweakpane-ui` already makes it
+In many cases, this component should not be necessary because _Svelte Tweakpane UI_ already makes it
 easy to combine tweakpane components with other inline elements simply by not using a wrapping
 `<Pane>` component. It should generally be the most useful when you're using `<Pane
 position='draggable'>`   or `<Pane position='fixed'>` and you want a custom element embedded in the
@@ -153,14 +153,21 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
 -->
 
 {#if BROWSER}
-	<Blade bind:ref {options} {...$$restProps} /> {:else}
-	<ClsPad keysAdd={['containerVerticalPadding', 'containerVerticalPadding']} theme={$$props.theme}
-	/> {/if}
+	<Blade bind:ref {options} {...$$restProps} />
+{:else}
+	<ClsPad
+		keysAdd={['containerVerticalPadding', 'containerVerticalPadding']}
+		theme={$$props.theme}
+	/>
+{/if}
 
 <div bind:this={sourceDiv} class="element">
-	<div class="element-container" style:height={BROWSER ? null : `${maxHeight}px`}
-	style:max-height={maxHeight !== undefined ? `${maxHeight}px` : null} style:overflow={BROWSER ?
-	null : 'hidden'} >
+	<div
+		class="element-container"
+		style:height={BROWSER ? null : `${maxHeight}px`}
+		style:max-height={maxHeight !== undefined ? `${maxHeight}px` : null}
+		style:overflow={BROWSER ? null : 'hidden'}
+	>
 		<div class:reset={resetStyle}>
 			<slot />
 		</div>

@@ -80,7 +80,7 @@ Integrates the [Interval](https://github.com/tweakpane/plugin-essentials#interva
 Tweakpane-creator [Hiroki Kokubun's](https://cocopon.me)  [Essentials
 plugin](https://github.com/tweakpane/plugin-essentials).
 
-`svelte-tweakpane-ui` extends the original implementation to by supporting tuple values in addition
+_Svelte Tweakpane UI_ extends the original implementation to by supporting tuple values in addition
 to object values. It also exposes a `meanValue` prop for reading or setting the midpoint of the
 interval range value.
 

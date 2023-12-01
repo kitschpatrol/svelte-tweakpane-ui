@@ -18,7 +18,7 @@ import ThemeOverrideCode from '../../../examples/docs/markdown/ThemeOverride.md'
 
 Vanilla Tweakpane provides a robust [theming system](https://tweakpane.github.io/docs/theming/) based on CSS variables.
 
-Svelte Tweakpane UI provides abstractions over the underlying CSS variables with some additional conveniences, most notably:
+_Svelte Tweakpane UI_ provides abstractions over the underlying CSS variables with some additional conveniences, most notably:
 
 - Easy access to a collection of bundled preset themes.
 - Abstractions around scoping to simplify using different themes on the same page.
@@ -27,7 +27,7 @@ Svelte Tweakpane UI provides abstractions over the underlying CSS variables with
 Theme-related helpers are exposed on the `ThemeUtils` object, and a `Theme` type is also available to provide auto-completion and type safety when defining or overriding themes.
 
 :::note
-On the Svelte Tweakpane UI documentation site, there's some additional logic behind the scenes to synchronize Tweakpane themes with the documentation site's light / dark theme selection. Without these interventions, the default Tweakpane theme is always "dark" (`ThemeUtils.presets.standard`), regardless of `prefers-color-scheme`. Due to the myriad ways to implement light / dark themes on the web, no theme synchronization logic is built into Svelte Tweakpane UI, but it should be [reasonably easy to implement](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/docs/src/components/docs/ThemeWatcher.astro).
+The _Svelte Tweakpane UI_ documentation site has additional logic behind the scenes to synchronize Tweakpane themes with the documentation site's light / dark theme selection. Without these interventions, the default Tweakpane theme is always "dark" (`ThemeUtils.presets.standard`), regardless of `prefers-color-scheme`. Due to the myriad ways to implement light / dark themes on the web, no theme synchronization logic is built into _Svelte Tweakpane UI_, but it should be [reasonably easy to implement](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/docs/src/components/docs/ThemeWatcher.astro).
 :::
 
 ---
@@ -36,7 +36,7 @@ On the Svelte Tweakpane UI documentation site, there's some additional logic beh
 
 `ThemeUtils.presets` provides default dark and light themes, plus all of the themes defined in the [Panepaint](https://tweakpane.github.io/docs/theming/#builder) theme building tool on the Tweakpane site.
 
-Every Svelte Tweakpane UI component includes an optional `theme` prop, into which you can pass a `Theme` object. The `Theme` object can be a bundled preset, a completely new theme of of your own creation, an extension of a bundled preset, or a partial override of the global default theme (`standard`) by default.
+Every _Svelte Tweakpane UI_ component includes an optional `theme` prop, into which you can pass a `Theme` object. The `Theme` object can be a bundled preset, a completely new theme of of your own creation, an extension of a bundled preset, or a partial override of the global default theme (`standard`) by default.
 
 ### Applying presets
 
@@ -64,11 +64,11 @@ A quick example of using a `<List>` to browse and select from all the available 
 
 ## Scoping
 
-Svelte Tweakpane UI manages setting CSS variables at the right points in the DOM to ensure that themes are rationally scoped, and to allow for multiple themes to be used on the same page.
+_Svelte Tweakpane UI_ manages setting CSS variables at the right points in the DOM to ensure that themes are rationally scoped, and to allow for multiple themes to be used on the same page.
 
 Themes are scoped either to a **pane** via its `theme` prop, to a **standalone component** via its `theme` prop, or to the entire **window** via the `setGlobalDefaultTheme()` utility function.
 
-In the case of standalone Svelte Tweakpane UI components, the theme is still technically scoped to a `<Pane>`, because it is applied to the implicit pane that's created to contain the standalone element.
+In the case of standalone _Svelte Tweakpane UI_ components, the theme is still technically scoped to a `<Pane>`, because it is applied to the implicit pane that's created to contain the standalone element.
 
 ### Panes
 
@@ -93,7 +93,7 @@ Currently, you can not override individual components' themes _within_ a pane:
 </Pane>
 ```
 
-The pane's `theme` prop overrides all child components's `theme` prop. Svelte Tweakpane UI will warn you about this if you try to do it.
+The pane's `theme` prop overrides all child components's `theme` prop. _Svelte Tweakpane UI_ will warn you about this if you try to do it.
 
 :::
 
@@ -168,7 +168,7 @@ For example, to restore the rounded look to specific inline components, you can 
 
 By default, all components will use the `ThemeUtils.presets.standard` theme, which is a dark theme.
 
-Svelte Tweakpane UI introduces one exception for inline panes and standalone components. "Inline" components include those created inside a `<Pane position="inline">` component, and "standalone" components that are not the child of a `<Pane>`.
+_Svelte Tweakpane UI_ introduces one exception for inline panes and standalone components. "Inline" components include those created inside a `<Pane position="inline">` component, and "standalone" components that are not the child of a `<Pane>`.
 
 To better integrate with other inline elements on the page, and especially to avoid a strange scalloped aesthetic when stacking multiple standalone components, rounding is removed by default from inline and standalone the component backgrounds.
 

@@ -49,7 +49,7 @@ Documentation retained in case of a return to the non-dynamic component approach
 Wraps the Tweakpane [monitor binding](https://tweakpane.github.io/docs/monitor-bindings/)
 functionality for string values.
 
-Technically, any unbound value on a normal `svelte-tweakpane-ui` component effectively acts as a
+Technically, any unbound value on a normal _Svelte Tweakpane UI_ component effectively acts as a
 monitor, but additional monitor-specific components are provided to expose additional view options
 (e.g. `multiline`).
 
@@ -80,7 +80,10 @@ position='inline'>` component.
 [InternalMonitorString.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalMonitorString.svelte)
 -->
 
-<GenericMonitor {value} {options} {...$$restProps} /> {#if !BROWSER} {@const totalRows =
-rowsForMonitor($$props.bufferSize, $$props.rows, multiline) - 1} {#if totalRows > 0}
-		<ClsPad keysAdd={fillWith('containerUnitSize', totalRows)} theme={$$props.theme} /> {/if}
-		{/if}
+<GenericMonitor {value} {options} {...$$restProps} />
+{#if !BROWSER}
+	{@const totalRows = rowsForMonitor($$props.bufferSize, $$props.rows, multiline) - 1}
+	{#if totalRows > 0}
+		<ClsPad keysAdd={fillWith('containerUnitSize', totalRows)} theme={$$props.theme} />
+	{/if}
+{/if}

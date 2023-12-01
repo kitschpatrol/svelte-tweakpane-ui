@@ -9,7 +9,7 @@ _If you're coming in cold, and don't know why you might want to "get started" in
 
 ## Quick start
 
-Add svelte-tweakpane-ui to your project:
+Add _Svelte Tweakpane UI_ to your project:
 
 ```sh
 npm install svelte-tweakpane-ui
@@ -31,9 +31,9 @@ Import and use Tweakpane components in your `.svelte` files:
 
 ### Step 0: Create a new Svelte project
 
-If you're starting completely from scratch and just want to test out the `svelte-tweakpane-ui` library, you can spin up a SvelteKit project like this — otherwise, [skip to step 1](#step-1-add-svelte-tweakpane-ui-to-your-project).
+If you're starting completely from scratch and just want to test out the _Svelte Tweakpane UI_ library, you can spin up a SvelteKit project like this — otherwise, [skip to step 1](#step-1-add-svelte-tweakpane-ui-to-your-project).
 
-Of course you can use `svelte-tweakpane-ui` anywhere Svelte works, including island frameworks like [Astro](https://astro.build) or [Eleventy](https://www.11ty.dev/docs/plugins/partial-hydration/) (albeit with a [caveat or two](TODO)).
+Of course you can use _Svelte Tweakpane UI_ anywhere Svelte works, including island frameworks like [Astro](https://astro.build) or [Eleventy](https://www.11ty.dev/docs/plugins/partial-hydration/) (albeit with a [caveat or two](TODO)).
 
 ```sh
 npm create svelte@latest svelte-tweakpane-sandbox
@@ -61,7 +61,7 @@ cd svelte-tweakpane-sandbox
 npm install
 ```
 
-### Step 1: Add Svelte Tweakpane UI to your project
+### Step 1: Add _Svelte Tweakpane UI_ to your project
 
 From the root of your project, run:
 
@@ -93,16 +93,16 @@ And that's it, you'll notice a few things right away if you're familiar with Twe
 
 - _**The button is in the regular page flow, not fixed in the top-right corner?**_
 
-  By default, `svelte-tweakpane-ui` components are added to the document flow, which makes them easy to integrate with your existing UI and to manipulate with Svelte's template syntax. You can change this by wrapping your components in a [`<Pane>`](/components/pane) component and setting the `position` prop to `'draggable'` or `'fixed'`.
+  By default, _Svelte Tweakpane UI_ components are added to the document flow, which makes them easy to integrate with your existing UI and to manipulate with Svelte's template syntax. You can change this by wrapping your components in a [`<Pane>`](/components/pane) component and setting the `position` prop to `'draggable'` or `'fixed'`.
 
 - _**I didn't have to create a pane around the `Button`?**_
 
-  `svelte-tweakpane-ui` components "bootstrap" themselves into a title-less Pane component if they're used on their own. This is a convenience feature, but you can also wrap them in a `<Pane>` component yourself if you want to customize the title or other Pane properties.
+  _Svelte Tweakpane UI_ components "bootstrap" themselves into a title-less Pane component if they're used on their own. This is a convenience feature, but you can also wrap them in a `<Pane>` component yourself if you want to customize the title or other Pane properties.
 
 - _**That's a really wide button...**_
 
-  Yes, inline `svelte-tweakpane-ui` components take the width of their container. You can use a `<Pane>` element to set a specific width, or nestle the component in an existing element with a defined width.
+  Yes, inline _Svelte Tweakpane UI_ components take the width of their container. You can use a `<Pane>` element to set a specific width, or nestle the component in an existing element with a defined width.
 
 - _**Looks pretty straightforward, there's nothing weird about the `on:click` syntax...**_
 
-  Exactly, `svelte-tweakpane-ui` components are designed to leverage as many Svelte conventions as possible. Behind the scenes, the lifecycle and event listeners of the underlying "vanilla JS" Tweakpane components are managed for you.
+  Exactly, _Svelte Tweakpane UI_ components are designed to leverage as many Svelte conventions as possible. Behind the scenes, the lifecycle and event listeners of the underlying "vanilla JS" Tweakpane components are managed for you.
