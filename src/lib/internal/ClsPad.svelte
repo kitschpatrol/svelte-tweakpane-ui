@@ -46,4 +46,5 @@
 </script>
 
 {#if total > 0}
-	<div style:background={DEV ? getRandomCssColor() : null} style:height="{total}px" /> {/if}
+	<div style:background={DEV ? getRandomCssColor() : null} style:height="{total}px" />
+{/if}

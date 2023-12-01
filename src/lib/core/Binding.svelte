@@ -53,8 +53,8 @@
 	 * Valid types are contingent on the type of the value `key` points to in `object`.
 	 *
 	 * This is intended internal use, when implementing convenience components wrapping Binding's
-	 * functionality. Options of interest are instead exposed as top-level props in
-	 * _Svelte Tweakpane UI_.
+	 * functionality. Options of interest are instead exposed as top-level props in _Svelte
+	 * Tweakpane UI_.
 	 * @default `undefined`
 	 * */
 	export let options: U | undefined = undefined;

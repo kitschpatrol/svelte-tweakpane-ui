@@ -130,14 +130,19 @@ Plugin component behavior is not available in `<AutoObject>`.
 [AutoObject.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/AutoObject.svelte)
 -->
 
-{#if parentStore} {#each Object.keys(object) as key (key)} {#if object[key].constructor === Object
-&& !isColorObject(object[key]) && !isPointObject(object[key])}
+{#if parentStore}
+	{#each Object.keys(object) as key (key)}
+		{#if object[key].constructor === Object && !isColorObject(object[key]) && !isPointObject(object[key])}
 			<Folder title={prettify(key, prettyLabels)}>
 				<svelte:self bind:object={object[key]} bind:prettyLabels />
 			</Folder>
 		{:else if typeof object[key] === 'string'}
-			<Text bind:value={object[key]} label={prettify(key, prettyLabels)} /> {:else}
-			<Binding bind:object {key} label={prettify(key, prettyLabels)} /> {/if} {/each} {:else}
+			<Text bind:value={object[key]} label={prettify(key, prettyLabels)} />
+		{:else}
+			<Binding bind:object {key} label={prettify(key, prettyLabels)} />
+		{/if}
+	{/each}
+{:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
 		<svelte:self bind:object bind:prettyLabels />
 	</InternalPaneInline>

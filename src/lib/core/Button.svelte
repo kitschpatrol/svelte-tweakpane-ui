@@ -129,9 +129,13 @@ buttons.
 [Button.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Button.svelte)
 -->
 
-{#if parentStore} {#if BROWSER}
-		<div bind:this={indexElement} style="display: none;" /> {:else}
-		<ClsPad keysAdd={['containerUnitSize', 'containerVerticalPadding']} {theme} /> {/if} {:else}
+{#if parentStore}
+	{#if BROWSER}
+		<div bind:this={indexElement} style="display: none;" />
+	{:else}
+		<ClsPad keysAdd={['containerUnitSize', 'containerVerticalPadding']} {theme} />
+	{/if}
+{:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
 		<svelte:self on:click {disabled} {label} {title} />
 	</InternalPaneInline>

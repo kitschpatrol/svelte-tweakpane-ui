@@ -136,16 +136,22 @@ Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane 
 [Folder.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Folder.svelte)
 -->
 
-{#if parentStore} {#if BROWSER}
+{#if parentStore}
+	{#if BROWSER}
 		<div bind:this={indexElement} style="display: none;">
 			<slot />
 		</div>
 	{:else}
-		<ClsPad keysAdd={['containerUnitSize']} {theme} /> {#if expanded}
+		<ClsPad keysAdd={['containerUnitSize']} {theme} />
+		{#if expanded}
 			<ClsPad keysAdd={['containerVerticalPadding', 'containerVerticalPadding']} {theme} />
-			<slot /> {/if} {/if} {:else}
+			<slot />
+		{/if}
+	{/if}
+{:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
 		<svelte:self bind:expanded {disabled} {title} {userExpandable}>
-			<slot /> </svelte:self>
+			<slot />
+		</svelte:self>
 	</InternalPaneInline>
 {/if}

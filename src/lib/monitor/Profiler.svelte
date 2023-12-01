@@ -280,8 +280,9 @@ position='inline'>`.
 [Profiler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/monitor/Profiler.svelte)
 -->
 
-<Blade bind:ref={profilerBlade} {options} plugin={pluginModule} {...$$restProps} /> {#if !BROWSER}
+<Blade bind:ref={profilerBlade} {options} plugin={pluginModule} {...$$restProps} />
+{#if !BROWSER}
 	<ClsPad keysAdd={fillWith('containerUnitSize', 2)} theme={$$props.theme} />
 	<!-- TODO Magic number for label... -->
-	<ClsPad extra={14.287} keysAdd={fillWith('containerVerticalPadding', 1)} theme={$$props.theme}
-	/> {/if}
+	<ClsPad extra={14.287} keysAdd={fillWith('containerVerticalPadding', 1)} theme={$$props.theme} />
+{/if}

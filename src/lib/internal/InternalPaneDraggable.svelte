@@ -469,14 +469,27 @@ This component is for internal use only.
 
 <svelte:window on:resize={setDocumentSize} />
 
-<div bind:this={containerElement} bind:clientHeight={containerHeight}
-bind:clientWidth={containerWidth} on:focus|capture={() => { zIndexLocal = ++zIndexGlobal; }}
-on:pointerdown|capture={() => { zIndexLocal = ++zIndexGlobal; }} class="svelte-tweakpane-ui
-draggable-container" class:not-collapsable={!userExpandable} class:not-resizable={!resizable}
-style:left="{x}px" style:padding style:top="{y}px" style:width="{width}px"
-style:z-index={zIndexLocal} >
-	<GenericPane bind:expanded bind:paneRef {scale} {title} {...removeKeys($$restProps,
-	'position')}>
+<div
+	bind:this={containerElement}
+	bind:clientHeight={containerHeight}
+	bind:clientWidth={containerWidth}
+	on:focus|capture={() => {
+		zIndexLocal = ++zIndexGlobal;
+	}}
+	on:pointerdown|capture={() => {
+		zIndexLocal = ++zIndexGlobal;
+	}}
+	class="svelte-tweakpane-ui
+draggable-container"
+	class:not-collapsable={!userExpandable}
+	class:not-resizable={!resizable}
+	style:left="{x}px"
+	style:padding
+	style:top="{y}px"
+	style:width="{width}px"
+	style:z-index={zIndexLocal}
+>
+	<GenericPane bind:expanded bind:paneRef {scale} {title} {...removeKeys($$restProps, 'position')}>
 		<slot />
 	</GenericPane>
 </div>

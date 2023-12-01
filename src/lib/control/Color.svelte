@@ -155,12 +155,20 @@ position='inline'>`.
 [Color.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Color.svelte)
 -->
 
-<GenericInputFolding bind:value={internalValue} bind:expanded bind:ref {buttonClass} {options}
-{...$$restProps} /> {#if !BROWSER && expanded && $$props.picker === 'inline'}
+<GenericInputFolding
+	bind:value={internalValue}
+	bind:expanded
+	bind:ref
+	{buttonClass}
+	{options}
+	{...$$restProps}
+/>
+{#if !BROWSER && expanded && $$props.picker === 'inline'}
 	<!-- Main swatch -->
 	<ClsPad keysAdd={fillWith('containerUnitSize', 6)} theme={$$props.theme} />
-	<ClsPad keysAdd={fillWith('containerUnitSpacing', 3)} theme={$$props.theme} /> {#if
-	isRgbaColorObject(internalValue)}
+	<ClsPad keysAdd={fillWith('containerUnitSpacing', 3)} theme={$$props.theme} />
+	{#if isRgbaColorObject(internalValue)}
 		<ClsPad keysAdd={fillWith('containerUnitSize', 1)} theme={$$props.theme} />
 		<ClsPad extra={2} keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} />
-		{/if} {/if}
+	{/if}
+{/if}
