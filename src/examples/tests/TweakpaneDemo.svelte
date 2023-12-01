@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import {
+		Button,
 		Checkbox,
 		Color,
 		CubicBezier,
@@ -21,14 +21,9 @@
 		Text,
 		type Theme,
 		ThemeUtils
-	} from 'svelte-tweakpane-ui';
+	} from '$lib';
+	import { onMount } from 'svelte';
 	import { type Writable, derived, writable } from 'svelte/store';
-	import { fade } from 'svelte/transition';
-
-	const themeDataKey = 'data-theme';
-	let astroTheme: 'dark' | 'light';
-	let paneRef: HTMLDivElement;
-	// let mounted = false;
 
 	onMount(() => {
 		// set up frame loop
@@ -45,6 +40,7 @@
 		requestAnimationFrame(tick);
 
 		// set up pane div pause when interacting, but not when dragging the title bar
+		const paneRef = document.querySelector('div.svelte-tweakpane-ui') as HTMLDivElement;
 		function onPointerDown(e: PointerEvent) {
 			if (e.target && !hasParentWithClassName(e.target as HTMLElement, 'tp-rotv_b')) {
 				interacting = true;
@@ -59,24 +55,6 @@
 		document.addEventListener('pointerup', onPointerUp);
 		document.addEventListener('pointercancel', onPointerUp);
 
-		// watch for theme changes
-		// duplicates some functionality from ThemeWatcher.astro, but lets us keep the theme dropdown
-		astroTheme = document.documentElement.getAttribute(themeDataKey) === 'dark' ? 'dark' : 'light';
-		const observer = new MutationObserver((mutations: MutationRecord[]) => {
-			for (const mutation of mutations) {
-				if (mutation.type === 'attributes' && mutation.attributeName === themeDataKey) {
-					astroTheme =
-						document.documentElement.getAttribute(themeDataKey) === 'dark' ? 'dark' : 'light';
-				}
-			}
-		});
-		observer.observe(document.documentElement, {
-			attributeFilter: [themeDataKey],
-			attributes: true
-		});
-
-		// mounted = true;
-
 		return () => {
 			if (frameId !== undefined) {
 				cancelAnimationFrame(frameId);
@@ -85,8 +63,6 @@
 			paneRef.removeEventListener('pointerdown', onPointerDown, { capture: true });
 			document.removeEventListener('pointerup', onPointerUp);
 			document.removeEventListener('pointercancel', onPointerUp);
-
-			observer.disconnect();
 		};
 	});
 
@@ -119,11 +95,9 @@
 	}
 
 	// props
+	export let x: number = 0;
+	export let y: number = 0;
 	export let width: number = 360;
-
-	// position in the grid... useful for transition delays
-	// eslint-disable-next-line svelte/valid-compile
-	// export let i: number = 0;
 
 	// constants
 	const themes = Object.keys(ThemeUtils.presets);
@@ -147,7 +121,6 @@
 	let offsets: PointValue4dTuple = [0, 0, 0, 0];
 	let headingUp: [boolean, boolean, boolean, boolean] = [true, true, true, true];
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	function reset() {
 		time = 0;
 		playing = true;
@@ -176,17 +149,7 @@
 	(point2 as Writable<PointValue2dTuple>).set = (newItems) =>
 		($point4 = [newItems[0], newItems[1], $point4[2], $point4[3]]);
 
-	function getAstroTheme(astro: typeof astroTheme): typeof themeKey {
-		// only respect global if the user hasn't messed with the theme
-		if (themeKey === 'standard' || themeKey === 'light') {
-			return astro === 'dark' ? 'standard' : 'light';
-		} else {
-			return themeKey;
-		}
-	}
-
 	// reactivity
-	$: themeKey = getAstroTheme(astroTheme);
 	$: theme = { ...ThemeUtils.presets[themeKey], ...defaultTheme };
 	$: period = 1 / ((periodSeconds / Math.PI) * 500);
 	$: [min, max] = interval2;
@@ -214,99 +177,86 @@
 			return (headingUp[index] ? mappedValue : Math.PI - mappedValue) - time - offsetAngle[index];
 		}) as PointValue4dTuple;
 	}
-
-	let scale = 1;
 </script>
 
-<div bind:this={paneRef}>
-	<!-- {#if mounted} -->
-	<div transition:fade={{ duration: 1500 }}>
-		<Pane position="inline" {scale} {theme} title={`<Pane> ${text}`} {width}>
-			<!-- <Slider bind:value={scale} min={0} max={2} /> -->
-			<List bind:value={themeKey} label="<List> Theme" options={themes} />
-			<Text bind:value={text} label="<Text> Title" />
-			<Checkbox bind:value={playing} label="<Checkbox> Play" />
-			<FpsGraph label="<FpsGraph>" />
-			<Separator />
-			<!-- <Button on:click={reset} label="<Button> Reset" title="Reset" /> -->
-			<Slider
-				bind:value={periodSeconds}
-				min={1}
-				max={60}
-				format={(v) => `${v.toFixed(1)}s`}
-				label="<Slider> Period"
-				step={1}
-			/>
-			<Separator />
-			<Folder title="<Folder> Axes">
-				{#each keys as k, i}
-					<Slider
-						bind:value={$point4[i]}
-						{min}
-						{max}
-						format={(v) => `${v.toFixed(2)}`}
-						label={`<Slider> ${k}`}
-						pointerScale={0.002}
-					/>
-				{/each}
-			</Folder>
-			<Separator />
-			{#if cubicBezierEnabled}
-				<RotationEuler
-					bind:value={$point3}
-					expanded={true}
-					label="<RotationEuler> X Y Z"
-					picker="inline"
-				/>
-				<!-- <IntervalSlider bind:value={interval2} min={0} max={1} label="<IntervalSlider> Min /
-Max"
+<Pane
+	collapseChildrenToFit={true}
+	position="draggable"
+	{theme}
+	title={`<Pane> ${text}`}
+	{width}
+	{x}
+	{y}
+>
+	<Text bind:value={text} label="<Text> Title" />
+	<List bind:value={themeKey} label="<List> Theme" options={themes} />
+	<FpsGraph label="<FpsGraph>" />
+	<Separator />
+	<Checkbox bind:value={playing} label="<Checkbox> Play" />
+	<Button on:click={reset} label="<Button> Reset" title="Reset" />
+	<Slider
+		bind:value={periodSeconds}
+		min={1}
+		max={60}
+		format={(v) => `${v.toFixed(1)}s`}
+		label="<Slider> Period"
+		step={1}
+	/>
+	<Separator />
+	<Folder title="<Folder> Axes">
+		{#each keys as k, i}
+			<Slider bind:value={$point4[i]} {min} {max} label={`<Slider> ${k}`} pointerScale={0.002} />
+		{/each}
+	</Folder>
+	<Separator />
+	<!-- <IntervalSlider bind:value={interval2} min={0} max={1} label="<IntervalSlider> Min / Max"
 	/> -->
-
-				<Separator />
-				<TabGroup>
-					{#each keys as k, i}
-						<TabPage title={`<TabPage> ${k}`}>
-							<Monitor
-								value={$point4[i]}
-								min={-0.2}
-								max={1.2}
-								bufferSize={300}
-								graph={true}
-								label={`<Monitor> ${k}`}
-							/>
-						</TabPage>
-					{/each}
-				</TabGroup>
-				<Separator />
-				<Color
-					bind:value={$point4}
-					expanded={false}
-					label="<Color> R G B A"
-					picker="inline"
-					type={'float'}
+	<Separator />
+	<TabGroup>
+		{#each keys as k, i}
+			<TabPage title={`<TabPage> ${k}`}>
+				<Monitor
+					value={$point4[i]}
+					min={-0.2}
+					max={1.2}
+					bufferSize={300}
+					graph={true}
+					label={`<Monitor> ${k}`}
 				/>
-				<Separator />
-				<Point
-					bind:value={$point2}
-					{min}
-					{max}
-					expanded={true}
-					label="<Point> X Y"
-					optionsY={{
-						min,
-						max,
-						inverted: true
-					}}
-					picker="inline"
-				/>
-				<CubicBezier
-					bind:value={$point4}
-					expanded={true}
-					label="<CubicBezier> X Y Z W"
-					picker="inline"
-				/>
-			{/if}
-		</Pane>
-	</div>
-	<!-- {/if} -->
-</div>
+			</TabPage>
+		{/each}
+	</TabGroup>
+	<Separator />
+	<Color
+		bind:value={$point4}
+		expanded={false}
+		label="<Color> R G B A"
+		picker="inline"
+		type={'float'}
+	/>
+	<Separator />
+	<Point
+		bind:value={$point2}
+		{min}
+		{max}
+		expanded={true}
+		label="<Point> X Y"
+		optionsY={{ min, max, inverted: true }}
+		picker="inline"
+	/>
+	<Separator />
+	<RotationEuler
+		bind:value={$point3}
+		expanded={true}
+		label="<RotationEuler> X Y Z"
+		picker="inline"
+	/>
+	{#if cubicBezierEnabled}
+		<CubicBezier
+			bind:value={$point4}
+			expanded={true}
+			label="<CubicBezier> X Y Z W"
+			picker="inline"
+		/>
+	{/if}
+</Pane>

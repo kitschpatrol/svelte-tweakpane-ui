@@ -2,8 +2,8 @@
 
 :root {
 	/* Tweakpane Specific */
-	--st-color-a: rgb(255 196 0);
-	--st-color-b: rgb(217 0 105);
+	--st-color-a: rgb(255 221 0);
+	--st-color-b: rgb(217 0 127);
 	--st-gradient: linear-gradient(45deg, var(--st-color-a), var(--st-color-b));
 	--st-gradient-alpha: linear-gradient(
 		45deg,
@@ -198,6 +198,7 @@ div#starlight__sidebar > div.sidebar-content {
 
 div.hero .tagline a {
 	color: var(--sl-color-text-accent);
+	white-space: nowrap;
 }
 
 div.hero .tagline a:hover {
@@ -248,6 +249,10 @@ div.hero .stack {
 	background: var(--sl-color-bg-nav);
 	border: 1px solid var(--sl-color-gray-5);
 	box-shadow: var(--sl-shadow-md);
+}
+
+div.hero .tagline {
+	text-align: left;
 }
 
 div.hero .tagline a img {

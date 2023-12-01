@@ -2,10 +2,6 @@
 	import type { Simplify } from '$lib/utils';
 	import type { Point2dInputParams, Point3dInputParams, Point4dInputParams } from 'tweakpane';
 
-	export type PointValueLite =
-		| [x: number, y: number, z?: undefined, w?: undefined]
-		| { x: number; y: number; z?: undefined; w?: undefined };
-
 	// extends Tweakpane's implementation to support tuples
 	export type PointValue2dObject = { x: number; y: number };
 	export type PointValue2dTuple = [x: number, y: number];
@@ -304,13 +300,33 @@ position='inline'>` component.
 [Point.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Point.svelte)
 -->
 
-<GenericInputFolding bind:value={internalValue} bind:expanded {buttonClass} {options}
-{...removeKeys( $$restProps, ...Object.keys(options), 'optionsX', 'optionsY', 'optionsZ', 'optionsW'
-)} /> {#if !BROWSER && !('z' in internalValue)}
+<GenericInputFolding
+	bind:value={internalValue}
+	bind:expanded
+	{buttonClass}
+	{options}
+	{...removeKeys(
+		$$restProps,
+		...Object.keys(options),
+		'optionsX',
+		'optionsY',
+		'optionsZ',
+		'optionsW'
+	)}
+/>
+{#if !BROWSER && !('z' in internalValue)}
 	<!-- 2D points only -->
-	{#if expanded && $$props.picker === 'inline'} {#if $$props.label !== undefined}
-			<ClsPad keysAdd={['bladeValueWidth']} keysSubtract={[`containerUnitSize`]}
-			theme={$$props.theme} /> {:else}
+	{#if expanded && $$props.picker === 'inline'}
+		{#if $$props.label !== undefined}
+			<ClsPad
+				keysAdd={['bladeValueWidth']}
+				keysSubtract={[`containerUnitSize`]}
+				theme={$$props.theme}
+			/>
+		{:else}
 			<!-- Without a label, the grid takes the full width of the control -->
 			<!-- TODO remove magic number -->
-			<div style="aspect-ratio: 1; width: calc(100% - 28px);" /> {/if} {/if} {/if}
+			<div style="aspect-ratio: 1; width: calc(100% - 28px);" />
+		{/if}
+	{/if}
+{/if}

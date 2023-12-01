@@ -6,56 +6,76 @@ description: Svelte Tweakpane UI basics.
 import ComponentList from '../../../components/docs/ComponentList.astro';
 import ComponentCount from '../../../components/docs/ComponentCount.astro';
 
-<ComponentCount />
+🎛️ **Svelte Tweakpane UI wraps user-interface elements from the excellent [Tweakpane](https://cocopon.github.io/tweakpane/) library in a collection of <ComponentCount /> idiomatic, fully-reactive, carefully-crafted [Svelte](https://svelte.dev) components.**
 
-## What is this?
-
-`<Test>`
-
-```html
-<Test></Test>
-```
-
-Svelte 4
-Tweakpane 4
-
-**A [Svelte](https://svelte.dev) component library wrapping UI elements from [Tweakpane](https://cocopon.github.io/tweakpane/), plus some additional functionality for convenience and flexibility.**
+The library makes it easy to quickly add knobs and dials to your projects using declarative components that feel like they belong in the DOM. It also augments Tweakpane with a few [extra features]() for your convenience and enjoyment.
 
 The components should be useful for quickly integrating controls and value monitoring in parametrically driven artworks or simulations. For some use cases, it could also present a viable alternative to traditional component libraries altogether.
 
-Tweakpane represents many years of development effort by [Hiroki Kokubun](https://cocopon.me). The library's visual design offers a highly legible aesthetic, and its implementation provides fine specimens of many controls that are often a bit clunky in general-purpose component libraries.
-
-Please see the [acknowledgements](/docs/acknowledgments) for a list of contributors to the underlying projects.
+It's open-source, MIT-licensed, and is compatible with Svelte 4 and Tweakpane 4. It should work anywhere Svelte works, including [SvelteKit](https://kit.svelte.dev/) and "island" frameworks like [Astro](https://astro.build/). Svelte Tweakpane UI is distributed as an [NPM package](http://npmjs.com/package/svelte-tweakpane-ui), and the source code is available on [GitHub](https://github.com/kitschpatrol/svelte-tweakpane-ui).
 
 ---
 
 ## Why use this?
 
+Tweakpane represents many years of development effort by [Hiroki Kokubun](https://cocopon.me). The library's visual design offers a highly legible aesthetic, and its implementation provides fine specimens of many controls that are often a bit clunky in general-purpose component libraries.
+
+It has a very well-designed, well-documented, and well-tested Vanilla JS / TS API that's generally a pleasure to use.
+
+This works great in many contexts, and has the advantage of being quite dynamic and flexible.
+
+In the context of a reactive framework like Svelte, it's often desirable to take a more declarative approach to UI construction, and to take advantage of the frameworks' paradigms for bindings, events, and component lifecycle management.
+
+Svelte Tweakpane UI bridges the gap between Tweakpane's imperative API and Svelte's declarative approach, providing a collection of components that can be used in place of Tweakpane's imperative API.
+
+{/* TODO add a before / after example here */}
+
+---
+
+## Why create this?
+
+Three reasons:
+
+1. Just for fun. I've been using Svelte a fair bit lately for quick prototypes and tools, and have used Tweakpane for years. Combining the two spares some context switches when you're rapidly iterating through a sketch.
+
+2. Expanded use-cases. I wanted to see how Tweakpane might work not just for quick control panels, but also as a (highly opinionated) "component library" that lives inline with the rest of your markup. This becomes a much easier experiment when components are the primary abstraction.
+
+3. Tweakpane evangelism. Advocacy for the human interface values Tweakpane demonstrates in its design:
+
+   - High information density tamed by a rational grid and tidy typography
+   - Tasteful hints of the skeuomorphic that imply controls' behaviors _before_ first interaction
+   - Multiple means of value input and manipulation (type, drag, click, etc.)
+   - A general confidence that your users can handle a slider or two without decompensating
+
+   Tweakpane feels like something you can craft a sharp tool with. It's a nice break from the anodyne status quo wrought by the past decade's "UX"-driven interface designs.
+
 ---
 
 ## Components
 
-Organized by provenance...
+Svelte Tweakpane UI's <ComponentCount /> components are exported from the `svelte-tweakpane-ui` package in a flat namespace, but internally they're structured into four basic functional groups, which are reflected in the documentation to help you find what you're looking for.
 
 ### Core Components
 
-These components bla bla
+The Core components are generally concerned with the structure and containment of other UI elements, and closely mirror the building blocks of the Vanilla Tweakpane API. You'll see some familiar names here, like `Blade`, `Binding`, and `Button` — but bear in mind that higher-level components are available.
 
 <ComponentList scope="core" />
 
 ### Control Components
 
+These provide component abstractions for the full range of Tweakpane controls — plus some extras from the Plugins ecosystem. They are generally used to manipulate values.
+
 <ComponentList scope="control" />
 
 ### Monitor Components
 
-These components bla bla
+Components optimized for visualizing values rather than manipulating them.
 
 <ComponentList scope="monitor" />
 
 ### Extra Components
 
-These components bla bla
+These are misfits and novelties.
 
 <ComponentList scope="extra" />
 
@@ -65,17 +85,17 @@ These components bla bla
 
 ### Batteries included
 
+_Svelte Tweakpane UI_ takes a monolithic approach. A single dependency and import delivers access to all components, with controls from several Tweakpane Plugins, and additional Svelte-specific functionality. Tree shaking should keep your bundle size in check.
+
 ### Layered API
 
-This component collection exposes both the core building blocks of Tweakpane's vanilla JS API as Svelte components (e.g. `Bindings`, `Folder`, `Pane`, etc.), and builds on this foundation to provide a number of more specific components which provide both convenience, clarity of intent, and improved auto-completion through type narrowing (e.g. `Slider`, `Point`, etc.).
+This library exposes both the core building blocks of Tweakpane's vanilla JS API as Svelte components (e.g. `Bindings`, `Folder`, `Pane`, etc.), and builds on this foundation to provide a number of more specific components which provide both convenience, clarity of intent, and improved auto-completion through type narrowing (e.g. `Slider`, `Point`, etc.).
 
-These more specific components trade some flexibility for ease of use, but if you don't care for that tradeoff the higher level components remain available for use.
+These more specific components trade some flexibility for ease of use, but if you don't care for that tradeoff the lower-level components remain available for use.
 
 ### Let Svelte bind
 
-Vanilla Tweakpane conveniently provides two-way bindings for manipulating object properties, but `svelte-tweakpane-ui` leaves binding up to the user via [Svelte's conventional approach](https://example.com/TODO). This makes bindings explicit, and allows most components to function either as monitors or inputs depending on whether their value property is bound.
-
-Note that unlike vanilla Tweakpane, no explicit Plugin module import or registration is required in 'svelte-tweakpane-ui'.
+Vanilla Tweakpane conveniently provides two-way bindings for manipulating object properties, but _Svelte Tweakpane UI_ leaves binding up to the user via [Svelte's conventional approach](https://svelte.dev/docs/element-directives#bind-property). This makes bindings explicit, and allows most components to function either as monitors or inputs depending on whether their value property is bound.
 
 ---
 
@@ -83,23 +103,116 @@ Note that unlike vanilla Tweakpane, no explicit Plugin module import or registra
 
 ### Naming conventions
 
+#### Type Names
+
+Types are available for many component props, including the value prop. This makes it simple to be specific about types when working with Svelte Tweakpane UI components.
+
+In general, type names take the form:
+
+<code>
+  <span style="color: var(--sl-color-purple-high);">\{ComponentName}</span>
+  <span style="color: var(--sl-color-green-high);">\{PropName}</span>
+  <span style="color: var(--sl-color-blue-high);">\{OptionalNarrowedType}</span>
+</code>
+
+For example, `<RotationEuler>` provides the following types:
+
+- <code>
+    <span style="color: var(--sl-color-purple-high);">RotationEuler</span>
+    <span style="color: var(--sl-color-green-high);">Value</span>
+    <span style="color: var(--sl-color-blue-high);">Tuple</span>
+  </code>
+  _tuple type for the value prop_
+
+- <code>
+    <span style="color: var(--sl-color-purple-high);">RotationEuler</span>
+    <span style="color: var(--sl-color-green-high);">Value</span>
+    <span style="color: var(--sl-color-blue-high);">Object</span>
+  </code>
+  _object type for the value prop_
+
+- <code>
+    <span style="color: var(--sl-color-purple-high);">RotationEuler</span>
+    <span style="color: var(--sl-color-green-high);">Value</span>
+  </code>
+  _object / tuple union type for the value prop_
+
+- <code>
+    <span style="color: var(--sl-color-purple-high);">RotationEuler</span>
+    <span style="color: var(--sl-color-green-high);">Order</span>
+  </code>
+  _string literal union type for the order prop_
+
+- <code>
+    <span style="color: var(--sl-color-purple-high);">RotationEuler</span>
+    <span style="color: var(--sl-color-green-high);">Unit</span>
+  </code>
+  _string literal union type for the unit prop_
+- Etc. etc.
+
+It's verbose, but consistent and predictable.
+
 #### Component Names
 
-Exception, tabs...
+Most component names hew closely to the language used in the official Tweakpane documentation and API reference or in their originating Plugin, with one important exception:
 
-#### Types
+The vanilla Tweakpane `Tab` is referred to as a `TabGroup` in _Svelte Tweakpane UI_, and the vanilla Tweakpane `Page` is referred to as a `<TabPage>`.
+
+The names may seem quite terse, and likely to collide with other components (`Image`?), but this is by design since JavaScript and TypeScript provide reasonable techniques for creating namespaces and avoiding collisions.
+
+For example, a namespace import onto the alias `T`:
+
+```svelte
+<script lang="ts">
+  import * as T from 'svelte-tweakpane-ui';
+</script>
+
+<T.Button />
+```
 
 ### Importing components
 
+During development, it is convenient and perfectly fine to import components from the root `svelte-tweakpane-ui` package directly, but in production it is recommended to use per-component imports to simplify the tree-shaker's work and reduce bundle size.
+
+For example, instead of:
+
+```svelte
+<script lang="ts">
+  import { Button } from 'svelte-tweakpane-ui';
+</script>
+
+<Button />
+```
+
+You might use:
+
+```svelte
+<script lang="ts">
+  import Button from 'svelte-tweakpane-ui/core/Button.svelte';
+</script>
+
+<Button />
+```
+
+_P.S. Tree shaking feels more like alchemy than forestry... I'm open to suggestions for a better ways to encourage the tree shaker to do its work thoroughly and completely._
+
 ### "Island" framework compatibility
+
+_Svelte Tweakpane UI_ basically works fine with island frameworks like [Astro](https://astro.build/) with its [Svelte integration](https://docs.astro.build/en/guides/integrations-guide/svelte/), but there is one important caveat:
+
+If you are explicitly defining a `<Pane>` and its children, you must do so in a stand-alone `.svelte` component, and then import that component into an astro file... you can not use `<Pane>` directly in an `.astro` file.
+
+Using multiple standalone components in an Astro components is fine — it's nesting and order of instantiation in the island context that causes issues, and `<Pane>`'s children don't correctly intuit that they're not orphans.)
 
 ### Dynamic Props
 
-TK
+The vanilla tweakpane API is highly dynamic, and the availability of various options and behaviors can change depending on the type of a value or the presence of certain options.
 
-The section below lists the props that are always available under "Common Props", and then provides additional prop tables showing how prop availability changes under different circumstances.
+Svelte's component API is comparatively static, and the availability of props is typically fixed at compile time... but several Svelte Tweakpane UI components feature dynamic properties that are added / removed from the component depending on the presence or type of other props.
 
-Dynamic props are neither particularly well supported by Svelte itself, nor are they a particularly common pattern in Svelte libraries, but they're used in `svelte-tweakpane-ui` to provide flexibility at runtime and reduce the number of discrete components required.
+Dynamic props are used in cases where the clarity of a component's purpose isn't't compromised by a bit of dynamism (e.g. `<Pane>`), or where the alternative would be to create a large number of very similar components (e.g. `<Monitor>`.
+
+Svelte's approach to supporting dynamic props is still evolving, and the right balance between flexibility and predictability is subject to reconsideration in subsequent versions of Svelte Tweakpane UI.
 
 Autocompletion should adapt dynamically to show valid props available at any given time.
 

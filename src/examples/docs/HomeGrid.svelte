@@ -1,17 +1,8 @@
 <script lang="ts">
-	import Demo from './Demo.svelte';
 	import GridWrangler from './GridWrangler.svelte';
+	import Demo from './HomeDemo.svelte';
+	import { Button, Checkbox, Color, Monitor, Pane, RotationEuler, Separator, Slider } from '$lib';
 	import { onMount } from 'svelte';
-	import {
-		Button,
-		Checkbox,
-		Color,
-		Monitor,
-		Pane,
-		RotationEuler,
-		Separator,
-		Slider
-	} from 'svelte-tweakpane-ui';
 
 	let mounted = false;
 
@@ -84,7 +75,6 @@
 		{gridSpacingX}
 		{gridSpacingY}
 		{includeCenters}
-		let:gridIndex
 		{overdrawX}
 		{overdrawY}
 		{rotation}
@@ -92,6 +82,6 @@
 		{scale}
 		{showBackground}
 	>
-		<Demo i={gridIndex} width={paneWidth} />
+		<Demo width={paneWidth} />
 	</GridWrangler>
 {/if}

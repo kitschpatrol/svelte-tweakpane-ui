@@ -1,7 +1,5 @@
 <script lang="ts">
 	import {
-		AutoValue,
-		Button,
 		Checkbox,
 		Color,
 		CubicBezier,
@@ -61,8 +59,8 @@
 		document.addEventListener('pointerup', onPointerUp);
 		document.addEventListener('pointercancel', onPointerUp);
 
-		// watch for theme changes duplicates some functionality from ThemeWatcher.astro, but lets
-		// us keep the theme dropdown
+		// watch for theme changes
+		// duplicates some functionality from ThemeWatcher.astro, but lets us keep the theme dropdown
 		astroTheme = document.documentElement.getAttribute(themeDataKey) === 'dark' ? 'dark' : 'light';
 		const observer = new MutationObserver((mutations: MutationRecord[]) => {
 			for (const mutation of mutations) {
@@ -123,13 +121,14 @@
 	// props
 	export let width: number = 360;
 
-	// position in the grid... useful for transition delays eslint-disable-next-line
-	// svelte/valid-compile
+	// position in the grid... useful for transition delays
+	// eslint-disable-next-line svelte/valid-compile
+	// export let i: number = 0;
 
 	// constants
 	const themes = Object.keys(ThemeUtils.presets);
 	const offsetAngle = [0, Math.PI / 3, Math.PI / 2, Math.PI];
-	// const cubicBezierEnabled = false;
+	const cubicBezierEnabled = false;
 	const defaultTheme: Theme = {
 		// baseBorderRadius: '0'
 	};
@@ -217,35 +216,28 @@
 	}
 
 	let scale = 1;
-	let value = 0;
-	let valueP = '#ff0000';
 </script>
 
-<AutoValue bind:value label="Yes" />
-<AutoValue bind:value={valueP} />
-{value}
-<hr />
-<Button label="Count" title="Increment" />
-<h2>Hi</h2>
 <div bind:this={paneRef}>
 	<!-- {#if mounted} -->
 	<div transition:fade={{ duration: 1500 }}>
-		<Pane
-			expanded={true}
-			position="inline"
-			{scale}
-			{theme}
-			title={`<Pane> ${text}`}
-			userExpandable={true}
-			{width}
-		>
+		<Pane position="inline" {scale} {theme} title={`<Pane> ${text}`} {width}>
 			<!-- <Slider bind:value={scale} min={0} max={2} /> -->
+			<List bind:value={themeKey} label="<List> Theme" options={themes} />
 			<Text bind:value={text} label="<Text> Title" />
 			<Checkbox bind:value={playing} label="<Checkbox> Play" />
-			<List bind:value={themeKey} label="<List> Theme" options={themes} />
 			<FpsGraph label="<FpsGraph>" />
-
+			<Separator />
 			<!-- <Button on:click={reset} label="<Button> Reset" title="Reset" /> -->
+			<Slider
+				bind:value={periodSeconds}
+				min={1}
+				max={60}
+				format={(v) => `${v.toFixed(1)}s`}
+				label="<Slider> Period"
+				step={1}
+			/>
+			<Separator />
 			<Folder title="<Folder> Axes">
 				{#each keys as k, i}
 					<Slider
@@ -258,53 +250,19 @@
 					/>
 				{/each}
 			</Folder>
-			<Slider
-				bind:value={periodSeconds}
-				min={1}
-				max={60}
-				format={(v) => `${v.toFixed(1)}s`}
-				label="<Slider> Period"
-				step={1}
-			/>
-			<!-- <Separator /> -->
-
-			<!-- <Separator /> -->
-			{#if false}
+			<Separator />
+			{#if cubicBezierEnabled}
 				<RotationEuler
 					bind:value={$point3}
 					expanded={true}
 					label="<RotationEuler> X Y Z"
 					picker="inline"
 				/>
-				<!-- <Separator /> -->
-				<!-- <IntervalSlider bind:value={interval2} min={0} max={1} label="<IntervalSlider>
-						Min / Max"
+				<!-- <IntervalSlider bind:value={interval2} min={0} max={1} label="<IntervalSlider> Min /
+Max"
 	/> -->
 
-				<Color
-					bind:value={$point4}
-					expanded={false}
-					label="<Color> R G B A"
-					picker="inline"
-					type={'float'}
-				/>
 				<Separator />
-				<Point
-					bind:value={$point2}
-					{min}
-					{max}
-					expanded={true}
-					label="<Point> X Y"
-					optionsY={{ min, max, inverted: true }}
-					picker="inline"
-				/>
-				<CubicBezier
-					bind:value={$point4}
-					expanded={true}
-					label="<CubicBezier> X Y Z W"
-					picker="inline"
-				/>
-
 				<TabGroup>
 					{#each keys as k, i}
 						<TabPage title={`<TabPage> ${k}`}>
@@ -319,9 +277,36 @@
 						</TabPage>
 					{/each}
 				</TabGroup>
+				<Separator />
+				<Color
+					bind:value={$point4}
+					expanded={false}
+					label="<Color> R G B A"
+					picker="inline"
+					type={'float'}
+				/>
+				<Separator />
+				<Point
+					bind:value={$point2}
+					{min}
+					{max}
+					expanded={true}
+					label="<Point> X Y"
+					optionsY={{
+						min,
+						max,
+						inverted: true
+					}}
+					picker="inline"
+				/>
+				<CubicBezier
+					bind:value={$point4}
+					expanded={true}
+					label="<CubicBezier> X Y Z W"
+					picker="inline"
+				/>
 			{/if}
 		</Pane>
 	</div>
 	<!-- {/if} -->
 </div>
-<h1>After</h1>

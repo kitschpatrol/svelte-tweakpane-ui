@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { Utils } from '$lib';
 	import { onMount } from 'svelte';
-	import { Utils } from 'svelte-tweakpane-ui';
 
 	/*
 	 * Horizontal space between grid points, in pixels
@@ -121,7 +121,7 @@
 			style:top="{-overdrawY / 2}px"
 			style:width="{groupWidth}px"
 		>
-			{#each grid as [x, y], gridIndex}
+			{#each grid as [x, y]}
 				<div
 					class="grid-item"
 					style={`transform: translate(-50%, -50%)
@@ -129,7 +129,7 @@
 					style:left="{x}px"
 					style:top="{y}px"
 				>
-					<slot {gridIndex} />
+					<slot />
 				</div>
 			{/each}
 			{#if drawOrigins}

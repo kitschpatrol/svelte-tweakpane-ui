@@ -6,7 +6,7 @@ editUrl: false
 lastUpdated: false
 pagefind: false
 hero:
-  tagline: 🎛️ <strong>Svelte Tweakpane UI</strong> is an open-source library that wraps UI elements from <a href="https://cocopon.github.io/tweakpane/"><img src="/svelte-tweakpane-ui/tweakpane-logo.svg" />Tweakpane</a> in a collection of idiomatic <a href="https://svelte.dev"><img src="/svelte-tweakpane-ui/svelte-logo.svg" />Svelte</a> components. The library makes it easy to quickly add knobs and dials to your projects, and augments Tweakpane with a few extra features for your convenience and enjoyment.
+  tagline: <p>🎛️ <strong>Svelte Tweakpane UI</strong> wraps UI elements from <a href="https://cocopon.github.io/tweakpane/"><img src="/svelte-tweakpane-ui/tweakpane-logo.svg" />Tweakpane</a> in a collection of idiomatic <a href="https://svelte.dev"><img src="/svelte-tweakpane-ui/svelte-logo.svg" />Svelte</a> components.</p><p>The library makes it easy to quickly add knobs and dials to your projects, and augments Tweakpane with a few extra features for your convenience and enjoyment.</p>
   actions:
     - text: Get Started
       link: /svelte-tweakpane-ui/docs/getting-started
@@ -22,11 +22,11 @@ hero:
       variant: secondary
 ---
 
-import PaneGrid from '../../components/examples/home/PaneGrid.svelte';
+import HomeGrid from '../../examples/docs/svelte/HomeGrid.svelte';
 
 <div
   style="pointer-events: all; position: absolute; z-index: -1; opacity: 0.7;"
   class="not-content"
 >
-  <PaneGrid client:load />
+  <HomeGrid client:load />
 </div>

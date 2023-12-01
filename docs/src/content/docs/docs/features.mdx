@@ -1,72 +1,94 @@
 ---
 title: Features
-description: A guide in my new Starlight docs site.
+description: Features unique to Svelte Tweakpane UI.
 ---
 
-Introduction
-
-Tweakpane itself
+A handful of additional features have been implemented in the Svelte layer of the project.
 
 ## Additions
 
-Implemented in the Svelte layer of the project.
-
 ### Draggability
 
-### Additional Value Types
-
-Transparently handle
-
-Tuples (e.g. Point etc.)
-
-Objects (e.g. CubicBezier)
-
-Object lists
-
-### Scaling
-
-### Scoped theming
-
-### Global theming
-
-### Typescript
-
-### Element component
+With a single prop, you can make a `<Pane>` draggable and resizable. Position and size are persisted in local storage. (This is the default behavior for new `<Pane>`s.)
 
 ### Inline components
 
+You can make a `<Pane>` appear inline with the rest of your content. (This is the default for standalone components.)
+
+### Additional Value Types
+
+In several places, additional value types are transparently supported.
+
+Throughout the library, almost anything that takes an object will now also tolerate a tuple, and vice versa.
+
+For example, `<Point>` can be used with a tuple, and `<CubicBezier>` can be used with an object.
+
+This is particularly useful for interoperability with "tuple-forward" libraries like [Three.js](https://threejs.org) / [Threlte](https://threlte.xyz).
+
+### Scaling
+
+Tweakpane has a nearly bitmap-free implementation that's scales very nicely. _Svelte Tweakpane UI_ adds a `scale` prop to `<Pane>`s to allow you to scale your panes to any size you like.
+
+Note that complete functionality of this feature is contingent on [a PR](https://github.com/cocopon/tweakpane/pull/586) or [two](https://github.com/pulls) being merged. You may see some glitches with scaling graphs and the `<CubicBezier>` component until then.
+
+### Scoped theming
+
+_Svelte Tweakpane UI_ manages applying and overriding CSS variables at the right points in the dom to allow multiple panes to be styled independently on a single page.
+
+### Global theming
+
+A `setGlobalDefaultTheme()` helper function makes it easy to define a default theme for all panes on a page. (While still allowing individual panes to override the global default.)
+
+### Element component
+
+Sometimes you want to embed an arbitrary chunk of HTML in one of your panes. The `<Element>` component simplifies this.
+
 ### Implicit Panes
 
-Wrapping components in `<Pane>` components
+Wrapping Tweakpane components in `<Pane>` components is optional. If you don't wrap a component in a `<Pane>`, it will be automatically wrapped in an implicit inline `<Pane>` with default settings.
 
 ### SSR Support _(experimental)_
 
-### Collapsibility
+Very, very, early and experimental support around SSR pre-rendering of pane width and height _only_. This is not true SSR, just some calculations to minimize CLS after hydration.
 
-Experimental
+### Automatic collapsibility
+
+Folders and inline pickers inside a draggable `<Pane>` can be set to automatically collapse if the screen is short on vertical space via the `collapseChildrenToFit` prop.
+
+### Control user collapsibility
+
+If you don't want a chunk of pane to ever collapse, you can set the `userExpandable` prop to `false`.
 
 ---
 
-## Differences
+## Changes
 
-Certain aspects of the Tweakpane API don't make a ton of sense in the Svelte context.
+Certain aspects of the Tweakpane API don't make a ton of sense in the Svelte context, and have been removed or hidden from the API.
 
-### Containers
+### Custom container
 
-- The [`container`](https://tweakpane.github.io/docs/misc/#container) [PaneConfig](https://tweakpane.github.io/docs/api/interfaces/_internal_.PaneConfig.html) option is not exposed, because correct placement in the containing DOM is managed by 'svelte-tweakpane-ui', and `<Pane position='inline' ...>` should be used where you'd like a pane to become part of the normal document flow.
+The [`container`](https://tweakpane.github.io/docs/misc/#container) [PaneConfig](https://tweakpane.github.io/docs/api/interfaces/_internal_.PaneConfig.html) option is not exposed, because correct placement in the containing DOM is managed by 'svelte-tweakpane-ui', and `<Pane position='inline' ...>` may be used where you'd like a pane to become part of the normal document flow.
 
 ### Visibility
 
-- The [`hidden`](https://tweakpane.github.io/docs/api/classes/Pane.html#hidden) / [visibility](https://tweakpane.github.io/docs/misc/#visibility) accessor is not exposed, because visibility a pane and its components may be managed directly in Svelte by adding / removing elements from the component template through `{#if}` conditionals and similar.
+The [`hidden`](https://tweakpane.github.io/docs/api/classes/Pane.html#hidden) / [visibility](https://tweakpane.github.io/docs/misc/#visibility) accessor is not exposed, because visibility a pane and its components may be managed directly in Svelte by adding / removing elements from the Svelte component markup through `{#if}` conditionals and similar.
 
 ### Order
 
-- [index](https://tweakpane.github.io/docs/misc/#insert) is not exposed. The order of controls appearance matches their position in the component template.
+[index](https://tweakpane.github.io/docs/misc/#insert) is not exposed. The order of controls appearance matches their position in the Svelte component markup.
 
-### Disposal and Clean Up
+### Disposal
 
-- [https://tweakpane.github.io/docs/misc/#disposing](
+Svelte Tweakpane UI full manages the lifecycle of the underlying Tweakpane objects, obviating the need for manual calls to [dispose](https://tweakpane.github.io/docs/misc/#disposing).
 
-### Tab Rename
+### Import / export state
 
-- Tab rename TODO
+Abstractions around `importState()` and `exportState()` are not yet implemented. For now, Svelte provides many ways to load and persist values (stores, etc.).
+
+### Plugins
+
+A curation of first- and third-party Tweakpane Plugins have been wrapped in components and bundled with _Svelte Tweakpane UI_. These plugins are automatically registered on demand, and work just like other components.
+
+### Tab rename
+
+The vanilla Tweakpane `Tab` is referred to as a `TabGroup` in _Svelte Tweakpane UI_, and the vanilla Tweakpane `Page` is referred to as a `<TabPage>`.

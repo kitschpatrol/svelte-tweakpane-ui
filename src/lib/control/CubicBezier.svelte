@@ -32,7 +32,6 @@
 		 *
 		 * Object value type is a convenience added by `svelte-tweakpane-ui`, and is not part of the
 		 * original `@tweakpane/plugin-essentials` API.
-		 * @type {CubicBezierValue}
 		 * @bindable
 		 */
 		value: CubicBezierValue;
@@ -197,12 +196,21 @@ updates. Consider managing the lifecycle of this component with care until this 
 [CubicBezier.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/CubicBezier.svelte)
 -->
 
-<GenericBladeFolding bind:expanded bind:ref={cubicBezierBlade} {buttonClass} {options}
-plugin={pluginModule} {...$$restProps} /> {#if !BROWSER}
-	<ClsPad keysAdd={fillWith('containerUnitSize', 1)} theme={$$props.theme} /> {#if expanded &&
-	$$props.picker === 'inline'}
+<GenericBladeFolding
+	bind:expanded
+	bind:ref={cubicBezierBlade}
+	{buttonClass}
+	{options}
+	plugin={pluginModule}
+	{...$$restProps}
+/>
+{#if !BROWSER}
+	<ClsPad keysAdd={fillWith('containerUnitSize', 1)} theme={$$props.theme} />
+	{#if expanded && $$props.picker === 'inline'}
 		<ClsPad keysAdd={fillWith('containerUnitSize', 6)} theme={$$props.theme} />
-		<ClsPad keysAdd={fillWith('containerUnitSpacing', 2)} theme={$$props.theme} /> {/if} {/if}
+		<ClsPad keysAdd={fillWith('containerUnitSpacing', 2)} theme={$$props.theme} />
+	{/if}
+{/if}
 
 <style>
 	/* Fix overflow bug from the plugin TODO PR */
