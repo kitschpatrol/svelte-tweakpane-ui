@@ -31,11 +31,11 @@
     "astro-compress": "^2.2.3",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
-    "sharp": "^0.32.6",
+    "sharp": "^0.33.0",
     "svelte-tweakpane-ui": "link:.."
   },
   "devDependencies": {
     "linkedom": "^0.16.4",
-    "marked": "^10.0.0"
+    "marked": "^11.0.0"
   }
 }
