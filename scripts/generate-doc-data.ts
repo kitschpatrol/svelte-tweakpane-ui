@@ -106,7 +106,7 @@ if (fs.existsSync(destination)) {
 }
 
 for (const { name, path } of components) {
-	// TODO this is not pretty
+	//  TODO break out and pass in this config...
 	// Pass custom dynamic prop test cases to certain components
 	let testProps: ComponentDynamicPropTest[] | undefined = undefined;
 

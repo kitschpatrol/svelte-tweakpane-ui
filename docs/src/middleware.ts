@@ -60,7 +60,7 @@ function linkifyTerms(node: Node, termDictionary: { [key: string]: string }, bas
 
 		if (Object.keys(termDictionary).includes(text)) {
 			const link = node.ownerDocument.createElement('a');
-			// todo use Astro path functions...
+			// TODO use Astro path functions...
 
 			link.href = `${base.length > 0 ? base + '/' : ''}${termDictionary[text]}`;
 

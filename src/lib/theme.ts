@@ -45,7 +45,7 @@ type ThemeKeys = {
 	monitorForegroundColor?: ThemeColorValue;
 	// Plugins
 	pluginImageDraggingColor?: ThemeColorValue;
-	// TODO broken pluginThumbnailListHeight?: string; pluginThumbnailListThumbSize?: string;
+	// pluginThumbnailListHeight?: string; pluginThumbnailListThumbSize?: string;
 	// pluginThumbnailListWidth?: string;
 };
 

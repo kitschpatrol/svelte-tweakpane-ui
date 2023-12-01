@@ -62,7 +62,7 @@ export function rowsForMonitor(
 		return 1;
 	} else {
 		// both defined
-		return rows ?? 1; // todo
+		return rows ?? 1; // TODO
 	}
 }
 
@@ -155,7 +155,7 @@ function clickBlocker(e: MouseEvent) {
 	if (e.isTrusted) e.stopPropagation();
 }
 
-// used by folder and pane todo rewrite to use getSwatchButton etc.
+// used by folder and pane TODO rewrite to use getSwatchButton etc.
 export function updateCollapsibility(
 	isUserExpandableEnabled: boolean,
 	element: HTMLElement,
