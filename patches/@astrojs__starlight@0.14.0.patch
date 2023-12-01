@@ -1,8 +1,8 @@
 diff --git a/components/MarkdownContent.astro b/components/MarkdownContent.astro
-index 0d40cd47ed269a706b05242f0c7994ed2a95a43d..4ac5cd2744816c0c7f7cd327eb823328a0311b19 100644
+index 0d40cd47ed269a706b05242f0c7994ed2a95a43d..12af4519f54ea1115168106862eaf6ab67d35eb8 100644
 --- a/components/MarkdownContent.astro
 +++ b/components/MarkdownContent.astro
-@@ -4,3 +4,96 @@ import '../style/markdown.css';
+@@ -4,3 +4,95 @@ import '../style/markdown.css';
  ---
  
  <div class="sl-markdown-content"><slot /></div>
@@ -33,9 +33,8 @@ index 0d40cd47ed269a706b05242f0c7994ed2a95a43d..4ac5cd2744816c0c7f7cd327eb823328
 +				return parseInt(style.marginTop, 10);
 +			});
 +
-+			const navBarHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
 +			// `<summary>` only exists in mobile ToC, so will fall back to 0 in large viewport component.
-+			// todo... guarantee existence?
++			const navBarHeight = document.querySelector('header')?.getBoundingClientRect().height || 0;
 +			const mobileTocHeight = mobileToc.querySelector('summary')?.getBoundingClientRect().height || 0;
 +			const activationThreshold = navBarHeight + mobileTocHeight;
 +
@@ -100,19 +99,18 @@ index 0d40cd47ed269a706b05242f0c7994ed2a95a43d..4ac5cd2744816c0c7f7cd327eb823328
 +	})();
 +</script>
 diff --git a/components/MobileTableOfContents.astro b/components/MobileTableOfContents.astro
-index 03a4972f2bcacd2c7553a6d63830ba25d4d92830..5a93161c31614f3b895e70efb66baba676753775 100644
+index 74342e3c5c3a2e52f6782846b8ff5547d7131d91..da2251222c7599ce2aec92b57233bd9d735d44c8 100644
 --- a/components/MobileTableOfContents.astro
 +++ b/components/MobileTableOfContents.astro
-@@ -1,7 +1,7 @@
+@@ -1,6 +1,6 @@
  ---
- import { useTranslations } from '../utils/translations';
  import Icon from '../user-components/Icon.astro';
 -import TableOfContentsList from './TableOfContents/TableOfContentsList.astro';
 +import TableOfContentsList from './TableOfContentsList.astro';
  import type { Props } from '../props';
  
- const { locale, toc } = Astro.props;
-@@ -110,15 +110,7 @@ const t = useTranslations(locale);
+ const { labels, toc } = Astro.props;
+@@ -108,15 +108,7 @@ const { labels, toc } = Astro.props;
  </style>
  
  <script>
@@ -130,10 +128,10 @@ index 03a4972f2bcacd2c7553a6d63830ba25d4d92830..5a93161c31614f3b895e70efb66baba6
  			super();
  			const details = this.querySelector('details');
 diff --git a/components/Search.astro b/components/Search.astro
-index 4162f4001f981f8e60c7853651b4d4617f4fc681..94e88563c7a7cb806562e60ebbd728e2ecdb00ed 100644
+index 2b5f3ac495e3cde17c3fb07f56bd9ee147d80cf7..688dcc48582f3045436f9ed67de71074ad0e3b4b 100644
 --- a/components/Search.astro
 +++ b/components/Search.astro
-@@ -47,6 +47,9 @@ const pagefindTranslations = {
+@@ -53,6 +53,9 @@ const pagefindTranslations = {
  </site-search>
  
  <script>
@@ -143,7 +141,7 @@ index 4162f4001f981f8e60c7853651b4d4617f4fc681..94e88563c7a7cb806562e60ebbd728e2
  	class SiteSearch extends HTMLElement {
  		constructor() {
  			super();
-@@ -54,6 +57,24 @@ const pagefindTranslations = {
+@@ -60,6 +63,24 @@ const pagefindTranslations = {
  			const closeBtn = this.querySelector<HTMLButtonElement>('button[data-close-modal]')!;
  			const dialog = this.querySelector('dialog')!;
  			const dialogFrame = this.querySelector('.dialog-frame')!;
@@ -168,7 +166,7 @@ index 4162f4001f981f8e60c7853651b4d4617f4fc681..94e88563c7a7cb806562e60ebbd728e2
  
  			/** Close the modal if a user clicks on a link or outside of the modal. */
  			const onClick = (event: MouseEvent) => {
-@@ -118,6 +139,7 @@ const pagefindTranslations = {
+@@ -124,6 +145,7 @@ const pagefindTranslations = {
  						showImages: false,
  						translations,
  						showSubResults: true,
@@ -177,7 +175,7 @@ index 4162f4001f981f8e60c7853651b4d4617f4fc681..94e88563c7a7cb806562e60ebbd728e2
  				});
  			});
 diff --git a/components/Sidebar.astro b/components/Sidebar.astro
-index 38dc898d3697b5b15f8e812711258757927d8088..293d0aa75fb4bf35f7f3559266fea4bad9f31e52 100644
+index 38dc898d3697b5b15f8e812711258757927d8088..4e42aec72f87c7139bae80c9f07a1f595dac1c78 100644
 --- a/components/Sidebar.astro
 +++ b/components/Sidebar.astro
 @@ -11,3 +11,84 @@ const { sidebar } = Astro.props;
@@ -265,32 +263,30 @@ index 38dc898d3697b5b15f8e812711258757927d8088..293d0aa75fb4bf35f7f3559266fea4ba
 +		}
 +	})();
 +</script>
-\ No newline at end of file
 diff --git a/components/TableOfContents/starlight-toc.ts b/components/TableOfContents/starlight-toc.ts
 deleted file mode 100644
 index a5de15bd336c198fbc6b788b6351e2a3ae278dd4..0000000000000000000000000000000000000000
 diff --git a/components/TableOfContents.astro b/components/TableOfContents.astro
-index 4b0f1d118b401c66c0f50c6da685cc62fb7fb7bf..ad393429565c337a61c3bdc741d47b787646b26c 100644
+index eafd3d868e9ae6965aecdbe117af1a218b174b93..1f774d2e76f7f6cf7b41765073df2d8d06d261ca 100644
 --- a/components/TableOfContents.astro
 +++ b/components/TableOfContents.astro
-@@ -1,6 +1,6 @@
+@@ -1,5 +1,5 @@
  ---
- import { useTranslations } from '../utils/translations';
 -import TableOfContentsList from './TableOfContents/TableOfContentsList.astro';
 +import TableOfContentsList from './TableOfContentsList.astro';
  import type { Props } from '../props';
  
- const { locale, toc } = Astro.props;
-@@ -9,7 +9,7 @@ const t = useTranslations(locale);
+ const { labels, toc } = Astro.props;
+@@ -7,7 +7,7 @@ const { labels, toc } = Astro.props;
  
  {
  	toc && (
 -		<starlight-toc data-min-h={toc.minHeadingLevel} data-max-h={toc.maxHeadingLevel}>
 +		<starlight-toc>
  			<nav aria-labelledby="starlight__on-this-page">
- 				<h2 id="starlight__on-this-page">{t('tableOfContents.onThisPage')}</h2>
+ 				<h2 id="starlight__on-this-page">{labels['tableOfContents.onThisPage']}</h2>
  				<TableOfContentsList toc={toc.items} />
-@@ -18,4 +18,15 @@ const t = useTranslations(locale);
+@@ -16,4 +16,15 @@ const { labels, toc } = Astro.props;
  	)
  }
  
@@ -309,103 +305,115 @@ index 4b0f1d118b401c66c0f50c6da685cc62fb7fb7bf..ad393429565c337a61c3bdc741d47b78
 +</script>
 \ No newline at end of file
 diff --git a/components/TableOfContents/TableOfContentsList.astro b/components/TableOfContentsList.astro
-similarity index 97%
+similarity index 100%
 rename from components/TableOfContents/TableOfContentsList.astro
 rename to components/TableOfContentsList.astro
-index db370b6126e9e3a7eb3562b9258ecbfcc29caa41..4090cdbfa46238f476bc87768ab59b9bb2fcd6c7 100644
---- a/components/TableOfContents/TableOfContentsList.astro
-+++ b/components/TableOfContentsList.astro
-@@ -1,5 +1,5 @@
- ---
--import type { TocItem } from '../../utils/generateToC';
-+import type { TocItem } from '../utils/generateToC';
- 
- interface Props {
- 	toc: TocItem[];
 diff --git a/utils/path.ts b/utils/path.ts
-index 68b1f5c2b7ac83f3a0927635e2a39065d3d7818c..73b6615870dee805932df98882640ff5288fc935 100644
+index 68b1f5c2b7ac83f3a0927635e2a39065d3d7818c..58b4a14edecceccf59e3095b353a74957e3899c6 100644
 --- a/utils/path.ts
 +++ b/utils/path.ts
-@@ -1,12 +1,26 @@
+@@ -1,52 +1,79 @@
 +/** Find end of URL path, before hash and query parameters if necessary */
 +function getPathBoundary(href: string): number {
-+	const hashIndex = href.indexOf("#");
-+	const queryIndex = href.indexOf("?");
-+	return hashIndex !== -1
-+		? hashIndex
-+		: queryIndex !== -1
-+		? queryIndex
-+		: href.length;
++  const hashIndex = href.indexOf("#");
++  const queryIndex = href.indexOf("?");
++  return hashIndex !== -1
++    ? hashIndex
++    : queryIndex !== -1
++    ? queryIndex
++    : href.length;
 +}
 +
  /** Ensure the passed path starts with a leading slash. */
  export function ensureLeadingSlash(href: string): string {
 -	if (href[0] !== '/') href = '/' + href;
-+	if (href[0] !== "/") href = "/" + href;
- 	return href;
+-	return href;
++  if (href[0] !== "/") href = "/" + href;
++  return href;
  }
  
  /** Ensure the passed path ends with a trailing slash. */
  export function ensureTrailingSlash(href: string): string {
 -	if (href[href.length - 1] !== '/') href += '/';
-+	const pathBoundary = getPathBoundary(href);
-+	if (href[pathBoundary - 1] !== "/") {
-+		href = href.slice(0, pathBoundary) + "/" + href.slice(pathBoundary);
-+	}
- 	return href;
+-	return href;
++  const pathBoundary = getPathBoundary(href);
++  if (href[pathBoundary - 1] !== "/") {
++    href = href.slice(0, pathBoundary) + "/" + href.slice(pathBoundary);
++  }
++  return href;
  }
  
-@@ -18,14 +32,17 @@ export function ensureLeadingAndTrailingSlashes(href: string): string {
+ /** Ensure the passed path starts and ends with slashes. */
+ export function ensureLeadingAndTrailingSlashes(href: string): string {
+-	href = ensureLeadingSlash(href);
+-	href = ensureTrailingSlash(href);
+-	return href;
++  href = ensureLeadingSlash(href);
++  href = ensureTrailingSlash(href);
++  return href;
  }
  
  /** Ensure the passed path does not start with a leading slash. */
 -export function stripLeadingSlash(href: string) {
 -	if (href[0] === '/') href = href.slice(1);
+-	return href;
 +export function stripLeadingSlash(href: string): string {
-+	if (href[0] === "/") href = href.slice(1);
- 	return href;
++  if (href[0] === "/") href = href.slice(1);
++  return href;
  }
  
  /** Ensure the passed path does not end with a trailing slash. */
 -export function stripTrailingSlash(href: string) {
 -	if (href[href.length - 1] === '/') href = href.slice(0, -1);
+-	return href;
 +export function stripTrailingSlash(href: string): string {
-+	const pathBoundary = getPathBoundary(href);
-+	if (href[pathBoundary - 1] === "/") {
-+		href = href.slice(0, pathBoundary - 1) + href.slice(pathBoundary);
-+	}
- 	return href;
++  const pathBoundary = getPathBoundary(href);
++  if (href[pathBoundary - 1] === "/") {
++    href = href.slice(0, pathBoundary - 1) + href.slice(pathBoundary);
++  }
++  return href;
  }
  
-@@ -37,16 +54,26 @@ export function stripLeadingAndTrailingSlashes(href: string): string {
+ /** Ensure the passed path does not start and end with slashes. */
+ export function stripLeadingAndTrailingSlashes(href: string): string {
+-	href = stripLeadingSlash(href);
+-	href = stripTrailingSlash(href);
+-	return href;
++  href = stripLeadingSlash(href);
++  href = stripTrailingSlash(href);
++  return href;
  }
  
  /** Remove the extension from a path. */
 -export function stripHtmlExtension(path: string) {
-+export function stripHtmlExtension(path: string): string {
- 	const pathWithoutTrailingSlash = stripTrailingSlash(path);
+-	const pathWithoutTrailingSlash = stripTrailingSlash(path);
 -	return pathWithoutTrailingSlash.endsWith('.html') ? pathWithoutTrailingSlash.slice(0, -5) : path;
-+	const pathBoundary = getPathBoundary(path);
-+	const htmlIndex = pathWithoutTrailingSlash.indexOf(".html");
-+	return htmlIndex !== -1 && htmlIndex === pathBoundary - 5
-+		? pathWithoutTrailingSlash.slice(0, pathBoundary - 5) +
-+				pathWithoutTrailingSlash.slice(pathBoundary)
-+		: path;
++export function stripHtmlExtension(path: string): string {
++  const pathWithoutTrailingSlash = stripTrailingSlash(path);
++  const pathBoundary = getPathBoundary(path);
++  const htmlIndex = pathWithoutTrailingSlash.indexOf(".html");
++  return htmlIndex !== -1 && htmlIndex === pathBoundary - 5
++    ? pathWithoutTrailingSlash.slice(0, pathBoundary - 5) +
++        pathWithoutTrailingSlash.slice(pathBoundary)
++    : path;
  }
  
  /** Add '.html' extension to a path. */
 -export function ensureHtmlExtension(path: string) {
-+export function ensureHtmlExtension(path: string): string {
- 	path = stripLeadingAndTrailingSlashes(path);
+-	path = stripLeadingAndTrailingSlashes(path);
 -	if (!path.endsWith('.html')) {
 -		path = path ? path + '.html' : '/index.html';
-+	const pathBoundary = getPathBoundary(path);
-+	const htmlIndex = path.indexOf(".html");
-+	if (htmlIndex === -1 || htmlIndex !== pathBoundary - 5) {
-+		path =
-+			pathBoundary === 0
-+				? "index.html" + path.slice(pathBoundary)
-+				: path.slice(0, pathBoundary) + ".html" + path.slice(pathBoundary);
- 	}
- 	return ensureLeadingSlash(path);
+-	}
+-	return ensureLeadingSlash(path);
++export function ensureHtmlExtension(path: string): string {
++  path = stripLeadingAndTrailingSlashes(path);
++  const pathBoundary = getPathBoundary(path);
++  const htmlIndex = path.indexOf(".html");
++  if (htmlIndex === -1 || htmlIndex !== pathBoundary - 5) {
++    path =
++      pathBoundary === 0
++        ? "index.html" + path.slice(pathBoundary)
++        : path.slice(0, pathBoundary) + ".html" + path.slice(pathBoundary);
++  }
++  return ensureLeadingSlash(path);
  }

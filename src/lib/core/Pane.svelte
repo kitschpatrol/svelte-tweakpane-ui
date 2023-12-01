@@ -84,7 +84,8 @@ Important: Unlike the vanilla JS Tweakpane API, wrapping components in a `<Pane>
 Pane-less components will be automatically nested in a `<Pane position='inline'>` component and
 displayed in the regular block flow of the page. `<Pane>` is only necessary when you want to
 explicitly group a number of components, or when you want convenient means to control how and where
-the Tweakpane is shown on the page. (See an [important exception](https://kitschpatrol.com/svelte-tweakpane-ui/docs#island-framework-compatibility)
+the Tweakpane is shown on the page. (See an [important
+exception](https://kitschpatrol.com/svelte-tweakpane-ui/docs#island-framework-compatibility)
 regarding _Svelte Tweakpane UI_ in island frameworks like Astro.)
 
 
