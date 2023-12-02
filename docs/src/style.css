@@ -224,6 +224,10 @@ body {
 	overflow-x: hidden;
 }
 
+html {
+	overflow-y: scroll;
+}
+
 /* Home Page */
 html[data-has-hero] {
 	overflow: hidden;
