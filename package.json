@@ -217,7 +217,7 @@
     "lint:spelling": "cspell --quiet .",
     "lint:stylelint": "stylelint './src/**/*.{css,svelte,html}'",
     "lint:typescript": "tsc --noEmit",
-    "prepublishOnly": "run build"
+    "prepublishOnly": "pnpm run build"
   },
   "peerDependencies": {
     "svelte": "^4.0.0"
