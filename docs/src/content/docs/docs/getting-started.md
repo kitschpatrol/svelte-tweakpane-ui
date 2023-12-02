@@ -84,7 +84,7 @@ If you're starting from an empty SvelteKit starter project, you can add a button
 +
 <h1>Welcome to SvelteKit</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-+ <Button on:click={() => alert('Hi from STUI')} />
++ <Button on:click={() => alert('🎛️')} />
 ```
 
 Then run the project:

@@ -1,5 +1,7 @@
 # svelte-tweakpane-ui
 
+<a href="https://npmjs.com/package/svelte-tweakpane-ui"><img src="https://img.shields.io/npm/v/svelte-tweakpane-ui.svg" alt="npm package"></a>
+
 ## Overview
 
 🎛️ **_Svelte Tweakpane UI_** wraps user-interface elements from the excellent [Tweakpane](https://cocopon.github.io/tweakpane/) library in a collection of 31 idiomatic, reactive, type-safe, carefully-crafted [Svelte](https://svelte.dev) components.
@@ -28,7 +30,7 @@ npm install svelte-tweakpane-ui
   import { Button } from 'svelte-tweakpane-ui';
 </script>
 
-<Button on:click={() => alert('Hi from STUI')} />
+<Button on:click={() => alert('🎛️')} />
 ```
 
 ---
