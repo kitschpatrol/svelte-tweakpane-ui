@@ -1,4 +1,4 @@
-import { docsSchema, i18nSchema } from '@astrojs/starlight/schema';
+import { docsSchema } from '@astrojs/starlight/schema';
 import { defineCollection, z } from 'astro:content';
 
 // acknowledgments schema as delivered from pnpm
@@ -69,7 +69,8 @@ export const collections = {
 		type: 'data'
 	}),
 	docs: defineCollection({
-		schema: (ctx) => docsSchema()(ctx).merge(universalFrontmatter).merge(componentFrontmatter)
-	}),
-	i18n: defineCollection({ schema: i18nSchema(), type: 'data' })
+		schema: docsSchema({
+			extend: universalFrontmatter.merge(componentFrontmatter)
+		})
+	})
 };
