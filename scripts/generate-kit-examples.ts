@@ -1,4 +1,4 @@
-// extracts and saves example blocks from component jsdocs,
+// extracts and saves example blocks from component jsdoc,
 
 import { getComponentExampleCodeFromSource, getExportedComponents } from './ast-tools';
 import fs from 'fs';

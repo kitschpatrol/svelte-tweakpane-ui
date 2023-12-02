@@ -54,6 +54,7 @@
     "noreferrer",
     "pagefind",
     "Palash",
+    "Panebuilder",
     "Panepaint",
     "phenomnomnominal",
     "radiogrid",
@@ -80,7 +81,7 @@
     "wght"
   ],
   "language": "en,en-US",
-  "ignorePaths": ["package.json", "pnpm-lock.yaml", "*.svg"],
+  "ignorePaths": ["package.json", "pnpm-lock.yaml", "*.svg", "*.mp4"],
   "ignoreRegExpList": ["tp-.+", "tweakpane-plugin-.+"],
   "useGitignore": true,
   "enabled": true,
