@@ -10,6 +10,10 @@ The library makes it easy to quickly and declaratively add knobs and dials to yo
 
 [The components](https://kitschpatrol.com/svelte-tweakpane-ui/docs#components) should be useful for integrating controls and value monitoring in parametrically driven artworks or simulations.
 
+## Demo
+
+![Svelte Tweakpane UI quick demo](./docs/public/quick-demo.gif)
+
 ## Documentation
 
 **_Please see the documentation site for much more information:_**  
