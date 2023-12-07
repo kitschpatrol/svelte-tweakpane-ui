@@ -51,8 +51,8 @@ importers:
         version: 1.0.0(tweakpane@4.0.1)
     devDependencies:
       '@kitschpatrol/shared-config':
-        specifier: ^1.0.1
-        version: 1.0.1(cspell@8.1.3)(eslint@8.55.0)(markdownlint-cli@0.37.0)(markdownlint@0.32.1)(postcss-html@1.5.0)(prettier@3.1.0)(stylelint@15.11.0)(svelte@4.2.8)(typescript@5.3.3)
+        specifier: ^1.0.2
+        version: 1.0.2(cspell@8.1.3)(eslint@8.55.0)(markdownlint-cli@0.37.0)(markdownlint@0.32.1)(postcss-html@1.5.0)(prettier@3.1.0)(stylelint@15.11.0)(svelte@4.2.8)(typescript@5.3.3)
       '@phenomnomnominal/tsquery':
         specifier: ^6.1.3
         version: 6.1.3(typescript@5.3.3)
@@ -1946,8 +1946,8 @@ packages:
       - svelte
     dev: true
 
-  /@kitschpatrol/shared-config@1.0.1(cspell@8.1.3)(eslint@8.55.0)(markdownlint-cli@0.37.0)(markdownlint@0.32.1)(postcss-html@1.5.0)(prettier@3.1.0)(stylelint@15.11.0)(svelte@4.2.8)(typescript@5.3.3):
-    resolution: {integrity: sha512-hK8dFu8x0nHBpyIRrk8G+3xhfmJ+nSkIDL495iUydY+ppGEXEhMhPSZ+/tv9mQ6GG9AptjU3BfyOAoyAOqJAzg==}
+  /@kitschpatrol/shared-config@1.0.2(cspell@8.1.3)(eslint@8.55.0)(markdownlint-cli@0.37.0)(markdownlint@0.32.1)(postcss-html@1.5.0)(prettier@3.1.0)(stylelint@15.11.0)(svelte@4.2.8)(typescript@5.3.3):
+    resolution: {integrity: sha512-XzxUUaBBMRywN/5wJz+P1txCCipEBGmkPmGNwxXmMbER36OZS5k0eIz0jVmp9A3WfkofLISVh3ohukb1k6zAtQ==}
     engines: {node: '>=18.0.0', pnpm: '>=8.0.0'}
     hasBin: true
     dependencies:
@@ -3759,7 +3759,6 @@ packages:
   /deep-extend@0.6.0:
     resolution: {integrity: sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==}
     engines: {node: '>=4.0.0'}
-    requiresBuild: true
 
   /deep-is@0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
@@ -5340,7 +5339,6 @@ packages:
 
   /ini@1.3.8:
     resolution: {integrity: sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==}
-    requiresBuild: true
 
   /ini@4.1.1:
     resolution: {integrity: sha512-QQnnxNyfvmHFIsj7gkPcYymR8Jdw/o7mp5ZFihxn6h8Ci6fh3Dx4E1gPjpQEpIuPo9XVNY/ZUwh4BPMjGyL01g==}

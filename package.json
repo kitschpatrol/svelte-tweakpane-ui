@@ -230,7 +230,7 @@
     "tweakpane-plugin-waveform": "^1.0.0"
   },
   "devDependencies": {
-    "@kitschpatrol/shared-config": "^1.0.1",
+    "@kitschpatrol/shared-config": "^1.0.2",
     "@phenomnomnominal/tsquery": "^6.1.3",
     "@stkb/rewrap": "^0.1.0",
     "@sveltejs/adapter-static": "^2.0.3",
