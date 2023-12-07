@@ -314,3 +314,39 @@ main a.external-link:hover::after {
 main div.sl-markdown-content header {
 	font-size: var(--sl-text-xl);
 }
+
+/* Special "naming convention" building blocks */
+code.names {
+	padding: 0;
+	font-weight: 600;
+	background: unset;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+code.names span {
+	padding: 0.3em 0.4em;
+	/* box-shadow: var(--sl-shadow-sm); */
+}
+
+code.names span:first-child {
+	border-radius: 0.5em 0 0 0.5em;
+}
+
+code.names span:last-child {
+	border-radius: 0 0.5em 0.5em 0;
+}
+
+code.names span:nth-child(1) {
+	color: var(--sl-color-purple-high);
+	background: var(--sl-color-purple-low);
+}
+
+code.names span:nth-child(2) {
+	color: var(--sl-color-green-high);
+	background: var(--sl-color-green-low);
+}
+
+code.names span:nth-child(3) {
+	color: var(--sl-color-blue-high);
+	background: var(--sl-color-blue-low);
+}

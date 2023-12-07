@@ -13,20 +13,22 @@
 		'disabled' | 'options' | 'plugin' | 'ref'
 	> & {
 		/**
-		 * Maximum height of the element block, in pixels. By default, the element block will expand
-		 * vertically to fit its contents, but clip any horizontal excess.
+		 * Maximum height of the element block, in pixels. By default, the element
+		 * block will expand vertically to fit its contents, but clip any horizontal
+		 * excess.
 		 *
-		 * If a max height is set, it is used as the component height during SSR. If the actual
-		 * element content is less than the max, you will see CLS. If it is not set, the contents
-		 * are rendered... but keep in mind that style and other contextual changes during the
-		 * client render could result in CLS.
+		 * If a max height is set, it is used as the component height during SSR. If
+		 * the actual element content is less than the max, you will see CLS. If it
+		 * is not set, the contents are rendered... but keep in mind that style and
+		 * other contextual changes during the client render could result in CLS.
 		 * @default `undefined`  \
 		 * No max height.
 		 */
 		maxHeight?: number;
 		/**
-		 * Whether to reset the CSS of the element block to its default values. Avoids inheritance
-		 * of Tweakpane's CSS styles. Note that this uses a simple `all: initial;` rule.
+		 * Whether to reset the CSS of the element block to its default values.
+		 * Avoids inheritance of Tweakpane's CSS styles. Note that this uses a
+		 * simple `all: initial;` rule.
 		 * @default `true`
 		 */
 		resetStyle?: boolean;
@@ -43,8 +45,9 @@
 	export let maxHeight: $$Props['maxHeight'] = undefined;
 	export let resetStyle: $$Props['resetStyle'] = true;
 
-	// pretend we're a separator blade seems to require a view the <hr> is replaced immediately with
-	// the slot contents. proper way to do this would be an actual tweakpane plugin.
+	// pretend we're a separator blade seems to require a view the <hr> is
+	// replaced immediately with the slot contents. proper way to do this would be
+	// an actual tweakpane plugin.
 	const options: BladeOptions = {
 		view: 'separator'
 	};
@@ -63,25 +66,30 @@
 
 A component for embedding arbitrary HTML elements into a pane.
 
-Any children wrapped in this component will be rendered into the pane. Any content larger than the
-pane in the horizontal axis will be clipped.
+Any children wrapped in this component will be rendered into the pane. Any
+content larger than the pane in the horizontal axis will be clipped.
 
-Useful for quickly prototyping UIs, or adding content to a pane that's not easily represented by the
-built-in components.
+Useful for quickly prototyping UIs, or adding content to a pane that's not
+easily represented by the built-in components.
 
-Think of this component as an escape hatch for getting something into the pane that you couldn't
-otherwise, but it's recommended to abstract new functionality for reuse by extending one of the
-internal component types in 'svelte-tweakpane-ui', or better yet by creating a new [Tweakpane
-Plugin](https://github.com/tweakpane/plugin-template).
+This component does not have a direct analog in the vanilla Tweakpane universe.
 
-In many cases, this component should not be necessary because _Svelte Tweakpane UI_ already makes it
-easy to combine tweakpane components with other inline elements simply by not using a wrapping
-`<Pane>` component. It should generally be the most useful when you're using `<Pane
-position='draggable'>`   or `<Pane position='fixed'>` and you want a custom element embedded in the
-pane.
+Think of `<Element>` as an escape hatch for getting something into the pane that
+you couldn't otherwise. Generally, it's recommended to abstract new
+functionality for reuse by extending one of the internal component types in
+'svelte-tweakpane-ui', or better yet by creating a new [Tweakpane
+Plugin](https://github.com/tweakpane/plugin-template) — but sometimes you just
+need to get something into the pane quickly.
 
-Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a case the
-`<Element>` will be implicitly wrapped in `<Pane position='inline'>`.
+In many cases, this component should not be necessary because _Svelte Tweakpane
+UI_ already makes it easy to combine tweakpane components with other inline
+elements simply by using stand-alone components or a `<Pane position='inline'>`
+component. `<Element>` should generally be the most useful when you're using
+`<Pane position='draggable'>` or `<Pane position='fixed'>` and you want a custom
+element embedded in the pane.
+
+Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
+case the `<Element>` will be implicitly wrapped in `<Pane position='inline'>`.
 
 @example  
 ```svelte

@@ -14,6 +14,18 @@ function titleCase(text: string) {
 		.join(' ');
 }
 
+function stopShouting(text: string) {
+	// If between 50% and 75% of the letters are uppercase,
+	// then lowercase the whole text
+	if (
+		text.replace(/[^A-Z]/g, '').length > text.length * 0.5 &&
+		text.replace(/[^A-Z]/g, '').length < text.length * 0.75
+	) {
+		return text.toLowerCase();
+	}
+	return text;
+}
+
 function stripQuotes(text: string) {
 	return text.replace(/^["']|["']$/g, '');
 }
@@ -51,7 +63,7 @@ const names = data
 		if (author) {
 			// Split compound comma-delimited publishers as needed
 			for (const subItem of author.split(/\s*(?:\sand\s|,|&)\s*/)) {
-				const subPublisher = titleCase(stripQuotes(getNameFromEmail(subItem.trim())));
+				const subPublisher = titleCase(stopShouting(stripQuotes(getNameFromEmail(subItem.trim()))));
 				if (subPublisher && !accumulator.includes(subPublisher)) {
 					accumulator.push(subPublisher);
 				}

@@ -20,7 +20,7 @@ The library makes it easy to quickly and declaratively add knobs and dials to yo
 
 The components should be useful for integrating controls and value monitoring in parametrically driven artworks or simulations. For some use cases, it could also present a viable alternative to traditional component libraries altogether.
 
-It's open-source, MIT-licensed, and is compatible with Svelte 4 and Tweakpane 4. It should work anywhere Svelte works, including [SvelteKit](https://kit.svelte.dev/) and "island" frameworks like [Astro](https://astro.build/). _Svelte Tweakpane UI_ is distributed as an [NPM package](http://npmjs.com/package/svelte-tweakpane-ui), and the source code is available on [GitHub](https://github.com/kitschpatrol/svelte-tweakpane-ui).
+It's open-source, MIT-licensed, extensively documented, and is compatible with Svelte 4 and Tweakpane 4. It should work anywhere Svelte works, including [SvelteKit](https://kit.svelte.dev/) and "island" frameworks like [Astro](https://astro.build/). _Svelte Tweakpane UI_ is distributed as an [NPM package](http://npmjs.com/package/svelte-tweakpane-ui), and the source code is available on [GitHub](https://github.com/kitschpatrol/svelte-tweakpane-ui).
 
 ---
 
@@ -42,7 +42,7 @@ Tweakpane represents many years of development effort by [Hiroki Kokubun](https:
 
 This works great in many contexts, and has the advantage of being quite dynamic and flexible. In a Svelte project, though, it always takes some extra work to make an imperative API play well with the frameworks' paradigms for bindings, events, and component lifecycle management.
 
-_Svelte Tweakpane UI_ bridges this gap between Tweakpane's imperative API and Svelte's declarative approach.
+_Svelte Tweakpane UI_ bridges this gap between Tweakpane's imperative API and Svelte's declarative and reactive approach.
 
 To demonstrate, let's integrate a simple example like [range-bound number slider](https://cocopon.github.io/tweakpane/input-bindings/#number_range) as an inline element in a Svelte component.
 
@@ -147,43 +147,43 @@ Types are available for many component props, including the value prop. This mak
 
 In general, type names take the form:
 
-<code>
-  <span style="color: var(--sl-color-purple-high);">\{ComponentName}</span>
-  <span style="color: var(--sl-color-green-high);">\{PropName}</span>
-  <span style="color: var(--sl-color-blue-high);">\{OptionalNarrowedType}</span>
+<code class="names">
+  <span>\{ComponentName}</span>
+  <span>\{PropName}</span>
+  <span>\{OptionalNarrowedType}</span>
 </code>
-
+<br />
 For example, `<RotationEuler>` provides the following types:
 
-- <code>
-    <span style="color: var(--sl-color-purple-high);">RotationEuler</span>
-    <span style="color: var(--sl-color-green-high);">Value</span>
-    <span style="color: var(--sl-color-blue-high);">Tuple</span>
+- <code class="names">
+    <span>RotationEuler</span>
+    <span>Value</span>
+    <span>Tuple</span>
   </code>
   _tuple type for the value prop_
 
-- <code>
-    <span style="color: var(--sl-color-purple-high);">RotationEuler</span>
-    <span style="color: var(--sl-color-green-high);">Value</span>
-    <span style="color: var(--sl-color-blue-high);">Object</span>
+- <code class="names">
+    <span>RotationEuler</span>
+    <span>Value</span>
+    <span>Object</span>
   </code>
   _object type for the value prop_
 
-- <code>
-    <span style="color: var(--sl-color-purple-high);">RotationEuler</span>
-    <span style="color: var(--sl-color-green-high);">Value</span>
+- <code class="names">
+    <span>RotationEuler</span>
+    <span>Value</span>
   </code>
   _object / tuple union type for the value prop_
 
-- <code>
-    <span style="color: var(--sl-color-purple-high);">RotationEuler</span>
-    <span style="color: var(--sl-color-green-high);">Order</span>
+- <code class="names">
+    <span>RotationEuler</span>
+    <span>Order</span>
   </code>
   _string literal union type for the order prop_
 
-- <code>
-    <span style="color: var(--sl-color-purple-high);">RotationEuler</span>
-    <span style="color: var(--sl-color-green-high);">Unit</span>
+- <code class="names">
+    <span>RotationEuler</span>
+    <span>Unit</span>
   </code>
   _string literal union type for the unit prop_
 - Etc. etc.
