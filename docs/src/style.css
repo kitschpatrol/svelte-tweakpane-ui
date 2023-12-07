@@ -62,7 +62,7 @@
 
 /* Globals */
 a {
-	text-decoration-color: color-mix(in srgb, var(--sl-color-text-accent), transparent 80%);
+	text-decoration-color: color-mix(in srgb, var(--sl-color-text-accent), transparent 75%);
 	text-underline-offset: 0.125em;
 }
 

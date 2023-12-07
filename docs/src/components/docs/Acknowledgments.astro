@@ -72,7 +72,7 @@ const names = data
 		return accumulator;
 	}, [])
 	// Exclude me and some other vague things
-	.filter((name) => !['Eric Mika', 'contributors', 'inc.'].includes(name.toLowerCase()))
+	.filter((name) => !['contributors', 'eric mika', 'inc.'].includes(name.toLowerCase()))
 	// Filter out case-insensitive duplicates, but keep the version with the most capitalization
 	.filter((name, index_, array) => {
 		const lower = name.toLowerCase();
