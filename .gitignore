@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
 /build
-/dist
+*dist/
 /.svelte-kit
 /package
 .env
@@ -9,7 +9,6 @@ node_modules
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
-/scratch
 
 # generated kit files
 /src/examples/components

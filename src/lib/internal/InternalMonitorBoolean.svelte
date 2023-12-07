@@ -48,13 +48,13 @@ position='inline'>` component.
 @example  
 ```svelte
 <script lang="ts">
-  import { InternalMonitorBoolean } from 'svelte-tweakpane-ui';
+import { InternalMonitorBoolean } from 'svelte-tweakpane-ui';
 
-  let booleanToMonitor = false;
+let booleanToMonitor = false;
 
-  setInterval(() => {
-    booleanToMonitor = Math.random() > 0.5;
-  }, 100);
+setInterval(() => {
+  booleanToMonitor = Math.random() > 0.5;
+}, 100);
 </script>
 
 <InternalMonitorBoolean value={booleanToMonitor} bufferSize={5} rows={5} />

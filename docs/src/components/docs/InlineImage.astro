@@ -1,12 +1,13 @@
 ---
 interface Props {
+	alt: string;
 	src: string;
 }
 
-const { src } = Astro.props;
+const { alt, src } = Astro.props;
 ---
 
-<img class="inline-image content" {src} />
+<img {alt} class="inline-image content" {src} />
 
 <style>
 	img.inline-image {

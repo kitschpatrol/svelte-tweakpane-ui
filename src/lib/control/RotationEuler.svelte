@@ -154,44 +154,44 @@ position='inline'>`.
 @example  
 ```svelte
 <script lang="ts">
-  import {
-    Button,
-    RotationEuler,
-    type RotationEulerValueObject,
-    Utils
-  } from 'svelte-tweakpane-ui';
+import {
+  Button,
+  RotationEuler,
+  type RotationEulerValueObject,
+  Utils
+} from 'svelte-tweakpane-ui';
 
-  // Value could also be a tuple
-  // e.g. [0, 0, 0]
-  let value: RotationEulerValueObject = { x: 0, y: 0, z: 0 };
+// Value could also be a tuple
+// e.g. [0, 0, 0]
+let value: RotationEulerValueObject = { x: 0, y: 0, z: 0 };
 
-  $: transform = Utils.eulerToCssTransform(value);
-  $: valueRows = Object.values(value)
-    .map((v) => `${v >= 0 ? '+' : ''}${v.toFixed(6)}`)
-    .join('\n');
+$: transform = Utils.eulerToCssTransform(value);
+$: valueRows = Object.values(value)
+  .map((v) => `${v >= 0 ? '+' : ''}${v.toFixed(6)}`)
+  .join('\n');
 </script>
 
 <RotationEuler
-  bind:value
+  bind:value={value}
   expanded={true}
   label="CSS Rotation"
   picker={'inline'}
 />
 <Button on:click={() => (value = { x: 0, y: 0, z: 0 })} title="Reset" />
 
-<div class="billboard" style:transform>
+<div class="billboard" style:transform={transform}>
   <pre>{valueRows}</pre>
 </div>
 
 <style>
-  div.billboard {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    aspect-ratio: 1;
-    width: 100%;
-    background: linear-gradient(45deg, magenta, orange);
-  }
+div.billboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  width: 100%;
+  background: linear-gradient(45deg, magenta, orange);
+}
 </style>
 ```
 

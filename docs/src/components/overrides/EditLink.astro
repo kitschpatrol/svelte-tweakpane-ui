@@ -1,9 +1,9 @@
 ---
 // Adds sibling to Edit Component
+import { Icon } from '@astrojs/starlight/components';
 // Simper than overriding entire Footer
 import StarlightEditLink from '@astrojs/starlight/components/EditLink.astro';
 import type { Props } from '@astrojs/starlight/props';
-import { Icon } from '@astrojs/starlight/components';
 
 // Note no translation support
 const { sourceUrl } = Astro.props.entry.data;
@@ -14,7 +14,7 @@ const { sourceUrl } = Astro.props.entry.data;
 
 	{
 		sourceUrl && (
-			<a href={sourceUrl} class="sl-flex">
+			<a class="sl-flex" href={sourceUrl}>
 				<Icon name="github" size="1.2em" />
 				View source
 			</a>
@@ -30,12 +30,13 @@ const { sourceUrl } = Astro.props.entry.data;
 	}
 
 	a {
-		margin-left: auto;
 		gap: 0.5rem;
 		align-items: center;
-		text-decoration: none;
+		margin-left: auto;
 		color: var(--sl-color-gray-3);
+		text-decoration: none;
 	}
+
 	a:hover {
 		color: var(--sl-color-white);
 	}

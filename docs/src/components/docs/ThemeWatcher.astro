@@ -4,15 +4,19 @@
 
 	function setTweakpaneThemeFromAstroTheme(astroTheme: string) {
 		switch (astroTheme) {
-			case 'dark':
+			case 'dark': {
 				ThemeUtils.setGlobalDefaultTheme(ThemeUtils.presets.standard);
 				break;
-			case 'light':
+			}
+			case 'light': {
 				ThemeUtils.setGlobalDefaultTheme(ThemeUtils.presets.light);
 				break;
-			default:
+			}
+			default: {
+				// eslint-disable-next-line unicorn/no-useless-undefined
 				ThemeUtils.setGlobalDefaultTheme(undefined);
 				break;
+			}
 		}
 	}
 

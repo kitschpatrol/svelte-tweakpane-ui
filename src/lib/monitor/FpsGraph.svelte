@@ -134,8 +134,11 @@
 		observer = new MutationObserver((mutations) => {
 			for (const mutation of mutations) {
 				if (mutation.type === 'characterData' || mutation.type === 'childList') {
-					const fps = parseInt((mutation.target as HTMLElement).innerText);
-					!isNaN(fps) && dispatch('change', fps);
+					const fpsText = (mutation.target as HTMLElement).textContent;
+					if (fpsText !== null) {
+						const fps = Number.parseInt(fpsText);
+						!Number.isNaN(fps) && dispatch('change', fps);
+					}
 				}
 			}
 		});
@@ -191,23 +194,23 @@ position='inline'>`.
 @example  
 ```svelte
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { FpsGraph, Monitor, Slider } from 'svelte-tweakpane-ui';
+import { onMount } from 'svelte';
+import { FpsGraph, Monitor, Slider } from 'svelte-tweakpane-ui';
 
-  let rotation = 0;
-  let rotationSpeed = 3;
-  let phase = 500;
-  let scale = 1.25;
-  let intensity = 4;
+let rotation = 0;
+let rotationSpeed = 3;
+let phase = 500;
+let scale = 1.25;
+let intensity = 4;
 
-  onMount(() => {
-    (function tick() {
-      rotation += rotationSpeed;
-      requestAnimationFrame(tick);
-    })();
-  });
+onMount(() => {
+  (function tick() {
+    rotation += rotationSpeed;
+    requestAnimationFrame(tick);
+  })();
+});
 
-  $: gridSize = intensity ** 2;
+$: gridSize = intensity ** 2;
 </script>
 
 <FpsGraph interval={50} label="FPS" rows={5} />
@@ -228,12 +231,12 @@ position='inline'>`.
 <Slider bind:value={rotationSpeed} label="Rotation Speed" />
 
 <div class="demo">
-  {#each Array.from({ length: gridSize }, (_, i) => i) as x}
-    {#each Array.from({ length: gridSize }, (_, i) => i) as y}
+  {#each Array.from({ length: gridSize }, (_, index) => index) as x}
+    {#each Array.from({ length: gridSize }, (_, index) => index) as y}
       <div
         class="box"
         style:left="{(x / gridSize) * 100}%"
-        style:scale
+        style:scale={scale}
         style:top="{(y / gridSize) * 100}%"
         style:transform="rotateZ({rotation +
           (x / gridSize) * phase +
@@ -245,21 +248,21 @@ position='inline'>`.
 </div>
 
 <style>
-  .demo {
-    position: relative;
-    overflow: hidden;
-    aspect-ratio: 1;
-    width: 100%;
-    background: linear-gradient(to top, gold, rebeccapurple);
-  }
+.demo {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+  width: 100%;
+  background: linear-gradient(to top, gold, rebeccapurple);
+}
 
-  .box {
-    position: absolute;
-    transform-origin: center;
-    aspect-ratio: 1;
-    opacity: 0.5;
-    background: linear-gradient(to bottom, orange, magenta);
-  }
+.box {
+  position: absolute;
+  transform-origin: center;
+  aspect-ratio: 1;
+  opacity: 0.5;
+  background: linear-gradient(to bottom, orange, magenta);
+}
 </style>
 ```
 

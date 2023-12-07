@@ -61,7 +61,7 @@
 
 	setInterval(() => {
 		booleanToMonitor = !booleanToMonitor;
-		stringToMonitor = stringToMonitor.split('').reverse().join('');
+		stringToMonitor = [...stringToMonitor].reverse().join('');
 	}, 1000);
 
 	let rev: RotationEulerValueObject = { x: 0, y: 0, z: 0 };
@@ -106,16 +106,15 @@
 
 	const theme: Theme = {
 		...ThemeUtils.presets.standard,
-		...{
-			bladeHorizontalPadding: '20px',
-			containerUnitSize: '130px'
-		}
+
+		bladeHorizontalPadding: '20px',
+		containerUnitSize: '130px'
 	};
 
-	let cb: CubicBezierValueTuple = [0, 0, 0, 0];
+	let callback: CubicBezierValueTuple = [0, 0, 0, 0];
 
 	const keyboard = [
-		...Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i)),
+		...Array.from({ length: 26 }, (_, index) => String.fromCodePoint(65 + index)),
 		',',
 		'.',
 		'!',
@@ -138,10 +137,10 @@
 	let loopExponent = 1;
 
 	// helper to test Math functions
-	function hardWork(fn: (n: number) => number, exponent: number): void {
-		measure(fn.name, () => {
+	function hardWork(functionToMeasure: (n: number) => number, exponent: number): void {
+		measure(functionToMeasure.name, () => {
 			for (let sum = 0; sum < Number('1e' + exponent); sum++) {
-				fn(sum);
+				functionToMeasure(sum);
 			}
 		});
 	}
@@ -222,15 +221,15 @@
 <FpsGraph />
 
 <h1>CB</h1>
-<CubicBezier bind:value={cb} expanded={true} picker="inline" />
+<CubicBezier bind:value={callback} expanded={true} picker="inline" />
 
 <h1>CB</h1>
-<CubicBezier bind:value={cb} expanded={true} label="bla" picker="inline" />
+<CubicBezier bind:value={callback} expanded={true} label="bla" picker="inline" />
 <h1>CB</h1>
-<CubicBezier bind:value={cb} expanded={true} label="bla" />
+<CubicBezier bind:value={callback} expanded={true} label="bla" />
 
 <h1>CB</h1>
-<CubicBezier bind:value={cb} label="bla" />
+<CubicBezier bind:value={callback} label="bla" />
 
 <h1>Button Grid</h1>
 <ButtonGrid buttons={keyboard} />

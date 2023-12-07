@@ -11,7 +11,7 @@ export function uniqueProps(
 	dynamicProps: ComponentProp[]
 ): ComponentProp[] {
 	const uniqueProps = dynamicProps.filter((dynamicProp) => {
-		return !commonProps.find((commonProp) => {
+		return !commonProps.some((commonProp) => {
 			return dynamicProp.name === commonProp.name;
 		});
 	});
@@ -22,18 +22,19 @@ export function allPropConditions(data: ComponentData): ConditionsRecord {
 	if (data && data.dynamicProps) {
 		const conditionsRecord: ConditionsRecord = {};
 
-		data.dynamicProps?.forEach((dynamicProp) => {
-			const unique = uniqueProps(data.props, dynamicProp.props);
+		if (data.dynamicProps)
+			for (const dynamicProp of data.dynamicProps) {
+				const unique = uniqueProps(data.props, dynamicProp.props);
 
-			unique.forEach((prop) => {
-				// ensure unique
-				if (conditionsRecord[prop.name] === undefined) {
-					conditionsRecord[prop.name] = [];
+				for (const prop of unique) {
+					// ensure unique
+					if (conditionsRecord[prop.name] === undefined) {
+						conditionsRecord[prop.name] = [];
+					}
+
+					conditionsRecord[prop.name].push(dynamicProp.condition);
 				}
-
-				conditionsRecord[prop.name].push(dynamicProp.condition);
-			});
-		});
+			}
 
 		return conditionsRecord;
 	}
@@ -43,15 +44,16 @@ export function allPropConditions(data: ComponentData): ConditionsRecord {
 export function allProps(data: ComponentData): ComponentProp[] {
 	if (data) {
 		const allProps = [...data.props];
-		data.dynamicProps?.forEach((dynamicProp) => {
-			dynamicProp.props.forEach((prop) => {
-				// ensure unique
-				const existingProp = allProps.find((p) => p.name === prop.name);
-				if (!existingProp) {
-					allProps.push(prop);
+		if (data.dynamicProps)
+			for (const dynamicProp of data.dynamicProps) {
+				for (const prop of dynamicProp.props) {
+					// ensure unique
+					const existingProp = allProps.find((p) => p.name === prop.name);
+					if (!existingProp) {
+						allProps.push(prop);
+					}
 				}
-			});
-		});
+			}
 
 		return allProps;
 	}

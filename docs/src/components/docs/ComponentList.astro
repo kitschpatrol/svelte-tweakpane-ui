@@ -1,5 +1,5 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { type CollectionEntry, getCollection } from 'astro:content';
 import { marked } from 'marked';
 
 interface Props {
@@ -15,8 +15,8 @@ const components = (await getCollection('docs')).filter((component: CollectionEn
 	);
 });
 
-async function firstLine(str: string): Promise<string> {
-	return await marked.parseInline(str.split('\n\n')[0]);
+async function firstLine(text: string): Promise<string> {
+	return await marked.parseInline(text.split('\n\n')[0]);
 }
 ---
 
@@ -40,8 +40,8 @@ async function firstLine(str: string): Promise<string> {
 <style>
 	a.component {
 		font-family: var(--sl-font-system-mono);
-		font-weight: bold;
 		font-size: var(--sl-text-base);
+		font-weight: bold;
 	}
 
 	a.component::before {

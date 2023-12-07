@@ -54,36 +54,28 @@
 	const buttonClass = 'tp-cbzv_b';
 
 	function getValue(): CubicBezierOptions['value'] {
-		if (Array.isArray(value)) {
-			return value;
-		} else {
-			return [value.x1, value.y1, value.x2, value.y2];
-		}
+		return Array.isArray(value) ? value : [value.x1, value.y1, value.x2, value.y2];
 	}
 
 	function setValue() {
 		// CubicBezier is a blade, not a binding, so state must be synced manually pretty sure
 		// setting value is leaking memory from inside the plugin tracking in
 		// https://github.com/tweakpane/plugin-essentials/issues/18
-		if (Array.isArray(value)) {
-			cubicBezierBlade.value = new CubicBezier(value[0], value[1], value[2], value[3]);
-		} else {
-			cubicBezierBlade.value = new CubicBezier(value.x1, value.y1, value.x2, value.y2);
-		}
+		cubicBezierBlade.value = Array.isArray(value)
+			? new CubicBezier(value[0], value[1], value[2], value[3])
+			: new CubicBezier(value.x1, value.y1, value.x2, value.y2);
 	}
 
 	function addEvent() {
-		cubicBezierBlade.on('change', (ev) => {
-			if (Array.isArray(value)) {
-				value = [ev.value.x1, ev.value.y1, ev.value.x2, ev.value.y2];
-			} else {
-				value = {
-					x1: ev.value.x1,
-					y1: ev.value.y1,
-					x2: ev.value.x2,
-					y2: ev.value.y2
-				};
-			}
+		cubicBezierBlade.on('change', (event) => {
+			value = Array.isArray(value)
+				? [event.value.x1, event.value.y1, event.value.x2, event.value.y2]
+				: {
+						x1: event.value.x1,
+						y1: event.value.y1,
+						x2: event.value.x2,
+						y2: event.value.y2
+				  };
 		});
 	}
 
@@ -125,41 +117,41 @@ updates. Consider managing the lifecycle of this component with care until this 
 @example  
 ```svelte
 <script lang="ts">
-  import {
-    CubicBezier,
-    type CubicBezierValue,
-    RadioGrid,
-    Slider,
-    Utils
-  } from 'svelte-tweakpane-ui';
-  import { tweened } from 'svelte/motion';
+import {
+  CubicBezier,
+  type CubicBezierValue,
+  RadioGrid,
+  Slider,
+  Utils
+} from 'svelte-tweakpane-ui';
+import { tweened } from 'svelte/motion';
 
-  // could also be a tuple
-  let value: CubicBezierValue = { x1: 0.25, y1: 0.1, x2: 0.25, y2: 1.0 };
-  let duration = 1000;
-  let moods = ['Set', 'Rise'];
-  let mood: string = moods[0];
+// could also be a tuple
+let value: CubicBezierValue = { x1: 0.25, y1: 0.1, x2: 0.25, y2: 1 };
+let duration = 1000;
+let moods = ['Set', 'Rise'];
+let mood: string = moods[0];
 
-  const positionTween = tweened(0);
+const positionTween = tweened(0);
 
-  function lerp(value: number, low: number, high: number): number {
-    return (1 - value) * low + value * high;
-  }
+function lerp(value: number, low: number, high: number): number {
+  return (1 - value) * low + value * high;
+}
 
-  $: positionTween.set(mood === 'Set' ? 0 : 1, {
-    duration,
-    easing: Utils.cubicBezierToEaseFunction(value)
-  });
+$: positionTween.set(mood === 'Set' ? 0 : 1, {
+  duration,
+  easing: Utils.cubicBezierToEaseFunction(value)
+});
 
-  $: celestialHeight = lerp($positionTween, 20, 80);
-  $: twilightAmount = lerp($positionTween, 20, -80);
+$: celestialHeight = lerp($positionTween, 20, 80);
+$: twilightAmount = lerp($positionTween, 20, -80);
 </script>
 
-<CubicBezier bind:value expanded={true} picker="inline" />
+<CubicBezier bind:value={value} expanded={true} picker="inline" />
 <Slider
   bind:value={duration}
   min={0}
-  max={10000}
+  max={10_000}
   format={(v) => `${(v / 1000).toFixed(1)}`}
   label="Duration (Seconds)"
 />
@@ -170,25 +162,25 @@ updates. Consider managing the lifecycle of this component with care until this 
 </div>
 
 <style>
-  .demo {
-    position: relative;
-    overflow: hidden;
-    aspect-ratio: 1;
-    width: 100%;
-    background: linear-gradient(to top, orange var(--a), magenta 100%);
-  }
+.demo {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+  width: 100%;
+  background: linear-gradient(to top, orange var(--a), magenta 100%);
+}
 
-  .celestial-object {
-    position: absolute;
-    bottom: var(--t);
-    left: 50%;
-    transform-origin: center;
-    transform: translate(-50%, 50%);
-    aspect-ratio: 1;
-    width: 20%;
-    background-color: yellow;
-    border-radius: 50%;
-  }
+.celestial-object {
+  position: absolute;
+  bottom: var(--t);
+  left: 50%;
+  transform-origin: center;
+  transform: translate(-50%, 50%);
+  aspect-ratio: 1;
+  width: 20%;
+  background-color: yellow;
+  border-radius: 50%;
+}
 </style>
 ```
 

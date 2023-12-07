@@ -146,44 +146,44 @@ position='inline'>`.
 @example  
 ```svelte
 <script lang="ts">
-  import {
-    Button,
-    RotationQuaternion,
-    type RotationQuaternionValue,
-    Utils
-  } from 'svelte-tweakpane-ui';
+import {
+  Button,
+  RotationQuaternion,
+  type RotationQuaternionValue,
+  Utils
+} from 'svelte-tweakpane-ui';
 
-  // Value could also be an object
-  // e.g. {x: 0, y: 0, z: 0, w: 0}
-  let value: RotationQuaternionValue = [0, 0, 0, 0];
+// Value could also be an object
+// e.g. {x: 0, y: 0, z: 0, w: 0}
+let value: RotationQuaternionValue = [0, 0, 0, 0];
 
-  $: transform = Utils.quaternionToCssTransform(value);
-  $: valueRows = Array.isArray(value)
-    ? value.map((v) => `${v >= 0 ? '+' : ''}${v.toFixed(6)}`).join('\n')
-    : '';
+$: transform = Utils.quaternionToCssTransform(value);
+$: valueRows = Array.isArray(value)
+  ? value.map((v) => `${v >= 0 ? '+' : ''}${v.toFixed(6)}`).join('\n')
+  : '';
 </script>
 
 <RotationQuaternion
-  bind:value
+  bind:value={value}
   expanded={true}
   label="CSS Rotation"
   picker={'inline'}
 />
 <Button on:click={() => (value = [0, 0, 0, 0])} title="Reset" />
 
-<div class="billboard" style:transform>
+<div class="billboard" style:transform={transform}>
   <pre>{valueRows}</pre>
 </div>
 
 <style>
-  div.billboard {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    aspect-ratio: 1;
-    width: 100%;
-    background: linear-gradient(45deg, magenta, orange);
-  }
+div.billboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  width: 100%;
+  background: linear-gradient(45deg, magenta, orange);
+}
 </style>
 ```
 

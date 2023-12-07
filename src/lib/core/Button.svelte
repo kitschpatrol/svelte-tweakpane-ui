@@ -116,9 +116,9 @@ buttons.
 @example  
 ```svelte
 <script lang="ts">
-  import { Button } from 'svelte-tweakpane-ui';
+import { Button } from 'svelte-tweakpane-ui';
 
-  let count = 0;
+let count = 0;
 </script>
 
 <Button on:click={() => count++} label="Count" title="Increment" />

@@ -86,10 +86,10 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
 @example  
 ```svelte
 <script lang="ts">
-  import { Button, Element, Pane, Wheel } from 'svelte-tweakpane-ui';
+import { Button, Element, Pane, Wheel } from 'svelte-tweakpane-ui';
 
-  let gradientAngle = 45;
-  let textAngle = 0;
+let gradientAngle = 45;
+let textAngle = 0;
 </script>
 
 <Pane position="inline" title="Element Demo">
@@ -127,24 +127,24 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
 </Pane>
 
 <style>
-  .demo {
-    display: grid;
-    place-content: center;
-    aspect-ratio: 1;
-    width: 100%;
-    background: linear-gradient(var(--a), orange, magenta);
-  }
+.demo {
+  display: grid;
+  place-content: center;
+  aspect-ratio: 1;
+  width: 100%;
+  background: linear-gradient(var(--a), orange, magenta);
+}
 
-  .demo > p {
-    font-family: sans-serif;
-    font-size: 1rem;
-    color: white;
-    text-align: center;
-  }
+.demo > p {
+  font-family: sans-serif;
+  font-size: 1rem;
+  color: white;
+  text-align: center;
+}
 
-  .demo > p > code {
-    color: white;
-  }
+.demo > p > code {
+  color: white;
+}
 </style>
 ```
 
@@ -165,7 +165,7 @@ Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
 	<div
 		class="element-container"
 		style:height={BROWSER ? null : `${maxHeight}px`}
-		style:max-height={maxHeight !== undefined ? `${maxHeight}px` : null}
+		style:max-height={maxHeight === undefined ? null : `${maxHeight}px`}
 		style:overflow={BROWSER ? null : 'hidden'}
 	>
 		<div class:reset={resetStyle}>

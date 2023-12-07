@@ -58,7 +58,7 @@
 	}
 
 	function updateListeners(live: boolean, destroy: boolean = false) {
-		var input = ref?.controller.valueController.view.element.getElementsByTagName('textarea')[0];
+		var input = ref?.controller.valueController.view.element.querySelector('textarea');
 		if (input) {
 			input.removeEventListener('blur', onBlur);
 			input.removeEventListener('input', onInput);
@@ -99,9 +99,9 @@ position='inline'>`.
 @example  
 ```svelte
 <script lang="ts">
-  import { Textarea } from 'svelte-tweakpane-ui';
+import { Textarea } from 'svelte-tweakpane-ui';
 
-  let text = '';
+let text = '';
 </script>
 
 <Textarea bind:value={text} placeholder="The void" rows={8} />

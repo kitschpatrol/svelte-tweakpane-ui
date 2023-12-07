@@ -54,8 +54,8 @@
 	let bladeOptions: ListBladeParams<T>;
 
 	function addEvent() {
-		listBlade.on('change', (ev) => {
-			value = ev.value;
+		listBlade.on('change', (event) => {
+			value = event.value;
 		});
 	}
 
@@ -75,17 +75,19 @@
 	}
 
 	// Type Guards
-	function isArrayStyleListOptions<T>(obj: ListOptions<T>): obj is { value: T; text: string }[] {
+	function isArrayStyleListOptions<T>(
+		object: ListOptions<T>
+	): object is { value: T; text: string }[] {
 		return (
-			Array.isArray(obj) &&
-			obj.every(
+			Array.isArray(object) &&
+			object.every(
 				(item) => typeof item === 'object' && item !== null && 'text' in item && 'value' in item
 			)
 		);
 	}
 
-	function isObjectStyleListOptions<T>(obj: ListOptions<T>): obj is { [text: string]: T } {
-		return typeof obj === 'object' && obj !== null && !Array.isArray(obj);
+	function isObjectStyleListOptions<T>(object: ListOptions<T>): object is { [text: string]: T } {
+		return typeof object === 'object' && object !== null && !Array.isArray(object);
 	}
 
 	function getInternalOptions(options: ListOptions<T>): ListParamsOptions<T> {
@@ -134,13 +136,13 @@ position='inline'>`.
 @example  
 ```svelte
 <script lang="ts">
-  import { List, type ListOptions } from 'svelte-tweakpane-ui';
+import { List, type ListOptions } from 'svelte-tweakpane-ui';
 
-  const options: ListOptions<number> = { b: 2, a: 1, c: 3 };
-  let selection: number = 1;
+const options: ListOptions<number> = { b: 2, a: 1, c: 3 };
+let selection: number = 1;
 </script>
 
-<List bind:value={selection} label="Alphanumerics" {options} />
+<List bind:value={selection} label="Alphanumerics" options={options} />
 <pre>Selected Option: {selection}</pre>
 ```
 

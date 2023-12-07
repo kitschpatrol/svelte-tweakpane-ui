@@ -70,16 +70,16 @@ position='inline'>`.
 @example  
 ```svelte
 <script lang="ts">
-  import { Button, Image } from 'svelte-tweakpane-ui';
+import { Button, Image } from 'svelte-tweakpane-ui';
 
-  let src = 'placeholder';
-  let kittenIndex = 1;
+let source = 'placeholder';
+let kittenIndex = 1;
 </script>
 
-<Image bind:value={src} fit="contain" label="Image" />
+<Image bind:value={source} fit="contain" label="Image" />
 <Button
   on:click={() => {
-    src = `https://placekitten.com/1024/1024?image=${kittenIndex}`;
+    source = `https://placekitten.com/1024/1024?image=${kittenIndex}`;
     kittenIndex = (kittenIndex % 16) + 1;
   }}
   label="Random Placeholder"
@@ -87,33 +87,33 @@ position='inline'>`.
 />
 
 <div class="demo">
-  {#if src === 'placeholder'}
+  {#if source === 'placeholder'}
     <p>Tap “No Image” above to load an image from disk.</p>
   {:else}
-    <img alt="" {src} />
+    <img alt="" src={source} />
   {/if}
 </div>
 
 <style>
-  div.demo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    aspect-ratio: 1;
-    width: 100%;
-    background: linear-gradient(magenta, orange);
-  }
+div.demo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  width: 100%;
+  background: linear-gradient(magenta, orange);
+}
 
-  div.demo > img {
-    max-width: 80%;
-    max-height: 80%;
-  }
+div.demo > img {
+  max-width: 80%;
+  max-height: 80%;
+}
 
-  div.demo > p {
-    max-width: 50%;
-    color: white;
-    text-align: center;
-  }
+div.demo > p {
+  max-width: 50%;
+  color: white;
+  text-align: center;
+}
 </style>
 ```
 

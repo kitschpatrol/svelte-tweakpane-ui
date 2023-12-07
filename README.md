@@ -1,6 +1,6 @@
 # svelte-tweakpane-ui
 
-<a href="https://npmjs.com/package/svelte-tweakpane-ui"><img src="https://img.shields.io/npm/v/svelte-tweakpane-ui.svg" alt="npm package"></a>
+[![NPM Package](https://img.shields.io/npm/v/svelte-tweakpane-ui.svg)](https://npmjs.com/package/svelte-tweakpane-ui)
 
 ## Overview
 

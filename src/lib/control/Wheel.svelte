@@ -54,9 +54,9 @@ Usage outside of a `<Pane>` component will implicitly wrap the wheel in `<Pane p
 @example  
 ```svelte
 <script lang="ts">
-  import { Wheel } from 'svelte-tweakpane-ui';
+import { Wheel } from 'svelte-tweakpane-ui';
 
-  let angle = 45;
+let angle = 45;
 </script>
 
 <Wheel
@@ -67,11 +67,11 @@ Usage outside of a `<Pane>` component will implicitly wrap the wheel in `<Pane p
 <div class="demo" style:--a="{angle}deg" />
 
 <style>
-  div.demo {
-    aspect-ratio: 1;
-    width: 100%;
-    background: linear-gradient(var(--a), magenta, orange);
-  }
+div.demo {
+  aspect-ratio: 1;
+  width: 100%;
+  background: linear-gradient(var(--a), magenta, orange);
+}
 </style>
 ```
 

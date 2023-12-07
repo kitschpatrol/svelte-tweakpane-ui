@@ -45,7 +45,7 @@
 	onMount(() => {
 		if (paneRef) {
 			const fixedContainer = paneRef.element.parentElement;
-			containerElement.appendChild(paneRef.element);
+			containerElement.append(paneRef.element);
 			fixedContainer?.remove();
 		} else {
 			console.warn('paneRef is undefined');
@@ -61,7 +61,7 @@ This component is for internal use only.
 [InternalPaneInline.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalPaneInline.svelte)
 -->
 
-<div bind:this={containerElement} style:width={width !== undefined ? `${width}px` : null}>
+<div bind:this={containerElement} style:width={width === undefined ? null : `${width}px`}>
 	<GenericPane bind:expanded bind:paneRef {theme} {...removeKeys($$restProps, 'position')}>
 		<slot />
 	</GenericPane>

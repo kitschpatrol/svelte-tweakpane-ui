@@ -93,9 +93,9 @@ const standard: Theme = {
 };
 
 export const keys = Object.keys(standard).reduce(
-	(acc, key) => {
-		acc[key] = key;
-		return acc;
+	(accumulator, key) => {
+		accumulator[key] = key;
+		return accumulator;
 	},
 	{} as Record<string, string>
 );
@@ -324,9 +324,9 @@ function expandVariableKey(name: string): string {
 	if (name.startsWith('--tp-')) {
 		return name;
 	} else {
-		const varName = keyToCssVariableMap.get(name);
-		if (varName) {
-			return varName;
+		const variableName = keyToCssVariableMap.get(name);
+		if (variableName) {
+			return variableName;
 		} else {
 			throw new Error(`Unknown Tweakpane CSS theme map variable key: "${name}"`);
 		}
@@ -337,27 +337,25 @@ function expandVariableKey(name: string): string {
  * Used during SSR to calculate metrics Returns CSS string.
  */
 export function getValueOrFallback(theme: Theme | undefined, key: keyof ThemeKeys): string {
-	if (theme === undefined || theme[key] === undefined) {
-		return stringToCssValue(standard[key]!)!;
-	} else {
-		return stringToCssValue(theme[key]!)!;
-	}
+	return theme === undefined || theme[key] === undefined
+		? stringToCssValue(standard[key]!)!
+		: stringToCssValue(theme[key]!)!;
 }
 
 export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
-	const rootDoc = getWindowDocument().documentElement;
+	const rootDocument = getWindowDocument().documentElement;
 
 	if (theme === undefined) {
-		Object.keys(standard).forEach((k) => {
+		for (const k of Object.keys(standard)) {
 			const key = expandVariableKey(k);
 
 			if (element.style.getPropertyValue(key).length > 0) {
 				// console.log(`Unsetting via undefined theme ${key}`);
 				element.style.removeProperty(key);
 			}
-		});
+		}
 	} else {
-		Object.entries(theme).forEach(([k, v]) => {
+		for (const [k, v] of Object.entries(theme)) {
 			const key = expandVariableKey(k);
 			const value = stringToCssValue(v);
 			// console.log(`Inspecting ${key}: ${value}`);
@@ -368,7 +366,7 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 			// representation for comparison? TODO tests for this logic
 
 			const standardValue = standard[k] || undefined;
-			const rootValue = rootDoc.style.getPropertyValue(key) || undefined;
+			const rootValue = rootDocument.style.getPropertyValue(key) || undefined;
 
 			const isDeviationFromRoot = (rootValue && value !== rootValue) || false;
 			const isDeviationFromStandard = (standardValue && value !== standardValue) || false;
@@ -386,7 +384,7 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 					element.style.removeProperty(key);
 				}
 			}
-		});
+		}
 	}
 }
 

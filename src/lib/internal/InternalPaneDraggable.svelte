@@ -212,18 +212,18 @@
 			const centerPercentX = (x + width / 2) / documentWidth;
 			const centerPercentY = (y + containerHeightScaled / 2) / documentHeight;
 
-			if (!isNaN(dx) && centerPercentX >= 0.5) {
+			if (!Number.isNaN(dx) && centerPercentX >= 0.5) {
 				x += dx;
 			}
 
-			if (!isNaN(dy) && centerPercentY >= 0.5) {
+			if (!Number.isNaN(dy) && centerPercentY >= 0.5) {
 				y += dy;
 			}
 		}
 	}
 
-	const clickBlocker = (e: MouseEvent) => {
-		e.stopPropagation();
+	const clickBlocker = (event: MouseEvent) => {
+		event.stopPropagation();
 		// e.preventDefault(); e.stopImmediatePropagation();
 	};
 
@@ -232,33 +232,34 @@
 	let startOffsetY = 0;
 	let moveDistance = 0;
 
-	const doubleClickListener = (e: MouseEvent) => {
-		e.stopPropagation();
-		if (e.target) {
-			if (width !== undefined && e.target === widthHandleElement) {
-				if (width < maxAvailablePanelWidth) {
-					width = maxAvailablePanelWidth;
-				} else {
-					width = minWidth;
-				}
-			} else if (TITLEBAR_WINDOW_SHADE_DOUBLE_CLICK && e.target === dragBarElement) {
+	const doubleClickListener = (event: MouseEvent) => {
+		event.stopPropagation();
+		if (event.target) {
+			if (width !== undefined && event.target === widthHandleElement) {
+				width = width < maxAvailablePanelWidth ? maxAvailablePanelWidth : minWidth;
+			} else if (TITLEBAR_WINDOW_SHADE_DOUBLE_CLICK && event.target === dragBarElement) {
 				//if (moveDistance < 3 && userExpandable)
 				paneRef.expanded = !paneRef.expanded;
 			}
 		}
 	};
 
-	const downListener = (e: PointerEvent) => {
-		if (x !== undefined && y !== undefined && e.button === 0 && e.target instanceof HTMLElement) {
+	const downListener = (event: PointerEvent) => {
+		if (
+			x !== undefined &&
+			y !== undefined &&
+			event.button === 0 &&
+			event.target instanceof HTMLElement
+		) {
 			moveDistance = 0;
 
-			e.target.setPointerCapture(e.pointerId);
-			e.target.addEventListener('pointermove', moveListener);
-			e.target.addEventListener('pointerup', upListener);
+			event.target.setPointerCapture(event.pointerId);
+			event.target.addEventListener('pointermove', moveListener);
+			event.target.addEventListener('pointerup', upListener);
 
 			startWidth = width ?? 0;
-			startOffsetX = x - e.pageX;
-			startOffsetY = y - e.pageY;
+			startOffsetX = x - event.pageX;
+			startOffsetY = y - event.pageY;
 		}
 	};
 
@@ -267,48 +268,56 @@
 	// managing separate requestAnimationFrame loop -[ ] using touch or mouse events instead of
 	// pointer -[ ] using the native drag / drop API (no reasonable control over drawing and
 	// bounds?)
-	const moveListener = (e: PointerEvent) => {
+	const moveListener = (event: PointerEvent) => {
 		if (
-			e.target instanceof HTMLElement &&
+			event.target instanceof HTMLElement &&
 			width !== undefined &&
 			minWidth !== undefined &&
 			x !== undefined &&
 			y !== undefined
 		) {
-			if (e.target === dragBarElement) {
-				moveDistance += Math.sqrt(e.movementX * e.movementX + e.movementY * e.movementY);
+			if (event.target === dragBarElement) {
+				moveDistance += Math.hypot(event.movementX, event.movementY);
 
-				x = e.pageX + startOffsetX;
-				y = e.pageY + startOffsetY;
-			} else if (e.target === widthHandleElement) {
-				width = clamp(e.pageX + startOffsetX + startWidth - x, minWidth, maxAvailablePanelWidth);
+				x = event.pageX + startOffsetX;
+				y = event.pageY + startOffsetY;
+			} else if (event.target === widthHandleElement) {
+				width = clamp(
+					event.pageX + startOffsetX + startWidth - x,
+					minWidth,
+					maxAvailablePanelWidth
+				);
 			}
 		}
 	};
 
 	// TODO need to catch cancellations as well?
-	const upListener = (e: PointerEvent) => {
-		e.stopImmediatePropagation();
-		if (e.target instanceof HTMLElement) {
-			e.target.releasePointerCapture(e.pointerId);
-			e.target.removeEventListener('pointermove', moveListener);
-			e.target.removeEventListener('pointerup', upListener);
+	const upListener = (event: PointerEvent) => {
+		event.stopImmediatePropagation();
+		if (event.target instanceof HTMLElement) {
+			event.target.releasePointerCapture(event.pointerId);
+			event.target.removeEventListener('pointermove', moveListener);
+			event.target.removeEventListener('pointerup', upListener);
 
-			if (TITLEBAR_WINDOW_SHADE_SINGLE_CLICK && e.target === dragBarElement) {
-				if (moveDistance < 3 && userExpandable) paneRef.expanded = !paneRef.expanded;
-			}
+			if (
+				TITLEBAR_WINDOW_SHADE_SINGLE_CLICK &&
+				event.target === dragBarElement &&
+				moveDistance < 3 &&
+				userExpandable
+			)
+				paneRef.expanded = !paneRef.expanded;
 		}
 	};
 
-	const touchScrollBlocker = (e: TouchEvent) => {
-		e.preventDefault();
+	const touchScrollBlocker = (event: TouchEvent) => {
+		event.preventDefault();
 	};
 
 	onMount(() => {
 		setDocumentSize();
 
 		if (paneRef) {
-			containerElement.appendChild(paneRef.element);
+			containerElement.append(paneRef.element);
 		} else {
 			console.warn('no pane ref in draggable');
 		}
@@ -319,16 +328,17 @@
 		// make the pane draggable the Tweakpane pane is NOT itself a svelte component, so we have
 		// to manage events directly through the DOM click blocking and handling collapse in
 		// pointerup was most reliable cross-browser approach
-		dragBarElement = containerElement.getElementsByClassName('tp-rotv_t')[0] as HTMLElement;
+		dragBarElement = containerElement.querySelector('.tp-rotv_t') as HTMLElement;
 		dragBarElement.addEventListener('click', clickBlocker);
 		dragBarElement.addEventListener('dblclick', doubleClickListener);
 		dragBarElement.addEventListener('pointerdown', downListener);
 
 		// add width adjuster handle
+		// eslint-disable-next-line unicorn/prefer-dom-node-append
 		widthHandleElement = dragBarElement.parentElement?.appendChild(document.createElement('div'));
 		if (widthHandleElement) {
 			widthHandleElement.className = 'tp-custom-width-handle';
-			widthHandleElement.innerText = '↔';
+			widthHandleElement.textContent = '↔';
 
 			widthHandleElement.addEventListener('click', clickBlocker);
 			widthHandleElement.addEventListener('dblclick', doubleClickListener);
@@ -365,11 +375,7 @@
 
 	function updateResizability(isResizable: boolean) {
 		if (widthHandleElement) {
-			if (isResizable) {
-				widthHandleElement.style.display = 'block';
-			} else {
-				widthHandleElement.style.display = 'none';
-			}
+			widthHandleElement.style.display = isResizable ? 'block' : 'none';
 		}
 	}
 
@@ -381,7 +387,7 @@
 	) {
 		console.log(maxToCollapse);
 		if (maxToCollapse > 0) {
-			children.forEach((child: BladeApi) => {
+			for (const child of children) {
 				if ('expanded' in child) {
 					if ((child as FolderApi).expanded) {
 						maxToCollapse--;
@@ -399,7 +405,7 @@
 						swatchButton.click();
 					}
 				}
-			});
+			}
 		}
 	}
 
@@ -447,12 +453,13 @@
 
 	$: {
 		if (containerElement) {
-			if (scale === undefined || scale === 1.0) {
+			if (scale === undefined || scale === 1) {
 				containerHeightScaled = containerHeight;
 			} else {
 				// padding doesn't scale
 				const style = window.getComputedStyle(containerElement);
-				const vPadding = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+				const vPadding =
+					Number.parseFloat(style.paddingTop) + Number.parseFloat(style.paddingBottom);
 				containerHeightScaled = (containerHeight - vPadding) * scale + vPadding;
 			}
 		}

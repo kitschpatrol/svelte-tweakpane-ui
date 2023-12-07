@@ -10,11 +10,11 @@ const { BASE_URL } = import.meta.env;
 type APIContext = Parameters<MiddlewareEndpointHandler>[0];
 
 const componentLinks = (await getCollection('docs')).reduce(
-	(acc, component) => {
+	(accumulator, component) => {
 		if (component.data.componentData !== undefined) {
-			acc[component.data.componentData.name] = `${component.slug}`;
+			accumulator[component.data.componentData.name] = `${component.slug}`;
 		}
-		return acc;
+		return accumulator;
 	},
 	{} as Record<string, string>
 );
@@ -56,7 +56,7 @@ function defineDomTransformMiddleware(
 // document is mutated
 function linkifyTerms(node: Node, termDictionary: { [key: string]: string }, base: string = '') {
 	if (node.nodeType === node.ELEMENT_NODE && node.parentNode && node.ownerDocument) {
-		const text = (node as HTMLElement).innerText || '';
+		const text = (node as HTMLElement).textContent || '';
 
 		if (Object.keys(termDictionary).includes(text)) {
 			const link = node.ownerDocument.createElement('a');
@@ -66,7 +66,7 @@ function linkifyTerms(node: Node, termDictionary: { [key: string]: string }, bas
 
 			// wrap the node in the link
 			node.parentNode.insertBefore(link, node);
-			link.appendChild(node);
+			link.append(node);
 		}
 	}
 }
@@ -75,11 +75,9 @@ const externalLinkAnnotator = defineDomTransformMiddleware((document, context) =
 	const localHostname = 'localhost';
 	const { hostname: ourHostname } = context.site ?? { hostname: '' };
 	// not on hero pages
-	(
-		document.querySelectorAll(
-			'html:not([data-has-hero]) div.sl-markdown-content a'
-		) as NodeListOf<HTMLAnchorElement>
-	).forEach((element) => {
+	for (const element of document.querySelectorAll(
+		'html:not([data-has-hero]) div.sl-markdown-content a'
+	) as NodeListOf<HTMLAnchorElement>) {
 		try {
 			const { hostname } = new URL(element.href);
 			if (hostname !== ourHostname && hostname !== localHostname && hostname !== '') {
@@ -89,24 +87,24 @@ const externalLinkAnnotator = defineDomTransformMiddleware((document, context) =
 		} catch {
 			// assume invalid URLs are internal
 		}
-	});
+	}
 });
 
 const automaticComponentLinks = defineDomTransformMiddleware((document, context) => {
 	// filter out own page
 	const componentLinksNotSelf = Object.entries(componentLinks).reduce(
-		(acc, [componentName, componentSlug]) => {
+		(accumulator, [componentName, componentSlug]) => {
 			if (context.props.slug !== componentSlug) {
-				acc[`<${componentName}>`] = componentSlug;
+				accumulator[`<${componentName}>`] = componentSlug;
 			}
-			return acc;
+			return accumulator;
 		},
 		{} as Record<string, string>
 	);
 
-	[...document.getElementsByTagName('code')].forEach((element) => {
+	for (const element of document.querySelectorAll('code')) {
 		linkifyTerms(element, componentLinksNotSelf, BASE_URL);
-	});
+	}
 });
 
 const automaticPropLinks = defineDomTransformMiddleware((document, context) => {
@@ -115,29 +113,29 @@ const automaticPropLinks = defineDomTransformMiddleware((document, context) => {
 		const props = allProps(context.props.entry.data.componentData);
 
 		const propLinks = props.reduce(
-			(acc, prop) => {
-				acc[prop.name] = `#${slug(prop.name)}`;
-				return acc;
+			(accumulator, prop) => {
+				accumulator[prop.name] = `#${slug(prop.name)}`;
+				return accumulator;
 			},
 			{} as Record<string, string>
 		);
 
-		[...document.getElementsByTagName('code')].forEach((element) => {
+		for (const element of document.querySelectorAll('code')) {
 			linkifyTerms(element, propLinks);
-		});
+		}
 	}
 });
 
 const addLinkPrefix = defineDomTransformMiddleware((document) => {
-	['href', 'src'].forEach((attribute) => {
-		document.querySelectorAll(`[${attribute}]`).forEach((element) => {
-			const attr = element.getAttribute(attribute);
-			if (attr?.startsWith('/_astro/')) {
+	for (const attribute of ['href', 'src']) {
+		for (const element of document.querySelectorAll(`[${attribute}]`)) {
+			const attribute_ = element.getAttribute(attribute);
+			if (attribute_?.startsWith('/_astro/')) {
 				// add the base prefix
-				element.setAttribute(attribute, `${stripTrailingSlash(BASE_URL ?? '')}${attr}`);
+				element.setAttribute(attribute, `${stripTrailingSlash(BASE_URL ?? '')}${attribute_}`);
 			}
-		});
-	});
+		}
+	}
 });
 
 const stripLinkSuffix = defineDomTransformMiddleware((document, context) => {
@@ -149,7 +147,7 @@ const stripLinkSuffix = defineDomTransformMiddleware((document, context) => {
 
 		// Find and modify anchor elements
 		const anchorElements = document.querySelectorAll('a');
-		anchorElements.forEach((anchor) => {
+		for (const anchor of anchorElements) {
 			let href = anchor.getAttribute('href');
 			if (href) {
 				for (const baseValue of baseValues) {
@@ -161,7 +159,7 @@ const stripLinkSuffix = defineDomTransformMiddleware((document, context) => {
 					}
 				}
 			}
-		});
+		}
 	}
 });
 
@@ -170,10 +168,11 @@ const addHeadingAnchorLinks = defineDomTransformMiddleware((document) => {
 	const tocLinks = [...document.querySelectorAll('starlight-toc nav a')] as HTMLAnchorElement[];
 	const headings = tocLinks.map((link) => {
 		const id = link.getAttribute('href')?.slice(1);
-		return document.getElementById(id || '');
+
+		return document.querySelector(id ? `#${id}` : '');
 	}) as HTMLHeadingElement[];
 
-	headings.forEach((heading) => {
+	for (const heading of headings) {
 		// skip h1
 		if (heading.nodeName !== 'H1') {
 			// create anchor link
@@ -182,21 +181,21 @@ const addHeadingAnchorLinks = defineDomTransformMiddleware((document) => {
 
 			const span = heading.ownerDocument.createElement('span');
 			span.ariaHidden = 'true';
-			span.setAttribute('data-pagefind-ignore', 'true');
+			span.dataset.pagefindIgnore = 'true';
 			span.className = 'anchor-icon';
 			span.innerHTML = '🔗';
 
-			link.appendChild(span);
+			link.append(span);
 
 			const wrapper = heading.ownerDocument.createElement('div');
 			wrapper.className = 'heading-anchor-wrapper';
 
 			// wrap the heading and link in a div
 			heading.parentNode?.insertBefore(wrapper, heading);
-			wrapper.appendChild(heading);
-			wrapper.appendChild(link);
+			wrapper.append(heading);
+			wrapper.append(link);
 		}
-	});
+	}
 });
 
 export const onRequest = sequence(

@@ -19,7 +19,7 @@ const acknowledgmentsSchema = z.record(
 );
 
 // component documentation schema
-// must be kept in sync with ./scripts/generate-doc-data.ts
+// must be kept in sync with ./scripts/generate-documentation-data.ts
 
 const componentJsDocRecordSchema = z.record(z.string());
 
@@ -34,7 +34,7 @@ const componentPartInfoSchema = z.array(
 
 const componentPropConditionSchema = z.record(z.union([z.boolean(), z.number(), z.string()]));
 
-const componentDocSchema = z.object({
+const componentDocumentSchema = z.object({
 	doc: z.string(),
 	dynamicProps: z
 		.array(
@@ -59,7 +59,7 @@ const universalFrontmatter = z.object({
 });
 
 const componentFrontmatter = z.object({
-	componentData: componentDocSchema.optional(),
+	componentData: componentDocumentSchema.optional(),
 	note: z.string().optional()
 });
 

@@ -1,5 +1,5 @@
-import { getAllLibFiles, lintAndFormat } from './ast-tools';
-import fs from 'fs';
+import { getAllLibraryFiles, lintAndFormat } from './ast-tools';
+import fs from 'node:fs';
 
 // assumes all code blocks are svelte-like
 async function formatEmbeddedCode(file: string): Promise<number> {
@@ -8,7 +8,7 @@ async function formatEmbeddedCode(file: string): Promise<number> {
 		const data = fs.readFileSync(file, 'utf8');
 		let formattedData = '';
 		let lastIndex = 0;
-		const regex = /(```.*\n)([\s\S]*?)(\n```)/g;
+		const regex = /(```.*\n)([\S\s]*?)(\n```)/g;
 		let match: RegExpExecArray | null;
 
 		while ((match = regex.exec(data)) !== null) {
@@ -23,8 +23,8 @@ async function formatEmbeddedCode(file: string): Promise<number> {
 				embedsFormatted++;
 				// Using the original opening and closing backticks
 				formattedData += `${opening}${formattedCode.trimEnd()}${closing}`;
-			} catch (e) {
-				console.error(`Error formatting code: ${e}`);
+			} catch (error) {
+				console.error(`Error formatting code: ${error}`);
 				formattedData += fullMatch;
 			}
 
@@ -40,13 +40,13 @@ async function formatEmbeddedCode(file: string): Promise<number> {
 		} else {
 			fs.writeFileSync(file, formattedData, 'utf8');
 		}
-	} catch (err) {
-		console.error(`Error: ${err}`);
+	} catch (error) {
+		console.error(`Error: ${error}`);
 	}
 	return embedsFormatted;
 }
 
-const files = getAllLibFiles();
+const files = getAllLibraryFiles();
 
 console.log(`Checking ${files.length} files for embedded code blocks with incorrect formatting...`);
 

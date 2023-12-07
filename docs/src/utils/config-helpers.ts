@@ -24,7 +24,9 @@ export function componentMenu(
 		const { data } = matter.read(file);
 
 		let currentMenu = menu;
-		data.componentData?.pathParts?.slice(0, maxDepth).forEach((pathPart: string) => {
+
+		const pathParts = data.componentData?.pathParts?.slice(0, maxDepth);
+		for (const pathPart of pathParts) {
 			let existingMenu = currentMenu.items?.find((item: any) => {
 				return item.label === capitalize(slug(pathPart));
 			});
@@ -39,7 +41,7 @@ export function componentMenu(
 			}
 
 			currentMenu = existingMenu;
-		});
+		}
 
 		currentMenu.items?.unshift({
 			label: data.title,
@@ -68,16 +70,14 @@ export function componentMenu(
 		}
 	});
 
-	if (mergeTopLevel) {
-		// put all the second level items at the top level,
-		// suffixed with the original top level label
-		return menu.items!.map((item: any) => {
-			return {
-				items: item.items,
-				label: `${item.label} ${menu.label}`
-			};
-		});
-	} else {
-		return [menu];
-	}
+	// put all the second level items at the top level,
+	// suffixed with the original top level label
+	return mergeTopLevel
+		? menu.items!.map((item: any) => {
+				return {
+					items: item.items,
+					label: `${item.label} ${menu.label}`
+				};
+		  })
+		: [menu];
 }

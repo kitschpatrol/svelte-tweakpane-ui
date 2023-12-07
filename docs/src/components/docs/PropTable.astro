@@ -1,17 +1,16 @@
 ---
-import { marked } from 'marked';
-import Heading from './Heading.astro';
-import Flags from './Flags.astro';
-
 import type { ComponentProp, ConditionsRecord } from '../../utils/prop-utils';
+import Flags from './Flags.astro';
+import Heading from './Heading.astro';
+import { marked } from 'marked';
 
 interface Props {
-	data: ComponentProp[];
 	conditionData?: ConditionsRecord;
+	data: ComponentProp[];
+	monoTable?: boolean;
 	showDefault?: boolean;
 	showExample?: boolean;
 	showFlags?: boolean;
-	monoTable?: boolean;
 }
 
 function cleanType(type: string): string {
@@ -61,12 +60,12 @@ function getFlags(prop: ComponentProp, dynamic: boolean = false): string[] {
 }
 
 const {
-	data,
 	conditionData = {},
+	data,
+	monoTable = false,
 	showDefault = true,
 	showExample = true,
-	showFlags = true,
-	monoTable = false
+	showFlags = true
 } = Astro.props;
 ---
 
@@ -103,7 +102,7 @@ const {
 			<table>
 				<tbody>
 					<tr>
-						<td colspan="2" class="prop-name">
+						<td class="prop-name" colspan="2">
 							<span class="prop-heading">
 								<Heading level={3} set:html={prop.name} />
 								{showFlags && (
@@ -144,7 +143,7 @@ const {
 									.map((value) => (
 										<code set:text={`${Object.keys(value)[0]}="${Object.values(value)[0]}"`} />
 									))
-									.reduce((prev, current) => [prev, ' or ', current])}
+									.reduce((previous, current) => [previous, ' or ', current])}
 							</td>
 						</tr>
 					)}
@@ -156,14 +155,14 @@ const {
 
 <style>
 	table {
+		overflow: visible !important; /* for anchor links */
 		table-layout: fixed;
 		margin-bottom: 4.5rem;
-		overflow: visible !important; /*for anchor links*/
 	}
 
 	table tbody {
-		min-width: 100%;
 		display: table;
+		min-width: 100%;
 	}
 
 	tr {
@@ -173,10 +172,10 @@ const {
 	th {
 		width: 1px;
 		font-weight: 500;
+		color: var(--sl-color-gray-4);
 		/* font-size: var(--sl-text-sm); */
 		/* background: var(--sl-color-gray-6) !important; */
 		vertical-align: top;
-		color: var(--sl-color-gray-4);
 	}
 
 	td {
@@ -185,18 +184,18 @@ const {
 
 	table td.prop-name :global(h3) {
 		display: inline;
-		font-family: var(--sl-font-system-mono);
-		font-weight: normal;
 		justify-self: flex-start;
+		font-family: var(--sl-font-system-mono);
 		font-size: var(--sl-text-xl);
+		font-weight: normal;
 	}
 
 	span.prop-heading {
 		display: flex;
-		row-gap: 0.5em;
 		flex-wrap: wrap;
-		justify-content: space-between;
+		row-gap: 0.5em;
 		align-items: end;
+		justify-content: space-between;
 	}
 
 	table th {

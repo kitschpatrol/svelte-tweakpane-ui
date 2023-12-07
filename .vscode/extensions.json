@@ -1,11 +1,14 @@
 {
   "recommendations": [
+    "astro-build.astro-vscode",
+    "davidanson.vscode-markdownlint",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
-    "svelte.svelte-vscode",
-    "stkb.rewrap",
+    "pucelle.run-on-save",
     "streetsidesoftware.code-spell-checker",
-    "astro-build.astro-vscode"
+    "stylelint.vscode-stylelint",
+    "svelte.svelte-vscode",
+    "unifiedjs.vscode-mdx"
   ],
   "unwantedRecommendations": []
 }

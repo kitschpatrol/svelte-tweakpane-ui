@@ -4,8 +4,11 @@
 
 	export type ProfilerCalcMode = 'frame' | 'mean' | 'median';
 	export type ProfilerChangeEvent = CustomEvent<number>;
-	export type ProfilerMeasure = (name: string, fn: () => void) => void;
-	export type ProfilerMeasureAsync = (name: string, fn: () => Promise<void>) => Promise<void>;
+	export type ProfilerMeasure = (name: string, functionToMeasure: () => void) => void;
+	export type ProfilerMeasureAsync = (
+		name: string,
+		functionToMeasure: () => Promise<void>
+	) => Promise<void>;
 	export type ProfilerMeasureHandler = Simplify<ProfilerBladeMeasureHandler>;
 </script>
 
@@ -106,12 +109,15 @@
 	};
 
 	// exporting a const function might be cleaner, but less expected by the user?
-	function _measure(name: string, fn: () => void): void {
-		profilerBlade?.measure(name, fn);
+	function _measure(name: string, functionToMeasure: () => void): void {
+		profilerBlade?.measure(name, functionToMeasure);
 	}
 
-	async function _measureAsync(name: string, fn: () => Promise<void>): Promise<void> {
-		profilerBlade?.measureAsync(name, fn);
+	async function _measureAsync(
+		name: string,
+		functionToMeasure: () => Promise<void>
+	): Promise<void> {
+		profilerBlade?.measureAsync(name, functionToMeasure);
 	}
 
 	//unique
@@ -163,8 +169,11 @@
 			for (const mutation of mutations) {
 				if (mutation.type === 'characterData' || mutation.type === 'childList') {
 					// parse float ignore the deltaUnit suffix
-					const delta = parseFloat((mutation.target as HTMLElement).innerText);
-					!isNaN(delta) && dispatch('change', delta);
+					const fpsText = (mutation.target as HTMLElement).textContent;
+					if (fpsText !== null) {
+						const delta = Number.parseFloat(fpsText);
+						!Number.isNaN(delta) && dispatch('change', delta);
+					}
 				}
 			}
 		});
@@ -217,57 +226,57 @@ position='inline'>`.
 @example  
 ```svelte
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { Profiler, type ProfilerMeasure, Slider } from 'svelte-tweakpane-ui';
+import { onMount } from 'svelte';
+import { Profiler, type ProfilerMeasure, Slider } from 'svelte-tweakpane-ui';
 
-  // this is a readonly function handle assigned by Profiler component
-  // first used in onMount since it is not bound until then
-  let measure: ProfilerMeasure;
+// this is a readonly function handle assigned by Profiler component
+// first used in onMount since it is not bound until then
+let measure: ProfilerMeasure;
 
-  let loopExponent = 1;
+let loopExponent = 1;
 
-  // helper to test Math functions
-  function hardWork(fn: (n: number) => number, exponent: number): void {
-    measure(fn.name, () => {
-      for (let sum = 0; sum < Number('1e' + exponent); sum++) {
-        fn(sum);
-      }
-    });
-  }
-
-  onMount(() => {
-    (function tick() {
-      // Nesting measurements creates a hierarchy
-      // in the Profile visualization
-      measure('Tick', () => {
-        measure('Trigonometry', () => {
-          hardWork(Math.sin, loopExponent);
-          hardWork(Math.cos, loopExponent);
-          hardWork(Math.tan, loopExponent);
-          hardWork(Math.atan, loopExponent);
-          hardWork(Math.acos, loopExponent);
-          hardWork(Math.acosh, loopExponent);
-        });
-        measure('Logarithms', () => {
-          hardWork(Math.log, loopExponent);
-          hardWork(Math.log10, loopExponent);
-          hardWork(Math.log1p, loopExponent);
-          hardWork(Math.log2, loopExponent);
-        });
-        measure('Rounding', () => {
-          hardWork(Math.round, loopExponent);
-          hardWork(Math.floor, loopExponent);
-          hardWork(Math.ceil, loopExponent);
-          hardWork(Math.fround, loopExponent);
-        });
-      });
-
-      requestAnimationFrame(tick);
-    })();
+// helper to test Math functions
+function hardWork(function_: (n: number) => number, exponent: number): void {
+  measure(function_.name, () => {
+    for (let sum = 0; sum < Number('1e' + exponent); sum++) {
+      function_(sum);
+    }
   });
+}
+
+onMount(() => {
+  (function tick() {
+    // Nesting measurements creates a hierarchy
+    // in the Profile visualization
+    measure('Tick', () => {
+      measure('Trigonometry', () => {
+        hardWork(Math.sin, loopExponent);
+        hardWork(Math.cos, loopExponent);
+        hardWork(Math.tan, loopExponent);
+        hardWork(Math.atan, loopExponent);
+        hardWork(Math.acos, loopExponent);
+        hardWork(Math.acosh, loopExponent);
+      });
+      measure('Logarithms', () => {
+        hardWork(Math.log, loopExponent);
+        hardWork(Math.log10, loopExponent);
+        hardWork(Math.log1p, loopExponent);
+        hardWork(Math.log2, loopExponent);
+      });
+      measure('Rounding', () => {
+        hardWork(Math.round, loopExponent);
+        hardWork(Math.floor, loopExponent);
+        hardWork(Math.ceil, loopExponent);
+        hardWork(Math.fround, loopExponent);
+      });
+    });
+
+    requestAnimationFrame(tick);
+  })();
+});
 </script>
 
-<Profiler bind:measure label="Profiler" />
+<Profiler bind:measure={measure} label="Profiler" />
 <Slider
   bind:value={loopExponent}
   min={1}

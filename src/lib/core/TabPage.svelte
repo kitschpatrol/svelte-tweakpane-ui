@@ -129,10 +129,10 @@ Usage outside of a `<TabGroup>` component wouldn't make much sense, but in such 
 @example  
 ```svelte
 <script lang="ts">
-  import { Button, TabGroup, TabPage } from 'svelte-tweakpane-ui';
+import { Button, TabGroup, TabPage } from 'svelte-tweakpane-ui';
 
-  let countA = 0;
-  let countB = 0;
+let countA = 0;
+let countB = 0;
 </script>
 
 <TabGroup>

@@ -64,8 +64,8 @@
 		(ref.controller as any)?.valueController?.foldable_
 			?.value('expanded')
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			.emitter.on('change', (e: any) => {
-				internalExpanded = e.rawValue;
+			.emitter.on('change', (event: any) => {
+				internalExpanded = event.rawValue;
 				expanded = internalExpanded;
 			});
 	}
@@ -81,8 +81,8 @@
 	$: ref &&
 		buttonClass &&
 		expanded !== internalExpanded &&
-		ref.element.getElementsByClassName(buttonClass).length > 0 &&
-		(ref.element.getElementsByClassName(buttonClass)[0] as HTMLButtonElement).click();
+		ref.element.querySelectorAll(`.${buttonClass}`).length > 0 &&
+		(ref.element.querySelector(`.${buttonClass}`) as HTMLButtonElement).click();
 </script>
 
 <!--

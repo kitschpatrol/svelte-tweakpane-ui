@@ -1,20 +1,37 @@
 {
-  // Enable ESLint auto-fix on save
+  "[astro]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[ignore]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[svelte]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "cSpell.enabled": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": true
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true, // optional
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "svelte"],
+  "editor.formatOnSave": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "svelte",
+    "astro"
+  ],
   "prettier.documentSelectors": [
     "**/*.astro",
     "**/*.svelte",
     "**/.prettierignore",
     "**/.npmrc",
-    "**/.eslintignore"
+    "**/.eslintignore",
+    "**/.sh"
   ],
-  "stylelint.validate": ["css", "html", "svelte"],
-  "stylelint.configBasedir": ".",
-  "rewrap.wrappingColumn": 100,
-  "cSpell.noConfigSearch": false
+  "stylelint.validate": ["css", "html", "svelte", "astro"],
+  "[shellscript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

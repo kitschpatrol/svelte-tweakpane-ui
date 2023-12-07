@@ -3,8 +3,8 @@
 # https://electricui.com/blog/switching-to-cloudflare-pages#how-to-disable-the-trailing-slash-on-cloudflare-pages
 
 find ./dist -name 'index.html' -mindepth 2 -type f \
-  -exec sh \
-  -c 'parent="$(dirname "$1")"; mv "$1" "$parent/../$(basename "$parent").html";' \
-  find-sh {} \;
+	-exec sh \
+	-c 'parent="$(dirname "$1")"; mv "$1" "$parent/../$(basename "$parent").html";' \
+	find-sh {} \;
 
 find ./dist -empty -type d -delete

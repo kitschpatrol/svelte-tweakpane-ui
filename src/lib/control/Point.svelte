@@ -251,23 +251,23 @@ position='inline'>` component.
 @example  
 ```svelte
 <script lang="ts">
-  import {
-    Point,
-    type PointOptions,
-    type PointValue2d,
-    type PointValue3d,
-    type PointValue4d
-  } from 'svelte-tweakpane-ui';
+import {
+  Point,
+  type PointOptions,
+  type PointValue2d,
+  type PointValue3d,
+  type PointValue4d
+} from 'svelte-tweakpane-ui';
 
-  let point2d: PointValue2d = { x: 0, y: 0 };
+let point2d: PointValue2d = { x: 0, y: 0 };
 
-  // tuples are also fine
-  let point3d: PointValue3d = [0, 0, 0];
+// tuples are also fine
+let point3d: PointValue3d = [0, 0, 0];
 
-  // dimension-specific option type needs to know the type of the point value
-  let point3dXOptions: PointOptions<'3', 'x'> = { min: -100, max: 100 };
+// dimension-specific option type needs to know the type of the point value
+let point3dXOptions: PointOptions<'3', 'x'> = { min: -100, max: 100 };
 
-  let point4d: PointValue4d = { x: 0, y: 0, z: 0, w: 0 };
+let point4d: PointValue4d = { x: 0, y: 0, z: 0, w: 0 };
 </script>
 
 <Point

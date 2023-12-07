@@ -147,25 +147,25 @@ position='inline'>`.
 @example  
 ```svelte
 <script lang="ts">
-  import { RadioGrid } from 'svelte-tweakpane-ui';
+import { RadioGrid } from 'svelte-tweakpane-ui';
 
-  // Svelte transition works around CSS gradient
-  // transition limitations
-  import { fade } from 'svelte/transition';
+// Svelte transition works around CSS gradient
+// transition limitations
+import { fade } from 'svelte/transition';
 
-  const radioValues = [
-    ['magenta', 'orange'],
-    ['yellow', 'red'],
-    ['violet', 'gold'],
-    ['red', 'rebeccapurple']
-  ];
+const radioValues = [
+  ['magenta', 'orange'],
+  ['yellow', 'red'],
+  ['violet', 'gold'],
+  ['red', 'rebeccapurple']
+];
 
-  let value = 1;
+let value = 1;
 
-  $: [start, end] = radioValues[value - 1];
+$: [start, end] = radioValues[value - 1];
 </script>
 
-<RadioGrid bind:value prefix="Color Scheme " values={[1, 2, 3, 4]} />
+<RadioGrid bind:value={value} prefix="Color Scheme " values={[1, 2, 3, 4]} />
 
 <div class="demo">
   {#key value}
@@ -174,19 +174,19 @@ position='inline'>`.
 </div>
 
 <style>
-  div.demo {
-    position: relative;
-    aspect-ratio: 1;
-    width: 100%;
-    background: white;
-  }
+div.demo {
+  position: relative;
+  aspect-ratio: 1;
+  width: 100%;
+  background: white;
+}
 
-  div.swatch {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, var(--s), var(--e));
-  }
+div.swatch {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, var(--s), var(--e));
+}
 </style>
 ```
 

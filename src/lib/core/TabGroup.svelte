@@ -68,16 +68,14 @@
 
 	// TODO does this need cleanup?
 	function setUpListeners(t: TabGroupRef) {
-		t?.on('select', (e) => {
-			selectedIndex = e.index;
+		t?.on('select', (event) => {
+			selectedIndex = event.index;
 		});
 	}
 
 	function setSelectedIndex(index: number) {
 		const tabPageApi = $tabGroupStore?.pages.at(index);
-		if (tabPageApi) {
-			if (!tabPageApi.selected) tabPageApi.selected = true;
-		}
+		if (tabPageApi && !tabPageApi.selected) tabPageApi.selected = true;
 	}
 
 	$: BROWSER && setUpListeners($tabGroupStore);
@@ -107,7 +105,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane pos
 @example  
 ```svelte
 <script lang="ts">
-  import { Button, TabGroup, TabPage } from 'svelte-tweakpane-ui';
+import { Button, TabGroup, TabPage } from 'svelte-tweakpane-ui';
 </script>
 
 <TabGroup>

@@ -79,7 +79,7 @@ If you're starting from an empty SvelteKit starter project, you can add a button
 
 ```diff lang="svelte" title="/src/routes/+page.svelte"
 + <script lang="ts">
-+	import { Button } from 'svelte-tweakpane-ui';
++ import { Button } from 'svelte-tweakpane-ui';
 + </script>
 +
 <h1>Welcome to SvelteKit</h1>

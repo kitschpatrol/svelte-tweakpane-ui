@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid';
-import { join } from 'path';
+import { join } from 'node:path';
 import { Document, DocumentManager } from 'svelte-language-server/dist/src/lib/documents';
 import { LSConfigManager } from 'svelte-language-server/dist/src/ls-config';
 import { LSAndTSDocResolver } from 'svelte-language-server/dist/src/plugins/typescript/LSAndTSDocResolver';
@@ -46,9 +46,9 @@ export type ComponentInfo = {
 // 	return props.sort((a, b) => a.name.localeCompare(b.name));
 // }
 
-function jsDocTagInfoToJsDocRecord(jsDocTags: ts.JSDocTagInfo[]): JSDocRecord {
+function jsDocumentTagInfoToJsDocumentRecord(jsDocumentTags: ts.JSDocTagInfo[]): JSDocRecord {
 	const result: JSDocRecord = {};
-	for (const tag of jsDocTags) {
+	for (const tag of jsDocumentTags) {
 		result[tag.name] = ts.displayPartsToString(tag.text);
 	}
 	return result;
@@ -64,15 +64,15 @@ async function getStaticComponentInfo(componentPath: string): Promise<ComponentI
 
 	// amend type data with dynamic approach
 	const lsPropInfo = await getDynamicComponentProps(componentPath, {});
-	for (const prop of info.props) {
-		const lsProp = lsPropInfo.find((p) => p.name === prop.name);
+	for (const property of info.props) {
+		const lsProp = lsPropInfo.find((p) => p.name === property.name);
 
 		if (!lsProp) {
-			console.warn(`No LS prop found for ${prop.name}`);
+			console.warn(`No LS prop found for ${property.name}`);
 			continue;
 		}
 
-		prop.type = lsProp.type;
+		property.type = lsProp.type;
 	}
 
 	return info;
@@ -83,27 +83,27 @@ async function getStaticComponentInfoInternal(
 	componentPath: string
 ): Promise<ComponentInfo | undefined> {
 	// set up language server
-	const testDir = '.';
-	const path = join(testDir, componentPath);
+	const testDirectory = '.';
+	const path = join(testDirectory, componentPath);
 
-	const docManager = new DocumentManager(
+	const documentManager = new DocumentManager(
 		(textDocument) => new Document(textDocument.uri, textDocument.text)
 	);
 
-	const lsAndTsDocResolver = new LSAndTSDocResolver(
-		docManager,
-		[pathToUrl(testDir)],
+	const lsAndTsDocumentResolver = new LSAndTSDocResolver(
+		documentManager,
+		[pathToUrl(testDirectory)],
 		new LSConfigManager(),
-		{ tsconfigPath: join(testDir, 'tsconfig.json') }
+		{ tsconfigPath: join(testDirectory, 'tsconfig.json') }
 	);
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const document = docManager.openClientDocument(<any>{
+	const document = documentManager.openClientDocument(<any>{
 		text: ts.sys.readFile(path),
 		uri: `file:///${path}`
 	});
 
-	const { lang, tsDoc } = await lsAndTsDocResolver.getLSAndTSDoc(document);
+	const { lang, tsDoc } = await lsAndTsDocumentResolver.getLSAndTSDoc(document);
 	const program = lang.getProgram();
 	if (!program) return undefined;
 
@@ -111,14 +111,14 @@ async function getStaticComponentInfoInternal(
 	const componentSourceFile = program.getSourceFile(tsDoc.filePath);
 	if (!componentSourceFile) return undefined;
 
-	const classDef = getClassDef(componentSourceFile);
-	if (!classDef) {
+	const classDefinition = getClassDefinition(componentSourceFile);
+	if (!classDefinition) {
 		console.error('No class def found.');
 		return undefined;
 	}
 
 	const typeChecker = program.getTypeChecker();
-	const classType = typeChecker.getTypeAtLocation(classDef);
+	const classType = typeChecker.getTypeAtLocation(classDefinition);
 	const classSymbol = classType.getSymbol();
 
 	if (!classSymbol) {
@@ -130,7 +130,7 @@ async function getStaticComponentInfoInternal(
 	const results: ComponentInfo = {
 		doc: ts.displayPartsToString(classSymbol.getDocumentationComment(typeChecker)),
 		events: getInfoFor('$$events_def', classType, typeChecker), // natural sorting...
-		jsDocs: jsDocTagInfoToJsDocRecord(classSymbol.getJsDocTags()),
+		jsDocs: jsDocumentTagInfoToJsDocumentRecord(classSymbol.getJsDocTags()),
 		name: componentPath.split('/').pop()!.replace('.svelte', ''),
 		path: componentPath,
 		pathParts: componentPath.split('/').slice(3, -1),
@@ -138,29 +138,29 @@ async function getStaticComponentInfoInternal(
 		slots: getInfoFor('$$slot_def', classType, typeChecker) // natural sorting...
 	};
 
-	lsAndTsDocResolver.deleteSnapshot(tsDoc.filePath);
+	lsAndTsDocumentResolver.deleteSnapshot(tsDoc.filePath);
 	return results;
 }
 
 // ----------------------
 
-function getClassDef(sourceFile: ts.SourceFile): ts.Node | undefined {
-	let classDef: ts.Node | undefined = undefined;
+function getClassDefinition(sourceFile: ts.SourceFile): ts.Node | undefined {
+	let classDefinition: ts.Node | undefined = undefined;
 	sourceFile.forEachChild((node) => {
 		if (ts.isClassDeclaration(node)) {
-			classDef = node;
+			classDefinition = node;
 		}
 	});
-	return classDef;
+	return classDefinition;
 }
 
 // Adapted from ComponentInfoProvider
 function mapPropertiesOfType(typeChecker: ts.TypeChecker, type: ts.Type) {
 	return type
 		.getProperties()
-		.map((prop: ts.Symbol) => {
+		.map((property: ts.Symbol) => {
 			// type would still be correct when there're multiple declarations
-			const declaration = prop.valueDeclaration ?? prop.declarations?.[0];
+			const declaration = property.valueDeclaration ?? property.declarations?.[0];
 			if (!declaration) {
 				return;
 			}
@@ -169,29 +169,29 @@ function mapPropertiesOfType(typeChecker: ts.TypeChecker, type: ts.Type) {
 			// this doesn't seem to give the same type strings
 			// for now, the type field is later discarded and replaced with the language-server's output
 			return {
-				doc: ts.displayPartsToString(prop.getDocumentationComment(typeChecker)),
-				jsDocs: jsDocTagInfoToJsDocRecord(prop.getJsDocTags()),
-				name: prop.name,
-				type: typeChecker.typeToString(typeChecker.getTypeOfSymbolAtLocation(prop, declaration))
+				doc: ts.displayPartsToString(property.getDocumentationComment(typeChecker)),
+				jsDocs: jsDocumentTagInfoToJsDocumentRecord(property.getJsDocTags()),
+				name: property.name,
+				type: typeChecker.typeToString(typeChecker.getTypeOfSymbolAtLocation(property, declaration))
 			};
 		})
-		.filter(isNotNullOrUndefined);
+		.filter((element) => isNotNullOrUndefined(element)) as ComponentPartInfo;
 }
 
 function getInfoFor(
-	propName: string,
+	propertyName: string,
 	classType: ts.Type,
 	typeChecker: ts.TypeChecker
 ): ComponentPartInfo {
-	const propSymbol = classType.getProperty(propName);
+	const propertySymbol = classType.getProperty(propertyName);
 
-	if (propSymbol && propSymbol.valueDeclaration) {
-		const propsType = typeChecker.getTypeOfSymbolAtLocation(
-			propSymbol,
-			propSymbol.valueDeclaration
+	if (propertySymbol && propertySymbol.valueDeclaration) {
+		const propertiesType = typeChecker.getTypeOfSymbolAtLocation(
+			propertySymbol,
+			propertySymbol.valueDeclaration
 		);
 
-		return mapPropertiesOfType(typeChecker, propsType);
+		return mapPropertiesOfType(typeChecker, propertiesType);
 	}
 	return [];
 }
@@ -202,17 +202,17 @@ async function getDynamicComponentProps(
 	testProps: ComponentPropCondition
 ): Promise<ComponentPartInfo> {
 	// set up language server
-	const testDir = '.';
+	const testDirectory = '.';
 
-	const docManager = new DocumentManager(
+	const documentManager = new DocumentManager(
 		(textDocument) => new Document(textDocument.uri, textDocument.text)
 	);
 
-	const lsAndTsDocResolver = new LSAndTSDocResolver(
-		docManager,
-		[pathToUrl(testDir)],
+	const lsAndTsDocumentResolver = new LSAndTSDocResolver(
+		documentManager,
+		[pathToUrl(testDirectory)],
 		new LSConfigManager(),
-		{ tsconfigPath: join(testDir, 'tsconfig.json') }
+		{ tsconfigPath: join(testDirectory, 'tsconfig.json') }
 	);
 
 	const componentName = componentPath.split('/').pop()!.replace('.svelte', '');
@@ -226,12 +226,12 @@ async function getDynamicComponentProps(
 	// generated file name must be unique, cleanup doesn't seem to be enough
 	// to avoid stale autocompletion values across repeat invocations
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const document = docManager.openClientDocument(<any>{
+	const document = documentManager.openClientDocument(<any>{
 		text: testComponentSourceRows.join('\n'),
 		uri: `file:///in-memory-${componentName}-${nanoid()}.svelte`
 	});
 
-	const { lang, tsDoc } = await lsAndTsDocResolver.getLSAndTSDoc(document);
+	const { lang, tsDoc } = await lsAndTsDocumentResolver.getLSAndTSDoc(document);
 	const program = lang.getProgram();
 	if (!program) return [];
 
@@ -261,23 +261,24 @@ async function getDynamicComponentProps(
 				tsDoc.filePath,
 				tsDoc.offsetAt(tsDoc.getGeneratedPosition(testPosition)),
 				entry.name,
+				// eslint-disable-next-line unicorn/no-useless-undefined
 				undefined
 			);
 
 			return {
 				doc: ts.displayPartsToString(completionSymbols!.getDocumentationComment(typeChecker)),
-				jsDocs: jsDocTagInfoToJsDocRecord(completionSymbols!.getJsDocTags()),
+				jsDocs: jsDocumentTagInfoToJsDocumentRecord(completionSymbols!.getJsDocTags()),
 				name: entry.name,
 				type: typeChecker.typeToString(typeChecker.getTypeOfSymbol(completionSymbols!))
 			};
 		}) ?? [];
 
-	lsAndTsDocResolver.deleteSnapshot(tsDoc.filePath);
+	lsAndTsDocumentResolver.deleteSnapshot(tsDoc.filePath);
 	return results;
 }
 
-function generateStringFromPropObject(propsObject: ComponentPropCondition): string {
-	return Object.entries(propsObject)
+function generateStringFromPropObject(propertiesObject: ComponentPropCondition): string {
+	return Object.entries(propertiesObject)
 		.map(([key, value]) => {
 			const formattedValue = typeof value === 'string' ? `"${value}"` : `{${value}}`;
 			return `${key}=${formattedValue}`;

@@ -39,8 +39,10 @@
 	const parentStore: Writable<Container> = getContext('parentStore');
 
 	// parsePointDimensionParams wasn't quite right for this
-	function isPointObject(obj: object): boolean {
-		return Point2d.isObject(obj) || Point3d.isObject(obj) || Point4d.isObject(obj);
+	function isPointObject(testObject: object): boolean {
+		return (
+			Point2d.isObject(testObject) || Point3d.isObject(testObject) || Point4d.isObject(testObject)
+		);
 	}
 
 	function prettify(value: string, active: boolean = true) {
@@ -49,7 +51,7 @@
 		// TODO title case would be nicer... Replace underscores, hyphens, and camel case with
 		// spaces, and capitalize the first letter of each word
 		return value
-			.replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+			.replace(/([\da-z])([A-Z])/g, '$1 $2')
 			.replace(/[_-]+/g, ' ')
 			.toLowerCase()
 			.replace(/\b[a-z]/g, (letter) => {
@@ -91,37 +93,37 @@ Plugin component behavior is not available in `<AutoObject>`.
 @example  
 ```svelte
 <script lang="ts">
-  import { AutoObject } from 'svelte-tweakpane-ui';
+import { AutoObject } from 'svelte-tweakpane-ui';
 
-  let object = {
-    // Creates a <Checkbox>
-    someBoolean: true,
-    // Creates a <Color> picker
-    someColor: {
-      r: 255,
-      g: 0,
+let object = {
+  // Creates a <Checkbox>
+  someBoolean: true,
+  // Creates a <Color> picker
+  someColor: {
+    r: 255,
+    g: 0,
 
-      b: 55
-    },
-    // Wraps children in a <Folder>
-    someFolder: {
-      b: 2,
-      a: 1,
-      c: 3
-    },
-    // Creates a <Slider>
-    someNumber: 1,
-    // creates a <Point>
-    somePoint: {
-      x: 1,
-      y: 2
-    },
-    // Creates a <Text>
-    someString: 'test'
-  };
+    b: 55
+  },
+  // Wraps children in a <Folder>
+  someFolder: {
+    b: 2,
+    a: 1,
+    c: 3
+  },
+  // Creates a <Slider>
+  someNumber: 1,
+  // creates a <Point>
+  somePoint: {
+    x: 1,
+    y: 2
+  },
+  // Creates a <Text>
+  someString: 'test'
+};
 </script>
 
-<AutoObject bind:object />
+<AutoObject bind:object={object} />
 
 <pre>{JSON.stringify(object, null, 2)}</pre>
 ```

@@ -90,15 +90,15 @@ position='inline'>`.
 @example  
 ```svelte
 <script lang="ts">
-  import { IntervalSlider } from 'svelte-tweakpane-ui';
+import { IntervalSlider } from 'svelte-tweakpane-ui';
 
-  // Could specify convenience type IntervalSliderValueTuple here, or
-  // use the object {start: number, end: number} instead of a tuple
-  let value: [number, number] = [25, 75];
+// Could specify convenience type IntervalSliderValueTuple here, or
+// use the object {start: number, end: number} instead of a tuple
+let value: [number, number] = [25, 75];
 </script>
 
 <IntervalSlider
-  bind:value
+  bind:value={value}
   min={0}
   max={100}
   format={(v) => `${v.toFixed(0)}%`}
@@ -106,11 +106,11 @@ position='inline'>`.
 <div class="demo" style:--e="{value[1]}%" style:--s="{value[0]}%" />
 
 <style>
-  div.demo {
-    aspect-ratio: 1;
-    width: 100%;
-    background: linear-gradient(45deg, magenta var(--s), orange var(--e));
-  }
+div.demo {
+  aspect-ratio: 1;
+  width: 100%;
+  background: linear-gradient(45deg, magenta var(--s), orange var(--e));
+}
 </style>
 ```
 

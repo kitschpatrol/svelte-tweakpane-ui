@@ -14,8 +14,8 @@
 
 	$: wave = Math.sin(time * 5);
 	let width = 360;
-	let scale1 = 1.0;
-	let scale2 = 2.0;
+	let scale1 = 1;
+	let scale2 = 2;
 	$: width1 = width * scale1;
 	$: width2 = width * scale2;
 </script>

@@ -1,6 +1,6 @@
 import {
 	type PropNode,
-	getAllLibComponentNames,
+	getAllLibraryComponentNames,
 	getDefinitionFilePath,
 	getProp,
 	getProps,
@@ -54,7 +54,8 @@ function inheritPropCommentsAndSave(componentName: string): number {
 
 	const definitionFile = new Project().addSourceFileAtPath(getDefinitionFilePath(componentName)!);
 
-	getProps(definitionFile, 'uncommented')?.forEach((propNode) => {
+	const props = getProps(definitionFile, 'uncommented');
+	for (const propNode of props) {
 		// check self first, then go up the component inheritance chain
 		const comments =
 			getCommentForProp(componentName, propNode.getName()) ??
@@ -71,7 +72,7 @@ function inheritPropCommentsAndSave(componentName: string): number {
 				`Component <${componentName}> is missing comment for prop "${propNode.getName()}"`
 			);
 		}
-	});
+	}
 
 	definitionFile.saveSync();
 	return quantityFixed;
@@ -80,15 +81,15 @@ function inheritPropCommentsAndSave(componentName: string): number {
 // Main
 let totalPropsFixed = 0;
 
-const componentNames = getAllLibComponentNames();
+const componentNames = getAllLibraryComponentNames();
 
 console.log(`Healing missing prop comments for ${componentNames.length} components...`);
 
 // Order doesn't matter since going up the chain is consistent
-componentNames.forEach((componentName) => {
+for (const componentName of componentNames) {
 	verbose && console.log(`Adding missing prop comments for "${componentName}"`);
 	totalPropsFixed += inheritPropCommentsAndSave(componentName);
-});
+}
 
 console.log(
 	`Done. Found and fixed ${totalPropsFixed} missing .d.ts component prop JSDoc annotations.`

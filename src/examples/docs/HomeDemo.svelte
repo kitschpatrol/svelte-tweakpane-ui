@@ -30,6 +30,17 @@
 	let paneRef: HTMLDivElement;
 	// let mounted = false;
 
+	// set up pane div pause when interacting, but not when dragging the title bar
+	function onPointerDown(event: PointerEvent) {
+		if (event.target && !hasParentWithClassName(event.target as HTMLElement, 'tp-rotv_b')) {
+			interacting = true;
+		}
+	}
+
+	function onPointerUp() {
+		interacting = false;
+	}
+
 	onMount(() => {
 		// set up frame loop
 		let lastTime: number | undefined;
@@ -43,17 +54,6 @@
 			frameId = requestAnimationFrame(tick);
 		}
 		requestAnimationFrame(tick);
-
-		// set up pane div pause when interacting, but not when dragging the title bar
-		function onPointerDown(e: PointerEvent) {
-			if (e.target && !hasParentWithClassName(e.target as HTMLElement, 'tp-rotv_b')) {
-				interacting = true;
-			}
-		}
-
-		function onPointerUp() {
-			interacting = false;
-		}
 
 		paneRef.addEventListener('pointerdown', onPointerDown, { capture: true });
 		document.addEventListener('pointerup', onPointerUp);
@@ -108,12 +108,12 @@
 		);
 	}
 
-	function hasParentWithClassName(el: HTMLElement, className: string): boolean {
-		if (el.classList.contains(className)) {
+	function hasParentWithClassName(element: HTMLElement, className: string): boolean {
+		if (element.classList.contains(className)) {
 			return true;
 		}
-		if (el.parentElement) {
-			return hasParentWithClassName(el.parentElement, className);
+		if (element.parentElement) {
+			return hasParentWithClassName(element.parentElement, className);
 		}
 		return false;
 	}
@@ -202,8 +202,8 @@
 		}
 	}
 	function setHeadingUp(oldPoint: PointValue4dTuple, newPoint: PointValue4dTuple) {
-		headingUp = headingUp.map((v, i) => {
-			return newPoint[i] !== oldPoint[i] ? newPoint[i] > oldPoint[i] : v;
+		headingUp = headingUp.map((v, index) => {
+			return newPoint[index] === oldPoint[index] ? v : newPoint[index] > oldPoint[index];
 		}) as typeof headingUp;
 	}
 
@@ -239,9 +239,9 @@
 			/>
 			<Separator />
 			<Folder title="<Folder> Axes">
-				{#each keys as k, i}
+				{#each keys as k, index}
 					<Slider
-						bind:value={$point4[i]}
+						bind:value={$point4[index]}
 						{min}
 						{max}
 						format={(v) => `${v.toFixed(2)}`}
@@ -264,10 +264,10 @@ Max"
 
 				<Separator />
 				<TabGroup>
-					{#each keys as k, i}
+					{#each keys as k, index}
 						<TabPage title={`<TabPage> ${k}`}>
 							<Monitor
-								value={$point4[i]}
+								value={$point4[index]}
 								min={-0.2}
 								max={1.2}
 								bufferSize={300}

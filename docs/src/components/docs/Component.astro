@@ -1,11 +1,11 @@
 ---
-// bypasses any markdown customization in starlight...
-import { marked } from 'marked';
-import Heading from './Heading.astro';
-import PropTable from './PropTable.astro';
+import { type ComponentData, allPropConditions, allProps } from '../../utils/prop-utils';
 import DynamicPropAdmonition from './DynamicPropAdmonition.mdx';
 import ExampleWrapper from './ExampleWrapper.astro';
-import { allProps, allPropConditions, type ComponentData } from '../../utils/prop-utils';
+import Heading from './Heading.astro';
+import PropTable from './PropTable.astro';
+// bypasses any markdown customization in starlight...
+import { marked } from 'marked';
 
 interface Props {
 	componentData: ComponentData;
@@ -45,7 +45,7 @@ const hasSlots = !!data?.slots.length;
 					{hasDynamicProps ? (
 						<>
 							<DynamicPropAdmonition />
-							<PropTable data={allProps(data)} conditionData={allPropConditions(data)} />
+							<PropTable conditionData={allPropConditions(data)} data={allProps(data)} />
 						</>
 					) : (
 						<PropTable data={data.props} />

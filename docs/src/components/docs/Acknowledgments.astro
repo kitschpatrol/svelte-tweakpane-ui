@@ -1,12 +1,12 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { type CollectionEntry, getCollection } from 'astro:content';
 
 interface Props {
-	scope: 'lib' | 'docs' | 'all';
+	scope: 'all' | 'docs' | 'lib';
 }
 
-function titleCase(str: string) {
-	return str
+function titleCase(text: string) {
+	return text
 		.split(' ')
 		.map((word) => {
 			return word.charAt(0).toUpperCase() + word.slice(1);
@@ -32,48 +32,48 @@ const data = (
 	)
 )
 	// each collection entry
-	.reduce((acc, collection) => {
+	.reduce((accumulator, collection) => {
 		return [
-			...acc,
-			...Object.values(collection.data).reduce((acc, packages) => {
-				return [...acc, ...packages];
+			...accumulator,
+			...Object.values(collection.data).reduce((accumulator, packages) => {
+				return [...accumulator, ...packages];
 			}, [] as LicenseEntry[])
 		];
 	}, [] as LicenseEntry[]);
 
 // Get unique list of publisher names
 const names = data
-	.reduce((acc: string[], { author }) => {
+	.reduce((accumulator: string[], { author }) => {
 		if (author) {
 			// Split compound comma-delimited publishers as needed
-			author.split(/\s*(?:\sand\s|,|&)\s*/).forEach((subItem) => {
+			for (const subItem of author.split(/\s*(?:\sand\s|,|&)\s*/)) {
 				const subPublisher = titleCase(getNameFromEmail(subItem.trim()));
-				if (subPublisher && !acc.includes(subPublisher)) {
-					acc.push(subPublisher);
+				if (subPublisher && !accumulator.includes(subPublisher)) {
+					accumulator.push(subPublisher);
 				}
-			});
+			}
 		}
-		return acc;
+		return accumulator;
 	}, [])
 	// Exclude me and some other vague things
 	.filter((name) => !['Eric Mika', 'contributors', 'inc.'].includes(name.toLowerCase()))
 	// Filter out case-insensitive duplicates, but keep the version with the most capitalization
-	.filter((name, i, arr) => {
+	.filter((name, index_, array) => {
 		const lower = name.toLowerCase();
-		const index = arr.findIndex((n) => n.toLowerCase() === lower);
-		return index === i;
+		const index = array.findIndex((n) => n.toLowerCase() === lower);
+		return index === index_;
 	})
 	// remove duplicate names like Microsoft, Microsoft Corp., Microsoft Corporation, keep the one without the Corp or Corporation suffix
-	.filter((name, i, arr) => {
+	.filter((name, index_, array) => {
 		const lower = name.toLowerCase();
-		const index = arr.findIndex(
+		const index = array.findIndex(
 			(n) => n.toLowerCase().replace(/(corp\.|corporation)$/, '') === lower
 		);
-		return index === i;
+		return index === index_;
 	})
 
 	// Don't break names
-	.map((n) => n.replace(/ /, '\u00a0'))
+	.map((n) => n.replace(/ /, '\u00A0'))
 	// Sort by last name
 	.sort((a, b) => {
 		return a.localeCompare(b);

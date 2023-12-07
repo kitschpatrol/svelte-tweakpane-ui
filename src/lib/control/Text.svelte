@@ -37,7 +37,7 @@
 	}
 
 	function updateListeners(live: boolean, destroy: boolean = false) {
-		let input = ref?.controller.valueController.view.element.getElementsByTagName('input')[0];
+		let input = ref?.controller.valueController.view.element.querySelector('input');
 		if (input) {
 			input.removeEventListener('input', onInput);
 			!destroy && live && input.addEventListener('input', onInput);
@@ -64,9 +64,9 @@ position='inline'>`.
 @example  
 ```svelte
 <script lang="ts">
-  import { Text } from 'svelte-tweakpane-ui';
+import { Text } from 'svelte-tweakpane-ui';
 
-  let text = 'Cosmic Manifold';
+let text = 'Cosmic Manifold';
 </script>
 
 <Text bind:value={text} label="The Message" />

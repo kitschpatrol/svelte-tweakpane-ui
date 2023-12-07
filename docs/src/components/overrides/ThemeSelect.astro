@@ -21,22 +21,22 @@ const { BASE_URL } = import.meta.env;
 
 <style>
 	div {
-		border-inline-end: 1px solid var(--sl-color-gray-5);
 		display: none;
 		height: 2rem;
 		padding-inline-end: 1rem;
+		border-inline-end: 1px solid var(--sl-color-gray-5);
 	}
 
-	@media (min-width: 50rem) {
+	@media (width >= 50rem) {
 		div {
-			align-items: center;
 			display: flex;
+			align-items: center;
 		}
 	}
 
 	a {
-		color: var(--sl-color-text-accent);
 		font-weight: 600;
+		color: var(--sl-color-text-accent);
 		text-decoration: none;
 	}
 </style>

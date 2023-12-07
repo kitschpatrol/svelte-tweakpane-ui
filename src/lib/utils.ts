@@ -46,9 +46,9 @@ export type UnwrapCustomEvents<T> = {
  * For CLS SSR calculation
  */
 export function rowsForMonitor(
-	buffer: number | undefined = undefined,
-	rows: number | undefined = undefined,
-	graph: boolean | undefined = undefined
+	buffer?: number | undefined,
+	rows?: number | undefined,
+	graph?: boolean | undefined
 ) {
 	if (graph) {
 		return Math.max(rows ?? 3, 3);
@@ -70,7 +70,7 @@ export function rowsForMonitor(
  * Fills an array of length `quantity` with a `value`
  */
 export function fillWith<T>(value: T, quantity: number): T[] {
-	return [...Array(quantity).fill(value)];
+	return Array.from({ length: quantity }, () => value);
 }
 
 /**
@@ -100,7 +100,7 @@ export function enforceReadonly(
 	internal: unknown,
 	external: unknown,
 	componentName?: string,
-	propName?: string,
+	propertyName?: string,
 	allowAssignmentToUndefined?: boolean
 ) {
 	allowAssignmentToUndefined ??= false;
@@ -112,10 +112,10 @@ export function enforceReadonly(
 		)
 	) {
 		const componentString = componentName ? `<${componentName}> ` : '';
-		const propString = propName ? `property "${propName}" ` : '';
+		const propertyString = propertyName ? `property "${propertyName}" ` : '';
 
 		console.error(
-			`Svelte component ${componentString}property ${propString}is intended for readonly use.\nAssigning\n"${external}"\nto\n"${internal}"\nis not allowed.`
+			`Svelte component ${componentString}property ${propertyString}is intended for readonly use.\nAssigning\n"${external}"\nto\n"${internal}"\nis not allowed.`
 		);
 	}
 }
@@ -140,19 +140,19 @@ export function getElementIndex(element: HTMLElement): number {
 }
 
 // doesn't create a new object, only works with string keys
-export function removeKeys<T extends object>(obj: T, ...keys: string[]): T {
-	keys.forEach((key) => {
-		if (key in obj) {
-			delete obj[key as keyof T];
+export function removeKeys<T extends object>(object: T, ...keys: string[]): T {
+	for (const key of keys) {
+		if (key in object) {
+			delete object[key as keyof T];
 		}
-	});
-	return obj;
+	}
+	return object;
 }
 
-function clickBlocker(e: MouseEvent) {
+function clickBlocker(event: MouseEvent) {
 	// only block user clicks, not programmatic ones
-	console.log(e.detail);
-	if (e.isTrusted) e.stopPropagation();
+	console.log(event.detail);
+	if (event.isTrusted) event.stopPropagation();
 }
 
 // used by folder and pane TODO rewrite to use getSwatchButton etc.
@@ -163,11 +163,11 @@ export function updateCollapsibility(
 	iconClass?: string
 ) {
 	if (element) {
-		const titleBarElement = element.getElementsByClassName(titleBarClass)[0] as HTMLButtonElement;
+		const titleBarElement = element.querySelector(`.${titleBarClass}`) as HTMLButtonElement;
 
 		if (titleBarElement !== undefined) {
 			const iconElement = iconClass
-				? (element.getElementsByClassName(iconClass)[0] as HTMLDivElement)
+				? (element.querySelector(`.${iconClass}`) as HTMLDivElement)
 				: undefined;
 
 			if (isUserExpandableEnabled) {
@@ -232,35 +232,35 @@ export function tupleToObject<T extends string, O extends { [K in T]: number }>(
 ): O {
 	const result = {} as O;
 
-	keys.forEach((key, index) => {
+	for (const [index, key] of keys.entries()) {
 		// Assert that the assignment is safe
 		result[key as keyof O] = tuple[index] as O[keyof O];
-	});
+	}
 
 	return result;
 }
 
 export function objectToTuple<T extends string, O extends Record<T, number>>(
-	obj: O,
+	object: O,
 	keys: [T]
 ): [number];
 export function objectToTuple<T extends string, O extends Record<T, number>>(
-	obj: O,
+	object: O,
 	keys: [T, T]
 ): [number, number];
 export function objectToTuple<T extends string, O extends Record<T, number>>(
-	obj: O,
+	object: O,
 	keys: [T, T, T]
 ): [number, number, number];
 export function objectToTuple<T extends string, O extends Record<T, number>>(
-	obj: O,
+	object: O,
 	keys: [T, T, T, T]
 ): [number, number, number, number];
 export function objectToTuple<T extends string, O extends Record<T, number>>(
-	obj: O,
+	object: O,
 	keys: T[]
 ): number[] {
-	return keys.map((key) => obj[key]);
+	return keys.map((key) => object[key]);
 }
 
 // tweakpane  helpers

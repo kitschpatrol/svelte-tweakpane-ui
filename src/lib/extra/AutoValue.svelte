@@ -31,12 +31,12 @@ Plugin component behavior is not available in `<AutoValue>`.
 @example  
 ```svelte
 <script lang="ts">
-  import { AutoValue } from 'svelte-tweakpane-ui';
+import { AutoValue } from 'svelte-tweakpane-ui';
 
-  let number = 0;
-  let color = '#ff00ff';
-  let point = { x: 0, y: 0 };
-  let text = 'Cosmic manifold';
+let number = 0;
+let color = '#ff00ff';
+let point = { x: 0, y: 0 };
+let text = 'Cosmic manifold';
 </script>
 
 <AutoValue bind:value={number} label="Number" />

@@ -25,20 +25,20 @@
 	const showDebugBlocks = false;
 
 	function getRandomCssColor() {
-		return '#' + Math.floor(Math.random() * 16777215).toString(16);
+		return '#' + Math.floor(Math.random() * 16_777_215).toString(16);
 	}
 
 	function getPixelValue(s: string): number {
-		return parseFloat(s.replace('px', ''));
+		return Number.parseFloat(s.replace('px', ''));
 	}
 
 	function getTotal(add: typeof keysAdd, sub: typeof keysSubtract, extra: number = 0): number {
 		return (
-			add.reduce((acc, key) => {
-				return (acc += getPixelValue(getValueOrFallback(theme, key)));
+			add.reduce((accumulator, key) => {
+				return (accumulator += getPixelValue(getValueOrFallback(theme, key)));
 			}, 0) -
-			sub.reduce((acc, key) => {
-				return (acc += getPixelValue(getValueOrFallback(theme, key)));
+			sub.reduce((accumulator, key) => {
+				return (accumulator += getPixelValue(getValueOrFallback(theme, key)));
 			}, 0) +
 			extra
 		);

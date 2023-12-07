@@ -15,7 +15,7 @@
 	/*
 	 * Scale to apply to each grid item
 	 */
-	export let scale: number = 1.0;
+	export let scale: number = 1;
 
 	/*
 	 * Rotate individual grid items
@@ -84,10 +84,10 @@
 
 		const points = [];
 
-		for (let i = 0; i < xPoints; i++) {
-			for (let j = 0; j < yPoints; j++) {
-				points.push([gridLeft + i * sx, gridTop + j * sy]);
-				if (centers && j < yPoints - 1 && i < xPoints - 1) {
+		for (let index = 0; index < xPoints; index++) {
+			for (let index_ = 0; index_ < yPoints; index_++) {
+				points.push([gridLeft + index * sx, gridTop + index_ * sy]);
+				if (centers && index_ < yPoints - 1 && index < xPoints - 1) {
 					points.push([points.at(-1)![0] + sx / 2, points.at(-1)![1] + sy / 2]);
 				}
 			}
