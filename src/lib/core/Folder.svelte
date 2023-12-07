@@ -118,13 +118,13 @@ Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane 
 @example  
 ```svelte
 <script lang="ts">
-import { Button, Checkbox, Folder, Monitor } from 'svelte-tweakpane-ui';
+  import { Button, Checkbox, Folder, Monitor } from 'svelte-tweakpane-ui';
 
-let expanded = true;
-let count = 0;
+  let expanded = true;
+  let count = 0;
 </script>
 
-<Folder bind:expanded={expanded} title="Reticulation Management Folder">
+<Folder bind:expanded title="Reticulation Management Folder">
   <Button on:click={() => count++} title="Increment" />
   <Monitor value={count} label="Count" />
 </Folder>

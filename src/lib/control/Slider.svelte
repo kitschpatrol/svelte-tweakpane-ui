@@ -30,13 +30,13 @@ See the `<Interval>` component for a multi-handle range-defining slider.
 @example  
 ```svelte
 <script lang="ts">
-import { Slider } from 'svelte-tweakpane-ui';
+  import { Slider } from 'svelte-tweakpane-ui';
 
-let value = 0;
+  let value = 0;
 </script>
 
 <Slider
-  bind:value={value}
+  bind:value
   min={-1}
   max={1}
   format={(v) => v.toFixed(2)}

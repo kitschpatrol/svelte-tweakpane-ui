@@ -117,37 +117,37 @@ updates. Consider managing the lifecycle of this component with care until this 
 @example  
 ```svelte
 <script lang="ts">
-import {
-  CubicBezier,
-  type CubicBezierValue,
-  RadioGrid,
-  Slider,
-  Utils
-} from 'svelte-tweakpane-ui';
-import { tweened } from 'svelte/motion';
+  import {
+    CubicBezier,
+    type CubicBezierValue,
+    RadioGrid,
+    Slider,
+    Utils
+  } from 'svelte-tweakpane-ui';
+  import { tweened } from 'svelte/motion';
 
-// could also be a tuple
-let value: CubicBezierValue = { x1: 0.25, y1: 0.1, x2: 0.25, y2: 1 };
-let duration = 1000;
-let moods = ['Set', 'Rise'];
-let mood: string = moods[0];
+  // could also be a tuple
+  let value: CubicBezierValue = { x1: 0.25, y1: 0.1, x2: 0.25, y2: 1 };
+  let duration = 1000;
+  let moods = ['Set', 'Rise'];
+  let mood: string = moods[0];
 
-const positionTween = tweened(0);
+  const positionTween = tweened(0);
 
-function lerp(value: number, low: number, high: number): number {
-  return (1 - value) * low + value * high;
-}
+  function lerp(value: number, low: number, high: number): number {
+    return (1 - value) * low + value * high;
+  }
 
-$: positionTween.set(mood === 'Set' ? 0 : 1, {
-  duration,
-  easing: Utils.cubicBezierToEaseFunction(value)
-});
+  $: positionTween.set(mood === 'Set' ? 0 : 1, {
+    duration,
+    easing: Utils.cubicBezierToEaseFunction(value)
+  });
 
-$: celestialHeight = lerp($positionTween, 20, 80);
-$: twilightAmount = lerp($positionTween, 20, -80);
+  $: celestialHeight = lerp($positionTween, 20, 80);
+  $: twilightAmount = lerp($positionTween, 20, -80);
 </script>
 
-<CubicBezier bind:value={value} expanded={true} picker="inline" />
+<CubicBezier bind:value expanded={true} picker="inline" />
 <Slider
   bind:value={duration}
   min={0}
@@ -162,25 +162,25 @@ $: twilightAmount = lerp($positionTween, 20, -80);
 </div>
 
 <style>
-.demo {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 1;
-  width: 100%;
-  background: linear-gradient(to top, orange var(--a), magenta 100%);
-}
+  .demo {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1;
+    width: 100%;
+    background: linear-gradient(to top, orange var(--a), magenta 100%);
+  }
 
-.celestial-object {
-  position: absolute;
-  bottom: var(--t);
-  left: 50%;
-  transform-origin: center;
-  transform: translate(-50%, 50%);
-  aspect-ratio: 1;
-  width: 20%;
-  background-color: yellow;
-  border-radius: 50%;
-}
+  .celestial-object {
+    position: absolute;
+    bottom: var(--t);
+    left: 50%;
+    transform-origin: center;
+    transform: translate(-50%, 50%);
+    aspect-ratio: 1;
+    width: 20%;
+    background-color: yellow;
+    border-radius: 50%;
+  }
 </style>
 ```
 

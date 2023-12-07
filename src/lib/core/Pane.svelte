@@ -132,17 +132,13 @@ Position mode overview:
 @example  
 ```svelte
 <script lang="ts">
-import { Pane, type PanePosition, RadioGrid } from 'svelte-tweakpane-ui';
+  import { Pane, type PanePosition, RadioGrid } from 'svelte-tweakpane-ui';
 
-const options: PanePosition[] = ['inline', 'fixed', 'draggable'];
-let position: PanePosition = options[0];
+  const options: PanePosition[] = ['inline', 'fixed', 'draggable'];
+  let position: PanePosition = options[0];
 </script>
 
-<Pane
-  position={position}
-  title="Pane"
-  y={position === 'inline' ? undefined : 110}
->
+<Pane {position} title="Pane" y={position === 'inline' ? undefined : 110}>
   <RadioGrid
     bind:value={position}
     columns={1}
@@ -157,12 +153,12 @@ let position: PanePosition = options[0];
 {/if}
 
 <style>
-p {
-  display: grid;
-  place-content: center;
-  width: 100%;
-  height: 96px;
-}
+  p {
+    display: grid;
+    place-content: center;
+    width: 100%;
+    height: 96px;
+  }
 </style>
 ```
 

@@ -93,37 +93,37 @@ Plugin component behavior is not available in `<AutoObject>`.
 @example  
 ```svelte
 <script lang="ts">
-import { AutoObject } from 'svelte-tweakpane-ui';
+  import { AutoObject } from 'svelte-tweakpane-ui';
 
-let object = {
-  // Creates a <Checkbox>
-  someBoolean: true,
-  // Creates a <Color> picker
-  someColor: {
-    r: 255,
-    g: 0,
+  let object = {
+    // Creates a <Checkbox>
+    someBoolean: true,
+    // Creates a <Color> picker
+    someColor: {
+      r: 255,
+      g: 0,
 
-    b: 55
-  },
-  // Wraps children in a <Folder>
-  someFolder: {
-    b: 2,
-    a: 1,
-    c: 3
-  },
-  // Creates a <Slider>
-  someNumber: 1,
-  // creates a <Point>
-  somePoint: {
-    x: 1,
-    y: 2
-  },
-  // Creates a <Text>
-  someString: 'test'
-};
+      b: 55
+    },
+    // Wraps children in a <Folder>
+    someFolder: {
+      b: 2,
+      a: 1,
+      c: 3
+    },
+    // Creates a <Slider>
+    someNumber: 1,
+    // creates a <Point>
+    somePoint: {
+      x: 1,
+      y: 2
+    },
+    // Creates a <Text>
+    someString: 'test'
+  };
 </script>
 
-<AutoObject bind:object={object} />
+<AutoObject bind:object />
 
 <pre>{JSON.stringify(object, null, 2)}</pre>
 ```

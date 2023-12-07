@@ -94,10 +94,10 @@ case the `<Element>` will be implicitly wrapped in `<Pane position='inline'>`.
 @example  
 ```svelte
 <script lang="ts">
-import { Button, Element, Pane, Wheel } from 'svelte-tweakpane-ui';
+  import { Button, Element, Pane, Wheel } from 'svelte-tweakpane-ui';
 
-let gradientAngle = 45;
-let textAngle = 0;
+  let gradientAngle = 45;
+  let textAngle = 0;
 </script>
 
 <Pane position="inline" title="Element Demo">
@@ -135,24 +135,24 @@ let textAngle = 0;
 </Pane>
 
 <style>
-.demo {
-  display: grid;
-  place-content: center;
-  aspect-ratio: 1;
-  width: 100%;
-  background: linear-gradient(var(--a), orange, magenta);
-}
+  .demo {
+    display: grid;
+    place-content: center;
+    aspect-ratio: 1;
+    width: 100%;
+    background: linear-gradient(var(--a), orange, magenta);
+  }
 
-.demo > p {
-  font-family: sans-serif;
-  font-size: 1rem;
-  color: white;
-  text-align: center;
-}
+  .demo > p {
+    font-family: sans-serif;
+    font-size: 1rem;
+    color: white;
+    text-align: center;
+  }
 
-.demo > p > code {
-  color: white;
-}
+  .demo > p > code {
+    color: white;
+  }
 </style>
 ```
 

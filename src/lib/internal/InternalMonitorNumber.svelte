@@ -92,15 +92,15 @@ position='inline'>` component.
 @example  
 ```svelte
 <script lang="ts">
-import { InternalMonitorNumber } from 'svelte-tweakpane-ui';
+  import { InternalMonitorNumber } from 'svelte-tweakpane-ui';
 
-let numberToMonitor = 0;
-let t = 0;
+  let numberToMonitor = 0;
+  let t = 0;
 
-setInterval(() => {
-  numberToMonitor = Math.sin(t);
-  t += 0.3;
-}, 100);
+  setInterval(() => {
+    numberToMonitor = Math.sin(t);
+    t += 0.3;
+  }, 100);
 </script>
 
 <InternalMonitorNumber value={numberToMonitor} min={-1} max={1} graph={true} />

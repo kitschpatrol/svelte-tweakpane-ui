@@ -78,15 +78,15 @@ position='inline'>`.
 @example  
 ```svelte
 <script lang="ts">
-import { WaveformMonitor } from 'svelte-tweakpane-ui';
+  import { WaveformMonitor } from 'svelte-tweakpane-ui';
 
-let waveData = [5, 6, 7, 8, 9, 3, 9, 8, 7, 6, 5];
+  let waveData = [5, 6, 7, 8, 9, 3, 9, 8, 7, 6, 5];
 
-setInterval(() => {
-  waveData = waveData.map((v) =>
-    Math.max(0, Math.min(10, v + (Math.random() * 2 - 1) * 0.5))
-  );
-}, 10);
+  setInterval(() => {
+    waveData = waveData.map((v) =>
+      Math.max(0, Math.min(10, v + (Math.random() * 2 - 1) * 0.5))
+    );
+  }, 10);
 </script>
 
 <WaveformMonitor value={waveData} min={-1} max={11} lineStyle={'bezier'} />

@@ -70,10 +70,10 @@ position='inline'>`.
 @example  
 ```svelte
 <script lang="ts">
-import { Button, Image } from 'svelte-tweakpane-ui';
+  import { Button, Image } from 'svelte-tweakpane-ui';
 
-let source = 'placeholder';
-let kittenIndex = 1;
+  let source = 'placeholder';
+  let kittenIndex = 1;
 </script>
 
 <Image bind:value={source} fit="contain" label="Image" />
@@ -95,25 +95,25 @@ let kittenIndex = 1;
 </div>
 
 <style>
-div.demo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 1;
-  width: 100%;
-  background: linear-gradient(magenta, orange);
-}
+  div.demo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    width: 100%;
+    background: linear-gradient(magenta, orange);
+  }
 
-div.demo > img {
-  max-width: 80%;
-  max-height: 80%;
-}
+  div.demo > img {
+    max-width: 80%;
+    max-height: 80%;
+  }
 
-div.demo > p {
-  max-width: 50%;
-  color: white;
-  text-align: center;
-}
+  div.demo > p {
+    max-width: 50%;
+    color: white;
+    text-align: center;
+  }
 </style>
 ```
 

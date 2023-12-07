@@ -2,10 +2,10 @@
 import { query as tsquery } from '@phenomnomnominal/tsquery';
 import { ESLint } from 'eslint';
 import { globSync } from 'glob';
+import { spawn } from 'node:child_process';
 import { exec } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
-import { format as prettierFormat, resolveConfig } from 'prettier';
 // import stylelint from 'stylelint';
 import { svelte2tsx } from 'svelte2tsx';
 import {
@@ -305,18 +305,50 @@ async function lintStyle(code: string, fileExtension: string): Promise<string> {
 }
 
 export async function format(code: string, formatParser: string): Promise<string> {
-	// Resolve Prettier config for a given file path
-	const config = await resolveConfig('.');
+	// much slower than the node api, but more consistently gets the right config
+	return new Promise((resolve, reject) => {
+		// Spawn Prettier process
+		const prettierProcess = spawn('prettier', [
+			'--plugin',
+			'prettier-plugin-svelte',
+			'--parser',
+			formatParser,
+			'--print-width',
+			'80',
+			'--use-tabs',
+			'false'
+		]);
 
-	if (!config) {
-		console.warn('No Prettier config file found, using default configuration.');
-	}
+		let formattedCode = '';
+		let errorOutput = '';
 
-	return await prettierFormat(code, {
-		...config,
-		parser: formatParser,
-		printWidth: 80, // shorter than usual for display on the web
-		useTabs: false // spaces are better for code blocks
+		// Collect formatted code
+		prettierProcess.stdout.on('data', (data) => {
+			formattedCode += data.toString();
+		});
+
+		// Collect error messages
+		prettierProcess.stderr.on('data', (data) => {
+			errorOutput += data.toString();
+		});
+
+		// Handle process completion
+		prettierProcess.on('close', (code) => {
+			if (code === 0) {
+				resolve(formattedCode);
+			} else {
+				reject(new Error(`Prettier exited with code ${code}: ${errorOutput}`));
+			}
+		});
+
+		// Handle process errors (e.g., Prettier not found)
+		prettierProcess.on('error', (error) => {
+			reject(error);
+		});
+
+		// Write code to Prettier process and end input
+		prettierProcess.stdin.write(code);
+		prettierProcess.stdin.end();
 	});
 }
 

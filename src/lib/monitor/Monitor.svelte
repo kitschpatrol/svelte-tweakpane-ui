@@ -76,20 +76,20 @@ position='inline'>` component.
 @example  
 ```svelte
 <script lang="ts">
-import { Monitor } from 'svelte-tweakpane-ui';
+  import { Monitor } from 'svelte-tweakpane-ui';
 
-let booleanToMonitor = false;
-let stringToMonitor = 'Reticulating';
-let numberToMonitor = 85;
+  let booleanToMonitor = false;
+  let stringToMonitor = 'Reticulating';
+  let numberToMonitor = 85;
 
-setInterval(() => {
-  numberToMonitor = Math.random() * 100;
-}, 100);
+  setInterval(() => {
+    numberToMonitor = Math.random() * 100;
+  }, 100);
 
-setInterval(() => {
-  booleanToMonitor = !booleanToMonitor;
-  stringToMonitor = [...stringToMonitor].reverse().join('');
-}, 1000);
+  setInterval(() => {
+    booleanToMonitor = !booleanToMonitor;
+    stringToMonitor = [...stringToMonitor].reverse().join('');
+  }, 1000);
 </script>
 
 <Monitor value={numberToMonitor} graph={true} />

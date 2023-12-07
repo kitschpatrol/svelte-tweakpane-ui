@@ -95,15 +95,15 @@ Usage outside of a `<Pane>` component will implicitly wrap the ring in `<Pane po
 @example  
 ```svelte
 <script lang="ts">
-import { Ring, type RingUnit } from 'svelte-tweakpane-ui';
+  import { Ring, type RingUnit } from 'svelte-tweakpane-ui';
 
-let unitConfig: RingUnit = {
-  value: 20,
-  pixels: 40,
-  ticks: 5
-};
+  let unitConfig: RingUnit = {
+    value: 20,
+    pixels: 40,
+    ticks: 5
+  };
 
-let angle = 45;
+  let angle = 45;
 </script>
 
 <Ring
@@ -117,11 +117,11 @@ let angle = 45;
 <div class="demo" style:--a="{angle}deg" />
 
 <style>
-div.demo {
-  aspect-ratio: 1;
-  width: 100%;
-  background: linear-gradient(var(--a), magenta, orange);
-}
+  div.demo {
+    aspect-ratio: 1;
+    width: 100%;
+    background: linear-gradient(var(--a), magenta, orange);
+  }
 </style>
 ```
 

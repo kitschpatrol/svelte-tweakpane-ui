@@ -138,29 +138,31 @@ position='inline'>`.
 @example  
 ```svelte
 <script lang="ts">
-import {
-  Button,
-  ButtonGrid,
-  type ButtonGridClickEvent,
-  Pane
-} from 'svelte-tweakpane-ui';
+  import {
+    Button,
+    ButtonGrid,
+    type ButtonGridClickEvent,
+    Pane
+  } from 'svelte-tweakpane-ui';
 
-const keyboard = [
-  ...Array.from({ length: 26 }, (_, index) => String.fromCodePoint(65 + index)),
-  ',',
-  '.',
-  '!',
-  '⌫'
-];
+  const keyboard = [
+    ...Array.from({ length: 26 }, (_, index) =>
+      String.fromCodePoint(65 + index)
+    ),
+    ',',
+    '.',
+    '!',
+    '⌫'
+  ];
 
-let textBuffer = '';
+  let textBuffer = '';
 
-function handleClick(event: ButtonGridClickEvent) {
-  textBuffer =
-    event.detail.label === '⌫'
-      ? textBuffer.slice(0, -1)
-      : textBuffer + event.detail.label;
-}
+  function handleClick(event: ButtonGridClickEvent) {
+    textBuffer =
+      event.detail.label === '⌫'
+        ? textBuffer.slice(0, -1)
+        : textBuffer + event.detail.label;
+  }
 </script>
 
 <Pane position="inline" title="Austerity Keyboard">
@@ -173,27 +175,27 @@ function handleClick(event: ButtonGridClickEvent) {
 </div>
 
 <style>
-.demo {
-  aspect-ratio: 1;
-  width: 100%;
-  background: linear-gradient(45deg, orange, magenta);
-}
+  .demo {
+    aspect-ratio: 1;
+    width: 100%;
+    background: linear-gradient(45deg, orange, magenta);
+  }
 
-.demo > p {
-  margin: 0;
-  padding: 0.5rem;
-  font-family: monospace;
-  font-size: 2rem;
-  line-height: 1.2;
-  color: white;
-  word-break: break-all;
-  white-space: pre-wrap;
-}
+  .demo > p {
+    margin: 0;
+    padding: 0.5rem;
+    font-family: monospace;
+    font-size: 2rem;
+    line-height: 1.2;
+    color: white;
+    word-break: break-all;
+    white-space: pre-wrap;
+  }
 
-.demo > p::after {
-  content: '_';
-  opacity: 0.5;
-}
+  .demo > p::after {
+    content: '_';
+    opacity: 0.5;
+  }
 </style>
 ```
 

@@ -34,7 +34,7 @@ position='inline'>`.
 @example  
 ```svelte
 <script lang="ts">
-import { Button, Separator } from 'svelte-tweakpane-ui';
+  import { Button, Separator } from 'svelte-tweakpane-ui';
 </script>
 
 <Button title="Oil" />
