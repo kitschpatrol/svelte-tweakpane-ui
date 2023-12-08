@@ -520,6 +520,11 @@ draggable-container"
 	/* stylelint-disable-next-line selector-class-pattern */
 	div.draggable-container :global(div.tp-rotv_t) {
 		cursor: grab;
+		overflow: hidden;
+		/* Ensure draggable hit zone does not collapse if title is missing */
+		/* Fixes #1 */
+		height: 100%;
+		text-overflow: ellipsis;
 	}
 
 	div.draggable-container.not-collapsable :global(div.tp-rotv_t) {
