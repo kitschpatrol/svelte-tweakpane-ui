@@ -14,15 +14,17 @@ A handful of additional features have been implemented in the Svelte layer of th
   Your browser does not support the video tag.
 </video>
 
-With a single prop, you can make a `<Pane>` draggable and resizable. Position and size are persisted in local storage. (This is the default behavior for new `<Pane>`s.)
+With a single prop, you can make a `<Pane>` draggable and resizable. Position and size are persisted in local storage. (This is the default behavior for `<Pane>` components.)
 
 What a time to be alive.
+
+Pains were taken during development of this feature to ensure that draggable components behave appropriately on touch devices. It's true that Tweakpane's hit-zones are decidedly "mouse-first", but the [`scale`](/svelte-tweakpane-ui/docs/components/pane#scale) property on `<Pane>` can be used to make things more touch-friendly.
 
 ### Inline components
 
 You can make a `<Pane>` appear inline with the rest of your content. (This is the default for standalone components.)
 
-### Additional Value Types
+### Additional value types
 
 In several places, additional value types are transparently supported.
 

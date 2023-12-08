@@ -27,8 +27,7 @@
     "**/*.svelte",
     "**/.prettierignore",
     "**/.npmrc",
-    "**/.eslintignore",
-    "**/.sh"
+    "**/.eslintignore"
   ],
   "stylelint.validate": ["css", "html", "svelte", "astro"],
   "[shellscript]": {

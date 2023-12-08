@@ -62,8 +62,8 @@ pane
     label: 'cubicbezier',
     picker: 'inline'
   })
-  .on('change', (ev) => {
-    console.log(ev);
+  .on('change', (event) => {
+    console.log(event);
   });
 ```
 
@@ -83,13 +83,15 @@ The result should be the same:
 
 The following plugins are included with _Svelte Tweakpane UI_, and are ready to use out of the box:
 
-- [CameraKit](https://github.com/tweakpane/plugin-camerakit) `<Ring>`, `<Wheel>`
-- [Essentials](https://github.com/tweakpane/plugin-essentials) `<ButtonGrid>`, `<RadioGrid>`, `<CubicBezier>`, `<FpsGraph>`, `<IntervalSlider>`
-- [Image](https://github.com/kitschpatrol/tweakpane-image-plugin) `<Image>` _(forked from [ayamflow](https://github.com/ayamflow/tweakpane-image-plugin), [metehus](https://github.com/metehus/tweakpane-image-plugin), and [repalash](https://github.com/repalash/tweakpane-image-plugin) and ported to v4)\*_
-- [Profiler](https://github.com/0b5vr/tweakpane-plugin-profiler) `<Profiler>`
-- [Rotation](https://github.com/0b5vr/tweakpane-plugin-rotation) `<RotationQuaternion>`, `<RotationEuler>`
-- [Textarea](https://github.com/kitschpatrol/tweakpane-textarea-plugin) `<Textarea>` _(forked from [panGenerator](https://github.com/panGenerator/tweakpane-textarea-plugin) and ported to v4)\*_
-- [Waveform](https://github.com/kitschpatrol/tweakpane-plugin-waveform) `<WaveformMonitor>`
+| Plugin                                                                | Components                                                                                                                                                                                                                                    |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [CameraKit](https://github.com/tweakpane/plugin-camerakit)            | `<Ring>`, `<Wheel>`                                                                                                                                                                                                                           |
+| [Essentials](https://github.com/tweakpane/plugin-essentials)          | `<ButtonGrid>`, `<RadioGrid>`, `<CubicBezier>`, `<FpsGraph>`, `<IntervalSlider>`                                                                                                                                                              |
+| [Image](https://github.com/kitschpatrol/tweakpane-image-plugin)       | `<Image>` _(forked from [ayamflow](https://github.com/ayamflow/tweakpane-image-plugin), [metehus](https://github.com/metehus/tweakpane-image-plugin), and [repalash](https://github.com/repalash/tweakpane-image-plugin) and ported to v4)\*_ |
+| [Profiler](https://github.com/0b5vr/tweakpane-plugin-profiler)        | `<Profiler>`                                                                                                                                                                                                                                  |
+| [Rotation](https://github.com/0b5vr/tweakpane-plugin-rotation)        | `<RotationQuaternion>`, `<RotationEuler>`                                                                                                                                                                                                     |
+| [Textarea](https://github.com/kitschpatrol/tweakpane-textarea-plugin) | `<Textarea>` _(forked from [panGenerator](https://github.com/panGenerator/tweakpane-textarea-plugin) and ported to v4)\*_                                                                                                                     |
+| [Waveform](https://github.com/kitschpatrol/tweakpane-plugin-waveform) | `<WaveformMonitor>`                                                                                                                                                                                                                           |
 
 \*_Tweakpane version 4 is a relatively recent release, and it introduced a number of breaking changes for plugin developers. I've ported the asterisked plugins above from Tweakpane 3 to Tweakpane 4, and and submitted PRs to the project owners. As soon as the PRs are merged, I will update the dependencies in Svelte Tweakpane UI to point to the source instead of my fork._
 

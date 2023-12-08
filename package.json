@@ -201,13 +201,13 @@
     "docs-dev": "pnpm -C ./docs run dev",
     "docs-preview": "pnpm -C ./docs run preview",
     "format": "run-s --print-label format:*",
-    "format:1-shared": "shared-config-fix",
+    "format:1-shared": "shared-config --fix",
     "format:2-embedded": "tsx ./scripts/format-embedded-code.ts",
     "kit-build": "pnpm run kit-examples && vite build",
     "kit-dev": " pnpm run kit-examples && vite dev",
     "kit-examples": "tsx ./scripts/generate-kit-examples.ts",
     "kit-preview": "vite preview",
-    "lint": "shared-config-lint",
+    "lint": "shared-config --check",
     "prepublishOnly": "pnpm run build",
     "rewrap": "rewrap -i --column 100 `find src \\( -name '*.svelte' -o -name '*.ts'  -o -name '*.html' \\) -type f | grep -v src/examples`",
     "type-check": "tsc --noEmit"
@@ -230,7 +230,7 @@
     "tweakpane-plugin-waveform": "^1.0.0"
   },
   "devDependencies": {
-    "@kitschpatrol/shared-config": "^1.0.2",
+    "@kitschpatrol/shared-config": "^2.0.1",
     "@phenomnomnominal/tsquery": "^6.1.3",
     "@stkb/rewrap": "^0.1.0",
     "@sveltejs/adapter-static": "^2.0.3",
