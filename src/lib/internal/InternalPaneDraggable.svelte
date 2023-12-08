@@ -385,7 +385,6 @@
 		children: BladeApi[],
 		maxToCollapse: number = Number.MAX_SAFE_INTEGER
 	) {
-		console.log(maxToCollapse);
 		if (maxToCollapse > 0) {
 			for (const child of children) {
 				if ('expanded' in child) {
