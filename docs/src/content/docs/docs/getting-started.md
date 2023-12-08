@@ -43,7 +43,7 @@ The Svelte project wizard will then grill you with a bunch of questions. The fol
 
 > Which Svelte app template?
 >
-> - [x] Skeleton projects
+> - [x] Skeleton project
 >
 > Add type checking with TypeScript?
 >
