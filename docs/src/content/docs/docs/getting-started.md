@@ -113,4 +113,4 @@ You'll notice a few things right away if you're familiar with Tweakpane:
 
 - _**Looks pretty straightforward, there's nothing weird about the `on:click` syntax...**_
 
-  Exactly, _Svelte Tweakpane UI_ components are designed to leverage as many Svelte conventions as possible. Behind the scenes, the lifecycle and event listeners of the underlying "vanilla JS" Tweakpane components are managed for you.
+  Exactly, _Svelte Tweakpane UI_ components are designed to leverage as many Svelte conventions as possible. Behind the scenes, the lifecycle and event listeners of the underlying vanilla JS Tweakpane components are managed for you.
