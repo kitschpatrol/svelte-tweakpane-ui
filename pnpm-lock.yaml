@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   '@astrojs/starlight@0.15.0':
-    hash: fnkrna7p2gttul7ix3dqtbctbm
+    hash: wknx5gwk2ffwtqbvv37h5rbmuq
     path: patches/@astrojs__starlight@0.15.0.patch
 
 importers:
@@ -130,7 +130,7 @@ importers:
         version: 0.3.1(prettier@3.1.0)(typescript@5.3.3)
       '@astrojs/starlight':
         specifier: ^0.15.0
-        version: 0.15.0(patch_hash=fnkrna7p2gttul7ix3dqtbctbm)(astro@4.0.3)
+        version: 0.15.0(patch_hash=wknx5gwk2ffwtqbvv37h5rbmuq)(astro@4.0.3)
       '@astrojs/svelte':
         specifier: ^5.0.0
         version: 5.0.0(astro@4.0.3)(svelte@4.2.8)(typescript@5.3.3)(vite@5.0.7)
@@ -320,7 +320,7 @@ packages:
       zod: 3.22.4
     dev: false
 
-  /@astrojs/starlight@0.15.0(patch_hash=fnkrna7p2gttul7ix3dqtbctbm)(astro@4.0.3):
+  /@astrojs/starlight@0.15.0(patch_hash=wknx5gwk2ffwtqbvv37h5rbmuq)(astro@4.0.3):
     resolution: {integrity: sha512-epLRrGP9+5gIP/ZXeRtkY/tA00yzY8iBBqYRGxkoj44fokCiDg+iKCnE9BXooAK08ELyizD8nwenUmVzDTDRXA==}
     peerDependencies:
       astro: ^4.0.0

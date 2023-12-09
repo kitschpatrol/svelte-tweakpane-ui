@@ -308,6 +308,31 @@ diff --git a/components/TableOfContents/TableOfContentsList.astro b/components/T
 similarity index 100%
 rename from components/TableOfContents/TableOfContentsList.astro
 rename to components/TableOfContentsList.astro
+diff --git a/components/ThemeSelect.astro b/components/ThemeSelect.astro
+index de88627d2d6c556a1bc20e293463950537314ae8..31fcb7be9e9cb3fb295d7ddc20861d3296ddd500 100644
+--- a/components/ThemeSelect.astro
++++ b/components/ThemeSelect.astro
+@@ -40,6 +40,20 @@ const { labels } = Astro.props;
+ 				select.addEventListener('change', (e) => {
+ 					if (e.currentTarget instanceof HTMLSelectElement) {
+ 						this.#onThemeChange(this.#parseTheme(e.currentTarget.value));
++
++						// Fix for safari not redrawing the scroll bar until hover
++						// or a page refresh. Causes slight momentary layour shift,
++						// but that's less offensive than the wrong-color scrollbar.
++						const htmlElement = document.querySelector("html");
++						if (htmlElement) {
++							const initialOverflowY = window.getComputedStyle(htmlElement).overflowY;
++							requestAnimationFrame(() => {
++								document.documentElement.style.overflowY = "hidden";
++								requestAnimationFrame(() => {
++									document.documentElement.style.overflowY = initialOverflowY;
++								});
++							});
++						}
+ 					}
+ 				});
+ 			}
 diff --git a/utils/path.ts b/utils/path.ts
 index 68b1f5c2b7ac83f3a0927635e2a39065d3d7818c..58b4a14edecceccf59e3095b353a74957e3899c6 100644
 --- a/utils/path.ts
