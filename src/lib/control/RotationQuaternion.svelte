@@ -18,7 +18,7 @@
 <script lang="ts">
 	import * as pluginModule from '@0b5vr/tweakpane-plugin-rotation';
 	import type { RotationInputPluginQuaternionParams as RotationQuaternionOptionsInternal } from '@0b5vr/tweakpane-plugin-rotation/dist/types/RotationInputPluginQuaternionParams';
-	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d'; // note name collision with options params
+	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d'; // Note name collision with options params
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import { BROWSER } from 'esm-env';
@@ -71,22 +71,22 @@
 		optionsW?: RotationQuaternionOptions;
 	};
 
-	// unique
+	// Unique
 	export let value: $$Props['value'];
 	export let optionsX: $$Props['optionsX'] = undefined;
 	export let optionsY: $$Props['optionsY'] = undefined;
 	export let optionsZ: $$Props['optionsZ'] = undefined;
 	export let optionsW: $$Props['optionsW'] = undefined;
 
-	// reexport for binding
+	// Reexport for binding
 	export let expanded: $$Props['expanded'] = undefined;
 
 	let options: RotationQuaternionOptionsInternal;
 
-	// proxy value since Tweakpane only supports Point4dObject type
+	// Proxy value since Tweakpane only supports Point4dObject type
 	let internalValue: Point4dObject;
 
-	// work-around for funky folding
+	// Work-around for funky folding
 	const buttonClass = 'tp-rotationswatchv_b';
 
 	function updateInternalValue() {

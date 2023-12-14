@@ -9,6 +9,7 @@
 			time = Date.now() / 1000;
 			requestAnimationFrame(tick);
 		}
+
 		requestAnimationFrame(tick);
 	});
 

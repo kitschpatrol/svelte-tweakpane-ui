@@ -8,7 +8,7 @@
 		SeparatorBladeParams as SeparatorOptions
 	} from 'tweakpane';
 
-	// note stacking multiple separators breaks SSR?
+	// Note stacking multiple separators breaks SSR?
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = Omit<

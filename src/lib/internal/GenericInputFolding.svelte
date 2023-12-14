@@ -1,8 +1,8 @@
 <script context="module" lang="ts">
 	import type { GenericInputOptions, GenericInputRef } from '$lib/internal/GenericInput.svelte';
-	// can't find picker options in the type definitions
-	export type GenericInputFoldingOptions = GenericInputOptions & { expanded?: boolean }; // technically not shared, but useful
-	export type GenericInputFoldingRef = GenericInputRef; // no changes for now?
+	// Can't find picker options in the type definitions
+	export type GenericInputFoldingOptions = GenericInputOptions & { expanded?: boolean }; // Technically not shared, but useful
+	export type GenericInputFoldingRef = GenericInputRef; // No changes for now?
 </script>
 
 <script
@@ -30,7 +30,7 @@
 		 * The style of value "picker" to use in the input.
 		 * @default `'popup'`
 		 */
-		picker?: 'inline' | 'popup'; // technically not guaranteed, but advantages to assuming it's there for coherent userExpandable behavior
+		picker?: 'inline' | 'popup'; // Technically not guaranteed, but advantages to assuming it's there for coherent userExpandable behavior
 		/**
 		 * Allow users to interactively expand / contract the picker.
 		 * @default `true`
@@ -38,12 +38,12 @@
 		userExpandable?: boolean;
 	};
 
-	// reexport for bindability
+	// Reexport for bindability
 	export let value: $$Props['value'];
 	export let ref: $$Props['ref'] = undefined;
 	export let options: $$Props['options'] = undefined;
 
-	// unique props
+	// Unique props
 	export let userExpandable: $$Props['userExpandable'] = true;
 	export let expanded: $$Props['expanded'] = false;
 	export let buttonClass: $$Props['buttonClass'] = '';
@@ -51,7 +51,7 @@
 
 	let optionsInternal: GenericInputFoldingOptions;
 
-	// can't be right, but no 'fold' event or 'expanded' value seems to be available, and setting /
+	// Can't be right, but no 'fold' event or 'expanded' value seems to be available, and setting /
 	// reading directly from the ref doesn't seem to work
 	let gotBinding = false;
 	const initialExpanded = expanded;
@@ -60,7 +60,7 @@
 	$: if (!gotBinding && ref) {
 		gotBinding = true;
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unnecessary-type-assertion
 		(ref.controller as any)?.valueController?.foldable_
 			?.value('expanded')
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -72,17 +72,17 @@
 
 	$: optionsInternal = {
 		...options,
-		expanded: initialExpanded, // only set once
+		expanded: initialExpanded, // Only set once
 		picker
 	};
 
-	// click instead of setting expanded to avoid  animation jankiness
+	// Click instead of setting expanded to avoid  animation jankiness
 	$: ref && buttonClass && updateCollapsibility(userExpandable ?? true, ref.element, buttonClass);
 	$: ref &&
 		buttonClass &&
 		expanded !== internalExpanded &&
-		ref.element.querySelectorAll(`.${buttonClass}`).length > 0 &&
-		(ref.element.querySelector(`.${buttonClass}`) as HTMLButtonElement).click();
+		ref.element.querySelectorAll<HTMLButtonElement>(`.${buttonClass}`).length > 0 &&
+		ref.element.querySelector<HTMLButtonElement>(`.${buttonClass}`)?.click();
 </script>
 
 <!--

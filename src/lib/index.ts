@@ -1,4 +1,4 @@
-// components
+// Components
 
 // essentials (1st party plugins)
 export { type ButtonGridClickEvent, default as ButtonGrid } from '$lib/control/ButtonGrid.svelte';
@@ -18,7 +18,7 @@ export {
 	type CubicBezierValueTuple,
 	default as CubicBezier
 } from '$lib/control/CubicBezier.svelte';
-// additional plugins (3rd party / community)
+// Additional plugins (3rd party / community)
 export { type ImageValue, default as Image } from '$lib/control/Image.svelte';
 export {
 	type IntervalSliderValue,
@@ -48,7 +48,7 @@ export {
 	default as Point
 } from '$lib/control/Point.svelte';
 export { default as RadioGrid } from '$lib/control/RadioGrid.svelte';
-// camerakit (1st party plugins)
+// Camerakit (1st party plugins)
 export { type RingSeries, type RingUnit, default as Ring } from '$lib/control/Ring.svelte';
 export {
 	type RotationEulerOptions,
@@ -70,7 +70,7 @@ export { default as Slider } from '$lib/control/Slider.svelte';
 export { default as Text } from '$lib/control/Text.svelte';
 export { default as Textarea } from '$lib/control/Textarea.svelte';
 export { default as Wheel } from '$lib/control/Wheel.svelte';
-// core (tweakpane building blocks)
+// Core (tweakpane building blocks)
 export { type BindingOptions, type BindingRef, default as Binding } from '$lib/core/Binding.svelte';
 export { type BladeOptions, type BladeRef, default as Blade } from '$lib/core/Blade.svelte';
 
@@ -81,7 +81,7 @@ export { default as Separator } from '$lib/core/Separator.svelte';
 export { default as TabGroup } from '$lib/core/TabGroup.svelte';
 export { default as TabPage } from '$lib/core/TabPage.svelte';
 
-// extra (svelte convenience components)
+// Extra (svelte convenience components)
 export { default as AutoObject } from '$lib/extra/AutoObject.svelte';
 export { default as AutoValue } from '$lib/extra/AutoValue.svelte';
 export { default as Element } from '$lib/extra/Element.svelte';
@@ -99,12 +99,12 @@ export {
 	default as WaveformMonitor
 } from '$lib/monitor/WaveformMonitor.svelte';
 
-// themes export default can still leak "internal" theme stuff, but worth it for simple file
+// Themes export default can still leak "internal" theme stuff, but worth it for simple file
 // structure at the moment
 export type { Theme, ThemeColorValue } from '$lib/theme.js';
 export { default as ThemeUtils } from '$lib/theme.js';
 
-// utilities export default can still leak "internal" theme stuff, but worth it for simple file
+// Utilities export default can still leak "internal" theme stuff, but worth it for simple file
 // structure at the moment
 export type { BindingObject, Plugin } from '$lib/utils.js';
 export { default as Utils } from '$lib/utils.js';

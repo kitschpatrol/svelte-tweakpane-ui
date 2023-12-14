@@ -73,11 +73,11 @@
 		values: T[];
 	};
 
-	// ensure no entangled selection across multiple RadioGrids, unless the user explicitly asks for
+	// Ensure no entangled selection across multiple RadioGrids, unless the user explicitly asks for
 	// it
 	const defaultGroupName = nanoid();
 
-	// reexport for bindability
+	// Reexport for bindability
 	export let groupName: $$Props['groupName'] = undefined;
 	export let values: $$Props['values'];
 	export let value: $$Props['value'] = values[0];
@@ -104,6 +104,7 @@
 				title: `${prefix ?? ''}${values[index]}${suffix ?? ''}`
 			};
 		}
+
 		return { value: values[0], title: '' };
 	}
 

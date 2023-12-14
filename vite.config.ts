@@ -5,9 +5,6 @@ process.env.BROWSER = 'chromium';
 
 export default defineConfig({
 	plugins: [sveltekit()],
-	// ssr: {
-	// 	noExternal: ['svelte-tweakpane-ui']
-	// },
 	server: {
 		open: true
 	}

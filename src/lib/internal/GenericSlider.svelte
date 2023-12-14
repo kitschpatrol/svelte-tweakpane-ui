@@ -48,7 +48,7 @@
 		step?: number;
 	};
 
-	// redeclare for bindability
+	// Redeclare for bindability
 	export let value: $$Props['value'];
 	export let options: $$Props['options'] = undefined;
 	export let min: $$Props['min'] = undefined;
@@ -58,7 +58,7 @@
 	export let keyScale: $$Props['keyScale'] = undefined;
 	export let format: $$Props['format'] = undefined;
 
-	// deal with format firing a change firing even when the function hasn't changed probably
+	// Deal with format firing a change firing even when the function hasn't changed probably
 	// related to https://github.com/sveltejs/svelte/issues/4265 possibly fixable with
 	// immutable=true but I don't want to go there
 	let formatProxy: typeof format = format;
@@ -66,7 +66,7 @@
 
 	let optionsInternal: GenericSliderOptions;
 
-	// the IntervalInputParams type is identical to NumberInputParams, so don't bother with generics
+	// The IntervalInputParams type is identical to NumberInputParams, so don't bother with generics
 	$: BROWSER &&
 		(optionsInternal = {
 			min,

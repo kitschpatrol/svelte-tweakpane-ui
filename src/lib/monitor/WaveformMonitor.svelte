@@ -46,7 +46,7 @@
 		lineStyle?: 'bezier' | 'linear';
 	};
 
-	// unique
+	// Unique
 	export let value: $$Props['value'];
 	export let max: $$Props['max'] = undefined;
 	export let min: $$Props['min'] = undefined;

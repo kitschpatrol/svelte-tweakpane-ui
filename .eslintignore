@@ -1,4 +1,32 @@
-.svelte-kit
-.astro
-*dist/
-*build/
+# ESLint Ignore
+# Does not inherit from .gitignore
+
+# @kitschpatrol/repo-config boilerplate
+!.env.example
+.astro/
+.DS_Store
+.env
+.env.*
+.svelte-kit/
+{tmp,temp}/
+**/*.min.js
+/scratch/
+bower_components/
+build/
+coverage/
+dist/
+node_modules/
+vendor/
+
+# @kitschpatrol/eslint-config boilerplate
+/patches/
+
+# Customizations
+
+# generated kit files
+src/examples/components/
+
+# generated doc files
+docs/src/content/docs/docs/components/
+docs/src/content/acknowledgments/
+docs/src/examples/

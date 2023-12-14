@@ -1,17 +1,19 @@
-// type aliases and utility functions
+/* eslint-disable @typescript-eslint/no-unnecessary-type-arguments */
+
+// Type aliases and utility functions
 
 import type { Theme } from '$lib/theme';
 import type { FolderApi, Pane, TabPageApi } from 'tweakpane';
 
-// internal types
+// Internal types
 export type Container = FolderApi | Pane | TabPageApi;
 
-// from https://github.com/sindresorhus/type-fest doesn't work for hover expansion when imported,
+// From https://github.com/sindresorhus/type-fest doesn't work for hover expansion when imported,
 // only if defined in the file where it's used?
 export type Simplify<T> = { [KeyType in keyof T]: T[KeyType] } & NonNullable<unknown>;
 
-// from https://github.com/sindresorhus/type-fest this works?
-export type SimplifyDeep<Type> = Type extends Theme // exclude Theme
+// From https://github.com/sindresorhus/type-fest this works?
+export type SimplifyDeep<Type> = Type extends Theme // Exclude Theme
 	? Type
 	: { [TypeKey in keyof Type]: SimplifyDeep<Type[TypeKey]> };
 
@@ -21,7 +23,7 @@ export type SimplifyDeep<Type> = Type extends Theme // exclude Theme
 
 export type HasKey<U, V extends PropertyKey> = V extends keyof U ? U[V] : unknown;
 
-// user-facing types
+// User-facing types
 import type { Bindable, BladeApi, BladeController, TpPluginBundle, View } from '@tweakpane/core';
 export type BindingObject = Bindable;
 export type Plugin = TpPluginBundle;
@@ -40,7 +42,7 @@ export type UnwrapCustomEvents<T> = {
 	[P in keyof T]: T[P] extends CustomEvent<infer detail> ? detail : never;
 };
 
-// utility functions
+// Utility functions
 
 /**
  * For CLS SSR calculation
@@ -52,18 +54,26 @@ export function rowsForMonitor(
 ) {
 	if (graph) {
 		return Math.max(rows ?? 3, 3);
-	} else if (buffer === undefined && rows === undefined) {
-		return 1;
-	} else if (buffer === undefined && rows !== undefined) {
-		return 1;
-	} else if (buffer !== undefined && rows === undefined) {
-		return buffer > 1 ? 3 : 1;
-	} else if (buffer === 1) {
-		return 1;
-	} else {
-		// both defined
-		return rows ?? 1; // TODO
 	}
+
+	if (buffer === undefined && rows === undefined) {
+		return 1;
+	}
+
+	if (buffer === undefined && rows !== undefined) {
+		return 1;
+	}
+
+	if (buffer !== undefined && rows === undefined) {
+		return buffer > 1 ? 3 : 1;
+	}
+
+	if (buffer === 1) {
+		return 1;
+	}
+
+	// Both defined
+	return rows ?? 1; // TODO
 }
 
 /**
@@ -115,7 +125,9 @@ export function enforceReadonly(
 		const propertyString = propertyName ? `property "${propertyName}" ` : '';
 
 		console.error(
-			`Svelte component ${componentString}property ${propertyString}is intended for readonly use.\nAssigning\n"${external}"\nto\n"${internal}"\nis not allowed.`
+			`Svelte component "${componentString}" property "${propertyString}" is intended for readonly use.\nAssigning\n"${String(
+				external
+			)}"\nto\n"${String(internal)}"\nis not allowed.`
 		);
 	}
 }
@@ -125,12 +137,13 @@ export function isRootPane(container: Container): boolean {
 }
 
 export function clamp(value: number, min: number, max: number): number {
-	// prioritize min over max
+	// Prioritize min over max
 	return Math.min(Math.max(value, min), max);
 }
 
 export function getElementIndex(element: HTMLElement): number {
 	let index = 0;
+	// eslint-disable-next-line @typescript-eslint/ban-types
 	let sibling: Element | null | undefined = element;
 	while ((sibling = sibling.previousElementSibling) !== null) {
 		index++;
@@ -139,23 +152,25 @@ export function getElementIndex(element: HTMLElement): number {
 	return index;
 }
 
-// doesn't create a new object, only works with string keys
-export function removeKeys<T extends object>(object: T, ...keys: string[]): T {
+// Doesn't create a new object, only works with string keys
+export function removeKeys<T extends Record<string, unknown>>(object: T, ...keys: string[]): T {
 	for (const key of keys) {
 		if (key in object) {
+			// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 			delete object[key as keyof T];
 		}
 	}
+
 	return object;
 }
 
 function clickBlocker(event: MouseEvent) {
-	// only block user clicks, not programmatic ones
+	// Only block user clicks, not programmatic ones
 	console.log(event.detail);
 	if (event.isTrusted) event.stopPropagation();
 }
 
-// used by folder and pane TODO rewrite to use getSwatchButton etc.
+// Used by folder and pane TODO rewrite to use getSwatchButton etc.
 export function updateCollapsibility(
 	isUserExpandableEnabled: boolean,
 	element: HTMLElement,
@@ -163,11 +178,11 @@ export function updateCollapsibility(
 	iconClass?: string
 ) {
 	if (element) {
-		const titleBarElement = element.querySelector(`.${titleBarClass}`) as HTMLButtonElement;
+		const titleBarElement = element.querySelector<HTMLButtonElement>(`.${titleBarClass}`);
 
-		if (titleBarElement !== undefined) {
+		if (titleBarElement) {
 			const iconElement = iconClass
-				? (element.querySelector(`.${iconClass}`) as HTMLDivElement)
+				? element.querySelector<HTMLDivElement>(`.${iconClass}`)
 				: undefined;
 
 			if (isUserExpandableEnabled) {
@@ -176,7 +191,7 @@ export function updateCollapsibility(
 
 				if (iconElement) iconElement.style.display = 'block';
 			} else {
-				//expanded = true;
+				// Expanded = true;
 				titleBarElement.addEventListener('click', clickBlocker, { capture: true });
 				titleBarElement.style.cursor = 'default';
 
@@ -203,7 +218,8 @@ export function getGridDimensions(
 	maxColumns?: number,
 	maxRows?: number
 ): { columns: number; rows: number } {
-	let rows: number, columns: number;
+	let rows: number;
+	let columns: number;
 
 	if (maxColumns && maxRows) {
 		// No flexing; items can exceed the available slots
@@ -230,6 +246,7 @@ export function tupleToObject<T extends string, O extends { [K in T]: number }>(
 	tuple: number[],
 	keys: T[]
 ): O {
+	// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
 	const result = {} as O;
 
 	for (const [index, key] of keys.entries()) {
@@ -263,7 +280,7 @@ export function objectToTuple<T extends string, O extends Record<T, number>>(
 	return keys.map((key) => object[key]);
 }
 
-// tweakpane  helpers
+// Tweakpane  helpers
 
 export function pickerIsOpen(blade: BladeApi<BladeController<View>>): boolean {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -294,12 +311,14 @@ import type { CubicBezierValue } from '$lib/control/CubicBezier.svelte';
 import type { RotationEulerUnit, RotationEulerValue } from '$lib/control/RotationEuler.svelte';
 import type { RotationQuaternionValue } from '$lib/control/RotationQuaternion.svelte';
 
-// utility functions
+// Utility functions
 
 function quaternionToCssTransform(quaternion: RotationQuaternionValue): string {
-	const [x, y, z, w] = Array.isArray(quaternion)
-		? quaternion
-		: [quaternion.x, quaternion.y, quaternion.z, quaternion.w];
+	const [x, y, z, w] = (
+		Array.isArray(quaternion)
+			? quaternion
+			: [quaternion.x, quaternion.y, quaternion.z, quaternion.w]
+	) as [number, number, number, number];
 
 	const m11 = 1 - 2 * y * y - 2 * z * z;
 	const m12 = 2 * x * y - 2 * z * w;
@@ -321,25 +340,29 @@ function quaternionToCssTransform(quaternion: RotationQuaternionValue): string {
 
 function eulerToCssTransform(
 	rotation: RotationEulerValue,
-	units: RotationEulerUnit = 'rad' // rad is component default
+	units: RotationEulerUnit = 'rad' // Rad is component default
 ): string {
-	const [x, y, z] = Array.isArray(rotation) ? rotation : [rotation.x, rotation.y, rotation.z];
-	// note negative z
+	const [x, y, z] = (Array.isArray(rotation) ? rotation : [rotation.x, rotation.y, rotation.z]) as [
+		number,
+		number,
+		number
+	];
+	// Note negative z
 	return `rotateX(${x}${units}) rotateY(${y}${units}) rotateZ(${-z}${units})`;
 }
 
 function cubicBezierToEaseFunction(cubicBezier: CubicBezierValue): (t: number) => number {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [x1, y1, x2, y2] = Array.isArray(cubicBezier)
-		? cubicBezier
-		: [cubicBezier.x1, cubicBezier.y1, cubicBezier.x2, cubicBezier.y2];
+	const [_x1, y1, _x2, y2] = (
+		Array.isArray(cubicBezier)
+			? cubicBezier
+			: [cubicBezier.x1, cubicBezier.y1, cubicBezier.x2, cubicBezier.y2]
+	) as [number, number, number, number];
 
-	return (t: number): number => {
-		return (1 - t) ** 3 * 0 + (1 - t) ** 2 * t * 3 * y1 + (1 - t) * t ** 2 * 3 * y2 + t ** 3 * 1;
-	};
+	return (t: number): number =>
+		(1 - t) ** 3 * 0 + (1 - t) ** 2 * t * 3 * y1 + (1 - t) * t ** 2 * 3 * y2 + t ** 3 * 1;
 }
 
-// library exports
+// Library exports
 export default {
 	/**
 	 * Convenience function for creating easing functions ready for Svelte's tween and animation

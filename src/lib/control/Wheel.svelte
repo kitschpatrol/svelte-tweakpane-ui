@@ -24,7 +24,7 @@
 		wide?: boolean;
 	};
 
-	// reexport for bindability
+	// Reexport for bindability
 	export let value: $$Props['value'];
 	export let amount: $$Props['amount'] = undefined;
 	export let wide: $$Props['wide'] = undefined;

@@ -38,8 +38,8 @@
 
 	const parentStore: Writable<Container> = getContext('parentStore');
 
-	// parsePointDimensionParams wasn't quite right for this
-	function isPointObject(testObject: object): boolean {
+	// ParsePointDimensionParams wasn't quite right for this
+	function isPointObject(testObject: Record<string, unknown>): boolean {
 		return (
 			Point2d.isObject(testObject) || Point3d.isObject(testObject) || Point4d.isObject(testObject)
 		);
@@ -51,12 +51,10 @@
 		// TODO title case would be nicer... Replace underscores, hyphens, and camel case with
 		// spaces, and capitalize the first letter of each word
 		return value
-			.replace(/([\da-z])([A-Z])/g, '$1 $2')
-			.replace(/[_-]+/g, ' ')
+			.replaceAll(/([\da-z])([A-Z])/g, '$1 $2')
+			.replaceAll(/[_-]+/g, ' ')
 			.toLowerCase()
-			.replace(/\b[a-z]/g, (letter) => {
-				return letter.toUpperCase();
-			});
+			.replaceAll(/\b[a-z]/g, (letter) => letter.toUpperCase());
 	}
 </script>
 

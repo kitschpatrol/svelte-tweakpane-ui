@@ -16,13 +16,13 @@
 	export type RotationEulerValueTuple = [x: number, y: number, z: number];
 	export type RotationEulerValue = Simplify<RotationEulerValueObject | RotationEulerValueTuple>;
 
-	// don't support order, for now
+	// Don't support order, for now
 </script>
 
 <script lang="ts">
 	import * as pluginModule from '@0b5vr/tweakpane-plugin-rotation';
 	import type { RotationInputPluginEulerParams as RotationEulerOptionsInternal } from '@0b5vr/tweakpane-plugin-rotation/dist/types/RotationInputPluginEulerParams';
-	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js'; // note name collision with options params
+	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js'; // Note name collision with options params
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import { BROWSER } from 'esm-env';
@@ -82,7 +82,7 @@
 		unit?: RotationEulerUnit;
 	};
 
-	// unique
+	// Unique
 	export let value: $$Props['value'];
 	export let order: $$Props['order'] = undefined;
 	export let unit: $$Props['unit'] = undefined;
@@ -90,15 +90,15 @@
 	export let optionsY: $$Props['optionsY'] = undefined;
 	export let optionsZ: $$Props['optionsZ'] = undefined;
 
-	// reexport for binding
+	// Reexport for binding
 	export let expanded: $$Props['expanded'] = undefined;
 
 	let options: RotationEulerOptionsInternal;
 
-	// proxy value since Tweakpane only supports Point3dObject type
+	// Proxy value since Tweakpane only supports Point3dObject type
 	let internalValue: Point3dObject;
 
-	// work-around for funky folding
+	// Work-around for funky folding
 	const buttonClass = 'tp-rotationswatchv_b';
 
 	function updateInternalValue() {

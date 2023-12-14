@@ -62,8 +62,6 @@
 	let index: number;
 
 	function create() {
-		// console.log('button created');
-
 		if (button) button.dispose();
 
 		button = $parentStore.addButton({

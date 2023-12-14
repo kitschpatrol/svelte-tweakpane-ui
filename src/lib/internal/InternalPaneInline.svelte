@@ -28,15 +28,15 @@
 		default: {};
 	};
 
-	// reexport for bindability
+	// Reexport for bindability
 	export let expanded: $$Props['expanded'] = undefined;
 	export let width: $$Props['width'] = undefined;
 
-	// override theme defaults
+	// Override theme defaults
 	export let theme: $$Props['theme'] = {
 		baseBorderRadius: '0px',
 		baseShadowColor: 'hsla(0, 0%, 0%, 0)'
-		// bladeBorderRadius: '0px'
+		// BladeBorderRadius: '0px'
 	};
 
 	let paneRef: TpPane;

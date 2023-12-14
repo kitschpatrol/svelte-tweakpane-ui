@@ -10,7 +10,7 @@
 		value: number;
 	};
 
-	// reexport for bindability
+	// Reexport for bindability
 	export let value: $$Props['value'];
 </script>
 

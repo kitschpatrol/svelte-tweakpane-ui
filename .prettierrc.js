@@ -1,8 +1,7 @@
 import sharedConfig from '@kitschpatrol/prettier-config';
 
 /** @type {import("prettier").Config} */
-const config = {
-	...sharedConfig,
+const localConfig = {
 	trailingComma: 'none', // legacy
 	printWidth: 100, // legacy
 	overrides: [
@@ -20,8 +19,10 @@ const config = {
 				plugins: ['prettier-plugin-sh']
 			}
 		}
-	],
-	plugins: [...sharedConfig.plugins, 'prettier-plugin-astro']
+	]
 };
 
-export default config;
+export default {
+	...sharedConfig,
+	...localConfig
+};

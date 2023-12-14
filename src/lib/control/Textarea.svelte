@@ -33,13 +33,13 @@
 		rows?: number;
 	};
 
-	// re-exported
+	// Re-exported
 	export let value: $$Props['value'];
 	export let live: $$Props['live'] = true;
 	export let rows: $$Props['rows'] = undefined;
 	export let placeholder: $$Props['placeholder'] = undefined;
 
-	let _value = value; // not bound, update events handled in svelte to allow updates on blur
+	let _value = value; // Not bound, update events handled in svelte to allow updates on blur
 	let ref: GenericInputRef;
 	let options: TextareaPluginInputParams;
 
@@ -58,7 +58,7 @@
 	}
 
 	function updateListeners(live: boolean, destroy: boolean = false) {
-		var input = ref?.controller.valueController.view.element.querySelector('textarea');
+		const input = ref?.controller.valueController.view.element.querySelector('textarea');
 		if (input) {
 			input.removeEventListener('blur', onBlur);
 			input.removeEventListener('input', onInput);

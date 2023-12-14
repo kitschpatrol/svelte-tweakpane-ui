@@ -10,31 +10,31 @@ import ts from 'typescript';
  * Records of jsdoc tag names (without the @) and their values
  * e.g. { default: "`256`" }
  */
-export type JSDocRecord = Record<string, string>;
+export type JsDocRecord = Record<string, string>;
 
-export type ComponentPartInfo = {
+export type ComponentPartInfo = Array<{
 	doc: string;
-	jsDocs: JSDocRecord;
+	jsDocs: JsDocRecord;
 	name: string;
 	type: string;
-}[];
+}>;
 
 export type ComponentPropCondition = Record<string, boolean | number | string>;
 
 export type ComponentDynamicPropTest = {
 	condition: ComponentPropCondition;
-	description: string; // for documentation
+	description: string; // For documentation
 };
 
 export type ComponentInfo = {
 	doc: string;
-	dynamicProps?: {
+	dynamicProps?: Array<{
 		condition: ComponentPropCondition;
 		description: string;
 		props: ComponentPartInfo;
-	}[];
+	}>;
 	events: ComponentPartInfo;
-	jsDocs: JSDocRecord;
+	jsDocs: JsDocRecord;
 	name: string;
 	path: string;
 	pathParts: string[];
@@ -42,15 +42,16 @@ export type ComponentInfo = {
 	slots: ComponentPartInfo;
 };
 
-// function sortPropsByName(props: ComponentPartInfo): ComponentPartInfo {
+// Function sortPropsByName(props: ComponentPartInfo): ComponentPartInfo {
 // 	return props.sort((a, b) => a.name.localeCompare(b.name));
 // }
 
-function jsDocumentTagInfoToJsDocumentRecord(jsDocumentTags: ts.JSDocTagInfo[]): JSDocRecord {
-	const result: JSDocRecord = {};
+function jsDocumentTagInfoToJsDocumentRecord(jsDocumentTags: ts.JSDocTagInfo[]): JsDocRecord {
+	const result: JsDocRecord = {};
 	for (const tag of jsDocumentTags) {
 		result[tag.name] = ts.displayPartsToString(tag.text);
 	}
+
 	return result;
 }
 
@@ -58,11 +59,11 @@ function jsDocumentTagInfoToJsDocumentRecord(jsDocumentTags: ts.JSDocTagInfo[]):
 // then do a pass with the dynamic approach to get types even for static props
 // TODO figure out why my extraction approach is yielding different types than the language server
 async function getStaticComponentInfo(componentPath: string): Promise<ComponentInfo | undefined> {
-	// static approach
+	// Static approach
 	const info = await getStaticComponentInfoInternal(componentPath);
 	if (!info) return undefined;
 
-	// amend type data with dynamic approach
+	// Amend type data with dynamic approach
 	const lsPropInfo = await getDynamicComponentProps(componentPath, {});
 	for (const property of info.props) {
 		const lsProp = lsPropInfo.find((p) => p.name === property.name);
@@ -82,7 +83,7 @@ async function getStaticComponentInfo(componentPath: string): Promise<ComponentI
 async function getStaticComponentInfoInternal(
 	componentPath: string
 ): Promise<ComponentInfo | undefined> {
-	// set up language server
+	// Set up language server
 	const testDirectory = '.';
 	const path = join(testDirectory, componentPath);
 
@@ -97,9 +98,13 @@ async function getStaticComponentInfoInternal(
 		{ tsconfigPath: join(testDirectory, 'tsconfig.json') }
 	);
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const document = documentManager.openClientDocument(<any>{
-		text: ts.sys.readFile(path),
+	const fileText = ts.sys.readFile(path);
+	if (fileText === undefined) {
+		throw new Error(`Failed to read file ${path}`);
+	}
+
+	const document = documentManager.openClientDocument({
+		text: fileText,
 		uri: `file:///${path}`
 	});
 
@@ -107,7 +112,7 @@ async function getStaticComponentInfoInternal(
 	const program = lang.getProgram();
 	if (!program) return undefined;
 
-	// get the component class definition
+	// Get the component class definition
 	const componentSourceFile = program.getSourceFile(tsDoc.filePath);
 	if (!componentSourceFile) return undefined;
 
@@ -126,26 +131,26 @@ async function getStaticComponentInfoInternal(
 		return undefined;
 	}
 
-	// get props, events, slots
+	// Get props, events, slots
 	const results: ComponentInfo = {
 		doc: ts.displayPartsToString(classSymbol.getDocumentationComment(typeChecker)),
-		events: getInfoFor('$$events_def', classType, typeChecker), // natural sorting...
+		events: getInfoFor('$$events_def', classType, typeChecker), // Natural sorting...
 		jsDocs: jsDocumentTagInfoToJsDocumentRecord(classSymbol.getJsDocTags()),
 		name: componentPath.split('/').pop()!.replace('.svelte', ''),
 		path: componentPath,
 		pathParts: componentPath.split('/').slice(3, -1),
-		props: getInfoFor('$$prop_def', classType, typeChecker), // natural sorting...
-		slots: getInfoFor('$$slot_def', classType, typeChecker) // natural sorting...
+		props: getInfoFor('$$prop_def', classType, typeChecker), // Natural sorting...
+		slots: getInfoFor('$$slot_def', classType, typeChecker) // Natural sorting...
 	};
 
-	lsAndTsDocumentResolver.deleteSnapshot(tsDoc.filePath);
+	await lsAndTsDocumentResolver.deleteSnapshot(tsDoc.filePath);
 	return results;
 }
 
 // ----------------------
 
 function getClassDefinition(sourceFile: ts.SourceFile): ts.Node | undefined {
-	let classDefinition: ts.Node | undefined = undefined;
+	let classDefinition: ts.Node | undefined;
 	sourceFile.forEachChild((node) => {
 		if (ts.isClassDeclaration(node)) {
 			classDefinition = node;
@@ -159,7 +164,7 @@ function mapPropertiesOfType(typeChecker: ts.TypeChecker, type: ts.Type) {
 	return type
 		.getProperties()
 		.map((property: ts.Symbol) => {
-			// type would still be correct when there're multiple declarations
+			// Type would still be correct when there're multiple declarations
 			const declaration = property.valueDeclaration ?? property.declarations?.[0];
 			if (!declaration) {
 				return;
@@ -185,7 +190,7 @@ function getInfoFor(
 ): ComponentPartInfo {
 	const propertySymbol = classType.getProperty(propertyName);
 
-	if (propertySymbol && propertySymbol.valueDeclaration) {
+	if (propertySymbol?.valueDeclaration) {
 		const propertiesType = typeChecker.getTypeOfSymbolAtLocation(
 			propertySymbol,
 			propertySymbol.valueDeclaration
@@ -193,6 +198,7 @@ function getInfoFor(
 
 		return mapPropertiesOfType(typeChecker, propertiesType);
 	}
+
 	return [];
 }
 
@@ -201,7 +207,7 @@ async function getDynamicComponentProps(
 	componentPath: string,
 	testProps: ComponentPropCondition
 ): Promise<ComponentPartInfo> {
-	// set up language server
+	// Set up language server
 	const testDirectory = '.';
 
 	const documentManager = new DocumentManager(
@@ -223,10 +229,9 @@ async function getDynamicComponentProps(
 		`<${componentName} ${generateStringFromPropObject(testProps)} />`
 	];
 
-	// generated file name must be unique, cleanup doesn't seem to be enough
+	// Generated file name must be unique, cleanup doesn't seem to be enough
 	// to avoid stale autocompletion values across repeat invocations
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const document = documentManager.openClientDocument(<any>{
+	const document = documentManager.openClientDocument({
 		text: testComponentSourceRows.join('\n'),
 		uri: `file:///in-memory-${componentName}-${nanoid()}.svelte`
 	});
@@ -244,12 +249,12 @@ async function getDynamicComponentProps(
 		tsDoc.filePath,
 		tsDoc.offsetAt(tsDoc.getGeneratedPosition(testPosition)),
 		{
-			allowIncompleteCompletions: true, // no change to output
+			allowIncompleteCompletions: true, // No change to output
 			includeCompletionsForModuleExports: true,
 			includeCompletionsWithInsertText: false,
 			triggerCharacter: '.',
 			useLabelDetailsInCompletionEntries: true
-			// includeSymbol // TODO try this...
+			// IncludeSymbol // TODO try this...
 		}
 	);
 
@@ -273,7 +278,7 @@ async function getDynamicComponentProps(
 			};
 		}) ?? [];
 
-	lsAndTsDocumentResolver.deleteSnapshot(tsDoc.filePath);
+	await lsAndTsDocumentResolver.deleteSnapshot(tsDoc.filePath);
 	return results;
 }
 
@@ -303,7 +308,7 @@ export async function getComponentInfo(
 			results!.dynamicProps.push({
 				condition: testProp.condition,
 				description: testProp.description,
-				props: await getDynamicComponentProps(componentPath, testProp.condition) // natural sorting...
+				props: await getDynamicComponentProps(componentPath, testProp.condition) // Natural sorting...
 			});
 		}
 	}

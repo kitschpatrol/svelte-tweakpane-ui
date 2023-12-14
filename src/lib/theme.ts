@@ -7,7 +7,7 @@ import {
 } from '@tweakpane/core';
 import type { Simplify } from '$lib/utils';
 
-// only need undefined if we had nested themes... undefined shouldn't override global theme
+// Only need undefined if we had nested themes... undefined shouldn't override global theme
 export type ThemeColorValue = Simplify<RgbColorObject | RgbaColorObject | string>;
 export type Theme = ThemeKeys & CustomThemeKeys;
 
@@ -45,13 +45,11 @@ type ThemeKeys = {
 	monitorForegroundColor?: ThemeColorValue;
 	// Plugins
 	pluginImageDraggingColor?: ThemeColorValue;
-	// pluginThumbnailListHeight?: string; pluginThumbnailListThumbSize?: string;
+	// PluginThumbnailListHeight?: string; pluginThumbnailListThumbSize?: string;
 	// pluginThumbnailListWidth?: string;
 };
 
-type CustomThemeKeys = {
-	[key: string]: ThemeColorValue;
-};
+type CustomThemeKeys = Record<string, ThemeColorValue>;
 
 // Standard Tweakpane themes from https://tweakpane.github.io/docs/theming/#builder Must be kept in
 // sync with TP...
@@ -88,17 +86,14 @@ const standard: Theme = {
 	monitorBackgroundColor: 'rgba(0, 0, 0, 0.2)',
 	monitorForegroundColor: 'rgba(187, 188, 196, 0.7)',
 	pluginImageDraggingColor: 'hsla(230, 100%, 66%, 1)'
-	// pluginThumbnailListHeight: '400px', pluginThumbnailListThumbSize: '20px',
+	// PluginThumbnailListHeight: '400px', pluginThumbnailListThumbSize: '20px',
 	// pluginThumbnailListWidth: '200px'
 };
 
-export const keys = Object.keys(standard).reduce(
-	(accumulator, key) => {
-		accumulator[key] = key;
-		return accumulator;
-	},
-	{} as Record<string, string>
-);
+export const keys = Object.keys(standard).reduce<Record<string, string>>((acc, key) => {
+	acc[key] = key;
+	return acc;
+}, {});
 
 const light: Theme = {
 	baseBackgroundColor: 'hsla(230, 5%, 90%, 1.00)',
@@ -308,38 +303,42 @@ const keyToCssVariableMap = new Map([
 function stringToCssValue(v: ThemeColorValue | string | undefined): string | undefined {
 	if (v === undefined) {
 		return undefined;
-	} else if (typeof v === 'string') {
+	}
+
+	if (typeof v === 'string') {
 		return v;
-	} else if (isRgbaColorObject(v)) {
+	}
+
+	if (isRgbaColorObject(v)) {
 		return `rgba(${v.r}, ${v.g}, ${v.b}, ${v.a})`;
-	} else if (isRgbColorObject(v)) {
+	}
+
+	if (isRgbColorObject(v)) {
 		return `rgb(${v.r}, ${v.g}, ${v.b})`;
-	} else {
-		throw new Error(`Unknown CSS theme value object: ${v}`);
 	}
 }
 
 function expandVariableKey(name: string): string {
-	// pass explicit variables through
+	// Pass explicit variables through
 	if (name.startsWith('--tp-')) {
 		return name;
-	} else {
-		const variableName = keyToCssVariableMap.get(name);
-		if (variableName) {
-			return variableName;
-		} else {
-			throw new Error(`Unknown Tweakpane CSS theme map variable key: "${name}"`);
-		}
 	}
+
+	const variableName = keyToCssVariableMap.get(name);
+	if (variableName) {
+		return variableName;
+	}
+
+	throw new Error(`Unknown Tweakpane CSS theme map variable key: "${name}"`);
 }
 
 /**
  * Used during SSR to calculate metrics Returns CSS string.
  */
 export function getValueOrFallback(theme: Theme | undefined, key: keyof ThemeKeys): string {
-	return theme === undefined || theme[key] === undefined
-		? stringToCssValue(standard[key]!)!
-		: stringToCssValue(theme[key]!)!;
+	return theme?.[key] === undefined
+		? stringToCssValue(standard[key])!
+		: stringToCssValue(theme[key])!;
 }
 
 export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
@@ -350,7 +349,6 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 			const key = expandVariableKey(k);
 
 			if (element.style.getPropertyValue(key).length > 0) {
-				// console.log(`Unsetting via undefined theme ${key}`);
 				element.style.removeProperty(key);
 			}
 		}
@@ -358,9 +356,7 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 		for (const [k, v] of Object.entries(theme)) {
 			const key = expandVariableKey(k);
 			const value = stringToCssValue(v);
-			// console.log(`Inspecting ${key}: ${value}`);
-
-			// only set the variable if it deviates from the standard theme or  the root theme (set
+			// Only set the variable if it deviates from the standard theme or  the root theme (set
 			// by setGlobalDefaultTheme).... but if theme is explicitly standard and not undefined,
 			// then apply it anyway so that any global theme is overridden TODO normalize color
 			// representation for comparison? TODO tests for this logic
@@ -368,21 +364,17 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 			const standardValue = standard[k] || undefined;
 			const rootValue = rootDocument.style.getPropertyValue(key) || undefined;
 
-			const isDeviationFromRoot = (rootValue && value !== rootValue) || false;
-			const isDeviationFromStandard = (standardValue && value !== standardValue) || false;
+			const isDeviationFromRoot = (rootValue && value !== rootValue) ?? false;
+			const isDeviationFromStandard = (standardValue && value !== standardValue) ?? false;
 
 			if (
 				theme !== undefined &&
 				value !== undefined &&
 				(isDeviationFromRoot || (!rootValue && isDeviationFromStandard))
 			) {
-				// console.log(`Setting ${key} to ${value}`);
 				element.style.setProperty(key, value);
-			} else {
-				if (element.style.getPropertyValue(key).length > 0) {
-					// console.log(`Unsetting ${key}`);
-					element.style.removeProperty(key);
-				}
+			} else if (element.style.getPropertyValue(key).length > 0) {
+				element.style.removeProperty(key);
 			}
 		}
 	}
@@ -393,13 +385,13 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
  * mode toggle.
  */
 export function setGlobalDefaultTheme(theme: Theme | undefined) {
-	// wait for dom ready... better outside?
-	if (typeof window !== 'undefined' && window.document) {
+	// Wait for dom ready... better outside?
+	if (window?.document) {
 		applyTheme(getWindowDocument().documentElement, theme);
 	}
 }
 
-// library exports
+// Library exports
 export default {
 	/**
 	 * A collection of default theme color schemes, matching those provided in the Tweakpane

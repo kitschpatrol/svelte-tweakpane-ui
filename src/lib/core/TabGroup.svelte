@@ -54,7 +54,7 @@
 	let indexElement: HTMLDivElement;
 
 	onMount(() => {
-		// pass the tab context and index down as a store instead of a plain context, so that the
+		// Pass the tab context and index down as a store instead of a plain context, so that the
 		// child pages can edit it when needed that lets us support a childless <TabGroup />
 		// component, where the first page to be added handles construction of the tab this is
 		// necessary because the tweakpane tab API can only construct tab groups with at least one

@@ -1,4 +1,4 @@
-// copies examples from kit src to docs
+// Copies examples from kit src to docs
 // changes import path, formats for narrower screens, and also generates markdown
 
 import { lintAndFormat } from './ast-tools';
@@ -15,13 +15,13 @@ for (const filePath of files) {
 		const directory = path.dirname(filePath);
 		const baseName = path.basename(filePath, '.svelte');
 
-		// re-format and save .svelte file
+		// Re-format and save .svelte file
 		let svelteContent = fs.readFileSync(filePath, 'utf8');
 		svelteContent = svelteContent.replace(/'\$lib/, "'svelte-tweakpane-ui");
 		const formattedSvelteContent = await lintAndFormat(svelteContent, 'svelte');
 		fs.writeFileSync(filePath, formattedSvelteContent);
 
-		// generate markdown with title
+		// Generate markdown with title
 		const markdownContent = '```svelte title="' + baseName + '.svelte"\n' + svelteContent + '```\n';
 		const markdownPath = path.join(directory, `${baseName}.md`);
 		fs.writeFileSync(markdownPath, markdownContent);

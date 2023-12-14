@@ -10,7 +10,7 @@
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
-	// multi-file structure is legacy of previous non-dynamic component approach TODO consolidate
+	// Multi-file structure is legacy of previous non-dynamic component approach TODO consolidate
 	// eventually if dynamic components prove reliable
 
 	type $$Props = Omit<
@@ -44,10 +44,10 @@
 		graph?: boolean;
 	};
 
-	// redeclare for bindability
+	// Redeclare for bindability
 	export let value: $$Props['value'];
 
-	// unique
+	// Unique
 	export let graph: $$Props['graph'] = undefined;
 	export let format: $$Props['format'] = undefined;
 	export let max: $$Props['max'] = undefined;
@@ -55,7 +55,7 @@
 
 	let options: InternalMonitorNumberOptions;
 
-	// deal with format firing a change firing even when the function hasn't changed probably
+	// Deal with format firing a change firing even when the function hasn't changed probably
 	// related to https://github.com/sveltejs/svelte/issues/4265 possibly fixable with
 	// immutable=true but I don't want to go there TODO evaluate other non-primitive prop access
 	let formatProxy: typeof format = format;

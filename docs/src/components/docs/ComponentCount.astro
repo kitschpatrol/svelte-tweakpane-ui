@@ -1,9 +1,10 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
 
-const count = (await getCollection('docs')).filter((component: CollectionEntry<'docs'>) => {
-	return component.data.componentData !== undefined;
-}).length;
+const documentation = await getCollection('docs');
+const count = documentation.filter(
+	(component: CollectionEntry<'docs'>) => component.data.componentData !== undefined
+).length;
 ---
 
 {count}

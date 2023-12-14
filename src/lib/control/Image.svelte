@@ -34,7 +34,7 @@
 		fit?: 'contain' | 'cover';
 	};
 
-	// unique
+	// Unique
 	export let value: $$Props['value'] = 'placeholder';
 	export let fit: $$Props['fit'] = undefined;
 	export let extensions: $$Props['extensions'] = undefined;

@@ -36,7 +36,7 @@
 	}
 
 	onMount(() => {
-		// set up frame loop
+		// Set up frame loop
 		let lastTime: number | undefined;
 		let frameId: number | undefined;
 
@@ -44,15 +44,17 @@
 			if (playing && !interacting && lastTime !== undefined) {
 				time += (animationTime - lastTime) * period;
 			}
+
 			lastTime = animationTime;
 			frameId = requestAnimationFrame(tick);
 		}
+
 		requestAnimationFrame(tick);
 
-		// set up pane div pause when interacting, but not when dragging the title bar
-		const paneRef = document.querySelector('div.svelte-tweakpane-ui') as HTMLDivElement;
+		// Set up pane div pause when interacting, but not when dragging the title bar
+		const paneRef = document.querySelector<HTMLDivElement>('div.svelte-tweakpane-ui');
 
-		paneRef.addEventListener('pointerdown', onPointerDown, { capture: true });
+		paneRef?.addEventListener('pointerdown', onPointerDown, { capture: true });
 		document.addEventListener('pointerup', onPointerUp);
 		document.addEventListener('pointercancel', onPointerUp);
 
@@ -61,13 +63,13 @@
 				cancelAnimationFrame(frameId);
 			}
 
-			paneRef.removeEventListener('pointerdown', onPointerDown, { capture: true });
+			paneRef?.removeEventListener('pointerdown', onPointerDown, { capture: true });
 			document.removeEventListener('pointerup', onPointerUp);
 			document.removeEventListener('pointercancel', onPointerUp);
 		};
 	});
 
-	// helpers
+	// Helpers
 	function map(
 		value: number,
 		fromLow: number,
@@ -89,27 +91,29 @@
 		if (element.classList.contains(className)) {
 			return true;
 		}
+
 		if (element.parentElement) {
 			return hasParentWithClassName(element.parentElement, className);
 		}
+
 		return false;
 	}
 
-	// props
+	// Props
 	export let x: number = 0;
 	export let y: number = 0;
 	export let width: number = 360;
 
-	// constants
+	// Constants
 	const themes = Object.keys(ThemeUtils.presets);
 	const offsetAngle = [0, Math.PI / 3, Math.PI / 2, Math.PI];
 	const cubicBezierEnabled = false;
 	const defaultTheme: Theme = {
-		// baseBorderRadius: '0'
+		// BaseBorderRadius: '0'
 	};
 	const keys = ['X', 'Y', 'Z', 'W'];
 
-	// vars
+	// Vars
 	let time = 0;
 	let playing = true;
 	let interacting = false;
@@ -133,7 +137,7 @@
 		offsets = [0, 0, 0, 0];
 	}
 
-	// stores
+	// Stores
 	const point4 = writable<PointValue4dTuple>([0, 0, 0, 0]);
 
 	const point3 = derived(
@@ -150,7 +154,7 @@
 	(point2 as Writable<PointValue2dTuple>).set = (newItems) =>
 		($point4 = [newItems[0], newItems[1], $point4[2], $point4[3]]);
 
-	// reactivity
+	// Reactivity
 	$: theme = { ...ThemeUtils.presets[themeKey], ...defaultTheme };
 	$: period = 1 / ((periodSeconds / Math.PI) * 500);
 	$: [min, max] = interval2;
@@ -166,9 +170,9 @@
 		}
 	}
 	function setHeadingUp(oldPoint: PointValue4dTuple, newPoint: PointValue4dTuple) {
-		headingUp = headingUp.map((v, index) => {
-			return newPoint[index] === oldPoint[index] ? v : newPoint[index] > oldPoint[index];
-		}) as typeof headingUp;
+		headingUp = headingUp.map((v, index) =>
+			newPoint[index] === oldPoint[index] ? v : newPoint[index] > oldPoint[index]
+		) as typeof headingUp;
 	}
 
 	$: interacting && setOffsets($point4);

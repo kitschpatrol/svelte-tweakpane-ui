@@ -7,7 +7,7 @@ import { slug } from 'github-slugger';
 const { componentData } = Astro.props.entry.data;
 import type { ComponentProp } from '../../utils/prop-utils';
 
-// mutate props to add ToC items on component pages
+// Mutate props to add ToC items on component pages
 // bad work-around for https://github.com/withastro/astro/issues/5084
 function propHeadings(propData: ComponentProp[]) {
 	return propData.map((prop) => tocItemForHeading(prop.name, 3));
@@ -16,16 +16,16 @@ function propHeadings(propData: ComponentProp[]) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function tocItemForHeading(heading: string, depth: number, children: any[] = []) {
 	return {
-		children: children,
+		children,
 		depth,
 		slug: slug(heading),
 		text: heading
 	};
 }
 
-let localProps = Astro.props;
+const localProps = Astro.props;
 if (componentData && localProps.toc) {
-	if (componentData.jsDocs && componentData.jsDocs['example'])
+	if (componentData.jsDocs?.example)
 		localProps.toc.items.push(
 			tocItemForHeading('Example', 2, [tocItemForHeading('Demo', 3), tocItemForHeading('Code', 3)])
 		);

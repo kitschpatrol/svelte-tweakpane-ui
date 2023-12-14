@@ -15,8 +15,8 @@
 	import type { BladeApi, FolderApi, Pane as TpPane } from 'tweakpane';
 
 	// Maybe expose as props
-	const TITLEBAR_WINDOW_SHADE_SINGLE_CLICK = true;
-	const TITLEBAR_WINDOW_SHADE_DOUBLE_CLICK = false;
+	const titlebarWindowShadeSingleClick = true;
+	const titlebarWindowShadeDoubleClick = false;
 
 	// Could extend from InternalPaneFixed, but need to revise documentation anyway Many gratuitous
 	// defined checks since NonNullable didn't work and not sure how to make an optional prop remain
@@ -116,11 +116,11 @@
 		default: {};
 	};
 
-	// reexport for bindability
+	// Reexport for bindability
 	export let storePositionLocally: $$Props['storePositionLocally'] = true;
 	export let localStoreId: $$Props['localStoreId'] = localStoreDefaultId;
 
-	// defaults are managed here, and must be set here
+	// Defaults are managed here, and must be set here
 	let positionStore: Writable<{
 		x: number;
 		y: number;
@@ -152,11 +152,11 @@
 
 	let paneRef: TpPane;
 	let containerElement: HTMLDivElement;
-	let dragBarElement: HTMLElement; // added dynamically to tweakpane DOM
+	let dragBarElement: HTMLElement; // Added dynamically to tweakpane DOM
 	let widthHandleElement: HTMLDivElement | undefined;
-	let containerHeight: number; // driven by tweakpane's internal layout
-	let containerHeightScaled: number; // derived
-	let containerWidth: number; // for padding
+	let containerHeight: number; // Driven by tweakpane's internal layout
+	let containerHeightScaled: number; // Derived
+	let containerWidth: number; // For padding
 	let documentWidth: number;
 	let documentHeight: number;
 	let zIndexLocal = zIndexGlobal;
@@ -169,6 +169,7 @@
 					'Multiple instances of <Pane> with `mode="draggable"` and `storePositionLocally=true` detected. You must explicitly set unique localStoreId property on each component to avoid collisions.'
 				);
 			}
+
 			localStoreIds.push(localStoreId);
 		}
 	}
@@ -208,7 +209,7 @@
 			const dx = documentWidth - documentWidthPrevious;
 			const dy = documentHeight - documentHeightPrevious;
 
-			// ensure we "stick" to the correct quadrant
+			// Ensure we "stick" to the correct quadrant
 			const centerPercentX = (x + width / 2) / documentWidth;
 			const centerPercentY = (y + containerHeightScaled / 2) / documentHeight;
 
@@ -224,7 +225,7 @@
 
 	const clickBlocker = (event: MouseEvent) => {
 		event.stopPropagation();
-		// e.preventDefault(); e.stopImmediatePropagation();
+		// E.preventDefault(); e.stopImmediatePropagation();
 	};
 
 	let startWidth = 0;
@@ -237,8 +238,8 @@
 		if (event.target) {
 			if (width !== undefined && event.target === widthHandleElement) {
 				width = width < maxAvailablePanelWidth ? maxAvailablePanelWidth : minWidth;
-			} else if (TITLEBAR_WINDOW_SHADE_DOUBLE_CLICK && event.target === dragBarElement) {
-				//if (moveDistance < 3 && userExpandable)
+			} else if (titlebarWindowShadeDoubleClick && event.target === dragBarElement) {
+				// If (moveDistance < 3 && userExpandable)
 				paneRef.expanded = !paneRef.expanded;
 			}
 		}
@@ -300,7 +301,7 @@
 			event.target.removeEventListener('pointerup', upListener);
 
 			if (
-				TITLEBAR_WINDOW_SHADE_SINGLE_CLICK &&
+				titlebarWindowShadeSingleClick &&
 				event.target === dragBarElement &&
 				moveDistance < 3 &&
 				userExpandable
@@ -322,27 +323,30 @@
 			console.warn('no pane ref in draggable');
 		}
 
-		// prevent scrolling the background on mobile when dragging the pane or otherwise
+		// Prevent scrolling the background on mobile when dragging the pane or otherwise
 		containerElement.addEventListener('touchmove', touchScrollBlocker, { passive: false });
 
-		// make the pane draggable the Tweakpane pane is NOT itself a svelte component, so we have
+		// Make the pane draggable the Tweakpane pane is NOT itself a svelte component, so we have
 		// to manage events directly through the DOM click blocking and handling collapse in
 		// pointerup was most reliable cross-browser approach
-		dragBarElement = containerElement.querySelector('.tp-rotv_t') as HTMLElement;
-		dragBarElement.addEventListener('click', clickBlocker);
-		dragBarElement.addEventListener('dblclick', doubleClickListener);
-		dragBarElement.addEventListener('pointerdown', downListener);
+		const dragBarElementCheck = containerElement.querySelector<HTMLElement>('.tp-rotv_t');
+		if (dragBarElementCheck) {
+			dragBarElement = dragBarElementCheck;
+			dragBarElement.addEventListener('click', clickBlocker);
+			dragBarElement.addEventListener('dblclick', doubleClickListener);
+			dragBarElement.addEventListener('pointerdown', downListener);
 
-		// add width adjuster handle
-		// eslint-disable-next-line unicorn/prefer-dom-node-append
-		widthHandleElement = dragBarElement.parentElement?.appendChild(document.createElement('div'));
-		if (widthHandleElement) {
-			widthHandleElement.className = 'tp-custom-width-handle';
-			widthHandleElement.textContent = '↔';
+			// Add width adjuster handle
+			// eslint-disable-next-line unicorn/prefer-dom-node-append
+			widthHandleElement = dragBarElement.parentElement?.appendChild(document.createElement('div'));
+			if (widthHandleElement) {
+				widthHandleElement.className = 'tp-custom-width-handle';
+				widthHandleElement.textContent = '↔';
 
-			widthHandleElement.addEventListener('click', clickBlocker);
-			widthHandleElement.addEventListener('dblclick', doubleClickListener);
-			widthHandleElement.addEventListener('pointerdown', downListener);
+				widthHandleElement.addEventListener('click', clickBlocker);
+				widthHandleElement.addEventListener('dblclick', doubleClickListener);
+				widthHandleElement.addEventListener('pointerdown', downListener);
+			}
 		}
 	});
 
@@ -351,23 +355,23 @@
 			dragBarElement.removeEventListener('click', clickBlocker);
 			dragBarElement.removeEventListener('dblclick', doubleClickListener);
 			dragBarElement.removeEventListener('pointerdown', downListener);
-			dragBarElement.removeEventListener('pointermove', moveListener); // might exist, set in down
-			dragBarElement.removeEventListener('pointerup', upListener); // might exist, set in down
+			dragBarElement.removeEventListener('pointermove', moveListener); // Might exist, set in down
+			dragBarElement.removeEventListener('pointerup', upListener); // Might exist, set in down
 		}
 
 		if (widthHandleElement) {
 			widthHandleElement.removeEventListener('click', clickBlocker);
 			widthHandleElement.removeEventListener('dblclick', doubleClickListener);
 			widthHandleElement.removeEventListener('pointerdown', downListener);
-			widthHandleElement.removeEventListener('pointermove', moveListener); // might exist, set in down
-			widthHandleElement.removeEventListener('pointerup', upListener); // might exist, set in down
+			widthHandleElement.removeEventListener('pointermove', moveListener); // Might exist, set in down
+			widthHandleElement.removeEventListener('pointerup', upListener); // Might exist, set in down
 		}
 
 		if (containerElement) {
 			containerElement.removeEventListener('touchmove', touchScrollBlocker);
 		}
 
-		// clean up store id check, e.g. when cycling through the mode of a single pane
+		// Clean up store id check, e.g. when cycling through the mode of a single pane
 		if (localStoreId !== undefined) {
 			localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1);
 		}
@@ -400,7 +404,6 @@
 					const swatchButton = getSwatchButton(child);
 					if (swatchButton && pickerIsOpen(child)) {
 						maxToCollapse--;
-						// eslint-disable-next-line @typescript-eslint/no-explicit-any
 						swatchButton.click();
 					}
 				}
@@ -408,7 +411,7 @@
 		}
 	}
 
-	// ensure the tweakpane panel is within the viewport additional checks in the width drag handler
+	// Ensure the tweakpane panel is within the viewport additional checks in the width drag handler
 	$: if (
 		containerHeightScaled !== undefined &&
 		documentWidth !== undefined &&
@@ -419,13 +422,13 @@
 		minWidth !== undefined &&
 		maxWidth !== undefined
 	) {
-		// collapse children if needed TODO progressive collapsing not working because of container
+		// Collapse children if needed TODO progressive collapsing not working because of container
 		// height update delays...
 		if (collapseChildrenToFit && containerHeightScaled > documentHeight) {
 			recursiveCollapse(paneRef.children);
 		}
 
-		// prioritize visibility of the top / left corner
+		// Prioritize visibility of the top / left corner
 		x = clamp(x, 0, Math.max(0, documentWidth - containerWidth));
 		y = clamp(y, 0, Math.max(0, documentHeight - containerHeightScaled));
 
@@ -434,14 +437,14 @@
 		}
 	}
 
-	// no browser check...
+	// No browser check...
 	$: maxAvailablePanelWidth = Math.min(maxWidth ?? 600, documentWidth - (x ?? 0));
 
 	$: localStoreId, storePositionLocally && addStorageId();
 	$: localStoreId, !storePositionLocally && removeStorageId();
 	$: localStoreId !== `${localStorePrefix}${localStoreId}` && updateLocalStoreId(localStoreId);
 
-	// proxy everything to the store
+	// Proxy everything to the store
 	$: storePositionLocally &&
 		localStoreId !== undefined &&
 		x !== undefined &&
@@ -455,7 +458,7 @@
 			if (scale === undefined || scale === 1) {
 				containerHeightScaled = containerHeight;
 			} else {
-				// padding doesn't scale
+				// Padding doesn't scale
 				const style = window.getComputedStyle(containerElement);
 				const vPadding =
 					Number.parseFloat(style.paddingTop) + Number.parseFloat(style.paddingBottom);
@@ -476,9 +479,9 @@ This component is for internal use only.
 <svelte:window on:resize={setDocumentSize} />
 
 <div
-	bind:this={containerElement}
 	bind:clientHeight={containerHeight}
 	bind:clientWidth={containerWidth}
+	bind:this={containerElement}
 	on:focus|capture={() => {
 		zIndexLocal = ++zIndexGlobal;
 	}}

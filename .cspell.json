@@ -1,4 +1,3 @@
 {
-  "import": "@kitschpatrol/cspell-config/main.json",
-  "ignorePaths": ["package.json", "pnpm-lock.yaml", "*.svg", "*.mp4"]
+  "import": "@kitschpatrol/cspell-config/main.json"
 }

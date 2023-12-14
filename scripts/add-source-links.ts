@@ -9,12 +9,12 @@ const verbose = false;
 
 const files = getAllLibraryFiles();
 
-function addLinksToComponentBlock(filePath: string): void {
+async function addLinksToComponentBlock(filePath: string): Promise<void> {
 	const fileContent = fs.readFileSync(filePath, 'utf8');
 	const fileName = path.basename(filePath);
-	const url = getGithubUrlForSourceFile(filePath);
+	const url = await getGithubUrlForSourceFile(filePath);
 
-	// if the markdown link is already there, it will work out to a no-op if it needs an update, this
+	// If the markdown link is already there, it will work out to a no-op if it needs an update, this
 	// will do it...
 	const updatedContent = fileContent.replace(
 		/@sourceLink(.+\))?\n/s,
@@ -22,12 +22,12 @@ function addLinksToComponentBlock(filePath: string): void {
 	);
 
 	if (fileContent === updatedContent) {
-		// warn if we have undocumented svelte components
+		// Warn if we have undocumented svelte components
 		if (filePath.endsWith('.svelte') && !fileContent.includes('@sourceLink')) {
 			console.warn(`No @sourceLink found in ${filePath}`);
 		}
 	} else {
-		verbose && console.log(`Added source links to ${filePath}`);
+		if (verbose) console.log(`Added source links to ${filePath}`);
 		fs.writeFileSync(filePath, updatedContent, 'utf8');
 	}
 }
@@ -35,7 +35,7 @@ function addLinksToComponentBlock(filePath: string): void {
 console.log(`Replacing @sourceLink with GitHub URLs in ${files.length} files...`);
 
 for (const filePath of files) {
-	addLinksToComponentBlock(filePath);
+	await addLinksToComponentBlock(filePath);
 }
 
 console.log(`Done.`);

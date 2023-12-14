@@ -1,16 +1,14 @@
 ---
 import { type CollectionEntry, getCollection } from 'astro:content';
 
-interface Props {
+type Props = {
 	scope: 'all' | 'docs' | 'lib';
-}
+};
 
 function titleCase(text: string) {
 	return text
 		.split(' ')
-		.map((word) => {
-			return word.charAt(0).toUpperCase() + word.slice(1);
-		})
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(' ');
 }
 
@@ -18,22 +16,24 @@ function stopShouting(text: string) {
 	// If between 50% and 75% of the letters are uppercase,
 	// then lowercase the whole text
 	if (
-		text.replace(/[^A-Z]/g, '').length > text.length * 0.5 &&
-		text.replace(/[^A-Z]/g, '').length < text.length * 0.75
+		text.replaceAll(/[^A-Z]/g, '').length > text.length * 0.5 &&
+		text.replaceAll(/[^A-Z]/g, '').length < text.length * 0.75
 	) {
 		return text.toLowerCase();
 	}
+
 	return text;
 }
 
 function stripQuotes(text: string) {
-	return text.replace(/^["']|["']$/g, '');
+	return text.replaceAll(/^["']|["']$/g, '');
 }
 
 function getNameFromEmail(name: string) {
 	if (name.includes('@')) {
-		return name.split('@')[0].replace(/[_-]/g, ' ');
+		return name.split('@')[0].replaceAll(/[_-]/g, ' ');
 	}
+
 	return name;
 }
 
@@ -41,59 +41,52 @@ type LicenseEntry = CollectionEntry<'acknowledgments'>['data'][string][number];
 
 const { scope } = Astro.props;
 
-const data = (
-	await getCollection(
-		'acknowledgments',
-		(f) => scope === 'all' || f.id === `acknowledgments-${scope}`
-	)
-)
-	// each collection entry
-	.reduce((accumulator, collection) => {
-		return [
-			...accumulator,
-			...Object.values(collection.data).reduce((accumulator, packages) => {
-				return [...accumulator, ...packages];
-			}, [] as LicenseEntry[])
-		];
-	}, [] as LicenseEntry[]);
+const acknowledgementsCollection = await getCollection(
+	'acknowledgments',
+	(f) => scope === 'all' || f.id === `acknowledgments-${scope}`
+);
+
+// Each collection entry
+const data = acknowledgementsCollection.reduce<LicenseEntry[]>(
+	(acc, collection) => [...acc, ...Object.values(collection.data).flat()],
+	[]
+);
 
 // Get unique list of publisher names
 const names = data
-	.reduce((accumulator: string[], { author }) => {
+	.reduce((acc: string[], { author }) => {
 		if (author) {
 			// Split compound comma-delimited publishers as needed
 			for (const subItem of author.split(/\s*(?:\sand\s|,|&)\s*/)) {
 				const subPublisher = titleCase(stopShouting(stripQuotes(getNameFromEmail(subItem.trim()))));
-				if (subPublisher && !accumulator.includes(subPublisher)) {
-					accumulator.push(subPublisher);
+				if (subPublisher && !acc.includes(subPublisher)) {
+					acc.push(subPublisher);
 				}
 			}
 		}
-		return accumulator;
+
+		return acc;
 	}, [])
 	// Exclude me and some other vague things
 	.filter((name) => !['contributors', 'eric mika', 'inc.'].includes(name.toLowerCase()))
 	// Filter out case-insensitive duplicates, but keep the version with the most capitalization
-	.filter((name, index_, array) => {
+	.filter((name, index, array) => {
 		const lower = name.toLowerCase();
-		const index = array.findIndex((n) => n.toLowerCase() === lower);
-		return index === index_;
+		const matchIndex = array.findIndex((n) => n.toLowerCase() === lower);
+		return matchIndex === index;
 	})
-	// remove duplicate names like Microsoft, Microsoft Corp., Microsoft Corporation, keep the one without the Corp or Corporation suffix
-	.filter((name, index_, array) => {
+	// Remove duplicate names like Microsoft, Microsoft Corp., Microsoft Corporation, keep the one without the Corp or Corporation suffix
+	.filter((name, index, array) => {
 		const lower = name.toLowerCase();
-		const index = array.findIndex(
+		const matchIndex = array.findIndex(
 			(n) => n.toLowerCase().replace(/(corp\.|corporation)$/, '') === lower
 		);
-		return index === index_;
+		return matchIndex === index;
 	})
-
 	// Don't break names
 	.map((n) => n.replace(/ /, '\u00A0'))
 	// Sort by last name
-	.sort((a, b) => {
-		return a.localeCompare(b);
-	});
+	.sort((a, b) => a.localeCompare(b));
 ---
 
 {names.length > 0 && names.join(', ')}

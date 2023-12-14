@@ -45,7 +45,7 @@
 	export let maxHeight: $$Props['maxHeight'] = undefined;
 	export let resetStyle: $$Props['resetStyle'] = true;
 
-	// pretend we're a separator blade seems to require a view the <hr> is
+	// Pretend we're a separator blade seems to require a view the <hr> is
 	// replaced immediately with the slot contents. proper way to do this would be
 	// an actual tweakpane plugin.
 	const options: BladeOptions = {
@@ -55,10 +55,8 @@
 	let ref: BladeRef;
 	let sourceDiv: HTMLDivElement;
 
-	// hoist the slot into the blade
-	$: if (ref && ref.element) {
-		ref.element.replaceChildren(sourceDiv);
-	}
+	// Hoist the slot into the blade
+	$: ref?.element.replaceChildren(sourceDiv);
 </script>
 
 <!--

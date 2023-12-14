@@ -4,7 +4,9 @@ description: Steps to get going with Svelte Tweakpane UI.
 ---
 
 :::note
+
 _If you're coming in cold, and don't know why you might want to "get started" in the first place, take a look at [the overview](/svelte-tweakpane-ui/docs) first._
+
 :::
 
 ## Quick start

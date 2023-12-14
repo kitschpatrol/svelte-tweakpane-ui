@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { componentMenu } from './src/utils/config-helpers';
 import starlight from '@astrojs/starlight';
 import svelte from '@astrojs/svelte';
@@ -8,7 +9,7 @@ process.env.BROWSER = 'chromium';
 // https://astro.build/config
 export default defineConfig({
 	base: '/svelte-tweakpane-ui/',
-	compressHTML: false, // handled via astro-compress
+	compressHTML: false, // Handled via astro-compress
 	// experimental: {
 	//   devOverlay: true,
 	// },
@@ -40,10 +41,10 @@ export default defineConfig({
 						tooltipSuccessBackground: 'var(--sl-color-gray-3)'
 					}
 				}
-				// themes: ['github-dark', 'github-light']
+				// Themes: ['github-dark', 'github-light']
 			},
 			lastUpdated: true,
-			// logo: {
+			// Logo: {
 			// 	dark: './src/assets/svelte-tweakpane-ui-logo-dark.svg',
 			// 	light: './src/assets/svelte-tweakpane-ui-logo-light.svg'
 			// },

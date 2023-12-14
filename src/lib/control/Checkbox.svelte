@@ -4,7 +4,7 @@
 
 	type $$Props = Omit<ComponentProps<GenericInput<boolean>>, 'options' | 'plugin' | 'ref'>;
 
-	// must redeclare for bindability
+	// Must redeclare for bindability
 	export let value: $$Props['value'];
 </script>
 

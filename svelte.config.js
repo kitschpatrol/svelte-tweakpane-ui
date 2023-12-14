@@ -6,12 +6,10 @@ const config = {
 	compilerOptions: {
 		preserveComments: false,
 		preserveWhitespace: false
-		// dev: true
 	},
 	extensions: ['.svelte'],
 	kit: {
 		adapter: adapter()
-		// paths: { base: '/svelte-tweakpane-ui' }
 	},
 	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
 	// for more information about preprocessors

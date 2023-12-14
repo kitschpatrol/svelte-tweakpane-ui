@@ -1,17 +1,13 @@
 ---
-interface Props {
+type Props = {
 	names: string[];
-}
+};
 
 const { names } = Astro.props;
 ---
 
 <span class="flag-pill-group">
-	{
-		names.map((name) => {
-			return <span class={`flag-pill flag-name-${name}`}>{name}</span>;
-		})
-	}
+	{names.map((name) => <span class={`flag-pill flag-name-${name}`}>{name}</span>)}
 </span>
 
 <style>
@@ -23,8 +19,8 @@ const { names } = Astro.props;
 
 	span.flag-pill {
 		padding: 0.075em 0.7em;
-		font-family: var(--sl-font-system-mono);
 		/* margin-left: auto; */
+		font-family: var(--sl-font-system-mono);
 		font-size: calc(var(--sl-text-code-sm) - 0.1em);
 		background: var(--sl-color-bg-inline-code);
 		border-radius: 1.15em;

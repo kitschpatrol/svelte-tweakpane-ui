@@ -51,7 +51,7 @@
 		type?: 'float' | 'int';
 	};
 
-	// must redeclare for bindability
+	// Must redeclare for bindability
 	export let value: $$Props['value'];
 	export let expanded: $$Props['expanded'] = undefined;
 	export let type: $$Props['type'] = undefined;
@@ -60,7 +60,7 @@
 	let options: ColorOptions;
 	let ref: ColorRef;
 
-	// work-around for funky folding
+	// Work-around for funky folding
 	const buttonClass = 'tp-colswv_b';
 
 	function updateInternalValue() {
@@ -73,7 +73,7 @@
 				console.error('Unreachable');
 			}
 		} else {
-			// string or object
+			// String or object
 			internalValue = value;
 		}
 	}

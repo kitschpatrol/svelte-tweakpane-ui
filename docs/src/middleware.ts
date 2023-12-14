@@ -1,62 +1,67 @@
+/* eslint-disable max-depth */
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import { allProps } from './utils/prop-utils';
-import type { MiddlewareEndpointHandler } from 'astro';
+import type { MiddlewareHandler } from 'astro';
 import { getCollection } from 'astro:content';
 import { defineMiddleware, sequence } from 'astro:middleware';
 import { slug } from 'github-slugger';
 import { parseHTML } from 'linkedom';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const { BASE_URL } = import.meta.env;
 
-type APIContext = Parameters<MiddlewareEndpointHandler>[0];
+type ApiContext = Parameters<MiddlewareHandler>[0];
 
-const componentLinks = (await getCollection('docs')).reduce(
-	(accumulator, component) => {
-		if (component.data.componentData !== undefined) {
-			accumulator[component.data.componentData.name] = `${component.slug}`;
-		}
-		return accumulator;
-	},
-	{} as Record<string, string>
-);
+const documentationCollection = await getCollection('docs');
+const componentLinks = documentationCollection.reduce<Record<string, string>>((acc, component) => {
+	if (component.data.componentData !== undefined) {
+		acc[component.data.componentData.name] = `${component.slug}`;
+	}
+
+	return acc;
+}, {});
 
 function stripTrailingSlash(string: string): string {
 	if (string.endsWith('/')) {
 		return string.slice(0, -1);
 	}
+
 	return string;
 }
 
-// helper for dom transformations
+// Helper for dom transformations
 // document is mutated
 // use old promise syntax instead of await so we don't have to mess
 // with the function signature provided by astro
 
 function defineDomTransformMiddleware(
-	transform: (document: Document, context: APIContext) => void
+	transform: (document: Document, context: ApiContext) => void
 ) {
 	return defineMiddleware(async (context, next) => {
 		const response = await next();
-		// check if the response is returning some HTML
+		// Check if the response is returning some HTML
 		if ('headers' in response && response.headers.get('content-type') === 'text/html') {
-			const headers = response.headers;
+			const { headers } = response;
 			const html = await response.text();
 			const { document } = parseHTML(html);
 			transform(document, context);
+			// eslint-disable-next-line @typescript-eslint/no-base-to-string
 			return new Response(document.toString(), {
 				headers,
 				status: 200
 			});
 		}
+
 		return response;
 	});
 }
 
-// helper to... linkify words
+// Helper to... linkify words
 // ONLY works if the entire child of the element is the word
 // document is mutated
-function linkifyTerms(node: Node, termDictionary: { [key: string]: string }, base: string = '') {
+function linkifyTerms(node: Node, termDictionary: Record<string, string>, base: string = '') {
 	if (node.nodeType === node.ELEMENT_NODE && node.parentNode && node.ownerDocument) {
-		const text = (node as HTMLElement).textContent || '';
+		const text = (node as HTMLElement).textContent ?? '';
 
 		if (Object.keys(termDictionary).includes(text)) {
 			const link = node.ownerDocument.createElement('a');
@@ -64,7 +69,7 @@ function linkifyTerms(node: Node, termDictionary: { [key: string]: string }, bas
 
 			link.href = `${base.length > 0 ? base + '/' : ''}${termDictionary[text]}`;
 
-			// wrap the node in the link
+			// Wrap the node in the link
 			node.parentNode.insertBefore(link, node);
 			link.append(node);
 		}
@@ -74,7 +79,7 @@ function linkifyTerms(node: Node, termDictionary: { [key: string]: string }, bas
 const externalLinkAnnotator = defineDomTransformMiddleware((document, context) => {
 	const localHostname = 'localhost';
 	const { hostname: ourHostname } = context.site ?? { hostname: '' };
-	// not on hero pages
+	// Not on hero pages
 	for (const element of document.querySelectorAll(
 		'html:not([data-has-hero]) div.sl-markdown-content a'
 	) as NodeListOf<HTMLAnchorElement>) {
@@ -85,21 +90,22 @@ const externalLinkAnnotator = defineDomTransformMiddleware((document, context) =
 				element.setAttribute('rel', 'noopener noreferrer');
 			}
 		} catch {
-			// assume invalid URLs are internal
+			// Assume invalid URLs are internal
 		}
 	}
 });
 
 const automaticComponentLinks = defineDomTransformMiddleware((document, context) => {
-	// filter out own page
-	const componentLinksNotSelf = Object.entries(componentLinks).reduce(
-		(accumulator, [componentName, componentSlug]) => {
+	// Filter out own page
+	const componentLinksNotSelf = Object.entries(componentLinks).reduce<Record<string, string>>(
+		(acc, [componentName, componentSlug]) => {
 			if (context.props.slug !== componentSlug) {
-				accumulator[`<${componentName}>`] = componentSlug;
+				acc[`<${componentName}>`] = componentSlug;
 			}
-			return accumulator;
+
+			return acc;
 		},
-		{} as Record<string, string>
+		{}
 	);
 
 	for (const element of document.querySelectorAll('code')) {
@@ -112,13 +118,10 @@ const automaticPropLinks = defineDomTransformMiddleware((document, context) => {
 	if (componentData) {
 		const props = allProps(context.props.entry.data.componentData);
 
-		const propLinks = props.reduce(
-			(accumulator, prop) => {
-				accumulator[prop.name] = `#${slug(prop.name)}`;
-				return accumulator;
-			},
-			{} as Record<string, string>
-		);
+		const propLinks = props.reduce<Record<string, string>>((acc, prop) => {
+			acc[prop.name] = `#${slug(prop.name)}`;
+			return acc;
+		}, {});
 
 		for (const element of document.querySelectorAll('code')) {
 			linkifyTerms(element, propLinks);
@@ -131,7 +134,7 @@ const addLinkPrefix = defineDomTransformMiddleware((document) => {
 		for (const element of document.querySelectorAll(`[${attribute}]`)) {
 			const attribute_ = element.getAttribute(attribute);
 			if (attribute_?.startsWith('/_astro/')) {
-				// add the base prefix
+				// Add the base prefix
 				element.setAttribute(attribute, `${stripTrailingSlash(BASE_URL ?? '')}${attribute_}`);
 			}
 		}
@@ -163,7 +166,7 @@ const stripLinkSuffix = defineDomTransformMiddleware((document, context) => {
 	}
 });
 
-// add heading anchor links (VuePress style)
+// Add heading anchor links (VuePress style)
 const addHeadingAnchorLinks = defineDomTransformMiddleware((document) => {
 	const tocLinks = [...document.querySelectorAll('starlight-toc nav a')] as HTMLAnchorElement[];
 	const headings = tocLinks.map((link) => {
@@ -173,9 +176,9 @@ const addHeadingAnchorLinks = defineDomTransformMiddleware((document) => {
 	}) as HTMLHeadingElement[];
 
 	for (const heading of headings) {
-		// skip h1
+		// Skip h1
 		if (heading.nodeName !== 'H1') {
-			// create anchor link
+			// Create anchor link
 			const link = heading.ownerDocument.createElement('a');
 			link.href = `#${heading.id}`;
 
@@ -190,7 +193,7 @@ const addHeadingAnchorLinks = defineDomTransformMiddleware((document) => {
 			const wrapper = heading.ownerDocument.createElement('div');
 			wrapper.className = 'heading-anchor-wrapper';
 
-			// wrap the heading and link in a div
+			// Wrap the heading and link in a div
 			heading.parentNode?.insertBefore(wrapper, heading);
 			wrapper.append(heading);
 			wrapper.append(link);

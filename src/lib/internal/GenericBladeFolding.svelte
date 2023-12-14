@@ -34,15 +34,15 @@
 		userExpandable?: boolean;
 	};
 
-	// reexport for bindability
+	// Reexport for bindability
 	export let options: $$Props['options'];
 	export let ref: $$Props['ref'] = undefined;
 
-	// unique props
+	// Unique props
 	export let userExpandable: $$Props['userExpandable'] = true;
 	export let expanded: $$Props['expanded'] = undefined;
 	export let buttonClass: $$Props['buttonClass'] = '';
-	export let picker: $$Props['picker'] = undefined; // technically not guaranteed, but advantages to assuming it's there for coherent userExpandable behavior
+	export let picker: $$Props['picker'] = undefined; // Technically not guaranteed, but advantages to assuming it's there for coherent userExpandable behavior
 
 	//  can't be right, but no 'fold' event or 'expanded' value seems to be available
 	let gotBlade = false;
@@ -52,7 +52,7 @@
 	$: if (!gotBlade && ref) {
 		gotBlade = true;
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unnecessary-type-assertion
 		(ref.controller as any)?.valueController?.foldable_
 			?.value('expanded')
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -64,7 +64,7 @@
 
 	$: options = {
 		...options,
-		expanded: initialExpanded, // only set once
+		expanded: initialExpanded, // Only set once
 		picker
 	};
 
@@ -72,7 +72,7 @@
 		buttonClass !== undefined &&
 		updateCollapsibility(userExpandable ?? true, ref.element, buttonClass);
 
-	// click instead of setting expanded to avoid  animation jankiness
+	// Click instead of setting expanded to avoid  animation jankiness
 	$: ref &&
 		buttonClass !== undefined &&
 		expanded !== internalExpanded &&

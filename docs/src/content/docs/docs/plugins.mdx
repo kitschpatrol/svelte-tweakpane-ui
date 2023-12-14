@@ -5,8 +5,8 @@ description: Components from Tweakpane plugins.
 
 import ExampleWrapper from '../../../components/docs/ExampleWrapper.astro';
 import InlineImage from '../../../components/docs/InlineImage.astro';
-import SvelteTweakpanePluginExample from '../../../examples/docs/SvelteTweakpanePluginExample.svelte';
 import SvelteTweakpanePluginExampleCode from '../../../examples/docs/SvelteTweakpanePluginExample.md';
+import SvelteTweakpanePluginExample from '../../../examples/docs/SvelteTweakpanePluginExample.svelte';
 
 Tweakpane is enriched by a [variety of first- and third-party component plugins](https://github.com/topics/tweakpane).
 
@@ -24,7 +24,7 @@ Many of the most popular Tweakpane plugins are already bundled with _Svelte Twea
 
 :::note[Implicit vs. Explicit Controls]
 
-_Svelte Tweakpane UI_'s approach to structuring a component library is a subtle inversion of the underlying vanilla Tweakpane design. For the most part, vanilla Tweakpane "picks" a component for you based on the type of the value you want to control (or the shape of an object you want to control, in more complex cases). It uses the value's type information — in combination with its internal plugin system — to provide a slider, or a color picker, or a text field. The value type drives the control type.
+_Svelte Tweakpane UI_'s approach to structuring a component library is a subtle inversion of the underlying vanilla Tweakpane design. For the most part, vanilla Tweakpane "picks" a component for you based on the type of the value you want to control (or the shape of an object you want to control, in more complex cases). It uses the value's type information — in combination with its internal plugin system — to provide a slider, or a color picker, or a text field. The value type drives the control type.
 
 You can still achieve this behavior in _Svelte Tweakpane UI_ through components like `<AutoObject>` and `<AutoValue>`, but in most cases _Svelte Tweakpane UI_ is designed to make the component choice explicit (e.g. not just an abstract `<Binding>`, but a concrete `<Slider>`), and enforce that the value bound to the control is of an appropriate type. The kind of control you're getting is promised explicitly through its name, not implicitly through the type of value under its control.
 
@@ -47,20 +47,19 @@ npm install @tweakpane/plugin-essentials
 Then importing, registering, and using the plugin:
 
 ```js title="VanillaTweakpanePluginExample.js"
-import { Pane } from 'tweakpane';
 import * as EssentialsPlugin from '@tweakpane/plugin-essentials';
+import { Pane } from 'tweakpane';
 
 const pane = new Pane();
 pane.registerPlugin(EssentialsPlugin);
 
 pane
   .addBlade({
-    view: 'cubicbezier',
     value: [0.5, 0, 0.5, 1],
-
     expanded: true,
     label: 'cubicbezier',
-    picker: 'inline'
+    picker: 'inline',
+    view: 'cubicbezier'
   })
   .on('change', (event) => {
     console.log(event);

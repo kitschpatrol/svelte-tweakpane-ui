@@ -13,10 +13,10 @@
 		mounted = true;
 	});
 
-	// tweakpane
+	// Tweakpane
 	let paneWidth: number = 290;
 
-	// grid
+	// Grid
 	let paneCount: number = 0;
 	let gridSpacingX: number = 709;
 	let gridSpacingY: number = 785;

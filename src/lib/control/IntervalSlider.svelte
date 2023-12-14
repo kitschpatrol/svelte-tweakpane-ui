@@ -15,7 +15,6 @@
 	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import type { ComponentProps } from 'svelte';
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = Omit<
 		ComponentProps<GenericSlider<IntervalSliderValue>>,
 		'options' | 'plugin' | 'ref'
@@ -34,11 +33,11 @@
 		meanValue?: number;
 	};
 
-	// reexport for bindability
+	// Reexport for bindability
 	export let value: $$Props['value'];
 	export let meanValue: $$Props['meanValue'] = undefined;
 
-	// proxy value since Tweakpane only supports Point3dObject type
+	// Proxy value since Tweakpane only supports Point3dObject type
 	let internalValue: IntervalObject;
 
 	function updateInternalValue() {

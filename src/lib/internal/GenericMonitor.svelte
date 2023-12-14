@@ -36,12 +36,12 @@
 		rows?: number;
 	};
 
-	// reexport for bindability
-	export let value: $$Props['value']; // still has to be passed manually since it's required
+	// Reexport for bindability
+	export let value: $$Props['value']; // Still has to be passed manually since it's required
 	export let ref: $$Props['ref'] = undefined;
 	export let options: $$Props['options'] = undefined;
 
-	// union of boolean / number / string / object monitor params
+	// Union of boolean / number / string / object monitor params
 	export let rows: $$Props['rows'] = undefined;
 	export let bufferSize: $$Props['bufferSize'] = undefined;
 	export let interval: $$Props['interval'] = undefined;
@@ -50,7 +50,7 @@
 
 	$: optionsInternal = {
 		bufferSize,
-		interval: interval ?? 0, // zero confirmed as never updating (not same interface as setInterval())
+		interval: interval ?? 0, // Zero confirmed as never updating (not same interface as setInterval())
 		rows,
 		...options,
 		readonly: true

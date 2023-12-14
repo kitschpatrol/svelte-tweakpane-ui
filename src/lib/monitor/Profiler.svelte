@@ -108,7 +108,7 @@
 		targetDelta?: number;
 	};
 
-	// exporting a const function might be cleaner, but less expected by the user?
+	// Exporting a const function might be cleaner, but less expected by the user?
 	function _measure(name: string, functionToMeasure: () => void): void {
 		profilerBlade?.measure(name, functionToMeasure);
 	}
@@ -117,10 +117,11 @@
 		name: string,
 		functionToMeasure: () => Promise<void>
 	): Promise<void> {
-		profilerBlade?.measureAsync(name, functionToMeasure);
+		// TODO should be void instead of await?
+		await profilerBlade?.measureAsync(name, functionToMeasure);
 	}
 
-	//unique
+	// Unique
 	export let label: $$Props['label'] = undefined;
 	export let bufferSize: $$Props['bufferSize'] = undefined;
 	export let calcMode: $$Props['calcMode'] = undefined;
@@ -157,18 +158,18 @@
 		stopObservingMeasuredValue();
 	});
 
-	// observe and update the measured profiler value from the dom This is is kind of crazy, TBD
+	// Observe and update the measured profiler value from the dom This is is kind of crazy, TBD
 	// better way to get this data from the profiler blade
 	function startObservingMeasuredValue() {
-		// clean up if needed
+		// Clean up if needed
 		stopObservingMeasuredValue();
 		const targetNode = profilerBlade.controller.view.valueElement;
-		if (!targetNode || !targetNode.innerHTML) return;
+		if (!targetNode?.innerHTML) return;
 
 		observer = new MutationObserver((mutations) => {
 			for (const mutation of mutations) {
 				if (mutation.type === 'characterData' || mutation.type === 'childList') {
-					// parse float ignore the deltaUnit suffix
+					// Parse float ignore the deltaUnit suffix
 					const fpsText = (mutation.target as HTMLElement).textContent;
 					if (fpsText !== null) {
 						const delta = Number.parseFloat(fpsText);

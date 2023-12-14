@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import type { BaseBladeParams, BladeApi } from 'tweakpane';
-	export type BladeRef = BladeApi; // required for input folding
+	export type BladeRef = BladeApi; // Required for input folding
 	export type BladeOptions = BaseBladeParams;
 	export type { Plugin } from '$lib/utils.js';
 </script>
@@ -68,25 +68,23 @@
 
 	let indexElement: HTMLDivElement;
 	let index: number;
-	let _ref: V; // readonly shadow
+	let _ref: V; // Readonly shadow
 
 	function create() {
-		// console.log('blade created');
-
-		// must destroy to allow reactive parameters
+		// Must destroy to allow reactive parameters
 		if (_ref) _ref.dispose();
 
 		if (plugin !== undefined) {
-			// calls function provided by context on the containing pane
+			// Calls function provided by context on the containing pane
 			registerPlugin(plugin);
 		}
 
-		// last one wins
+		// Last one wins
 		_ref = $parentStore.addBlade({
 			index,
 			...options,
-			disabled // why last?
-		}) as V; // cast is required by Tweakpane's design
+			disabled // Why last?
+		}) as V; // Cast is required by Tweakpane's design
 
 		ref = _ref;
 	}
@@ -99,7 +97,7 @@
 		_ref?.dispose();
 	});
 
-	// readonly props
+	// Readonly props
 	$: DEV && BROWSER && enforceReadonly(_ref, ref, 'Blade', 'ref', true);
 
 	$: options, BROWSER && $parentStore && index !== undefined && create();

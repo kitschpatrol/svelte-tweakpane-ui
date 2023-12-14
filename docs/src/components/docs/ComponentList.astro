@@ -2,21 +2,21 @@
 import { type CollectionEntry, getCollection } from 'astro:content';
 import { marked } from 'marked';
 
-interface Props {
+type Props = {
 	scope?: string;
-}
+};
 
 const { scope } = Astro.props;
 
-const components = (await getCollection('docs')).filter((component: CollectionEntry<'docs'>) => {
-	return (
+const documentation = await getCollection('docs');
+const components = documentation.filter(
+	(component: CollectionEntry<'docs'>) =>
 		component.data.componentData !== undefined &&
 		(scope === undefined ? true : component.data.componentData.pathParts.includes(scope))
-	);
-});
+);
 
 async function firstLine(text: string): Promise<string> {
-	return await marked.parseInline(text.split('\n\n')[0]);
+	return marked.parseInline(text.split('\n\n')[0]);
 }
 ---
 

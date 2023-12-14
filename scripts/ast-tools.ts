@@ -1,4 +1,5 @@
 // TypeScript AST traversal and extraction tools used by various scripts.
+
 import { query as tsquery } from '@phenomnomnominal/tsquery';
 import { ESLint } from 'eslint';
 import { globSync } from 'glob';
@@ -6,7 +7,7 @@ import { spawn } from 'node:child_process';
 import { exec } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
-// import stylelint from 'stylelint';
+import { readPackageUp } from 'read-package-up';
 import { svelte2tsx } from 'svelte2tsx';
 import {
 	type ClassDeclaration,
@@ -14,10 +15,10 @@ import {
 	type Node,
 	Project,
 	type PropertySignature,
-	StringLiteral
+	type StringLiteral
 } from 'ts-morph';
 
-// this will break if multiple components with the same name exist in different folders
+// This will break if multiple components with the same name exist in different folders
 function findFile(
 	base: string,
 	componentName: string,
@@ -26,27 +27,41 @@ function findFile(
 ): string | undefined {
 	const files = globSync(`./${base}/**/${componentName}${suffix}`);
 	if (files.length === 0) {
-		warn && console.warn(`No files found for ${componentName}`);
+		if (warn) console.warn(`No files found for ${componentName}`);
 		return undefined;
-	} else if (files.length > 1) {
-		warn && console.error(`Fatal: Found multiple files for ${componentName}: ${files}`);
-		return undefined;
-	} else {
-		return path.resolve(files[0]);
 	}
+
+	if (files.length > 1) {
+		if (warn) console.error(`Fatal: Found multiple files for ${componentName}: ${files.join(' ')}`);
+		return undefined;
+	}
+
+	return path.resolve(files[0]);
 }
 
-export function getGithubUrlForSourceFile(filePath: string): string {
-	// gonna be slow
-	const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
-	const sourceBaseUrl = packageJson.repository.url.replace('.git', '') + '/blob/main/';
+export async function getGithubUrlForSourceFile(filePath: string): Promise<string> {
+	// Gonna be slow
+	const closestPackageJson = await readPackageUp();
+	const url = closestPackageJson?.packageJson.repository?.url;
+
+	if (url === undefined) {
+		throw new Error('No repository url found in package.json');
+	}
+
+	const sourceBaseUrl = `${url.replace(/^git\+/, '').replace(/\.git$/, '')}/blob/main/`;
 	return sourceBaseUrl + filePath;
 }
 
-export function getEditUrlForSourceFile(filePath: string): string {
-	// gonna be slow
-	const packageJson = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
-	const sourceBaseUrl = packageJson.repository.url.replace('.git', '') + '/edit/main/';
+export async function getEditUrlForSourceFile(filePath: string): Promise<string> {
+	// Gonna be slow
+	const closestPackageJson = await readPackageUp();
+	const url = closestPackageJson?.packageJson.repository?.url;
+
+	if (url === undefined) {
+		throw new Error('No repository url found in package.json');
+	}
+
+	const sourceBaseUrl = `${url.replace(/^git\+/, '').replace(/\.git$/, '')}/edit/main/`;
 	return sourceBaseUrl + filePath;
 }
 
@@ -62,24 +77,22 @@ export function getSourceFilePath(componentName: string, warn: boolean = true): 
 }
 
 export function getAllLibraryFiles(): string[] {
-	return globSync('./src/lib/**/*').filter((file) => {
-		return fs.statSync(file).isFile();
-	});
+	return globSync('./src/lib/**/*').filter((file) => fs.statSync(file).isFile());
 }
 
 export function getAllLibraryComponentNames(): string[] {
-	// what happens with js components?
-	return globSync('./src/lib/**/*.svelte').map((file) => {
-		return path.basename(file).replace('.svelte', '');
-	});
+	// What happens with js components?
+	return globSync('./src/lib/**/*.svelte').map((file) =>
+		path.basename(file).replace('.svelte', '')
+	);
 }
 
-export function getExportedComponents(indexPath: string): { name: string; path: string }[] {
+export function getExportedComponents(indexPath: string): Array<{ name: string; path: string }> {
 	return queryTree<StringLiteral>(
 		new Project().addSourceFileAtPath(indexPath),
 		'ExportDeclaration StringLiteral[value=/.+.svelte/]'
 	).map((node) => {
-		const cleanPath = node.getText().replace(/["']/g, '');
+		const cleanPath = node.getText().replaceAll(/["']/g, '');
 
 		return {
 			name: path.basename(cleanPath).replace('.svelte', ''),
@@ -88,8 +101,8 @@ export function getExportedComponents(indexPath: string): { name: string; path: 
 	});
 }
 
-// brittle
-export function getExportedJs(indexPath: string): { name: string; path: string }[] {
+// Brittle
+export function getExportedJs(indexPath: string): Array<{ name: string; path: string }> {
 	return queryTree<StringLiteral>(
 		new Project().addSourceFileAtPath(indexPath),
 		'ExportDeclaration[isTypeOnly=false]:has(StringLiteral[value=/.+.js/])'
@@ -98,7 +111,7 @@ export function getExportedJs(indexPath: string): { name: string; path: string }
 		const path = queryTree<StringLiteral>(node, 'StringLiteral')
 			.at(0)!
 			.getText()
-			.replace(/["']/g, '');
+			.replaceAll(/["']/g, '');
 
 		return {
 			name,
@@ -108,7 +121,7 @@ export function getExportedJs(indexPath: string): { name: string; path: string }
 }
 
 /**
- * wraps tsquery to return ts-morph Nodes
+ * Wraps tsquery to return ts-morph Nodes
  * @see https://tsquery-playground.firebaseapp.com
  * @see https://astexplorer.net/
  */
@@ -163,15 +176,14 @@ function getPropsInternal(
 	);
 }
 
-// doc-specific
+// Doc-specific
 
 function extractCodeBlock(inputString: string): string | undefined {
 	const regex = /```\w*\n([\S\s]+?)```/gm;
 	const match = regex.exec(inputString);
-	if (match && match[1]) {
+	if (match?.[1]) {
 		return match[1].trim();
 	}
-	return;
 }
 
 export async function getComponentExampleCodeFromSource(
@@ -188,13 +200,13 @@ export async function getComponentExampleCodeFromSource(
 		'ClassDeclaration:has([jsDoc]):has(ExportKeyword)'
 	).at(0);
 
-	// strip jsdoc comments
+	// Strip jsdoc comments
 	if (classDeclaration === undefined) {
 		console.error(`Class declaration not found in ${componentName}`);
 		return undefined;
 	}
 
-	// support two extraction strategies... sticking with AST for now
+	// Support two extraction strategies... sticking with AST for now
 	const useAst = true;
 
 	let exampleCommentWithFence: string | undefined;
@@ -216,7 +228,7 @@ export async function getComponentExampleCodeFromSource(
 			.getJsDocs()
 			.at(0)
 			?.getFullText()
-			.replace(/^ ?\/*\*+[ /]?/gm, '');
+			.replaceAll(/^ ?\/*\*+[ /]?/gm, '');
 
 		if (fullCommentText === undefined) {
 			console.error(`Class declaration comment not found in ${componentName}`);
@@ -225,7 +237,7 @@ export async function getComponentExampleCodeFromSource(
 
 		// Pull out just the @example code fence
 		// TODO multiple example support (via .exec, /g doesn't work with .match)
-		exampleCommentWithFence = fullCommentText.match(/@example[\S\s]+(```[\S\s]+```)/m)?.at(1);
+		exampleCommentWithFence = /@example[\S\s]+(```[\S\s]+```)/m.exec(fullCommentText)?.at(1);
 	}
 
 	if (exampleCommentWithFence === undefined) {
@@ -233,7 +245,7 @@ export async function getComponentExampleCodeFromSource(
 		return undefined;
 	}
 
-	// format, because it's lost in the AST
+	// Format, because it's lost in the AST
 
 	const exampleCommentWithoutFence = extractCodeBlock(exampleCommentWithFence);
 
@@ -244,7 +256,7 @@ export async function getComponentExampleCodeFromSource(
 
 	const formattedComment = await lintAndFormat(exampleCommentWithoutFence);
 
-	// put the formatted code block back inside the fence
+	// Put the formatted code block back inside the fence
 	const wrappedComment = `${exampleCommentWithFence
 		.split('\n')
 		.at(0)}\n${formattedComment}${exampleCommentWithFence.split('\n').at(-1)}`;
@@ -259,8 +271,7 @@ export async function lintAndFormat(
 	formatParser: string = 'svelte'
 ): Promise<string> {
 	const lintedCode = await lint(code, fileExtension);
-	const styleLintedCode = await lintStyle(lintedCode, fileExtension);
-	const lintedAndFormattedCode = await format(styleLintedCode, formatParser);
+	const lintedAndFormattedCode = await format(lintedCode, formatParser);
 	return lintedAndFormattedCode;
 }
 
@@ -280,32 +291,13 @@ async function lint(code: string, fileExtension: string): Promise<string> {
 		console.log(error);
 	}
 
-	// output is undefined when there are no errors
+	// Output is undefined when there are no errors
 
 	return result?.output ?? code;
 }
 
-async function lintStyle(code: string, fileExtension: string): Promise<string> {
-	fileExtension; // unused
-	return code;
-
-	// TODO
-	// broken...
-	// just passing the .stylelintrc.cjs doesn't seem to work...
-	// const config = await stylelint.resolveConfig(`example.${fileExtension}`);
-
-	// const result: stylelint.LinterResult = await stylelint.lint({
-	// 	code: code,
-	// 	config,
-	// 	configBasedir: process.cwd(),
-	// 	fix: true
-	// });
-
-	// return result?.output ?? code;
-}
-
 export async function format(code: string, formatParser: string): Promise<string> {
-	// much slower than the node api, but more consistently gets the right config
+	// Much slower than the node api, but more consistently gets the right config
 	return new Promise((resolve, reject) => {
 		// Spawn Prettier process
 		const prettierProcess = spawn('prettier', [
@@ -323,12 +315,12 @@ export async function format(code: string, formatParser: string): Promise<string
 		let errorOutput = '';
 
 		// Collect formatted code
-		prettierProcess.stdout.on('data', (data) => {
+		prettierProcess.stdout.on('data', (data: Buffer) => {
 			formattedCode += data.toString();
 		});
 
 		// Collect error messages
-		prettierProcess.stderr.on('data', (data) => {
+		prettierProcess.stderr.on('data', (data: Buffer) => {
 			errorOutput += data.toString();
 		});
 
@@ -359,6 +351,7 @@ export async function getLastUpdatedDate(filePath: string): Promise<Date | void>
 				reject(error);
 				return;
 			}
+
 			const date = new Date(stdout.trim());
 			if (Number.isNaN(date.getTime())) {
 				resolve();

@@ -94,33 +94,31 @@
 	const parentStore: Writable<Container> = getContext('parentStore');
 	const userCreatedPane = getContext('userCreatedPane');
 
-	let _ref: V; // internal shadow ref
+	let _ref: V; // Internal shadow ref
 	let indexElement: HTMLDivElement;
 	let index: number;
 
 	function create() {
-		// console.log('binding created');
-
-		// must destroy to allow a reactive `key` parameter
+		// Must destroy to allow a reactive `key` parameter
 		if (_ref) _ref.dispose();
 
 		if (plugin !== undefined) {
-			// calls function provided by context on the containing pane
+			// Calls function provided by context on the containing pane
 			registerPlugin(plugin);
 		}
 
-		// last one wins
+		// Last one wins
 		_ref = $parentStore.addBinding(object, key, {
 			index,
 			label,
 			...options,
 			disabled
-		}) as V; // cast is required by Tweakpane's design
+		}) as V; // Cast is required by Tweakpane's design
 
 		ref = _ref;
 
 		_ref.on('change', () => {
-			// trigger reactivity
+			// Trigger reactivity
 			object = object;
 		});
 	}
@@ -133,11 +131,11 @@
 		_ref?.dispose();
 	});
 
-	// readonly props
+	// Readonly props
 	$: DEV && enforceReadonly(_ref, ref, 'Binding', 'ref', true);
 
-	// options seem immutable... have to recreate old version supporting key changes $: key,
-	// options,
+	// Options seem immutable...
+	// have to recreate old version supporting key changes $: key, options,
 	$: options, $parentStore !== undefined && index !== undefined && create();
 	$: object, _ref !== undefined && _ref.refresh();
 	$: _ref !== undefined && (_ref.disabled = disabled);

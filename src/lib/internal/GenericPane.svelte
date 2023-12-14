@@ -8,7 +8,7 @@
 	import { type Writable, writable } from 'svelte/store';
 	import { Pane as TpPane } from 'tweakpane';
 
-	// import type { BladeState } from '@tweakpane/core';
+	// Import type { BladeState } from '@tweakpane/core';
 
 	/**
 	 * Text in the pane's title bar.
@@ -31,7 +31,7 @@
 	 * @default `true`
 	 * @bindable
 	 * */
-	export let expanded: boolean = true; // special case
+	export let expanded: boolean = true; // Special case
 
 	/**
 	 * Custom color scheme.
@@ -68,7 +68,7 @@
 	 */
 	export let scale: number = 1;
 
-	// export let state: BladeState | undefined = undefined;
+	// Export let state: BladeState | undefined = undefined;
 
 	// TODO Giant pain to pass through,
 	/** Function to import a state object and set all pane values simultaneously. Returns true if
@@ -99,7 +99,7 @@
 	};
 
 	const parentStore = writable<TpPane>();
-	const existingParentStore: Writable<Container | undefined> = getContext('parentStore'); // sanity checks
+	const existingParentStore: Writable<Container | undefined> = getContext('parentStore'); // Sanity checks
 
 	// the raw pane.registerPlugin function doesn't seem to prevent duplicate registrations as a
 	// minor optimization, we track plugin registrations manually to make sure child components
@@ -108,20 +108,14 @@
 	let pluginsRegistered: string[] = [];
 	const registerPlugin = (plugin: Plugin) => {
 		if (paneRef === undefined) {
-			console.warn('`paneRef is undefined, failed to register plugin "${plugin.id}"');
-		} else {
-			if (pluginsRegistered.includes(plugin.id)) {
-				// console.log(`Already registered plugin ${plugin.id}`);
-			} else {
-				// console.log(`Registering plugin "${plugin.id}"`);
-				paneRef?.registerPlugin(plugin);
-				pluginsRegistered.push(plugin.id);
-				// console.log(`Plugins registered: ${pluginsRegistered}`);
-			}
+			console.warn(`paneRef is undefined, failed to register plugin "${plugin.id}"`);
+		} else if (!pluginsRegistered.includes(plugin.id)) {
+			paneRef?.registerPlugin(plugin);
+			pluginsRegistered.push(plugin.id);
 		}
 	};
 
-	// allow children to register plugins as needed
+	// Allow children to register plugins as needed
 	setContext('registerPlugin', registerPlugin);
 	setContext('userCreatedPane', userCreatedPane);
 
@@ -134,7 +128,7 @@
 	if (BROWSER) {
 		$parentStore = new TpPane({ expanded, title });
 
-		// plugins loaded dynamically at runtime as needed child components are responsible for
+		// Plugins loaded dynamically at runtime as needed child components are responsible for
 		// registration via the registerPlugin context function
 
 		$parentStore.on('fold', () => {
@@ -164,7 +158,7 @@
 				paneRef.element.style.transformOrigin = '0 0';
 				paneRef.element.style.transform = `scale(${clampedScale})`;
 
-				// jitters a bit, but resizeObserver + rounding wasn't better
+				// Jitters a bit, but resizeObserver + rounding wasn't better
 				paneRef.element.style.width = `${100 / clampedScale}%`;
 			}
 		}
@@ -174,6 +168,7 @@
 		if (paneRef) {
 			paneRef.expanded = _expanded;
 		}
+
 		expanded = _expanded;
 	}
 

@@ -1,7 +1,7 @@
 import { getAllLibraryFiles, lintAndFormat } from './ast-tools';
 import fs from 'node:fs';
 
-// assumes all code blocks are svelte-like
+// Assumes all code blocks are svelte-like
 async function formatEmbeddedCode(file: string): Promise<number> {
 	let embedsFormatted = 0;
 	try {
@@ -9,6 +9,7 @@ async function formatEmbeddedCode(file: string): Promise<number> {
 		let formattedData = '';
 		let lastIndex = 0;
 		const regex = /(```.*\n)([\S\s]*?)(\n```)/g;
+		// eslint-disable-next-line @typescript-eslint/ban-types
 		let match: RegExpExecArray | null;
 
 		while ((match = regex.exec(data)) !== null) {
@@ -24,7 +25,12 @@ async function formatEmbeddedCode(file: string): Promise<number> {
 				// Using the original opening and closing backticks
 				formattedData += `${opening}${formattedCode.trimEnd()}${closing}`;
 			} catch (error) {
-				console.error(`Error formatting code: ${error}`);
+				if (error instanceof Error) {
+					console.error(`Error formatting code: ${error.message}`);
+				} else {
+					console.error(`Error formatting code: ${String(error)}`);
+				}
+
 				formattedData += fullMatch;
 			}
 
@@ -41,8 +47,13 @@ async function formatEmbeddedCode(file: string): Promise<number> {
 			fs.writeFileSync(file, formattedData, 'utf8');
 		}
 	} catch (error) {
-		console.error(`Error: ${error}`);
+		if (error instanceof Error) {
+			console.error(`Error: ${error.message}`);
+		} else {
+			console.error(`Error: ${String(error)}`);
+		}
 	}
+
 	return embedsFormatted;
 }
 

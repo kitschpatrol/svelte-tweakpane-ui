@@ -1,14 +1,13 @@
 import type { PageServerLoad } from './$types';
-import { globSync } from 'glob';
+import { glob } from 'glob';
 
 export const load: PageServerLoad = async () => {
-	const examples = globSync('./src/examples/**/*.svelte')
+	const examples = await glob('./src/examples/**/*.svelte');
+	const sortedExamples = examples
 		.map((example) => example.replace('src/examples/', './'))
-		.sort((a, b) => {
-			return a.localeCompare(b);
-		});
+		.sort((a, b) => a.localeCompare(b));
 
 	return {
-		examples
+		examples: sortedExamples
 	};
 };

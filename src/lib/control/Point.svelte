@@ -2,7 +2,7 @@
 	import type { Simplify } from '$lib/utils';
 	import type { Point2dInputParams, Point3dInputParams, Point4dInputParams } from 'tweakpane';
 
-	// extends Tweakpane's implementation to support tuples
+	// Extends Tweakpane's implementation to support tuples
 	export type PointValue2dObject = { x: number; y: number };
 	export type PointValue2dTuple = [x: number, y: number];
 	export type PointValue2d = Simplify<PointValue2dObject | PointValue2dTuple>;
@@ -25,10 +25,10 @@
 	> = Dimensions extends '4'
 		? Point4dInputParams[Axis]
 		: Dimensions extends '3'
-		  ? Point3dInputParams[Axis]
-		  : Dimensions extends '2'
-		    ? Point2dInputParams[Axis]
-		    : never;
+			? Point3dInputParams[Axis]
+			: Dimensions extends '2'
+				? Point2dInputParams[Axis]
+				: never;
 </script>
 
 <script generics="T extends PointValue2d | PointValue3d | PointValue4d" lang="ts">
@@ -41,10 +41,10 @@
 	type PointOptions<U> = U extends PointValue4d
 		? Point4dInputParams
 		: U extends PointValue3d
-		  ? Point3dInputParams
-		  : U extends PointValue2d
-		    ? Point2dInputParams
-		    : unknown;
+			? Point3dInputParams
+			: U extends PointValue2d
+				? Point2dInputParams
+				: unknown;
 
 	type PropsForType<U> = (U extends PointValue2d | PointValue3d | PointValue4d
 		? {
@@ -68,7 +68,7 @@
 				 * `inverted` is `false`
 				 * */
 				optionsY?: PointOptions<U>['y'];
-		  }
+			}
 		: unknown) &
 		(U extends PointValue3d | PointValue4d
 			? {
@@ -80,7 +80,7 @@
 					 * @default `undefined`
 					 * */
 					optionsZ?: PointOptions<U>['z'];
-			  }
+				}
 			: unknown) &
 		(U extends PointValue4d
 			? {
@@ -92,18 +92,18 @@
 					 * @default `undefined`
 					 * */
 					optionsW?: PointOptions<U>['w'];
-			  }
+				}
 			: unknown);
 
 	type InternalPoint<U> = U extends PointValue4d
 		? PointValue4dObject
 		: U extends PointValue3d
-		  ? PointValue3dObject
-		  : U extends PointValue2d
-		    ? PointValue2dObject
-		    : unknown;
+			? PointValue3dObject
+			: U extends PointValue2d
+				? PointValue2dObject
+				: unknown;
 
-	// some redefinition of props from GenericSlider, but redefining since we want to refine the
+	// Some redefinition of props from GenericSlider, but redefining since we want to refine the
 	// documentation anyway eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = Omit<
 		ComponentProps<GenericInputFolding<T, PointOptions<T>>>,
@@ -158,7 +158,7 @@
 		step?: number;
 	} & PropsForType<T>;
 
-	// bindable props must be re-exported
+	// Bindable props must be re-exported
 	export let value: T;
 	export let expanded: boolean | undefined = $$props.expanded ?? undefined; //  $$Props['expanded']; not working here?
 
@@ -174,12 +174,12 @@
 	let optionsW: HasKey<$$Props, 'optionsW'> = $$props['optionsW'] ?? undefined;
 	let format: $$Props['format'] = $$props['format'] ?? undefined;
 
-	// proxy value since Tweakpane only supports PointNdObject type
+	// Proxy value since Tweakpane only supports PointNdObject type
 	let internalValue: InternalPoint<T>;
 
 	let options: PointOptions<T>;
 
-	// work-around for funky folding
+	// Work-around for funky folding
 	const buttonClass = 'tp-p2dv_b';
 
 	function updateInternalValue() {

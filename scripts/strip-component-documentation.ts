@@ -1,4 +1,4 @@
-// there's redundant @component documentation between the svelte file and the svelte.d.ts file
+// There's redundant @component documentation between the svelte file and the svelte.d.ts file
 
 import { globSync } from 'glob';
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -10,12 +10,12 @@ function removeComponentBlock(filePath: string): void {
 	const fileContent = readFileSync(filePath, 'utf8');
 
 	// Use regular expression to remove everything between <!-- @component and -->
-	const updatedContent = fileContent.replace(/<!--\s*@component[\S\s]*?-->/g, '');
+	const updatedContent = fileContent.replaceAll(/<!--\s*@component[\S\s]*?-->/g, '');
 
 	if (fileContent === updatedContent) {
-		verbose && console.log(`No @component comment found in ${filePath}`);
+		if (verbose) console.log(`No @component comment found in ${filePath}`);
 	} else {
-		verbose && console.log(`Stripped @component comment from ${filePath}`);
+		if (verbose) console.log(`Stripped @component comment from ${filePath}`);
 		writeFileSync(filePath, updatedContent, 'utf8');
 	}
 }

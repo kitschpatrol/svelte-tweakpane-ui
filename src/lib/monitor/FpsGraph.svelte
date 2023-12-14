@@ -61,14 +61,14 @@
 		rows?: number;
 	};
 
-	// reexport for bindability
-	export let rows: $$Props['rows'] = undefined; // default comes from implementation
-	export let interval: $$Props['interval'] = undefined; // default comes from implementation
-	export let max: $$Props['max'] = undefined; // default comes from implementation
-	export let min: $$Props['min'] = undefined; // default comes from implementation
+	// Reexport for bindability
+	export let rows: $$Props['rows'] = undefined; // Default comes from implementation
+	export let interval: $$Props['interval'] = undefined; // Default comes from implementation
+	export let max: $$Props['max'] = undefined; // Default comes from implementation
+	export let min: $$Props['min'] = undefined; // Default comes from implementation
 	export let label: $$Props['label'] = undefined;
 
-	let implicitMode = true; // false as soon as the external api has been used
+	let implicitMode = true; // False as soon as the external api has been used
 
 	// Begin and end can be bound and called externally for explicit timing
 	export function begin(): void {
@@ -123,20 +123,20 @@
 
 	let observer: MutationObserver | undefined = undefined;
 
-	// observe and update the measured fps value from the dom This is is kind of crazy, TBD better
+	// Observe and update the measured fps value from the dom This is is kind of crazy, TBD better
 	// way to get this data from the fps blade
 	function startObservingMeasuredFpsValue() {
-		// clean up if needed
+		// Clean up if needed
 		stopObservingMeasuredFpsValue();
 		const targetNode = fpsBlade.controller.valueController.view.valueElement;
-		if (!targetNode || !targetNode.innerHTML) return;
+		if (!targetNode?.innerHTML) return;
 
 		observer = new MutationObserver((mutations) => {
 			for (const mutation of mutations) {
 				if (mutation.type === 'characterData' || mutation.type === 'childList') {
 					const fpsText = (mutation.target as HTMLElement).textContent;
 					if (fpsText !== null) {
-						const fps = Number.parseInt(fpsText);
+						const fps = Number.parseInt(fpsText, 10);
 						!Number.isNaN(fps) && dispatch('change', fps);
 					}
 				}

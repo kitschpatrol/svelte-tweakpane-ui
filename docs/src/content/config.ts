@@ -1,7 +1,7 @@
 import { docsSchema } from '@astrojs/starlight/schema';
 import { defineCollection, z } from 'astro:content';
 
-// acknowledgments schema as delivered from pnpm
+// Acknowledgments schema as delivered from pnpm
 // license-checker-rseidelsohn is a good pnpm-agnostic alternative,
 // but it has a slightly different schema
 const acknowledgmentsSchema = z.record(
@@ -18,7 +18,7 @@ const acknowledgmentsSchema = z.record(
 	)
 );
 
-// component documentation schema
+// Component documentation schema
 // must be kept in sync with ./scripts/generate-documentation-data.ts
 
 const componentJsDocRecordSchema = z.record(z.string());

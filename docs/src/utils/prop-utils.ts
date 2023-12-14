@@ -1,3 +1,4 @@
+/* eslint-disable max-depth */
 import type { Props as StarlightProps } from '@astrojs/starlight/props';
 export type ComponentData = StarlightProps['entry']['data']['componentData'];
 export type ComponentProp = NonNullable<ComponentData>['props'][number];
@@ -10,16 +11,14 @@ export function uniqueProps(
 	commonProps: ComponentProp[],
 	dynamicProps: ComponentProp[]
 ): ComponentProp[] {
-	const uniqueProps = dynamicProps.filter((dynamicProp) => {
-		return !commonProps.some((commonProp) => {
-			return dynamicProp.name === commonProp.name;
-		});
-	});
+	const uniqueProps = dynamicProps.filter(
+		(dynamicProp) => !commonProps.some((commonProp) => dynamicProp.name === commonProp.name)
+	);
 	return uniqueProps;
 }
 
 export function allPropConditions(data: ComponentData): ConditionsRecord {
-	if (data && data.dynamicProps) {
+	if (data?.dynamicProps) {
 		const conditionsRecord: ConditionsRecord = {};
 
 		if (data.dynamicProps)
@@ -27,7 +26,7 @@ export function allPropConditions(data: ComponentData): ConditionsRecord {
 				const unique = uniqueProps(data.props, dynamicProp.props);
 
 				for (const prop of unique) {
-					// ensure unique
+					// Ensure unique
 					if (conditionsRecord[prop.name] === undefined) {
 						conditionsRecord[prop.name] = [];
 					}
@@ -38,6 +37,7 @@ export function allPropConditions(data: ComponentData): ConditionsRecord {
 
 		return conditionsRecord;
 	}
+
 	return {};
 }
 
@@ -47,7 +47,7 @@ export function allProps(data: ComponentData): ComponentProp[] {
 		if (data.dynamicProps)
 			for (const dynamicProp of data.dynamicProps) {
 				for (const prop of dynamicProp.props) {
-					// ensure unique
+					// Ensure unique
 					const existingProp = allProps.find((p) => p.name === prop.name);
 					if (!existingProp) {
 						allProps.push(prop);
@@ -57,5 +57,6 @@ export function allProps(data: ComponentData): ComponentProp[] {
 
 		return allProps;
 	}
+
 	return [];
 }

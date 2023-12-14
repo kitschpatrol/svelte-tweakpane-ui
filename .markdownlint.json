@@ -1,5 +1,0 @@
-{
-  "extends": "./node_modules/@kitschpatrol/markdownlint-config/main.json",
-  "no-inline-html": false,
-  "first-line-h1": false
-}

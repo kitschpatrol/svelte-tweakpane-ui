@@ -28,7 +28,7 @@
 	const themeDataKey = 'data-theme';
 	let astroTheme: 'dark' | 'light';
 	let paneRef: HTMLDivElement;
-	// let mounted = false;
+	// Let mounted = false;
 
 	// set up pane div pause when interacting, but not when dragging the title bar
 	function onPointerDown(event: PointerEvent) {
@@ -42,7 +42,7 @@
 	}
 
 	onMount(() => {
-		// set up frame loop
+		// Set up frame loop
 		let lastTime: number | undefined;
 		let frameId: number | undefined;
 
@@ -50,16 +50,18 @@
 			if (playing && !interacting && lastTime !== undefined) {
 				time += (animationTime - lastTime) * period;
 			}
+
 			lastTime = animationTime;
 			frameId = requestAnimationFrame(tick);
 		}
+
 		requestAnimationFrame(tick);
 
 		paneRef.addEventListener('pointerdown', onPointerDown, { capture: true });
 		document.addEventListener('pointerup', onPointerUp);
 		document.addEventListener('pointercancel', onPointerUp);
 
-		// watch for theme changes
+		// Watch for theme changes
 		// duplicates some functionality from ThemeWatcher.astro, but lets us keep the theme dropdown
 		astroTheme = document.documentElement.getAttribute(themeDataKey) === 'dark' ? 'dark' : 'light';
 		const observer = new MutationObserver((mutations: MutationRecord[]) => {
@@ -75,7 +77,7 @@
 			attributes: true
 		});
 
-		// mounted = true;
+		// Mounted = true;
 
 		return () => {
 			if (frameId !== undefined) {
@@ -90,7 +92,7 @@
 		};
 	});
 
-	// helpers
+	// Helpers
 	function map(
 		value: number,
 		fromLow: number,
@@ -112,17 +114,18 @@
 		if (element.classList.contains(className)) {
 			return true;
 		}
+
 		if (element.parentElement) {
 			return hasParentWithClassName(element.parentElement, className);
 		}
+
 		return false;
 	}
 
-	// props
+	// Props
 	export let width: number = 360;
 
-	// position in the grid... useful for transition delays
-	// eslint-disable-next-line svelte/valid-compile
+	// Position in the grid... useful for transition delays
 	// export let i: number = 0;
 
 	// constants
@@ -130,11 +133,11 @@
 	const offsetAngle = [0, Math.PI / 3, Math.PI / 2, Math.PI];
 	const cubicBezierEnabled = false;
 	const defaultTheme: Theme = {
-		// baseBorderRadius: '0'
+		// BaseBorderRadius: '0'
 	};
 	const keys = ['X', 'Y', 'Z', 'W'];
 
-	// vars
+	// Vars
 	let time = 0;
 	let playing = true;
 	let interacting = false;
@@ -159,7 +162,7 @@
 		offsets = [0, 0, 0, 0];
 	}
 
-	// stores
+	// Stores
 	const point4 = writable<PointValue4dTuple>([0, 0, 0, 0]);
 
 	const point3 = derived(
@@ -177,15 +180,15 @@
 		($point4 = [newItems[0], newItems[1], $point4[2], $point4[3]]);
 
 	function getAstroTheme(astro: typeof astroTheme): typeof themeKey {
-		// only respect global if the user hasn't messed with the theme
+		// Only respect global if the user hasn't messed with the theme
 		if (themeKey === 'standard' || themeKey === 'light') {
 			return astro === 'dark' ? 'standard' : 'light';
-		} else {
-			return themeKey;
 		}
+
+		return themeKey;
 	}
 
-	// reactivity
+	// Reactivity
 	$: themeKey = getAstroTheme(astroTheme);
 	$: theme = { ...ThemeUtils.presets[themeKey], ...defaultTheme };
 	$: period = 1 / ((periodSeconds / Math.PI) * 500);
@@ -202,9 +205,9 @@
 		}
 	}
 	function setHeadingUp(oldPoint: PointValue4dTuple, newPoint: PointValue4dTuple) {
-		headingUp = headingUp.map((v, index) => {
-			return newPoint[index] === oldPoint[index] ? v : newPoint[index] > oldPoint[index];
-		}) as typeof headingUp;
+		headingUp = headingUp.map((v, index) =>
+			newPoint[index] === oldPoint[index] ? v : newPoint[index] > oldPoint[index]
+		) as typeof headingUp;
 	}
 
 	$: interacting && setOffsets($point4);

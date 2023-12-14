@@ -47,18 +47,18 @@
 		default: {};
 	};
 
-	// have to do this for bindings to work... maybe related to
+	// Have to do this for bindings to work... maybe related to
 	// https://svelte.dev/repl/aacb7e0b8066497490d3204f8a57491c?version=3.2.2 ?
 	export let expanded: $$Props['expanded'] = undefined;
 	export let position: $$Props['position'] = undefined;
 	export let width: $$Props['width'] = undefined;
 
-	// redeclare types instead of referencing $$Props['key'] since certain keys aren't guaranteed
+	// Redeclare types instead of referencing $$Props['key'] since certain keys aren't guaranteed
 	export let x: number | undefined = undefined;
 	export let y: number | undefined = undefined;
 
 	beforeUpdate(() => {
-		// don't let saved draggable props override explicit props in inline and fixed modes
+		// Don't let saved draggable props override explicit props in inline and fixed modes
 		if ($$props.position === 'inline' || $$props.position === 'fixed') {
 			x = $$props.x;
 			y = $$props.y;
@@ -67,7 +67,7 @@
 		}
 	});
 
-	// the below proved more reliable than keying on mode and setting <svelte:component
+	// The below proved more reliable than keying on mode and setting <svelte:component
 	// this={props.mode} {...$$restProps} />
 </script>
 

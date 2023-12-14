@@ -1,12 +1,28 @@
+# Git Ignore
+# Also used by CSpell and Stylelint
+
+# @kitschpatrol/shared-config boilerplate
+!.env.example
+.astro/
 .DS_Store
-node_modules
-*build/
-*dist/
-.svelte-kit
-.astro
+.env
+.env.*
+.svelte-kit/
+{tmp,temp}/
+**/*.min.js
+/scratch/
+bower_components/
+build/
+coverage/
+dist/
+node_modules/
+package/
+vendor/
+
+# Customizations
 
 # generated kit files
-/src/examples/components
+src/examples/components
 
 # generated doc files
 docs/src/content/docs/docs/components

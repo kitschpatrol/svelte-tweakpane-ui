@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { Pane } from 'tweakpane';
 
-	let PARAMS = {
+	let params = {
 		speed: 50
 	};
 
@@ -10,17 +10,17 @@
 
 	onMount(() => {
 		const pane = new Pane({
-			container: container
+			container
 		});
 
-		pane.addBinding(PARAMS, 'speed', {
+		pane.addBinding(params, 'speed', {
 			min: 0,
 			max: 100
 		});
 
 		pane.on('change', () => {
-			// trigger svelte reactivity
-			PARAMS = PARAMS;
+			// Trigger Svelte reactivity
+			params = params;
 		});
 
 		return () => {
@@ -31,5 +31,5 @@
 
 <div bind:this={container} />
 <pre>
-{PARAMS.speed}
+{params.speed}
 </pre>

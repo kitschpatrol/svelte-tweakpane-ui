@@ -53,7 +53,7 @@
 		rows?: number;
 	};
 
-	// unique
+	// Unique
 	export let columns: $$Props['columns'] = undefined;
 	export let rows: $$Props['rows'] = undefined;
 	export let buttons: $$Props['buttons'] = [];
@@ -91,6 +91,7 @@
 				title: `${buttons[index]}`
 			};
 		}
+
 		return { title: '' };
 	}
 
@@ -101,14 +102,13 @@
 		size: [gridDimensions.columns, gridDimensions.rows],
 		view: 'buttongrid'
 	};
-	$: gridBlade &&
-		gridBlade.on('click', (event) => {
-			dispatch('click', {
-				cell: { x: event.index[0], y: event.index[1] },
-				index: event.index[1] * gridDimensions.columns + event.index[0],
-				label: event.cell.title
-			});
+	$: gridBlade?.on('click', (event) => {
+		dispatch('click', {
+			cell: { x: event.index[0], y: event.index[1] },
+			index: event.index[1] * gridDimensions.columns + event.index[0],
+			label: event.cell.title
 		});
+	});
 </script>
 
 <!--

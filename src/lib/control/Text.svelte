@@ -18,7 +18,7 @@
 		live?: boolean;
 	};
 
-	// reexport for bindability
+	// Reexport for bindability
 	export let value: $$Props['value'];
 	export let live: $$Props['live'] = true;
 

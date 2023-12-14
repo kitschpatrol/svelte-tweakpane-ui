@@ -42,7 +42,7 @@
 		label?: string;
 	};
 
-	// reexport for bindability
+	// Reexport for bindability
 	export let value: $$Props['value'];
 	export let label: $$Props['label'] = undefined;
 	export let expanded: $$Props['expanded'] = undefined;
@@ -50,7 +50,7 @@
 	let options: CubicBezierOptions;
 	let cubicBezierBlade: CubicBezierRef;
 
-	// work-around for funky folding
+	// Work-around for funky folding
 	const buttonClass = 'tp-cbzv_b';
 
 	function getValue(): CubicBezierOptions['value'] {
@@ -75,7 +75,7 @@
 						y1: event.value.y1,
 						x2: event.value.x2,
 						y2: event.value.y2
-				  };
+					};
 		});
 	}
 

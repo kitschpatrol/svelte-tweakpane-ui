@@ -48,19 +48,19 @@
 		default: {};
 	};
 
-	// get context from tab
+	// Get context from tab
 	const tabGroupStore: Writable<TabGroupRef> = getContext('tabGroupStore');
 	const tabIndexStore: Writable<number> = getContext('tabIndexStore');
 	const userCreatedPane = getContext('userCreatedPane');
 
-	// save parent context for ourselves
+	// Save parent context for ourselves
 	const parentStore: Writable<Container> = getContext('parentStore');
 
-	// overwrite the context for our children
+	// Overwrite the context for our children
 	const tabPageStore = writable<TabPageRef>();
 	setContext('parentStore', tabPageStore);
 
-	// index not actually used, page order established by array order on tab
+	// Index not actually used, page order established by array order on tab
 	let indexElement: HTMLDivElement;
 	let index: number;
 
@@ -69,24 +69,22 @@
 	});
 
 	function create() {
-		// console.log('page created');
-
 		if (!$tabGroupStore) {
-			// create tab if necessary this will be the tab's parent, not the page's
+			// Create tab if necessary this will be the tab's parent, not the page's
 			$tabGroupStore = $parentStore.addTab({
-				// tabs MUST be created with at least one page how to handle tabs with no children?
+				// Tabs MUST be created with at least one page how to handle tabs with no children?
 				disabled: false,
 				index: $tabIndexStore,
-				// could be cleaner to have children create the tab as needed?
+				// Could be cleaner to have children create the tab as needed?
 				pages: [{ title }]
 			});
 
 			$tabPageStore = $tabGroupStore.pages[0];
 
-			// first tab selected by default
+			// First tab selected by default
 			selected = true;
 		} else if (!$tabPageStore && $tabGroupStore) {
-			// add to existing tab
+			// Add to existing tab
 			$tabPageStore = $tabGroupStore.addPage({ index, title });
 		}
 

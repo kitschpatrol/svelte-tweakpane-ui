@@ -63,12 +63,10 @@
 	let index: number;
 	let folderRef: FolderRef | undefined = undefined;
 
-	// overwrite the context for our children
+	// Overwrite the context for our children
 	setContext('parentStore', folderStore);
 
 	function create() {
-		// console.log('folder created');
-
 		$folderStore = $parentStore.addFolder({
 			disabled,
 			expanded,
@@ -95,7 +93,7 @@
 	$: folderRef && updateCollapsibility(userExpandable, folderRef.element, 'tp-fldv_b', 'tp-fldv_m');
 	$: folderRef && (folderRef.title = title);
 	$: folderRef && (folderRef.disabled = disabled);
-	$: folderRef && expanded !== undefined && (folderRef.expanded = expanded); // doing this on $folderStore causes issues
+	$: folderRef && expanded !== undefined && (folderRef.expanded = expanded); // Doing this on $folderStore causes issues
 	$: theme &&
 		$parentStore &&
 		(userCreatedPane || !isRootPane($parentStore)) &&

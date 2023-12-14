@@ -11,9 +11,7 @@
 	import type { BindingObject } from '$lib/utils.js';
 	import type { ComponentProps } from 'svelte';
 
-	type BindableValue = BindingObject & {
-		[x: string]: T;
-	};
+	type BindableValue = BindingObject & Record<string, T>;
 
 	type $$Props = Omit<ComponentProps<Binding<BindableValue, U, V>>, 'key' | 'object'> & {
 		/**
@@ -23,12 +21,12 @@
 		value: T;
 	};
 
-	// reexport for bindability
+	// Reexport for bindability
 	export let value: $$Props['value'];
 	export let ref: $$Props['ref'] = undefined;
 	export let options: $$Props['options'] = undefined;
 
-	// see makeSafeKey() in past versions of utils.ts for an alternative which might provide easier
+	// See makeSafeKey() in past versions of utils.ts for an alternative which might provide easier
 	// debugging
 	const key = Symbol('key');
 

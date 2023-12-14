@@ -5,16 +5,16 @@ sourceUrl: https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib
 ---
 
 import ExampleWrapper from '../../../components/docs/ExampleWrapper.astro';
-import ThemeBasic from '../../../examples/docs/SvelteTweakpaneThemeBasic.svelte';
 import ThemeBasicCode from '../../../examples/docs/SvelteTweakpaneThemeBasic.md';
-import ThemePicker from '../../../examples/docs/SvelteTweakpaneThemePicker.svelte';
-import ThemePickerCode from '../../../examples/docs/SvelteTweakpaneThemePicker.md';
-import ThemeCustom from '../../../examples/docs/SvelteTweakpaneThemeCustom.svelte';
+import ThemeBasic from '../../../examples/docs/SvelteTweakpaneThemeBasic.svelte';
 import ThemeCustomCode from '../../../examples/docs/SvelteTweakpaneThemeCustom.md';
-import ThemeExtend from '../../../examples/docs/SvelteTweakpaneThemeExtend.svelte';
+import ThemeCustom from '../../../examples/docs/SvelteTweakpaneThemeCustom.svelte';
 import ThemeExtendCode from '../../../examples/docs/SvelteTweakpaneThemeExtend.md';
-import ThemeOverride from '../../../examples/docs/SvelteTweakpaneThemeOverride.svelte';
+import ThemeExtend from '../../../examples/docs/SvelteTweakpaneThemeExtend.svelte';
 import ThemeOverrideCode from '../../../examples/docs/SvelteTweakpaneThemeOverride.md';
+import ThemeOverride from '../../../examples/docs/SvelteTweakpaneThemeOverride.svelte';
+import ThemePickerCode from '../../../examples/docs/SvelteTweakpaneThemePicker.md';
+import ThemePicker from '../../../examples/docs/SvelteTweakpaneThemePicker.svelte';
 
 Vanilla Tweakpane provides a robust [theming system](https://tweakpane.github.io/docs/theming/) based on CSS variables.
 
@@ -75,11 +75,11 @@ In the case of standalone _Svelte Tweakpane UI_ components, the theme is still t
 Each pane on the page can have its own theme:
 
 ```svelte
-<Pane theme={ThemeUtils.presets.jetblack} />
+<Pane theme={ThemeUtils.presets.jetblack}>
   <Button />
 </Pane>
 
-<Pane theme={ThemeUtils.presets.standard} />
+<Pane theme={ThemeUtils.presets.standard}>
   <Button />
 </Pane>
 ```
@@ -88,7 +88,7 @@ Each pane on the page can have its own theme:
 Currently, you can not override individual components' themes _within_ a pane:
 
 ```svelte
-<Pane theme={ThemeUtils.presets.jetblack} />
+<Pane theme={ThemeUtils.presets.jetblack}>
   <Button label="I'm still jet black" theme={ThemeUtils.presets.retro} />
 </Pane>
 ```
@@ -172,4 +172,4 @@ _Svelte Tweakpane UI_ introduces one exception for inline panes and standalone c
 
 To better integrate with other inline elements on the page, and especially to avoid a strange scalloped aesthetic when stacking multiple standalone components, rounding is removed by default from inline and standalone the component backgrounds.
 
-If you want to restore the rounded look to specific inline components, you can pass a specific `baseBorderRadius` value to the `theme` prop of the component — or explicitly set the `ThemeUtils.presets.standard` theme.
+If you want to restore the rounded look to specific inline components, you can pass a specific `baseBorderRadius` value to the `theme` prop of the component — or explicitly set the `ThemeUtils.presets.standard` theme.

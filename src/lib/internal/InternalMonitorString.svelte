@@ -10,7 +10,7 @@
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
-	// multi-file structure is legacy of previous non-dynamic component approach TODO consolidate
+	// Multi-file structure is legacy of previous non-dynamic component approach TODO consolidate
 	// eventually if dynamic components prove reliable
 
 	type $$Props = Omit<
@@ -28,7 +28,7 @@
 		multiline?: boolean;
 	};
 
-	// redeclare for bindability
+	// Redeclare for bindability
 	export let value: $$Props['value'];
 	export let multiline: $$Props['multiline'] = undefined;
 

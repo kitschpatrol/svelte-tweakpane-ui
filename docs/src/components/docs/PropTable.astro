@@ -4,20 +4,17 @@ import Flags from './Flags.astro';
 import Heading from './Heading.astro';
 import { marked } from 'marked';
 
-interface Props {
+type Props = {
 	conditionData?: ConditionsRecord;
 	data: ComponentProp[];
 	monoTable?: boolean;
 	showDefault?: boolean;
 	showExample?: boolean;
 	showFlags?: boolean;
-}
+};
 
 function cleanType(type: string): string {
-	return type
-		.replace(/"/g, "'")
-		.replace(/&quot;/g, '&apos;')
-		.replace(' | undefined', '');
+	return type.replaceAll('"', "'").replaceAll('&quot;', '&apos;').replace(' | undefined', '');
 }
 
 function cleanDefault(defaultValue: string | undefined): string {
@@ -40,12 +37,12 @@ function isRequired(type: string): boolean {
 
 function getFlags(prop: ComponentProp, dynamic: boolean = false): string[] {
 	const flags = Object.keys(prop.jsDocs)
-		// default gets its own row, and so does example
+		// Default gets its own row, and so does example
 		.filter((key) => key !== 'default')
 		.filter((key) => key !== 'example')
 		.map((key) => key);
 
-	// have to pull "required" from type
+	// Have to pull "required" from type
 	if (isRequired(prop.type)) {
 		flags.push('required');
 	} else {

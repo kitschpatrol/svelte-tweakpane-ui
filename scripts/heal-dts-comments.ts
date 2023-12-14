@@ -1,3 +1,8 @@
+// Works around https://github.com/sveltejs/language-tools/issues/2186 by
+// manually adding missing prop comments from ancestor components run it after
+// build to modify the .d.ts files in dist. it needs access to the source files
+// as well. idempotent.
+
 import {
 	type PropNode,
 	getAllLibraryComponentNames,
@@ -9,18 +14,12 @@ import {
 } from './ast-tools';
 import { type JSDoc, Project } from 'ts-morph';
 
-// works around https://github.com/sveltejs/language-tools/issues/2186 by
-// manually adding missing prop comments from ancestor components
-// run it after build to modify the .d.ts files in dist.
-// it needs access to the source files as well.
-// idempotent.
-
 // TODO a more robust approach that uses the typescript type checker (see ComponentInfo.ts)
 
 // extra logging
 const verbose = false;
 
-// helper functions
+// Helper functions
 
 // looks at use of ComponentProps in $$Props type to find the name of the component that is extended
 function getParentComponentNames(componentName: string): string[] {
@@ -34,15 +33,15 @@ function getCommentForProp(componentName: string, propName: string): JSDoc[] | u
 	return getProp(componentName, propName, 'commented')?.getJsDocs();
 }
 
-// recursively walks up the component inheritance chain to find a comment for a prop
+// Recursively walks up the component inheritance chain to find a comment for a prop
 function getPropCommentInParents(componentName: string, propName: string): JSDoc[] | undefined {
-	// some components extend multiple components, e.g. Pane, Monitor
+	// Some components extend multiple components, e.g. Pane, Monitor
 	const parentComponents = getParentComponentNames(componentName);
 
 	let comment: JSDoc[] | undefined;
 	while (comment === undefined && parentComponents.length > 0) {
 		const parent = parentComponents.pop()!;
-		// recurse as needed
+		// Recurse as needed
 		comment = getCommentForProp(parent, propName) ?? getPropCommentInParents(parent, propName);
 	}
 
@@ -56,7 +55,7 @@ function inheritPropCommentsAndSave(componentName: string): number {
 
 	const props = getProps(definitionFile, 'uncommented');
 	for (const propNode of props) {
-		// check self first, then go up the component inheritance chain
+		// Check self first, then go up the component inheritance chain
 		const comments =
 			getCommentForProp(componentName, propNode.getName()) ??
 			getPropCommentInParents(componentName, propNode.getName());
@@ -87,7 +86,7 @@ console.log(`Healing missing prop comments for ${componentNames.length} componen
 
 // Order doesn't matter since going up the chain is consistent
 for (const componentName of componentNames) {
-	verbose && console.log(`Adding missing prop comments for "${componentName}"`);
+	if (verbose) console.log(`Adding missing prop comments for "${componentName}"`);
 	totalPropsFixed += inheritPropCommentsAndSave(componentName);
 }
 

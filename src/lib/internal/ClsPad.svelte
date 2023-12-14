@@ -10,12 +10,12 @@
 	/**
 	 * Theme keys to add to the height estimate.
 	 */
-	export let keysAdd: Parameters<typeof getValueOrFallback>[1][] = [];
+	export let keysAdd: Array<Parameters<typeof getValueOrFallback>[1]> = [];
 
 	/**
 	 * Theme keys to subtract from the height estimate.
 	 */
-	export let keysSubtract: Parameters<typeof getValueOrFallback>[1][] = [];
+	export let keysSubtract: Array<Parameters<typeof getValueOrFallback>[1]> = [];
 
 	/**
 	 * Extra arbitrary space to add to the height estimate, in pixels.
@@ -34,18 +34,26 @@
 
 	function getTotal(add: typeof keysAdd, sub: typeof keysSubtract, extra: number = 0): number {
 		return (
-			add.reduce((accumulator, key) => {
-				return (accumulator += getPixelValue(getValueOrFallback(theme, key)));
-			}, 0) -
-			sub.reduce((accumulator, key) => {
-				return (accumulator += getPixelValue(getValueOrFallback(theme, key)));
-			}, 0) +
+			add.reduce((acc, key) => (acc += getPixelValue(getValueOrFallback(theme, key))), 0) -
+			sub.reduce((acc, key) => (acc += getPixelValue(getValueOrFallback(theme, key))), 0) +
 			extra
 		);
 	}
 
 	$: total = getTotal(keysAdd, keysSubtract, extra);
 </script>
+
+<!--
+@component  
+This component is for internal use only.
+
+It's a utility to assist in estimating the rendered height of Tweakpane components for use during prerendering in an attempt to minimize layout shift upon hydration.
+
+The associated SSR / prerendering CLS prevention feature is experimental.
+
+@sourceLink
+[ClsPad.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/ClsPad.svelte)
+-->
 
 {#if total > 0}
 	<div

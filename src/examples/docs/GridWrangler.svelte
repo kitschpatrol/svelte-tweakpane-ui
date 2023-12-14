@@ -104,7 +104,6 @@
 	$: groupHeight = wrapperHeight + overdrawY;
 	$: mounted &&
 		(grid = getGrid(groupWidth, groupHeight, gridSpacingX, gridSpacingY, includeCenters));
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	$: mounted && (paneCount = grid.length);
 </script>
 

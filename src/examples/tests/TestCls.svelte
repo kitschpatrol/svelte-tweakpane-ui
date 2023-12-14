@@ -83,7 +83,7 @@
 		},
 		someNumber: 1, // Creates a <Slider>
 		somePoint: {
-			// creates a <Point>
+			// Creates a <Point>
 			x: 1,
 			y: 2
 		},
@@ -98,11 +98,11 @@
 
 	let point2d: PointValue2d = { x: 0, y: 0 };
 
-	// tuples are also fine
+	// Tuples are also fine
 	let point3d: PointValue3d = [0, 0, 0];
 
-	// dimension-specific option type needs to know the type of the point value
-	let point3dXOptions: PointOptions<'3', 'x'> = { min: -100, max: 100 };
+	// Dimension-specific option type needs to know the type of the point value
+	let point3dxOptions: PointOptions<'3', 'x'> = { min: -100, max: 100 };
 
 	const theme: Theme = {
 		...ThemeUtils.presets.standard,
@@ -122,7 +122,7 @@
 	];
 
 	let rv = 1;
-	// const radioValues = [ ['magenta', 'orange'], ['yellow', 'red'], ['violet', 'gold'], ['red',
+	// Const radioValues = [ ['magenta', 'orange'], ['yellow', 'red'], ['violet', 'gold'], ['red',
 	//  'rebeccapurple']
 	// ];
 
@@ -130,13 +130,13 @@
 
 	let point4d: PointValue4d = { x: 0, y: 0, z: 0, w: 0 };
 
-	// this is a readonly function handle assigned by Profiler component first used in onMount since
+	// This is a readonly function handle assigned by Profiler component first used in onMount since
 	// it is not bound until then
 	let measure: ProfilerMeasure;
 
 	let loopExponent = 1;
 
-	// helper to test Math functions
+	// Helper to test Math functions
 	function hardWork(functionToMeasure: (n: number) => number, exponent: number): void {
 		measure(functionToMeasure.name, () => {
 			for (let sum = 0; sum < Number('1e' + exponent); sum++) {
@@ -261,7 +261,7 @@
 <Point bind:value={point2d} expanded={false} label="2D Point Picker" picker="inline" />
 
 <h1>Point 3D</h1>
-<Point bind:value={point3d} label="3D Point Picker" optionsX={point3dXOptions} />
+<Point bind:value={point3d} label="3D Point Picker" optionsX={point3dxOptions} />
 <h1>Point 4D</h1>
 <Point bind:value={point4d} min={0} max={100} label="4D Point Picker" />
 <h1>Point 2D</h1>

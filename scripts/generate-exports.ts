@@ -1,19 +1,23 @@
+// Inspired by https://github.com/shinokada/svelte-lib-helpers
+
 import { getExportedComponents, getExportedJs } from './ast-tools';
 import fs from 'node:fs';
-
-// Inspired by https://github.com/shinokada/svelte-lib-helpers
+import { type NormalizedReadResult, readPackageUp } from 'read-package-up';
 
 const verbose = false;
 
 type Export = { default?: string; svelte?: string; types: string };
 type Exports = Record<string, Export>;
 
-// gets all props for a given component from its definition file
-function addExports(sourceIndexFile: string, destinationPackageFile: string) {
-	console.log(`Adding Svelte components found in ${sourceIndexFile} to ${destinationPackageFile}`);
+// Gets all props for a given component from its definition file
+function addExports(sourceIndexFile: string, closestPackage: NormalizedReadResult) {
+	const { path } = closestPackage;
 
-	// default export
+	console.log(`Adding Svelte components found in ${sourceIndexFile} to ${path}`);
+
+	// Default export
 	const exports: Exports = {
+		// eslint-disable-next-line @typescript-eslint/naming-convention
 		'.': {
 			types: './dist/index.d.ts',
 			// eslint-disable-next-line perfectionist/sort-objects
@@ -21,7 +25,7 @@ function addExports(sourceIndexFile: string, destinationPackageFile: string) {
 		}
 	};
 
-	// extract components from index file
+	// Extract components from index file
 	for (const component of getExportedComponents(sourceIndexFile)) {
 		const { name, path } = component;
 
@@ -31,10 +35,10 @@ function addExports(sourceIndexFile: string, destinationPackageFile: string) {
 		// eslint-disable-next-line perfectionist/sort-objects
 		exports[key] = { types, svelte };
 
-		verbose && console.log(exports[key]);
+		if (verbose) console.log(exports[key]);
 	}
 
-	// extract JS exports from index file (like Utils, etc.)
+	// Extract JS exports from index file (like Utils, etc.)
 	for (const file of getExportedJs(sourceIndexFile)) {
 		const { name, path } = file;
 
@@ -44,11 +48,12 @@ function addExports(sourceIndexFile: string, destinationPackageFile: string) {
 		// eslint-disable-next-line perfectionist/sort-objects
 		exports[key] = { types, default: defaultValue };
 
-		verbose && console.log(exports[key]);
+		if (verbose) console.log(exports[key]);
 	}
 
-	// save to package.json
-	const packageJson = JSON.parse(fs.readFileSync(destinationPackageFile, 'utf8'));
+	// Save to package.json
+	const { packageJson } = closestPackage;
+
 	packageJson.exports = exports;
 	packageJson.types = './dist/index.d.ts';
 
@@ -56,13 +61,19 @@ function addExports(sourceIndexFile: string, destinationPackageFile: string) {
 	// https://github.com/sveltejs/vite-plugin-svelte/blob/main/docs/faq.md#conflicts-in-svelte-resolve
 	// packageJson.svelte = './dist/index.d.ts';
 
-	fs.writeFileSync(destinationPackageFile, JSON.stringify(packageJson, undefined, 2));
+	fs.writeFileSync(path, JSON.stringify(packageJson, undefined, 2));
 
 	console.log(
 		`Done. Wrote 'types' and ${
 			Object.keys(exports).length - 1
-		} component 'exports' values to ${destinationPackageFile}.`
+		} component 'exports' values to ${path}.`
 	);
 }
 
-addExports('./src/lib/index.ts', './package.json');
+const closestPackage = await readPackageUp();
+
+if (closestPackage === undefined) {
+	throw new Error('Could not find package.json');
+} else {
+	addExports('./src/lib/index.ts', closestPackage);
+}

@@ -63,7 +63,7 @@
 		wide?: boolean;
 	};
 
-	// reexport for bindability
+	// Reexport for bindability
 	export let value: $$Props['value'];
 	export let series: $$Props['series'] = undefined;
 	export let unit: $$Props['unit'] = undefined;

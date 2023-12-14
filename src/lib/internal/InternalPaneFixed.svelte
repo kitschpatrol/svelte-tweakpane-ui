@@ -38,7 +38,7 @@
 		default: {};
 	};
 
-	// reexport for bindability
+	// Reexport for bindability
 	export let expanded: $$Props['expanded'] = undefined;
 	export let x: $$Props['x'] = undefined;
 	export let y: $$Props['y'] = undefined;
@@ -48,9 +48,7 @@
 	let paneRef: TpPane;
 	let paneContainer: HTMLElement;
 
-	$: paneRef !== undefined &&
-		paneRef.element.parentElement &&
-		(paneContainer = paneRef.element.parentElement);
+	$: paneRef?.element.parentElement && (paneContainer = paneRef.element.parentElement);
 
 	$: paneContainer !== undefined &&
 		x !== undefined &&
@@ -65,7 +63,7 @@
 		width !== undefined &&
 		paneContainer.style.setProperty('width', `${width}px`);
 
-	// div wrapper is required for element index calculation
+	// Div wrapper is required for element index calculation
 </script>
 
 <!--

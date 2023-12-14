@@ -1,10 +1,10 @@
 <script context="module" lang="ts">
 	import type { Simplify } from '$lib/utils';
 
-	// extends tweakpane to take arbitrary arrays of values
+	// Extends tweakpane to take arbitrary arrays of values
 	export type ListOptionsArray<T> = T[];
-	export type ListOptionsObjectArray<T> = { value: T; text: string }[];
-	export type ListOptionsRecord<T> = { [text: string]: T };
+	export type ListOptionsObjectArray<T> = Array<{ value: T; text: string }>;
+	export type ListOptionsRecord<T> = Record<string, T>;
 
 	export type ListOptions<T> = Simplify<
 		ListOptionsArray<T> | ListOptionsObjectArray<T> | ListOptionsRecord<T>
@@ -43,14 +43,14 @@
 		options: ListOptions<T>;
 	};
 
-	// must redeclare for bindability
+	// Must redeclare for bindability
 	export let value: $$Props['value'];
 	export let options: $$Props['options'];
 	export let label: $$Props['label'] = undefined;
 
 	let listBlade: ListBladeApi<T>;
 
-	// note name collision with `options` prop
+	// Note name collision with `options` prop
 	let bladeOptions: ListBladeParams<T>;
 
 	function addEvent() {
@@ -59,25 +59,25 @@
 		});
 	}
 
-	function getInitialValue() {
+	function getInitialValue(): T {
 		if (value === undefined) {
 			const internalOptions = getInternalOptions(options);
 			if (Array.isArray(internalOptions)) {
 				value = internalOptions[0].value;
 				return value;
-			} else {
-				value = internalOptions[Object.keys(internalOptions)[0]];
-				return value;
 			}
-		} else {
+
+			value = internalOptions[Object.keys(internalOptions)[0]];
 			return value;
 		}
+
+		return value;
 	}
 
 	// Type Guards
 	function isArrayStyleListOptions<T>(
 		object: ListOptions<T>
-	): object is { value: T; text: string }[] {
+	): object is Array<{ value: T; text: string }> {
 		return (
 			Array.isArray(object) &&
 			object.every(
@@ -86,20 +86,16 @@
 		);
 	}
 
-	function isObjectStyleListOptions<T>(object: ListOptions<T>): object is { [text: string]: T } {
+	function isObjectStyleListOptions<T>(object: ListOptions<T>): object is Record<string, T> {
 		return typeof object === 'object' && object !== null && !Array.isArray(object);
 	}
 
 	function getInternalOptions(options: ListOptions<T>): ListParamsOptions<T> {
-		if (isArrayStyleListOptions(options)) {
-			return options;
-		} else if (isObjectStyleListOptions(options)) {
-			return options;
-		} else {
-			return options.map((value) => {
-				return { value, text: JSON.stringify(value) };
-			});
-		}
+		return isArrayStyleListOptions(options)
+			? options
+			: isObjectStyleListOptions(options)
+				? options
+				: options.map((value) => ({ value, text: JSON.stringify(value) }));
 	}
 
 	function setValue() {

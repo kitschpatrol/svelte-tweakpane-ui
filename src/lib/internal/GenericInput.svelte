@@ -14,7 +14,7 @@
 
 	type $$Props = ComponentProps<GenericBinding<T, U, V>>;
 
-	// reexport for bindability
+	// Reexport for bindability
 	export let options: $$Props['options'] = undefined;
 	export let ref: $$Props['ref'] = undefined;
 	export let value: $$Props['value'];

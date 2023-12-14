@@ -45,6 +45,8 @@ Plugin component behavior is not available in `<AutoValue>`.
 <AutoValue bind:value={text} label="Text" />
 ```
 
+@sourceLink
+[AutoValue.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/AutoValue.svelte)
 -->
 {#if typeof value === 'string'}
 	<Text bind:value {...$$restProps} />
