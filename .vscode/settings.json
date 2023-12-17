@@ -38,6 +38,6 @@
   ],
   "stylelint.enable": true,
   "stylelint.validate": ["css", "html", "svelte", "astro"],
-  "stylelint.configBasedir": "."
-  // "markdown.validate.referenceLinks.enabled": "ignore"
+  "stylelint.configBasedir": ".",
+  "rewrap.wrappingColumn": 100
 }
