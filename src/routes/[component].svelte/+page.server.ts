@@ -6,7 +6,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	const examples = await glob('./src/examples/**/*.svelte');
 	const match = examples.find((path) => path.endsWith(`${params.component}.svelte`));
 
-	if (match === undefined) throw error(404, 'Not found');
+	if (match === undefined) error(404, 'Not found');
 
 	return {
 		match

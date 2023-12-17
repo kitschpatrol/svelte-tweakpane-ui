@@ -4,7 +4,6 @@
 		Color,
 		CubicBezier,
 		Folder,
-		FpsGraph,
 		List,
 		Monitor,
 		Pane,
@@ -229,7 +228,15 @@
 			<List bind:value={themeKey} label="<List> Theme" options={themes} />
 			<Text bind:value={text} label="<Text> Title" />
 			<Checkbox bind:value={playing} label="<Checkbox> Play" />
-			<FpsGraph label="<FpsGraph>" />
+			<!-- <FpsGraph label="<FpsGraph>" /> -->
+			<Monitor
+				value={$point4[0]}
+				min={-0.2}
+				max={1.2}
+				bufferSize={1800}
+				graph={true}
+				label={`<Monitor>`}
+			/>
 			<Separator />
 			<!-- <Button on:click={reset} label="<Button> Reset" title="Reset" /> -->
 			<Slider
