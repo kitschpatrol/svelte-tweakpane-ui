@@ -2,6 +2,7 @@
   "name": "svelte-tweakpane-ui",
   "version": "1.0.2",
   "type": "module",
+  "description": "Wraps UI elements from Tweakpane in a collection of idiomatic Svelte components, and augments Tweakpane with a few extra features for your convenience and enjoyment.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kitschpatrol/svelte-tweakpane-ui.git"
