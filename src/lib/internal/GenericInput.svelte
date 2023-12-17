@@ -9,7 +9,6 @@
 	lang="ts"
 >
 	import GenericBinding from '$lib/internal/GenericBinding.svelte';
-	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
 	type $$Props = ComponentProps<GenericBinding<T, U, V>>;
@@ -21,11 +20,10 @@
 
 	let optionsInternal: GenericInputOptions;
 
-	$: BROWSER &&
-		(optionsInternal = {
-			...options,
-			readonly: false
-		});
+	$: optionsInternal = {
+		...options,
+		readonly: false
+	};
 </script>
 
 <!--

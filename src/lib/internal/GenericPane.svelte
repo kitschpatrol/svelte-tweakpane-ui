@@ -172,14 +172,12 @@
 		expanded = _expanded;
 	}
 
-	$: BROWSER && paneRef && setScale(scale);
-	$: BROWSER &&
-		paneRef &&
-		updateCollapsibility(userExpandable, paneRef.element, 'tp-rotv_b', 'tp-rotv_m');
-	$: BROWSER && paneRef && title && (paneRef.title = title);
-	$: BROWSER && paneRef && applyTheme(paneRef.element, theme);
-	$: _expanded, BROWSER && paneRef && syncFolded();
-	$: BROWSER && paneRef && (_expanded = expanded);
+	$: paneRef && setScale(scale);
+	$: paneRef && updateCollapsibility(userExpandable, paneRef.element, 'tp-rotv_b', 'tp-rotv_m');
+	$: paneRef && title && (paneRef.title = title);
+	$: paneRef && applyTheme(paneRef.element, theme);
+	$: _expanded, paneRef && syncFolded();
+	$: paneRef && (_expanded = expanded);
 </script>
 
 <!--

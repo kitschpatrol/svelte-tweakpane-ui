@@ -98,12 +98,11 @@
 	});
 
 	// Readonly props
-	$: DEV && BROWSER && enforceReadonly(_ref, ref, 'Blade', 'ref', true);
+	$: DEV && enforceReadonly(_ref, ref, 'Blade', 'ref', true);
 
-	$: options, BROWSER && $parentStore && index !== undefined && create();
-	$: BROWSER && _ref && (_ref.disabled = disabled);
-	$: BROWSER &&
-		theme &&
+	$: options && $parentStore && index !== undefined && create();
+	$: _ref && (_ref.disabled = disabled);
+	$: theme &&
 		$parentStore &&
 		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(

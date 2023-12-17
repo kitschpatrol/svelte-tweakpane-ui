@@ -1,7 +1,6 @@
 <script generics="T extends number | IntervalSliderValue" lang="ts">
 	import GenericInput from '$lib/internal/GenericInput.svelte'; // eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { IntervalSliderValue } from '$lib/control/IntervalSlider.svelte';
-	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 	import type { NumberInputParams as GenericSliderOptions } from 'tweakpane';
 	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane';
@@ -62,21 +61,20 @@
 	// related to https://github.com/sveltejs/svelte/issues/4265 possibly fixable with
 	// immutable=true but I don't want to go there
 	let formatProxy: typeof format = format;
-	$: BROWSER && formatProxy !== format && (formatProxy = format);
+	$: formatProxy !== format && (formatProxy = format);
 
 	let optionsInternal: GenericSliderOptions;
 
 	// The IntervalInputParams type is identical to NumberInputParams, so don't bother with generics
-	$: BROWSER &&
-		(optionsInternal = {
-			min,
-			max,
-			format: formatProxy,
-			keyScale,
-			pointerScale,
-			step,
-			...options
-		});
+	$: optionsInternal = {
+		min,
+		max,
+		format: formatProxy,
+		keyScale,
+		pointerScale,
+		step,
+		...options
+	};
 </script>
 
 <!--

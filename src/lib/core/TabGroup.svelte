@@ -78,11 +78,10 @@
 		if (tabPageApi && !tabPageApi.selected) tabPageApi.selected = true;
 	}
 
-	$: BROWSER && setUpListeners($tabGroupStore);
-	$: BROWSER && setSelectedIndex(selectedIndex);
-	$: BROWSER && $tabGroupStore && ($tabGroupStore.disabled = disabled);
-	$: BROWSER &&
-		theme &&
+	$: setUpListeners($tabGroupStore);
+	$: setSelectedIndex(selectedIndex);
+	$: $tabGroupStore && ($tabGroupStore.disabled = disabled);
+	$: theme &&
 		$parentStore &&
 		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
