@@ -488,8 +488,7 @@ This component is for internal use only.
 	on:pointerdown|capture={() => {
 		zIndexLocal = ++zIndexGlobal;
 	}}
-	class="svelte-tweakpane-ui
-draggable-container"
+	class="draggable-container"
 	class:not-collapsable={!userExpandable}
 	class:not-resizable={!resizable}
 	style:left="{x}px"
@@ -526,7 +525,6 @@ draggable-container"
 		/* Ensure draggable hit zone does not collapse if title is missing */
 		/* Fixes #1 */
 		height: 100%;
-		text-overflow: ellipsis;
 	}
 
 	div.draggable-container.not-collapsable :global(div.tp-rotv_t) {

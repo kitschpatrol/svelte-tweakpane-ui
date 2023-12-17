@@ -64,6 +64,7 @@
 		paneContainer.style.setProperty('width', `${width}px`);
 
 	// Div wrapper is required for element index calculation
+	// TODO does this really work with inline?
 </script>
 
 <!--

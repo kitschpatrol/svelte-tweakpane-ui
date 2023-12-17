@@ -172,6 +172,7 @@
 		expanded = _expanded;
 	}
 
+	$: paneRef?.element && paneRef?.element.classList.add('svelte-tweakpane-ui');
 	$: paneRef && setScale(scale);
 	$: paneRef && updateCollapsibility(userExpandable, paneRef.element, 'tp-rotv_b', 'tp-rotv_m');
 	$: paneRef && title && (paneRef.title = title);
@@ -210,3 +211,18 @@ This component is for internal use only.
 {:else}
 	<ClsPad keysAdd={['containerVerticalPadding', 'containerUnitSize']} {theme} />
 {/if}
+
+<style>
+	/* Blade labels */
+	:global(div.svelte-tweakpane-ui div.tp-lblv_l) {
+		overflow: hidden;
+		padding-right: var(--cnt-hp);
+		text-overflow: ellipsis;
+	}
+
+	/* Pane title label */
+	:global(div.svelte-tweakpane-ui div.tp-rotv_t) {
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+</style>
