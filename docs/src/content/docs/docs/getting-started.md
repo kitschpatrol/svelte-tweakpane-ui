@@ -24,7 +24,7 @@ Import and use Tweakpane components in your `.svelte` files:
   import { Button } from 'svelte-tweakpane-ui';
 </script>
 
-<Button on:click={() => alert('Hi from STUI')} />
+<Button on:click={() => alert('🎛️')} />
 ```
 
 ---
