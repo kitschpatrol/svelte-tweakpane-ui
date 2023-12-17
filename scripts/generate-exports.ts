@@ -2,7 +2,7 @@
 
 import { getExportedComponents, getExportedJs } from './ast-tools';
 import fs from 'node:fs';
-import { type NormalizedReadResult, readPackageUp } from 'read-package-up';
+import { type ReadResult, readPackageUp } from 'read-package-up';
 
 const verbose = false;
 
@@ -10,7 +10,7 @@ type Export = { default?: string; svelte?: string; types: string };
 type Exports = Record<string, Export>;
 
 // Gets all props for a given component from its definition file
-function addExports(sourceIndexFile: string, closestPackage: NormalizedReadResult) {
+function addExports(sourceIndexFile: string, closestPackage: ReadResult) {
 	const { path } = closestPackage;
 
 	console.log(`Adding Svelte components found in ${sourceIndexFile} to ${path}`);
@@ -70,7 +70,7 @@ function addExports(sourceIndexFile: string, closestPackage: NormalizedReadResul
 	);
 }
 
-const closestPackage = await readPackageUp();
+const closestPackage = await readPackageUp({ normalize: false });
 
 if (closestPackage === undefined) {
 	throw new Error('Could not find package.json');

@@ -41,27 +41,31 @@ function findFile(
 
 export async function getGithubUrlForSourceFile(filePath: string): Promise<string> {
 	// Gonna be slow
-	const closestPackageJson = await readPackageUp();
-	const url = closestPackageJson?.packageJson.repository?.url;
+	const closestPackageJson = await readPackageUp({ normalize: false });
+	const { url } = closestPackageJson?.packageJson.repository as Record<string, unknown>;
 
-	if (url === undefined) {
+	if (!url) {
 		throw new Error('No repository url found in package.json');
 	}
 
-	const sourceBaseUrl = `${url.replace(/^git\+/, '').replace(/\.git$/, '')}/blob/main/`;
+	const sourceBaseUrl = `${String(url)
+		.replace(/^git\+/, '')
+		.replace(/\.git$/, '')}/blob/main/`;
 	return sourceBaseUrl + filePath;
 }
 
 export async function getEditUrlForSourceFile(filePath: string): Promise<string> {
 	// Gonna be slow
-	const closestPackageJson = await readPackageUp();
-	const url = closestPackageJson?.packageJson.repository?.url;
+	const closestPackageJson = await readPackageUp({ normalize: false });
+	const { url } = closestPackageJson?.packageJson.repository as Record<string, unknown>;
 
 	if (url === undefined) {
 		throw new Error('No repository url found in package.json');
 	}
 
-	const sourceBaseUrl = `${url.replace(/^git\+/, '').replace(/\.git$/, '')}/edit/main/`;
+	const sourceBaseUrl = `${String(url)
+		.replace(/^git\+/, '')
+		.replace(/\.git$/, '')}/edit/main/`;
 	return sourceBaseUrl + filePath;
 }
 
