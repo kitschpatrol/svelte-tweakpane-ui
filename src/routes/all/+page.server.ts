@@ -8,7 +8,6 @@ export const load: PageServerLoad = async () => {
 
 	examples = examples.sort((a, b) => a.localeCompare(b));
 
-	console.log(examples);
 	return {
 		examples
 	};

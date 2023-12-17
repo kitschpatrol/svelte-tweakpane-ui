@@ -166,7 +166,6 @@ export function removeKeys<T extends Record<string, unknown>>(object: T, ...keys
 
 function clickBlocker(event: MouseEvent) {
 	// Only block user clicks, not programmatic ones
-	console.log(event.detail);
 	if (event.isTrusted) event.stopPropagation();
 }
 

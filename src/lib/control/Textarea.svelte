@@ -48,12 +48,10 @@
 	});
 
 	function onBlur(event: Event): void {
-		console.log('onblur');
 		value = (event.target as HTMLInputElement).value;
 	}
 
 	function onInput(event: Event): void {
-		console.log('input');
 		value = (event.target as HTMLInputElement).value;
 	}
 
