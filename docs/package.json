@@ -33,7 +33,7 @@
     "astro-compress": "^2.2.5",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
-    "sharp": "^0.33.0",
+    "sharp": "^0.33.1",
     "svelte-tweakpane-ui": "link:.."
   },
   "devDependencies": {
