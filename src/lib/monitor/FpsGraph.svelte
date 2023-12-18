@@ -73,15 +73,15 @@
 	// Begin and end can be bound and called externally for explicit timing
 	export function begin(): void {
 		implicitMode = false;
-		fpsBlade?.begin();
+		ref?.begin();
 	}
 
 	export function end(): void {
 		implicitMode = false;
-		fpsBlade?.end();
+		ref?.end();
 	}
 
-	let fpsBlade: FpsGraphRef;
+	let ref: FpsGraphRef;
 	let requestId: number;
 
 	// Seems to be the only way to get event comments to work
@@ -104,7 +104,6 @@
 
 	onDestroy(() => {
 		stopInternalLoop();
-		stopObservingMeasuredFpsValue();
 	});
 
 	function startInternalLoop() {
@@ -112,8 +111,8 @@
 	}
 
 	function loop() {
-		fpsBlade?.end();
-		fpsBlade?.begin();
+		ref?.end();
+		ref?.begin();
 		requestId = requestAnimationFrame(loop);
 	}
 
@@ -121,39 +120,13 @@
 		requestId && cancelAnimationFrame(requestId);
 	}
 
-	let observer: MutationObserver | undefined = undefined;
-
-	// Observe and update the measured fps value from the dom This is is kind of crazy, TBD better
-	// way to get this data from the fps blade
-	function startObservingMeasuredFpsValue() {
-		// Clean up if needed
-		stopObservingMeasuredFpsValue();
-		const targetNode = fpsBlade.controller.valueController.view.valueElement;
-		if (!targetNode?.innerHTML) return;
-
-		observer = new MutationObserver((mutations) => {
-			for (const mutation of mutations) {
-				if (mutation.type === 'characterData' || mutation.type === 'childList') {
-					const fpsText = (mutation.target as HTMLElement).textContent;
-					if (fpsText !== null) {
-						const fps = Number.parseInt(fpsText, 10);
-						!Number.isNaN(fps) && dispatch('change', fps);
-					}
-				}
+	function addListeners() {
+		ref.on('tick', () => {
+			if (ref.fps !== null) {
+				dispatch('change', ref.fps);
 			}
 		});
-
-		observer.observe(targetNode, { characterData: true, childList: true, subtree: true });
 	}
-
-	function stopObservingMeasuredFpsValue() {
-		if (observer) {
-			observer.disconnect();
-			observer = undefined;
-		}
-	}
-
-	$: fpsBlade && startObservingMeasuredFpsValue();
 
 	let options: FpsGraphOptions;
 	$: options = {
@@ -164,7 +137,7 @@
 		rows,
 		view: 'fpsgraph'
 	};
-
+	$: ref !== undefined && addListeners();
 	$: !implicitMode && stopInternalLoop();
 </script>
 
@@ -270,7 +243,7 @@ position='inline'>`.
 [FpsGraph.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/monitor/FpsGraph.svelte)
 -->
 
-<Blade bind:ref={fpsBlade} {options} plugin={pluginModule} {...$$restProps} />
+<Blade bind:ref {options} plugin={pluginModule} {...$$restProps} />
 {#if !BROWSER}
 	{#if rows}
 		<ClsPad keysAdd={fillWith('containerUnitSize', rows)} theme={$$props.theme} />
