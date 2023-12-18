@@ -209,8 +209,10 @@
     "kit-examples": "tsx ./scripts/generate-kit-examples.ts",
     "kit-preview": "vite preview",
     "lint": "shared-config --check",
-    "prepublishOnly": "pnpm run build",
-    "release": "pnpm bumpp --commit 'Release: %s' --tag '%s' && pnpm publish --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
+    "release": "run-s --print-label release:*",
+    "release:1-build": "pnpm run build",
+    "release:2-version": "pnpm bumpp --commit 'Release: %s' --tag '%s'",
+    "release:3-publish": "pnpm publish --ignore-scripts --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
     "rewrap": "rewrap -i --column 100 `find src \\( -name '*.svelte' -o -name '*.ts'  -o -name '*.html' \\) -type f | grep -v src/examples`",
     "type-check": "tsc --noEmit"
   },
