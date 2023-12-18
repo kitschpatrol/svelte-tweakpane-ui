@@ -206,7 +206,7 @@ updates. Consider managing the lifecycle of this component with care until this 
 
 <style>
 	/* Fix overflow bug from the plugin TODO PR */
-	:global(div.tp-cbzv:not(tp-cbzv-expanded) div.tp-cbzv_p) {
+	:global(div.svelte-tweakpane-ui div.tp-cbzv:not(tp-cbzv-expanded) div.tp-cbzv_p) {
 		overflow: hidden !important;
 	}
 </style>

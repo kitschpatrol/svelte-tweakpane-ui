@@ -26,27 +26,27 @@ const { names } = Astro.props;
 		border-radius: 1.15em;
 	}
 
-	:global(span.flag-name-optional) {
+	span.flag-pill-group :global(span.flag-name-optional) {
 		color: var(--sl-color-green-high);
 		background: var(--sl-color-green-low);
 	}
 
-	:global(span.flag-name-dynamic) {
+	span.flag-pill-group :global(span.flag-name-dynamic) {
 		color: var(--sl-color-purple-high);
 		background: var(--sl-color-purple-low);
 	}
 
-	:global(span.flag-name-bindable) {
+	span.flag-pill-group :global(span.flag-name-bindable) {
 		color: var(--sl-color-blue-high);
 		background: var(--sl-color-blue-low);
 	}
 
-	:global(span.flag-name-required) {
+	span.flag-pill-group :global(span.flag-name-required) {
 		color: var(--sl-color-red-high);
 		background: var(--sl-color-red-low);
 	}
 
-	:global(span.flag-name-readonly) {
+	span.flag-pill-group :global(span.flag-name-readonly) {
 		color: var(--sl-color-orange-high);
 		background: var(--sl-color-orange-low);
 	}
