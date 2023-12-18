@@ -113,6 +113,6 @@ position='inline'>`.
 <GenericInput value={_value} bind:ref {options} plugin={pluginModule} {...$$restProps} />
 {#if !BROWSER}
 	<!-- TODO magic numbers -->
-	<div style:background="red" style:height={`calc(${16 * (rows ?? 3)}px - 14px)`} />
+	<div style:height={`calc(${16 * (rows ?? 3)}px - 14px)`} />
 	<!-- <ClsPad keysAdd={fillWith('containerUnitSize', 1)} theme={$$props.theme} /> -->
 {/if}
