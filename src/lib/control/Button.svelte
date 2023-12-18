@@ -124,7 +124,7 @@ buttons.
 ```
 
 @sourceLink
-[Button.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Button.svelte)
+[Button.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Button.svelte)
 -->
 
 {#if parentStore}

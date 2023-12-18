@@ -27,6 +27,10 @@
       "types": "./dist/index.d.ts",
       "svelte": "./dist/index.js"
     },
+    "./Button.svelte": {
+      "types": "./dist/control/Button.svelte.d.ts",
+      "svelte": "./dist/control/Button.svelte"
+    },
     "./ButtonGrid.svelte": {
       "types": "./dist/control/ButtonGrid.svelte.d.ts",
       "svelte": "./dist/control/ButtonGrid.svelte"
@@ -98,10 +102,6 @@
     "./Blade.svelte": {
       "types": "./dist/core/Blade.svelte.d.ts",
       "svelte": "./dist/core/Blade.svelte"
-    },
-    "./Button.svelte": {
-      "types": "./dist/core/Button.svelte.d.ts",
-      "svelte": "./dist/core/Button.svelte"
     },
     "./Folder.svelte": {
       "types": "./dist/core/Folder.svelte.d.ts",

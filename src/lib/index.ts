@@ -1,6 +1,7 @@
 // Components
 
-// essentials (1st party plugins)
+export { type ButtonClickEvent, default as Button } from '$lib/control/Button.svelte';
+// Essentials (1st party plugins)
 export { type ButtonGridClickEvent, default as ButtonGrid } from '$lib/control/ButtonGrid.svelte';
 export { default as Checkbox } from '$lib/control/Checkbox.svelte';
 export {
@@ -26,6 +27,7 @@ export {
 	type IntervalSliderValueTuple,
 	default as IntervalSlider
 } from '$lib/control/IntervalSlider.svelte';
+
 export {
 	type ListOptions,
 	type ListOptionsArray,
@@ -33,7 +35,6 @@ export {
 	type ListOptionsRecord,
 	default as List
 } from '$lib/control/List.svelte';
-
 export {
 	type PointOptions,
 	type PointValue2d,
@@ -72,9 +73,8 @@ export { default as Textarea } from '$lib/control/Textarea.svelte';
 export { default as Wheel } from '$lib/control/Wheel.svelte';
 // Core (tweakpane building blocks)
 export { type BindingOptions, type BindingRef, default as Binding } from '$lib/core/Binding.svelte';
-export { type BladeOptions, type BladeRef, default as Blade } from '$lib/core/Blade.svelte';
 
-export { type ButtonClickEvent, default as Button } from '$lib/core/Button.svelte';
+export { type BladeOptions, type BladeRef, default as Blade } from '$lib/core/Blade.svelte';
 export { default as Folder } from '$lib/core/Folder.svelte';
 export { type PanePosition, default as Pane } from '$lib/core/Pane.svelte';
 export { default as Separator } from '$lib/core/Separator.svelte';
