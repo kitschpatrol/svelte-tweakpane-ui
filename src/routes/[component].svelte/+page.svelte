@@ -1,16 +1,11 @@
 <script lang="ts">
-	import type { PageServerData } from './$types';
-	export let data: PageServerData;
+	import type { PageData } from './$types';
+	export let data: PageData;
 
-	const filename = data.match.split('/').at(-1);
-	const folder = data.match.split('/').slice(2, -1).join('/');
-	const component = filename?.split('.').slice(0, -1).join('.');
+	// Uses dual-load approach for SSR:
+	// https://learn.svelte.dev/tutorial/using-both-load-functions
 </script>
 
 <p><a href="/">Home</a></p>
-
-<h3>{filename}</h3>
-
-{#await import(`../../examples/${folder}/${component}.svelte`) then exampleComponent}
-	<svelte:component this={exampleComponent.default} />
-{/await}
+<h3>{data.filename}</h3>
+<svelte:component this={data.component} />
