@@ -211,7 +211,7 @@
     "lint": "shared-config --check",
     "release": "run-s --print-label release:*",
     "release:1-build": "pnpm run build",
-    "release:2-version": "pnpm bumpp --commit 'Release: %s' --tag '%s'",
+    "release:2-version": "pnpm bumpp --commit 'Release: %s' --tag 'v%s'",
     "release:3-publish": "pnpm publish --ignore-scripts --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
     "rewrap": "rewrap -i --column 100 `find src \\( -name '*.svelte' -o -name '*.ts'  -o -name '*.html' \\) -type f | grep -v src/examples`",
     "type-check": "tsc --noEmit"

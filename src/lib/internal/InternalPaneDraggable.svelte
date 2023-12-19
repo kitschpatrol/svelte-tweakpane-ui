@@ -264,11 +264,14 @@
 		}
 	};
 
-	// Things that don't help drag latency: -[x] directly setting style -[x] awaiting ticking -[x]
-	// rounding to pixel values -[x] setting transform / translate instead of left / top -[x]
-	// managing separate requestAnimationFrame loop -[ ] using touch or mouse events instead of
-	// pointer -[ ] using the native drag / drop API (no reasonable control over drawing and
-	// bounds?)
+	// Things that don't help drag latency:
+	// -[x] Directly setting style
+	// -[x] Awaiting ticking
+	// -[x] Rounding to pixel values
+	// -[x] Setting transform / translate instead of left / top
+	// -[x] Managing separate requestAnimationFrame loop
+	// -[ ] Using touch or mouse events instead of pointer
+	// -[ ] Using the native drag / drop API (no reasonable control over drawing and bounds?)
 	const moveListener = (event: PointerEvent) => {
 		if (
 			event.target instanceof HTMLElement &&
