@@ -17,7 +17,6 @@ function addExports(sourceIndexFile: string, closestPackage: ReadResult) {
 
 	// Default export
 	const exports: Exports = {
-		// eslint-disable-next-line @typescript-eslint/naming-convention
 		'.': {
 			types: './dist/index.d.ts',
 			// eslint-disable-next-line perfectionist/sort-objects

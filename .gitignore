@@ -1,7 +1,7 @@
 # Git Ignore
 # Also used by CSpell and Stylelint
 
-# @kitschpatrol/shared-config boilerplate
+# @kitschpatrol/repo-config boilerplate
 !.env.example
 .astro/
 .DS_Store
@@ -16,7 +16,6 @@ build/
 coverage/
 dist/
 node_modules/
-package/
 vendor/
 
 # Customizations

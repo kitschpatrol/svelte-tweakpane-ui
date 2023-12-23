@@ -26,10 +26,10 @@
     "validate-links-live": "npx linkinator https://kitschpatrol.com/svelte-tweakpane-ui --recurse --verbosity error --retry-errors-count 2 --retry-errors true --retry true --concurrency 1 --timeout 10000 --retry-errors-jitter 50  --skip www.linkedin.com"
   },
   "dependencies": {
-    "@astrojs/check": "^0.3.3",
-    "@astrojs/starlight": "^0.15.0",
-    "@astrojs/svelte": "^5.0.1",
-    "astro": "^4.0.6",
+    "@astrojs/check": "^0.3.4",
+    "@astrojs/starlight": "^0.15.1",
+    "@astrojs/svelte": "^5.0.2",
+    "astro": "^4.0.7",
     "astro-compress": "^2.2.5",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "linkedom": "^0.16.5",
-    "linkinator": "^6.0.2",
+    "linkinator": "^6.0.3",
     "marked": "^11.1.0"
   }
 }

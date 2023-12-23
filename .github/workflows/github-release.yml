@@ -1,31 +1,81 @@
-name: Create Release
+name: Create GitHub Release
 
 on:
   push:
     tags:
-      - "v*"
+      - 'v[0-9]*'
 
 jobs:
   build:
     name: Create Release
     runs-on: ubuntu-latest
+    env:
+      ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
+      IS_VALID_COMMIT: false
+      TAG_NAME: ''
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
+      - name: Log Token Type
+        run: |
+          if [ ${{ env.ACCESS_TOKEN }} == ${{ secrets.GITHUB_TOKEN }} ]; then
+            echo "🗝️ Authenticated with GitHub Token"
+          else
+            echo "🔑 Authenticated with Personal Access token"
+          fi
+
+      - name: Validate Tag and Branch
+        id: validation
+        run: |
+          TAG=$(git tag --contains HEAD | grep '^v[0-9]' | head -n 1)
+          echo "🏷️ Tag for commit is: $TAG"
+          BRANCH=$(git branch -r --contains tags/${GITHUB_REF_NAME} | grep 'origin/main' | xargs)
+          if [[ -z "$BRANCH" ]]; then
+            echo "🚨 Tag is not on main branch"
+          else
+            echo "🕊️ Current branch is: $BRANCH"
+          fi
+          if [[ -z "$TAG" || -z "$BRANCH" ]]; then
+            echo "IS_VALID_COMMIT=false" >> $GITHUB_ENV
+            echo "TAG_NAME=''" >> $GITHUB_ENV
+          else
+            echo "IS_VALID_COMMIT=true" >> $GITHUB_ENV
+            echo "TAG_NAME=$TAG" >> $GITHUB_ENV
+          fi
+
       - name: Release Notes
+        if: env.IS_VALID_COMMIT == 'true'
+        id: release-notes
         uses: Bullrich/generate-release-changelog@master
-        id: ReleaseNotes
 
       - name: Release
+        if: env.IS_VALID_COMMIT == 'true'
+        id: release
         uses: softprops/action-gh-release@v1
         with:
+          token: ${{ env.ACCESS_TOKEN }}
           draft: false
           prerelease: false
+          name: ${{ env.TAG_NAME }}
+          tag_name: ${{ env.TAG_NAME }}
           body: |
-            ${{ steps.ReleaseNotes.outputs.changelog }}
+            ${{ steps.release-notes.outputs.changelog }}
           files: |
             readme.md
+            README.md
+            LICENSE
             license.txt
+            CHANGELOG
+            CHANGELOG.md
+            changelog.md
+
+      - name: Log Release Details
+        if: env.IS_VALID_COMMIT == 'true'
+        run: |
+          echo "📦 Successfully released: ${{ env.TAG_NAME }}"
+          echo "🔗 Release URL: ${{ steps.release.outputs.url }}"
+          echo "🪪 Release ID: ${{ steps.release.outputs.id }}"

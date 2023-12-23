@@ -86,6 +86,13 @@ module.exports = {
 			}
 		},
 		{
+			files: ['*.html'],
+			rules: {
+				'@html-eslint/no-inline-styles': 'off',
+				'@html-eslint/require-title': 'off'
+			}
+		},
+		{
 			files: ['*.svelte'],
 			rules: {
 				'@typescript-eslint/ban-types': 'off',

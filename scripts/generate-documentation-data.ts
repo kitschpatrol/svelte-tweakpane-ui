@@ -10,7 +10,7 @@ import {
 import { type ComponentDynamicPropTest, getComponentInfo } from './component-info';
 import fs from 'node:fs';
 import path from 'node:path';
-import YAML from 'yaml';
+import * as yaml from 'yaml';
 
 async function generateComponentData(
 	componentName: string,
@@ -44,7 +44,7 @@ async function generateComponentData(
 						title: componentName
 					};
 
-					content = `---\n${YAML.stringify(frontmatter, {
+					content = `---\n${yaml.stringify(frontmatter, {
 						toStringDefaults: {
 							// DefaultStringType: 'QUOTE_DOUBLE',
 							lineWidth: 0

@@ -1,22 +1,21 @@
-# build output
-dist/
-# generated types
+# Git Ignore
+# Also used by CSpell and Stylelint
+
+# @kitschpatrol/repo-config boilerplate
+!.env.example
 .astro/
-
-# dependencies
-node_modules/
-
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# environment variables
-.env
-.env.production
-
-# macOS-specific files
 .DS_Store
+.env
+.env.*
+.svelte-kit/
+{tmp,temp}/
+**/*.min.js
+/scratch/
+bower_components/
+build/
+coverage/
+dist/
+node_modules/
+vendor/
 
-# generated files ignored in workspace .gitignore
+# Customizations
