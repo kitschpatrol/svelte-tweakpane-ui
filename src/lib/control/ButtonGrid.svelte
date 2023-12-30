@@ -60,7 +60,6 @@
 	export let label: $$Props['label'] = undefined;
 
 	// Seems to be the only way to get event comments to work eslint-disable-next-line
-	// @typescript-eslint/no-unused-vars
 	type $$Events = {
 		/**
 		 * Fires when a button is clicked.

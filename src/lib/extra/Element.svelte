@@ -75,7 +75,7 @@ This component does not have a direct analog in the vanilla Tweakpane universe.
 Think of `<Element>` as an escape hatch for getting something into the pane that
 you couldn't otherwise. Generally, it's recommended to abstract new
 functionality for reuse by extending one of the internal component types in
-'svelte-tweakpane-ui', or better yet by creating a new [Tweakpane
+Svelte Tweakpane UI, or better yet by creating a new [Tweakpane
 Plugin](https://github.com/tweakpane/plugin-template) — but sometimes you just
 need to get something into the pane quickly.
 

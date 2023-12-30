@@ -104,7 +104,7 @@
 				: unknown;
 
 	// Some redefinition of props from GenericSlider, but redefining since we want to refine the
-	// documentation anyway eslint-disable-next-line @typescript-eslint/no-unused-vars
+	// documentation anyway
 	type $$Props = Omit<
 		ComponentProps<GenericInputFolding<T, PointOptions<T>>>,
 		'buttonClass' | 'options' | 'plugin' | 'ref'

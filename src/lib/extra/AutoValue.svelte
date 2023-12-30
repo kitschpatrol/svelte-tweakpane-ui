@@ -20,8 +20,7 @@ A (reasonably) appropriate Tweakpane control will be used for the value type.
 This component is intended for quick tests where you don't want to fuss with component selection or
 customization.
 
-See `<AutoObject>` for a variation that works directly on a stand-alone value that isn't wrapped in
-an object.
+See `<AutoObject>` for a variation that creates controls for multiple values in an object.
 
 The value is generally mapped to controls according to the logic outlined in the [Tweakpane input
 binding documentation](https://tweakpane.github.io/docs/input-bindings/).
