@@ -28,8 +28,8 @@
   "dependencies": {
     "@astrojs/check": "^0.3.4",
     "@astrojs/starlight": "^0.15.1",
-    "@astrojs/svelte": "^5.0.2",
-    "astro": "^4.0.7",
+    "@astrojs/svelte": "^5.0.3",
+    "astro": "^4.0.9",
     "astro-compress": "^2.2.5",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
@@ -37,8 +37,8 @@
     "svelte-tweakpane-ui": "link:.."
   },
   "devDependencies": {
-    "linkedom": "^0.16.5",
+    "linkedom": "^0.16.6",
     "linkinator": "^6.0.3",
-    "marked": "^11.1.0"
+    "marked": "^11.1.1"
   }
 }
