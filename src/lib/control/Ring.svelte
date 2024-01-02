@@ -56,7 +56,7 @@
 		 * */
 		unit?: RingUnit;
 		/**
-		 * When `true`, expand the width of the ring control at the expense of the numerical input
+		 * When `true`, expand the width of the ring control at the expense of the numeric input
 		 * field.
 		 * @default `false`
 		 * */

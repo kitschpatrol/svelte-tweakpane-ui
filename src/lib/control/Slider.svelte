@@ -16,7 +16,7 @@
 
 <!--
 @component  
-A slider component providing fine-grained control over numerical values.
+A slider component providing fine-grained control over numeric values.
 
 Wraps Tweakpane's [number bindings](https://tweakpane.github.io/docs/input-bindings/#number).
 

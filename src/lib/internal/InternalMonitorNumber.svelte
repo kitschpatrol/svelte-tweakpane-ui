@@ -32,7 +32,7 @@
 		 * */
 		max?: number;
 		/**
-		 * A function to customize the number's formatting (e.g. rounding, etc.).
+		 * A function to customize the number's string representation (e.g. rounding, etc.).
 		 * @default `undefined`  \
 		 * Normal `.toString()` formatting.
 		 * */

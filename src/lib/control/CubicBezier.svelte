@@ -109,10 +109,11 @@ bezier value to an easing function compatible with Svelte's built-in
 Usage outside of a `<Pane>` component will implicitly wrap the cubic bezier control in `<Pane
 position='inline'>`.
 
-_Note: A memory leak has been observed in situations when the `value` prop is written frequently
-from outside the component. See [issue
-#18](https://github.com/tweakpane/plugin-essentials/issues/18) on the Plugin Essentials repo for
-updates. Consider managing the lifecycle of this component with care until this issue is resolved._
+_Note: An issue with unreleased resources has been observed in situations when the `value` prop is
+set frequently. A [PR on the Plugin Essentials repo with a
+fix](https://github.com/tweakpane/plugin-essentials/pull/21) is currently pending a review and
+merge. Consider monitoring the performance of this component in the context of your use case until
+this issue is resolved._
 
 @example  
 ```svelte

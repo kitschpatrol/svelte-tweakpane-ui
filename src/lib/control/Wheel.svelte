@@ -17,7 +17,7 @@
 		 */
 		amount?: number;
 		/**
-		 * When `true`, expand the width of the wheel control at the expense of the numerical input
+		 * When `true`, expand the width of the wheel control at the expense of the numeric input
 		 * field.
 		 * @default `false`
 		 * */
