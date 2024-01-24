@@ -275,7 +275,7 @@ You may see warnings in the console at runtime if you change a dynamic prop on t
 - [JUCE](https://juce.com/)
 - [Dear ImGui](https://github.com/ocornut/imgui)
 
-### Svelte Tweakpane Wrappers
+### Svelte Tweakpane wrappers
 
 Two other projects provide integration between Tweakpane and Svelte:
 
@@ -293,8 +293,16 @@ _Svelte Tweakpane UI_ drew some inspiration from these projects, but was develop
 
 ---
 
-## Tweakpane Resources
+## Tweakpane resources
 
 - [GitHub Repository](https://github.com/cocopon/tweakpane/)
 - [Documentation](https://tweakpane.github.io/docs/)
 - [API](https://tweakpane.github.io/docs/api/index.html)
+
+---
+
+## Svelte 5 compatibility
+
+At the moment, _Svelte Tweakpane UI_ is compatible with Svelte 4 only, and will throw `ERR_SVELTE_TOO_MANY_UPDATES` errors if you attempt to use it with the Svelte 5 preview releases.
+
+Support is definitely planned for Svelte 5, but further development and testing is currently pending resolution of [an open Svelte 5 issue](https://github.com/sveltejs/svelte/issues/9954) related to this error.
