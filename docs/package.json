@@ -27,17 +27,17 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.4.1",
-    "@astrojs/starlight": "^0.15.3",
+    "@astrojs/starlight": "^0.16.0",
     "@astrojs/svelte": "^5.0.3",
-    "astro": "^4.1.2",
-    "astro-compress": "^2.2.7",
+    "astro": "^4.2.4",
+    "astro-compress": "^2.2.8",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
     "sharp": "^0.33.2",
     "svelte-tweakpane-ui": "link:.."
   },
   "devDependencies": {
-    "linkedom": "^0.16.6",
+    "linkedom": "^0.16.8",
     "linkinator": "^6.0.4",
     "marked": "^11.1.1"
   }
