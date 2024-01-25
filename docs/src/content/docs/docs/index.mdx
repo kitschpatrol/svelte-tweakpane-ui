@@ -190,6 +190,8 @@ For example, `<RotationEuler>` provides the following types:
 
 It's verbose, but consistent and predictable.
 
+_(Development note: Generics are used extensively in the library's internal implementation, but they are rarely exposed in the public API. Instead, to simplify discoverability, the more specific per-component named types for events and values are provided as explained above.)_
+
 #### Component Names
 
 Most component names hew closely to the language used in the official Tweakpane documentation and API reference or in their originating Plugin, with one important exception:

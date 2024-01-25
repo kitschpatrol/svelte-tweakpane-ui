@@ -214,6 +214,8 @@
     "release:2-version": "pnpm bumpp --commit 'Release: %s' --tag 'v%s'",
     "release:3-publish": "pnpm publish --ignore-scripts --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
     "rewrap": "rewrap -i --column 100 `find src \\( -name '*.svelte' -o -name '*.ts'  -o -name '*.html' \\) -type f | grep -v src/examples`",
+    "test": "run-s --print-label test:*",
+    "test:integration": "playwright test",
     "type-check": "tsc --noEmit"
   },
   "peerDependencies": {
@@ -228,6 +230,8 @@
     "@tweakpane/plugin-camerakit": "^0.3.0",
     "@tweakpane/plugin-essentials": "^0.2.1",
     "esm-env": "^1.0.0",
+    "fast-copy": "^3.0.1",
+    "fast-equals": "^5.0.1",
     "nanoid": "^5.0.4",
     "svelte-local-storage-store": "^0.6.4",
     "tweakpane": "^4.0.3",
@@ -236,9 +240,10 @@
   "devDependencies": {
     "@kitschpatrol/shared-config": "^4.3.3",
     "@phenomnomnominal/tsquery": "^6.1.3",
+    "@playwright/test": "^1.41.1",
     "@stkb/rewrap": "^0.1.0",
     "@sveltejs/adapter-static": "^3.0.1",
-    "@sveltejs/kit": "^2.4.3",
+    "@sveltejs/kit": "^2.5.0",
     "@sveltejs/package": "^2.2.6",
     "@sveltejs/vite-plugin-svelte": "^3.0.1",
     "@types/eslint": "^8.56.2",

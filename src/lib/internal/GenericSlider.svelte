@@ -90,4 +90,4 @@ implement as a separate component leveraging this generic implementation.
 [GenericSlider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericSlider.svelte)
 -->
 
-<GenericInput bind:value options={optionsInternal} {...$$restProps} />
+<GenericInput bind:value on:change options={optionsInternal} {...$$restProps} />

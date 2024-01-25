@@ -1,4 +1,10 @@
-<script generics="T extends number | string | boolean" lang="ts">
+<script context="module" lang="ts">
+	import type { ValueChangeEvent } from '$lib/utils.js';
+
+	export type RadioGridChangeEvent = ValueChangeEvent<boolean | number | string>;
+</script>
+
+<script generics="T extends boolean | number | string" lang="ts">
 	import * as pluginModule from '@tweakpane/plugin-essentials';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericInput, { type GenericInputOptions } from '$lib/internal/GenericInput.svelte';
@@ -86,6 +92,23 @@
 	export let suffix: $$Props['suffix'] = undefined;
 	export let prefix: $$Props['prefix'] = undefined;
 
+	// Inheriting here with ComponentEvents makes a documentation mess
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Events = {
+		/**
+		 * Fires when `value` changes.
+		 *
+		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 *
+		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
+		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 *
+		 * @extends ValueChangeEvent
+		 * @event
+		 * */
+		change: RadioGridChangeEvent;
+	};
+
 	let gridDimensions: { columns: number; rows: number };
 	let options: RadioGridOptions<T>;
 
@@ -141,6 +164,7 @@ _Svelte Tweakpane UI_ also includes some additional logic to manage default grid
 
     - If both `rows` _and_ `columns` props area provided, then buttons may be clipped if `rows * columns < values.length`.
 
+@emits {RadioGridChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
 Usage outside of a `<Pane>` component will implicitly wrap the radio grid in `<Pane
 position='inline'>`.
@@ -195,7 +219,7 @@ position='inline'>`.
 [RadioGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/RadioGrid.svelte)
 -->
 
-<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />
+<GenericInput bind:value on:change {options} plugin={pluginModule} {...$$restProps} />
 {#if !BROWSER}
 	<ClsPad keysAdd={fillWith('containerUnitSize', gridDimensions.rows - 1)} theme={$$props.theme} />
 	<div style:height={`${2 * (gridDimensions.rows - 1)}px`} />

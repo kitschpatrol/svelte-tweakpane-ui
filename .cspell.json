@@ -1,3 +1,4 @@
 {
-  "import": "@kitschpatrol/cspell-config"
+  "import": "@kitschpatrol/cspell-config",
+  "words": ["textbox"]
 }

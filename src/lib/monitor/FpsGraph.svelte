@@ -1,4 +1,5 @@
 <script context="module" lang="ts">
+	// TODO for next breaking change: Inherit from ValueChangeEvent instead
 	export type FpsGraphChangeEvent = CustomEvent<number>;
 </script>
 

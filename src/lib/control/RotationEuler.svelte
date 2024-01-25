@@ -3,6 +3,7 @@
 	import type { EulerUnit } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerUnit.js';
 	import type { PointDimensionParams } from '@tweakpane/core';
 	import type { Simplify } from '$lib/utils';
+	import type { ValueChangeEvent } from '$lib/utils.js';
 
 	export type RotationEulerOptions = Simplify<PointDimensionParams>;
 	export type RotationEulerOrder = EulerOrder;
@@ -16,6 +17,7 @@
 	export type RotationEulerValueTuple = [x: number, y: number, z: number];
 	export type RotationEulerValue = Simplify<RotationEulerValueObject | RotationEulerValueTuple>;
 
+	export type RotationEulerChangeEvent = ValueChangeEvent<RotationEulerValue>;
 	// Don't support order, for now
 </script>
 
@@ -93,6 +95,23 @@
 	// Reexport for binding
 	export let expanded: $$Props['expanded'] = undefined;
 
+	// Inheriting here with ComponentEvents makes a documentation mess
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Events = {
+		/**
+		 * Fires when `value` changes.
+		 *
+		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 *
+		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
+		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 *
+		 * @extends ValueChangeEvent
+		 * @event
+		 * */
+		change: RotationEulerChangeEvent;
+	};
+
 	let options: RotationEulerOptionsInternal;
 
 	// Proxy value since Tweakpane only supports Point3dObject type
@@ -148,6 +167,8 @@ value object or tuple into a CSS transform string.
 
 See also <RotationQuaternion> if you're feeling gimbal locked.
 
+@emits {RotationEulerChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
+
 Usage outside of a `<Pane>` component will implicitly wrap the profiler in `<Pane
 position='inline'>`.
 
@@ -202,6 +223,7 @@ position='inline'>`.
 <GenericInputFolding
 	bind:value={internalValue}
 	bind:expanded
+	on:change
 	{buttonClass}
 	{options}
 	plugin={pluginModule}

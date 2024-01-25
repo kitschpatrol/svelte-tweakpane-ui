@@ -3,13 +3,15 @@
 	import type { Simplify } from '$lib/utils';
 
 	export type ProfilerCalcMode = 'frame' | 'mean' | 'median';
-	export type ProfilerChangeEvent = CustomEvent<number>;
 	export type ProfilerMeasure = (name: string, functionToMeasure: () => void) => void;
 	export type ProfilerMeasureAsync = (
 		name: string,
 		functionToMeasure: () => Promise<void>
 	) => Promise<void>;
 	export type ProfilerMeasureHandler = Simplify<ProfilerBladeMeasureHandler>;
+
+	// TODO for next breaking change: Inherit from ValueChangeEvent instead
+	export type ProfilerChangeEvent = CustomEvent<number>;
 </script>
 
 <script lang="ts">

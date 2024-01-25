@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
 	import type { PointDimensionParams } from '@tweakpane/core';
 	import type { Simplify } from '$lib/utils';
+	import type { ValueChangeEvent } from '$lib/utils.js';
 
 	export type RotationQuaternionOptions = Simplify<PointDimensionParams>;
 	export type RotationQuaternionValueObject = {
@@ -13,6 +14,7 @@
 	export type RotationQuaternionValue = Simplify<
 		RotationQuaternionValueObject | RotationQuaternionValueTuple
 	>;
+	export type RotationQuaternionChangeEvent = ValueChangeEvent<RotationQuaternionValue>;
 </script>
 
 <script lang="ts">
@@ -81,6 +83,23 @@
 	// Reexport for binding
 	export let expanded: $$Props['expanded'] = undefined;
 
+	// Inheriting here with ComponentEvents makes a documentation mess
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Events = {
+		/**
+		 * Fires when `value` changes.
+		 *
+		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 *
+		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
+		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 *
+		 * @extends ValueChangeEvent
+		 * @event
+		 * */
+		change: RotationQuaternionChangeEvent;
+	};
+
 	let options: RotationQuaternionOptionsInternal;
 
 	// Proxy value since Tweakpane only supports Point4dObject type
@@ -135,13 +154,10 @@ rotation value object or tuple into a CSS transform string.
 
 See also <RotationEuler> if you're not into the whole `w` thing.
 
+@emits {RotationQuaternionChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
+
 Usage outside of a `<Pane>` component will implicitly wrap the profiler in `<Pane
 position='inline'>`.
-
-
-
-
-
 
 @example  
 ```svelte
@@ -194,6 +210,7 @@ position='inline'>`.
 <GenericInputFolding
 	bind:value={internalValue}
 	bind:expanded
+	on:change
 	{buttonClass}
 	{options}
 	plugin={pluginModule}

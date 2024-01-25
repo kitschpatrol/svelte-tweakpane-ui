@@ -1,3 +1,9 @@
+<script context="module" lang="ts">
+	import type { BindingObject, ValueChangeEvent } from '$lib/utils.js';
+
+	export type AutoObjectChangeEvent = ValueChangeEvent<BindingObject>;
+</script>
+
 <script lang="ts">
 	import { isColorObject } from '@tweakpane/core';
 	import { Point2d } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js';
@@ -8,9 +14,12 @@
 	import Folder from '$lib/core/Folder.svelte';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import type { Theme } from '$lib/theme.js';
-	import type { BindingObject, Container } from '$lib/utils.js';
-	import { getContext } from 'svelte';
+	import type { Container, UnwrapCustomEvents } from '$lib/utils.js';
+	import copy from 'fast-copy';
+	import { createEventDispatcher, getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
+
+	// TODO what about the onchange event?
 
 	/**
 	 * Custom color scheme.
@@ -36,6 +45,25 @@
 	 * */
 	export let object: BindingObject;
 
+	// Inheriting here with ComponentEvents makes a documentation mess
+
+	type $$Events = {
+		/**
+		 * Fires when a value in the `object` changes.
+		 *
+		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `object` prop instead._
+		 *
+		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
+		 * and changes resulting from programmatic manipulation of the `object` (`external`).
+		 *
+		 * @extends ValueChangeEvent
+		 * @event
+		 * */
+		change: AutoObjectChangeEvent;
+	};
+
+	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
+
 	const parentStore: Writable<Container> = getContext('parentStore');
 
 	// ParsePointDimensionParams wasn't quite right for this
@@ -55,6 +83,16 @@
 			.replaceAll(/[_-]+/g, ' ')
 			.toLowerCase()
 			.replaceAll(/\b[a-z]/g, (letter) => letter.toUpperCase());
+	}
+
+	function changeEventAggregator(event: ValueChangeEvent<unknown>) {
+		// Repackage events to always provide the entire
+		// object instead of just the changed key's value
+		// to avoid the "where did this come from" question
+		dispatch('change', {
+			value: copy(object),
+			origin: event.detail.origin
+		});
 	}
 </script>
 
@@ -87,6 +125,8 @@ component in [Dmitriy Nikiforov's](https://github.com/MrFoxPro)
 [solid-tweakpane](https://github.com/MrFoxPro/solid-tweakpane) library.
 
 Plugin component behavior is not available in `<AutoObject>`.
+
+@emits {AutoObjectChangeEvent} change - When `object` changes. (This event is provided for advanced use cases. Prefer binding to `object`.)
 
 @example  
 ```svelte
@@ -134,16 +174,29 @@ Plugin component behavior is not available in `<AutoObject>`.
 	{#each Object.keys(object) as key (key)}
 		{#if object[key].constructor === Object && !isColorObject(object[key]) && !isPointObject(object[key])}
 			<Folder title={prettify(key, prettyLabels)}>
-				<svelte:self bind:object={object[key]} bind:prettyLabels />
+				<svelte:self
+					bind:object={object[key]}
+					bind:prettyLabels
+					on:change={changeEventAggregator}
+				/>
 			</Folder>
 		{:else if typeof object[key] === 'string'}
-			<Text bind:value={object[key]} label={prettify(key, prettyLabels)} />
+			<Text
+				bind:value={object[key]}
+				on:change={changeEventAggregator}
+				label={prettify(key, prettyLabels)}
+			/>
 		{:else}
-			<Binding bind:object {key} label={prettify(key, prettyLabels)} />
+			<Binding
+				bind:object
+				on:change={changeEventAggregator}
+				{key}
+				label={prettify(key, prettyLabels)}
+			/>
 		{/if}
 	{/each}
 {:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
-		<svelte:self bind:object bind:prettyLabels />
+		<svelte:self bind:object bind:prettyLabels on:change={changeEventAggregator} />
 	</InternalPaneInline>
 {/if}

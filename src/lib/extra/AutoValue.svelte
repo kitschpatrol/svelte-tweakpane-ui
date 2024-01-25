@@ -1,3 +1,9 @@
+<script context="module" lang="ts">
+	import type { ValueChangeEvent } from '$lib/utils.js';
+
+	export type AutoValueChangeEvent = ValueChangeEvent<boolean | number | object | string>;
+</script>
+
 <script lang="ts">
 	import Text from '$lib/control/Text.svelte';
 	import GenericBinding from '$lib/internal/GenericBinding.svelte';
@@ -7,6 +13,23 @@
 		ComponentProps<GenericBinding<boolean | number | object | string>>,
 		'options' | 'plugin' | 'ref'
 	>;
+
+	// Inheriting here with ComponentEvents makes a documentation mess
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Events = {
+		/**
+		 * Fires when `value` changes.
+		 *
+		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 *
+		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
+		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 *
+		 * @extends ValueChangeEvent
+		 * @event
+		 * */
+		change: AutoValueChangeEvent;
+	};
 
 	export let value: $$Props['value'];
 </script>
@@ -26,6 +49,8 @@ The value is generally mapped to controls according to the logic outlined in the
 binding documentation](https://tweakpane.github.io/docs/input-bindings/).
 
 Plugin component behavior is not available in `<AutoValue>`.
+
+@emits {AutoValueChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
 @example  
 ```svelte
@@ -48,7 +73,7 @@ Plugin component behavior is not available in `<AutoValue>`.
 [AutoValue.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/extra/AutoValue.svelte)
 -->
 {#if typeof value === 'string'}
-	<Text bind:value {...$$restProps} />
+	<Text bind:value on:change {...$$restProps} />
 {:else}
-	<GenericBinding bind:value {...$$restProps} />
+	<GenericBinding bind:value on:change {...$$restProps} />
 {/if}

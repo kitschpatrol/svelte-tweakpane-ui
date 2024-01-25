@@ -59,7 +59,7 @@ function getFlags(prop: ComponentProp, dynamic: boolean = false): string[] {
 const {
 	conditionData = {},
 	data,
-	monoTable = false,
+	monoTable = false, // Currently unused
 	showDefault = true,
 	showExample = true,
 	showFlags = true
@@ -112,6 +112,14 @@ const {
 						<th>Description</th>
 						<td set:html={marked.parse(prop.doc, {})} />
 					</tr>
+					{prop.jsDocs.extends !== undefined && (
+						<tr>
+							<th>Extends</th>
+							<td>
+								<code>{cleanType(prop.jsDocs.extends)}</code>
+							</td>
+						</tr>
+					)}
 					<tr>
 						<th>Type</th>
 						<td>

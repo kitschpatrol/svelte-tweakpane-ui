@@ -1,9 +1,12 @@
 <script context="module" lang="ts">
 	import type { BindingApi, BindingParams } from '@tweakpane/core';
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BindingObject } from '$lib/utils';
+	import type { ValueChangeEvent } from '$lib/utils.js';
+
 	export type BindingOptions = BindingParams;
 	export type BindingRef = BindingApi;
+
+	export type BindingChangeEvent = ValueChangeEvent<BindingObject>;
 </script>
 
 <script
@@ -16,12 +19,15 @@
 	import {
 		type Container,
 		type Plugin,
+		type UnwrapCustomEvents,
 		enforceReadonly,
 		getElementIndex,
 		isRootPane
 	} from '$lib/utils.js';
 	import { BROWSER, DEV } from 'esm-env';
-	import { getContext, onDestroy, onMount } from 'svelte';
+	import copy from 'fast-copy';
+	import { shallowEqual } from 'fast-equals';
+	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
 	/**
@@ -112,15 +118,12 @@
 			index,
 			label,
 			...options,
-			disabled
+			disabled // Why last?
 		}) as V; // Cast is required by Tweakpane's design
 
 		ref = _ref;
 
-		_ref.on('change', () => {
-			// Trigger reactivity
-			object = object;
-		});
+		_ref.on('change', onTweakpaneChange);
 	}
 
 	onMount(() => {
@@ -131,18 +134,78 @@
 		_ref?.dispose();
 	});
 
+	// Inheriting here with ComponentEvents makes a documentation mess
+
+	type $$Events = {
+		/**
+		 * Fires when the value of `object[key]` changes.
+		 *
+		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `object` prop instead._
+		 *
+		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
+		 * and changes resulting from programmatic manipulation of the `object` (`external`).
+		 *
+		 * @extends ValueChangeEvent
+		 * @event
+		 * */
+		change: BindingChangeEvent;
+	};
+
+	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
+
+	// Good grief...
+	// Work around for double-reactivity object bug
+	// https://github.com/sveltejs/svelte/pull/8992
+	// https://github.com/sveltejs/svelte/issues/4265
+	// Switching to <svelte:options immutable={true} />
+	// at this point would be more involved
+	let lastValue: T[keyof T] = copy(object[key]);
+	let internalChange = false;
+	function onBoundValueChange(object: T) {
+		// Check svelte implementation?
+		// TODO primitive checks for optimization?
+		// TODO need deep for anything?
+		// TODO consider completely proxy-ing Tweakpane
+		//  object to intercept  bound updates?
+		if (!shallowEqual(object[key], lastValue)) {
+			lastValue = copy(object[key]);
+
+			dispatch('change', {
+				value: copy(object[key]),
+				origin: internalChange ? 'internal' : 'external'
+			});
+
+			// Update the value in the pane, but don't fire
+			// a Tweakpane change event
+			if (!internalChange && _ref) {
+				_ref.off('change', onTweakpaneChange);
+				_ref.refresh();
+				_ref.on('change', onTweakpaneChange);
+			}
+		}
+
+		internalChange = false;
+	}
+
+	function onTweakpaneChange() {
+		internalChange = true;
+		object = object;
+	}
+
 	// Readonly props
 	$: DEV && enforceReadonly(_ref, ref, 'Binding', 'ref', true);
 
 	// Options seem immutable...
 	// have to recreate old version supporting key changes $: key, options,
 	$: options, $parentStore !== undefined && index !== undefined && create();
-	$: object, _ref !== undefined && _ref.refresh();
+	// $: object, _ref !== undefined && $parentStore !== undefined && _ref.refresh();
 	$: _ref !== undefined && (_ref.disabled = disabled);
 	$: _ref !== undefined && (_ref.label = label);
 
+	$: $parentStore !== undefined && onBoundValueChange(object);
+
 	$: theme &&
-		$parentStore &&
+		$parentStore !== undefined &&
 		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
 			'Set theme on the <Pane> component, not on its children! (Check nested <Binding> components for a theme prop.)'
@@ -158,6 +221,8 @@ for general use in _Svelte Tweakpane UI_ because more helpful abstractions are a
 
 Please consider convenience components like `<Slider>`, `<Color>`, etc. etc. before using this
 component directly.
+
+@emits {BindingChangeEvent} change - When the value of `object[key]` changes. (This event is provided for advanced use cases. Prefer binding to `object`.)
 
 Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane
 position='inline'>`.
@@ -186,6 +251,15 @@ position='inline'>`.
 	{/if}
 {:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
-		<svelte:self bind:disabled bind:key bind:label bind:object bind:options bind:plugin bind:ref />
+		<svelte:self
+			bind:disabled
+			bind:key
+			bind:label
+			bind:object
+			bind:options
+			bind:plugin
+			bind:ref
+			on:change
+		/>
 	</InternalPaneInline>
 {/if}

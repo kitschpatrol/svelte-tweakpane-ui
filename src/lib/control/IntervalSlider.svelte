@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
 	import type { Simplify } from '$lib/utils';
+	import type { ValueChangeEvent } from '$lib/utils.js';
 
 	export type IntervalSliderValueTuple = [min: number, max: number];
 	export type IntervalSliderValueObject = {
@@ -7,6 +8,8 @@
 		max: number;
 	};
 	export type IntervalSliderValue = Simplify<IntervalSliderValueObject | IntervalSliderValueTuple>;
+
+	export type IntervalSliderChangeEvent = ValueChangeEvent<IntervalSliderValue>;
 </script>
 
 <script lang="ts">
@@ -36,6 +39,23 @@
 	// Reexport for bindability
 	export let value: $$Props['value'];
 	export let meanValue: $$Props['meanValue'] = undefined;
+
+	// Inheriting here with ComponentEvents makes a documentation mess
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Events = {
+		/**
+		 * Fires when `value` changes.
+		 *
+		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 *
+		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
+		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 *
+		 * @extends ValueChangeEvent
+		 * @event
+		 * */
+		change: IntervalSliderChangeEvent;
+	};
 
 	// Proxy value since Tweakpane only supports Point3dObject type
 	let internalValue: IntervalObject;
@@ -83,6 +103,8 @@ _Svelte Tweakpane UI_ extends the original implementation to by supporting tuple
 to object values. It also exposes a `meanValue` prop for reading or setting the midpoint of the
 interval range value.
 
+@emits {IntervalSliderChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
+
 Usage outside of a `<Pane>` component will implicitly wrap the interval slider in `<Pane
 position='inline'>`.
 
@@ -117,4 +139,4 @@ position='inline'>`.
 [IntervalSlider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/IntervalSlider.svelte)
 -->
 
-<GenericSlider bind:value={internalValue} plugin={pluginModule} {...$$restProps} />
+<GenericSlider bind:value={internalValue} on:change plugin={pluginModule} {...$$restProps} />

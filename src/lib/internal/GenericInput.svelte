@@ -34,4 +34,4 @@ This component is for internal use only.
 [GenericInput.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericInput.svelte)
 -->
 
-<GenericBinding bind:value bind:ref options={optionsInternal} {...$$restProps} />
+<GenericBinding bind:value bind:ref on:change options={optionsInternal} {...$$restProps} />

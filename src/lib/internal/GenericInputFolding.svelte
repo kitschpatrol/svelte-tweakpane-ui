@@ -93,4 +93,4 @@ This component is for internal use only.
 [GenericInputFolding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericInputFolding.svelte)
 -->
 
-<GenericInput bind:value bind:ref options={optionsInternal} {...$$restProps} />
+<GenericInput bind:value bind:ref on:change options={optionsInternal} {...$$restProps} />

@@ -1,3 +1,9 @@
+<script context="module" lang="ts">
+	import type { ValueChangeEvent } from '$lib/utils.js';
+
+	export type WheelChangeEvent = ValueChangeEvent<number>;
+</script>
+
 <script lang="ts">
 	import * as pluginModule from '@tweakpane/plugin-camerakit';
 	import type { WheelInputParams } from '@tweakpane/plugin-camerakit/dist/types/util.d.ts';
@@ -29,6 +35,23 @@
 	export let amount: $$Props['amount'] = undefined;
 	export let wide: $$Props['wide'] = undefined;
 
+	// Inheriting here with ComponentEvents makes a documentation mess
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Events = {
+		/**
+		 * Fires when `value` changes.
+		 *
+		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 *
+		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
+		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 *
+		 * @extends ValueChangeEvent
+		 * @event
+		 * */
+		change: WheelChangeEvent;
+	};
+
 	let options: WheelInputParams;
 
 	$: options = {
@@ -48,6 +71,8 @@ Similar in functionality to a `<Slider>`.
 Integrates the [Wheel](https://github.com/tweakpane/plugin-camerakit/blob/main/src/plugin-wheel.ts)
 control from Tweakpane-creator [Hiroki Kokubun's](https://cocopon.me) [Camerakit
 plugin](https://github.com/tweakpane/plugin-camerakit).
+
+@emits {WheelChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
 Usage outside of a `<Pane>` component will implicitly wrap the wheel in `<Pane position='inline'>`.
 
@@ -79,4 +104,4 @@ Usage outside of a `<Pane>` component will implicitly wrap the wheel in `<Pane p
 [Wheel.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Wheel.svelte)
 -->
 
-<GenericSlider bind:value {options} plugin={pluginModule} {...$$restProps} />
+<GenericSlider bind:value on:change {options} plugin={pluginModule} {...$$restProps} />

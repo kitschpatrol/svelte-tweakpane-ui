@@ -1,3 +1,9 @@
+<script context="module" lang="ts">
+	import type { ValueChangeEvent } from '$lib/utils.js';
+
+	export type TextChangeEvent = ValueChangeEvent<string>;
+</script>
+
 <script lang="ts">
 	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte';
 	import { type ComponentProps, onDestroy } from 'svelte';
@@ -22,6 +28,23 @@
 	export let value: $$Props['value'];
 	export let live: $$Props['live'] = true;
 
+	// Inheriting here with ComponentEvents makes a documentation mess
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Events = {
+		/**
+		 * Fires when `value` changes.
+		 *
+		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 *
+		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
+		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 *
+		 * @extends ValueChangeEvent
+		 * @event
+		 * */
+		change: TextChangeEvent;
+	};
+
 	// Tweakpane's implementation only sends updates on blur we extend it to send continues change
 	// updates if desired
 	let ref: GenericInputRef;
@@ -31,17 +54,13 @@
 	});
 
 	function onInput(event: Event): void {
-		if (event.target) {
-			value = (event.target as HTMLInputElement).value;
-		}
+		event.target?.dispatchEvent(new Event('change'));
 	}
 
 	function updateListeners(live: boolean, destroy: boolean = false) {
-		let input = ref?.controller.valueController.view.element.querySelector('input');
-		if (input) {
-			input.removeEventListener('input', onInput);
-			!destroy && live && input.addEventListener('input', onInput);
-		}
+		const input = ref?.controller.valueController.view.element.querySelector('input');
+		input?.removeEventListener('input', onInput);
+		!destroy && live && input?.addEventListener('input', onInput);
 	}
 
 	$: ref && live !== undefined && updateListeners(live);
@@ -57,6 +76,8 @@ Extends the vanilla JS Tweakpane API to update the bound value on every keystrok
 Tweakpane's default behavior of only updating on blur, set `live={false}`.)
 
 See `<TextArea>` for a multi-line input variation.
+
+@emits {TextChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
 Usage outside of a `<Pane>` component will implicitly wrap the text field in `<Pane
 position='inline'>`.
@@ -77,4 +98,4 @@ position='inline'>`.
 [Text.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Text.svelte)
 -->
 
-<GenericInput bind:value bind:ref {...$$restProps} />
+<GenericInput bind:value bind:ref on:change {...$$restProps} />

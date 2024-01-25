@@ -29,6 +29,22 @@ export type BindingObject = Bindable;
 export type Plugin = TpPluginBundle;
 
 /**
+ * The base event type for value change notification events emitted by various controls.
+ */
+export type ValueChangeEvent<V> = CustomEvent<{
+	/**
+	 * A copy of the value at the time of the event.
+	 */
+	value: V;
+	/**
+	 * The origin of the event.
+	 * Changes resulting from the user's direct manipulation of the control will are marked as `internal`.
+	 * Changes resulting from manipulation of the bound value from _outside_ the component are marked as `external`.
+	 */
+	origin: 'external' | 'internal';
+}>;
+
+/**
  * Needed to conveniently use $$Events as the single source of truth for component events Performs
  * the transformation necessary (extracting detail types) to pass the $$Events type into
  * createEventDispatcher(). See

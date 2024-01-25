@@ -53,4 +53,4 @@ It abstracts the `param` object Tweakpane expects into an interface that looks l
 [GenericBinding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericBinding.svelte)
 -->
 
-<Binding bind:object bind:ref {key} {options} {...$$restProps} />
+<Binding bind:object bind:ref on:change {key} {options} {...$$restProps} />

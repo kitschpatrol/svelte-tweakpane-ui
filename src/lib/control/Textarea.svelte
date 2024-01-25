@@ -1,9 +1,16 @@
+<script context="module" lang="ts">
+	import type { ValueChangeEvent } from '$lib/utils.js';
+
+	export type TextareaChangeEvent = ValueChangeEvent<string>;
+</script>
+
 <script lang="ts">
 	import * as pluginModule from '@kitschpatrol/tweakpane-textarea-plugin';
 	import type { TextareaPluginInputParams } from '@kitschpatrol/tweakpane-textarea-plugin/dist/types/plugin.js';
 	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte';
+	import { type UnwrapCustomEvents } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
-	import { type ComponentProps, onDestroy } from 'svelte';
+	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte';
 
 	type $$Props = Omit<
 		ComponentProps<GenericInput<string, TextareaPluginInputParams>>,
@@ -39,6 +46,25 @@
 	export let rows: $$Props['rows'] = undefined;
 	export let placeholder: $$Props['placeholder'] = undefined;
 
+	// Inheriting here with ComponentEvents makes a documentation mess
+
+	type $$Events = {
+		/**
+		 * Fires when `value` changes.
+		 *
+		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 *
+		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
+		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 *
+		 * @extends ValueChangeEvent
+		 * @event
+		 * */
+		change: TextareaChangeEvent;
+	};
+
+	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
+
 	let _value = value; // Not bound, update events handled in svelte to allow updates on blur
 	let ref: GenericInputRef;
 	let options: TextareaPluginInputParams;
@@ -49,19 +75,29 @@
 
 	function onBlur(event: Event): void {
 		value = (event.target as HTMLInputElement).value;
+		lastText = value;
+		dispatch('change', { value, origin: 'internal' });
 	}
 
 	function onInput(event: Event): void {
 		value = (event.target as HTMLInputElement).value;
+		lastText = value;
+		dispatch('change', { value, origin: 'internal' });
 	}
 
 	function updateListeners(live: boolean, destroy: boolean = false) {
 		const input = ref?.controller.valueController.view.element.querySelector('textarea');
-		if (input) {
-			input.removeEventListener('blur', onBlur);
-			input.removeEventListener('input', onInput);
-			!destroy && live && input.addEventListener('input', onInput);
-			!destroy && !live && input.addEventListener('blur', onBlur);
+		input?.removeEventListener('blur', onBlur);
+		input?.removeEventListener('input', onInput);
+		!destroy && live && input?.addEventListener('input', onInput);
+		!destroy && !live && input?.addEventListener('blur', onBlur);
+	}
+
+	let lastText = value;
+	function onBoundValueChange(text: string) {
+		if (text !== lastText) {
+			dispatch('change', { value: text, origin: 'external' });
+			lastText = text;
 		}
 	}
 
@@ -72,6 +108,7 @@
 		rows,
 		view: 'textarea'
 	};
+	$: ref && onBoundValueChange(_value);
 </script>
 
 <!--
@@ -90,6 +127,8 @@ Note that _Svelte Tweakpane UI_ embeds a
 Tweakpane 4. The dependency will be updated to point to the source repository if / when the open
 [pull request](https://github.com/panGenerator/tweakpane-textarea-plugin/pull/4) with Tweakpane 4
 support is merged.
+
+@emits {TextareaChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
 Usage outside of a `<Pane>` component will implicitly wrap the text area in `<Pane
 position='inline'>`.

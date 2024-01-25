@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
 	import type { Simplify } from '$lib/utils';
+	import type { ValueChangeEvent } from '$lib/utils.js';
 	import type { Point2dInputParams, Point3dInputParams, Point4dInputParams } from 'tweakpane';
 
 	// Extends Tweakpane's implementation to support tuples
@@ -29,6 +30,8 @@
 			: Dimensions extends '2'
 				? Point2dInputParams[Axis]
 				: never;
+
+	export type PointChangeEvent = ValueChangeEvent<PointValue2d | PointValue3d | PointValue4d>;
 </script>
 
 <script generics="T extends PointValue2d | PointValue3d | PointValue4d" lang="ts">
@@ -162,7 +165,7 @@
 	export let value: T;
 	export let expanded: boolean | undefined = $$props.expanded ?? undefined; //  $$Props['expanded']; not working here?
 
-	// no need to re-export non-bindable props
+	// No need to re-export non-bindable props
 	let pointerScale: $$Props['pointerScale'] = $$props['pointerScale'] ?? undefined;
 	let keyScale: $$Props['keyScale'] = $$props['keyScale'] ?? undefined;
 	let min: $$Props['min'] = $$props['min'] ?? undefined;
@@ -173,6 +176,23 @@
 	let optionsZ: HasKey<$$Props, 'optionsZ'> = $$props['optionsZ'] ?? undefined;
 	let optionsW: HasKey<$$Props, 'optionsW'> = $$props['optionsW'] ?? undefined;
 	let format: $$Props['format'] = $$props['format'] ?? undefined;
+
+	// Inheriting here with ComponentEvents makes a documentation mess
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Events = {
+		/**
+		 * Fires when `value` changes.
+		 *
+		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 *
+		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
+		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 *
+		 * @extends ValueChangeEvent
+		 * @event
+		 * */
+		change: PointChangeEvent;
+	};
 
 	// Proxy value since Tweakpane only supports PointNdObject type
 	let internalValue: InternalPoint<T>;
@@ -245,6 +265,8 @@ frameworks like [three.js](https://threejs.org) / [threlte](https://threlte.xyz)
 `<Point>` is a dynamic component, and the availability of the `optionsZ` and `optionsW` props will
 change depending on the number of dimensions in the `value`.
 
+@emits {PointChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
+
 Usage outside of a `<Pane>` component will implicitly wrap the point picker in a `<Pane
 position='inline'>` component.
 
@@ -303,6 +325,7 @@ position='inline'>` component.
 <GenericInputFolding
 	bind:value={internalValue}
 	bind:expanded
+	on:change
 	{buttonClass}
 	{options}
 	{...removeKeys(

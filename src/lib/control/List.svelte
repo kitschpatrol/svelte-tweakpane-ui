@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
 	import type { Simplify } from '$lib/utils';
+	import type { ValueChangeEvent } from '$lib/utils.js';
 
 	// Extends tweakpane to take arbitrary arrays of values
 	export type ListOptionsArray<T> = T[];
@@ -9,13 +10,18 @@
 	export type ListOptions<T> = Simplify<
 		ListOptionsArray<T> | ListOptionsObjectArray<T> | ListOptionsRecord<T>
 	>;
+
+	export type ListChangeEvent = ValueChangeEvent<unknown>;
 </script>
 
 <script generics="T extends any" lang="ts">
 	import Blade from '$lib/core/Blade.svelte';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
+	import { type UnwrapCustomEvents } from '$lib/utils';
 	import { BROWSER } from 'esm-env';
-	import type { ComponentProps } from 'svelte';
+	import copy from 'fast-copy';
+	import { shallowEqual } from 'fast-equals';
+	import { type ComponentProps, createEventDispatcher } from 'svelte';
 	import type { ListBladeApi, ListBladeParams, ListParamsOptions } from 'tweakpane';
 
 	// Use a blade instead of an input to allow for additional value types TODO expose key value
@@ -48,6 +54,24 @@
 	export let options: $$Props['options'];
 	export let label: $$Props['label'] = undefined;
 
+	// Inheriting here with ComponentEvents makes a documentation mess
+	type $$Events = {
+		/**
+		 * Fires when `value` changes.
+		 *
+		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 *
+		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
+		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 *
+		 * @extends ValueChangeEvent
+		 * @event
+		 * */
+		change: ListChangeEvent;
+	};
+
+	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
+
 	let listBlade: ListBladeApi<T>;
 
 	// Note name collision with `options` prop
@@ -55,7 +79,14 @@
 
 	function addEvent() {
 		listBlade.on('change', (event) => {
-			value = event.value;
+			if (!shallowEqual(event.value, value)) {
+				value = event.value;
+
+				dispatch('change', {
+					value: copy(value),
+					origin: 'internal'
+				});
+			}
 		});
 	}
 
@@ -99,7 +130,14 @@
 	}
 
 	function setValue() {
-		listBlade.value = value;
+		if (!shallowEqual(listBlade.value, value)) {
+			listBlade.value = value;
+
+			dispatch('change', {
+				value: copy(value),
+				origin: 'external'
+			});
+		}
 	}
 
 	$: bladeOptions = {
@@ -125,6 +163,8 @@ labels to options.
 
 Tweakpane's `addBlade` list variations is used instead of the `addBinding` method to allow for
 additional value types. The `value` remains bindable via Svelte's reactivity.
+
+@emits {ListChangeEvent} change - When `value` changes. (For advanced use cases. Prefer binding to `value`.)
 
 Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane
 position='inline'>`.

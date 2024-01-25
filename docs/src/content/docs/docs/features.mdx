@@ -3,6 +3,10 @@ title: Features
 description: Features unique to Svelte Tweakpane UI.
 ---
 
+import ExampleWrapper from '../../../components/docs/ExampleWrapper.astro';
+import SvelteTweakpaneEventExampleCode from '../../../examples/docs/SvelteTweakpaneEventExample.md';
+import SvelteTweakpaneEventExample from '../../../examples/docs/SvelteTweakpaneEventExample.svelte';
+
 A handful of additional features have been implemented in the Svelte layer of the project.
 
 ## Additions
@@ -75,6 +79,25 @@ If you want to prevent the user from collapsing chunk of pane, you can set the `
 ### Label truncation
 
 Pane titles and blade labels are truncated with ellipses if they're too long to fit in their containers.
+
+### Value change event origins
+
+Though binding to a component's `value` is generally the best way to react to changes, sometimes you need to know _how_ a value's change originated.
+
+To this end, all value-manipulating components provide a `change` event that includes the "origin" of the change in the `event.details` payload.
+
+Changes resulting from the user's direct manipulation of the control will are marked as `internal`, while those resulting from a change to the bound value from _outside_ the component are marked as `external`.
+
+The example below tallies `internal` vs. `external` changes to the `<Slider>`:
+
+<ExampleWrapper>
+  <SvelteTweakpaneEventExample client:load />
+</ExampleWrapper>
+
+<details>
+  <summary>See example code</summary>
+  <SvelteTweakpaneEventExampleCode />
+</details>
 
 ---
 

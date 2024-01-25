@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
 	import type { Simplify } from '$lib/utils';
+	import type { ValueChangeEvent } from '$lib/utils.js';
 
 	export type CubicBezierValueObject = {
 		x1: number;
@@ -9,6 +10,8 @@
 	};
 	export type CubicBezierValueTuple = [x1: number, y1: number, x2: number, y2: number];
 	export type CubicBezierValue = Simplify<CubicBezierValueObject | CubicBezierValueTuple>;
+
+	export type CubicBezierChangeEvent = ValueChangeEvent<CubicBezierValue>;
 </script>
 
 <script lang="ts">
@@ -19,9 +22,11 @@
 	import type { CubicBezierBladeParams as CubicBezierOptions } from '@tweakpane/plugin-essentials/dist/types/cubic-bezier/plugin.d.ts';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericBladeFolding from '$lib/internal/GenericBladeFolding.svelte';
-	import { fillWith } from '$lib/utils';
+	import { type UnwrapCustomEvents, fillWith } from '$lib/utils';
 	import { BROWSER } from 'esm-env';
-	import type { ComponentProps } from 'svelte';
+	import copy from 'fast-copy';
+	import { shallowEqual } from 'fast-equals';
+	import { type ComponentProps, createEventDispatcher } from 'svelte';
 
 	type $$Props = Omit<
 		ComponentProps<GenericBladeFolding<CubicBezierOptions, CubicBezierRef>>,
@@ -47,35 +52,77 @@
 	export let label: $$Props['label'] = undefined;
 	export let expanded: $$Props['expanded'] = undefined;
 
+	// Inheriting here with ComponentEvents makes a documentation mess
+	type $$Events = {
+		/**
+		 * Fires when `value` changes.
+		 *
+		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 *
+		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
+		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 *
+		 * @extends ValueChangeEvent
+		 * @event
+		 * */
+		change: CubicBezierChangeEvent;
+	};
+
+	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
+
 	let options: CubicBezierOptions;
 	let cubicBezierBlade: CubicBezierRef;
 
 	// Work-around for funky folding
 	const buttonClass = 'tp-cbzv_b';
 
+	// Object to array if needed
 	function getValue(): CubicBezierOptions['value'] {
 		return Array.isArray(value) ? value : [value.x1, value.y1, value.x2, value.y2];
 	}
 
 	function setValue() {
-		// CubicBezier is a blade, not a binding, so state must be synced manually pretty sure
-		// setting value is leaking memory from inside the plugin tracking in
-		// https://github.com/tweakpane/plugin-essentials/issues/18
-		cubicBezierBlade.value = Array.isArray(value)
-			? new CubicBezier(value[0], value[1], value[2], value[3])
-			: new CubicBezier(value.x1, value.y1, value.x2, value.y2);
+		if (
+			!shallowEqual(getValue(), [
+				cubicBezierBlade.value.x1,
+				cubicBezierBlade.value.y1,
+				cubicBezierBlade.value.x2,
+				cubicBezierBlade.value.y2
+			])
+		) {
+			// CubicBezier is a blade, not a binding, so state must be synced manually pretty sure
+			// setting value is leaking memory from inside the plugin tracking in
+			// https://github.com/tweakpane/plugin-essentials/issues/18
+			cubicBezierBlade.value = Array.isArray(value)
+				? new CubicBezier(value[0], value[1], value[2], value[3])
+				: new CubicBezier(value.x1, value.y1, value.x2, value.y2);
+
+			dispatch('change', {
+				value: copy(value),
+				origin: 'external'
+			});
+		}
 	}
 
 	function addEvent() {
 		cubicBezierBlade.on('change', (event) => {
-			value = Array.isArray(value)
-				? [event.value.x1, event.value.y1, event.value.x2, event.value.y2]
-				: {
-						x1: event.value.x1,
-						y1: event.value.y1,
-						x2: event.value.x2,
-						y2: event.value.y2
-					};
+			if (
+				!shallowEqual(getValue(), [event.value.x1, event.value.y1, event.value.x2, event.value.y2])
+			) {
+				value = Array.isArray(value)
+					? [event.value.x1, event.value.y1, event.value.x2, event.value.y2]
+					: {
+							x1: event.value.x1,
+							y1: event.value.y1,
+							x2: event.value.x2,
+							y2: event.value.y2
+						};
+
+				dispatch('change', {
+					value: copy(value),
+					origin: 'internal'
+				});
+			}
 		});
 	}
 
@@ -105,6 +152,8 @@ bezier value to an easing function compatible with Svelte's built-in
 [motion](https://svelte.dev/docs/svelte-motion),
 [transition](https://svelte.dev/docs/svelte-transition), and
 [animate](https://svelte.dev/docs/svelte-animate) modules.
+
+@emits {CubicBezierChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
 Usage outside of a `<Pane>` component will implicitly wrap the cubic bezier control in `<Pane
 position='inline'>`.

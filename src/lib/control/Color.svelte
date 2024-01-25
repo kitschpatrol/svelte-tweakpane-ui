@@ -4,6 +4,7 @@
 		RgbaColorObject
 	} from '@tweakpane/core/dist/input-binding/color/model/color.js';
 	import type { Simplify } from '$lib/utils';
+	import type { ValueChangeEvent } from '$lib/utils.js';
 
 	// TODO tuples, oklch, etc TODO set default picker mode between rgb, hsl, etc.?
 	export type ColorValueRgbTuple = [r: number, g: number, b: number];
@@ -18,6 +19,8 @@
 		| ColorValueRgbaTuple
 		| ColorValueString
 	>;
+
+	export type ColorChangeEvent = ValueChangeEvent<ColorValue>;
 </script>
 
 <script lang="ts">
@@ -55,6 +58,23 @@
 	export let value: $$Props['value'];
 	export let expanded: $$Props['expanded'] = undefined;
 	export let type: $$Props['type'] = undefined;
+
+	// Inheriting here with ComponentEvents makes a documentation mess
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Events = {
+		/**
+		 * Fires when `value` changes.
+		 *
+		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 *
+		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
+		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 *
+		 * @extends ValueChangeEvent
+		 * @event
+		 * */
+		change: ColorChangeEvent;
+	};
 
 	let internalValue: ColorValueInternal;
 	let options: ColorOptions;
@@ -125,6 +145,8 @@ A color picker.
 
 Wraps Tweakpane's [color input binding](https://tweakpane.github.io/docs/input-bindings/#color).
 
+@emits {ColorChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
+
 Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane
 position='inline'>`.
 
@@ -159,6 +181,7 @@ position='inline'>`.
 	bind:value={internalValue}
 	bind:expanded
 	bind:ref
+	on:change
 	{buttonClass}
 	{options}
 	{...$$restProps}

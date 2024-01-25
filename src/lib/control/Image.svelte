@@ -1,9 +1,13 @@
 <script context="module" lang="ts">
+	import type { ValueChangeEvent } from '$lib/utils.js';
+
 	export type ImageValue = 'placeholder' | File | HTMLImageElement | string | undefined;
+	export type ImageChangeEvent = ValueChangeEvent<ImageValue>;
 </script>
 
 <script lang="ts">
 	// TODO CLS prerendering slightly broken because component has fractional heights
+	// TODO minor issues with internal vs. external event count
 
 	import * as pluginModule from '@kitschpatrol/tweakpane-image-plugin';
 	import type { PluginInputParams as ImageOptions } from '@kitschpatrol/tweakpane-image-plugin/dist/types/plugin.d.ts';
@@ -39,6 +43,23 @@
 	export let fit: $$Props['fit'] = undefined;
 	export let extensions: $$Props['extensions'] = undefined;
 
+	// Inheriting here with ComponentEvents makes a documentation mess
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Events = {
+		/**
+		 * Fires when `value` changes.
+		 *
+		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 *
+		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
+		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 *
+		 * @extends ValueChangeEvent
+		 * @event
+		 * */
+		change: ImageChangeEvent;
+	};
+
 	let options: ImageOptions;
 
 	$: options = {
@@ -53,6 +74,8 @@
 
 An image input control.
 
+_Important: This component has some rough edges, and should be considered experimental._
+
 Integrates the [tweakpane-image-plugin](https://github.com/metehus/tweakpane-image-plugin),
 incorporating work by [Florian Morel](http://ayamflow.fr), [Matheus
 Dias](https://www.linkedin.com/in/matheusdbs/), [Palash Bansal](https://github.com/repalash), and
@@ -63,6 +86,10 @@ Note that _Svelte Tweakpane UI_ embeds a
 Tweakpane 4. The dependency will be updated to point to the source repository if / when the open
 [pull request](https://github.com/metehus/tweakpane-image-plugin/pull/1) with Tweakpane 4 support is
 merged.
+
+@emits {ImageChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
+
+There is currently a known bug where change events' `origin` values are sometimes incorrect. (This issue is limited to this component.)
 
 Usage outside of a `<Pane>` component will implicitly wrap the image control in `<Pane
 position='inline'>`.
@@ -121,7 +148,7 @@ position='inline'>`.
 [Image.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Image.svelte)
 -->
 
-<GenericInput bind:value {options} plugin={pluginModule} {...$$restProps} />
+<GenericInput bind:value on:change {options} plugin={pluginModule} {...$$restProps} />
 {#if !BROWSER}
 	<ClsPad keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} />
 {/if}
