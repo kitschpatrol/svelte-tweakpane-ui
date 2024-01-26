@@ -86,7 +86,7 @@ Though binding to a component's `value` is generally the best way to react to ch
 
 To this end, all value-manipulating components provide a `change` event that includes the "origin" of the change in the `event.details` payload.
 
-Changes resulting from the user's direct manipulation of the control will are marked as `internal`, while those resulting from a change to the bound value from _outside_ the component are marked as `external`.
+Changes resulting from the user's direct manipulation of the control are marked as `internal`, while those resulting from a change to the bound value from _outside_ the component are marked as `external`.
 
 The example below tallies `internal` vs. `external` changes to the `<Slider>`:
 
