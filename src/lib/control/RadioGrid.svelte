@@ -194,7 +194,12 @@ position='inline'>`.
 
 <div class="demo">
   {#key value}
-    <div class="swatch" style:--e={end} style:--s={start} transition:fade></div>
+    <div
+      class="swatch"
+      style:--e={end}
+      style:--s={start}
+      transition:fade
+    ></div>
   {/key}
 </div>
 

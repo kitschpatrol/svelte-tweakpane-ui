@@ -39,7 +39,7 @@
   "stylelint.enable": true,
   "stylelint.validate": ["css", "html", "svelte", "astro"],
   "stylelint.configBasedir": ".",
-  "rewrap.wrappingColumn": 100,
+  "rewrap.wrappingColumn": 75,
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {

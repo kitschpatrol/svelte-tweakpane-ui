@@ -103,7 +103,12 @@ position='inline'>` component.
   }, 100);
 </script>
 
-<InternalMonitorNumber value={numberToMonitor} min={-1} max={1} graph={true} />
+<InternalMonitorNumber
+  value={numberToMonitor}
+  min={-1}
+  max={1}
+  graph={true}
+/>
 ```
 
 @sourceLink

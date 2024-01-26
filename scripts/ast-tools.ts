@@ -310,7 +310,7 @@ export async function format(code: string, formatParser: string): Promise<string
 			'--parser',
 			formatParser,
 			'--print-width',
-			'80',
+			'75',
 			'--use-tabs',
 			'false'
 		]);

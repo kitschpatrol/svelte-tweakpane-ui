@@ -22,7 +22,8 @@ for (const filePath of files) {
 		fs.writeFileSync(filePath, formattedSvelteContent);
 
 		// Generate markdown with title
-		const markdownContent = '```svelte title="' + baseName + '.svelte"\n' + svelteContent + '```\n';
+		const markdownContent =
+			'```svelte title="' + baseName + '.svelte"\n' + formattedSvelteContent + '```\n';
 		const markdownPath = path.join(directory, `${baseName}.md`);
 		fs.writeFileSync(markdownPath, markdownContent);
 	} catch (error) {

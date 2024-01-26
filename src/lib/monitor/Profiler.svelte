@@ -230,7 +230,11 @@ position='inline'>`.
 ```svelte
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { Profiler, type ProfilerMeasure, Slider } from 'svelte-tweakpane-ui';
+  import {
+    Profiler,
+    type ProfilerMeasure,
+    Slider
+  } from 'svelte-tweakpane-ui';
 
   // this is a readonly function handle assigned by Profiler component
   // first used in onMount since it is not bound until then
@@ -239,7 +243,10 @@ position='inline'>`.
   let loopExponent = 1;
 
   // helper to test Math functions
-  function hardWork(function_: (n: number) => number, exponent: number): void {
+  function hardWork(
+    function_: (n: number) => number,
+    exponent: number
+  ): void {
     measure(function_.name, () => {
       for (let sum = 0; sum < Number('1e' + exponent); sum++) {
         function_(sum);
