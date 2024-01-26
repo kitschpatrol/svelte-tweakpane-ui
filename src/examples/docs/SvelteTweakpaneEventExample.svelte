@@ -9,7 +9,8 @@
 	let internalChangeCount = 0;
 	let externalChangeCount = 0;
 
-	// Chang event handler The SliderChangeEvent type is a convenient alias
+	// Change event handler
+	// The SliderChangeEvent type is a convenient alias
 	// to ValueChangeEvent<number>
 	function onChange(event: SliderChangeEvent) {
 		// Identify where the event came from, 'internal' or 'external'
