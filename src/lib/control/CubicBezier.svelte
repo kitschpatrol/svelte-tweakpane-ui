@@ -177,7 +177,12 @@ this issue is resolved._
   import { tweened } from 'svelte/motion';
 
   // could also be a tuple
-  let value: CubicBezierValue = { x1: 0.25, y1: 0.1, x2: 0.25, y2: 1 };
+  let value: CubicBezierValue = {
+    x1: 0.25,
+    y1: 0.1,
+    x2: 0.25,
+    y2: 1
+  };
   let duration = 1000;
   let moods = ['Set', 'Rise'];
   let mood: string = moods[0];

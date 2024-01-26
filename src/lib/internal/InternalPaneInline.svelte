@@ -3,9 +3,8 @@
 	import { removeKeys } from '$lib/utils.js';
 	import type { ComponentProps } from 'svelte';
 	import { onMount } from 'svelte';
-	import type { Pane as TpPane } from 'tweakpane';
 
-	type $$Props = Omit<ComponentProps<GenericPane>, 'paneRef'> & {
+	type $$Props = ComponentProps<GenericPane> & {
 		/**
 		 * Width of the pane, in pixels.
 		 *
@@ -31,6 +30,7 @@
 	// Reexport for bindability
 	export let expanded: $$Props['expanded'] = undefined;
 	export let width: $$Props['width'] = undefined;
+	export let tpPane: $$Props['tpPane'] = undefined;
 
 	// Override theme defaults
 	export let theme: $$Props['theme'] = {
@@ -39,16 +39,15 @@
 		// BladeBorderRadius: '0px'
 	};
 
-	let paneRef: TpPane;
 	let containerElement: HTMLDivElement;
 
 	onMount(() => {
-		if (paneRef) {
-			const fixedContainer = paneRef.element.parentElement;
-			containerElement.append(paneRef.element);
+		if (tpPane) {
+			const fixedContainer = tpPane.element.parentElement;
+			containerElement.append(tpPane.element);
 			fixedContainer?.remove();
 		} else {
-			console.warn('paneRef is undefined');
+			console.warn('tpPane is undefined');
 		}
 	});
 </script>
@@ -62,7 +61,7 @@ This component is for internal use only.
 -->
 
 <div bind:this={containerElement} style:width={width === undefined ? null : `${width}px`}>
-	<GenericPane bind:expanded bind:paneRef {theme} {...removeKeys($$restProps, 'position')}>
+	<GenericPane bind:expanded bind:tpPane {theme} {...removeKeys($$restProps, 'position')}>
 		<slot />
 	</GenericPane>
 </div>

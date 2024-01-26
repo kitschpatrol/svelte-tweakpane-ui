@@ -2,9 +2,8 @@
 	import GenericPane from '$lib/internal/GenericPane.svelte';
 	import { removeKeys } from '$lib/utils.js';
 	import type { ComponentProps } from 'svelte';
-	import type { Pane as TpPane } from 'tweakpane';
 
-	type $$Props = Omit<ComponentProps<GenericPane>, 'paneRef' | 'userCreatedPane'> & {
+	type $$Props = Omit<ComponentProps<GenericPane>, 'userCreatedPane'> & {
 		/**
 		 * Horizontal position of the pane relative to the left edge of the window, in pixels.
 		 *
@@ -44,11 +43,11 @@
 	export let y: $$Props['y'] = undefined;
 	export let width: $$Props['width'] = undefined;
 	export let title: $$Props['title'] = 'Tweakpane';
+	export let tpPane: $$Props['tpPane'] = undefined;
 
-	let paneRef: TpPane;
 	let paneContainer: HTMLElement;
 
-	$: paneRef?.element.parentElement && (paneContainer = paneRef.element.parentElement);
+	$: tpPane?.element.parentElement && (paneContainer = tpPane.element.parentElement);
 
 	$: paneContainer !== undefined &&
 		x !== undefined &&
@@ -78,7 +77,7 @@ Implements the default tweakpane behavior... opens in a fixed position.
 -->
 
 <div style="display: none;">
-	<GenericPane bind:expanded bind:paneRef {title} {...removeKeys($$restProps, 'position')}>
+	<GenericPane bind:expanded bind:tpPane {title} {...removeKeys($$restProps, 'position')}>
 		<slot />
 	</GenericPane>
 </div>

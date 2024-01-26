@@ -26,7 +26,7 @@
 
 	const themeDataKey = 'data-theme';
 	let astroTheme: 'dark' | 'light';
-	let paneRef: HTMLDivElement;
+	let paneDiv: HTMLDivElement;
 	// Let mounted = false;
 
 	// set up pane div pause when interacting, but not when dragging the title bar
@@ -56,7 +56,7 @@
 
 		requestAnimationFrame(tick);
 
-		paneRef.addEventListener('pointerdown', onPointerDown, { capture: true });
+		paneDiv.addEventListener('pointerdown', onPointerDown, { capture: true });
 		document.addEventListener('pointerup', onPointerUp);
 		document.addEventListener('pointercancel', onPointerUp);
 
@@ -83,7 +83,7 @@
 				cancelAnimationFrame(frameId);
 			}
 
-			paneRef.removeEventListener('pointerdown', onPointerDown, { capture: true });
+			paneDiv.removeEventListener('pointerdown', onPointerDown, { capture: true });
 			document.removeEventListener('pointerup', onPointerUp);
 			document.removeEventListener('pointercancel', onPointerUp);
 
@@ -220,7 +220,7 @@
 	let scale = 1;
 </script>
 
-<div bind:this={paneRef}>
+<div bind:this={paneDiv}>
 	<!-- {#if mounted} -->
 	<div transition:fade={{ duration: 1500 }}>
 		<Pane position="inline" {scale} {theme} title={`<Pane> ${text}`} {width}>

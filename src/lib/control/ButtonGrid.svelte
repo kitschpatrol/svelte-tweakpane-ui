@@ -145,8 +145,11 @@ position='inline'>`.
   } from 'svelte-tweakpane-ui';
 
   const keyboard = [
-    ...Array.from({ length: 26 }, (_, index) =>
-      String.fromCodePoint(65 + index)
+    ...Array.from(
+      {
+        length: 26
+      },
+      (_, index) => String.fromCodePoint(65 + index)
     ),
     ',',
     '.',
@@ -170,7 +173,9 @@ position='inline'>`.
 </Pane>
 
 <div class="demo">
-  <p>{textBuffer}</p>
+  <p>
+    {textBuffer}
+  </p>
 </div>
 
 <style>

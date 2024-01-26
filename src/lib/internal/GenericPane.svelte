@@ -73,22 +73,32 @@
 	// TODO Giant pain to pass through,
 	/** Function to import a state object and set all pane values simultaneously. Returns true if
 	 * successful. */
-	// export function importState(state: BladeState): boolean { return paneRef?.importState(state)
+	// export function importState(state: BladeState): boolean { return tpPane?.importState(state)
 	//  ?? false;
 	// };
 
 	/** Function to export state object of all pane values. */
-	// export function exportState(): BladeState | undefined { return paneRef?.exportState();
+	// export function exportState(): BladeState | undefined { return tpPane?.exportState();
 	// }
 
 	/** Internal use only. */
 	export let userCreatedPane = true;
 
 	/**
-	 * Internal use only.
+	 * The internal Tweakpane [`Pane`](https://tweakpane.github.io/docs/api/classes/Pane.html) object.
+	 *
+	 * This property is exposed for advanced use cases only.
+	 *
+	 * Direct manipulation of Tweakpane's internals can break _Svelte Tweakpane UI_ abstractions.
+	 *
+	 * Note that the `Pane` type for this property comes from the core Tweakpane library.
+	 * Creating an alias is suggested to avoid confusion with the _Svelte Tweakpane UI_ `Pane`
+	 * component: e.g. `import { type Pane as TpPane } from 'tweakpane'`
+	 *
+	 * @bindable
 	 * @readonly
 	 * */
-	export let paneRef: TpPane | undefined = undefined;
+	export let tpPane: TpPane | undefined = undefined;
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {
@@ -107,10 +117,10 @@
 	// since loading already happened?
 	let pluginsRegistered: string[] = [];
 	const registerPlugin = (plugin: Plugin) => {
-		if (paneRef === undefined) {
-			console.warn(`paneRef is undefined, failed to register plugin "${plugin.id}"`);
+		if (tpPane === undefined) {
+			console.warn(`tpPane is undefined, failed to register plugin "${plugin.id}"`);
 		} else if (!pluginsRegistered.includes(plugin.id)) {
-			paneRef?.registerPlugin(plugin);
+			tpPane?.registerPlugin(plugin);
 			pluginsRegistered.push(plugin.id);
 		}
 	};
@@ -135,7 +145,7 @@
 			_expanded = $parentStore.expanded;
 		});
 
-		paneRef = $parentStore;
+		tpPane = $parentStore;
 
 		setContext('parentStore', parentStore);
 
@@ -148,37 +158,37 @@
 	}
 
 	function setScale(scale: number) {
-		if (paneRef) {
+		if (tpPane) {
 			if (scale === 1) {
-				paneRef.element.style.removeProperty('transform-origin');
-				paneRef.element.style.removeProperty('transform');
-				paneRef.element.style.removeProperty('width');
+				tpPane.element.style.removeProperty('transform-origin');
+				tpPane.element.style.removeProperty('transform');
+				tpPane.element.style.removeProperty('width');
 			} else {
 				const clampedScale = Math.max(0, scale);
-				paneRef.element.style.transformOrigin = '0 0';
-				paneRef.element.style.transform = `scale(${clampedScale})`;
+				tpPane.element.style.transformOrigin = '0 0';
+				tpPane.element.style.transform = `scale(${clampedScale})`;
 
 				// Jitters a bit, but resizeObserver + rounding wasn't better
-				paneRef.element.style.width = `${100 / clampedScale}%`;
+				tpPane.element.style.width = `${100 / clampedScale}%`;
 			}
 		}
 	}
 
 	function syncFolded() {
-		if (paneRef) {
-			paneRef.expanded = _expanded;
+		if (tpPane) {
+			tpPane.expanded = _expanded;
 		}
 
 		expanded = _expanded;
 	}
 
-	$: paneRef?.element && paneRef?.element.classList.add('svelte-tweakpane-ui');
-	$: paneRef && setScale(scale);
-	$: paneRef && updateCollapsibility(userExpandable, paneRef.element, 'tp-rotv_b', 'tp-rotv_m');
-	$: paneRef && title && (paneRef.title = title);
-	$: paneRef && applyTheme(paneRef.element, theme);
-	$: _expanded, paneRef && syncFolded();
-	$: paneRef && (_expanded = expanded);
+	$: tpPane?.element && tpPane?.element.classList.add('svelte-tweakpane-ui');
+	$: tpPane && setScale(scale);
+	$: tpPane && updateCollapsibility(userExpandable, tpPane.element, 'tp-rotv_b', 'tp-rotv_m');
+	$: tpPane && title && (tpPane.title = title);
+	$: tpPane && applyTheme(tpPane.element, theme);
+	$: _expanded, tpPane && expanded !== undefined && syncFolded();
+	$: tpPane && (_expanded = expanded);
 </script>
 
 <!--

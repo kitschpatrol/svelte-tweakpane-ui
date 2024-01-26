@@ -79,8 +79,11 @@
 	 * [`BindingApi`](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for
 	 * this control.
 	 *
-	 * This is primarily for internal use, when implementing convenience components wrapping
-	 * Binding's functionality.
+	 * This property is exposed for advanced use cases only, such as when implementing convenience
+	 * components wrapping `<Binding>`'s functionality.
+	 *
+	 * Direct manipulation of Tweakpane's internals can break _Svelte Tweakpane UI_ abstractions.
+	 *
 	 * @bindable
 	 * @readonly
 	 * */
@@ -88,10 +91,13 @@
 
 	/**
 	 * Imported Tweakpane `TpPluginBundle` (aliased as `Plugin`) module to automatically register in
-	 * the binding's containing `<Pane>`.
+	 * the `<Binding>`'s containing `<Pane>`.
 	 *
-	 * This is primarily for internal use, when implementing convenience components wrapping
-	 * Binding's functionality in combination with a Tweakpane plugin.
+	 * This property is exposed for advanced use cases only, such as when implementing convenience
+	 * components wrapping `<Binding>`'s functionality in combination with a Tweakpane plugin.
+	 *
+	 * Direct manipulation of Tweakpane's internals can break _Svelte Tweakpane UI_ abstractions.
+	 *
 	 * @default `undefined`
 	 * */
 	export let plugin: Plugin | undefined = undefined;

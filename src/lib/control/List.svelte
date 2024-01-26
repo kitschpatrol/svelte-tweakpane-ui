@@ -174,7 +174,11 @@ position='inline'>`.
 <script lang="ts">
   import { List, type ListOptions } from 'svelte-tweakpane-ui';
 
-  const options: ListOptions<number> = { b: 2, a: 1, c: 3 };
+  const options: ListOptions<number> = {
+    b: 2,
+    a: 1,
+    c: 3
+  };
   let selection: number = 1;
 </script>
 

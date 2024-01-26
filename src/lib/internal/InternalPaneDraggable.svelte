@@ -12,7 +12,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { persisted } from 'svelte-local-storage-store';
 	import type { Writable } from 'svelte/store';
-	import type { BladeApi, FolderApi, Pane as TpPane } from 'tweakpane';
+	import type { BladeApi, FolderApi } from 'tweakpane';
 
 	// Maybe expose as props
 	const titlebarWindowShadeSingleClick = true;
@@ -21,7 +21,7 @@
 	// Could extend from InternalPaneFixed, but need to revise documentation anyway Many gratuitous
 	// defined checks since NonNullable didn't work and not sure how to make an optional prop remain
 	// optional but with a default value in the $$Props type
-	type $$Props = Omit<ComponentProps<GenericPane>, 'paneRef' | 'userCreatedPane'> & {
+	type $$Props = Omit<ComponentProps<GenericPane>, 'userCreatedPane'> & {
 		/**
 		 * Horizontal position of the pane relative to the left edge of the window, in pixels.
 		 *
@@ -119,6 +119,7 @@
 	// Reexport for bindability
 	export let storePositionLocally: $$Props['storePositionLocally'] = true;
 	export let localStoreId: $$Props['localStoreId'] = localStoreDefaultId;
+	export let tpPane: $$Props['tpPane'] = undefined;
 
 	// Defaults are managed here, and must be set here
 	let positionStore: Writable<{
@@ -150,7 +151,6 @@
 	export let scale: $$Props['scale'] = 1;
 	export let padding: $$Props['padding'] = '0';
 
-	let paneRef: TpPane;
 	let containerElement: HTMLDivElement;
 	let dragBarElement: HTMLElement; // Added dynamically to tweakpane DOM
 	let widthHandleElement: HTMLDivElement | undefined;
@@ -238,9 +238,13 @@
 		if (event.target) {
 			if (width !== undefined && event.target === widthHandleElement) {
 				width = width < maxAvailablePanelWidth ? maxAvailablePanelWidth : minWidth;
-			} else if (titlebarWindowShadeDoubleClick && event.target === dragBarElement) {
+			} else if (
 				// If (moveDistance < 3 && userExpandable)
-				paneRef.expanded = !paneRef.expanded;
+				titlebarWindowShadeDoubleClick &&
+				event.target === dragBarElement && //
+				tpPane
+			) {
+				tpPane.expanded = !tpPane.expanded;
 			}
 		}
 	};
@@ -307,9 +311,10 @@
 				titlebarWindowShadeSingleClick &&
 				event.target === dragBarElement &&
 				moveDistance < 3 &&
-				userExpandable
+				userExpandable &&
+				tpPane
 			)
-				paneRef.expanded = !paneRef.expanded;
+				tpPane.expanded = !tpPane.expanded;
 		}
 	};
 
@@ -320,10 +325,10 @@
 	onMount(() => {
 		setDocumentSize();
 
-		if (paneRef) {
-			containerElement.append(paneRef.element);
+		if (tpPane) {
+			containerElement.append(tpPane.element);
 		} else {
-			console.warn('no pane ref in draggable');
+			console.warn('no tpPane in draggable');
 		}
 
 		// Prevent scrolling the background on mobile when dragging the pane or otherwise
@@ -386,7 +391,7 @@
 		}
 	}
 
-	$: paneRef && resizable && updateResizability(resizable);
+	$: tpPane && resizable && updateResizability(resizable);
 
 	function recursiveCollapse(
 		children: BladeApi[],
@@ -427,8 +432,8 @@
 	) {
 		// Collapse children if needed TODO progressive collapsing not working because of container
 		// height update delays...
-		if (collapseChildrenToFit && containerHeightScaled > documentHeight) {
-			recursiveCollapse(paneRef.children);
+		if (collapseChildrenToFit && containerHeightScaled > documentHeight && tpPane) {
+			recursiveCollapse(tpPane.children);
 		}
 
 		// Prioritize visibility of the top / left corner
@@ -500,7 +505,7 @@ This component is for internal use only.
 	style:width="{width}px"
 	style:z-index={zIndexLocal}
 >
-	<GenericPane bind:expanded bind:paneRef {scale} {title} {...removeKeys($$restProps, 'position')}>
+	<GenericPane bind:expanded bind:tpPane {scale} {title} {...removeKeys($$restProps, 'position')}>
 		<slot />
 	</GenericPane>
 </div>

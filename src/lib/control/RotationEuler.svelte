@@ -184,7 +184,11 @@ position='inline'>`.
 
   // Value could also be a tuple
   // e.g. [0, 0, 0]
-  let value: RotationEulerValueObject = { x: 0, y: 0, z: 0 };
+  let value: RotationEulerValueObject = {
+    x: 0,
+    y: 0,
+    z: 0
+  };
 
   $: transform = Utils.eulerToCssTransform(value);
   $: valueRows = Object.values(value)
@@ -198,7 +202,15 @@ position='inline'>`.
   label="CSS Rotation"
   picker={'inline'}
 />
-<Button on:click={() => (value = { x: 0, y: 0, z: 0 })} title="Reset" />
+<Button
+  on:click={() =>
+    (value = {
+      x: 0,
+      y: 0,
+      z: 0
+    })}
+  title="Reset"
+/>
 
 <div class="billboard" style:transform>
   <pre>{valueRows}</pre>

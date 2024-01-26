@@ -31,6 +31,11 @@
 		},
 		// Creates a <Text>
 		someString: 'test'
+		// TODO maybe
+		// Creates a <Button>
+		// someButton: () => {
+		// 	alert('🎛️');
+		// }
 	};
 </script>
 

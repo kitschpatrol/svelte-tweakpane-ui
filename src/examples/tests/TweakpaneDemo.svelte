@@ -52,9 +52,9 @@
 		requestAnimationFrame(tick);
 
 		// Set up pane div pause when interacting, but not when dragging the title bar
-		const paneRef = document.querySelector<HTMLDivElement>('div.svelte-tweakpane-ui');
+		const paneDiv = document.querySelector<HTMLDivElement>('div.svelte-tweakpane-ui');
 
-		paneRef?.addEventListener('pointerdown', onPointerDown, { capture: true });
+		paneDiv?.addEventListener('pointerdown', onPointerDown, { capture: true });
 		document.addEventListener('pointerup', onPointerUp);
 		document.addEventListener('pointercancel', onPointerUp);
 
@@ -63,7 +63,7 @@
 				cancelAnimationFrame(frameId);
 			}
 
-			paneRef?.removeEventListener('pointerdown', onPointerDown, { capture: true });
+			paneDiv?.removeEventListener('pointerdown', onPointerDown, { capture: true });
 			document.removeEventListener('pointerup', onPointerUp);
 			document.removeEventListener('pointercancel', onPointerUp);
 		};

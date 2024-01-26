@@ -52,6 +52,7 @@
 	export let expanded: $$Props['expanded'] = undefined;
 	export let position: $$Props['position'] = undefined;
 	export let width: $$Props['width'] = undefined;
+	export let tpPane: $$Props['tpPane'] = undefined;
 
 	// Redeclare types instead of referencing $$Props['key'] since certain keys aren't guaranteed
 	export let x: number | undefined = undefined;
@@ -170,7 +171,7 @@ Position mode overview:
 -->
 {#if position === undefined || position === 'draggable'}
 	{#if BROWSER}
-		<InternalPaneDraggable bind:expanded bind:width bind:x bind:y {...$$restProps}>
+		<InternalPaneDraggable bind:expanded bind:tpPane bind:width bind:x bind:y {...$$restProps}>
 			<slot />
 		</InternalPaneDraggable>
 	{:else}
@@ -179,12 +180,17 @@ Position mode overview:
 		</div>
 	{/if}
 {:else if position === 'inline'}
-	<InternalPaneInline bind:expanded {width} {...removeKeys($$restProps, 'storePositionLocally')}>
+	<InternalPaneInline
+		bind:expanded
+		bind:tpPane
+		{width}
+		{...removeKeys($$restProps, 'storePositionLocally')}
+	>
 		<slot />
 	</InternalPaneInline>
 {:else if position === 'fixed'}
 	{#if BROWSER}
-		<InternalPaneFixed bind:expanded bind:x bind:y {width} {...$$restProps}>
+		<InternalPaneFixed bind:expanded bind:tpPane bind:x bind:y {width} {...$$restProps}>
 			<slot />
 		</InternalPaneFixed>
 	{:else}

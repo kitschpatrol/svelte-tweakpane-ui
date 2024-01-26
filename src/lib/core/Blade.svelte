@@ -45,19 +45,25 @@
 	 * Reference to internal Tweakpane
 	 * [`BladeApi`](https://tweakpane.github.io/docs/api/classes/BladeApi.html) for this blade.
 	 *
-	 * This is primarily for internal use, when implementing convenience components wrapping Blade's
-	 * functionality.
+	 * This property is exposed for advanced use cases only, such as when implementing convenience
+	 * components wrapping `<Blade>`'s functionality.
+	 *
+	 * Direct manipulation of Tweakpane's internals can break _Svelte Tweakpane UI_ abstractions.
+	 *
 	 * @bindable
 	 * @readonly
 	 * */
 	export let ref: V | undefined = undefined;
 
 	/**
-	 * Imported Tweakpane `TpPluginBundle` (Aliased as `Plugin`) module to register before creating
-	 * the blade.
+	 * Imported Tweakpane `TpPluginBundle` (aliased as `Plugin`) module to automatically register in
+	 * the `<Blade>`'s containing `<Pane>`.
 	 *
-	 * This is primarily for internal use, when implementing convenience components wrapping Blade's
-	 * functionality in combination with a Tweakpane plugin.
+	 * This property is exposed for advanced use cases only, such as when implementing convenience
+	 * components wrapping `<Blade>`'s functionality in combination with a Tweakpane plugin.
+	 *
+	 * Direct manipulation of Tweakpane's internals can break _Svelte Tweakpane UI_ abstractions.
+	 *
 	 * @default `undefined`
 	 * */
 	export let plugin: Plugin | undefined = undefined;
@@ -135,7 +141,11 @@ need for the options param.
   import { Blade } from 'svelte-tweakpane-ui';
 </script>
 
-<Blade options={{ view: 'separator' }} />
+<Blade
+  options={{
+    view: 'separator'
+  }}
+/>
 ```
 
 @sourceLink
