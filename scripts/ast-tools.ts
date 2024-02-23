@@ -319,12 +319,12 @@ export async function format(code: string, formatParser: string): Promise<string
 		let errorOutput = '';
 
 		// Collect formatted code
-		prettierProcess.stdout.on('data', (data: Buffer) => {
+		prettierProcess.stdout.on('data', (data: Uint8Array) => {
 			formattedCode += data.toString();
 		});
 
 		// Collect error messages
-		prettierProcess.stderr.on('data', (data: Buffer) => {
+		prettierProcess.stderr.on('data', (data: Uint8Array) => {
 			errorOutput += data.toString();
 		});
 
