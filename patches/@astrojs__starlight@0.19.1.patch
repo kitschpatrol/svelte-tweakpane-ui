@@ -127,53 +127,6 @@ index 74342e3c5c3a2e52f6782846b8ff5547d7131d91..da2251222c7599ce2aec92b57233bd9d
  		constructor() {
  			super();
  			const details = this.querySelector('details');
-diff --git a/components/Search.astro b/components/Search.astro
-index 2b5f3ac495e3cde17c3fb07f56bd9ee147d80cf7..688dcc48582f3045436f9ed67de71074ad0e3b4b 100644
---- a/components/Search.astro
-+++ b/components/Search.astro
-@@ -53,6 +53,9 @@ const pagefindTranslations = {
- </site-search>
- 
- <script>
-+	import { stripTrailingSlash, ensureTrailingSlash } from '../utils/path';
-+	import project from 'virtual:starlight/project-context';
-+
- 	class SiteSearch extends HTMLElement {
- 		constructor() {
- 			super();
-@@ -60,6 +63,24 @@ const pagefindTranslations = {
- 			const closeBtn = this.querySelector<HTMLButtonElement>('button[data-close-modal]')!;
- 			const dialog = this.querySelector('dialog')!;
- 			const dialogFrame = this.querySelector('.dialog-frame')!;
-+			const processResult =
-+				project.trailingSlash === 'always'
-+					? ((result) => {
-+							result.url = ensureTrailingSlash(result.url);
-+							result.sub_results?.forEach((subResult) => {
-+								subResult.url = ensureTrailingSlash(subResult.url);
-+							});
-+							return result;
-+						})
-+					: project.trailingSlash === 'never'
-+						? ((result) => {
-+								result.url = stripTrailingSlash(result.url);
-+								result.sub_results?.forEach((subResult) => {
-+									subResult.url = stripTrailingSlash(subResult.url);
-+								});
-+								return result;
-+							})
-+						: undefined;
- 
- 			/** Close the modal if a user clicks on a link or outside of the modal. */
- 			const onClick = (event: MouseEvent) => {
-@@ -124,6 +145,7 @@ const pagefindTranslations = {
- 						showImages: false,
- 						translations,
- 						showSubResults: true,
-+						processResult
- 					});
- 				});
- 			});
 diff --git a/components/Sidebar.astro b/components/Sidebar.astro
 index 38dc898d3697b5b15f8e812711258757927d8088..4e42aec72f87c7139bae80c9f07a1f595dac1c78 100644
 --- a/components/Sidebar.astro
