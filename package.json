@@ -225,7 +225,7 @@
     "@0b5vr/tweakpane-plugin-profiler": "^0.4.1",
     "@0b5vr/tweakpane-plugin-rotation": "^0.2.0",
     "@kitschpatrol/tweakpane-image-plugin": "^2.0.0",
-    "@kitschpatrol/tweakpane-textarea-plugin": "^2.0.1",
+    "@pangenerator/tweakpane-textarea-plugin": "^2.0.0",
     "@tweakpane/core": "^2.0.3",
     "@tweakpane/plugin-camerakit": "^0.3.0",
     "@tweakpane/plugin-essentials": "^0.2.1",

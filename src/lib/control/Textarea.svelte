@@ -5,8 +5,8 @@
 </script>
 
 <script lang="ts">
-	import * as pluginModule from '@kitschpatrol/tweakpane-textarea-plugin';
-	import type { TextareaPluginInputParams } from '@kitschpatrol/tweakpane-textarea-plugin/dist/types/plugin.js';
+	import * as pluginModule from '@pangenerator/tweakpane-textarea-plugin';
+	import type { TextareaPluginInputParams } from '@pangenerator/tweakpane-textarea-plugin/dist/types/plugin.js';
 	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte';
 	import { type UnwrapCustomEvents } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
@@ -113,25 +113,22 @@
 
 <!--
 @component  
-A multi-line text input field, in the spirit of the HTML `<textarea>` element.
+A multi-line text input field, in the spirit of the HTML `<textarea>`
+element.
 
 Integrates the
-[tweakpane-textarea-plugin](https://github.com/panGenerator/tweakpane-textarea-plugin) by [Krzysztof
-Goliński](http://www.golinski.org) and [Jakub Koźniewski](https://pangenerator.com).
+[tweakpane-textarea-plugin](https://github.com/panGenerator/tweakpane-textarea-plugin)
+by [Krzysztof Goliński](http://www.golinski.org) and [Jakub
+Koźniewski](https://pangenerator.com).
 
-Extends the underlying implementation with the `live` property to match the behavior of the `<Text>`
-component.
+Extends the underlying implementation with the `live` property to match the
+behavior of the `<Text>` component.
 
-Note that _Svelte Tweakpane UI_ embeds a
-[fork](https://github.com/kitschpatrol/tweakpane-textarea-plugin) of the plugin with support for
-Tweakpane 4. The dependency will be updated to point to the source repository if / when the open
-[pull request](https://github.com/panGenerator/tweakpane-textarea-plugin/pull/4) with Tweakpane 4
-support is merged.
+@emits {TextareaChangeEvent} change - When `value` changes. (This event is
+provided for advanced use cases. Prefer binding to `value`.)
 
-@emits {TextareaChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
-
-Usage outside of a `<Pane>` component will implicitly wrap the text area in `<Pane
-position='inline'>`.
+Usage outside of a `<Pane>` component will implicitly wrap the text area in
+`<Pane position='inline'>`.
 
 @example  
 ```svelte
