@@ -2,7 +2,7 @@
   "name": "svelte-tweakpane-ui",
   "version": "1.2.1",
   "type": "module",
-  "description": "Wraps UI elements from Tweakpane in a collection of idiomatic Svelte components, and augments Tweakpane with a few extra features for your convenience and enjoyment.",
+  "description": "A Svelte component library wrapping UI elements from Tweakpane, plus some additional functionality for convenience and flexibility.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kitschpatrol/svelte-tweakpane-ui.git"
@@ -170,15 +170,15 @@
     "tweaks",
     "parameters",
     "gui",
-    "component",
     "svelte",
     "sveltekit",
     "tweakpane",
+    "ui-library",
     "svelte-ui",
-    "component-library",
+    "svelte-components",
     "ui-components",
-    "ui-framework",
-    "components-library"
+    "components-library",
+    "npm-package"
   ],
   "scripts": {
     "build": "run-s --print-label build:*",
@@ -238,19 +238,19 @@
     "tweakpane-plugin-waveform": "^1.0.0"
   },
   "devDependencies": {
-    "@kitschpatrol/shared-config": "^4.4.2",
+    "@kitschpatrol/shared-config": "^4.5.0",
     "@phenomnomnominal/tsquery": "^6.1.3",
-    "@playwright/test": "^1.41.2",
+    "@playwright/test": "^1.42.0",
     "@stkb/rewrap": "^0.1.0",
     "@sveltejs/adapter-static": "^3.0.1",
-    "@sveltejs/kit": "^2.5.1",
+    "@sveltejs/kit": "^2.5.2",
     "@sveltejs/package": "^2.2.7",
     "@sveltejs/vite-plugin-svelte": "^3.0.2",
-    "@types/eslint": "^8.56.3",
+    "@types/eslint": "^8.56.5",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.11.20",
+    "@types/node": "^20.11.24",
     "bumpp": "^9.3.0",
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.0",
     "fs-extra": "^11.2.0",
     "glob": "^10.3.10",
     "npm-run-all": "^4.1.5",
@@ -258,19 +258,19 @@
     "publint": "^0.2.7",
     "read-package-up": "^11.0.0",
     "svelte": "^4.2.12",
-    "svelte-check": "^3.6.4",
-    "svelte-language-server": "^0.16.3",
-    "svelte2tsx": "^0.7.1",
+    "svelte-check": "^3.6.6",
+    "svelte-language-server": "^0.16.5",
+    "svelte2tsx": "^0.7.3",
     "ts-morph": "^21.0.1",
     "tslib": "^2.6.2",
     "tsx": "^4.7.1",
     "typescript": "^5.3.3",
     "vite": "^5.1.4",
-    "yaml": "^2.3.4"
+    "yaml": "^2.4.0"
   },
   "pnpm": {
     "patchedDependencies": {
-      "@astrojs/starlight@0.19.1": "patches/@astrojs__starlight@0.19.1.patch"
+      "@astrojs/starlight@0.20.1": "patches/@astrojs__starlight@0.20.1.patch"
     }
   }
 }

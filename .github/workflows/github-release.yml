@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -50,7 +50,7 @@ jobs:
       - name: Release Notes
         if: env.IS_VALID_COMMIT == 'true'
         id: release-notes
-        uses: Bullrich/generate-release-changelog@master
+        uses: Bullrich/generate-release-changelog@6b60f004b4bf12ff271603dc32dbd261965ad2f2
 
       - name: Release
         if: env.IS_VALID_COMMIT == 'true'

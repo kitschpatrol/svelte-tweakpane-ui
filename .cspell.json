@@ -1,4 +1,5 @@
 {
   "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
-  "import": "@kitschpatrol/cspell-config"
+  "import": "@kitschpatrol/cspell-config",
+  "words": ["pangenerator"]
 }
