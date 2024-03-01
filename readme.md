@@ -6,6 +6,11 @@
 
 <!-- /title -->
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/banner-dark.webp">
+  <img alt="Svelte Tweakpane UI Banner" src="./assets/banner-light.webp">
+</picture>
+
 <!-- badges { npm: ["svelte-tweakpane-ui"], custom: { "Documentation": { image: "https://img.shields.io/badge/-documentation-ffdd00?logo=readthedocs&logoColor=222222", link: "https://kitschpatrol.com/svelte-tweakpane-ui" }}} -->
 
 [![NPM Package svelte-tweakpane-ui](https://img.shields.io/npm/v/svelte-tweakpane-ui.svg)](https://npmjs.com/package/svelte-tweakpane-ui)
