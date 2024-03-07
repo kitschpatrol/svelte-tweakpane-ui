@@ -62,7 +62,7 @@
 		 * */
 		collapseChildrenToFit?: boolean;
 		/**
-		 * Identifier to be used if multiple `<Pane position='draggable'>` components with
+		 * Identifier to be used if multiple `<Pane position="draggable">` components with
 		 * `storePositionLocally` set to true are used on the same page.
 		 * @default `'1'`
 		 */

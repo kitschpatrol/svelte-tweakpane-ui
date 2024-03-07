@@ -81,13 +81,13 @@ need to get something into the pane quickly.
 
 In many cases, this component should not be necessary because _Svelte Tweakpane
 UI_ already makes it easy to combine tweakpane components with other inline
-elements simply by using stand-alone components or a `<Pane position='inline'>`
+elements simply by using stand-alone components or a `<Pane position="inline">`
 component. `<Element>` should generally be the most useful when you're using
-`<Pane position='draggable'>` or `<Pane position='fixed'>` and you want a custom
+`<Pane position="draggable">` or `<Pane position="fixed">` and you want a custom
 element embedded in the pane.
 
 Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
-case the `<Element>` will be implicitly wrapped in `<Pane position='inline'>`.
+case the `<Element>` will be implicitly wrapped in `<Pane position="inline">`.
 
 @example  
 ```svelte

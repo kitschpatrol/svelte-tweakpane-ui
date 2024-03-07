@@ -37,7 +37,7 @@ A checkbox.
 
 Wraps Tweakpane's [boolean input binding](https://tweakpane.github.io/docs/input-bindings/#boolean).
 
-Usage outside of a `<Pane>` component will implicitly wrap the checkbox in `<Pane position='inline'>`.
+Usage outside of a `<Pane>` component will implicitly wrap the checkbox in `<Pane position="inline">`.
 
 @emits {CheckboxChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 	

@@ -87,7 +87,7 @@ Note that `interval` is exposed to allow separate control over the reactive valu
 the graph's update rate.
 
 Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane
-position='inline'>` component.
+position="inline">` component.
 
 @example  
 ```svelte

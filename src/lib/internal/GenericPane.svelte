@@ -13,7 +13,7 @@
 	/**
 	 * Text in the pane's title bar.
 	 * @default `Tweakpane`  \
-	 * Unless `position='inline'`, in which case the default is `undefined` and no title bar is
+	 * Unless `position="inline"`, in which case the default is `undefined` and no title bar is
 	 * shown.
 	 * */
 	export let title: string | undefined = undefined;

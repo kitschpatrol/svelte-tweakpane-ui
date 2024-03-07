@@ -122,7 +122,7 @@ changed to `TabPage` in _Svelte Tweakpane UI_ for clarity its relationship to th
 component.
 
 Usage outside of a `<TabGroup>` component wouldn't make much sense, but in such cases the
-`<TabPage>` will be implicitly wrapped in a `<TabGroup>` and `<Pane position='inline'>`.
+`<TabPage>` will be implicitly wrapped in a `<TabGroup>` and `<Pane position="inline">`.
 
 @example  
 ```svelte

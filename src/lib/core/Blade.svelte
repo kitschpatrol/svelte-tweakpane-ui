@@ -127,7 +127,7 @@ Please consider convenience components like `<Separator>`, etc. before using thi
 directly.
 
 Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane
-position='inline'>`.
+position="inline">`.
 
 Tweakpane's vanilla JS API offers Blades as as a way to create unbound components, but in Svelte the
 same is achieved by simply not binding the component's value.

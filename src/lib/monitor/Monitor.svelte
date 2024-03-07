@@ -70,7 +70,7 @@ reactive value's update rate and the graph's update rate.
 See also the `<Waveform>` component for a more advanced number visualization.
 
 Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane
-position='inline'>` component.
+position="inline">` component.
 
 @example  
 ```svelte

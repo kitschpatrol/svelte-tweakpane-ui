@@ -224,7 +224,7 @@ Integrates [0b5vr's](https://0b5vr.com)
 See `<FpsGraph>` for a simpler alternative optimized for framerate visualization.
 
 Usage outside of a `<Pane>` component will implicitly wrap the profiler in `<Pane
-position='inline'>`.
+position="inline">`.
 
 @example  
 ```svelte

@@ -154,7 +154,7 @@ bezier value to an easing function compatible with Svelte's built-in
 [animate](https://svelte.dev/docs/svelte-animate) modules.
 
 Usage outside of a `<Pane>` component will implicitly wrap the cubic bezier control in `<Pane
-position='inline'>`.
+position="inline">`.
 
 _Note: An issue with unreleased resources has been observed in situations when the `value` prop is
 set frequently. A [PR on the Plugin Essentials repo with a

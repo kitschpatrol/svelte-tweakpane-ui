@@ -73,7 +73,7 @@ Integrates [Simon Schödler's](https://shoedler.github.io)
 See `<Monitor>` component if you want to graph a single value's change over time.
 
 Usage outside of a `<Pane>` component will implicitly wrap the waveform monitor in `<Pane
-position='inline'>`.
+position="inline">`.
 
 @example  
 ```svelte

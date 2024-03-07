@@ -82,7 +82,7 @@ This component is a wrapper around Tweakpane's
 
 Important: Unlike the vanilla JS Tweakpane API, wrapping components in a `<Pane>` is not mandatory.
 
-Pane-less components will be automatically nested in a `<Pane position='inline'>` component and
+Pane-less components will be automatically nested in a `<Pane position="inline">` component and
 displayed in the regular block flow of the page. `<Pane>` is only necessary when you want to
 explicitly group a number of components, or when you want convenient means to control how and where
 the Tweakpane is shown on the page. (See an [important
@@ -98,7 +98,7 @@ on the defined `position` value.
 
 Position mode overview:
 
-- **`<Pane position='draggable' ...>`**  \
+- **`<Pane position="draggable" ...>`**  \
     This is an extension of Tweakpane's core functionality, which reasonably considers pane dragging
   outside of the library's scope. See discussion in Tweakpane issues
   [#88](https://github.com/cocopon/tweakpane/issues/88) and
@@ -107,26 +107,26 @@ Position mode overview:
   By default, the pane's last position and width will be saved to the browser's local storage and
   re-applied across page reloads. (Set the `storePositionLocally` prop to false to prevent this.)  
       \
-  If multiple `<Pane position='draggable' ...>` components are used on the same page with
+  If multiple `<Pane position="draggable" ...>` components are used on the same page with
   `storePositionLocally` set to true, then each must have a unique `localStoreId` prop set to avoid
   collisions.  
       \
   Double-clicking the width drag handle will expand or contract the pane between to its `minWidth`
   and `maxWidth` sizes.
 
-- **`<Pane position='inline' ...>`**  \
+- **`<Pane position="inline" ...>`**  \
     Provides an inline version of the pane component, allowing the Tweakpane window to appear in the
   normal flow of the document.  
       \
   All other _Svelte Tweakpane UI_ components which are created without a containing `<Pane>` are
-  nested implicitly inside a title-less `<Pane position='inline'>` component. As such, you do not
-  necessarily need create `<Pane position='inline'>` components in most cases.  
+  nested implicitly inside a title-less `<Pane position="inline">` component. As such, you do not
+  necessarily need create `<Pane position="inline">` components in most cases.  
       \
   This mode's behavior is similar to creating a Pane in the vanilla JS Tweakpane with its
   [`container`](https://tweakpane.github.io/docs/misc/#containerElement) property set to a specific
   element where you want the Pane to appear.
 
-- **`<Pane position='fixed' ...>`**  \
+- **`<Pane position="fixed" ...>`**  \
     This mode uses the standard vanilla JS Tweakpane behavior of displaying in a fixed position over
   the top-right of the page.
 

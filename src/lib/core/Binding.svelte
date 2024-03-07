@@ -229,7 +229,7 @@ Please consider convenience components like `<Slider>`, `<Color>`, etc. etc. bef
 component directly.
 
 Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane
-position='inline'>`.
+position="inline">`.
 
 @emits {BindingChangeEvent} change - When the value of `object[key]` changes. (This event is provided for advanced use cases. Prefer binding to `object`.)
 

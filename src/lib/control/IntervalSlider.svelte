@@ -104,7 +104,7 @@ to object values. It also exposes a `meanValue` prop for reading or setting the 
 interval range value.
 
 Usage outside of a `<Pane>` component will implicitly wrap the interval slider in `<Pane
-position='inline'>`.
+position="inline">`.
 
 @emits {IntervalSliderChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 

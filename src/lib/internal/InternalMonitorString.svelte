@@ -56,7 +56,7 @@ monitor, but additional monitor-specific components are provided to expose addit
 Note that `interval` is not exposed because updates are driven by reactive changes in the `value`.
 
 Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane
-position='inline'>` component.
+position="inline">` component.
 
 @example  
 ```svelte

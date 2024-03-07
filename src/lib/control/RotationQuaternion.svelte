@@ -155,7 +155,7 @@ rotation value object or tuple into a CSS transform string.
 See also <RotationEuler> if you're not into the whole `w` thing.
 	
 Usage outside of a `<Pane>` component will implicitly wrap the profiler in `<Pane
-position='inline'>`.
+position="inline">`.
 
 @emits {RotationQuaternionChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 

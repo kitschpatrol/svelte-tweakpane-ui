@@ -20,7 +20,7 @@
     },
     Documentation: {
       image:
-        "https://img.shields.io/badge/-documentation-ffdd00?logo=readthedocs&logoColor=222222",
+        "https://img.shields.io/badge/-Documentation-ffdd00?logo=readthedocs&logoColor=222222",
       link: "https://kitschpatrol.com/svelte-tweakpane-ui",
     }
   }
@@ -29,7 +29,7 @@
 [![NPM Package svelte-tweakpane-ui](https://img.shields.io/npm/v/svelte-tweakpane-ui.svg)](https://npmjs.com/package/svelte-tweakpane-ui)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![MadeWithSvelte](https://madewithsvelte.com/storage/repo-shields/4860-shield.svg)](https://madewithsvelte.com/p/svelte-tweakpane-ui/shield-link)
-[![Documentation](https://img.shields.io/badge/-documentation-ffdd00?logo=readthedocs&logoColor=222222)](https://kitschpatrol.com/svelte-tweakpane-ui)
+[![Documentation](https://img.shields.io/badge/-Documentation-ffdd00?logo=readthedocs\&logoColor=222222)](https://kitschpatrol.com/svelte-tweakpane-ui)
 
 <!-- /badges -->
 
@@ -84,6 +84,6 @@ npm install svelte-tweakpane-ui
 
 <!-- /footer -->
 
----
+***
 
 _Note: This library is not to be confused with Karl Moore's [`svelte-tweakpane`](https://github.com/pierogis/svelte-tweakpane)._

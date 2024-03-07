@@ -117,7 +117,7 @@ Records within the object will wrap their contents in a `<Folder>` component. Va
 shape of color or point objects will show a more specialized control.
 
 Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane
-position='inline'>`.
+position="inline">`.
 
 `<AutoObject>` was inspired by the
 [`<TWPAutoMutable>`](https://github.com/MrFoxPro/solid-tweakpane/blob/master/src/automutable.tsx)

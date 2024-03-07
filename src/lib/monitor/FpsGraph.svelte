@@ -161,7 +161,7 @@ If you'd like to observe or visualize the frame rate data elsewhere, a `change` 
 notify when the FPS value changes.
 
 Usage outside of a `<Pane>` component will implicitly wrap the FPS graph in `<Pane
-position='inline'>`.
+position="inline">`.
 
 @emits {number} change - When the FPS value changes.
 

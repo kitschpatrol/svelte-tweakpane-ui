@@ -99,7 +99,7 @@ The name of this concept within the underlying vanilla JS Tweakpane API is `tab`
 changed to `TabGroup` in _Svelte Tweakpane UI_ to clarify it's relationship to the `<TabPage>`
 component.
 
-Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane position='inline'>`.
+Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane position="inline">`.
 
 @example  
 ```svelte

@@ -29,7 +29,7 @@ HTML `<hr>` element.
 Wraps Tweakpane's [separator blade](https://tweakpane.github.io/docs/blades/#separator).
 
 Usage outside of a `<Pane>` component will implicitly wrap the separator in `<Pane
-position='inline'>`.
+position="inline">`.
 
 @example  
 ```svelte

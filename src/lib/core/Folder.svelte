@@ -111,7 +111,7 @@ Wraps the Tweakpane [`addFolder`](https://tweakpane.github.io/docs/ui-components
 May also be used to label and group multiple controls without user-collapsibility by setting
 `userExpandable` to `false` and `expanded` to true.
 
-Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane position='inline'>`.
+Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane position="inline">`.
 
 @example  
 ```svelte
