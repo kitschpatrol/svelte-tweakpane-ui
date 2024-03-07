@@ -1,5 +1,5 @@
 ---
-import type { ComponentProp, ConditionsRecord } from '../../utils/prop-utils';
+import type { ComponentProp, Condition, ConditionsRecord } from '../../utils/prop-utils';
 import Flags from './Flags.astro';
 import Heading from './Heading.astro';
 import { marked } from 'marked';
@@ -25,6 +25,12 @@ function cleanDefault(defaultValue: string | undefined): string {
 function cleanExample(exampleValue: string | undefined): string {
 	if (exampleValue === undefined) return '';
 	return marked.parseInline(exampleValue) as string;
+}
+
+function conditionsDescription(conditions: Condition[]): string {
+	return marked.parseInline(
+		`Available when ${conditions.map(({ description }) => description).join(' or ')}.`
+	) as string;
 }
 
 function isReadonly(prop: ComponentProp): boolean {
@@ -141,17 +147,7 @@ const {
 					{conditionData[prop.name] !== undefined && (
 						<tr>
 							<th>Conditions</th>
-							<td>
-								Available when
-								{/* set:text below works around prettier */}
-								{Object.values(conditionData[prop.name])
-									.map(({ condition }) => (
-										<code
-											set:text={`${Object.keys(condition)[0]}="${Object.values(condition)[0]}"`}
-										/>
-									))
-									.reduce((previous, current) => [previous, ' or ', current])}
-							</td>
+							<td set:html={conditionsDescription(conditionData[prop.name])} />
 						</tr>
 					)}
 				</tbody>

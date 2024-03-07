@@ -121,19 +121,19 @@ for (const { name, path } of components) {
 				condition: {
 					position: 'draggable'
 				},
-				description: 'position is draggable'
+				description: '`position="draggable"`'
 			},
 			{
 				condition: {
 					position: 'inline'
 				},
-				description: 'position is inline'
+				description: '`position="inline"`'
 			},
 			{
 				condition: {
 					position: 'fixed'
 				},
-				description: 'position is fixed'
+				description: '`position="fixed"`'
 			}
 		];
 	}
@@ -144,19 +144,19 @@ for (const { name, path } of components) {
 				condition: {
 					value: 1
 				},
-				description: 'value is number'
+				description: '`value` is of type `number`'
 			},
 			{
 				condition: {
 					value: false
 				},
-				description: 'value is boolean'
+				description: '`value` is of type `boolean`'
 			},
 			{
 				condition: {
-					value: 'i am a string'
+					value: 'string'
 				},
-				description: 'value is string'
+				description: '`value` is of type `string`'
 			}
 		];
 	}
@@ -167,19 +167,19 @@ for (const { name, path } of components) {
 				condition: {
 					value: '{[0, 0]}'
 				},
-				description: 'value is 2D'
+				description: '`value` is 2D'
 			},
 			{
 				condition: {
 					value: '{[0, 0, 0]}'
 				},
-				description: 'value is 3D'
+				description: '`value` is 3D'
 			},
 			{
 				condition: {
 					value: '{[0, 0, 0, 0]}'
 				},
-				description: 'value is 4D'
+				description: '`value` is 4D'
 			}
 		];
 	}
