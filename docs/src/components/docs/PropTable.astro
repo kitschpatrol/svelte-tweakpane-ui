@@ -145,8 +145,10 @@ const {
 								Available when
 								{/* set:text below works around prettier */}
 								{Object.values(conditionData[prop.name])
-									.map((value) => (
-										<code set:text={`${Object.keys(value)[0]}="${Object.values(value)[0]}"`} />
+									.map(({ condition }) => (
+										<code
+											set:text={`${Object.keys(condition)[0]}="${Object.values(condition)[0]}"`}
+										/>
 									))
 									.reduce((previous, current) => [previous, ' or ', current])}
 							</td>

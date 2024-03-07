@@ -2,9 +2,10 @@
 import type { Props as StarlightProps } from '@astrojs/starlight/props';
 export type ComponentData = StarlightProps['entry']['data']['componentData'];
 export type ComponentProp = NonNullable<ComponentData>['props'][number];
-export type Condition = NonNullable<
-	NonNullable<ComponentData>['dynamicProps']
->[number]['condition'];
+export type Condition = Omit<
+	NonNullable<NonNullable<ComponentData>['dynamicProps']>[number],
+	'props'
+>;
 export type ConditionsRecord = Record<string, Condition[]>;
 
 export function uniqueProps(
@@ -31,7 +32,10 @@ export function allPropConditions(data: ComponentData): ConditionsRecord {
 						conditionsRecord[prop.name] = [];
 					}
 
-					conditionsRecord[prop.name].push(dynamicProp.condition);
+					conditionsRecord[prop.name].push({
+						condition: dynamicProp.condition,
+						description: dynamicProp.description
+					});
 				}
 			}
 
