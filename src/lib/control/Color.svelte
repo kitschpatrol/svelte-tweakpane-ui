@@ -145,10 +145,10 @@ A color picker.
 
 Wraps Tweakpane's [color input binding](https://tweakpane.github.io/docs/input-bindings/#color).
 
-@emits {ColorChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
-
 Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane
 position='inline'>`.
+
+@emits {ColorChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
 @example  
 ```svelte

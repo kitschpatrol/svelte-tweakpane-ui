@@ -153,8 +153,6 @@ bezier value to an easing function compatible with Svelte's built-in
 [transition](https://svelte.dev/docs/svelte-transition), and
 [animate](https://svelte.dev/docs/svelte-animate) modules.
 
-@emits {CubicBezierChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
-
 Usage outside of a `<Pane>` component will implicitly wrap the cubic bezier control in `<Pane
 position='inline'>`.
 
@@ -163,6 +161,8 @@ set frequently. A [PR on the Plugin Essentials repo with a
 fix](https://github.com/tweakpane/plugin-essentials/pull/21) is currently pending a review and
 merge. Consider monitoring the performance of this component in the context of your use case until
 this issue is resolved._
+
+@emits {CubicBezierChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
 @example  
 ```svelte

@@ -265,10 +265,10 @@ frameworks like [three.js](https://threejs.org) / [threlte](https://threlte.xyz)
 `<Point>` is a dynamic component, and the availability of the `optionsZ` and `optionsW` props will
 change depending on the number of dimensions in the `value`.
 
-@emits {PointChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
-
 Usage outside of a `<Pane>` component will implicitly wrap the point picker in a `<Pane
 position='inline'>` component.
+
+@emits {PointChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
 @example  
 ```svelte

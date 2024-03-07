@@ -167,10 +167,10 @@ value object or tuple into a CSS transform string.
 
 See also <RotationQuaternion> if you're feeling gimbal locked.
 
-@emits {RotationEulerChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
-
 Usage outside of a `<Pane>` component will implicitly wrap the profiler in `<Pane
 position='inline'>`.
+
+@emits {RotationEulerChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
 @example  
 ```svelte

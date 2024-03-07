@@ -72,9 +72,9 @@ Integrates the [Wheel](https://github.com/tweakpane/plugin-camerakit/blob/main/s
 control from Tweakpane-creator [Hiroki Kokubun's](https://cocopon.me) [Camerakit
 plugin](https://github.com/tweakpane/plugin-camerakit).
 
-@emits {WheelChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
-
 Usage outside of a `<Pane>` component will implicitly wrap the wheel in `<Pane position='inline'>`.
+
+@emits {WheelChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
 @example  
 ```svelte

@@ -77,10 +77,10 @@ Tweakpane's default behavior of only updating on blur, set `live={false}`.)
 
 See `<TextArea>` for a multi-line input variation.
 
-@emits {TextChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
-
 Usage outside of a `<Pane>` component will implicitly wrap the text field in `<Pane
 position='inline'>`.
+
+@emits {TextChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
 @example  
 ```svelte

@@ -228,10 +228,10 @@ for general use in _Svelte Tweakpane UI_ because more helpful abstractions are a
 Please consider convenience components like `<Slider>`, `<Color>`, etc. etc. before using this
 component directly.
 
-@emits {BindingChangeEvent} change - When the value of `object[key]` changes. (This event is provided for advanced use cases. Prefer binding to `object`.)
-
 Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pane
 position='inline'>`.
+
+@emits {BindingChangeEvent} change - When the value of `object[key]` changes. (This event is provided for advanced use cases. Prefer binding to `object`.)
 
 @example  
 ```svelte

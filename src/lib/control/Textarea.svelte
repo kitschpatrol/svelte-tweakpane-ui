@@ -124,11 +124,11 @@ Koźniewski](https://pangenerator.com).
 Extends the underlying implementation with the `live` property to match the
 behavior of the `<Text>` component.
 
-@emits {TextareaChangeEvent} change - When `value` changes. (This event is
-provided for advanced use cases. Prefer binding to `value`.)
-
 Usage outside of a `<Pane>` component will implicitly wrap the text area in
 `<Pane position='inline'>`.
+
+@emits {TextareaChangeEvent} change - When `value` changes. (This event is
+provided for advanced use cases. Prefer binding to `value`.)
 
 @example  
 ```svelte

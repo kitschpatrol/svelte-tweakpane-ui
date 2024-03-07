@@ -103,10 +103,10 @@ _Svelte Tweakpane UI_ extends the original implementation to by supporting tuple
 to object values. It also exposes a `meanValue` prop for reading or setting the midpoint of the
 interval range value.
 
-@emits {IntervalSliderChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
-
 Usage outside of a `<Pane>` component will implicitly wrap the interval slider in `<Pane
 position='inline'>`.
+
+@emits {IntervalSliderChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
 @example  
 ```svelte

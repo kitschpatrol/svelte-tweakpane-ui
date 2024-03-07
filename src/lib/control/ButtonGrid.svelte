@@ -129,10 +129,10 @@ _Svelte Tweakpane UI_ also includes some additional logic to manage default grid
 
     - If both `rows` _and_ `columns` props area provided, then buttons may be clipped if `rows * columns < values.length`.
 
-@emits {ButtonGridClickEvent} click - When a button in the grid is clicked.
-
 Usage outside of a `<Pane>` component will implicitly wrap the button grid in `<Pane
 position='inline'>`.
+
+@emits {ButtonGridClickEvent} click - When a button in the grid is clicked.
 
 @example  
 ```svelte

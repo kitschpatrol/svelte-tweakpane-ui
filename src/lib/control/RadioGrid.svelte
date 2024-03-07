@@ -164,10 +164,10 @@ _Svelte Tweakpane UI_ also includes some additional logic to manage default grid
 
     - If both `rows` _and_ `columns` props area provided, then buttons may be clipped if `rows * columns < values.length`.
 
-@emits {RadioGridChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
-
 Usage outside of a `<Pane>` component will implicitly wrap the radio grid in `<Pane
 position='inline'>`.
+			
+@emits {RadioGridChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
 @example  
 ```svelte

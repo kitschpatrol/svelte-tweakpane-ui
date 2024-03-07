@@ -87,12 +87,12 @@ Tweakpane 4. The dependency will be updated to point to the source repository if
 [pull request](https://github.com/metehus/tweakpane-image-plugin/pull/1) with Tweakpane 4 support is
 merged.
 
-@emits {ImageChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
-
 There is currently a known bug where change events' `origin` values are sometimes incorrect. (This issue is limited to this component.)
 
 Usage outside of a `<Pane>` component will implicitly wrap the image control in `<Pane
 position='inline'>`.
+
+@emits {ImageChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
 @example  
 ```svelte

@@ -48,10 +48,10 @@ input field with a draggable handle will be used instead.
 
 See the `<Interval>` component for a multi-handle range-defining slider.
 
-@emits {SliderChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
-
 Usage outside of a `<Pane>` component will implicitly wrap the slider in `<Pane position='inline'>`.
 
+@emits {SliderChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
+	
 @example  
 ```svelte
 <script lang="ts">

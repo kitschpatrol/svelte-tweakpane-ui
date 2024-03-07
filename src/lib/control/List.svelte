@@ -164,10 +164,10 @@ labels to options.
 Tweakpane's `addBlade` list variations is used instead of the `addBinding` method to allow for
 additional value types. The `value` remains bindable via Svelte's reactivity.
 
-@emits {ListChangeEvent} change - When `value` changes. (For advanced use cases. Prefer binding to `value`.)
-
 Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane
 position='inline'>`.
+
+@emits {ListChangeEvent} change - When `value` changes. (For advanced use cases. Prefer binding to `value`.)
 
 @example  
 ```svelte
