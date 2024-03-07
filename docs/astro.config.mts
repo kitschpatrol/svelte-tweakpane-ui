@@ -10,9 +10,6 @@ process.env.BROWSER = 'chromium';
 export default defineConfig({
 	base: '/svelte-tweakpane-ui/',
 	compressHTML: false, // Handled via astro-compress
-	// experimental: {
-	//   devOverlay: true,
-	// },
 	// messes up pagefind index if we want to strip the .html
 	// build: {
 	// 	format: 'file'
@@ -81,7 +78,8 @@ export default defineConfig({
 			],
 			social: {
 				github: 'https://github.com/kitschpatrol/svelte-tweakpane-ui',
-				mastodon: 'https://mastodon.social/@kitschpatrol',
+				// Maybe later
+				// mastodon: 'https://mastodon.social/@kitschpatrol',
 				twitter: 'https://twitter.com/kitschpatrol'
 			},
 			title: 'Svelte Tweakpane UI'
