@@ -175,7 +175,7 @@
 	}
 
 	function syncFolded() {
-		if (tpPane) {
+		if (tpPane && tpPane.expanded !== _expanded) {
 			tpPane.expanded = _expanded;
 		}
 
