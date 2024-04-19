@@ -89,7 +89,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the wheel in `<Pane p
   format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
 />
 
-<div class="demo" style:--a="{angle}deg" />
+<div class="demo" style:--a="{angle}deg"></div>
 
 <style>
   div.demo {

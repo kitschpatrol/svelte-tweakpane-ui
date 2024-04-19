@@ -251,7 +251,7 @@ position="inline">`.
 
 {#if parentStore}
 	{#if BROWSER}
-		<div bind:this={indexElement} style="display: none;" />
+		<div bind:this={indexElement} style="display: none;"></div>
 	{:else}
 		<ClsPad keysAdd={['containerVerticalPadding', 'containerUnitSize']} {theme} />
 	{/if}

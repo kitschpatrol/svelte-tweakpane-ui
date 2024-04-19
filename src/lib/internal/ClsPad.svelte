@@ -59,5 +59,5 @@ The associated SSR / prerendering CLS prevention feature is experimental.
 	<div
 		style:background={DEV && showDebugBlocks ? getRandomCssColor() : null}
 		style:height="{total}px"
-	/>
+	></div>
 {/if}

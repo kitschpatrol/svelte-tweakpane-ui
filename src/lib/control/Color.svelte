@@ -162,7 +162,7 @@ position="inline">`.
 <Color bind:value={startColor} label="Start Color" />
 <Color bind:value={endColor} label="End Color" />
 
-<div class="demo" style:--a={startColor} style:--b={endColor} />
+<div class="demo" style:--a={startColor} style:--b={endColor}></div>
 
 <style>
   .demo {

@@ -135,7 +135,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the ring in `<Pane po
   wide={true}
 />
 
-<div class="demo" style:--a="{angle}deg" />
+<div class="demo" style:--a="{angle}deg"></div>
 
 <style>
   div.demo {

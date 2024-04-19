@@ -216,7 +216,7 @@ position="inline">`.
           (x / gridSize) * phase +
           (y / gridSize) * phase}deg)"
         style:width="{100 / gridSize}%"
-      />
+      ></div>
     {/each}
   {/each}
 </div>

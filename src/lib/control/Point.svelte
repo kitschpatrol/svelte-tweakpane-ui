@@ -357,7 +357,7 @@ position="inline">` component.
 		{:else}
 			<!-- Without a label, the grid takes the full width of the control -->
 			<!-- TODO remove magic number -->
-			<div style="aspect-ratio: 1; width: calc(100% - 28px);" />
+			<div style="aspect-ratio: 1; width: calc(100% - 28px);"></div>
 		{/if}
 	{/if}
 {/if}

@@ -227,5 +227,5 @@ position="inline">`.
 <GenericInput bind:value on:change {options} plugin={pluginModule} {...$$restProps} />
 {#if !BROWSER}
 	<ClsPad keysAdd={fillWith('containerUnitSize', gridDimensions.rows - 1)} theme={$$props.theme} />
-	<div style:height={`${2 * (gridDimensions.rows - 1)}px`} />
+	<div style:height={`${2 * (gridDimensions.rows - 1)}px`}></div>
 {/if}

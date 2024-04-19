@@ -149,6 +149,6 @@ provided for advanced use cases. Prefer binding to `value`.)
 <GenericInput value={_value} bind:ref {options} plugin={pluginModule} {...$$restProps} />
 {#if !BROWSER}
 	<!-- TODO magic numbers -->
-	<div style:height={`calc(${16 * (rows ?? 3)}px - 14px)`} />
+	<div style:height={`calc(${16 * (rows ?? 3)}px - 14px)`}></div>
 	<!-- <ClsPad keysAdd={fillWith('containerUnitSize', 1)} theme={$$props.theme} /> -->
 {/if}

@@ -124,7 +124,7 @@ position="inline">`.
   max={100}
   format={(v) => `${v.toFixed(0)}%`}
 />
-<div class="demo" style:--e="{value[1]}%" style:--s="{value[0]}%" />
+<div class="demo" style:--e="{value[1]}%" style:--s="{value[0]}%"></div>
 
 <style>
   div.demo {

@@ -213,7 +213,7 @@ this issue is resolved._
 <RadioGrid bind:value={mood} values={['Rise', 'Set']} />
 
 <div class="demo" style:--a="{twilightAmount}%">
-  <div class="celestial-object" style:--t="{celestialHeight}%" />
+  <div class="celestial-object" style:--t="{celestialHeight}%"></div>
 </div>
 
 <style>

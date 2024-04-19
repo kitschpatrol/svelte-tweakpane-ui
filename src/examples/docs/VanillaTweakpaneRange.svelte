@@ -29,7 +29,7 @@
 	});
 </script>
 
-<div bind:this={container} />
+<div bind:this={container}></div>
 <pre>
 {params.speed}
 </pre>

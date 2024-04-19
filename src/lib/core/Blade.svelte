@@ -154,7 +154,7 @@ need for the options param.
 
 {#if parentStore}
 	{#if BROWSER}
-		<div bind:this={indexElement} style="display: none;" />
+		<div bind:this={indexElement} style="display: none;"></div>
 	{:else}
 		<ClsPad keysAdd={['containerVerticalPadding']} {theme} />
 	{/if}
