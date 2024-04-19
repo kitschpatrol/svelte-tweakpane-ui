@@ -9,7 +9,7 @@ import type { Simplify } from '$lib/utils';
 
 // Only need undefined if we had nested themes... undefined shouldn't override global theme
 export type ThemeColorValue = Simplify<RgbColorObject | RgbaColorObject | string>;
-export type Theme = ThemeKeys & CustomThemeKeys;
+export type Theme = CustomThemeKeys & ThemeKeys;
 
 type ThemeKeys = {
 	// Tweakpane

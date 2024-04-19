@@ -3,7 +3,7 @@
 	import { removeKeys } from '$lib/utils.js';
 	import type { ComponentProps } from 'svelte';
 
-	type $$Props = Omit<ComponentProps<GenericPane>, 'userCreatedPane'> & {
+	type $$Props = {
 		/**
 		 * Horizontal position of the pane relative to the left edge of the window, in pixels.
 		 *
@@ -27,7 +27,7 @@
 		 * @default `256`
 		 * */
 		width?: number;
-	};
+	} & Omit<ComponentProps<GenericPane>, 'userCreatedPane'>;
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {

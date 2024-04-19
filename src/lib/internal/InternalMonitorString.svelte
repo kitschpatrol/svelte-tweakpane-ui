@@ -13,10 +13,7 @@
 	// Multi-file structure is legacy of previous non-dynamic component approach TODO consolidate
 	// eventually if dynamic components prove reliable
 
-	type $$Props = Omit<
-		ComponentProps<GenericMonitor<string, InternalMonitorStringOptions>>,
-		'interval' | 'options' | 'plugin' | 'ref'
-	> & {
+	type $$Props = {
 		/**
 		 * A `string` value to monitor.
 		 * */
@@ -26,7 +23,10 @@
 		 * @default `false`
 		 * */
 		multiline?: boolean;
-	};
+	} & Omit<
+		ComponentProps<GenericMonitor<string, InternalMonitorStringOptions>>,
+		'interval' | 'options' | 'plugin' | 'ref'
+	>;
 
 	// Redeclare for bindability
 	export let value: $$Props['value'];

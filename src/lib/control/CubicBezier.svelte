@@ -28,10 +28,7 @@
 	import { shallowEqual } from 'fast-equals';
 	import { type ComponentProps, createEventDispatcher } from 'svelte';
 
-	type $$Props = Omit<
-		ComponentProps<GenericBladeFolding<CubicBezierOptions, CubicBezierRef>>,
-		'buttonClass' | 'options' | 'plugin' | 'ref'
-	> & {
+	type $$Props = {
 		/**
 		 * The cubic bezier value to control.
 		 *
@@ -45,7 +42,10 @@
 		 * @default `undefined`
 		 * */
 		label?: string;
-	};
+	} & Omit<
+		ComponentProps<GenericBladeFolding<CubicBezierOptions, CubicBezierRef>>,
+		'buttonClass' | 'options' | 'plugin' | 'ref'
+	>;
 
 	// Reexport for bindability
 	export let value: $$Props['value'];

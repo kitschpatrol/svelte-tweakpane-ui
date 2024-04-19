@@ -8,7 +8,7 @@
 	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte';
 	import { type ComponentProps, onDestroy } from 'svelte';
 
-	type $$Props = Omit<ComponentProps<GenericInput<string>>, 'options' | 'plugin' | 'ref'> & {
+	type $$Props = {
 		/**
 		 * A `string` value to control.
 		 * @bindable
@@ -22,7 +22,7 @@
 		 * @default `true`
 		 * */
 		live?: boolean;
-	};
+	} & Omit<ComponentProps<GenericInput<string>>, 'options' | 'plugin' | 'ref'>;
 
 	// Reexport for bindability
 	export let value: $$Props['value'];

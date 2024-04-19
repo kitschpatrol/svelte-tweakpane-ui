@@ -35,10 +35,7 @@
 
 	type ColorValueInternal = ColorValueRgbObject | ColorValueRgbaObject | ColorValueString;
 
-	type $$Props = Omit<
-		ComponentProps<GenericInputFolding<ColorValue, ColorOptions>>,
-		'buttonClass' | 'options' | 'plugin' | 'ref'
-	> & {
+	type $$Props = {
 		/**
 		 * A color value to control.
 		 *
@@ -52,7 +49,10 @@
 		 * @default `'int'`
 		 * */
 		type?: 'float' | 'int';
-	};
+	} & Omit<
+		ComponentProps<GenericInputFolding<ColorValue, ColorOptions>>,
+		'buttonClass' | 'options' | 'plugin' | 'ref'
+	>;
 
 	// Must redeclare for bindability
 	export let value: $$Props['value'];

@@ -15,10 +15,7 @@
 	import type { ComponentProps } from 'svelte';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
-	type $$Props = Omit<
-		ComponentProps<Blade<FpsGraphOptions, FpsGraphRef>>,
-		'options' | 'plugin' | 'ref'
-	> & {
+	type $$Props = {
 		/**
 		 * Lower bound of the FPS graph.
 		 * @default `0`
@@ -60,7 +57,7 @@
 		 * @default `2`
 		 * */
 		rows?: number;
-	};
+	} & Omit<ComponentProps<Blade<FpsGraphOptions, FpsGraphRef>>, 'options' | 'plugin' | 'ref'>;
 
 	// Reexport for bindability
 	export let rows: $$Props['rows'] = undefined; // Default comes from implementation

@@ -30,10 +30,7 @@
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
-	type $$Props = Omit<
-		ComponentProps<GenericInputFolding<RotationEulerValue, RotationEulerOptionsInternal>>,
-		'buttonClass' | 'options' | 'plugin' | 'ref'
-	> & {
+	type $$Props = {
 		/**
 		 * The rotation value to control.
 		 *
@@ -82,7 +79,10 @@
 		 * @default `'rad'`
 		 */
 		unit?: RotationEulerUnit;
-	};
+	} & Omit<
+		ComponentProps<GenericInputFolding<RotationEulerValue, RotationEulerOptionsInternal>>,
+		'buttonClass' | 'options' | 'plugin' | 'ref'
+	>;
 
 	// Unique
 	export let value: $$Props['value'];

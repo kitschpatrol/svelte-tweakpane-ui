@@ -6,7 +6,7 @@
 	import type { NumberInputParams as GenericSliderOptions } from 'tweakpane';
 	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane';
 
-	type $$Props = ComponentProps<GenericInput<T, GenericSliderOptions, GenericSliderRef>> & {
+	type $$Props = {
 		/**
 		 * Minimum value.
 		 *
@@ -46,7 +46,7 @@
 		 * No step constraint.
 		 * */
 		step?: number;
-	};
+	} & ComponentProps<GenericInput<T, GenericSliderOptions, GenericSliderRef>>;
 
 	// Redeclare for bindability
 	export let value: $$Props['value'];

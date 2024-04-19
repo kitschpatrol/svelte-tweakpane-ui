@@ -25,10 +25,7 @@
 	import { BROWSER } from 'esm-env';
 	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte';
 
-	type $$Props = Omit<
-		ComponentProps<Blade<ProfilerOptions, ProfilerRef>>,
-		'options' | 'plugin' | 'ref'
-	> & {
+	type $$Props = {
 		/**
 		 * Number of duration samples from which to calculate the delta value when `calcMode` is
 		 * `'mean'` or `'median'`.
@@ -108,7 +105,7 @@
 		 * 60fps.
 		 */
 		targetDelta?: number;
-	};
+	} & Omit<ComponentProps<Blade<ProfilerOptions, ProfilerRef>>, 'options' | 'plugin' | 'ref'>;
 
 	// Exporting a const function might be cleaner, but less expected by the user?
 	function _measure(name: string, functionToMeasure: () => void): void {

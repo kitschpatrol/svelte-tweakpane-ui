@@ -17,7 +17,7 @@
 	// TODO allow mixed values? TODO handle records and more complex types? duplicated here because
 	// it's not exported from the plugin...
 	// @tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
-	type RadioGridOptions<T> = GenericInputOptions & {
+	type RadioGridOptions<T> = {
 		cells: (
 			x: number,
 			y: number
@@ -28,12 +28,9 @@
 		groupName: string;
 		size: [number, number];
 		view: 'radiogrid';
-	};
+	} & GenericInputOptions;
 
-	type $$Props = Omit<
-		ComponentProps<GenericInput<T, RadioGridOptions<T>>>,
-		'options' | 'plugin' | 'ref'
-	> & {
+	type $$Props = {
 		/**
 		 * Value of selected radio button.
 		 *
@@ -77,7 +74,7 @@
 		 * the radio grid.
 		 * */
 		values: T[];
-	};
+	} & Omit<ComponentProps<GenericInput<T, RadioGridOptions<T>>>, 'options' | 'plugin' | 'ref'>;
 
 	// Ensure no entangled selection across multiple RadioGrids, unless the user explicitly asks for
 	// it

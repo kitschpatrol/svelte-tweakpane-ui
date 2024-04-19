@@ -17,7 +17,7 @@
 	import { BROWSER } from 'esm-env';
 	import type { ComponentProps } from 'svelte';
 
-	type $$Props = Omit<ComponentProps<GenericInput<ImageValue>>, 'plugin' | 'ref' | 'value'> & {
+	type $$Props = {
 		/**
 		 * Image data
 		 * @default `'placeholder'`
@@ -36,7 +36,7 @@
 		 * @default `'cover'`
 		 */
 		fit?: 'contain' | 'cover';
-	};
+	} & Omit<ComponentProps<GenericInput<ImageValue>>, 'plugin' | 'ref' | 'value'>;
 
 	// Unique
 	export let value: $$Props['value'] = 'placeholder';

@@ -13,10 +13,7 @@
 	// Multi-file structure is legacy of previous non-dynamic component approach TODO consolidate
 	// eventually if dynamic components prove reliable
 
-	type $$Props = Omit<
-		ComponentProps<GenericMonitor<number, InternalMonitorNumberOptions>>,
-		'options' | 'plugin' | 'ref'
-	> & {
+	type $$Props = {
 		/**
 		 * A `number` value to monitor.
 		 * */
@@ -42,7 +39,10 @@
 		 * @default `false`
 		 * */
 		graph?: boolean;
-	};
+	} & Omit<
+		ComponentProps<GenericMonitor<number, InternalMonitorNumberOptions>>,
+		'options' | 'plugin' | 'ref'
+	>;
 
 	// Redeclare for bindability
 	export let value: $$Props['value'];

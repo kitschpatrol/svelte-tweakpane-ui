@@ -41,7 +41,7 @@
 	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import type { ComponentProps } from 'svelte';
 
-	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {
+	type $$Props = {
 		/**
 		 * A `number` value to control.
 		 * @bindable
@@ -63,7 +63,7 @@
 		 * @default `false`
 		 * */
 		wide?: boolean;
-	};
+	} & Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'>;
 
 	// Reexport for bindability
 	export let value: $$Props['value'];

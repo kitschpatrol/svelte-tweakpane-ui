@@ -20,10 +20,7 @@
 	import { BROWSER } from 'esm-env';
 	import { type ComponentProps, createEventDispatcher } from 'svelte';
 
-	type $$Props = Omit<
-		ComponentProps<Blade<ButtonGridOptions, ButtonGridRef>>,
-		'options' | 'plugin' | 'ref'
-	> & {
+	type $$Props = {
 		/**
 		 * Array of names, each of which will become the title of a button in the grid.
 		 * */
@@ -51,7 +48,7 @@
 		 * Dynamic based on quantity of `buttons`.
 		 * */
 		rows?: number;
-	};
+	} & Omit<ComponentProps<Blade<ButtonGridOptions, ButtonGridRef>>, 'options' | 'plugin' | 'ref'>;
 
 	// Unique
 	export let columns: $$Props['columns'] = undefined;

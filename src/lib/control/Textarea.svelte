@@ -12,10 +12,7 @@
 	import { BROWSER } from 'esm-env';
 	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte';
 
-	type $$Props = Omit<
-		ComponentProps<GenericInput<string, TextareaPluginInputParams>>,
-		'options' | 'plugin' | 'ref'
-	> & {
+	type $$Props = {
 		/**
 		 * A `string` value to control.
 		 * @bindable
@@ -38,7 +35,10 @@
 		 * @default `3`
 		 */
 		rows?: number;
-	};
+	} & Omit<
+		ComponentProps<GenericInput<string, TextareaPluginInputParams>>,
+		'options' | 'plugin' | 'ref'
+	>;
 
 	// Re-exported
 	export let value: $$Props['value'];

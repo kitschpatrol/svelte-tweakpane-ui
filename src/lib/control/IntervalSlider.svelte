@@ -18,10 +18,7 @@
 	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import type { ComponentProps } from 'svelte';
 
-	type $$Props = Omit<
-		ComponentProps<GenericSlider<IntervalSliderValue>>,
-		'options' | 'plugin' | 'ref'
-	> & {
+	type $$Props = {
 		/**
 		 * Interval value to control.
 		 *
@@ -34,7 +31,7 @@
 		 * @bindable
 		 * */
 		meanValue?: number;
-	};
+	} & Omit<ComponentProps<GenericSlider<IntervalSliderValue>>, 'options' | 'plugin' | 'ref'>;
 
 	// Reexport for bindability
 	export let value: $$Props['value'];

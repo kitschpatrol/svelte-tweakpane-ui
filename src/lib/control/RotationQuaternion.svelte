@@ -27,10 +27,7 @@
 	import type { ComponentProps } from 'svelte';
 
 	// TODO add some utility functions to get matrices etc. from quaternions?
-	type $$Props = Omit<
-		ComponentProps<GenericInputFolding<RotationQuaternionValue, RotationQuaternionOptionsInternal>>,
-		'buttonClass' | 'options' | 'plugin' | 'ref'
-	> & {
+	type $$Props = {
 		/**
 		 * The quaternion value to control.
 		 *
@@ -71,7 +68,10 @@
 		 * @default `undefined`
 		 * */
 		optionsW?: RotationQuaternionOptions;
-	};
+	} & Omit<
+		ComponentProps<GenericInputFolding<RotationQuaternionValue, RotationQuaternionOptionsInternal>>,
+		'buttonClass' | 'options' | 'plugin' | 'ref'
+	>;
 
 	// Unique
 	export let value: $$Props['value'];

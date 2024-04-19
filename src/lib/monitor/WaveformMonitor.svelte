@@ -14,16 +14,13 @@
 
 	// Direct prop import is wrapped in some extra stuff we don't want import type { WaveformProps }
 	// from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
-	type WaveformMonitorOptions = GenericMonitorOptions & {
+	type WaveformMonitorOptions = {
 		min?: number;
 		max?: number;
 		lineStyle?: WaveformMonitorLineStyle;
-	};
+	} & GenericMonitorOptions;
 
-	type $$Props = Omit<
-		ComponentProps<GenericMonitor<WaveformMonitorValue, WaveformMonitorOptions>>,
-		'options' | 'plugin' | 'ref'
-	> & {
+	type $$Props = {
 		/**
 		 * Waveform values.
 		 * @bindable
@@ -44,7 +41,10 @@
 		 * @default `'linear''`
 		 * */
 		lineStyle?: 'bezier' | 'linear';
-	};
+	} & Omit<
+		ComponentProps<GenericMonitor<WaveformMonitorValue, WaveformMonitorOptions>>,
+		'options' | 'plugin' | 'ref'
+	>;
 
 	// Unique
 	export let value: $$Props['value'];

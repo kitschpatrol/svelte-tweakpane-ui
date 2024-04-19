@@ -11,7 +11,7 @@
 	import GenericBinding from '$lib/internal/GenericBinding.svelte';
 	import type { ComponentProps } from 'svelte';
 
-	type $$Props = ComponentProps<GenericBinding<T, U, V>> & {
+	type $$Props = {
 		/**
 		 * Number of past states to retain.
 		 * @default `1`  \
@@ -34,7 +34,7 @@
 		 * Or `3` if value is `string` and `multiline` is `true`.
 		 * */
 		rows?: number;
-	};
+	} & ComponentProps<GenericBinding<T, U, V>>;
 
 	// Reexport for bindability
 	export let value: $$Props['value']; // Still has to be passed manually since it's required

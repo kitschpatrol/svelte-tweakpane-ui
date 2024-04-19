@@ -13,13 +13,13 @@
 
 	type BindableValue = BindingObject & Record<string, T>;
 
-	type $$Props = Omit<ComponentProps<Binding<BindableValue, U, V>>, 'key' | 'object'> & {
+	type $$Props = {
 		/**
 		 * The value to control.
 		 * @bindable
 		 * */
 		value: T;
-	};
+	} & Omit<ComponentProps<Binding<BindableValue, U, V>>, 'key' | 'object'>;
 
 	// Reexport for bindability
 	export let value: $$Props['value'];

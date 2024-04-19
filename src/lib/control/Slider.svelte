@@ -8,13 +8,13 @@
 	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import type { ComponentProps } from 'svelte';
 
-	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {
+	type $$Props = {
 		/**
 		 * A `number` value to control.
 		 * @bindable.
 		 * */
 		value: number;
-	};
+	} & Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'>;
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars

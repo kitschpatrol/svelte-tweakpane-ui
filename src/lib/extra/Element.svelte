@@ -8,10 +8,7 @@
 	// TODO more specific escape that just removes tweakpane css? TODO maybe expose scrollable prop?
 	// TODO sanitize?
 
-	type $$Props = Omit<
-		ComponentProps<Blade<BladeOptions, BladeRef>>,
-		'disabled' | 'options' | 'plugin' | 'ref'
-	> & {
+	type $$Props = {
 		/**
 		 * Maximum height of the element block, in pixels. By default, the element
 		 * block will expand vertically to fit its contents, but clip any horizontal
@@ -32,7 +29,10 @@
 		 * @default `true`
 		 */
 		resetStyle?: boolean;
-	};
+	} & Omit<
+		ComponentProps<Blade<BladeOptions, BladeRef>>,
+		'disabled' | 'options' | 'plugin' | 'ref'
+	>;
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {

@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import type { GenericInputOptions, GenericInputRef } from '$lib/internal/GenericInput.svelte';
 	// Can't find picker options in the type definitions
-	export type GenericInputFoldingOptions = GenericInputOptions & { expanded?: boolean }; // Technically not shared, but useful
+	export type GenericInputFoldingOptions = { expanded?: boolean } & GenericInputOptions; // Technically not shared, but useful
 	export type GenericInputFoldingRef = GenericInputRef; // No changes for now?
 </script>
 
@@ -14,7 +14,7 @@
 	import type { ComponentProps } from 'svelte';
 
 	// TODO share prop definitions with GenericBladeFolding?
-	type $$Props = ComponentProps<GenericInput<T, U, V>> & {
+	type $$Props = {
 		/**
 		 * DOM class name of the button used to expand and collapse the input's picker.
 		 * @default `undefined`
@@ -36,7 +36,7 @@
 		 * @default `true`
 		 * */
 		userExpandable?: boolean;
-	};
+	} & ComponentProps<GenericInput<T, U, V>>;
 
 	// Reexport for bindability
 	export let value: $$Props['value'];

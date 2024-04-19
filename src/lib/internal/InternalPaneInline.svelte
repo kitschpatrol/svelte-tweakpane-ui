@@ -4,7 +4,7 @@
 	import type { ComponentProps } from 'svelte';
 	import { onMount } from 'svelte';
 
-	type $$Props = ComponentProps<GenericPane> & {
+	type $$Props = {
 		/**
 		 * Width of the pane, in pixels.
 		 *
@@ -17,7 +17,7 @@
 		 * @default `undefined`
 		 * */
 		width?: number;
-	};
+	} & ComponentProps<GenericPane>;
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {

@@ -26,10 +26,7 @@
 
 	// Use a blade instead of an input to allow for additional value types TODO expose key value
 	// option that lets you bind to the active key?
-	type $$Props = Omit<
-		ComponentProps<Blade<ListBladeParams<T>, ListBladeApi<T>>>,
-		'options' | 'plugin' | 'ref'
-	> & {
+	type $$Props = {
 		/**
 		 * Value of the selected `options` item.
 		 * @bindable
@@ -47,7 +44,10 @@
 		 * API.
 		 * */
 		options: ListOptions<T>;
-	};
+	} & Omit<
+		ComponentProps<Blade<ListBladeParams<T>, ListBladeApi<T>>>,
+		'options' | 'plugin' | 'ref'
+	>;
 
 	// Must redeclare for bindability
 	export let value: $$Props['value'];

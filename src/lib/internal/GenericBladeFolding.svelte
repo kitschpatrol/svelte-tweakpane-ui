@@ -8,7 +8,7 @@
 	import { updateCollapsibility } from '$lib/utils';
 	import type { ComponentProps } from 'svelte';
 
-	type $$Props = ComponentProps<Blade<T, U>> & {
+	type $$Props = {
 		/**
 		 * DOM class name of the button used to expand and collapse the blade's picker.
 		 * @default `undefined`
@@ -32,7 +32,7 @@
 		 * @default `true`
 		 * */
 		userExpandable?: boolean;
-	};
+	} & ComponentProps<Blade<T, U>>;
 
 	// Reexport for bindability
 	export let options: $$Props['options'];

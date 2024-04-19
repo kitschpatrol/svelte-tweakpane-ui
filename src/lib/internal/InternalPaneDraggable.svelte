@@ -21,7 +21,7 @@
 	// Could extend from InternalPaneFixed, but need to revise documentation anyway Many gratuitous
 	// defined checks since NonNullable didn't work and not sure how to make an optional prop remain
 	// optional but with a default value in the $$Props type
-	type $$Props = Omit<ComponentProps<GenericPane>, 'userCreatedPane'> & {
+	type $$Props = {
 		/**
 		 * Horizontal position of the pane relative to the left edge of the window, in pixels.
 		 *
@@ -106,7 +106,7 @@
 		 * @bindable
 		 * */
 		width?: number;
-	};
+	} & Omit<ComponentProps<GenericPane>, 'userCreatedPane'>;
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {

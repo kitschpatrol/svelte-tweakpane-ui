@@ -108,10 +108,7 @@
 
 	// Some redefinition of props from GenericSlider, but redefining since we want to refine the
 	// documentation anyway
-	type $$Props = Omit<
-		ComponentProps<GenericInputFolding<T, PointOptions<T>>>,
-		'buttonClass' | 'options' | 'plugin' | 'ref'
-	> & {
+	type $$Props = {
 		/**
 		 * A 2D, 3D, or 4D point object to control.
 		 *
@@ -159,7 +156,11 @@
 		 * No step constraint.
 		 * */
 		step?: number;
-	} & PropsForType<T>;
+	} & Omit<
+		ComponentProps<GenericInputFolding<T, PointOptions<T>>>,
+		'buttonClass' | 'options' | 'plugin' | 'ref'
+	> &
+		PropsForType<T>;
 
 	// Bindable props must be re-exported
 	export let value: T;

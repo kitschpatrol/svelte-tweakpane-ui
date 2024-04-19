@@ -10,17 +10,7 @@
 	import { BROWSER } from 'esm-env';
 	import { type ComponentProps, beforeUpdate } from 'svelte';
 
-	type $$Props = (
-		| (ComponentProps<InternalPaneDraggable> & {
-				position?: 'draggable' | undefined;
-		  })
-		| (ComponentProps<InternalPaneFixed> & {
-				position: 'fixed';
-		  })
-		| (Omit<ComponentProps<InternalPaneInline>, 'userCreatedPane'> & {
-				position: 'inline';
-		  })
-	) & {
+	type $$Props = {
 		/**
 		 * Pane mode, one of three options:
 		 * - **'draggable'** *(default)*  \
@@ -37,7 +27,17 @@
 		 * @default `'draggable'`
 		 * */
 		position?: PanePosition;
-	};
+	} & (
+		| ({
+				position: 'fixed';
+		  } & ComponentProps<InternalPaneFixed>)
+		| ({
+				position: 'inline';
+		  } & Omit<ComponentProps<InternalPaneInline>, 'userCreatedPane'>)
+		| ({
+				position?: 'draggable' | undefined;
+		  } & ComponentProps<InternalPaneDraggable>)
+	);
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {
