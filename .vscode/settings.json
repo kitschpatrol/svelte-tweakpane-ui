@@ -29,6 +29,7 @@
     "markdown",
     "mdx"
   ],
+  "mdx.validate.ignoreLinks": ["/svelte-tweakpane-ui/**/*"],
   "prettier.documentSelectors": [
     "**/*.astro",
     "**/*.svelte",
