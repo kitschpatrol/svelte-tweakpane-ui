@@ -4,6 +4,7 @@ import { defineCollection, z } from 'astro:content';
 // Acknowledgments schema as delivered from pnpm
 // license-checker-rseidelsohn is a good pnpm-agnostic alternative,
 // but it has a slightly different schema
+// Note changes to the schema in the PNPM 8 --> 9 transition
 const acknowledgmentsSchema = z.record(
 	z.array(
 		z.object({
@@ -12,8 +13,8 @@ const acknowledgmentsSchema = z.record(
 			homepage: z.string().optional(),
 			license: z.string().min(1),
 			name: z.string().min(1),
-			path: z.string().min(1),
-			version: z.string().min(1)
+			paths: z.array(z.string().min(1)).min(1),
+			versions: z.array(z.string().min(1)).min(1)
 		})
 	)
 );
