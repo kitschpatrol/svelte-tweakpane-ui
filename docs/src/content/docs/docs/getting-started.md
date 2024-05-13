@@ -35,7 +35,7 @@ Import and use Tweakpane components in your `.svelte` files:
 
 If you're starting completely from scratch and just want to test out the _Svelte Tweakpane UI_ library, you can spin up a SvelteKit project like this — otherwise, [skip to step 1](#step-1-add-svelte-tweakpane-ui-to-your-project).
 
-Of course you can use _Svelte Tweakpane UI_ anywhere Svelte works, including island frameworks like [Astro](https://astro.build) or [Eleventy](https://www.11ty.dev/docs/plugins/partial-hydration/) (albeit with a [caveat or two](/svelte-tweakpane-ui/docs#island-framework-compatibility)).
+Of course you can use _Svelte Tweakpane UI_ anywhere Svelte works, including island frameworks like [Astro](https://astro.build) or [Eleventy](https://is-land.11ty.dev) (albeit with a [caveat or two](/svelte-tweakpane-ui/docs#island-framework-compatibility)).
 
 ```sh
 npm create svelte@latest svelte-tweakpane-sandbox
