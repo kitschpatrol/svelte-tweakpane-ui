@@ -128,7 +128,7 @@ index 74342e3c5c3a2e52f6782846b8ff5547d7131d91..da2251222c7599ce2aec92b57233bd9d
  			super();
  			const details = this.querySelector('details');
 diff --git a/components/Sidebar.astro b/components/Sidebar.astro
-index 38dc898d3697b5b15f8e812711258757927d8088..4e42aec72f87c7139bae80c9f07a1f595dac1c78 100644
+index c591674f3d32f2621cddb94b7c98f32636fb4511..eb6f69c93fbbf3b9355dfbe7b3d6443e5eb2ff3c 100644
 --- a/components/Sidebar.astro
 +++ b/components/Sidebar.astro
 @@ -11,3 +11,84 @@ const { sidebar } = Astro.props;
@@ -218,7 +218,7 @@ index 38dc898d3697b5b15f8e812711258757927d8088..4e42aec72f87c7139bae80c9f07a1f59
 +</script>
 diff --git a/components/TableOfContents/starlight-toc.ts b/components/TableOfContents/starlight-toc.ts
 deleted file mode 100644
-index a5de15bd336c198fbc6b788b6351e2a3ae278dd4..0000000000000000000000000000000000000000
+index 7a35ac3bba65983a28d9b3757d97bf10d91bc1d2..0000000000000000000000000000000000000000
 diff --git a/components/TableOfContents.astro b/components/TableOfContents.astro
 index eafd3d868e9ae6965aecdbe117af1a218b174b93..1f774d2e76f7f6cf7b41765073df2d8d06d261ca 100644
 --- a/components/TableOfContents.astro
@@ -262,14 +262,39 @@ similarity index 100%
 rename from components/TableOfContents/TableOfContentsList.astro
 rename to components/TableOfContentsList.astro
 diff --git a/components/ThemeSelect.astro b/components/ThemeSelect.astro
-index de88627d2d6c556a1bc20e293463950537314ae8..989706dae9a0826c7c026b66d3382cd3619b9e72 100644
+index 970156028ee4671f4790ab23f0fb5ab7d5def8e1..989706dae9a0826c7c026b66d3382cd3619b9e72 100644
 --- a/components/ThemeSelect.astro
 +++ b/components/ThemeSelect.astro
-@@ -40,6 +40,20 @@ const { labels } = Astro.props;
- 				select.addEventListener('change', (e) => {
- 					if (e.currentTarget instanceof HTMLSelectElement) {
- 						this.#onThemeChange(this.#parseTheme(e.currentTarget.value));
-+
+@@ -28,50 +28,76 @@ const { labels } = Astro.props;
+ <script>
+ 	type Theme = 'auto' | 'dark' | 'light';
+ 
+-	/** Key in `localStorage` to store color theme preference at. */
+-	const storageKey = 'starlight-theme';
+-
+-	/** Get a typesafe theme string from any JS value (unknown values are coerced to `'auto'`). */
+-	const parseTheme = (theme: unknown): Theme =>
+-		theme === 'auto' || theme === 'dark' || theme === 'light' ? theme : 'auto';
++	class StarlightThemeSelect extends HTMLElement {
++		/** Key in `localStorage` to store color theme preference at. */
++		#key = 'starlight-theme';
+ 
+-	/** Load the user’s preference from `localStorage`. */
+-	const loadTheme = (): Theme =>
+-		parseTheme(typeof localStorage !== 'undefined' && localStorage.getItem(storageKey));
++		constructor() {
++			super();
++			this.#onThemeChange(this.#loadTheme());
++			const select = this.querySelector('select');
++			if (select) {
++				select.addEventListener('change', (e) => {
++					if (e.currentTarget instanceof HTMLSelectElement) {
++						this.#onThemeChange(this.#parseTheme(e.currentTarget.value));
+ 
+-	/** Store the user’s preference in `localStorage`. */
+-	function storeTheme(theme: Theme): void {
+-		if (typeof localStorage !== 'undefined') {
+-			localStorage.setItem(storageKey, theme === 'light' || theme === 'dark' ? theme : '');
 +						// Fix for safari not redrawing the scroll bar until hover
 +						// or a page refresh. Causes slight momentary layout shift,
 +						// but that's less offensive than the wrong-color scrollbar.
@@ -283,6 +308,72 @@ index de88627d2d6c556a1bc20e293463950537314ae8..989706dae9a0826c7c026b66d3382cd3
 +								});
 +							});
 +						}
- 					}
- 				});
- 			}
++					}
++				});
++			}
+ 		}
+-	}
+ 
+-	/** Get the preferred system color scheme. */
+-	const getPreferredColorScheme = (): Theme =>
+-		matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
++		/** Get a typesafe theme string from any JS value (unknown values are coerced to `'auto'`). */
++		#parseTheme(theme: unknown): Theme {
++			if (theme === 'auto' || theme === 'dark' || theme === 'light') {
++				return theme;
++			} else {
++				return 'auto';
++			}
++		}
+ 
+-	/** Update select menu UI, document theme, and local storage state. */
+-	function onThemeChange(theme: Theme): void {
+-		StarlightThemeProvider.updatePickers(theme);
+-		document.documentElement.dataset.theme = theme === 'auto' ? getPreferredColorScheme() : theme;
+-		storeTheme(theme);
+-	}
++		/** Get the preferred system color scheme. */
++		#getPreferredColorScheme(): Theme {
++			return matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
++		}
+ 
+-	// React to changes in system color scheme.
+-	matchMedia(`(prefers-color-scheme: light)`).addEventListener('change', () => {
+-		if (loadTheme() === 'auto') onThemeChange('auto');
+-	});
++		/** Update select menu UI, document theme, and local storage state. */
++		#onThemeChange(theme: Theme): void {
++			StarlightThemeProvider.updatePickers(theme);
++			document.documentElement.dataset.theme =
++				theme === 'auto' ? this.#getPreferredColorScheme() : theme;
++			this.#storeTheme(theme);
++		}
+ 
+-	class StarlightThemeSelect extends HTMLElement {
+-		constructor() {
+-			super();
+-			onThemeChange(loadTheme());
+-			this.querySelector('select')?.addEventListener('change', (e) => {
+-				if (e.currentTarget instanceof HTMLSelectElement) {
+-					onThemeChange(parseTheme(e.currentTarget.value));
++		/** Store the user’s preference in `localStorage`. */
++		#storeTheme(theme: Theme): void {
++			if (typeof localStorage !== 'undefined') {
++				if (theme === 'light' || theme === 'dark') {
++					localStorage.setItem(this.#key, theme);
++				} else {
++					localStorage.removeItem(this.#key);
+ 				}
+-			});
++			}
++		}
++
++		/** Load the user’s preference from `localStorage`. */
++		#loadTheme(): Theme {
++			const theme = typeof localStorage !== 'undefined' && localStorage.getItem(this.#key);
++			return this.#parseTheme(theme);
+ 		}
+ 	}
++
+ 	customElements.define('starlight-theme-select', StarlightThemeSelect);
+ </script>

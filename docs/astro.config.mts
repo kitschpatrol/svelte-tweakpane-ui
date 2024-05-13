@@ -2,7 +2,8 @@
 import { componentMenu } from './src/utils/config-helpers';
 import starlight from '@astrojs/starlight';
 import svelte from '@astrojs/svelte';
-import compress from 'astro-compress';
+// Import compress from '@playform/compress';
+// import type { AstroIntegration } from 'astro';
 import { defineConfig } from 'astro/config';
 process.env.BROWSER = 'chromium';
 
@@ -84,14 +85,17 @@ export default defineConfig({
 			},
 			title: 'Svelte Tweakpane UI'
 		}),
-		svelte(),
-		compress({
-			CSS: true,
-			HTML: true,
-			Image: false,
-			JavaScript: true,
-			SVG: true
-		})
+		svelte()
+		// Borked types
+		// https://github.com/PlayForm/Compress/issues/355
+		// compress({
+		// 	CSS: true,
+		// 	HTML: true,
+		// 	Image: false,
+		// 	JavaScript: true,
+		// 	Logger: false,
+		// 	SVG: true
+		// }) as AstroIntegration
 	],
 	server: {
 		open: true

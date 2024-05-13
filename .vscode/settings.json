@@ -47,5 +47,6 @@
     ".env": ".env.*",
     "package.json": ".*.js, .*.json, .*.cjs, .*rc, .*ignore, pnpm-lock.yaml, pnpm-workspace.yaml",
     "readme.md": "license*, changelog*"
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
