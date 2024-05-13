@@ -2,8 +2,8 @@
 import { componentMenu } from './src/utils/config-helpers';
 import starlight from '@astrojs/starlight';
 import svelte from '@astrojs/svelte';
-// Import compress from '@playform/compress';
-// import type { AstroIntegration } from 'astro';
+import compress from '@playform/compress';
+import type { AstroIntegration } from 'astro';
 import { defineConfig } from 'astro/config';
 process.env.BROWSER = 'chromium';
 
@@ -85,21 +85,27 @@ export default defineConfig({
 			},
 			title: 'Svelte Tweakpane UI'
 		}),
-		svelte()
+		svelte({}),
 		// Borked types
 		// https://github.com/PlayForm/Compress/issues/355
-		// compress({
-		// 	CSS: true,
-		// 	HTML: true,
-		// 	Image: false,
-		// 	JavaScript: true,
-		// 	Logger: false,
-		// 	SVG: true
-		// }) as AstroIntegration
+		compress({
+			CSS: true,
+			HTML: true,
+			Image: false,
+			JavaScript: true,
+			// Logger: false,
+			SVG: true
+		}) as AstroIntegration
 	],
 	server: {
 		open: true
 	},
 	site: 'https://kitschpatrol.com/',
-	trailingSlash: 'never'
+	trailingSlash: 'never',
+	vite: {
+		ssr: {
+			// https://github.com/withastro/astro/issues/8660
+			noExternal: ['nanoid']
+		}
+	}
 });
