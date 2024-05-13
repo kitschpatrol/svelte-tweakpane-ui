@@ -39,11 +39,18 @@
 						value: boolean | number | string;
 					};
 
-	type $$Props = Omit<
-		ComponentProps<GenericMonitor<W, OptionsForType<W>>>,
-		'options' | 'plugin' | 'ref'
-	> &
-		PropsForType<W>;
+	// This takes some extra type logic to get dynamic types working with TypeScript 5.4+ , not exactly sure why
+	type $$Props = W extends boolean | number | string
+		? Omit<ComponentProps<GenericMonitor<W, OptionsForType<W>>>, 'options' | 'plugin' | 'ref'> &
+				PropsForType<W>
+		: Omit<
+				ComponentProps<
+					GenericMonitor<boolean | number | string, OptionsForType<boolean | number | string>>
+				>,
+				'options' | 'plugin' | 'ref'
+			>;
+
+	// https://github.com/sveltejs/language-tools/issues/442
 
 	// Must redeclare to pass required prop
 	export let value: $$Props['value'];
