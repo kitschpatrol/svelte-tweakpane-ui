@@ -100,14 +100,20 @@ position="inline">`.
   import { Button, Image } from 'svelte-tweakpane-ui';
 
   let source = 'placeholder';
-  let kittenIndex = 1;
+
+  async function getRandomKittenUrl() {
+    const { url } = await fetch(
+      'https://source.unsplash.com/800x800/?kitten',
+      { method: 'HEAD', redirect: 'follow' }
+    );
+    return url;
+  }
 </script>
 
 <Image bind:value={source} fit="contain" label="Image" />
 <Button
-  on:click={() => {
-    source = `https://placekitten.com/1024/1024?image=${kittenIndex}`;
-    kittenIndex = (kittenIndex % 16) + 1;
+  on:click={async () => {
+    source = await getRandomKittenUrl();
   }}
   label="Random Placeholder"
   title="Load Kitten"
