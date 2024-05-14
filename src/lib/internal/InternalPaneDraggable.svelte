@@ -275,6 +275,9 @@
 				dragBarElement.style.cursor = 'grabbing';
 			}
 
+			/* Have to do this in JS due to single ":active" element in multi-pane situations */
+			containerElement.style.transition = 'width 0s ease';
+
 			event.target.setPointerCapture(event.pointerId);
 
 			if (event.target === dragBarElement) {
@@ -355,6 +358,9 @@
 			if (event.target === dragBarElement) {
 				dragBarElement.style.removeProperty('cursor');
 			}
+
+			/* Have to do this in JS due to single ":active" element in multi-pane situations */
+			containerElement.style.removeProperty('transition');
 
 			// Treat as a click if the mouse hasn't moved much
 			// But don't do this for cancellations or focus loss
@@ -622,13 +628,6 @@ This component is for internal use only.
 		padding: 20px;
 		/* 0.2s matches Tweakpane's internal animation duration */
 		transition: width 0.2s ease;
-	}
-
-	div.draggable-container:active {
-		/* prevent animation during direct manipulation */
-		transition: width 0s ease;
-		/* alternate less specific approach */
-		/* transition: none; */
 	}
 
 	/* stylelint-disable-next-line selector-class-pattern */
