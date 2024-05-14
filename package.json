@@ -186,7 +186,7 @@
     "build:01-sync": "pnpm run check",
     "build:02-exports": "tsx ./scripts/generate-exports.ts",
     "build:03-add-source-links": "tsx ./scripts/add-source-links.ts",
-    "build:04-format": "pnpm run format",
+    "build:04-format": "pnpm run format && prettier-config --fix ./readme.md",
     "build:05-package": "svelte-package && publint",
     "build:06-heal-dts-comments": "tsx ./scripts/heal-dts-comments.ts",
     "build:07-strip-component-documentation": "tsx ./scripts/strip-component-documentation.ts",
