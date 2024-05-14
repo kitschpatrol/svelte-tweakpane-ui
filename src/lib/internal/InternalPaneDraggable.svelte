@@ -17,6 +17,11 @@
 	// Maybe expose as props
 	const titlebarWindowShadeSingleClick = true;
 	const titlebarWindowShadeDoubleClick = false;
+	const pointerCancelOnWindowBlur = true; // A compromise for #7
+	const dragMovementDistanceThreshold = 3;
+
+	// Necessary for dispatching coherent pointer events on blur
+	let initialDragEvent: PointerEvent | undefined;
 
 	// Could extend from InternalPaneFixed, but need to revise documentation anyway Many gratuitous
 	// defined checks since NonNullable didn't work and not sure how to make an optional prop remain
@@ -249,7 +254,7 @@
 		}
 	};
 
-	const downListener = (event: PointerEvent) => {
+	const dragStartListener = (event: PointerEvent) => {
 		if (
 			x !== undefined &&
 			y !== undefined &&
@@ -258,9 +263,23 @@
 		) {
 			moveDistance = 0;
 
+			// Remove down listeners, prevents drag-related multi-touch
+			// Can revisit this with a more robust approach...
+			initialDragEvent = event;
+			removeDragStartListeners();
+			addDragMoveAndEndListeners();
+
+			if (event.target === dragBarElement) {
+				// Would rather do this with :active pseudo-class, but it doesn't
+				// update on blur events in Firefox
+				dragBarElement.style.cursor = 'grabbing';
+			}
+
 			event.target.setPointerCapture(event.pointerId);
-			event.target.addEventListener('pointermove', moveListener);
-			event.target.addEventListener('pointerup', upListener);
+
+			if (event.target === dragBarElement) {
+				dragBarElement.style.cursor = 'grabbing';
+			}
 
 			startWidth = width ?? 0;
 			startOffsetX = x - event.pageX;
@@ -276,7 +295,7 @@
 	// -[x] Managing separate requestAnimationFrame loop
 	// -[ ] Using touch or mouse events instead of pointer
 	// -[ ] Using the native drag / drop API (no reasonable control over drawing and bounds?)
-	const moveListener = (event: PointerEvent) => {
+	const dragMoveListener = (event: PointerEvent) => {
 		if (
 			event.target instanceof HTMLElement &&
 			width !== undefined &&
@@ -299,22 +318,111 @@
 		}
 	};
 
-	// TODO need to catch cancellations as well?
-	const upListener = (event: PointerEvent) => {
-		event.stopImmediatePropagation();
-		if (event.target instanceof HTMLElement) {
-			event.target.releasePointerCapture(event.pointerId);
-			event.target.removeEventListener('pointermove', moveListener);
-			event.target.removeEventListener('pointerup', upListener);
+	// Simulates a pointer cancel event when the window loses focus while dragging
+	// Event simulation approach is necessary for Firefox to reset the cursor
+	const blurListener = () => {
+		if (
+			pointerCancelOnWindowBlur &&
+			initialDragEvent !== undefined &&
+			initialDragEvent.target instanceof HTMLElement
+		) {
+			const { target } = initialDragEvent;
 
+			const bounds = target.getBoundingClientRect();
+			const pointerCancelEvent = new PointerEvent('pointercancel', {
+				bubbles: true,
+				clientX: bounds.left + bounds.width / 2,
+				clientY: bounds.top + bounds.height / 2,
+				composed: true,
+				pointerId: initialDragEvent.pointerId,
+				pointerType: initialDragEvent.pointerType
+			});
+
+			target.dispatchEvent(pointerCancelEvent);
+		}
+	};
+
+	const dragEndListener = (event: PointerEvent) => {
+		event.stopImmediatePropagation();
+
+		if (event.target instanceof HTMLElement) {
+			// Release capture no matter what
+			if (event.target.hasPointerCapture(event.pointerId)) {
+				event.target.releasePointerCapture(event.pointerId);
+			}
+
+			// Only way to get Firefox to react while blurred
+			if (event.target === dragBarElement) {
+				dragBarElement.style.removeProperty('cursor');
+			}
+
+			// Treat as a click if the mouse hasn't moved much
+			// But don't do this for cancellations or focus loss
 			if (
+				event.type === 'pointerup' &&
 				titlebarWindowShadeSingleClick &&
 				event.target === dragBarElement &&
-				moveDistance < 3 &&
+				moveDistance < dragMovementDistanceThreshold &&
 				userExpandable &&
 				tpPane
 			)
 				tpPane.expanded = !tpPane.expanded;
+
+			initialDragEvent = undefined;
+			removeDragMoveAndEndListeners();
+			addDragStartListeners();
+		}
+	};
+
+	const addDragStartListeners = () => {
+		if (dragBarElement) {
+			dragBarElement.addEventListener('pointerdown', dragStartListener);
+		}
+
+		if (widthHandleElement) {
+			widthHandleElement.addEventListener('pointerdown', dragStartListener);
+		}
+	};
+
+	const removeDragStartListeners = () => {
+		if (dragBarElement) {
+			dragBarElement.removeEventListener('pointerdown', dragStartListener);
+		}
+
+		if (widthHandleElement) {
+			widthHandleElement.removeEventListener('pointerdown', dragStartListener);
+		}
+	};
+
+	const addDragMoveAndEndListeners = () => {
+		window.addEventListener('blur', blurListener);
+
+		if (dragBarElement) {
+			dragBarElement.addEventListener('pointermove', dragMoveListener);
+			dragBarElement.addEventListener('pointerup', dragEndListener);
+			dragBarElement.addEventListener('pointercancel', dragEndListener);
+		}
+
+		if (widthHandleElement) {
+			widthHandleElement.addEventListener('pointermove', dragMoveListener);
+			widthHandleElement.addEventListener('pointerup', dragEndListener);
+			widthHandleElement.addEventListener('pointercancel', dragEndListener);
+		}
+	};
+
+	const removeDragMoveAndEndListeners = () => {
+		window.removeEventListener('blur', blurListener);
+
+		if (dragBarElement) {
+			dragBarElement.removeEventListener('pointermove', dragMoveListener);
+			dragBarElement.removeEventListener('pointerup', dragEndListener);
+			dragBarElement.removeEventListener('pointercancel', dragEndListener);
+		}
+
+		if (widthHandleElement) {
+			widthHandleElement.removeEventListener('pointermove', dragMoveListener);
+			widthHandleElement.removeEventListener('pointerup', dragEndListener);
+			widthHandleElement.removeEventListener('pointercancel', dragEndListener);
 		}
 	};
 
@@ -331,18 +439,17 @@
 			console.warn('no tpPane in draggable');
 		}
 
-		// Prevent scrolling the background on mobile when dragging the pane or otherwise
+		// Prevent scrolling content behind the pane on mobile when dragging the pane or otherwise
 		containerElement.addEventListener('touchmove', touchScrollBlocker, { passive: false });
 
 		// Make the pane draggable the Tweakpane pane is NOT itself a svelte component, so we have
-		// to manage events directly through the DOM click blocking and handling collapse in
+		// to manage events directly through the DOM... click blocking and handling collapse in
 		// pointerup was most reliable cross-browser approach
 		const dragBarElementCheck = containerElement.querySelector<HTMLElement>('.tp-rotv_t');
 		if (dragBarElementCheck) {
 			dragBarElement = dragBarElementCheck;
 			dragBarElement.addEventListener('click', clickBlocker);
 			dragBarElement.addEventListener('dblclick', doubleClickListener);
-			dragBarElement.addEventListener('pointerdown', downListener);
 
 			// Add width adjuster handle
 			// eslint-disable-next-line unicorn/prefer-dom-node-append
@@ -350,29 +457,27 @@
 			if (widthHandleElement) {
 				widthHandleElement.className = 'tp-custom-width-handle';
 				widthHandleElement.textContent = '↔';
-
 				widthHandleElement.addEventListener('click', clickBlocker);
 				widthHandleElement.addEventListener('dblclick', doubleClickListener);
-				widthHandleElement.addEventListener('pointerdown', downListener);
 			}
+
+			// Adds to both
+			addDragStartListeners();
 		}
 	});
 
 	onDestroy(() => {
+		removeDragStartListeners();
+		removeDragMoveAndEndListeners();
+
 		if (dragBarElement) {
 			dragBarElement.removeEventListener('click', clickBlocker);
 			dragBarElement.removeEventListener('dblclick', doubleClickListener);
-			dragBarElement.removeEventListener('pointerdown', downListener);
-			dragBarElement.removeEventListener('pointermove', moveListener); // Might exist, set in down
-			dragBarElement.removeEventListener('pointerup', upListener); // Might exist, set in down
 		}
 
 		if (widthHandleElement) {
 			widthHandleElement.removeEventListener('click', clickBlocker);
 			widthHandleElement.removeEventListener('dblclick', doubleClickListener);
-			widthHandleElement.removeEventListener('pointerdown', downListener);
-			widthHandleElement.removeEventListener('pointermove', moveListener); // Might exist, set in down
-			widthHandleElement.removeEventListener('pointerup', upListener); // Might exist, set in down
 		}
 
 		if (containerElement) {
@@ -551,10 +656,6 @@ This component is for internal use only.
 
 	div.draggable-container :global(div.tp-lblv_l) {
 		white-space: nowrap;
-	}
-
-	div.draggable-container :global(div.tp-rotv_t:active) {
-		cursor: grabbing;
 	}
 
 	div.draggable-container :global(div.tp-rotv_m) {
