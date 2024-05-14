@@ -230,7 +230,9 @@
 
 	const clickBlocker = (event: MouseEvent) => {
 		event.stopPropagation();
-		// E.preventDefault(); e.stopImmediatePropagation();
+		// TBD
+		// e.preventDefault();
+		// e.stopImmediatePropagation();
 	};
 
 	let startWidth = 0;
@@ -244,9 +246,10 @@
 			if (width !== undefined && event.target === widthHandleElement) {
 				width = width < maxAvailablePanelWidth ? maxAvailablePanelWidth : minWidth;
 			} else if (
-				// If (moveDistance < 3 && userExpandable)
+				// Consider pointer movement threshold check...
+				// e.g. if (moveDistance < dragMovementDistanceThreshold && userExpandable)...
 				titlebarWindowShadeDoubleClick &&
-				event.target === dragBarElement && //
+				event.target === dragBarElement &&
 				tpPane
 			) {
 				tpPane.expanded = !tpPane.expanded;
@@ -279,10 +282,6 @@
 			containerElement.style.transition = 'width 0s ease';
 
 			event.target.setPointerCapture(event.pointerId);
-
-			if (event.target === dragBarElement) {
-				dragBarElement.style.cursor = 'grabbing';
-			}
 
 			startWidth = width ?? 0;
 			startOffsetX = x - event.pageX;
@@ -322,13 +321,9 @@
 	};
 
 	// Simulates a pointer cancel event when the window loses focus while dragging
-	// Event simulation approach is necessary for Firefox to reset the cursor
+	// Event simulation approach is necessary for Firefox to redraw the cursor
 	const blurListener = () => {
-		if (
-			pointerCancelOnWindowBlur &&
-			initialDragEvent !== undefined &&
-			initialDragEvent.target instanceof HTMLElement
-		) {
+		if (pointerCancelOnWindowBlur && initialDragEvent?.target instanceof HTMLElement) {
 			const { target } = initialDragEvent;
 
 			const bounds = target.getBoundingClientRect();
@@ -371,8 +366,9 @@
 				moveDistance < dragMovementDistanceThreshold &&
 				userExpandable &&
 				tpPane
-			)
+			) {
 				tpPane.expanded = !tpPane.expanded;
+			}
 
 			initialDragEvent = undefined;
 			removeDragMoveAndEndListeners();
@@ -381,55 +377,37 @@
 	};
 
 	const addDragStartListeners = () => {
-		if (dragBarElement) {
-			dragBarElement.addEventListener('pointerdown', dragStartListener);
-		}
-
-		if (widthHandleElement) {
-			widthHandleElement.addEventListener('pointerdown', dragStartListener);
-		}
+		dragBarElement.addEventListener('pointerdown', dragStartListener);
+		widthHandleElement?.addEventListener('pointerdown', dragStartListener);
 	};
 
 	const removeDragStartListeners = () => {
-		if (dragBarElement) {
-			dragBarElement.removeEventListener('pointerdown', dragStartListener);
-		}
-
-		if (widthHandleElement) {
-			widthHandleElement.removeEventListener('pointerdown', dragStartListener);
-		}
+		dragBarElement.removeEventListener('pointerdown', dragStartListener);
+		widthHandleElement?.removeEventListener('pointerdown', dragStartListener);
 	};
 
 	const addDragMoveAndEndListeners = () => {
 		window.addEventListener('blur', blurListener);
 
-		if (dragBarElement) {
-			dragBarElement.addEventListener('pointermove', dragMoveListener);
-			dragBarElement.addEventListener('pointerup', dragEndListener);
-			dragBarElement.addEventListener('pointercancel', dragEndListener);
-		}
+		dragBarElement.addEventListener('pointermove', dragMoveListener);
+		dragBarElement.addEventListener('pointerup', dragEndListener);
+		dragBarElement.addEventListener('pointercancel', dragEndListener);
 
-		if (widthHandleElement) {
-			widthHandleElement.addEventListener('pointermove', dragMoveListener);
-			widthHandleElement.addEventListener('pointerup', dragEndListener);
-			widthHandleElement.addEventListener('pointercancel', dragEndListener);
-		}
+		widthHandleElement?.addEventListener('pointermove', dragMoveListener);
+		widthHandleElement?.addEventListener('pointerup', dragEndListener);
+		widthHandleElement?.addEventListener('pointercancel', dragEndListener);
 	};
 
 	const removeDragMoveAndEndListeners = () => {
 		window.removeEventListener('blur', blurListener);
 
-		if (dragBarElement) {
-			dragBarElement.removeEventListener('pointermove', dragMoveListener);
-			dragBarElement.removeEventListener('pointerup', dragEndListener);
-			dragBarElement.removeEventListener('pointercancel', dragEndListener);
-		}
+		dragBarElement.removeEventListener('pointermove', dragMoveListener);
+		dragBarElement.removeEventListener('pointerup', dragEndListener);
+		dragBarElement.removeEventListener('pointercancel', dragEndListener);
 
-		if (widthHandleElement) {
-			widthHandleElement.removeEventListener('pointermove', dragMoveListener);
-			widthHandleElement.removeEventListener('pointerup', dragEndListener);
-			widthHandleElement.removeEventListener('pointercancel', dragEndListener);
-		}
+		widthHandleElement?.removeEventListener('pointermove', dragMoveListener);
+		widthHandleElement?.removeEventListener('pointerup', dragEndListener);
+		widthHandleElement?.removeEventListener('pointercancel', dragEndListener);
 	};
 
 	const touchScrollBlocker = (event: TouchEvent) => {
@@ -476,19 +454,13 @@
 		removeDragStartListeners();
 		removeDragMoveAndEndListeners();
 
-		if (dragBarElement) {
-			dragBarElement.removeEventListener('click', clickBlocker);
-			dragBarElement.removeEventListener('dblclick', doubleClickListener);
-		}
+		dragBarElement.removeEventListener('click', clickBlocker);
+		dragBarElement.removeEventListener('dblclick', doubleClickListener);
 
-		if (widthHandleElement) {
-			widthHandleElement.removeEventListener('click', clickBlocker);
-			widthHandleElement.removeEventListener('dblclick', doubleClickListener);
-		}
+		widthHandleElement?.removeEventListener('click', clickBlocker);
+		widthHandleElement?.removeEventListener('dblclick', doubleClickListener);
 
-		if (containerElement) {
-			containerElement.removeEventListener('touchmove', touchScrollBlocker);
-		}
+		containerElement?.removeEventListener('touchmove', touchScrollBlocker);
 
 		// Clean up store id check, e.g. when cycling through the mode of a single pane
 		if (localStoreId !== undefined) {
