@@ -1,6 +1,6 @@
 {
   "name": "svelte-tweakpane-ui",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "type": "module",
   "description": "A Svelte component library wrapping UI elements from Tweakpane, plus some additional functionality for convenience and flexibility.",
   "repository": {
