@@ -16,10 +16,10 @@
 
 <script lang="ts">
 	// TODO calc util already in TP?
-	import type { CubicBezierApi as CubicBezierRef } from '@tweakpane/plugin-essentials';
-	import * as pluginModule from '@tweakpane/plugin-essentials';
-	import { CubicBezier } from '@tweakpane/plugin-essentials';
-	import type { CubicBezierBladeParams as CubicBezierOptions } from '@tweakpane/plugin-essentials/dist/types/cubic-bezier/plugin.d.ts';
+	import type { CubicBezierApi as CubicBezierRef } from '@kitschpatrol/tweakpane-plugin-essentials';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials';
+	import { CubicBezier } from '@kitschpatrol/tweakpane-plugin-essentials';
+	import type { CubicBezierBladeParams as CubicBezierOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/cubic-bezier/plugin.d.ts';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericBladeFolding from '$lib/internal/GenericBladeFolding.svelte';
 	import { type UnwrapCustomEvents, fillWith } from '$lib/utils';
@@ -90,9 +90,7 @@
 				cubicBezierBlade.value.y2
 			])
 		) {
-			// CubicBezier is a blade, not a binding, so state must be synced manually pretty sure
-			// setting value is leaking memory from inside the plugin tracking in
-			// https://github.com/tweakpane/plugin-essentials/issues/18
+			// CubicBezier is a blade, not a binding, so state must be synced manually
 			cubicBezierBlade.value = Array.isArray(value)
 				? new CubicBezier(value[0], value[1], value[2], value[3])
 				: new CubicBezier(value.x1, value.y1, value.x2, value.y2);
@@ -156,11 +154,7 @@ bezier value to an easing function compatible with Svelte's built-in
 Usage outside of a `<Pane>` component will implicitly wrap the cubic bezier control in `<Pane
 position="inline">`.
 
-_Note: An issue with unreleased resources has been observed in situations when the `value` prop is
-set frequently. A [PR on the Plugin Essentials repo with a
-fix](https://github.com/tweakpane/plugin-essentials/pull/21) is currently pending a review and
-merge. Consider monitoring the performance of this component in the context of your use case until
-this issue is resolved._
+Note that _Svelte Tweakpane UI_ embeds a [fork](https://github.com/kitschpatrol/tweakpane-plugin-essentials) of the plugin with build optimizations and [a fix for a performance issue](https://github.com/tweakpane/plugin-essentials/pull/21). The fork also changes the package name from `@tweakpane/plugin-essentials` to `@kitschpatrol/tweakpane-plugin-essentials` for consistency with other plugins.
 
 @emits {CubicBezierChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 

@@ -9,8 +9,8 @@
 	// TODO CLS prerendering slightly broken because component has fractional heights
 	// TODO minor issues with internal vs. external event count
 
-	import * as pluginModule from '@kitschpatrol/tweakpane-image-plugin';
-	import type { PluginInputParams as ImageOptions } from '@kitschpatrol/tweakpane-image-plugin/dist/types/plugin.d.ts';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-image';
+	import type { PluginInputParams as ImageOptions } from '@kitschpatrol/tweakpane-plugin-image/dist/types/plugin.d.ts';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import { fillWith } from '$lib/utils';
@@ -81,16 +81,12 @@ incorporating work by [Florian Morel](http://ayamflow.fr), [Matheus
 Dias](https://www.linkedin.com/in/matheusdbs/), [Palash Bansal](https://github.com/repalash), and
 others.
 
-Note that _Svelte Tweakpane UI_ embeds a
-[fork](https://github.com/kitschpatrol/tweakpane-image-plugin) of the plugin with support for
-Tweakpane 4. The dependency will be updated to point to the source repository if / when the open
-[pull request](https://github.com/metehus/tweakpane-image-plugin/pull/1) with Tweakpane 4 support is
-merged.
-
 There is currently a known bug where change events' `origin` values are sometimes incorrect. (This issue is limited to this component.)
 
 Usage outside of a `<Pane>` component will implicitly wrap the image control in `<Pane
 position="inline">`.
+
+Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://github.com/kitschpatrol/tweakpane-plugin-image) of the plugin with build optimizations. The fork also changes the package name to `@kitschpatrol/tweakpane-plugin-image` for consistency with other plugins.
 
 @emits {ImageChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 

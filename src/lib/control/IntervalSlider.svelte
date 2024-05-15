@@ -13,8 +13,8 @@
 </script>
 
 <script lang="ts">
-	import * as pluginModule from '@tweakpane/plugin-essentials';
-	import type { IntervalObject } from '@tweakpane/plugin-essentials/dist/types/interval/model/interval.js';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials';
+	import type { IntervalObject } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/interval/model/interval.js';
 	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import type { ComponentProps } from 'svelte';
 
@@ -102,6 +102,8 @@ interval range value.
 
 Usage outside of a `<Pane>` component will implicitly wrap the interval slider in `<Pane
 position="inline">`.
+
+Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://github.com/kitschpatrol/tweakpane-plugin-essentials) of the plugin with build optimizations. The fork also changes the package name from `@tweakpane/plugin-essentials` to `@kitschpatrol/tweakpane-plugin-essentials` for consistency with other plugins.
 
 @emits {IntervalSliderChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 

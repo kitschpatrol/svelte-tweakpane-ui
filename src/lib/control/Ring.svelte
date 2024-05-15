@@ -1,10 +1,10 @@
 <script context="module" lang="ts">
-	import type { RingSeries } from '@tweakpane/plugin-camerakit/dist/types/util.js';
+	import type { RingSeries } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.js';
 	import type { ValueChangeEvent } from '$lib/utils.js';
 
 	// TODO maybe spread RingUnit into the top level props?
 
-	//  import type { RingUnit } from '@tweakpane/plugin-camerakit/dist/types/view/ring.d.ts';
+	//  import type { RingUnit } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/view/ring.d.ts';
 	// redefine RingUnit with additional documentation
 	type RingUnit = {
 		/**
@@ -36,8 +36,8 @@
 </script>
 
 <script lang="ts">
-	import * as pluginModule from '@tweakpane/plugin-camerakit';
-	import type { RingInputParams } from '@tweakpane/plugin-camerakit/dist/types/util.d.ts';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-camerakit';
+	import type { RingInputParams } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.d.ts';
 	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import type { ComponentProps } from 'svelte';
 
@@ -110,6 +110,8 @@ control from Tweakpane-creator [Hiroki Kokubun's](https://cocopon.me) [Camerakit
 plugin](https://github.com/tweakpane/plugin-camerakit).
 
 Usage outside of a `<Pane>` component will implicitly wrap the ring in `<Pane position="inline">`.
+
+Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://github.com/kitschpatrol/tweakpane-plugin-camerakit) of the plugin with build optimizations. The fork also changes the package name from `@tweakpane/plugin-camerakit` to `@kitschpatrol/tweakpane-plugin-camerakit` for consistency with other plugins.
 
 @emits {RingChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 

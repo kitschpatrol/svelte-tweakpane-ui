@@ -20,10 +20,9 @@ _Svelte Tweakpane UI_ takes a slightly different approach to plugins than the un
 
 To keep bundle size down, it's recommended to use [per-component imports](/svelte-tweakpane-ui/docs#importing-components) when you're ready to go to production.
 
-Many of the most popular Tweakpane plugins are already bundled with _Svelte Tweakpane UI_, and have been "wrapped" according to the conventions of the library. Plugins _**not**_ currently bundled with the _Svelte Tweakpane UI_ library _**will not work**_ seamlessly unless they are explicitly wrapped.
+Many of the most popular Tweakpane plugins are already bundled with _Svelte Tweakpane UI_, and have been "wrapped" according to the conventions of the library. Plugins **_not_** currently bundled with the _Svelte Tweakpane UI_ library **_will not work_** seamlessly unless they are explicitly wrapped.
 
 :::note[Implicit vs. Explicit Controls]
-
 _Svelte Tweakpane UI_'s approach to structuring a component library is a subtle inversion of the underlying vanilla Tweakpane design. For the most part, vanilla Tweakpane "picks" a component for you based on the type of the value you want to control (or the shape of an object you want to control, in more complex cases). It uses the value's type information — in combination with its internal plugin system — to provide a slider, or a color picker, or a text field. The value type drives the control type.
 
 You can still achieve this behavior in _Svelte Tweakpane UI_ through components like `<AutoObject>` and `<AutoValue>`, but in most cases _Svelte Tweakpane UI_ is designed to make the component choice explicit (e.g. not just an abstract `<Binding>`, but a concrete `<Slider>`), and enforce that the value bound to the control is of an appropriate type. The kind of control you're getting is promised explicitly through its name, not implicitly through the type of value under its control.
@@ -82,17 +81,33 @@ The result should be the same:
 
 The following plugins are included with _Svelte Tweakpane UI_, and are ready to use out of the box:
 
-| Plugin                                                                | Components                                                                                                                                                                                                                                    |
-| --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [CameraKit](https://github.com/tweakpane/plugin-camerakit)            | `<Ring>`, `<Wheel>`                                                                                                                                                                                                                           |
-| [Essentials](https://github.com/tweakpane/plugin-essentials)          | `<ButtonGrid>`, `<RadioGrid>`, `<CubicBezier>`, `<FpsGraph>`, `<IntervalSlider>`                                                                                                                                                              |
-| [Image](https://github.com/kitschpatrol/tweakpane-image-plugin)       | `<Image>` _(forked from [ayamflow](https://github.com/ayamflow/tweakpane-image-plugin), [metehus](https://github.com/metehus/tweakpane-image-plugin), and [repalash](https://github.com/repalash/tweakpane-image-plugin) and ported to v4)\*_ |
-| [Profiler](https://github.com/0b5vr/tweakpane-plugin-profiler)        | `<Profiler>`                                                                                                                                                                                                                                  |
-| [Rotation](https://github.com/0b5vr/tweakpane-plugin-rotation)        | `<RotationQuaternion>`, `<RotationEuler>`                                                                                                                                                                                                     |
-| [Textarea](https://github.com/panGenerator/tweakpane-textarea-plugin) | `<Textarea>`                                                                                                                                                                                                                                  |
-| [Waveform](https://github.com/shoedler/tweakpane-plugin-waveform)     | `<WaveformMonitor>`                                                                                                                                                                                                                           |
+| Plugin                                                                | Components                                                                       | Optimized Fork                                                        |
+| --------------------------------------------------------------------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| [CameraKit](https://github.com/tweakpane/plugin-camerakit)            | `<Ring>`, `<Wheel>`                                                              | [GitHub](https://github.com/kitschpatrol/tweakpane-plugin-camerakit)  |
+| [Essentials](https://github.com/tweakpane/plugin-essentials)          | `<ButtonGrid>`, `<RadioGrid>`, `<CubicBezier>`, `<FpsGraph>`, `<IntervalSlider>` | [GitHub](https://github.com/kitschpatrol/tweakpane-plugin-essentials) |
+| [Image](https://github.com/metehus/tweakpane-image-plugin)            | `<Image>`                                                                        | [GitHub](https://github.com/kitschpatrol/tweakpane-plugin-image)      |
+| [Profiler](https://github.com/0b5vr/tweakpane-plugin-profiler)        | `<Profiler>`                                                                     | [GitHub](https://github.com/kitschpatrol/tweakpane-plugin-profiler)   |
+| [Rotation](https://github.com/0b5vr/tweakpane-plugin-rotation)        | `<RotationQuaternion>`, `<RotationEuler>`                                        | [GitHub](https://github.com/kitschpatrol/tweakpane-plugin-rotation)   |
+| [Textarea](https://github.com/panGenerator/tweakpane-textarea-plugin) | `<Textarea>`                                                                     | [GitHub](https://github.com/kitschpatrol/tweakpane-plugin-textarea)   |
+| [Waveform](https://github.com/shoedler/tweakpane-plugin-waveform)     | `<WaveformMonitor>`                                                              | [GitHub](https://github.com/kitschpatrol/tweakpane-plugin-waveform)   |
 
 \*_Tweakpane version 4 is a relatively recent release, and it introduced a number of breaking changes for plugin developers. I've ported the asterisked plugins above from Tweakpane 3 to Tweakpane 4, and and submitted PRs to the project owners. As soon as the PRs are merged, I will update the dependencies in Svelte Tweakpane UI to point to the source instead of my fork._
+
+---
+
+## Optimized forks
+
+Each of the included Tweakpane plugins has been forked to incorporate build process tweaks that dramatically reduce the final bundle size of projects using _Svelte Tweakpane UI_.
+
+The forks will be kept in sync with the upstream version of the plugin, with minimal changes other than the build optimizations.
+
+The optimization involves externalizing certain dependencies to prevent duplication and ensure that code can be shared effectively in the final build of a project.
+
+Specifically, the Rollup configuration provided in the [Tweakpane plugin template](https://github.com/tweakpane/plugin-template) does not externalize [`@tweakpane/core`](https://github.com/cocopon/tweakpane/tree/main/packages/core) as a production dependency. Instead, it's embedded into the single-file plugin artifact, which is what's published to NPM and imported by plugin consumers.
+
+Externalizing this dependency allows build to share a single instance of the `@tweakpane/core` code across multiple plugins, which amounts to savings of about 75% (~780 K) in a SvelteKit project production build incorporating all available components.
+
+For more on bundle size optimization, please see the section on [importing components](/svelte-tweakpane-ui/docs#importing-components).
 
 ---
 

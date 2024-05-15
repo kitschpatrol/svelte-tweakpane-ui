@@ -4,9 +4,9 @@
 </script>
 
 <script lang="ts">
-	import type { FpsGraphBladeApi as FpsGraphRef } from '@tweakpane/plugin-essentials';
-	import * as pluginModule from '@tweakpane/plugin-essentials';
-	import type { FpsGraphBladeParams as FpsGraphOptions } from '@tweakpane/plugin-essentials/dist/types/fps-graph/plugin.js';
+	import type { FpsGraphBladeApi as FpsGraphRef } from '@kitschpatrol/tweakpane-plugin-essentials';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials';
+	import type { FpsGraphBladeParams as FpsGraphOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/fps-graph/plugin.js';
 	import Blade from '$lib/core/Blade.svelte';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import { fillWith } from '$lib/utils';
@@ -159,6 +159,8 @@ notify when the FPS value changes.
 
 Usage outside of a `<Pane>` component will implicitly wrap the FPS graph in `<Pane
 position="inline">`.
+
+Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://github.com/kitschpatrol/tweakpane-plugin-essentials) of the plugin with build optimizations. The fork also changes the package name from `@tweakpane/plugin-essentials` to `@kitschpatrol/tweakpane-plugin-essentials` for consistency with other plugins.
 
 @emits {number} change - When the FPS value changes.
 

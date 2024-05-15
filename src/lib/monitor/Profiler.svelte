@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { ProfilerBladeMeasureHandler } from '@0b5vr/tweakpane-plugin-profiler';
+	import type { ProfilerBladeMeasureHandler } from '@kitschpatrol/tweakpane-plugin-profiler';
 	import type { Simplify } from '$lib/utils';
 
 	export type ProfilerCalcMode = 'frame' | 'mean' | 'median';
@@ -15,9 +15,9 @@
 </script>
 
 <script lang="ts">
-	import * as pluginModule from '@0b5vr/tweakpane-plugin-profiler';
-	import type { ProfilerBladeApi as ProfilerRef } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerBladeApi.js';
-	import type { ProfilerBladePluginParams as ProfilerOptions } from '@0b5vr/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-profiler';
+	import type { ProfilerBladeApi as ProfilerRef } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerBladeApi.js';
+	import type { ProfilerBladePluginParams as ProfilerOptions } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js';
 	import Blade from '$lib/core/Blade.svelte';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import type { UnwrapCustomEvents } from '$lib/utils';
@@ -96,7 +96,7 @@
 		 *
 		 * The default is fine for most cases when you want to measure a temporal duration.
 		 * @default [`new
-		 * ProfilerBladeDefaultMeasureHandler()`](https://github.com/0b5vr/tweakpane-plugin-profiler/blob/dev/src/ProfilerBladeDefaultMeasureHandler.ts)
+		 * ProfilerBladeDefaultMeasureHandler()`](https://github.com/kitschpatrol/tweakpane-plugin-profiler/blob/dev/src/ProfilerBladeDefaultMeasureHandler.ts)
 		 */
 		measureHandler?: ProfilerMeasureHandler;
 		/**
@@ -215,13 +215,15 @@ Measure and visualize multiple quantities over time.
 Configured to measure a function's execution duration by default, but can be customized to measure
 anything.
 
-Integrates [0b5vr's](https://0b5vr.com)
-[tweakpane-plugin-profiler](https://github.com/0b5vr/tweakpane-plugin-profiler).
+Integrates [kitschpatrol's](https://kitschpatrol.com)
+[tweakpane-plugin-profiler](https://github.com/kitschpatrol/tweakpane-plugin-profiler).
 
 See `<FpsGraph>` for a simpler alternative optimized for framerate visualization.
 
 Usage outside of a `<Pane>` component will implicitly wrap the profiler in `<Pane
 position="inline">`.
+
+Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://github.com/kitschpatrol/tweakpane-plugin-profiler) of the plugin with build optimizations.
 
 @example  
 ```svelte

@@ -10,9 +10,9 @@
 </script>
 
 <script lang="ts">
-	import type { ButtonGridApi as ButtonGridRef } from '@tweakpane/plugin-essentials';
-	import * as pluginModule from '@tweakpane/plugin-essentials';
-	import type { ButtonGridBladeParams as ButtonGridOptions } from '@tweakpane/plugin-essentials/dist/types/button-grid/plugin.d.ts';
+	import type { ButtonGridApi as ButtonGridRef } from '@kitschpatrol/tweakpane-plugin-essentials';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials';
+	import type { ButtonGridBladeParams as ButtonGridOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/button-grid/plugin.d.ts';
 	import Blade from '$lib/core/Blade.svelte';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import { fillWith } from '$lib/utils';
@@ -128,6 +128,8 @@ _Svelte Tweakpane UI_ also includes some additional logic to manage default grid
 
 Usage outside of a `<Pane>` component will implicitly wrap the button grid in `<Pane
 position="inline">`.
+
+Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://github.com/kitschpatrol/tweakpane-plugin-essentials) of the plugin with build optimizations. The fork also changes the package name from `@tweakpane/plugin-essentials` to `@kitschpatrol/tweakpane-plugin-essentials` for consistency with other plugins.
 
 @emits {ButtonGridClickEvent} click - When a button in the grid is clicked.
 

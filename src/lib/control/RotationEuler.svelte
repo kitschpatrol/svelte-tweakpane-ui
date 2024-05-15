@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import type { EulerOrder } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerOrder.js';
-	import type { EulerUnit } from '@0b5vr/tweakpane-plugin-rotation/dist/types/EulerUnit.js';
+	import type { EulerOrder } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerOrder.js';
+	import type { EulerUnit } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerUnit.js';
 	import type { PointDimensionParams } from '@tweakpane/core';
 	import type { Simplify } from '$lib/utils';
 	import type { ValueChangeEvent } from '$lib/utils.js';
@@ -22,8 +22,8 @@
 </script>
 
 <script lang="ts">
-	import * as pluginModule from '@0b5vr/tweakpane-plugin-rotation';
-	import type { RotationInputPluginEulerParams as RotationEulerOptionsInternal } from '@0b5vr/tweakpane-plugin-rotation/dist/types/RotationInputPluginEulerParams';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation';
+	import type { RotationInputPluginEulerParams as RotationEulerOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/RotationInputPluginEulerParams';
 	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js'; // Note name collision with options params
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
@@ -155,8 +155,7 @@
 @component  
 Integrates the [euler
 rotation](https://github.com/0b5vr/tweakpane-plugin-rotation/blob/dev/src/RotationInputPluginEuler.ts)
-control from [0b5vr's](https://0b5vr.com)
-[tweakpane-plugin-rotation](https://github.com/0b5vr/tweakpane-plugin-rotation).
+control from [0b5vr](https://0b5vr.com)'s [tweakpane-plugin-rotation](https://github.com/0b5vr/tweakpane-plugin-rotation).
 
 _Svelte Tweakpane UI_ extends the original API to support tuple values in addition to object values.
 (Useful when working with frameworks like [three.js](https://threejs.org) /
@@ -165,10 +164,12 @@ _Svelte Tweakpane UI_ extends the original API to support tuple values in additi
 A utility function `Utils.eulerToCssTransform()` is also provided to easily convert a quaternion
 value object or tuple into a CSS transform string.
 
-See also <RotationQuaternion> if you're feeling gimbal locked.
+See also `<RotationQuaternion>` if you're feeling gimbal locked.
 
 Usage outside of a `<Pane>` component will implicitly wrap the profiler in `<Pane
 position="inline">`.
+
+Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://github.com/kitschpatrol/tweakpane-plugin-rotation) of the plugin with build optimizations.
 
 @emits {RotationEulerChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 

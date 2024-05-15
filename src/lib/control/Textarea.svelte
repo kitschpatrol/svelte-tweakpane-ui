@@ -5,8 +5,8 @@
 </script>
 
 <script lang="ts">
-	import * as pluginModule from '@pangenerator/tweakpane-textarea-plugin';
-	import type { TextareaPluginInputParams } from '@pangenerator/tweakpane-textarea-plugin/dist/types/plugin.js';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-textarea';
+	import type { TextareaPluginInputParams } from '@kitschpatrol/tweakpane-plugin-textarea/dist/types/plugin.js';
 	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte';
 	import { type UnwrapCustomEvents } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
@@ -126,6 +126,8 @@ behavior of the `<Text>` component.
 
 Usage outside of a `<Pane>` component will implicitly wrap the text area in
 `<Pane position="inline">`.
+
+Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://github.com/kitschpatrol/tweakpane-plugin-textarea) of the plugin with build optimizations. The fork also changes the package name from `@pangenerator/tweakpane-textarea-plugin` to `@kitschpatrol/tweakpane-plugin-textarea` for consistency with other plugins.
 
 @emits {TextareaChangeEvent} change - When `value` changes. (This event is
 provided for advanced use cases. Prefer binding to `value`.)
