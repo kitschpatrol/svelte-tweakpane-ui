@@ -159,12 +159,13 @@
 
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
 
-	// Good grief...
+	// Good grief... can't wait for Svelte 5's fine-grained reactivity:
 	// Work around for double-reactivity object bug
 	// https://github.com/sveltejs/svelte/pull/8992
 	// https://github.com/sveltejs/svelte/issues/4265
 	// Switching to <svelte:options immutable={true} />
 	// at this point would be more involved
+	let lastObject: T = object;
 	let lastValue: T[keyof T] = copy(object[key]);
 	let internalChange = false;
 	function onBoundValueChange(object: T) {
@@ -172,7 +173,11 @@
 		// TODO primitive checks for optimization?
 		// TODO need deep for anything?
 		// TODO consider completely proxy-ing Tweakpane
-		//  object to intercept  bound updates?
+
+		if (lastObject !== object) {
+			internalChange = false;
+		}
+
 		if (!shallowEqual(object[key], lastValue)) {
 			lastValue = copy(object[key]);
 
@@ -191,6 +196,12 @@
 		}
 
 		internalChange = false;
+
+		// Check for the bound object changing entirely...
+		if (lastObject !== object) {
+			lastObject = object;
+			create(); // Recreation seems to be only way to re-bind to new object
+		}
 	}
 
 	function onTweakpaneChange() {
@@ -204,10 +215,12 @@
 	// Options seem immutable...
 	// have to recreate old version supporting key changes $: key, options,
 	$: options, $parentStore !== undefined && index !== undefined && create();
-	// $: object, _ref !== undefined && $parentStore !== undefined && _ref.refresh();
 	$: _ref !== undefined && (_ref.disabled = disabled);
 	$: _ref !== undefined && (_ref.label = label);
 
+	// A refresh alone doesn't seem to be enough when the object itself (not
+	// just its values) has changed, so it's handled in onBoundValueChange
+	// $: object, _ref !== undefined && $parentStore !== undefined && _ref.refresh();
 	$: $parentStore !== undefined && onBoundValueChange(object);
 
 	$: theme &&
