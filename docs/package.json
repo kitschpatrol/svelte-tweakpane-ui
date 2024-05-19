@@ -26,13 +26,13 @@
     "validate-links-live": "npx linkinator https://kitschpatrol.com/svelte-tweakpane-ui --recurse --verbosity error --retry-errors-count 2 --retry-errors true --retry true --concurrency 1 --timeout 10000 --retry-errors-jitter 50  --skip www.linkedin.com"
   },
   "dependencies": {
-    "@astrojs/check": "^0.6.0",
-    "@astrojs/starlight": "^0.22.2",
+    "@astrojs/check": "^0.7.0",
+    "@astrojs/starlight": "^0.23.1",
     "@astrojs/svelte": "^5.4.0",
-    "astro": "^4.8.3",
+    "astro": "^4.8.6",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
-    "sharp": "^0.33.3",
+    "sharp": "^0.33.4",
     "svelte-tweakpane-ui": "link:.."
   },
   "devDependencies": {

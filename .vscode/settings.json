@@ -45,8 +45,8 @@
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
     ".env": ".env.*",
-    "package.json": ".*.js, .*.json, .*.cjs, .*rc, .*ignore, pnpm-lock.yaml, pnpm-workspace.yaml",
-    "readme.md": "license*, changelog*"
+    "package.json": ".*.cjs, .*.js, .*.json, .*.mjs, .*.toml, .*.ts, .*.yaml, .*.yml, .*ignore, .*rc, *config.cjs, *config.js, *config.json, *config.mjs, *config.toml, *config.ts, *config.yaml, *config.yml, lerna.json, netlify.toml, package-lock.json, pnpm-lock.yaml, pnpm-workspace.yaml, pnpm*, turbo.json, vercel.json, workspace*, wrangler.toml, yarn.lock, yarn*",
+    "readme.md": "authors*, backers*, changelog*, citation*, code_of_conduct*, codeowners*, contributing*, contributors*, copying*, credits*, governance*, history*, license*, maintainers*, release_notes*, security*, sponsors*"
   },
   "typescript.tsdk": "node_modules/typescript/lib"
 }
