@@ -126,7 +126,10 @@
 			? options
 			: isObjectStyleListOptions(options)
 				? options
-				: options.map((value) => ({ value, text: JSON.stringify(value) }));
+				: options.map((value) => ({
+						value,
+						text: typeof value === 'object' ? JSON.stringify(value) : String(value)
+					}));
 	}
 
 	function setValue() {
