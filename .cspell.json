@@ -1,5 +1,4 @@
 {
   "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
-  "import": "@kitschpatrol/cspell-config",
-  "words": ["borked", "discoverability", "gzipped", "pangenerator", "playform"]
+  "import": "@kitschpatrol/cspell-config"
 }
