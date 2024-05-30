@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
 	import type { Simplify } from '$lib/utils';
 	import type { ValueChangeEvent } from '$lib/utils.js';
+	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane';
 
 	export type IntervalSliderValueTuple = [min: number, max: number];
 	export type IntervalSliderValueObject = {
@@ -36,6 +37,7 @@
 	// Reexport for bindability
 	export let value: $$Props['value'];
 	export let meanValue: $$Props['meanValue'] = undefined;
+	export let wide: $$Props['wide'] = undefined;
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -81,6 +83,19 @@
 			internalValue = { min: meanValue - r / 2, max: meanValue + r / 2 };
 		}
 	}
+
+	let ref: GenericSliderRef;
+
+	function updateWide(wide: boolean) {
+		const inputField = ref?.element.querySelector<HTMLDivElement>('div.tp-rsltxtv_t');
+		if (wide) {
+			inputField?.style.setProperty('display', 'none');
+		} else {
+			inputField?.style.removeProperty('display');
+		}
+	}
+
+	$: ref && wide !== undefined && updateWide(wide);
 
 	$: value, updateInternalValue();
 	$: internalValue, updateValue();
@@ -138,4 +153,10 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 [IntervalSlider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/IntervalSlider.svelte)
 -->
 
-<GenericSlider bind:value={internalValue} on:change plugin={pluginModule} {...$$restProps} />
+<GenericSlider
+	bind:value={internalValue}
+	bind:ref
+	on:change
+	plugin={pluginModule}
+	{...$$restProps}
+/>

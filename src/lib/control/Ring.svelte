@@ -57,12 +57,6 @@
 		 * @default `{ ticks: 5, pixels: 40, value: 10 }`
 		 * */
 		unit?: RingUnit;
-		/**
-		 * When `true`, expand the width of the ring control at the expense of the numeric input
-		 * field.
-		 * @default `false`
-		 * */
-		wide?: boolean;
 	} & Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'>;
 
 	// Reexport for bindability

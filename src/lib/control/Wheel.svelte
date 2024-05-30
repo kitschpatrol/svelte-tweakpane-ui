@@ -22,12 +22,6 @@
 		 * `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54).
 		 */
 		amount?: number;
-		/**
-		 * When `true`, expand the width of the wheel control at the expense of the numeric input
-		 * field.
-		 * @default `false`
-		 * */
-		wide?: boolean;
 	} & Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'>;
 
 	// Reexport for bindability

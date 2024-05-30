@@ -46,6 +46,12 @@
 		 * No step constraint.
 		 * */
 		step?: number;
+		/**
+		 * When `true`, expand the width of the control at the expense of the numeric input
+		 * field.
+		 * @default `false`
+		 * */
+		wide?: boolean;
 	} & ComponentProps<GenericInput<T, GenericSliderOptions, GenericSliderRef>>;
 
 	// Redeclare for bindability
@@ -57,6 +63,16 @@
 	export let pointerScale: $$Props['pointerScale'] = undefined;
 	export let keyScale: $$Props['keyScale'] = undefined;
 	export let format: $$Props['format'] = undefined;
+	export let ref: $$Props['ref'] = undefined;
+
+	// Wide is "patched in" to address issue #8
+	// Wheel and Ring, which extend GenericSlider, which have an internal wide prop,
+	// were also modified to share this interface
+	// to inherit the wide prop.
+	export let wide: $$Props['wide'] = undefined;
+
+	// This prop is only used by children, but this appeases the compiler
+	wide = wide;
 
 	// Deal with format firing a change firing even when the function hasn't changed probably
 	// related to https://github.com/sveltejs/svelte/issues/4265 possibly fixable with
@@ -64,7 +80,7 @@
 	let formatProxy: typeof format = format;
 	$: formatProxy !== format && (formatProxy = format);
 
-	let optionsInternal: GenericSliderOptions;
+	let optionsInternal: GenericSliderOptions | undefined;
 
 	// The IntervalInputParams type is identical to NumberInputParams, so don't bother with generics
 	$: optionsInternal = {
@@ -90,4 +106,4 @@ implement as a separate component leveraging this generic implementation.
 [GenericSlider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericSlider.svelte)
 -->
 
-<GenericInput bind:value on:change options={optionsInternal} {...$$restProps} />
+<GenericInput bind:value bind:ref on:change options={optionsInternal} {...$$restProps} />

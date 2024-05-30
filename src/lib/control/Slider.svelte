@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
 	import type { ValueChangeEvent } from '$lib/utils.js';
+	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane';
 
 	export type SliderChangeEvent = ValueChangeEvent<number>;
 </script>
@@ -35,6 +36,21 @@
 
 	// Reexport for bindability
 	export let value: $$Props['value'];
+	export let wide: $$Props['wide'] = undefined;
+
+	let ref: GenericSliderRef;
+
+	function updateWide(wide: boolean) {
+		const inputField = ref?.element.querySelector<HTMLDivElement>('div.tp-sldtxtv_t');
+
+		if (wide) {
+			inputField?.style.setProperty('display', 'none');
+		} else {
+			inputField?.style.removeProperty('display');
+		}
+	}
+
+	$: ref && wide !== undefined && updateWide(wide);
 </script>
 
 <!--
@@ -74,4 +90,4 @@ Usage outside of a `<Pane>` component will implicitly wrap the slider in `<Pane 
 [Slider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Slider.svelte)
 -->
 
-<GenericSlider bind:value on:change {...$$restProps} />
+<GenericSlider bind:value bind:ref bind:wide on:change {...$$restProps} />
