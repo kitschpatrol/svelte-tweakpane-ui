@@ -6,6 +6,8 @@ description: Features unique to Svelte Tweakpane UI.
 import ExampleWrapper from '../../../components/docs/ExampleWrapper.astro';
 import SvelteTweakpaneEventExampleCode from '../../../examples/docs/SvelteTweakpaneEventExample.md';
 import SvelteTweakpaneEventExample from '../../../examples/docs/SvelteTweakpaneEventExample.svelte';
+import SvelteTweakpaneWideSlideExampleCode from '../../../examples/docs/SvelteTweakpaneWideSlideExample.md';
+import SvelteTweakpaneWideSlideExample from '../../../examples/docs/SvelteTweakpaneWideSlideExample.svelte';
 
 A handful of additional features have been implemented in the Svelte layer of the project.
 
@@ -97,6 +99,21 @@ The example below tallies `internal` vs. `external` changes to the `<Slider>`:
 <details>
   <summary>See example code</summary>
   <SvelteTweakpaneEventExampleCode />
+</details>
+
+### Wide sliders
+
+Hiroki Kokubun's [CameraKit](https://github.com/tweakpane/plugin-camerakit) plugin includes a `wide` option on its`<Ring>` and `<Wheel>` controls to optionally hide the numeric input text field.
+
+This came up in an [issue](https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/8), and is also a nice idea in general, so support has been added to the `<Slider>` and `<IntervalSlider>` components in _Svelte Tweakpane UI_:
+
+<ExampleWrapper>
+  <SvelteTweakpaneWideSlideExample client:load />
+</ExampleWrapper>
+
+<details>
+  <summary>See example code</summary>
+  <SvelteTweakpaneWideSlideExampleCode />
 </details>
 
 ---
