@@ -2,7 +2,14 @@
 	import { Button, Image } from '$lib';
 
 	let source = 'placeholder';
-	let kittenIndex = 1;
+
+	async function getRandomKittenUrl() {
+		const { url } = await fetch('https://source.unsplash.com/800x800/?kitten', {
+			method: 'HEAD',
+			redirect: 'follow'
+		});
+		return url;
+	}
 
 	let binding1InternalEventCount = 0;
 	let binding1ExternalEventCount = 0;
@@ -11,9 +18,8 @@
 </script>
 
 <Button
-	on:click={() => {
-		source = `https://placekitten.com/1024/1024?image=${kittenIndex}`;
-		kittenIndex = (kittenIndex % 16) + 1;
+	on:click={async () => {
+		source = await getRandomKittenUrl();
 	}}
 	label="Random Placeholder"
 	title="Load Kitten"
@@ -44,7 +50,6 @@
 />
 
 <pre>Value: <span>{source}</span></pre>
-<pre>Value: <span>{kittenIndex}</span></pre>
 <pre>Binding 1 Internal: <span>{binding1InternalEventCount}</span></pre>
 <pre>Binding 1 External: <span>{binding1ExternalEventCount}</span></pre>
 <pre>Binding 2 Internal: <span>{binding2InternalEventCount}</span></pre>
