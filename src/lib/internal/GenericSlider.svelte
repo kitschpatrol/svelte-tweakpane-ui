@@ -65,14 +65,11 @@
 	export let format: $$Props['format'] = undefined;
 	export let ref: $$Props['ref'] = undefined;
 
-	// Wide is "patched in" to address issue #8
-	// Wheel and Ring, which extend GenericSlider, which have an internal wide prop,
-	// were also modified to share this interface
-	// to inherit the wide prop.
-	export let wide: $$Props['wide'] = undefined;
-
-	// This prop is only used by children, but this appeases the compiler
-	wide = wide;
+	// Wide is "patched in" to address issue #8. Wheel and Ring, which extend
+	// GenericSlider, already have an implementation for a wide prop, so they
+	// share this interface. Doesn't actually need to be exported because
+	// it's only used by components that inherit from GenericSlider.
+	// export let wide: $$Props['wide'] = undefined;
 
 	// Deal with format firing a change firing even when the function hasn't changed probably
 	// related to https://github.com/sveltejs/svelte/issues/4265 possibly fixable with
