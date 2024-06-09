@@ -41,13 +41,13 @@ type LicenseEntry = CollectionEntry<'acknowledgments'>['data'][string][number];
 
 const { scope } = Astro.props;
 
-const acknowledgementsCollection = await getCollection(
+const acknowledgmentsCollection = await getCollection(
 	'acknowledgments',
 	(f) => scope === 'all' || f.id === `acknowledgments-${scope}`
 );
 
 // Each collection entry
-const data = acknowledgementsCollection.reduce<LicenseEntry[]>(
+const data = acknowledgmentsCollection.reduce<LicenseEntry[]>(
 	(acc, collection) => [...acc, ...Object.values(collection.data).flat()],
 	[]
 );

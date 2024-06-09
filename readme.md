@@ -152,6 +152,12 @@ npm install svelte-tweakpane-ui
 
 [@kitschpatrol](https://github.com/kitschpatrol)
 
+## Acknowledgments
+
+Thank you to [Hiroki Kokubun](https://cocopon.me) for creating the [Tweakpane](https://tweakpane.github.io/docs/) library.
+
+Additional acknowledgments are listed [on the documentation site](https://kitschpatrol.com/svelte-tweakpane-ui/docs/acknowledgments).
+
 <!-- footer -->
 
 ## Contributing
