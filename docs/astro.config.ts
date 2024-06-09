@@ -86,7 +86,8 @@ export default defineConfig({
 		}),
 		svelte({}),
 		compress({
-			CSS: true,
+			// Breaks layout in build as of version 0.0.12
+			CSS: false,
 			HTML: true,
 			Image: false,
 			JavaScript: true,
