@@ -125,6 +125,7 @@ module.exports = {
 		'@typescript-eslint/no-unsafe-call': 'off',
 		'@typescript-eslint/no-unsafe-member-access': 'off',
 		'@typescript-eslint/no-unsafe-return': 'off',
+		'n/no-unsupported-features/node-builtins': 'off',
 		'perfectionist/sort-object-types': ['error', perfectionistSortOverrides],
 		'perfectionist/sort-objects': ['error', perfectionistSortOverrides],
 		'perfectionist/sort-svelte-attributes': ['error', perfectionistSvelteSortOverrides]

@@ -1,9 +1,9 @@
 import { nanoid } from 'nanoid';
-import { join } from 'node:path';
+import path from 'node:path';
 import { Document, DocumentManager } from 'svelte-language-server/dist/src/lib/documents';
-import { LSConfigManager } from 'svelte-language-server/dist/src/ls-config';
-import { LSAndTSDocResolver } from 'svelte-language-server/dist/src/plugins/typescript/LSAndTSDocResolver';
-import { isNotNullOrUndefined, pathToUrl } from 'svelte-language-server/dist/src/utils';
+import { LSConfigManager } from 'svelte-language-server/dist/src/ls-config.js';
+import { LSAndTSDocResolver } from 'svelte-language-server/dist/src/plugins/typescript/LSAndTSDocResolver.js';
+import { isNotNullOrUndefined, pathToUrl } from 'svelte-language-server/dist/src/utils.js';
 import ts from 'typescript';
 
 /**
@@ -85,7 +85,7 @@ async function getStaticComponentInfoInternal(
 ): Promise<ComponentInfo | undefined> {
 	// Set up language server
 	const testDirectory = '.';
-	const path = join(testDirectory, componentPath);
+	const resolvedPath = path.join(testDirectory, componentPath);
 
 	const documentManager = new DocumentManager(
 		(textDocument) => new Document(textDocument.uri, textDocument.text)
@@ -95,17 +95,17 @@ async function getStaticComponentInfoInternal(
 		documentManager,
 		[pathToUrl(testDirectory)],
 		new LSConfigManager(),
-		{ tsconfigPath: join(testDirectory, 'tsconfig.json') }
+		{ tsconfigPath: path.join(testDirectory, 'tsconfig.json') }
 	);
 
-	const fileText = ts.sys.readFile(path);
+	const fileText = ts.sys.readFile(resolvedPath);
 	if (fileText === undefined) {
-		throw new Error(`Failed to read file ${path}`);
+		throw new Error(`Failed to read file ${resolvedPath}`);
 	}
 
 	const document = documentManager.openClientDocument({
 		text: fileText,
-		uri: `file:///${path}`
+		uri: `file:///${resolvedPath}`
 	});
 
 	const { lang, tsDoc } = await lsAndTsDocumentResolver.getLSAndTSDoc(document);
@@ -218,7 +218,7 @@ async function getDynamicComponentProps(
 		documentManager,
 		[pathToUrl(testDirectory)],
 		new LSConfigManager(),
-		{ tsconfigPath: join(testDirectory, 'tsconfig.json') }
+		{ tsconfigPath: path.join(testDirectory, 'tsconfig.json') }
 	);
 
 	const componentName = componentPath.split('/').pop()!.replace('.svelte', '');
