@@ -39,7 +39,7 @@ jobs:
 
       - name: Sync Package info to GitHub
         if: env.IS_VALID_TOKEN == 'true' && env.HAS_PACKAGE == 'true'
-        uses: kbrashears5/github-action-repo-sync@v2.0.0
+        uses: kitschpatrol/github-action-repo-sync@v2
         with:
           TYPE: npm
           PATH: package.json

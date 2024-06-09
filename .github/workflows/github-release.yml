@@ -50,12 +50,12 @@ jobs:
       - name: Release Notes
         if: env.IS_VALID_COMMIT == 'true'
         id: release-notes
-        uses: Bullrich/generate-release-changelog@6b60f004b4bf12ff271603dc32dbd261965ad2f2
+        uses: kitschpatrol/github-action-release-changelog@v2
 
       - name: Release
         if: env.IS_VALID_COMMIT == 'true'
         id: release
-        uses: softprops/action-gh-release@v1
+        uses: kitschpatrol/github-action-release@v2
         with:
           token: ${{ env.ACCESS_TOKEN }}
           draft: false
