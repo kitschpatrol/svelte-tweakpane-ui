@@ -235,7 +235,7 @@
     "fast-copy": "3.0.1",
     "fast-equals": "5.0.1",
     "nanoid": "5.0.6",
-    "svelte-local-storage-store": "0.6.4",
+    "svelte-persisted-store": "^0.11.0",
     "tweakpane": "4.0.3"
   },
   "devDependencies": {

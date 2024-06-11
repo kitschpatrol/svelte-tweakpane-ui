@@ -10,7 +10,7 @@
 	import { clamp, getSwatchButton, pickerIsOpen, removeKeys } from '$lib/utils.js';
 	import type { ComponentProps } from 'svelte';
 	import { onDestroy, onMount } from 'svelte';
-	import { persisted } from 'svelte-local-storage-store';
+	import { persisted } from 'svelte-persisted-store';
 	import type { Writable } from 'svelte/store';
 	import type { BladeApi, FolderApi } from 'tweakpane';
 
