@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.7.0",
-    "@astrojs/starlight": "^0.24.0",
+    "@astrojs/starlight": "0.24.1",
     "@astrojs/svelte": "^5.5.0",
     "astro": "^4.10.1",
     "github-slugger": "^2.0.0",
