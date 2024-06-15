@@ -215,8 +215,8 @@ Measure and visualize multiple quantities over time.
 Configured to measure a function's execution duration by default, but can be customized to measure
 anything.
 
-Integrates [kitschpatrol's](https://kitschpatrol.com)
-[tweakpane-plugin-profiler](https://github.com/kitschpatrol/tweakpane-plugin-profiler).
+Integrates [0b5vr's](https://0b5vr.com)
+[tweakpane-plugin-profiler](https://github.com/0b5vr/tweakpane-plugin-profiler).
 
 See `<FpsGraph>` for a simpler alternative optimized for framerate visualization.
 
