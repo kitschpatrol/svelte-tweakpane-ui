@@ -12,7 +12,6 @@
 </picture>
 
 <!-- badges {
-  npm: ["svelte-tweakpane-ui"],
   custom: {
     MadeWithSvelte: {
       image: "https://madewithsvelte.com/storage/repo-shields/4860-shield.svg",
@@ -26,7 +25,6 @@
   }
 } -->
 
-[![NPM Package svelte-tweakpane-ui](https://img.shields.io/npm/v/svelte-tweakpane-ui.svg)](https://npmjs.com/package/svelte-tweakpane-ui)
 [![NPM Package svelte-tweakpane-ui](https://img.shields.io/npm/v/svelte-tweakpane-ui.svg)](https://npmjs.com/package/svelte-tweakpane-ui)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![MadeWithSvelte](https://madewithsvelte.com/storage/repo-shields/4860-shield.svg)](https://madewithsvelte.com/p/svelte-tweakpane-ui/shield-link)
