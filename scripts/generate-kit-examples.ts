@@ -1,10 +1,10 @@
+import fs from 'node:fs';
 // Extracts and saves example blocks from component jsdoc,
 import {
 	getComponentExampleCodeFromSource,
 	getExportedComponents,
 	lintAndFormat
 } from './ast-tools';
-import fs from 'node:fs';
 
 const components = getExportedComponents('./src/lib/index.ts');
 

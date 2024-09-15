@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { capitalize } from './string-utils.ts';
 import { slug } from 'github-slugger';
 import { globSync } from 'glob';
 import matter from 'gray-matter';
+import { capitalize } from './string-utils.ts';
 
 // Create custom sidebar which nests differently from directory structure
 // can't seem to fish the menu type out of Astro's public exports

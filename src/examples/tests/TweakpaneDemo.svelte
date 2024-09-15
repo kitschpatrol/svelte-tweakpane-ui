@@ -23,7 +23,7 @@
 		ThemeUtils
 	} from '$lib';
 	import { onMount } from 'svelte';
-	import { type Writable, derived, writable } from 'svelte/store';
+	import { derived, type Writable, writable } from 'svelte/store';
 
 	function onPointerDown(event: PointerEvent) {
 		if (event.target && !hasParentWithClassName(event.target as HTMLElement, 'tp-rotv_b')) {

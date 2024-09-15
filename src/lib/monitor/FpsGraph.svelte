@@ -4,15 +4,15 @@
 </script>
 
 <script lang="ts">
+	import type { UnwrapCustomEvents } from '$lib/utils.js';
 	import type { FpsGraphBladeApi as FpsGraphRef } from '@kitschpatrol/tweakpane-plugin-essentials';
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials';
 	import type { FpsGraphBladeParams as FpsGraphOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/fps-graph/plugin.js';
+	import type { ComponentProps } from 'svelte';
 	import Blade from '$lib/core/Blade.svelte';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import { fillWith } from '$lib/utils';
-	import type { UnwrapCustomEvents } from '$lib/utils.js';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials';
 	import { BROWSER } from 'esm-env';
-	import type { ComponentProps } from 'svelte';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
 	type $$Props = {

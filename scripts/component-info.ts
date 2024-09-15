@@ -1,10 +1,16 @@
 import { nanoid } from 'nanoid';
 import path from 'node:path';
-import { Document, DocumentManager } from 'svelte-language-server/dist/src/lib/documents';
-import { LSConfigManager } from 'svelte-language-server/dist/src/ls-config.js';
-import { LSAndTSDocResolver } from 'svelte-language-server/dist/src/plugins/typescript/LSAndTSDocResolver.js';
-import { isNotNullOrUndefined, pathToUrl } from 'svelte-language-server/dist/src/utils.js';
 import ts from 'typescript';
+import {
+	Document,
+	DocumentManager
+} from '../node_modules/svelte-language-server/dist/src/lib/documents';
+import { LSConfigManager } from '../node_modules/svelte-language-server/dist/src/ls-config.js';
+import { LSAndTSDocResolver } from '../node_modules/svelte-language-server/dist/src/plugins/typescript/LSAndTSDocResolver.js';
+import {
+	isNotNullOrUndefined,
+	pathToUrl
+} from '../node_modules/svelte-language-server/dist/src/utils.js';
 
 /**
  * Records of jsdoc tag names (without the @) and their values
@@ -95,7 +101,7 @@ async function getStaticComponentInfoInternal(
 		documentManager,
 		[pathToUrl(testDirectory)],
 		new LSConfigManager(),
-		{ tsconfigPath: path.join(testDirectory, 'tsconfig.json') }
+		{ tsconfigPath: path.join(path.resolve(testDirectory), 'tsconfig.json') }
 	);
 
 	const fileText = ts.sys.readFile(resolvedPath);
@@ -218,7 +224,7 @@ async function getDynamicComponentProps(
 		documentManager,
 		[pathToUrl(testDirectory)],
 		new LSConfigManager(),
-		{ tsconfigPath: path.join(testDirectory, 'tsconfig.json') }
+		{ tsconfigPath: path.join(path.resolve(testDirectory), 'tsconfig.json') }
 	);
 
 	const componentName = componentPath.split('/').pop()!.replace('.svelte', '');

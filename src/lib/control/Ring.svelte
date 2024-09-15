@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import type { RingSeries } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.js';
 	import type { ValueChangeEvent } from '$lib/utils.js';
+	import type { RingSeries } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.js';
 
 	// TODO maybe spread RingUnit into the top level props?
 
@@ -36,10 +36,10 @@
 </script>
 
 <script lang="ts">
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-camerakit';
 	import type { RingInputParams } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.d.ts';
-	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import type { ComponentProps } from 'svelte';
+	import GenericSlider from '$lib/internal/GenericSlider.svelte';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-camerakit';
 
 	type $$Props = {
 		/**

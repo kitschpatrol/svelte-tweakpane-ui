@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Binding } from '$lib';
 	import type { BindingObject } from '$lib';
+	import { Binding } from '$lib';
 
 	let binding1InternalEventCount = 0;
 	let binding1ExternalEventCount = 0;

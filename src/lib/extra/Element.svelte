@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { BladeOptions, BladeRef } from '$lib/core/Blade.svelte';
+	import type { ComponentProps } from 'svelte';
 	import Blade from '$lib/core/Blade.svelte';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import { BROWSER } from 'esm-env';
-	import type { ComponentProps } from 'svelte';
 
 	// TODO more specific escape that just removes tweakpane css? TODO maybe expose scrollable prop?
 	// TODO sanitize?

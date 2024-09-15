@@ -8,7 +8,7 @@
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
 	import { removeKeys } from '$lib/utils';
 	import { BROWSER } from 'esm-env';
-	import { type ComponentProps, beforeUpdate } from 'svelte';
+	import { beforeUpdate, type ComponentProps } from 'svelte';
 
 	type $$Props = {
 		/**

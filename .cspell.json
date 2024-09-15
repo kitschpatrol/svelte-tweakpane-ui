@@ -1,5 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "ignorePaths": [],
   "import": "@kitschpatrol/cspell-config",
-  "words": ["0b5vr"]
+  "words": []
 }

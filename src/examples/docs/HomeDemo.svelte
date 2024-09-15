@@ -21,7 +21,7 @@
 		ThemeUtils
 	} from '$lib';
 	import { onMount } from 'svelte';
-	import { type Writable, derived, writable } from 'svelte/store';
+	import { derived, type Writable, writable } from 'svelte/store';
 	import { fade } from 'svelte/transition';
 
 	const themeDataKey = 'data-theme';

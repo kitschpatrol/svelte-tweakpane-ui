@@ -5,14 +5,14 @@
 </script>
 
 <script generics="T extends boolean | number | string" lang="ts">
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials';
+	import type { ComponentProps } from 'svelte';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericInput, { type GenericInputOptions } from '$lib/internal/GenericInput.svelte';
 	import { fillWith } from '$lib/utils';
 	import { getGridDimensions } from '$lib/utils.js';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials';
 	import { BROWSER } from 'esm-env';
 	import { nanoid } from 'nanoid';
-	import type { ComponentProps } from 'svelte';
 
 	// TODO allow mixed values? TODO handle records and more complex types? duplicated here because
 	// it's not exported from the plugin...

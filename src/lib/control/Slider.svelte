@@ -6,8 +6,8 @@
 </script>
 
 <script lang="ts">
-	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import type { ComponentProps } from 'svelte';
+	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 
 	type $$Props = {
 		/**

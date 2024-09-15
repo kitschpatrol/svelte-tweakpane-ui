@@ -3,19 +3,19 @@
 </script>
 
 <script lang="ts">
+	import type { Theme } from '$lib/theme.js';
 	import type { ButtonApi as ButtonRef } from '@tweakpane/core';
+	import type { Writable } from 'svelte/store';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
-	import type { Theme } from '$lib/theme.js';
 	import {
 		type Container,
-		type UnwrapCustomEvents,
 		getElementIndex,
-		isRootPane
+		isRootPane,
+		type UnwrapCustomEvents
 	} from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
 	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte';
-	import type { Writable } from 'svelte/store';
 
 	/**
 	 * Text inside of the button.

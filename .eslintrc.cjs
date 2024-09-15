@@ -1,7 +1,7 @@
 // Overrides for svelte-tweakpane-ui
 // CubicBezier, Quaternion, etc.
 const perfectionistSortOverrides = {
-	'custom-groups': {
+	customGroups: {
 		value: 'value',
 		x: '@(optionsX|x)',
 		y: '@(optionsY|y)',
@@ -48,7 +48,7 @@ const perfectionistSortOverrides = {
 };
 
 const perfectionistSvelteSortOverrides = {
-	'custom-groups': {
+	customGroups: {
 		value: '?(bind:)value',
 		min: '?(bind:)min',
 		max: '?(bind:)max',

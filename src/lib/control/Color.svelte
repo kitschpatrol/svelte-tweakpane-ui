@@ -1,10 +1,10 @@
 <script context="module" lang="ts">
-	import type {
-		RgbColorObject,
-		RgbaColorObject
-	} from '@tweakpane/core/dist/input-binding/color/model/color.js';
 	import type { Simplify } from '$lib/utils';
 	import type { ValueChangeEvent } from '$lib/utils.js';
+	import type {
+		RgbaColorObject,
+		RgbColorObject
+	} from '@tweakpane/core/dist/input-binding/color/model/color.js';
 
 	// TODO tuples, oklch, etc TODO set default picker mode between rgb, hsl, etc.?
 	export type ColorValueRgbTuple = [r: number, g: number, b: number];
@@ -13,10 +13,10 @@
 	export type ColorValueRgbaObject = Simplify<RgbaColorObject>;
 	export type ColorValueString = string;
 	export type ColorValue = Simplify<
-		| ColorValueRgbObject
-		| ColorValueRgbTuple
 		| ColorValueRgbaObject
 		| ColorValueRgbaTuple
+		| ColorValueRgbObject
+		| ColorValueRgbTuple
 		| ColorValueString
 	>;
 
@@ -24,16 +24,16 @@
 </script>
 
 <script lang="ts">
-	import { isColorObject, isObject, isRgbColorObject, isRgbaColorObject } from '@tweakpane/core';
+	import type { ComponentProps } from 'svelte';
+	import type { ColorInputParams as ColorOptions, InputBindingApi as ColorRef } from 'tweakpane';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import { objectToTuple, tupleToObject } from '$lib/utils';
 	import { fillWith } from '$lib/utils';
+	import { isColorObject, isObject, isRgbaColorObject, isRgbColorObject } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
-	import type { ComponentProps } from 'svelte';
-	import type { ColorInputParams as ColorOptions, InputBindingApi as ColorRef } from 'tweakpane';
 
-	type ColorValueInternal = ColorValueRgbObject | ColorValueRgbaObject | ColorValueString;
+	type ColorValueInternal = ColorValueRgbaObject | ColorValueRgbObject | ColorValueString;
 
 	type $$Props = {
 		/**

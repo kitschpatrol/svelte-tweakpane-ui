@@ -1,5 +1,5 @@
-import type { PageServerLoad } from './$types';
 import { glob } from 'glob';
+import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
 	const examples = await glob('./src/examples/**/*.svelte');

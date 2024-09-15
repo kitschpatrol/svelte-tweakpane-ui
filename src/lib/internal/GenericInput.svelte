@@ -8,8 +8,8 @@
 	generics="T extends any, U extends GenericInputOptions = GenericInputOptions, V extends GenericInputRef = GenericInputRef"
 	lang="ts"
 >
-	import GenericBinding from '$lib/internal/GenericBinding.svelte';
 	import type { ComponentProps } from 'svelte';
+	import GenericBinding from '$lib/internal/GenericBinding.svelte';
 
 	type $$Props = ComponentProps<GenericBinding<T, U, V>>;
 

@@ -5,10 +5,10 @@
 </script>
 
 <script lang="ts">
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-textarea';
 	import type { TextareaPluginInputParams } from '@kitschpatrol/tweakpane-plugin-textarea/dist/types/plugin.js';
 	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte';
 	import { type UnwrapCustomEvents } from '$lib/utils.js';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-textarea';
 	import { BROWSER } from 'esm-env';
 	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte';
 

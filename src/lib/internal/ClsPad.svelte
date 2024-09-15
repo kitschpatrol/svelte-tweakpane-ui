@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type Theme, getValueOrFallback } from '$lib/theme.js';
+	import { getValueOrFallback, type Theme } from '$lib/theme.js';
 	import { DEV } from 'esm-env';
 
 	/**

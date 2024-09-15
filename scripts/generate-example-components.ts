@@ -1,10 +1,10 @@
 // Copies examples from kit src to docs
 // changes import path, formats for narrower screens, and also generates markdown
 
-import { lintAndFormat } from './ast-tools';
 import fs from 'fs-extra';
 import { globSync } from 'glob';
 import path from 'node:path';
+import { lintAndFormat } from './ast-tools';
 
 fs.rmSync('./docs/src/examples', { force: true, recursive: true });
 fs.copySync('./src/examples', './docs/src/examples');

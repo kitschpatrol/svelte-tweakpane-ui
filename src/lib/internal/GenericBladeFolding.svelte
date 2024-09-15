@@ -4,9 +4,9 @@
 </script>
 
 <script generics="T extends BladeOptions, U extends BladeRef" lang="ts">
+	import type { ComponentProps } from 'svelte';
 	import Blade from '$lib/core/Blade.svelte';
 	import { updateCollapsibility } from '$lib/utils';
-	import type { ComponentProps } from 'svelte';
 
 	type $$Props = {
 		/**
@@ -52,7 +52,7 @@
 	$: if (!gotBlade && ref) {
 		gotBlade = true;
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unnecessary-type-assertion
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(ref.controller as any)?.valueController?.foldable_
 			?.value('expanded')
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any

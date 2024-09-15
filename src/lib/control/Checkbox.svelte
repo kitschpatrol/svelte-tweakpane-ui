@@ -5,8 +5,8 @@
 </script>
 
 <script lang="ts">
-	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import type { ComponentProps } from 'svelte';
+	import GenericInput from '$lib/internal/GenericInput.svelte';
 
 	type $$Props = Omit<ComponentProps<GenericInput<boolean>>, 'options' | 'plugin' | 'ref'>;
 

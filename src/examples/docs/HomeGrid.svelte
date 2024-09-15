@@ -1,8 +1,8 @@
 <script lang="ts">
-	import GridWrangler from './GridWrangler.svelte';
-	import Demo from './HomeDemo.svelte';
 	import { Button, Checkbox, Color, Monitor, Pane, RotationEuler, Separator, Slider } from '$lib';
 	import { onMount } from 'svelte';
+	import GridWrangler from './GridWrangler.svelte';
+	import Demo from './HomeDemo.svelte';
 
 	let mounted = false;
 

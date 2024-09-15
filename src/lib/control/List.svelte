@@ -15,6 +15,7 @@
 </script>
 
 <script generics="T extends any" lang="ts">
+	import type { ListBladeApi, ListBladeParams, ListParamsOptions } from 'tweakpane';
 	import Blade from '$lib/core/Blade.svelte';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import { type UnwrapCustomEvents } from '$lib/utils';
@@ -22,7 +23,6 @@
 	import copy from 'fast-copy';
 	import { shallowEqual } from 'fast-equals';
 	import { type ComponentProps, createEventDispatcher } from 'svelte';
-	import type { ListBladeApi, ListBladeParams, ListParamsOptions } from 'tweakpane';
 
 	// Use a blade instead of an input to allow for additional value types TODO expose key value
 	// option that lets you bind to the active key?

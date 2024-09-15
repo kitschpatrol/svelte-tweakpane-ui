@@ -9,9 +9,9 @@
 	generics="T extends any, U extends GenericInputFoldingOptions = GenericInputFoldingOptions, V extends GenericInputFoldingRef = GenericInputFoldingRef"
 	lang="ts"
 >
+	import type { ComponentProps } from 'svelte';
 	import GenericInput from '$lib/internal/GenericInput.svelte';
 	import { updateCollapsibility } from '$lib/utils.js';
-	import type { ComponentProps } from 'svelte';
 
 	// TODO share prop definitions with GenericBladeFolding?
 	type $$Props = {
@@ -60,7 +60,7 @@
 	$: if (!gotBinding && ref) {
 		gotBinding = true;
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unnecessary-type-assertion
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(ref.controller as any)?.valueController?.foldable_
 			?.value('expanded')
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any

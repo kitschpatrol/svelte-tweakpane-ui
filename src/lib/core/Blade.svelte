@@ -6,19 +6,19 @@
 </script>
 
 <script generics="U extends BladeOptions, V extends BladeRef" lang="ts">
+	import type { Theme } from '$lib/theme.js';
+	import type { Writable } from 'svelte/store';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
-	import type { Theme } from '$lib/theme.js';
 	import {
 		type Container,
-		type Plugin,
 		enforceReadonly,
 		getElementIndex,
-		isRootPane
+		isRootPane,
+		type Plugin
 	} from '$lib/utils.js';
 	import { BROWSER, DEV } from 'esm-env';
 	import { getContext, onDestroy, onMount } from 'svelte';
-	import type { Writable } from 'svelte/store';
 
 	/**
 	 * Blade configuration exposing Tweakpane's internal
@@ -53,7 +53,7 @@
 	 * @bindable
 	 * @readonly
 	 * */
-	export let ref: V | undefined = undefined;
+	export let ref: undefined | V = undefined;
 
 	/**
 	 * Imported Tweakpane `TpPluginBundle` (aliased as `Plugin`) module to automatically register in

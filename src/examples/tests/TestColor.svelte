@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Color, type ColorValueRgbObject, type ColorValueRgbaTuple } from '$lib';
+	import { Color, type ColorValueRgbaTuple, type ColorValueRgbObject } from '$lib';
 
 	let value: ColorValueRgbObject = { r: 0, g: 0, b: 0 };
 	let value2: ColorValueRgbaTuple = [0, 0, 0, 0];

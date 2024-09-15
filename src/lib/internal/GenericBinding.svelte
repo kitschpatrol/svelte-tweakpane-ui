@@ -7,9 +7,9 @@
 	generics="T extends any, U extends BindingOptions = BindingOptions, V extends BindingRef = BindingRef"
 	lang="ts"
 >
-	import Binding from '$lib/core/Binding.svelte';
 	import type { BindingObject } from '$lib/utils.js';
 	import type { ComponentProps } from 'svelte';
+	import Binding from '$lib/core/Binding.svelte';
 
 	type BindableValue = BindingObject & Record<string, T>;
 

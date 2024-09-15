@@ -5,10 +5,10 @@
 </script>
 
 <script lang="ts">
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-camerakit';
 	import type { WheelInputParams } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.d.ts';
-	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import type { ComponentProps } from 'svelte';
+	import GenericSlider from '$lib/internal/GenericSlider.svelte';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-camerakit';
 
 	type $$Props = {
 		/**

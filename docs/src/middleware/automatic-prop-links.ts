@@ -1,7 +1,7 @@
+import { slug } from 'github-slugger';
 import { allProps } from '../utils/prop-utils';
 import { defineDomMiddleware } from './dom-middleware';
 import { linkifyTerms } from './utilities';
-import { slug } from 'github-slugger';
 
 export const automaticPropLinks = defineDomMiddleware((context, document) => {
 	const componentData = context?.props?.entry?.data?.componentData;

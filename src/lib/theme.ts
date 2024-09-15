@@ -1,14 +1,14 @@
-import {
-	type RgbColorObject,
-	type RgbaColorObject,
-	getWindowDocument,
-	isRgbColorObject,
-	isRgbaColorObject
-} from '@tweakpane/core';
 import type { Simplify } from '$lib/utils';
+import {
+	getWindowDocument,
+	isRgbaColorObject,
+	isRgbColorObject,
+	type RgbaColorObject,
+	type RgbColorObject
+} from '@tweakpane/core';
 
 // Only need undefined if we had nested themes... undefined shouldn't override global theme
-export type ThemeColorValue = Simplify<RgbColorObject | RgbaColorObject | string>;
+export type ThemeColorValue = Simplify<RgbaColorObject | RgbColorObject | string>;
 export type Theme = CustomThemeKeys & ThemeKeys;
 
 type ThemeKeys = {
@@ -300,7 +300,7 @@ const keyToCssVariableMap = new Map([
 // string { return '--tp-' + str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
 // }
 
-function stringToCssValue(v: ThemeColorValue | string | undefined): string | undefined {
+function stringToCssValue(v: string | ThemeColorValue | undefined): string | undefined {
 	if (v === undefined) {
 		return undefined;
 	}

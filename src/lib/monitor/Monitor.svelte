@@ -3,6 +3,7 @@
 		default as GenericMonitor,
 		GenericMonitorOptions
 	} from '$lib/internal/GenericMonitor.svelte';
+	import type { ComponentProps } from 'svelte';
 	import InternalMonitorBoolean, {
 		type InternalMonitorBooleanOptions
 	} from '$lib/internal/InternalMonitorBoolean.svelte';
@@ -12,7 +13,6 @@
 	import InternalMonitorString, {
 		type InternalMonitorStringOptions
 	} from '$lib/internal/InternalMonitorString.svelte';
-	import type { ComponentProps } from 'svelte';
 
 	// Multi-file structure is legacy of previous non-dynamic component approach TODO consolidate
 	// eventually if dynamic components prove reliable

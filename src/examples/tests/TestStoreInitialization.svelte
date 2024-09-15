@@ -4,7 +4,7 @@
 	import { onMount, tick } from 'svelte';
 	import { writable } from 'svelte/store';
 
-	const bear = writable({ apples: 100, name: 'Cleeve' });
+	const bear = writable({ apples: 100, name: 'Someone' });
 
 	onMount(async () => {
 		await tick();

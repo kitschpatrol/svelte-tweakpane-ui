@@ -14,10 +14,10 @@
 </script>
 
 <script lang="ts">
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials';
 	import type { IntervalObject } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/interval/model/interval.js';
-	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import type { ComponentProps } from 'svelte';
+	import GenericSlider from '$lib/internal/GenericSlider.svelte';
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials';
 
 	type $$Props = {
 		/**

@@ -5,9 +5,9 @@
 </script>
 
 <script lang="ts">
+	import type { ComponentProps } from 'svelte';
 	import Text from '$lib/control/Text.svelte';
 	import GenericBinding from '$lib/internal/GenericBinding.svelte';
-	import type { ComponentProps } from 'svelte';
 
 	type $$Props = Omit<
 		ComponentProps<GenericBinding<boolean | number | object | string>>,

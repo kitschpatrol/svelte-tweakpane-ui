@@ -35,11 +35,11 @@
 </script>
 
 <script generics="T extends PointValue2d | PointValue3d | PointValue4d" lang="ts">
+	import type { ComponentProps } from 'svelte';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import { type HasKey, removeKeys } from '$lib/utils';
 	import { BROWSER } from 'esm-env';
-	import type { ComponentProps } from 'svelte';
 
 	type PointOptions<U> = U extends PointValue4d
 		? Point4dInputParams

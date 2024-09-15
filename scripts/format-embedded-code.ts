@@ -1,5 +1,5 @@
-import { getAllLibraryFiles, lintAndFormat } from './ast-tools';
 import fs from 'node:fs';
+import { getAllLibraryFiles, lintAndFormat } from './ast-tools';
 
 // Assumes all code blocks are svelte-like
 async function formatEmbeddedCode(file: string): Promise<number> {
@@ -10,7 +10,7 @@ async function formatEmbeddedCode(file: string): Promise<number> {
 		let lastIndex = 0;
 		const regex = /(```.*\n)([\S\s]*?)(\n```)/g;
 		// eslint-disable-next-line @typescript-eslint/ban-types
-		let match: RegExpExecArray | null;
+		let match: null | RegExpExecArray;
 
 		while ((match = regex.exec(data)) !== null) {
 			const [fullMatch, opening, code, closing] = match;

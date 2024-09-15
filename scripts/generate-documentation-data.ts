@@ -1,6 +1,9 @@
 // Figures out prop data from src components
 // and writes out a json and / or markdown file with the prop info in the frontmatter for each
 
+import fs from 'node:fs';
+import path from 'node:path';
+import * as yaml from 'yaml';
 import {
 	format,
 	getExportedComponents,
@@ -8,9 +11,6 @@ import {
 	getLastUpdatedDate
 } from './ast-tools';
 import { type ComponentDynamicPropTest, getComponentInfo } from './component-info';
-import fs from 'node:fs';
-import path from 'node:path';
-import * as yaml from 'yaml';
 
 async function generateComponentData(
 	componentName: string,

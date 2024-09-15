@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-import { componentMenu } from './src/utils/config-helpers';
 import starlight from '@astrojs/starlight';
 import svelte from '@astrojs/svelte';
 import compress from '@playform/compress';
 import { defineConfig } from 'astro/config';
+/* eslint-disable @typescript-eslint/naming-convention */
+import { componentMenu } from './src/utils/config-helpers';
 process.env.BROWSER = 'chromium';
 
 // https://astro.build/config

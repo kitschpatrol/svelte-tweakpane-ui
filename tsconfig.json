@@ -21,9 +21,11 @@
     "src/service-worker.js",
     "src/service-worker.ts",
     "src/service-worker.d.ts",
-    "dist/**"
+    "dist/**",
+    "./scratch"
   ],
   "include": [
+    "scripts/**/*.ts",
     "./.svelte-kit/ambient.d.ts",
     "./.svelte-kit/types/**/$types.d.ts",
     "vite.config.js",

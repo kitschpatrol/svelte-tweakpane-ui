@@ -3,16 +3,16 @@
 // build to modify the .d.ts files in dist. it needs access to the source files
 // as well. idempotent.
 
+import { type JSDoc, Project } from 'ts-morph';
 import {
-	type PropNode,
 	getAllLibraryComponentNames,
 	getDefinitionFilePath,
 	getProp,
 	getProps,
 	getSourceFilePath,
+	type PropNode,
 	queryTree
 } from './ast-tools';
-import { type JSDoc, Project } from 'ts-morph';
 
 // TODO a more robust approach that uses the typescript type checker (see ComponentInfo.ts)
 

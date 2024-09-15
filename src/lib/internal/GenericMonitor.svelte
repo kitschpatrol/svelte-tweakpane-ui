@@ -8,8 +8,8 @@
 	generics="T extends any, U extends GenericMonitorOptions, V extends GenericMonitorRef = GenericMonitorRef"
 	lang="ts"
 >
-	import GenericBinding from '$lib/internal/GenericBinding.svelte';
 	import type { ComponentProps } from 'svelte';
+	import GenericBinding from '$lib/internal/GenericBinding.svelte';
 
 	type $$Props = {
 		/**
