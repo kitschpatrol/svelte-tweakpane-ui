@@ -28,8 +28,8 @@
   "dependencies": {
     "@astrojs/check": "^0.9.3",
     "@astrojs/starlight": "0.25.5",
-    "@astrojs/svelte": "^5.7.0",
-    "astro": "^4.15.6",
+    "@astrojs/svelte": "^5.7.1",
+    "astro": "^4.15.7",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
     "sharp": "^0.33.5",
@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@playform/compress": "^0.1.1",
-    "linkedom": "^0.18.4",
+    "linkedom": "^0.18.5",
     "linkinator": "^6.1.1",
     "marked": "^14.1.2"
   }
