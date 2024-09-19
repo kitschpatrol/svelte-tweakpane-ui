@@ -45,6 +45,10 @@
 		change: TextChangeEvent;
 	};
 
+	// Do not allow for automatic detection of hex / color strings
+	// See https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/17
+	const options = { view: 'text' };
+
 	// Tweakpane's implementation only sends updates on blur we extend it to send continues change
 	// updates if desired
 	let ref: GenericInputRef;
@@ -98,4 +102,4 @@ position="inline">`.
 [Text.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Text.svelte)
 -->
 
-<GenericInput bind:value bind:ref on:change {...$$restProps} />
+<GenericInput bind:value bind:ref on:change {options} {...$$restProps} />

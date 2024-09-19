@@ -101,7 +101,6 @@ module.exports = {
 				'@typescript-eslint/no-duplicate-type-constituents': 'off',
 				'@typescript-eslint/no-redundant-type-constituents': 'off',
 				'@typescript-eslint/no-unnecessary-type-arguments': 'off',
-
 				'@typescript-eslint/restrict-plus-operands': 'off',
 				'no-return-assign': 'off',
 				'unicorn/no-null': 'off',
