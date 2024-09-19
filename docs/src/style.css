@@ -350,3 +350,38 @@ code.names span:nth-child(3) {
 	color: var(--sl-color-blue-high);
 	background: var(--sl-color-blue-low);
 }
+
+/* Try to revert unwanted CSS changes in https://github.com/withastro/starlight/commit/c5b47cbe1242f0b29b9212db72fe26590ab57d88#diff-8fb3b63b811f8b141bfcc05628c305d07580fe282ef850de3e0ff2414a89ec79L107 */
+.sl-markdown-content table:not(:where(.not-content *)) {
+	overflow: auto;
+	display: block;
+	border-spacing: unset;
+	border-collapse: collapse;
+}
+
+.sl-markdown-content tr:nth-child(2n):not(:where(.not-content *)) {
+	background-color: var(--sl-color-gray-7, var(--sl-color-gray-6));
+}
+
+.sl-markdown-content :is(th, td):not(:where(.not-content *)) {
+	padding: 0.375rem 0.8125rem;
+	vertical-align: middle;
+	border: 1px solid var(--sl-color-hairline-light);
+}
+
+.sl-markdown-content :is(th:first-child, td:first-child):not(:where(.not-content *)) {
+	padding-inline-start: 0.8125rem;
+}
+
+.sl-markdown-content :is(th:last-child, td:last-child):not(:where(.not-content *)) {
+	padding-inline-end: 0.8125rem;
+}
+
+.sl-markdown-content th:not(:where(.not-content *)) {
+	font-weight: 600;
+	color: unset;
+}
+/* Align headings to the start of the line unless set by the `align` attribute. */
+.sl-markdown-content th:not([align], :where(.not-content *)) {
+	text-align: initial;
+}
