@@ -162,7 +162,12 @@ export function getElementIndex(element: HTMLElement): number {
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	let sibling: Element | null | undefined = element;
 	while ((sibling = sibling.previousElementSibling) !== null) {
-		index++;
+		// The Element component can add extra stuff to the DOM which will mess up counting...
+		// So we add an extra class to its wrapper and don't let it increment the index.
+		// This was the cause of https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/18
+		if (!sibling.classList.contains('skip-element-index')) {
+			index++;
+		}
 	}
 
 	return index;

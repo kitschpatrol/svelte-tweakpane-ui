@@ -56,6 +56,10 @@
 	let sourceDiv: HTMLDivElement;
 
 	// Hoist the slot into the blade
+	// Note the skip-element-index on the sourceDiv which ensures
+	// consistent ordering inside tab groups when getElementIndex()
+	// is called. This is necessary to fix the bug identified in
+	// https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/18
 	$: ref?.element.replaceChildren(sourceDiv);
 </script>
 
@@ -167,7 +171,7 @@ case the `<Element>` will be implicitly wrapped in `<Pane position="inline">`.
 	/>
 {/if}
 
-<div bind:this={sourceDiv} class="element">
+<div bind:this={sourceDiv} class="element skip-element-index">
 	<div
 		class="element-container"
 		style:height={BROWSER ? null : `${maxHeight}px`}
