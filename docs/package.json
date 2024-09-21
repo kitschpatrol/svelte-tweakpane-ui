@@ -13,7 +13,7 @@
     "pnpm": ">=8.0.0"
   },
   "scripts": {
-    "build": "run-s --print-label clean build:*",
+    "build": "pnpm run --sequential /^build:/",
     "build:01-acknowledgments-data": "mkdir -p ./src/content/acknowledgments && pnpm licenses list --json > ./src/content/acknowledgments/acknowledgments-docs.json",
     "build:02-astro": "astro sync && astro check && astro build",
     "build:03-cloudflare-fix": "bash ./scripts/migrate-index.sh",
@@ -22,8 +22,8 @@
     "dev": "astro dev",
     "preview": "astro preview",
     "start": "astro dev",
-    "validate-links": "npx linkinator http://localhost:4321/svelte-tweakpane-ui --recurse --verbosity error --retry-errors-count 2 --retry-errors true --retry true --concurrency 1 --timeout 10000 --retry-errors-jitter 50 --skip www.linkedin.com",
-    "validate-links-live": "npx linkinator https://kitschpatrol.com/svelte-tweakpane-ui --recurse --verbosity error --retry-errors-count 2 --retry-errors true --retry true --concurrency 1 --timeout 10000 --retry-errors-jitter 50  --skip www.linkedin.com"
+    "validate-links": "pnpx linkinator http://localhost:4321/svelte-tweakpane-ui --recurse --verbosity error --retry-errors-count 2 --retry-errors true --retry true --concurrency 1 --timeout 10000 --retry-errors-jitter 50 --skip www.linkedin.com",
+    "validate-links-live": "pnpx linkinator https://kitschpatrol.com/svelte-tweakpane-ui --recurse --verbosity error --retry-errors-count 2 --retry-errors true --retry true --concurrency 1 --timeout 10000 --retry-errors-jitter 50  --skip www.linkedin.com"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.3",
