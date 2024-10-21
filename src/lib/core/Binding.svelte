@@ -159,7 +159,7 @@
 
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
 
-	// Good grief... can't wait for Svelte 5's fine-grained reactivity:
+	// Good grief...
 	// Work around for double-reactivity object bug
 	// https://github.com/sveltejs/svelte/pull/8992
 	// https://github.com/sveltejs/svelte/issues/4265
@@ -206,7 +206,7 @@
 
 	function onTweakpaneChange() {
 		internalChange = true;
-		object = object;
+		object[key] = copy(object[key]); // Svelte 5...
 	}
 
 	// Readonly props

@@ -189,7 +189,12 @@
 
 	// Reactivity
 	$: themeKey = getAstroTheme(astroTheme);
-	$: theme = { ...ThemeUtils.presets[themeKey], ...defaultTheme };
+
+	$: theme = {
+		// Svelte-ignore reactive_declaration_non_reactive_property
+		...ThemeUtils.presets[themeKey],
+		...defaultTheme
+	};
 	$: period = 1 / ((periodSeconds / Math.PI) * 500);
 	$: [min, max] = interval2;
 

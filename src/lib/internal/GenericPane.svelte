@@ -4,7 +4,7 @@
 	import { applyTheme, type Theme } from '$lib/theme.js';
 	import { type Plugin, updateCollapsibility } from '$lib/utils.js';
 	import { BROWSER } from 'esm-env';
-	import { getContext, onDestroy, setContext } from 'svelte';
+	import { getContext, onDestroy, setContext, tick } from 'svelte';
 	import { type Writable, writable } from 'svelte/store';
 	import { Pane as TpPane } from 'tweakpane';
 
@@ -133,8 +133,6 @@
 		console.warn('<Panes> must not be nested');
 	}
 
-	let _expanded = expanded;
-
 	if (BROWSER) {
 		$parentStore = new TpPane({ expanded, title });
 
@@ -142,7 +140,9 @@
 		// registration via the registerPlugin context function
 
 		$parentStore.on('fold', () => {
-			_expanded = $parentStore.expanded;
+			if ($parentStore.expanded !== undefined && expanded !== $parentStore.expanded) {
+				expanded = $parentStore.expanded;
+			}
 		});
 
 		tpPane = $parentStore;
@@ -174,21 +174,24 @@
 		}
 	}
 
-	function syncFolded() {
-		if (tpPane && tpPane.expanded !== _expanded) {
-			tpPane.expanded = _expanded;
-		}
-
-		expanded = _expanded;
+	function updateExpanded(expanded: boolean) {
+		void tick().then(() => {
+			if (
+				tpPane?.expanded !== undefined &&
+				expanded !== undefined &&
+				tpPane.expanded !== expanded
+			) {
+				tpPane.expanded = expanded;
+			}
+		});
 	}
 
 	$: tpPane?.element && tpPane?.element.classList.add('svelte-tweakpane-ui');
 	$: tpPane && setScale(scale);
 	$: tpPane && updateCollapsibility(userExpandable, tpPane.element, 'tp-rotv_b', 'tp-rotv_m');
-	$: tpPane && title && (tpPane.title = title);
+	$: tpPane && title !== undefined && (tpPane.title = title.length > 0 ? title : ' ');
 	$: tpPane && applyTheme(tpPane.element, theme);
-	$: _expanded, tpPane && expanded !== undefined && syncFolded();
-	$: tpPane && (_expanded = expanded);
+	$: tpPane && updateExpanded(expanded);
 </script>
 
 <!--

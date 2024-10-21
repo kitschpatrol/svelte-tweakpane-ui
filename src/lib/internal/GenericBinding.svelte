@@ -10,6 +10,7 @@
 	import type { BindingObject } from '$lib/utils.js';
 	import type { ComponentProps } from 'svelte';
 	import Binding from '$lib/core/Binding.svelte';
+	import { shallowEqual } from 'fast-equals';
 
 	type BindableValue = BindingObject & Record<string, T>;
 
@@ -35,7 +36,9 @@
 	}
 
 	function setValue() {
-		object[key] = value;
+		if (!shallowEqual(value, object[key])) {
+			object[key] = value;
+		}
 	}
 
 	$: object = { [key]: getValue() };

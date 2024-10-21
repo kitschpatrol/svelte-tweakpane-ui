@@ -18,6 +18,7 @@
 	import type { ComponentProps } from 'svelte';
 	import GenericSlider from '$lib/internal/GenericSlider.svelte';
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials';
+	import { shallowEqual } from 'fast-equals';
 
 	type $$Props = {
 		/**
@@ -59,28 +60,37 @@
 	// Proxy value since Tweakpane only supports Point3dObject type
 	let internalValue: IntervalObject;
 
-	function updateInternalValue() {
-		if (Array.isArray(value)) {
-			const [min, max] = value;
-			internalValue = { min, max };
-		} else {
-			internalValue = value;
+	function updateInternalValueFromValue() {
+		// Internal value is always an object
+		// Manual difference checks required to prevent Svelte 5 infinite update loops
+		const newInternalValue = Array.isArray(value) ? { min: value[0], max: value[1] } : value;
+		if (!shallowEqual(internalValue, newInternalValue)) {
+			internalValue = { ...newInternalValue };
 		}
 	}
 
-	function updateValue() {
+	function updateValueFromInternalValue() {
+		// External value can be object or tuple
+		// Manual difference checks required to prevent Svelte 5 infinite update loops
 		if (Array.isArray(value)) {
-			const { min, max } = internalValue;
-			value = [min, max];
-		} else {
-			value = internalValue;
+			const newValue: IntervalSliderValueTuple = [internalValue.min, internalValue.max];
+			if (!shallowEqual(value, newValue)) {
+				value = newValue;
+			}
+		} else if (!shallowEqual(value, internalValue)) {
+			value = { ...internalValue };
 		}
 	}
 
 	function updateValueFromMean() {
 		if (meanValue !== undefined) {
 			const r = internalValue.max - internalValue.min;
-			internalValue = { min: meanValue - r / 2, max: meanValue + r / 2 };
+			const valueFromMean = { min: meanValue - r / 2, max: meanValue + r / 2 };
+
+			// Manual difference checks required to prevent Svelte 5 infinite update loops
+			if (!shallowEqual(valueFromMean, internalValue)) {
+				internalValue = valueFromMean;
+			}
 		}
 	}
 
@@ -97,8 +107,8 @@
 
 	$: ref && wide !== undefined && updateWide(wide);
 
-	$: value, updateInternalValue();
-	$: internalValue, updateValue();
+	$: value, updateInternalValueFromValue();
+	$: internalValue, updateValueFromInternalValue();
 	$: meanValue = (internalValue.min + internalValue.max) / 2;
 	$: meanValue, updateValueFromMean();
 </script>

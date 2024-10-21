@@ -29,6 +29,7 @@
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation';
 	import { BROWSER } from 'esm-env';
+	import { shallowEqual } from 'fast-equals';
 
 	type $$Props = {
 		/**
@@ -120,26 +121,30 @@
 	// Work-around for funky folding
 	const buttonClass = 'tp-rotationswatchv_b';
 
-	function updateInternalValue() {
+	function updateInternalValueFromValue() {
 		if (Array.isArray(value)) {
-			const [x, y, z] = value;
-			internalValue = { x, y, z };
-		} else {
-			internalValue = value;
+			const newInternalValue = { x: value[0], y: value[1], z: value[2] };
+			if (!shallowEqual(newInternalValue, internalValue)) {
+				internalValue = newInternalValue;
+			}
+		} else if (!shallowEqual(value, internalValue)) {
+			internalValue = { ...value };
 		}
 	}
 
-	function updateValue() {
+	function updateValueFromInternalValue() {
 		if (Array.isArray(value)) {
-			const { x, y, z } = internalValue;
-			value = [x, y, z];
-		} else {
-			value = internalValue;
+			const newValue: RotationEulerValueTuple = [internalValue.x, internalValue.y, internalValue.z];
+			if (!shallowEqual(newValue, value)) {
+				value = newValue;
+			}
+		} else if (!shallowEqual(internalValue, value)) {
+			value = { ...internalValue };
 		}
 	}
 
-	$: value, updateInternalValue();
-	$: internalValue, updateValue();
+	$: value, updateInternalValueFromValue();
+	$: internalValue, updateValueFromInternalValue();
 	$: options = {
 		x: optionsX,
 		y: optionsY,

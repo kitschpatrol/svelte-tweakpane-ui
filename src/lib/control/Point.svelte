@@ -40,6 +40,7 @@
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import { type HasKey, removeKeys } from '$lib/utils';
 	import { BROWSER } from 'esm-env';
+	import { shallowEqual } from 'fast-equals';
 
 	type PointOptions<U> = U extends PointValue4d
 		? Point4dInputParams
@@ -203,42 +204,44 @@
 	// Work-around for funky folding
 	const buttonClass = 'tp-p2dv_b';
 
-	function updateInternalValue() {
+	function updateInternalValueFromValue() {
 		if (Array.isArray(value)) {
-			if (value.length === 4) {
-				const [x, y, z, w] = value;
-				internalValue = { x, y, z, w } as InternalPoint<T>;
-			} else if (value.length === 3) {
-				const [x, y, z] = value;
-				internalValue = { x, y, z } as InternalPoint<T>;
-			} else {
-				const [x, y] = value;
-				internalValue = { x, y } as InternalPoint<T>;
+			const newInternalValue = (
+				value.length === 4
+					? { x: value[0], y: value[1], z: value[2], w: value[3] }
+					: value.length === 3
+						? { x: value[0], y: value[1], z: value[2] }
+						: { x: value[0], y: value[1] }
+			) as InternalPoint<T>;
+
+			if (!shallowEqual(internalValue, newInternalValue)) {
+				internalValue = newInternalValue;
 			}
-		} else {
-			internalValue = value as InternalPoint<T>;
+		} else if (!shallowEqual(internalValue, value)) {
+			internalValue = { ...value } as InternalPoint<T>;
 		}
 	}
 
-	function updateValue() {
+	function updateValueFromInternalValue() {
 		if (Array.isArray(value)) {
-			if ('w' in internalValue) {
-				const { x, y, z, w } = internalValue;
-				value = [x, y, z, w] as T;
-			} else if ('z' in internalValue) {
-				const { x, y, z } = internalValue;
-				value = [x, y, z] as T;
-			} else {
-				const { x, y } = internalValue;
-				value = [x, y] as T;
+			const newValue = (
+				'w' in internalValue
+					? [internalValue.x, internalValue.y, internalValue.z, internalValue.w]
+					: 'z' in internalValue
+						? [internalValue.x, internalValue.y, internalValue.z]
+						: [internalValue.x, internalValue.y]
+			) as T;
+
+			if (!shallowEqual(value, newValue)) {
+				value = newValue;
 			}
-		} else {
-			value = internalValue as T;
+		} else if (!shallowEqual(value, internalValue)) {
+			value = { ...internalValue } as T;
 		}
 	}
 
-	$: value, updateInternalValue();
-	$: internalValue, updateValue();
+	$: value, updateInternalValueFromValue();
+	$: internalValue, updateValueFromInternalValue();
 	$: options = {
 		x: optionsX,
 		y: optionsY,

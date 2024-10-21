@@ -25,6 +25,7 @@
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation';
 	import { BROWSER } from 'esm-env';
+	import { shallowEqual } from 'fast-equals';
 
 	// TODO add some utility functions to get matrices etc. from quaternions?
 	type $$Props = {
@@ -108,26 +109,35 @@
 	// Work-around for funky folding
 	const buttonClass = 'tp-rotationswatchv_b';
 
-	function updateInternalValue() {
+	function updateInternalValueFromValue() {
 		if (Array.isArray(value)) {
-			const [x, y, z, w] = value;
-			internalValue = { x, y, z, w };
-		} else {
-			internalValue = value;
+			const newInternalValue = { x: value[0], y: value[1], z: value[2], w: value[3] };
+			if (!shallowEqual(newInternalValue, internalValue)) {
+				internalValue = newInternalValue;
+			}
+		} else if (!shallowEqual(value, internalValue)) {
+			internalValue = { ...value };
 		}
 	}
 
-	function updateValue() {
+	function updateValueFromInternalValue() {
 		if (Array.isArray(value)) {
-			const { x, y, z, w } = internalValue;
-			value = [x, y, z, w];
-		} else {
-			value = internalValue;
+			const newValue: RotationQuaternionValueTuple = [
+				internalValue.x,
+				internalValue.y,
+				internalValue.z,
+				internalValue.w
+			];
+			if (!shallowEqual(newValue, value)) {
+				value = newValue;
+			}
+		} else if (!shallowEqual(internalValue, value)) {
+			value = { ...internalValue };
 		}
 	}
 
-	$: value, updateInternalValue();
-	$: internalValue, updateValue();
+	$: value, updateInternalValueFromValue();
+	$: internalValue, updateValueFromInternalValue();
 	$: options = {
 		x: optionsX,
 		y: optionsY,

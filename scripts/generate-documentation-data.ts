@@ -30,6 +30,11 @@ async function generateComponentData(
 
 		let content: string;
 		switch (outputFormat) {
+			case 'json': {
+				content = await format(JSON.stringify(componentInfo, undefined, 2), 'json');
+				break;
+			}
+
 			case 'mdx': {
 				{
 					// Add some extra metadata for Astro
@@ -79,11 +84,6 @@ async function generateComponentData(
 					// }
 				}
 
-				break;
-			}
-
-			case 'json': {
-				content = await format(JSON.stringify(componentInfo, undefined, 2), 'json');
 				break;
 			}
 		}

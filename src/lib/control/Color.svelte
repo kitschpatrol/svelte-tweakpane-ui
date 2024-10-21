@@ -28,10 +28,11 @@
 	import type { ColorInputParams as ColorOptions, InputBindingApi as ColorRef } from 'tweakpane';
 	import ClsPad from '$lib/internal/ClsPad.svelte';
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
-	import { objectToTuple, tupleToObject } from '$lib/utils';
+	import { objectToTuple } from '$lib/utils';
 	import { fillWith } from '$lib/utils';
-	import { isColorObject, isObject, isRgbaColorObject, isRgbColorObject } from '@tweakpane/core';
+	import { isColorObject, isRgbaColorObject, isRgbColorObject } from '@tweakpane/core';
 	import { BROWSER } from 'esm-env';
+	import { shallowEqual } from 'fast-equals';
 
 	type ColorValueInternal = ColorValueRgbaObject | ColorValueRgbObject | ColorValueString;
 
@@ -83,36 +84,57 @@
 	// Work-around for funky folding
 	const buttonClass = 'tp-colswv_b';
 
-	function updateInternalValue() {
-		if (Array.isArray(value)) {
-			if (value.length === 4) {
-				internalValue = tupleToObject(value, ['r', 'g', 'b', 'a']);
-			} else if (value.length === 3) {
-				internalValue = tupleToObject(value, ['r', 'g', 'b']);
-			} else {
+	function updateInternalValueFromValue() {
+		// External value can change internal type on the fly, but internal value can never change external value type!
+		// Internal value must be string or object for Tweakpane compatibility
+		if (typeof value === 'string') {
+			if (internalValue !== value) {
+				internalValue = value;
+			}
+		} else if (isColorObject(value)) {
+			if (!shallowEqual(value, internalValue)) {
+				internalValue = { ...value } as ColorValueRgbaObject | ColorValueRgbObject;
+			}
+		} else if (Array.isArray(value)) {
+			let newInternalValue: ColorValueRgbaObject | ColorValueRgbObject | undefined =
+				value.length === 4
+					? { r: value[0], g: value[1], b: value[2], a: value[3] }
+					: value.length === 3
+						? { r: value[0], g: value[1], b: value[2] }
+						: undefined;
+			if (newInternalValue === undefined) {
 				console.error('Unreachable');
+			} else if (!shallowEqual(newInternalValue, internalValue)) {
+				internalValue = newInternalValue;
 			}
 		} else {
-			// String or object
-			internalValue = value;
+			console.error('Unreachable');
 		}
 	}
 
-	function updateValue() {
-		if (Array.isArray(value) && isColorObject(internalValue)) {
-			if (isRgbaColorObject(internalValue)) {
-				value = objectToTuple(internalValue, ['r', 'g', 'b', 'a']);
-			} else if (isRgbColorObject(internalValue)) {
-				value = objectToTuple(internalValue, ['r', 'g', 'b']);
-			} else {
-				console.error('Unreachable');
+	function updateValueFromInternalValue() {
+		if (typeof value === 'string' && typeof internalValue === 'string') {
+			if (internalValue !== value) {
+				value = internalValue;
 			}
-		} else if (typeof value === 'string') {
-			value = internalValue;
-		} else if (isObject(value)) {
-			value = internalValue;
+		} else if (Array.isArray(value) && isColorObject(internalValue)) {
+			const newValue = isRgbaColorObject(internalValue)
+				? objectToTuple(internalValue, ['r', 'g', 'b', 'a'])
+				: isRgbColorObject(internalValue)
+					? objectToTuple(internalValue, ['r', 'g', 'b'])
+					: undefined;
+
+			if (newValue === undefined) {
+				console.error('Unreachable color type mismatch');
+			} else if (!shallowEqual(newValue, value)) {
+				value = newValue;
+			}
+		} else if (isColorObject(value) && isColorObject(internalValue)) {
+			if (!shallowEqual(internalValue, value)) {
+				value = { ...internalValue };
+			}
 		} else {
-			console.error('Unreachable');
+			console.error('Unreachable color type mismatch');
 		}
 	}
 
@@ -128,8 +150,8 @@
 		});
 	}
 
-	$: value, updateInternalValue();
-	$: internalValue, updateValue();
+	$: value, updateInternalValueFromValue();
+	$: internalValue, updateValueFromInternalValue();
 	$: ref !== undefined && addListeners();
 	$: options = {
 		color: {

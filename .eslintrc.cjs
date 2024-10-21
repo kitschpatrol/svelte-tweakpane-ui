@@ -26,7 +26,6 @@ const perfectionistSortOverrides = {
 	},
 	groups: [
 		'value',
-		['x', 'y', 'z'],
 		'x',
 		'y',
 		'z',
@@ -105,6 +104,13 @@ module.exports = {
 				'no-return-assign': 'off',
 				'unicorn/no-null': 'off',
 				'unicorn/prefer-export-from': 'off'
+			}
+		},
+		{
+			files: ['HomeDemo.svelte', 'TweakpaneDemo.svelte'],
+			rules: {
+				// Overzealous Svelte 5 warning...
+				'svelte/valid-compile': 'off'
 			}
 		},
 		{
