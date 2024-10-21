@@ -146,6 +146,8 @@
 	}
 
 	onMount(() => {
+		let animationFrameHandle: number;
+
 		(function tick() {
 			// Nesting measurements creates a hierarchy in the Profile visualization
 			measure('Tick', () => {
@@ -171,8 +173,12 @@
 				});
 			});
 
-			requestAnimationFrame(tick);
+			animationFrameHandle = requestAnimationFrame(tick);
 		})();
+
+		return () => {
+			cancelAnimationFrame(animationFrameHandle);
+		};
 	});
 </script>
 

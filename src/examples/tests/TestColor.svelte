@@ -45,7 +45,7 @@
 			binding3ExternalEventCount++;
 		}
 	}}
-	label="Binding 1"
+	label="Binding 3"
 />
 <Color
 	bind:value={value2}
@@ -56,7 +56,7 @@
 			binding4ExternalEventCount++;
 		}
 	}}
-	label="Binding 2"
+	label="Binding 4"
 />
 
 <hr />
