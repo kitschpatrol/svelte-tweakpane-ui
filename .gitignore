@@ -27,3 +27,6 @@ src/examples/components
 docs/src/content/docs/docs/components
 docs/src/content/acknowledgments
 docs/src/examples
+
+# svelte-5 test project
+svelte-5/src
