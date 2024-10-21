@@ -254,6 +254,8 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
   }
 
   onMount(() => {
+    let animationFrameHandle: number;
+
     (function tick() {
       // Nesting measurements creates a hierarchy
       // in the Profile visualization
@@ -282,6 +284,10 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 
       requestAnimationFrame(tick);
     })();
+
+    return () => {
+      cancelAnimationFrame(animationFrameHandle);
+    };
   });
 </script>
 
