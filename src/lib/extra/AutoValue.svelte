@@ -58,7 +58,7 @@ Plugin component behavior is not available in `<AutoValue>`.
   import { AutoValue } from 'svelte-tweakpane-ui';
 
   let number = 0;
-  let color = '#ff00ff';
+  let color = { r: 255, g: 0, b: 255 };
   let point = { x: 0, y: 0 };
   let text = 'Cosmic manifold';
 </script>

@@ -131,7 +131,7 @@ case the `<Element>` will be implicitly wrapped in `<Pane position="inline">`.
       gradientAngle = 45;
       textAngle = 0;
     }}
-    disabled={gradientAngle == 45 && textAngle == 0}
+    disabled={gradientAngle === 45 && textAngle === 0}
     title="Reset"
   />
 </Pane>

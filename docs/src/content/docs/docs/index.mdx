@@ -20,7 +20,7 @@ The library makes it easy to quickly and declaratively add knobs and dials to yo
 
 The components should be useful for integrating controls and value monitoring in parametrically driven artworks or simulations. For some use cases, it could also present a viable alternative to traditional component libraries altogether.
 
-It's open-source, MIT-licensed, extensively documented, and is compatible with Svelte 4 and Tweakpane 4. It should work anywhere Svelte works, including [SvelteKit](https://kit.svelte.dev/) and "island" frameworks like [Astro](https://astro.build/). _Svelte Tweakpane UI_ is distributed as an [NPM package](http://npmjs.com/package/svelte-tweakpane-ui), and the source code is available on [GitHub](https://github.com/kitschpatrol/svelte-tweakpane-ui).
+It's open-source, MIT-licensed, extensively documented, and is compatible with Svelte 4 and Svelte 5. It should work anywhere Svelte works, including [SvelteKit](https://kit.svelte.dev/) and "island" frameworks like [Astro](https://astro.build/). _Svelte Tweakpane UI_ is distributed as an [NPM package](http://npmjs.com/package/svelte-tweakpane-ui), and the source code is available on [GitHub](https://github.com/kitschpatrol/svelte-tweakpane-ui).
 
 ---
 
@@ -250,7 +250,7 @@ The vanilla tweakpane API is highly dynamic, and the availability of various opt
 
 Svelte's component API is comparatively static, and the availability of props is typically fixed at compile time... but several _Svelte Tweakpane UI_ components feature dynamic properties that are added / removed from the component depending on the presence or type of other props.
 
-Dynamic props are used in cases where the clarity of a component's purpose isn't compromised by a bit of dynamism (e.g. `<Pane>`), or where the alternative would be to create a large number of very similar components (e.g. `<Monitor>`.
+Dynamic props are used in cases where the clarity of a component's purpose isn't compromised by a bit of dynamism (e.g. `<Pane>`), or where the alternative would be to create a large number of very similar components (e.g. `<Monitor>`).
 
 Svelte's approach to supporting dynamic props is still evolving, and the right balance between flexibility and predictability is subject to reconsideration in subsequent versions of Svelte Tweakpane UI.
 
@@ -305,4 +305,12 @@ _Svelte Tweakpane UI_ drew some inspiration from these projects, but was develop
 
 ## Svelte 5 compatibility
 
-At the moment, _Svelte Tweakpane UI_ is compatible with Svelte 4 only, but Svelte 5 support is on the roadmap. Some components work with recent preview releases of Svelte 5, but there are some bugs and incompatibilities that will need to be resolved.
+**As of version 1.4, _Svelte Tweakpane UI_ is fully compatible with Svelte 5.**
+
+The library itself is (currently) written in the Svelte 4 style, which is now considered "Legacy" mode (vs. the new "Runes" mode) in Svelte 5, but the components will compile and work fine in Svelte 5 projects.
+
+Svelte libraries are distributed as source, not as compiled components, so the version of Svelte actually used to build and run your Svelte Tweakpane UI components is determined by the Svelte version of the containing project — not by the library itself.
+
+Due to some subtle differences in how Svelte 5 compiles Svelte 4 "legacy" code, there are some rare edge cases where you might see slightly different behavior in components compiled with Svelte 5 vs. Svelte 4. If you encounter an intractable case, please [open an issue](https://github.com/kitschpatrol/svelte-tweakpane-ui/issues).
+
+Longer-term, I'd like to rewrite the library in the Svelte 5 "Runes" style; there's complexity in the current implementation around fine-grained reactivity that I'd love to simplify — but at this point I'd rather not maintain separate versions of Svelte Tweakpane UI for Svelte 4 and Svelte 5.

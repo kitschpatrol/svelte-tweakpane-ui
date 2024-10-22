@@ -40,6 +40,8 @@ The library makes it easy to quickly and declaratively add knobs and dials to yo
 
 [The components](https://kitschpatrol.com/svelte-tweakpane-ui/docs#components) should be useful for integrating controls and value monitoring in parametrically driven artworks, data visualizations, creative tools, simulations, etc.
 
+The library is compatible with both Svelte 4 and Svelte 5.
+
 ## Demo
 
 ![Svelte Tweakpane UI quick demo](./docs/public/quick-demo.gif)
