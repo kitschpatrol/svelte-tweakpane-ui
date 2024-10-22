@@ -4,7 +4,7 @@
 	let source = 'placeholder';
 
 	async function getRandomKittenUrl() {
-		const { url } = await fetch('https://source.unsplash.com/800x800/?kitten', {
+		const { url } = await fetch('https://loremflickr.com/800/800/kitten', {
 			method: 'HEAD',
 			redirect: 'follow'
 		});

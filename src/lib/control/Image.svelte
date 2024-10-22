@@ -98,10 +98,10 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
   let source = 'placeholder';
 
   async function getRandomKittenUrl() {
-    const { url } = await fetch(
-      'https://source.unsplash.com/800x800/?kitten',
-      { method: 'HEAD', redirect: 'follow' }
-    );
+    const { url } = await fetch('https://loremflickr.com/800/800/kitten', {
+      method: 'HEAD',
+      redirect: 'follow'
+    });
     return url;
   }
 </script>
