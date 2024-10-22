@@ -214,7 +214,7 @@
     "kit-examples": "tsx ./scripts/generate-kit-examples.ts",
     "kit-preview": "vite preview",
     "lint": "shared-config --check",
-    "release": "pnpm run --sequential release:*",
+    "release": "pnpm run --sequential /^release:/",
     "release:1-build": "pnpm run build",
     "release:2-version": "bumpp --commit 'Release: %s'",
     "release:3-publish": "pnpm publish --ignore-scripts --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
