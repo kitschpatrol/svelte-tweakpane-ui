@@ -7,7 +7,7 @@
 
 <script lang="ts">
 	import GenericSlider from '$lib/internal/GenericSlider.svelte';
-	import { type ComponentProps, onMount } from 'svelte';
+	import { type ComponentProps } from 'svelte';
 
 	type $$Props = {
 		/**

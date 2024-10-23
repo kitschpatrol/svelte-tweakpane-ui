@@ -84,6 +84,10 @@
       "types": "./dist/control/Slider.svelte.d.ts",
       "svelte": "./dist/control/Slider.svelte"
     },
+    "./Stepper.svelte": {
+      "types": "./dist/control/Stepper.svelte.d.ts",
+      "svelte": "./dist/control/Stepper.svelte"
+    },
     "./Text.svelte": {
       "types": "./dist/control/Text.svelte.d.ts",
       "svelte": "./dist/control/Text.svelte"
@@ -234,6 +238,7 @@
     "@kitschpatrol/tweakpane-plugin-camerakit": "0.3.1-beta.2",
     "@kitschpatrol/tweakpane-plugin-essentials": "0.2.2-beta.2",
     "@kitschpatrol/tweakpane-plugin-image": "2.0.1-beta.4",
+    "@kitschpatrol/tweakpane-plugin-inputs": "1.0.4-beta.3",
     "@kitschpatrol/tweakpane-plugin-profiler": "0.4.2-beta.2",
     "@kitschpatrol/tweakpane-plugin-rotation": "0.2.1-beta.1",
     "@kitschpatrol/tweakpane-plugin-textarea": "2.0.1-beta.1",

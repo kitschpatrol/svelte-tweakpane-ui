@@ -84,6 +84,7 @@ export {
 	type RotationQuaternionValueTuple
 } from '$lib/control/RotationQuaternion.svelte';
 export { default as Slider, type SliderChangeEvent } from '$lib/control/Slider.svelte';
+export { default as Stepper, type StepperChangeEvent } from '$lib/control/Stepper.svelte';
 export { default as Text, type TextChangeEvent } from '$lib/control/Text.svelte';
 export { default as Textarea, type TextareaChangeEvent } from '$lib/control/Textarea.svelte';
 export { default as Wheel, type WheelChangeEvent } from '$lib/control/Wheel.svelte';

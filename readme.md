@@ -34,7 +34,7 @@
 
 ## Overview
 
-🎛️ **_Svelte Tweakpane UI_** wraps user-interface elements from the excellent [Tweakpane](https://tweakpane.github.io/docs/) library in a collection of <!-- component-count -->31<!-- /component-count --> idiomatic, reactive, type-safe, carefully-crafted, and obsessively-documented [Svelte](https://svelte.dev) components.
+🎛️ **_Svelte Tweakpane UI_** wraps user-interface elements from the excellent [Tweakpane](https://tweakpane.github.io/docs/) library in a collection of <!-- component-count -->32<!-- /component-count --> idiomatic, reactive, type-safe, carefully-crafted, and obsessively-documented [Svelte](https://svelte.dev) components.
 
 The library makes it easy to quickly and declaratively add knobs and dials to your projects using components that feel like they were made for Svelte. It also augments Tweakpane with a few [extra features](https://kitschpatrol.com/svelte-tweakpane-ui/docs/features) for your convenience and enjoyment.
 
@@ -120,6 +120,8 @@ npm install svelte-tweakpane-ui
   Integrates the [quaternion rotation](https://github.com/0b5vr/tweakpane-plugin-rotation/blob/dev/src/RotationInputPluginQuaternion.ts) control from [0b5vr](https://0b5vr.com)'s [tweakpane-plugin-rotation](https://github.com/0b5vr/tweakpane-plugin-rotation).
 - **[Slider](https://kitschpatrol.com/svelte-tweakpane-ui/docs/components/slider)**\
   A slider component providing fine-grained control over numeric values.
+- **[Stepper](https://kitschpatrol.com/svelte-tweakpane-ui/docs/components/stepper)**\
+  A control for simple incremental value changes.
 - **[Text](https://kitschpatrol.com/svelte-tweakpane-ui/docs/components/text)**\
   A text field, in the spirit of the HTML `<input type="text">` element.
 - **[Textarea](https://kitschpatrol.com/svelte-tweakpane-ui/docs/components/textarea)**\
