@@ -6,8 +6,8 @@
 </script>
 
 <script lang="ts">
-	import type { ComponentProps } from 'svelte';
 	import GenericSlider from '$lib/internal/GenericSlider.svelte';
+	import { type ComponentProps, onMount } from 'svelte';
 
 	type $$Props = {
 		/**
@@ -90,4 +90,4 @@ Usage outside of a `<Pane>` component will implicitly wrap the slider in `<Pane 
 [Slider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Slider.svelte)
 -->
 
-<GenericSlider bind:value bind:ref bind:wide on:change {...$$restProps} />
+<GenericSlider bind:value bind:ref on:change {...$$restProps} />
