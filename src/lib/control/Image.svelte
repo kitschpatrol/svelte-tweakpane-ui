@@ -81,6 +81,8 @@ incorporating work by [Florian Morel](http://ayamflow.fr), [Matheus
 Dias](https://www.linkedin.com/in/matheusdbs/), [Palash Bansal](https://github.com/repalash), and
 others.
 
+Use the `<File>` control instead if you're working with other file types, or don't wish to display a thumbnail preview of an uploaded image.
+
 There is currently a known bug where change events' `origin` values are sometimes incorrect. (This issue is limited to this component.)
 
 Usage outside of a `<Pane>` component will implicitly wrap the image control in `<Pane

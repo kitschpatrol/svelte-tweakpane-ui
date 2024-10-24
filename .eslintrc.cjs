@@ -107,6 +107,12 @@ module.exports = {
 			}
 		},
 		{
+			files: ['FileExample.svelte'],
+			rules: {
+				'unicorn/prefer-top-level-await': 'off'
+			}
+		},
+		{
 			files: ['HomeDemo.svelte', 'TweakpaneDemo.svelte'],
 			rules: {
 				// Overzealous Svelte 5 warning...

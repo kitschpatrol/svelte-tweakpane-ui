@@ -165,8 +165,22 @@
 	// https://github.com/sveltejs/svelte/issues/4265
 	// Switching to <svelte:options immutable={true} />
 	// at this point would be more involved
+
+	function safeCopy<T>(value: T): T {
+		// Special case for File objects to prevent context loss
+		if (value instanceof File) {
+			return new File([value], value.name, {
+				lastModified: value.lastModified,
+				type: value.type
+			}) as T;
+		}
+
+		// Use fast-copy for everything else
+		return copy(value);
+	}
+
 	let lastObject: T = object;
-	let lastValue: T[keyof T] = copy(object[key]);
+	let lastValue: T[keyof T] = safeCopy(object[key]);
 	let internalChange = false;
 	function onBoundValueChange(object: T) {
 		// Check svelte implementation?
@@ -179,10 +193,10 @@
 		}
 
 		if (!shallowEqual(object[key], lastValue)) {
-			lastValue = copy(object[key]);
+			lastValue = safeCopy(object[key]);
 
 			dispatch('change', {
-				value: copy(object[key]),
+				value: safeCopy(object[key]),
 				origin: internalChange ? 'internal' : 'external'
 			});
 
@@ -206,7 +220,7 @@
 
 	function onTweakpaneChange() {
 		internalChange = true;
-		object[key] = copy(object[key]); // Svelte 5...
+		object[key] = safeCopy(object[key]); // Svelte 5...
 	}
 
 	// Readonly props

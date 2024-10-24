@@ -48,6 +48,10 @@
       "types": "./dist/control/CubicBezier.svelte.d.ts",
       "svelte": "./dist/control/CubicBezier.svelte"
     },
+    "./File.svelte": {
+      "types": "./dist/control/File.svelte.d.ts",
+      "svelte": "./dist/control/File.svelte"
+    },
     "./Image.svelte": {
       "types": "./dist/control/Image.svelte.d.ts",
       "svelte": "./dist/control/Image.svelte"
@@ -237,6 +241,7 @@
   "dependencies": {
     "@kitschpatrol/tweakpane-plugin-camerakit": "0.3.1-beta.2",
     "@kitschpatrol/tweakpane-plugin-essentials": "0.2.2-beta.2",
+    "@kitschpatrol/tweakpane-plugin-file-import": "1.1.2-beta.1",
     "@kitschpatrol/tweakpane-plugin-image": "2.0.1-beta.4",
     "@kitschpatrol/tweakpane-plugin-inputs": "1.0.4-beta.3",
     "@kitschpatrol/tweakpane-plugin-profiler": "0.4.2-beta.2",
