@@ -15,6 +15,14 @@
 </script>
 
 <script lang="ts">
+	/* TODO Fix overflow bug from the plugin...
+	/* <style>
+	/*    :global(div.svelte-tweakpane-ui div.tp-cbzv:not(tp-cbzv-expanded) div.tp-cbzv_p) {
+	/* 	  overflow: hidden !important;
+	/*   }
+  /* </style> 
+  */
+
 	// TODO calc util already in TP?
 	import type { CubicBezierApi as CubicBezierRef } from '@kitschpatrol/tweakpane-plugin-essentials';
 	import type { CubicBezierBladeParams as CubicBezierOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/cubic-bezier/plugin.d.ts';
@@ -252,10 +260,3 @@ Note that _Svelte Tweakpane UI_ embeds a [fork](https://github.com/kitschpatrol/
 		<ClsPad keysAdd={fillWith('containerUnitSpacing', 2)} theme={$$props.theme} />
 	{/if}
 {/if}
-
-<style>
-	/* Fix overflow bug from the plugin TODO PR */
-	:global(div.svelte-tweakpane-ui div.tp-cbzv:not(tp-cbzv-expanded) div.tp-cbzv_p) {
-		overflow: hidden !important;
-	}
-</style>
