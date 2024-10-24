@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import type { ValueChangeEvent } from '$lib/utils.js';
 
-	export type ImageValue = 'placeholder' | File | HTMLImageElement | string | undefined;
+	export type ImageValue = string | undefined;
 	export type ImageChangeEvent = ValueChangeEvent<ImageValue>;
 </script>
 
@@ -16,11 +16,14 @@
 	import { fillWith } from '$lib/utils';
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-image';
 	import { BROWSER } from 'esm-env';
+	import { shallowEqual } from 'fast-equals';
+
+	type ImageValueInternal = 'placeholder' | File | HTMLImageElement | string | undefined;
 
 	type $$Props = {
 		/**
-		 * Image data
-		 * @default `'placeholder'`
+		 * Image data as Base64-encoded string, or `undefined` to clear.
+		 * @default `'undefined'`
 		 * @bindable
 		 */
 		value?: ImageValue;
@@ -36,10 +39,10 @@
 		 * @default `'cover'`
 		 */
 		fit?: 'contain' | 'cover';
-	} & Omit<ComponentProps<GenericInput<ImageValue>>, 'plugin' | 'ref' | 'value'>;
+	} & Omit<ComponentProps<GenericInput<ImageValueInternal>>, 'plugin' | 'ref' | 'value'>;
 
 	// Unique
-	export let value: $$Props['value'] = 'placeholder';
+	export let value: $$Props['value'] = undefined;
 	export let fit: $$Props['fit'] = undefined;
 	export let extensions: $$Props['extensions'] = undefined;
 
@@ -60,6 +63,38 @@
 		change: ImageChangeEvent;
 	};
 
+	let internalValue: ImageValueInternal = 'placeholder';
+
+	function updateInternalValueFromValue() {
+		// Manual difference checks required to prevent Svelte 5 infinite update loops
+		const newInternalValue: ImageValueInternal = value ?? 'placeholder';
+		if (!shallowEqual(internalValue, newInternalValue)) {
+			internalValue = newInternalValue;
+		}
+	}
+
+	function updateValueFromInternalValue() {
+		// Manual difference checks required to prevent Svelte 5 infinite update loops
+		if (internalValue === 'placeholder') {
+			if (value !== undefined) {
+				value = undefined;
+			}
+		} else if (internalValue instanceof HTMLImageElement) {
+			if (value !== internalValue.src) {
+				value = internalValue.src;
+			}
+		} else if (internalValue instanceof File) {
+			// TODO if / when the plugin ever actually returns a File object...
+			console.warn('Image control does not support File objects.');
+			if (value !== undefined) {
+				value = undefined;
+			}
+		} else if (value !== internalValue) {
+			// Base64 string
+			value = internalValue;
+		}
+	}
+
 	let options: ImageOptions;
 
 	$: options = {
@@ -67,6 +102,9 @@
 		imageFit: fit,
 		view: 'input-image'
 	};
+
+	$: value, updateInternalValueFromValue();
+	$: internalValue, updateValueFromInternalValue();
 </script>
 
 <!--
@@ -95,9 +133,9 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 @example  
 ```svelte
 <script lang="ts">
-  import { Button, Image } from 'svelte-tweakpane-ui';
+  import { Button, Image, type ImageValue } from '$lib';
 
-  let source = 'placeholder';
+  let source: ImageValue;
 
   async function getRandomKittenUrl() {
     const { url } = await fetch('https://loremflickr.com/800/800/kitten', {
@@ -118,9 +156,9 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 />
 
 <div class="demo">
-  {#if source === 'placeholder'}
+  {#if source === undefined}
     <p>Tap “No Image” above to load an image from disk.</p>
-  {:else}
+  {:else if typeof source === 'string'}
     <img alt="" src={source} />
   {/if}
 </div>
@@ -152,7 +190,13 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 [Image.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Image.svelte)
 -->
 
-<GenericInput bind:value on:change {options} plugin={pluginModule} {...$$restProps} />
+<GenericInput
+	bind:value={internalValue}
+	on:change
+	{options}
+	plugin={pluginModule}
+	{...$$restProps}
+/>
 {#if !BROWSER}
 	<ClsPad keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} />
 {/if}

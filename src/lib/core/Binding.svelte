@@ -167,12 +167,19 @@
 	// at this point would be more involved
 
 	function safeCopy<T>(value: T): T {
-		// Special case for File objects to prevent context loss
+		// Special case for File objects from <File> component to prevent context loss
 		if (value instanceof File) {
 			return new File([value], value.name, {
 				lastModified: value.lastModified,
 				type: value.type
 			}) as T;
+		}
+
+		// Special case for <Image> component to prevent context loss
+		if (BROWSER && value instanceof HTMLImageElement) {
+			const copy = new Image();
+			copy.src = value.src;
+			return copy as T;
 		}
 
 		// Use fast-copy for everything else
