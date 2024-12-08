@@ -1,4 +1,4 @@
-name: Overwrite GitHub repo metadata with info from package.json
+name: Set GitHub Metadata
 on:
   push:
     branches: [main]
@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Sync Metadata
+    name: Set GitHub Metadata
     runs-on: ubuntu-latest
     env:
       IS_VALID_TOKEN: false
