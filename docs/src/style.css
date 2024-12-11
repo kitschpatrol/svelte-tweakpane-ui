@@ -185,17 +185,6 @@ nav ul li a[aria-current='page']:hover {
 	transition: background-color 0s ease;
 }
 
-/* Scroll sidebar content, not container... */
-/* stylelint-disable-next-line selector-id-pattern */
-div#starlight__sidebar {
-	overflow: hidden;
-}
-
-/* stylelint-disable-next-line selector-id-pattern */
-div#starlight__sidebar > div.sidebar-content {
-	overflow-y: auto;
-}
-
 div.hero .tagline a {
 	color: var(--sl-color-text-accent);
 	white-space: nowrap;
