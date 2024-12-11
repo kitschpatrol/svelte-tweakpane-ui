@@ -293,6 +293,9 @@
   "pnpm": {
     "patchedDependencies": {
       "@astrojs/starlight@0.25.5": "patches/@astrojs__starlight@0.25.5.patch"
+    },
+    "overrides": {
+      "@sveltejs/kit>cookie": "^0.7.0"
     }
   }
 }
