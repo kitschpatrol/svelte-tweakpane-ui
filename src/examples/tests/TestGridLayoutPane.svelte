@@ -6,6 +6,7 @@
 	let oneMore = true;
 </script>
 
+<div class="layout-wrapper"></div>
 <Pane position="inline" theme={{ bladeValueWidth: '244px' }} width={337}>
 	<Slider bind:value={colors} min={0} max={1} label="Colors" />
 	<Checkbox bind:value={darkMode} label="Dark Mode" />
@@ -14,21 +15,21 @@
 </Pane>
 
 <style>
-	:global(div.tp-rotv_c) {
+	div.layout-wrapper > :global(div.tp-rotv_c) {
 		display: flex;
 		flex-wrap: wrap;
 	}
 
-	:global(div.tp-lblv) {
+	div.layout-wrapper > :global(div.tp-lblv) {
 		flex-grow: 1;
 	}
 
-	:global(.tp-lblv:has(.tp-ckbv)) {
+	div.layout-wrapper > :global(.tp-lblv:has(.tp-ckbv)) {
 		flex-direction: row-reverse;
 		flex-grow: 0;
 	}
 
-	:global(.tp-lblv_v:has(.tp-ckbv)) {
+	div.layout-wrapper > :global(.tp-lblv_v:has(.tp-ckbv)) {
 		width: fit-content;
 	}
 </style>
