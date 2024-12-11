@@ -252,7 +252,7 @@
     "esm-env": "1.0.0",
     "fast-copy": "3.0.2",
     "fast-equals": "5.0.1",
-    "nanoid": "5.0.7",
+    "nanoid": "^5.0.9",
     "svelte-persisted-store": "0.11.0",
     "tweakpane": "4.0.4"
   },
