@@ -11,21 +11,21 @@
   },
   "scripts": {
     "build": "pnpm copy && vite build",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check": "pnpm copy && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "copy": "rm -rf ./src && cp -r ../src ./src",
     "dev": "pnpm copy && vite dev",
     "preview": "vite preview"
   },
   "dependencies": {},
   "devDependencies": {
-    "@sveltejs/adapter-auto": "^3.2.5",
-    "@sveltejs/kit": "^2.7.2",
-    "@sveltejs/vite-plugin-svelte": "^4.0.0",
+    "@sveltejs/adapter-auto": "^3.3.1",
+    "@sveltejs/kit": "^2.10.1",
+    "@sveltejs/vite-plugin-svelte": "^4.0.2",
     "glob": "^11.0.0",
-    "svelte": "^5.0.5",
-    "svelte-check": "^4.0.5",
+    "svelte": "^5.11.0",
+    "svelte-check": "^4.1.1",
     "svelte-tweakpane-ui": "link:..",
-    "typescript": "^5.6.3",
-    "vite": "^5.4.9"
+    "typescript": "~5.6.3",
+    "vite": "^5.4.11"
   }
 }

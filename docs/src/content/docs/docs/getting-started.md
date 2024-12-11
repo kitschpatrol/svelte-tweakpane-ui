@@ -4,9 +4,7 @@ description: Steps to get going with Svelte Tweakpane UI.
 ---
 
 :::note
-
 _If you're coming in cold, and don't know why you might want to "get started" in the first place, take a look at [the overview](/svelte-tweakpane-ui/docs) first._
-
 :::
 
 ## Quick start
@@ -101,18 +99,18 @@ And you should see:
 
 You'll notice a few things right away if you're familiar with Tweakpane:
 
-- _**The button is in the regular page flow, not fixed in the top-right corner?**_
+- **_The button is in the regular page flow, not fixed in the top-right corner?_**
 
   By default, _Svelte Tweakpane UI_ components are added to the document flow, which makes them easy to integrate with your existing UI and to manipulate with Svelte's template syntax. You can change this by wrapping your components in a `<Pane>` component and setting the `position` prop to `'draggable'` or `'fixed'`.
 
-- _**I didn't have to create a pane around the `Button`?**_
+- **_I didn't have to create a pane around the `Button`?_**
 
   _Svelte Tweakpane UI_ components "bootstrap" themselves into a title-less Pane component if they're used on their own. This is a convenience feature, but you can also wrap them in a `<Pane>` component yourself if you want to customize the title or other Pane properties.
 
-- _**That's a really wide button...**_
+- **_That's a really wide button..._**
 
   Yes, inline _Svelte Tweakpane UI_ components take the width of their container. You can use a `<Pane>` element to set a specific width, or nestle the component in an existing element with a defined width.
 
-- _**Looks pretty straightforward, there's nothing weird about the `on:click` syntax...**_
+- **_Looks pretty straightforward, there's nothing weird about the `on:click` syntax..._**
 
   Exactly, _Svelte Tweakpane UI_ components are designed to leverage as many Svelte conventions as possible. Behind the scenes, the lifecycle and event listeners of the underlying vanilla JS Tweakpane components are managed for you.

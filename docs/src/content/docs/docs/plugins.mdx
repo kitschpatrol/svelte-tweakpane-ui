@@ -107,7 +107,7 @@ The optimization involves externalizing certain dependencies to prevent duplicat
 
 Specifically, the Rollup configuration provided in the [Tweakpane plugin template](https://github.com/tweakpane/plugin-template) does not externalize [`@tweakpane/core`](https://github.com/cocopon/tweakpane/tree/main/packages/core) as a production dependency. Instead, it's embedded into the single-file plugin artifact, which is what's published to NPM and imported by plugin consumers.
 
-Externalizing this dependency allows build to share a single instance of the `@tweakpane/core` code across multiple plugins, which amounts to savings of about 75% (~780 K) in a SvelteKit project production build incorporating all available components.
+Externalizing this dependency allows build to share a single instance of the `@tweakpane/core` code across multiple plugins, which amounts to savings of about 75% (\~780 K) in a SvelteKit project production build incorporating all available components.
 
 For more on bundle size optimization, please see the section on [importing components](/svelte-tweakpane-ui/docs#importing-components).
 

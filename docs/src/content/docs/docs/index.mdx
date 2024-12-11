@@ -11,7 +11,7 @@ import SvelteTweakpaneRange from '../../../examples/docs/SvelteTweakpaneRange.sv
 import VanillaTweakpaneRangeCode from '../../../examples/docs/VanillaTweakpaneRange.md';
 
 <header>
-  🎛️ **_Svelte Tweakpane UI_** wraps user-interface elements from the excellent
+  🎛️ ***Svelte Tweakpane UI*** wraps user-interface elements from the excellent
   [Tweakpane](https://tweakpane.github.io/docs/) library in a collection of <ComponentCount />
   idiomatic, reactive, type-safe, carefully-crafted [Svelte](https://svelte.dev) components.
 </header>
@@ -123,7 +123,7 @@ These are misfits and novelties.
 
 ### Batteries included
 
-_Svelte Tweakpane UI_ takes a monolithic approach. A single dependency and import delivers access to all components, plus controls from several Tweakpane Plugins, and additional Svelte-specific functionality. Tree shaking should keep your bundle size in check (but note the [requisite import style](#importing-components)).
+_Svelte Tweakpane UI_ takes a monolithic approach. A single dependency and import delivers access to all components, plus controls from several Tweakpane Plugins, and additional Svelte-specific functionality. Tree shaking should keep your bundle size in check (but note the [requisite import style](/#importing-components)).
 
 ### Layered API
 
@@ -152,7 +152,9 @@ In general, type names take the form:
   <span>\{PropName}</span>
   <span>\{NarrowedType}</span>
 </code>
+
 <br />
+
 For example, `<RotationEuler>` provides the following types:
 
 - <code class="names">
@@ -160,32 +162,33 @@ For example, `<RotationEuler>` provides the following types:
     <span>Value</span>
     <span>Tuple</span>
   </code>
-  _tuple type for the value prop_
+  *tuple type for the value prop*
 
 - <code class="names">
     <span>RotationEuler</span>
     <span>Value</span>
     <span>Object</span>
   </code>
-  _object type for the value prop_
+  *object type for the value prop*
 
 - <code class="names">
     <span>RotationEuler</span>
     <span>Value</span>
   </code>
-  _object / tuple union type for the value prop_
+  *object / tuple union type for the value prop*
 
 - <code class="names">
     <span>RotationEuler</span>
     <span>Order</span>
   </code>
-  _string literal union type for the order prop_
+  *string literal union type for the order prop*
 
 - <code class="names">
     <span>RotationEuler</span>
     <span>Unit</span>
   </code>
-  _string literal union type for the unit prop_
+  *string literal union type for the unit prop*
+
 - Etc. etc.
 
 It's verbose, but consistent and predictable.
