@@ -160,13 +160,13 @@ importers:
         version: 0.9.4(prettier-plugin-astro@0.14.1)(prettier@3.4.2)(typescript@5.6.3)
       '@astrojs/starlight':
         specifier: 0.25.5
-        version: 0.25.5(patch_hash=4rtasd4z7lave5p3r6q6ft4jne)(astro@4.16.17(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3))
+        version: 0.25.5(patch_hash=4rtasd4z7lave5p3r6q6ft4jne)(astro@4.16.18(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3))
       '@astrojs/svelte':
         specifier: ^5.7.3
-        version: 5.7.3(astro@4.16.17(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3))(svelte@4.2.19)(typescript@5.6.3)(vite@5.4.11(@types/node@22.10.2)(lightningcss@1.27.0)(terser@5.36.0))
+        version: 5.7.3(astro@4.16.18(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3))(svelte@4.2.19)(typescript@5.6.3)(vite@5.4.11(@types/node@22.10.2)(lightningcss@1.27.0)(terser@5.36.0))
       astro:
-        specifier: ^4.16.17
-        version: 4.16.17(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3)
+        specifier: ^4.16.18
+        version: 4.16.18(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3)
       github-slugger:
         specifier: ^2.0.0
         version: 2.0.0
@@ -1917,8 +1917,8 @@ packages:
     peerDependencies:
       astro: ^4.0.0-beta || ^3.3.0
 
-  astro@4.16.17:
-    resolution: {integrity: sha512-OuD+BP7U6OqQLKtZ/FJkU2S+TOlifxS/OKUbZOb5p6y+LLBa1J3zHRJrIl7DUSq6eXY+9wSWwbJpD9JS+lqhxA==}
+  astro@4.16.18:
+    resolution: {integrity: sha512-G7zfwJt9BDHEZwlaLNvjbInIw2hPryyD654314KV/XT34pJU6SfN1S+mWa8RAkALcZNJnJXCJmT3JXLQStD3Lw==}
     engines: {node: ^18.17.1 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -6278,12 +6278,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@3.1.9(astro@4.16.17(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3))':
+  '@astrojs/mdx@3.1.9(astro@4.16.18(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3))':
     dependencies:
       '@astrojs/markdown-remark': 5.3.0
       '@mdx-js/mdx': 3.1.0(acorn@8.14.0)
       acorn: 8.14.0
-      astro: 4.16.17(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3)
+      astro: 4.16.18(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3)
       es-module-lexer: 1.5.4
       estree-util-visit: 2.0.0
       gray-matter: 4.0.3
@@ -6308,15 +6308,15 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.24.1
 
-  '@astrojs/starlight@0.25.5(patch_hash=4rtasd4z7lave5p3r6q6ft4jne)(astro@4.16.17(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3))':
+  '@astrojs/starlight@0.25.5(patch_hash=4rtasd4z7lave5p3r6q6ft4jne)(astro@4.16.18(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3))':
     dependencies:
-      '@astrojs/mdx': 3.1.9(astro@4.16.17(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3))
+      '@astrojs/mdx': 3.1.9(astro@4.16.18(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3))
       '@astrojs/sitemap': 3.2.1
       '@pagefind/default-ui': 1.2.0
       '@types/hast': 3.0.4
       '@types/mdast': 4.0.4
-      astro: 4.16.17(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3)
-      astro-expressive-code: 0.35.6(astro@4.16.17(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3))
+      astro: 4.16.18(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3)
+      astro-expressive-code: 0.35.6(astro@4.16.18(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3))
       bcp-47: 2.1.0
       hast-util-from-html: 2.0.3
       hast-util-select: 6.0.3
@@ -6335,10 +6335,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/svelte@5.7.3(astro@4.16.17(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3))(svelte@4.2.19)(typescript@5.6.3)(vite@5.4.11(@types/node@22.10.2)(lightningcss@1.27.0)(terser@5.36.0))':
+  '@astrojs/svelte@5.7.3(astro@4.16.18(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3))(svelte@4.2.19)(typescript@5.6.3)(vite@5.4.11(@types/node@22.10.2)(lightningcss@1.27.0)(terser@5.36.0))':
     dependencies:
       '@sveltejs/vite-plugin-svelte': 3.1.2(svelte@4.2.19)(vite@5.4.11(@types/node@22.10.2)(lightningcss@1.27.0)(terser@5.36.0))
-      astro: 4.16.17(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3)
+      astro: 4.16.18(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3)
       svelte: 4.2.19
       svelte2tsx: 0.7.30(svelte@4.2.19)(typescript@5.6.3)
       typescript: 5.6.3
@@ -7457,7 +7457,7 @@ snapshots:
       '@playform/pipe': 0.1.1
       '@types/csso': 5.0.4
       '@types/html-minifier-terser': 7.0.2
-      astro: 4.16.17(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3)
+      astro: 4.16.18(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3)
       commander: 12.1.0
       csso: 5.0.5
       deepmerge-ts: 7.1.3
@@ -8220,12 +8220,12 @@ snapshots:
       - supports-color
       - typescript
 
-  astro-expressive-code@0.35.6(astro@4.16.17(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3)):
+  astro-expressive-code@0.35.6(astro@4.16.18(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3)):
     dependencies:
-      astro: 4.16.17(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3)
+      astro: 4.16.18(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3)
       rehype-expressive-code: 0.35.6
 
-  astro@4.16.17(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3):
+  astro@4.16.18(@types/node@22.10.2)(lightningcss@1.27.0)(rollup@4.28.1)(terser@5.36.0)(typescript@5.6.3):
     dependencies:
       '@astrojs/compiler': 2.10.3
       '@astrojs/internal-helpers': 0.4.1
