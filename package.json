@@ -20,7 +20,7 @@
   "license": "MIT",
   "packageManager": "pnpm@9.15.4",
   "engines": {
-    "node": ">=18.0.0 <23.0.0",
+    "node": ">=18.0.0",
     "pnpm": ">=9.0.0"
   },
   "exports": {
