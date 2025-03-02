@@ -1,4 +1,8 @@
 packages:
-  - '.'
-  - 'docs'
-  - 'svelte-5'
+  - .
+  - docs
+  - svelte-5
+onlyBuiltDependencies:
+  - esbuild
+  - puppeteer
+  - sharp

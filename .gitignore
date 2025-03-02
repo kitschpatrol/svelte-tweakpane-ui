@@ -1,12 +1,13 @@
 # Git Ignore
-# Also used by CSpell and Stylelint
+# Also used by CSpell, Stylelint, and ESLint
 
 # @kitschpatrol/repo-config boilerplate
-!.env.example
 .astro/
 .DS_Store
 .env
 .env.*
+!.env.example
+.eslint-config-inspector
 .svelte-kit/
 {tmp,temp}/
 **/*.min.js
@@ -20,13 +21,13 @@ vendor/
 
 # Customizations
 
-# generated kit files
+# Generated kit files
 src/examples/components
 
-# generated doc files
+# Generated doc files
 docs/src/content/docs/docs/components
 docs/src/content/acknowledgments
 docs/src/examples
 
-# svelte-5 test project
+# Svelte-5 test project
 svelte-5/src

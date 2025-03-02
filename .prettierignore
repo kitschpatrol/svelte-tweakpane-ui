@@ -1,23 +1,5 @@
 # Prettier Ignore
-# Does not inherit from .gitignore
-
-# @kitschpatrol/shared-config boilerplate
-!.env.example
-.astro/
-.DS_Store
-.env
-.env.*
-.svelte-kit/
-{tmp,temp}/
-**/*.min.js
-/scratch/
-bower_components/
-build/
-coverage/
-dist/
-node_modules/
-package/
-vendor/
+# Also respects .gitignore
 
 # @kitschpatrol/prettier-config boilerplate
 pnpm-lock.yaml
@@ -25,10 +7,10 @@ package-lock.json
 
 # Customizations
 
-# generated kit files
+# Generated kit files
 src/examples/components/
 
-# generated doc files
+# Generated doc files
 docs/src/content/docs/docs/components/
 docs/src/content/acknowledgments/
 docs/src/examples/

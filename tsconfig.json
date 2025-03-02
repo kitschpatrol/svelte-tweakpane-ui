@@ -1,41 +1,27 @@
 {
-  "compilerOptions": {
-    "allowJs": true,
-    "checkJs": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
-    "moduleResolution": "Bundler",
-    "noErrorTruncation": true,
-    "removeComments": false,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "strict": true,
-    "target": "esnext"
-  },
-  "extends": "./.svelte-kit/tsconfig.json",
-  "exclude": [
-    "node_modules/**",
-    "./.svelte-kit/[!ambient.d.ts]**",
-    "src/service-worker.js",
-    "src/service-worker.ts",
-    "src/service-worker.d.ts",
-    "dist/**",
-    "./scratch"
-  ],
-  "include": [
-    "scripts/**/*.ts",
-    "./.svelte-kit/ambient.d.ts",
-    "./.svelte-kit/types/**/$types.d.ts",
-    "vite.config.js",
-    "vite.config.ts",
-    "src/**/*.js",
-    "src/**/*.ts",
-    "src/**/*.svelte",
-    "scripts/**/*.ts",
-    "tests/**/*.js",
-    "tests/**/*.ts",
-    "tests/**/*.svelte"
-  ]
+	"extends": "./.svelte-kit/tsconfig.json",
+
+	"compilerOptions": {
+		"allowImportingTsExtensions": true,
+		"allowJs": true,
+		"checkJs": true,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"noErrorTruncation": true,
+		"removeComments": false,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"strict": true
+	},
+
+	"include": [
+		"**/*",
+		"**/**.*",
+		"./.svelte-kit/ambient.d.ts",
+		"./.svelte-kit/types/**/$types.d.ts"
+	],
+
+	"exclude": ["**/dist/", "**/build/", "**/bin/", "./svelte-5", "./docs"]
 }

@@ -2,7 +2,7 @@ name: Set GitHub Metadata
 on:
   push:
     branches: [main]
-  workflow_dispatch:
+  workflow_dispatch: {}
 
 jobs:
   build:
@@ -22,10 +22,10 @@ jobs:
         run: |
           if [ -f package.json ]; then
             echo "📦 Found package.json"
-            echo "HAS_PACKAGE=true" >> $GITHUB_ENV
+            echo "HAS_PACKAGE=true" >> "$GITHUB_ENV"
             else
             echo "❌ This action requires a package.json to run"
-            echo "HAS_PACKAGE=false" >> $GITHUB_ENV
+            echo "HAS_PACKAGE=false" >> "$GITHUB_ENV"
           fi
 
       - name: Validate Access Token
@@ -33,10 +33,10 @@ jobs:
         run: |
           if [ -z ${{ secrets.PERSONAL_ACCESS_TOKEN }} ]; then
             echo "❌ This action requires a Personal Access token to run"
-            echo "IS_VALID_TOKEN=false" >> $GITHUB_ENV
+            echo "IS_VALID_TOKEN=false" >> "$GITHUB_ENV"
             else
             echo "🔑 Authenticated with Personal Access token"
-            echo "IS_VALID_TOKEN=true" >> $GITHUB_ENV
+            echo "IS_VALID_TOKEN=true" >> "$GITHUB_ENV"
           fi
 
       - name: Sync Package info to GitHub

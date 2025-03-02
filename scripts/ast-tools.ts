@@ -1,127 +1,126 @@
 // TypeScript AST traversal and extraction tools used by various scripts.
+// @case-police-ignore jsDoc
 
-import { query as tsquery } from '@phenomnomnominal/tsquery';
-import { ESLint } from 'eslint';
-import { globSync } from 'glob';
-import { spawn } from 'node:child_process';
-import { exec } from 'node:child_process';
-import fs from 'node:fs';
-import path from 'node:path';
-import { readPackageUp } from 'read-package-up';
-import { svelte2tsx } from 'svelte2tsx';
+import { query as tsquery } from '@phenomnomnominal/tsquery'
+import { ESLint } from 'eslint'
+import { globSync } from 'glob'
+import { spawn } from 'node:child_process'
+import { exec } from 'node:child_process'
+import fs from 'node:fs'
+import path from 'node:path'
+import { readPackageUp } from 'read-package-up'
+import { svelte2tsx } from 'svelte2tsx'
 import {
 	type ClassDeclaration,
 	type MethodSignature,
 	type Node,
 	Project,
 	type PropertySignature,
-	type StringLiteral
-} from 'ts-morph';
+	type StringLiteral,
+} from 'ts-morph'
 
 // This will break if multiple components with the same name exist in different folders
 function findFile(
 	base: string,
 	componentName: string,
 	suffix: string,
-	warn: boolean = true
+	warn: boolean = true,
 ): string | undefined {
-	const files = globSync(`./${base}/**/${componentName}${suffix}`);
+	const files = globSync(`./${base}/**/${componentName}${suffix}`)
 	if (files.length === 0) {
-		if (warn) console.warn(`No files found for ${componentName}`);
-		return undefined;
+		if (warn) console.warn(`No files found for ${componentName}`)
+		return undefined
 	}
 
 	if (files.length > 1) {
-		if (warn) console.error(`Fatal: Found multiple files for ${componentName}: ${files.join(' ')}`);
-		return undefined;
+		if (warn) console.error(`Fatal: Found multiple files for ${componentName}: ${files.join(' ')}`)
+		return undefined
 	}
 
-	return path.resolve(files[0]);
+	return path.resolve(files[0])
 }
 
 export async function getGithubUrlForSourceFile(filePath: string): Promise<string> {
 	// Gonna be slow
-	const closestPackageJson = await readPackageUp({ normalize: false });
-	const { url } = closestPackageJson?.packageJson.repository as Record<string, unknown>;
+	const closestPackageJson = await readPackageUp({ normalize: false })
+	const { url } = closestPackageJson?.packageJson.repository as Record<string, unknown>
 
 	if (!url) {
-		throw new Error('No repository url found in package.json');
+		throw new Error('No repository url found in package.json')
 	}
 
 	const sourceBaseUrl = `${String(url)
 		.replace(/^git\+/, '')
-		.replace(/\.git$/, '')}/blob/main/`;
-	return sourceBaseUrl + filePath;
+		.replace(/\.git$/, '')}/blob/main/`
+	return sourceBaseUrl + filePath
 }
 
 export async function getEditUrlForSourceFile(filePath: string): Promise<string> {
 	// Gonna be slow
-	const closestPackageJson = await readPackageUp({ normalize: false });
-	const { url } = closestPackageJson?.packageJson.repository as Record<string, unknown>;
+	const closestPackageJson = await readPackageUp({ normalize: false })
+	const { url } = closestPackageJson?.packageJson.repository as Record<string, unknown>
 
 	if (url === undefined) {
-		throw new Error('No repository url found in package.json');
+		throw new Error('No repository url found in package.json')
 	}
 
 	const sourceBaseUrl = `${String(url)
 		.replace(/^git\+/, '')
-		.replace(/\.git$/, '')}/edit/main/`;
-	return sourceBaseUrl + filePath;
+		.replace(/\.git$/, '')}/edit/main/`
+	return sourceBaseUrl + filePath
 }
 
 export function getDefinitionFilePath(
 	componentName: string,
-	warn: boolean = true
+	warn: boolean = true,
 ): string | undefined {
-	return findFile('dist', componentName, '.svelte.d.ts', warn);
+	return findFile('dist', componentName, '.svelte.d.ts', warn)
 }
 
 export function getSourceFilePath(componentName: string, warn: boolean = true): string | undefined {
-	return findFile('src/lib', componentName, '.svelte', warn);
+	return findFile('src/lib', componentName, '.svelte', warn)
 }
 
 export function getAllLibraryFiles(): string[] {
-	return globSync('./src/lib/**/*').filter((file) => fs.statSync(file).isFile());
+	return globSync('./src/lib/**/*').filter((file) => fs.statSync(file).isFile())
 }
 
 export function getAllLibraryComponentNames(): string[] {
 	// What happens with js components?
-	return globSync('./src/lib/**/*.svelte').map((file) =>
-		path.basename(file).replace('.svelte', '')
-	);
+	return globSync('./src/lib/**/*.svelte').map((file) => path.basename(file).replace('.svelte', ''))
 }
 
 export function getExportedComponents(indexPath: string): Array<{ name: string; path: string }> {
 	return queryTree<StringLiteral>(
 		new Project().addSourceFileAtPath(indexPath),
-		'ExportDeclaration StringLiteral[value=/.+.svelte/]'
+		'ExportDeclaration StringLiteral[value=/.+.svelte/]',
 	).map((node) => {
-		const cleanPath = node.getText().replaceAll(/["']/g, '');
+		const cleanPath = node.getText().replaceAll(/["']/g, '')
 
 		return {
 			name: path.basename(cleanPath).replace('.svelte', ''),
-			path: cleanPath
-		};
-	});
+			path: cleanPath,
+		}
+	})
 }
 
 // Brittle
 export function getExportedJs(indexPath: string): Array<{ name: string; path: string }> {
 	return queryTree<StringLiteral>(
 		new Project().addSourceFileAtPath(indexPath),
-		'ExportDeclaration[isTypeOnly=false]:has(StringLiteral[value=/.+.js/])'
+		'ExportDeclaration[isTypeOnly=false]:has(StringLiteral[value=/.+.js/])',
 	).map((node) => {
-		const name = queryTree<StringLiteral>(node, 'Identifier.name').at(0)!.getText();
+		const name = queryTree<StringLiteral>(node, 'Identifier.name').at(0)!.getText()
 		const path = queryTree<StringLiteral>(node, 'StringLiteral')
 			.at(0)!
 			.getText()
-			.replaceAll(/["']/g, '');
+			.replaceAll(/["']/g, '')
 
 		return {
 			name,
-			path
-		};
-	});
+			path,
+		}
+	})
 }
 
 /**
@@ -132,11 +131,11 @@ export function getExportedJs(indexPath: string): Array<{ name: string; path: st
 export function queryTree<T extends Node>(node: Node, tsqueryString: string): T[] {
 	return tsquery(node.compilerNode, tsqueryString).map(
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		(n) => (node as any)._getNodeFromCompilerNode(n) as Node
-	) as T[];
+		(n) => (node as any)._getNodeFromCompilerNode(n) as Node,
+	) as T[]
 }
 
-export type PropNode = MethodSignature | PropertySignature;
+export type PropNode = MethodSignature | PropertySignature
 
 /**
  * @param source - either a string of source code, the name of a component with an existing definition file, or a Node
@@ -147,9 +146,9 @@ export type PropNode = MethodSignature | PropertySignature;
 export function getProp(
 	source: Node | string,
 	propertyName: string,
-	include: 'all' | 'commented' | 'uncommented' = 'all'
+	include: 'all' | 'commented' | 'uncommented' = 'all',
 ): PropNode | undefined {
-	return getPropsInternal(source, include, propertyName)[0];
+	return getPropsInternal(source, include, propertyName)[0]
 }
 
 /**
@@ -159,15 +158,15 @@ export function getProp(
  */
 export function getProps(
 	source: Node | string,
-	include: 'all' | 'commented' | 'uncommented' = 'all'
+	include: 'all' | 'commented' | 'uncommented' = 'all',
 ): PropNode[] {
-	return getPropsInternal(source, include);
+	return getPropsInternal(source, include)
 }
 
 function getPropsInternal(
 	source: Node | string,
 	include: 'all' | 'commented' | 'uncommented' = 'all',
-	propertyName?: string
+	propertyName?: string,
 ): PropNode[] {
 	return queryTree<PropNode>(
 		typeof source === 'string'
@@ -176,44 +175,44 @@ function getPropsInternal(
 		':declaration [name.name="props"] :matches(PropertySignature, MethodSignature):not(:declaration [name.name="props"] :matches(PropertySignature, MethodSignature) :matches(PropertySignature, MethodSignature))' +
 			(include === 'commented' ? ':has([jsDoc])' : '') +
 			(include === 'uncommented' ? ':not(:has([jsDoc]))' : '') +
-			(propertyName === undefined ? '' : `[name.name="${propertyName}"]`)
-	);
+			(propertyName === undefined ? '' : `[name.name="${propertyName}"]`),
+	)
 }
 
 // Doc-specific
 
 function extractCodeBlock(inputString: string): string | undefined {
-	const regex = /```\w*\n([\S\s]+?)```/gm;
-	const match = regex.exec(inputString);
+	const regex = /```\w*\n([\S\s]+?)```/gm
+	const match = regex.exec(inputString)
 	if (match?.[1]) {
-		return match[1].trim();
+		return match[1].trim()
 	}
 }
 
 export async function getComponentExampleCodeFromSource(
 	componentName: string,
-	includeMarkdown: boolean = false
+	includeMarkdown: boolean = false,
 ): Promise<string | undefined> {
-	const componentPath = getSourceFilePath(componentName);
-	if (!componentPath) return undefined;
+	const componentPath = getSourceFilePath(componentName)
+	if (!componentPath) return undefined
 
-	const componentCode = svelte2tsx(fs.readFileSync(componentPath, 'utf8')).code;
+	const componentCode = svelte2tsx(fs.readFileSync(componentPath, 'utf8')).code
 
 	const classDeclaration = queryTree<ClassDeclaration>(
 		new Project().createSourceFile('TempComponent.ts', componentCode),
-		'ClassDeclaration:has([jsDoc]):has(ExportKeyword)'
-	).at(0);
+		'ClassDeclaration:has([jsDoc]):has(ExportKeyword)',
+	).at(0)
 
 	// Strip jsdoc comments
 	if (classDeclaration === undefined) {
-		console.error(`Class declaration not found in ${componentName}`);
-		return undefined;
+		console.error(`Class declaration not found in ${componentName}`)
+		return undefined
 	}
 
 	// Support two extraction strategies... sticking with AST for now
-	const useAst = true;
+	const useAst = true
 
-	let exampleCommentWithFence: string | undefined;
+	let exampleCommentWithFence: string | undefined
 	if (useAst) {
 		// Note that this breaks if there are @ css blocks in the JSDoc comments,
 		// but so do a lot of other things so just don't do that!
@@ -225,79 +224,79 @@ export async function getComponentExampleCodeFromSource(
 				?.at(0)
 				?.getTags()
 				.find((tag) => tag.getTagName() === 'example')
-				?.getCommentText() ?? classDeclaration.getJsDocs()?.at(0)?.getCommentText();
+				?.getCommentText() ?? classDeclaration.getJsDocs()?.at(0)?.getCommentText()
 	} else {
 		// Get the full text of the JSDoc block and strip the JSDoc syntax
 		const fullCommentText = classDeclaration
 			.getJsDocs()
 			.at(0)
 			?.getFullText()
-			.replaceAll(/^ ?\/*\*+[ /]?/gm, '');
+			.replaceAll(/^ ?\/*\*+[ /]?/gm, '')
 
 		if (fullCommentText === undefined) {
-			console.error(`Class declaration comment not found in ${componentName}`);
-			return undefined;
+			console.error(`Class declaration comment not found in ${componentName}`)
+			return undefined
 		}
 
 		// Pull out just the @example code fence
 		// TODO multiple example support (via .exec, /g doesn't work with .match)
-		exampleCommentWithFence = /@example[\S\s]+(```[\S\s]+```)/m.exec(fullCommentText)?.at(1);
+		exampleCommentWithFence = /@example[\S\s]+(```[\S\s]+```)/m.exec(fullCommentText)?.at(1)
 	}
 
 	if (exampleCommentWithFence === undefined) {
-		console.error(`Example comment not found in ${componentName}`);
-		return undefined;
+		console.error(`Example comment not found in ${componentName}`)
+		return undefined
 	}
 
 	// Format, because it's lost in the AST
 
-	const exampleCommentWithoutFence = extractCodeBlock(exampleCommentWithFence);
+	const exampleCommentWithoutFence = extractCodeBlock(exampleCommentWithFence)
 
 	if (exampleCommentWithoutFence === undefined) {
-		console.error(`Could not extract example code block in ${componentName}`);
-		return undefined;
+		console.error(`Could not extract example code block in ${componentName}`)
+		return undefined
 	}
 
-	const formattedComment = await lintAndFormat(exampleCommentWithoutFence);
+	const formattedComment = await lintAndFormat(exampleCommentWithoutFence)
 
 	// Put the formatted code block back inside the fence
 	const wrappedComment = `${exampleCommentWithFence
 		.split('\n')
-		.at(0)}\n${formattedComment}${exampleCommentWithFence.split('\n').at(-1)}`;
+		.at(0)}\n${formattedComment}${exampleCommentWithFence.split('\n').at(-1)}`
 
-	return includeMarkdown ? wrappedComment : formattedComment;
+	return includeMarkdown ? wrappedComment : formattedComment
 }
 
 // TODO better to format and lint?
 export async function lintAndFormat(
 	code: string,
 	fileExtension: string = 'svelte',
-	formatParser: string = 'svelte'
+	formatParser: string = 'svelte',
 ): Promise<string> {
-	const lintedCode = await lint(code, fileExtension);
-	const lintedAndFormattedCode = await format(lintedCode, formatParser);
-	return lintedAndFormattedCode;
+	const lintedCode = await lint(code, fileExtension)
+	const lintedAndFormattedCode = await format(lintedCode, formatParser)
+	return lintedAndFormattedCode
 }
 
 async function lint(code: string, fileExtension: string): Promise<string> {
 	// Create an instance of the linter
 	const eslint = new ESLint({
 		fix: true,
-		useEslintrc: true
-	});
+		useEslintrc: true,
+	})
 
-	let result: ESLint.LintResult | undefined;
+	let result: ESLint.LintResult | undefined
 	try {
-		[result] = await eslint.lintText(code, {
-			filePath: `example.${fileExtension}`
-		});
+		;[result] = await eslint.lintText(code, {
+			filePath: `example.${fileExtension}`,
+		})
 	} catch (error) {
-		console.log(error);
+		console.log(error)
 	}
 
 	// Output is undefined when there are no errors
 
-	return result?.output ?? code;
+	return result?.output ?? code
 }
 
 export async function format(code: string, formatParser: string): Promise<string> {
@@ -312,56 +311,56 @@ export async function format(code: string, formatParser: string): Promise<string
 			'--print-width',
 			'75',
 			'--use-tabs',
-			'false'
-		]);
+			'false',
+		])
 
-		let formattedCode = '';
-		let errorOutput = '';
+		let formattedCode = ''
+		let errorOutput = ''
 
 		// Collect formatted code
 		prettierProcess.stdout.on('data', (data: Uint8Array) => {
-			formattedCode += data.toString();
-		});
+			formattedCode += data.toString()
+		})
 
 		// Collect error messages
 		prettierProcess.stderr.on('data', (data: Uint8Array) => {
-			errorOutput += data.toString();
-		});
+			errorOutput += data.toString()
+		})
 
 		// Handle process completion
 		prettierProcess.on('close', (code) => {
 			if (code === 0) {
-				resolve(formattedCode);
+				resolve(formattedCode)
 			} else {
-				reject(new Error(`Prettier exited with code ${code}: ${errorOutput}`));
+				reject(new Error(`Prettier exited with code ${code}: ${errorOutput}`))
 			}
-		});
+		})
 
 		// Handle process errors (e.g., Prettier not found)
 		prettierProcess.on('error', (error) => {
-			reject(error);
-		});
+			reject(error)
+		})
 
 		// Write code to Prettier process and end input
-		prettierProcess.stdin.write(code);
-		prettierProcess.stdin.end();
-	});
+		prettierProcess.stdin.write(code)
+		prettierProcess.stdin.end()
+	})
 }
 
 export async function getLastUpdatedDate(filePath: string): Promise<Date | void> {
 	return new Promise((resolve, reject) => {
 		exec(`git log -1 --format=%cd "${filePath}"`, (error, stdout) => {
 			if (error) {
-				reject(error);
-				return;
+				reject(error)
+				return
 			}
 
-			const date = new Date(stdout.trim());
+			const date = new Date(stdout.trim())
 			if (Number.isNaN(date.getTime())) {
-				resolve();
+				resolve()
 			} else {
-				resolve(date);
+				resolve(date)
 			}
-		});
-	});
+		})
+	})
 }

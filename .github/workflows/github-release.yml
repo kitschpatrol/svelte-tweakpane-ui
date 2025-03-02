@@ -40,11 +40,11 @@ jobs:
             echo "🕊️ Current branch is: $BRANCH"
           fi
           if [[ -z "$TAG" || -z "$BRANCH" ]]; then
-            echo "IS_VALID_COMMIT=false" >> $GITHUB_ENV
-            echo "TAG_NAME=''" >> $GITHUB_ENV
+            echo "IS_VALID_COMMIT=false" >> "$GITHUB_ENV"
+            echo "TAG_NAME=''" >> "$GITHUB_ENV"
           else
-            echo "IS_VALID_COMMIT=true" >> $GITHUB_ENV
-            echo "TAG_NAME=$TAG" >> $GITHUB_ENV
+            echo "IS_VALID_COMMIT=true" >> "$GITHUB_ENV"
+            echo "TAG_NAME=$TAG" >> "$GITHUB_ENV"
           fi
 
       - name: Release Notes

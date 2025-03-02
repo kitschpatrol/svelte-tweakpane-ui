@@ -1,52 +1,69 @@
 {
-  "prettier.enable": true,
-  "[astro]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[gitignore]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[shellscript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[svelte]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "cSpell.enabled": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
-  },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
-  "eslint.enable": true,
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact",
-    "svelte",
-    "astro",
-    "markdown",
-    "mdx"
-  ],
-  "mdx.validate.ignoreLinks": ["/svelte-tweakpane-ui/**/*"],
-  "prettier.documentSelectors": [
-    "**/*.astro",
-    "**/*.svelte",
-    "**/.prettierignore",
-    "**/.npmrc",
-    "**/.eslintignore"
-  ],
-  "stylelint.enable": true,
-  "stylelint.validate": ["css", "html", "svelte", "astro"],
-  "stylelint.configBasedir": ".",
-  "rewrap.wrappingColumn": 75,
-  "explorer.fileNesting.enabled": true,
-  "explorer.fileNesting.expand": false,
-  "explorer.fileNesting.patterns": {
-    ".env": ".env.*",
-    "package.json": ".*.cjs, .*.js, .*.json, .*.mjs, .*.toml, .*.ts, .*.yaml, .*.yml, .*ignore, .*rc, *config.cjs, *config.js, *config.json, *config.mjs, *config.toml, *config.ts, *config.yaml, *config.yml, lerna.json, netlify.toml, package-lock.json, pnpm-lock.yaml, pnpm-workspace.yaml, pnpm*, turbo.json, vercel.json, workspace*, wrangler.toml, yarn.lock, yarn*",
-    "readme.md": "authors*, backers*, changelog*, citation*, code_of_conduct*, codeowners*, contributing*, contributors*, copying*, credits*, governance*, history*, license*, maintainers*, release_notes*, security*, sponsors*"
-  },
-  "typescript.tsdk": "node_modules/typescript/lib"
+	"prettier.enable": true,
+	"[astro]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[gitignore]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[shellscript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[svelte]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"cSpell.enabled": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll": "explicit",
+		"source.organizeImports": "never"
+	},
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.formatOnSave": true,
+	"eslint.enable": true,
+	"eslint.validate": [
+		"javascript",
+		"javascriptreact",
+		"typescript",
+		"typescriptreact",
+		"svelte",
+		"astro",
+		"markdown",
+		"mdx",
+		"html",
+		"json",
+		"json5",
+		"jsonc",
+		"toml",
+		"xml",
+		"yaml"
+	],
+	"mdx.validate.ignoreLinks": ["/svelte-tweakpane-ui/**/*"],
+	"prettier.documentSelectors": [
+		"**/*.astro",
+		"**/*.svelte",
+		"**/.prettierignore",
+		"**/.npmrc",
+		"**/.eslintignore",
+		"**/.node-version",
+		"**/*.rb"
+	],
+	"stylelint.enable": true,
+	"stylelint.validate": ["css", "html", "svelte", "astro"],
+	"stylelint.configBasedir": ".",
+	"rewrap.wrappingColumn": 75,
+	"explorer.fileNesting.enabled": true,
+	"explorer.fileNesting.expand": false,
+	"explorer.fileNesting.patterns": {
+		".env": ".env.*",
+		"package.json": ".*ignore, .*rc, .*.js, .*.mjs, .*.cjs, .*.ts, .*.mts, .*.cts, .*.json, .*.jsonc, .*.json5, .*.yml, .*.yaml, *config.js, *config.mjs, *config.cjs, *config.ts, *config.mts, *config.cts, *config.json, *config.jsonc, *config.json5, *config.yml, *config.yaml, pnpm*, workspace*, yarn*, lerna.json, netlify.toml, package-lock.json, turbo.json, vercel.json, wrangler.toml, yarn.lock",
+		"readme.md": "authors*, backers*, changelog*, citation*, code_of_conduct*, contributing*, contributors*, copying*, credits*, governance*, history*, license*, maintainers*, release_notes*, security*, sponsors*"
+	},
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"typescript.enablePromptUseWorkspaceTsdk": true,
+	"eslint.runtime": "node",
+	"eslint.useFlatConfig": true,
+	"cSpell.workspaceRootPath": ".",
+	"[ruby]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	}
 }

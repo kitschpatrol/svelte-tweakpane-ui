@@ -1,0 +1,6 @@
+{
+	"extends": "./tsconfig.json",
+
+	// Skips project files for typescript-eslint integration
+	"include": ["src/**/*", "./.svelte-kit/ambient.d.ts", "./.svelte-kit/types/**/$types.d.ts"]
+}

@@ -49,7 +49,7 @@ The library is compatible with both Svelte 4 and Svelte 5.
 ## Documentation
 
 **_Please see the documentation site for much more information:_**\
-**<https://kitschpatrol.com/svelte-tweakpane-ui>**
+**https://kitschpatrol.com/svelte-tweakpane-ui**
 
 ## Quick start
 
