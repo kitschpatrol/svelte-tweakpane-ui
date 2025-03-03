@@ -2,12 +2,7 @@ import { eslintConfig } from '@kitschpatrol/eslint-config'
 
 export default eslintConfig(
 	{
-		astro: {
-			overrides: {
-				// TODO included in the next kpi patch?
-				'import/no-unresolved': ['error', { ignore: ['^astro:', '^@astrojs'] }],
-			},
-		},
+		astro: true,
 		ignores: [
 			// Generated kit files
 			'src/examples/components/*',
@@ -32,28 +27,16 @@ export default eslintConfig(
 					},
 				],
 				'import/no-named-as-default-member': 'off',
-				// TODO included in the next kpi patch
-				'import/no-unresolved': ['error', { ignore: ['^astro:', '^@astrojs'] }],
 				'jsdoc/require-jsdoc': 'off',
-				// TODO is this the default?
+				// TODO is this the default? Include in KPI?
 				// 'ts/no-base-to-string': [
 				// 	'error',
 				// 	{ ignoredTypeNames: ['Error', 'RegExp', 'URL', 'URLSearchParams'] },
 				// ],
 				'ts/no-inferrable-types': 'off',
-				// TODO warning-only implementation is coming in the next kpi patch
-				'ts/no-restricted-types': 'off',
 			},
 		},
 		type: 'lib',
-	},
-	{
-		// TODO gone in the next kpi patch
-		files: ['src/app.html'],
-		rules: {
-			'@html-eslint/no-inline-styles': 'off',
-			'@html-eslint/require-title': 'off',
-		},
 	},
 	{
 		files: ['docs/package.json'],
@@ -117,34 +100,6 @@ export default eslintConfig(
 // 		'max',
 // 		'cb1',
 // 		'cb2',
-// 		'unknown'
-// 	]
-// };
-
-// const perfectionistSvelteSortOverrides = {
-// 	customGroups: {
-// 		value: '?(bind:)value',
-// 		min: '?(bind:)min',
-// 		max: '?(bind:)max',
-// 		'bind-directives': 'bind:*',
-// 		'bind-this': 'bind:this',
-// 		class: '@(class|class:*)',
-// 		'on-directives': 'on:*',
-// 		style: '@(style|style:*)',
-// 		'style-props': '--style-props',
-// 		this: 'this',
-// 		'use-directives': 'use:*'
-// 	},
-// 	groups: [
-// 		'bind-this',
-// 		'value',
-// 		'min',
-// 		'max',
-// 		['bind-directives', 'use-directives', 'on-directives'],
-// 		'this',
-// 		'class',
-// 		'style',
-// 		'style-props',
 // 		'unknown'
 // 	]
 // };

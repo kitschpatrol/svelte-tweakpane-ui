@@ -161,6 +161,7 @@ export function clamp(value: number, min: number, max: number): number {
 export function getElementIndex(element: HTMLElement): number {
 	let index = 0
 
+	// eslint-disable-next-line ts/no-restricted-types
 	let sibling: Element | null | undefined = element
 	while ((sibling = sibling.previousElementSibling) !== null) {
 		// The Element component can add extra stuff to the DOM which will mess up counting...

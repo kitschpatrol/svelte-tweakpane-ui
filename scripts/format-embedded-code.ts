@@ -9,6 +9,7 @@ async function formatEmbeddedCode(file: string): Promise<number> {
 		let formattedData = ''
 		let lastIndex = 0
 		const regex = /(```.*\n)([\s\S]*?)(\n```)/g
+		// eslint-disable-next-line ts/no-restricted-types
 		let match: null | RegExpExecArray
 
 		while ((match = regex.exec(data)) !== null) {
