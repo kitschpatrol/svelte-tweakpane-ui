@@ -13,7 +13,7 @@
 		getElementIndex,
 		isRootPane,
 		type UnwrapCustomEvents,
-	} from '$lib/utils.js'
+	} from '$lib/utilities.js'
 	import { BROWSER } from 'esm-env'
 	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte'
 

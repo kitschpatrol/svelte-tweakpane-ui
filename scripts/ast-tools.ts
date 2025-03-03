@@ -4,8 +4,7 @@
 import { query as tsquery } from '@phenomnomnominal/tsquery'
 import { ESLint } from 'eslint'
 import { globSync } from 'glob'
-import { spawn } from 'node:child_process'
-import { exec } from 'node:child_process'
+import { exec, spawn } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import { readPackageUp } from 'read-package-up'
@@ -40,16 +39,32 @@ function findFile(
 	return path.resolve(files[0])
 }
 
+async function getRepositoryUrl(): Promise<string | undefined> {
+	const closestPackageJson = await readPackageUp({ normalize: false })
+	const { repository } = closestPackageJson?.packageJson ?? {}
+	if (!repository) return undefined
+
+	// Handle string case or object with url property
+	if (typeof repository === 'string') {
+		return repository
+	}
+
+	if (typeof repository === 'object' && repository.url) {
+		return repository.url
+	}
+
+	return undefined
+}
+
 export async function getGithubUrlForSourceFile(filePath: string): Promise<string> {
 	// Gonna be slow
-	const closestPackageJson = await readPackageUp({ normalize: false })
-	const { url } = closestPackageJson?.packageJson.repository as Record<string, unknown>
-
+	const url = await getRepositoryUrl()
 	if (!url) {
 		throw new Error('No repository url found in package.json')
 	}
 
-	const sourceBaseUrl = `${String(url)
+	const sourceBaseUrl = `${url
+		.toString()
 		.replace(/^git\+/, '')
 		.replace(/\.git$/, '')}/blob/main/`
 	return sourceBaseUrl + filePath
@@ -57,10 +72,8 @@ export async function getGithubUrlForSourceFile(filePath: string): Promise<strin
 
 export async function getEditUrlForSourceFile(filePath: string): Promise<string> {
 	// Gonna be slow
-	const closestPackageJson = await readPackageUp({ normalize: false })
-	const { url } = closestPackageJson?.packageJson.repository as Record<string, unknown>
-
-	if (url === undefined) {
+	const url = await getRepositoryUrl()
+	if (!url) {
 		throw new Error('No repository url found in package.json')
 	}
 
@@ -129,8 +142,9 @@ export function getExportedJs(indexPath: string): Array<{ name: string; path: st
  * @see https://astexplorer.net/
  */
 export function queryTree<T extends Node>(node: Node, tsqueryString: string): T[] {
-	return tsquery(node.compilerNode, tsqueryString).map(
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	// TODO type issues...
+	return tsquery(node.compilerNode as unknown as string, tsqueryString).map(
+		// eslint-disable-next-line ts/no-explicit-any, ts/no-unsafe-call, ts/no-unsafe-member-access
 		(n) => (node as any)._getNodeFromCompilerNode(n) as Node,
 	) as T[]
 }
@@ -138,8 +152,9 @@ export function queryTree<T extends Node>(node: Node, tsqueryString: string): T[
 export type PropNode = MethodSignature | PropertySignature
 
 /**
+ * Get a prop node by name from a component definition file
  * @param source - either a string of source code, the name of a component with an existing definition file, or a Node
- * @param propName - optional name of a specific prop to return, happens at query level so might be more efficient than filtering the returned array
+ * @param propertyName - optional name of a specific prop to return, happens at query level so might be more efficient than filtering the returned array
  * @param include - 'all' | 'commented' | 'uncommented' to filter the props returned by the presence of comments on the props
  * @returns an array of ts-morph Nodes representing the props meeting the argument criteria, or an empty array if none are found
  */
@@ -152,6 +167,7 @@ export function getProp(
 }
 
 /**
+ * Get all prop nodes from a component definition file
  * @param source - either a string of source code, the name of a component with an existing definition file, or a Node
  * @param include - 'all' | 'commented' | 'uncommented' to filter the props returned by the presence of comments on the props
  * @returns an array of ts-morph Nodes representing the props meeting the argument criteria, or an empty array if none are found
@@ -182,7 +198,7 @@ function getPropsInternal(
 // Doc-specific
 
 function extractCodeBlock(inputString: string): string | undefined {
-	const regex = /```\w*\n([\S\s]+?)```/gm
+	const regex = /```\w*\n([\s\S]+?)```/
 	const match = regex.exec(inputString)
 	if (match?.[1]) {
 		return match[1].trim()
@@ -213,6 +229,7 @@ export async function getComponentExampleCodeFromSource(
 	const useAst = true
 
 	let exampleCommentWithFence: string | undefined
+	// eslint-disable-next-line ts/no-unnecessary-condition
 	if (useAst) {
 		// Note that this breaks if there are @ css blocks in the JSDoc comments,
 		// but so do a lot of other things so just don't do that!
@@ -221,10 +238,10 @@ export async function getComponentExampleCodeFromSource(
 		exampleCommentWithFence =
 			classDeclaration
 				.getJsDocs()
-				?.at(0)
+				.at(0)
 				?.getTags()
 				.find((tag) => tag.getTagName() === 'example')
-				?.getCommentText() ?? classDeclaration.getJsDocs()?.at(0)?.getCommentText()
+				?.getCommentText() ?? classDeclaration.getJsDocs().at(0)?.getCommentText()
 	} else {
 		// Get the full text of the JSDoc block and strip the JSDoc syntax
 		const fullCommentText = classDeclaration
@@ -240,7 +257,7 @@ export async function getComponentExampleCodeFromSource(
 
 		// Pull out just the @example code fence
 		// TODO multiple example support (via .exec, /g doesn't work with .match)
-		exampleCommentWithFence = /@example[\S\s]+(```[\S\s]+```)/m.exec(fullCommentText)?.at(1)
+		exampleCommentWithFence = /@example[\s\S]+(```[\s\S]+```)/.exec(fullCommentText)?.at(1)
 	}
 
 	if (exampleCommentWithFence === undefined) {
@@ -282,7 +299,9 @@ async function lint(code: string, fileExtension: string): Promise<string> {
 	// Create an instance of the linter
 	const eslint = new ESLint({
 		fix: true,
-		useEslintrc: true,
+		// TODO does this find the config?
+		// eslint-disable-next-line unicorn/no-null
+		overrideConfigFile: null,
 	})
 
 	let result: ESLint.LintResult | undefined
@@ -347,7 +366,7 @@ export async function format(code: string, formatParser: string): Promise<string
 	})
 }
 
-export async function getLastUpdatedDate(filePath: string): Promise<Date | void> {
+export async function getLastUpdatedDate(filePath: string): Promise<Date | undefined> {
 	return new Promise((resolve, reject) => {
 		exec(`git log -1 --format=%cd "${filePath}"`, (error, stdout) => {
 			if (error) {
@@ -357,7 +376,8 @@ export async function getLastUpdatedDate(filePath: string): Promise<Date | void>
 
 			const date = new Date(stdout.trim())
 			if (Number.isNaN(date.getTime())) {
-				resolve()
+				// eslint-disable-next-line unicorn/no-useless-undefined
+				resolve(undefined)
 			} else {
 				resolve(date)
 			}

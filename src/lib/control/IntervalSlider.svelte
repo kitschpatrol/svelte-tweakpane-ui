@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils'
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { Simplify } from '$lib/utilities'
+	import type { ValueChangeEvent } from '$lib/utilities.js'
 	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane'
 
 	export type IntervalSliderValueTuple = [min: number, max: number]
@@ -41,7 +41,7 @@
 	export let wide: $$Props['wide'] = undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 	type $$Events = {
 		/**
 		 * Fires when `value` changes.

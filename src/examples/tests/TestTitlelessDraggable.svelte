@@ -10,6 +10,6 @@
 	<Text bind:value={title} label="Pane Title" />
 </Pane>
 
-<Pane localStoreId={'B'} position="draggable" title={title2} x={10} y={220}>
+<Pane localStoreId="B" position="draggable" title={title2} x={10} y={220}>
 	<Text bind:value={title2} label="Pane Title" />
 </Pane>

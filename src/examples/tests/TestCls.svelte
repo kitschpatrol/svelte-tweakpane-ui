@@ -147,7 +147,6 @@
 
 	onMount(() => {
 		let animationFrameHandle: number
-
 		;(function tick() {
 			// Nesting measurements creates a hierarchy in the Profile visualization
 			measure('Tick', () => {
@@ -201,16 +200,16 @@
 
 <h1>Rotation</h1>
 
-<RotationQuaternion bind:value={rev2} expanded={true} label="CSS Rotation" picker={'inline'} />
+<RotationQuaternion bind:value={rev2} expanded={true} label="CSS Rotation" picker="inline" />
 <h1>Rotation</h1>
 
-<RotationQuaternion bind:value={rev2} expanded={true} picker={'inline'} />
+<RotationQuaternion bind:value={rev2} expanded={true} picker="inline" />
 <h1>Rotation</h1>
 
-<RotationEuler bind:value={rev} expanded={true} label="CSS Rotation" picker={'inline'} />
+<RotationEuler bind:value={rev} expanded={true} label="CSS Rotation" picker="inline" />
 <h1>Rotation</h1>
 
-<RotationEuler bind:value={rev} expanded={true} picker={'inline'} />
+<RotationEuler bind:value={rev} expanded={true} picker="inline" />
 
 <h1>Profiler</h1>
 
@@ -279,15 +278,8 @@
 </Pane>
 
 <h1>wave Monitor</h1>
-<WaveformMonitor value={waveData} min={-1} max={11} lineStyle={'bezier'} />
-<WaveformMonitor
-	value={waveData}
-	min={-1}
-	max={11}
-	bufferSize={500}
-	lineStyle={'bezier'}
-	rows={10}
-/>
+<WaveformMonitor value={waveData} min={-1} max={11} lineStyle="bezier" />
+<WaveformMonitor value={waveData} min={-1} max={11} bufferSize={500} lineStyle="bezier" rows={10} />
 
 <h1>Monitor String Rows without Multiline</h1>
 <Monitor value={stringToMonitor} label="String Monitor" multiline={true} />
@@ -348,7 +340,7 @@
 </Element>
 
 <h1>Binding</h1>
-<Binding bind:object={bindingObject} key={'r'} label="Reticulation" />
+<Binding bind:object={bindingObject} key="r" label="Reticulation" />
 <h1>Auto object</h1>
 <AutoObject bind:object />
 

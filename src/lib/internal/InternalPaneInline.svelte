@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ComponentProps } from 'svelte'
 	import GenericPane from '$lib/internal/GenericPane.svelte'
-	import { removeKeys } from '$lib/utils.js'
+	import { removeKeys } from '$lib/utilities.js'
 	import { onMount } from 'svelte'
 
 	type $$Props = {
@@ -19,7 +19,6 @@
 		width?: number
 	} & ComponentProps<GenericPane>
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {
 		/**
 		 * Any Tweakpane component, except another `<Pane>`.
@@ -44,6 +43,7 @@
 	onMount(() => {
 		if (tpPane) {
 			const fixedContainer = tpPane.element.parentElement
+			// eslint-disable-next-line svelte/no-dom-manipulating
 			containerElement.append(tpPane.element)
 			fixedContainer?.remove()
 		} else {

@@ -17,7 +17,7 @@ async function generateComponentData(
 	componentPath: string,
 	destination: string,
 	outputFormat: 'json' | 'mdx', // Must match file extension
-	testProps?: ComponentDynamicPropTest[] | undefined,
+	testProps?: ComponentDynamicPropTest[],
 ): Promise<boolean> {
 	const expandedPath = componentPath.replace('$lib', './src/lib')
 

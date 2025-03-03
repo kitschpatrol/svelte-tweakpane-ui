@@ -10,7 +10,7 @@
 	import type { Writable } from 'svelte/store'
 	import type { BladeApi, FolderApi } from 'tweakpane'
 	import GenericPane from '$lib/internal/GenericPane.svelte'
-	import { clamp, getSwatchButton, pickerIsOpen, removeKeys } from '$lib/utils.js'
+	import { clamp, getSwatchButton, pickerIsOpen, removeKeys } from '$lib/utilities.js'
 	import { onDestroy, onMount } from 'svelte'
 	import { persisted } from 'svelte-persisted-store'
 
@@ -113,7 +113,6 @@
 		width?: number
 	} & Omit<ComponentProps<GenericPane>, 'userCreatedPane'>
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {
 		/**
 		 * Any Tweakpane component, except another `<Pane>`.
@@ -414,6 +413,7 @@
 		setDocumentSize()
 
 		if (tpPane) {
+			// eslint-disable-next-line svelte/no-dom-manipulating
 			containerElement.append(tpPane.element)
 		} else {
 			console.warn('no tpPane in draggable')
@@ -432,7 +432,6 @@
 			dragBarElement.addEventListener('dblclick', doubleClickListener)
 
 			// Add width adjuster handle
-			// eslint-disable-next-line unicorn/prefer-dom-node-append
 			widthHandleElement = dragBarElement.parentElement?.appendChild(document.createElement('div'))
 			if (widthHandleElement) {
 				widthHandleElement.className = 'tp-custom-width-handle'

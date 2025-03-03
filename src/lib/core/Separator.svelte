@@ -10,7 +10,6 @@
 
 	// Note stacking multiple separators breaks SSR?
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Props = Omit<
 		ComponentProps<Blade<SeparatorOptions, SeparatorBladeRef>>,
 		'options' | 'plugin' | 'ref'

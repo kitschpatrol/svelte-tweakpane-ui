@@ -1,10 +1,11 @@
 ---
-import { allPropConditions, allProps, type ComponentData } from '../../utils/prop-utils'
+import { allPropConditions, allProps, type ComponentData } from '../../utils/prop-utilities'
 import DynamicPropAdmonition from './DynamicPropAdmonition.mdx'
 import ExampleWrapper from './ExampleWrapper.astro'
 import Heading from './Heading.astro'
 import PropTable from './PropTable.astro'
 // Bypasses any markdown customization in starlight...
+// eslint-disable-next-line node/no-unpublished-import
 import { marked } from 'marked'
 
 type Props = {
@@ -13,7 +14,7 @@ type Props = {
 
 const { componentData: data } = Astro.props
 
-// eslint-disable-next-line @typescript-eslint/naming-convention, unicorn/no-await-expression-member
+// eslint-disable-next-line ts/naming-convention, unicorn/no-await-expression-member, ts/no-unsafe-assignment, ts/no-unsafe-member-access
 const ExampleCode = (await import(`../../examples/components/${data?.name}Example.md`)).default
 
 const hasExample = Boolean(data?.jsDocs?.example)

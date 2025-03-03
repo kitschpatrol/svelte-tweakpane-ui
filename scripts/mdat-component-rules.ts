@@ -7,7 +7,6 @@ import { getComponentInfo } from './component-info'
 
 const mdatComponentRules = {
 	'component-count': String(getExportedComponents('./src/lib/index.ts').length),
-
 	'component-list': {
 		async content() {
 			const components = getExportedComponents('./src/lib/index.ts')

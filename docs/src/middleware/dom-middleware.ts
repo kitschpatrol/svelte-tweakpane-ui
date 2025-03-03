@@ -1,3 +1,4 @@
+/* eslint-disable node/no-unpublished-import */
 // TODO move this to a package
 
 import type { APIContext, MiddlewareHandler } from 'astro'
@@ -13,8 +14,6 @@ export type DomMiddlewareHandler = (
  * Define a DOM middleware handler that can be used in `domSequence()`.
  *
  * This is a convenience function that allows you to define a middleware handler that operates on the DOM.
- * @param fn
- * @returns DomMiddlewareHandler
  */
 export function defineDomMiddleware(fn: DomMiddlewareHandler): DomMiddlewareHandler {
 	return fn
@@ -22,8 +21,6 @@ export function defineDomMiddleware(fn: DomMiddlewareHandler): DomMiddlewareHand
 
 /**
  * Define a DOM middleware handler in the form of Astro's MiddlewareHandler.
- * @param fn
- * @returns
  */
 export function defineDomMiddlewareAsMiddleware(fn: DomMiddlewareHandler): MiddlewareHandler {
 	return domSequence(fn)
@@ -33,8 +30,6 @@ export function defineDomMiddlewareAsMiddleware(fn: DomMiddlewareHandler): Middl
  * Like Astro's `sequence()` middleware, but passes DOM objects through instead of Response objects.
  *
  * Running as a sequence allows you to run multiple DOM transforms via a single parse and render of the DOM.
- * @param domHandlers
- * @returns Astro MiddlewareHandler
  */
 export function domSequence(...domHandlers: DomMiddlewareHandler[]): MiddlewareHandler {
 	return defineMiddleware(async (context, next) => {
@@ -54,7 +49,7 @@ export function domSequence(...domHandlers: DomMiddlewareHandler[]): MiddlewareH
 		}
 
 		// Linkedom implements a `toString()` that serializes the document back to HTML
-		// eslint-disable-next-line @typescript-eslint/no-base-to-string
+		// eslint-disable-next-line ts/no-base-to-string, node/no-unsupported-features/node-builtins
 		return new Response(document.toString(), {
 			headers: response.headers,
 			status: response.status,

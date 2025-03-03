@@ -1,6 +1,7 @@
 ---
+// eslint-disable-next-line node/no-unpublished-import
 import { marked } from 'marked'
-import type { ComponentProp, Condition, ConditionsRecord } from '../../utils/prop-utils'
+import type { ComponentProp, Condition, ConditionsRecord } from '../../utils/prop-utilities'
 import Flags from './Flags.astro'
 import Heading from './Heading.astro'
 
@@ -41,7 +42,7 @@ function isRequired(type: string): boolean {
 	return !type.includes('undefined')
 }
 
-function getFlags(prop: ComponentProp, dynamic: boolean = false): string[] {
+function getFlags(prop: ComponentProp, dynamic = false): string[] {
 	const flags = Object.keys(prop.jsDocs)
 		// Default gets its own row, and so does example
 		.filter((key) => key !== 'default')
@@ -108,8 +109,14 @@ const {
 						<td class="prop-name" colspan="2">
 							<span class="prop-heading">
 								<Heading level={3} set:html={prop.name} />
+
 								{showFlags && (
-									<Flags names={getFlags(prop, conditionData[prop.name] !== undefined)} />
+									<Flags
+										names={getFlags(
+											prop,
+											(conditionData[prop.name] as Condition[] | undefined) !== undefined,
+										)}
+									/>
 								)}
 							</span>
 						</td>
@@ -118,7 +125,7 @@ const {
 						<th>Description</th>
 						<td set:html={marked.parse(prop.doc, {})} />
 					</tr>
-					{prop.jsDocs.extends !== undefined && (
+					{(prop.jsDocs.extends as string | undefined) !== undefined && (
 						<tr>
 							<th>Extends</th>
 							<td>
@@ -144,7 +151,7 @@ const {
 							<td set:html={cleanExample(prop.jsDocs.example)} />
 						</tr>
 					)}
-					{conditionData[prop.name] !== undefined && (
+					{(conditionData[prop.name] as Condition[] | undefined) !== undefined && (
 						<tr>
 							<th>Conditions</th>
 							<td set:html={conditionsDescription(conditionData[prop.name])} />

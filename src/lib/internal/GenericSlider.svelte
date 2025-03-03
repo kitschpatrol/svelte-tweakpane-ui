@@ -1,5 +1,4 @@
 <script generics="T extends number | IntervalSliderValue" lang="ts">
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { IntervalSliderValue } from '$lib/control/IntervalSlider.svelte'
 	import type { ComponentProps } from 'svelte'
 	import type { NumberInputParams as GenericSliderOptions } from 'tweakpane'

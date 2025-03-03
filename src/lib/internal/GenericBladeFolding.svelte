@@ -1,12 +1,11 @@
 <script context="module" lang="ts">
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BladeOptions, BladeRef } from '$lib/core/Blade.svelte'
 </script>
 
 <script generics="T extends BladeOptions, U extends BladeRef" lang="ts">
 	import type { ComponentProps } from 'svelte'
 	import Blade from '$lib/core/Blade.svelte'
-	import { updateCollapsibility } from '$lib/utils'
+	import { updateCollapsibility } from '$lib/utilities'
 
 	type $$Props = {
 		/**
@@ -51,11 +50,9 @@
 
 	$: if (!gotBlade && ref) {
 		gotBlade = true
-
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		;(ref.controller as any)?.valueController?.foldable_
 			?.value('expanded')
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 			.emitter.on('change', (event: any) => {
 				internalExpanded = event.rawValue
 				expanded = internalExpanded

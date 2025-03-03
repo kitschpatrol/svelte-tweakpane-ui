@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { Container } from '$lib/utils.js'
+	import type { Container } from '$lib/utilities.js'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import { applyTheme, type Theme } from '$lib/theme.js'
-	import { type Plugin, updateCollapsibility } from '$lib/utils.js'
+	import { type Plugin, updateCollapsibility } from '$lib/utilities.js'
 	import { BROWSER } from 'esm-env'
 	import { getContext, onDestroy, setContext, tick } from 'svelte'
 	import { type Writable, writable } from 'svelte/store'
@@ -100,7 +100,6 @@
 	 * */
 	export let tpPane: TpPane | undefined = undefined
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {
 		/**
 		 * Any Tweakpane component, except another `<Pane>`.
@@ -181,6 +180,7 @@
 				expanded !== undefined &&
 				tpPane.expanded !== expanded
 			) {
+				// eslint-disable-next-line svelte/infinite-reactive-loop
 				tpPane.expanded = expanded
 			}
 		})
@@ -191,6 +191,7 @@
 	$: tpPane && updateCollapsibility(userExpandable, tpPane.element, 'tp-rotv_b', 'tp-rotv_m')
 	$: tpPane && title !== undefined && (tpPane.title = title.length > 0 ? title : ' ')
 	$: tpPane && applyTheme(tpPane.element, theme)
+	// eslint-disable-next-line svelte/infinite-reactive-loop
 	$: tpPane && updateExpanded(expanded)
 </script>
 

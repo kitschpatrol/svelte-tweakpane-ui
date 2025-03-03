@@ -1,4 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-type-arguments */
+/* eslint-disable ts/no-unsafe-call */
+/* eslint-disable ts/no-explicit-any */
+/* eslint-disable node/no-unsupported-features/node-builtins */
+/* eslint-disable ts/no-unnecessary-type-parameters */
+/* eslint-disable ts/no-unsafe-member-access */
+/* eslint-disable ts/no-unnecessary-type-arguments */
 
 // Type aliases and utility functions
 
@@ -10,7 +15,7 @@ export type Container = FolderApi | Pane | TabPageApi
 
 // From https://github.com/sindresorhus/type-fest doesn't work for hover expansion when imported,
 // only if defined in the file where it's used?
-export type Simplify<T> = { [KeyType in keyof T]: T[KeyType] } & NonNullable<unknown>
+export type Simplify<T> = NonNullable<unknown> & { [KeyType in keyof T]: T[KeyType] }
 
 // From https://github.com/sindresorhus/type-fest this works?
 export type SimplifyDeep<Type> = Type extends Theme // Exclude Theme
@@ -33,15 +38,15 @@ export type Plugin = TpPluginBundle
  */
 export type ValueChangeEvent<V> = CustomEvent<{
 	/**
-	 * A copy of the value at the time of the event.
-	 */
-	value: V
-	/**
 	 * The origin of the event.
 	 * Changes resulting from the user's direct manipulation of the control will are marked as `internal`.
 	 * Changes resulting from manipulation of the bound value from _outside_ the component are marked as `external`.
 	 */
 	origin: 'external' | 'internal'
+	/**
+	 * A copy of the value at the time of the event.
+	 */
+	value: V
 }>
 
 /**
@@ -63,11 +68,7 @@ export type UnwrapCustomEvents<T> = {
 /**
  * For CLS SSR calculation
  */
-export function rowsForMonitor(
-	buffer?: number | undefined,
-	rows?: number | undefined,
-	graph?: boolean | undefined,
-) {
+export function rowsForMonitor(buffer?: number, rows?: number, graph?: boolean) {
 	if (graph) {
 		return Math.max(rows ?? 3, 3)
 	}
@@ -159,7 +160,7 @@ export function clamp(value: number, min: number, max: number): number {
 
 export function getElementIndex(element: HTMLElement): number {
 	let index = 0
-	// eslint-disable-next-line @typescript-eslint/ban-types
+
 	let sibling: Element | null | undefined = element
 	while ((sibling = sibling.previousElementSibling) !== null) {
 		// The Element component can add extra stuff to the DOM which will mess up counting...
@@ -177,7 +178,7 @@ export function getElementIndex(element: HTMLElement): number {
 export function removeKeys<T extends Record<string, unknown>>(object: T, ...keys: string[]): T {
 	for (const key of keys) {
 		if (key in object) {
-			// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+			// eslint-disable-next-line ts/no-dynamic-delete
 			delete object[key as keyof T]
 		}
 	}
@@ -193,7 +194,7 @@ function clickBlocker(event: MouseEvent) {
 // Used by folder and pane TODO rewrite to use getSwatchButton etc.
 export function updateCollapsibility(
 	isUserExpandableEnabled: boolean,
-	element: HTMLElement,
+	element: HTMLElement | undefined,
 	titleBarClass: string,
 	iconClass?: string,
 ) {
@@ -262,11 +263,12 @@ export function getGridDimensions(
 	return { columns, rows }
 }
 
+// eslint-disable-next-line ts/consistent-indexed-object-style
 export function tupleToObject<T extends string, O extends { [K in T]: number }>(
 	tuple: number[],
 	keys: T[],
 ): O {
-	// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+	// eslint-disable-next-line ts/consistent-type-assertions
 	const result = {} as O
 
 	for (const [index, key] of keys.entries()) {
@@ -303,20 +305,17 @@ export function objectToTuple<T extends string, O extends Record<T, number>>(
 // Tweakpane  helpers
 
 export function pickerIsOpen(blade: BladeApi<BladeController<View>>): boolean {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	return (blade.controller as any).valueController?.foldable_?.valMap_?.expanded?.value_
+	return Boolean((blade.controller as any).valueController?.foldable_?.valMap_?.expanded?.value_)
 }
 
 export function getSwatchButton(
 	blade: BladeApi<BladeController<View>>,
 ): HTMLButtonElement | undefined {
-	const swatch =
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		((blade.controller as any)?.valueController?.view?.swatchElement?.querySelector('button') ??
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			(blade.controller as any)?.valueController?.view?.buttonElement) as
-			| HTMLButtonElement
-			| undefined
+	const swatch = ((blade.controller as any)?.valueController?.view?.swatchElement?.querySelector(
+		'button',
+	) ?? (blade.controller as any)?.valueController?.view?.buttonElement) as
+		| HTMLButtonElement
+		| undefined
 
 	return swatch
 }
@@ -395,7 +394,7 @@ export default {
 	 * Convenience function for creating CSS-ready euler rotation transforms
 	 * @param rotation - `RotationEulerValue`, probably from a `<RotationEuler>` component
 	 * @param quaternion
-	 * @returns CSS rotateX/Y/Z string ready to be passed into a CSS transform
+	 * @returns CSS rotate X/Y/Z string ready to be passed into a CSS transform
 	 */
 	eulerToCssTransform,
 	/**

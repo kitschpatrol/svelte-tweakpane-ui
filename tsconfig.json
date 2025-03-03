@@ -2,26 +2,23 @@
 	"extends": "./.svelte-kit/tsconfig.json",
 
 	"compilerOptions": {
-		"allowImportingTsExtensions": true,
+		"jsx": "preserve", // Astro
+		"resolveJsonModule": true,
+		"allowImportingTsExtensions": true, // Astro
+		// "allowImportingTsExtensions": true,
 		"allowJs": true,
 		"checkJs": true,
+		"strict": true,
 		"noEmit": true,
+		"removeComments": false,
+		"sourceMap": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"noErrorTruncation": true,
-		"removeComments": false,
-		"resolveJsonModule": true,
-		"skipLibCheck": true,
-		"sourceMap": true,
-		"strict": true
+		"skipLibCheck": true
 	},
 
-	"include": [
-		"**/*",
-		"**/**.*",
-		"./.svelte-kit/ambient.d.ts",
-		"./.svelte-kit/types/**/$types.d.ts"
-	],
+	"include": ["**/*", "**/**.*", ".svelte-kit/ambient.d.ts", ".svelte-kit/types/**/$types.d.ts"],
 
-	"exclude": ["**/dist/", "**/build/", "**/bin/", "./svelte-5", "./docs"]
+	"exclude": ["**/dist/", "**/build/", "**/bin/"]
 }

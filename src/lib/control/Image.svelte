@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { ValueChangeEvent } from '$lib/utilities.js'
 
 	export type ImageValue = string | undefined
 	export type ImageChangeEvent = ValueChangeEvent<ImageValue>
@@ -13,7 +13,7 @@
 	import type { ComponentProps } from 'svelte'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import GenericInput from '$lib/internal/GenericInput.svelte'
-	import { fillWith } from '$lib/utils'
+	import { fillWith } from '$lib/utilities'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-image'
 	import { BROWSER } from 'esm-env'
 	import { shallowEqual } from 'fast-equals'
@@ -47,7 +47,7 @@
 	export let extensions: $$Props['extensions'] = undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 	type $$Events = {
 		/**
 		 * Fires when `value` changes.

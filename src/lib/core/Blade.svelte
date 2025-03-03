@@ -2,7 +2,7 @@
 	import type { BaseBladeParams, BladeApi } from 'tweakpane'
 	export type BladeRef = BladeApi // Required for input folding
 	export type BladeOptions = BaseBladeParams
-	export type { Plugin } from '$lib/utils.js'
+	export type { Plugin } from '$lib/utilities.js'
 </script>
 
 <script generics="U extends BladeOptions, V extends BladeRef" lang="ts">
@@ -16,7 +16,7 @@
 		getElementIndex,
 		isRootPane,
 		type Plugin,
-	} from '$lib/utils.js'
+	} from '$lib/utilities.js'
 	import { BROWSER, DEV } from 'esm-env'
 	import { getContext, onDestroy, onMount } from 'svelte'
 

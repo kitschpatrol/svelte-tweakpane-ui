@@ -1,22 +1,76 @@
 import { eslintConfig } from '@kitschpatrol/eslint-config'
 
-export default eslintConfig({
-	ignores: [
-		// generated kit files
-		'src/examples/components/*',
-
-		// generated doc files
-		'docs/src/content/docs/docs/components/*',
-		'docs/src/content/acknowledgments/*',
-		'docs/src/examples/*',
-
-		// svelte-5 test project
-		'svelte-5/src/*',
-	],
-
-	svelte: true,
-	type: 'lib',
-})
+export default eslintConfig(
+	{
+		astro: {
+			overrides: {
+				// TODO included in the next kpi patch?
+				'import/no-unresolved': ['error', { ignore: ['^astro:', '^@astrojs'] }],
+			},
+		},
+		ignores: [
+			// Generated kit files
+			'src/examples/components/*',
+			// Generated doc files
+			'docs/src/content/docs/docs/components/*',
+			'docs/src/content/acknowledgments/*',
+			'docs/src/examples/*',
+		],
+		svelte: {
+			overrides: {
+				// Oh no...
+				'svelte/no-reactive-reassign': 'off',
+				'svelte/require-each-key': 'off',
+			},
+		},
+		ts: {
+			overrides: {
+				'depend/ban-dependencies': [
+					'error',
+					{
+						allowed: ['execa', 'glob', 'fs-extra'],
+					},
+				],
+				'import/no-named-as-default-member': 'off',
+				// TODO included in the next kpi patch
+				'import/no-unresolved': ['error', { ignore: ['^astro:', '^@astrojs'] }],
+				'jsdoc/require-jsdoc': 'off',
+				// TODO is this the default?
+				// 'ts/no-base-to-string': [
+				// 	'error',
+				// 	{ ignoredTypeNames: ['Error', 'RegExp', 'URL', 'URLSearchParams'] },
+				// ],
+				'ts/no-inferrable-types': 'off',
+				// TODO warning-only implementation is coming in the next kpi patch
+				'ts/no-restricted-types': 'off',
+			},
+		},
+		type: 'lib',
+	},
+	{
+		// TODO gone in the next kpi patch
+		files: ['src/app.html'],
+		rules: {
+			'@html-eslint/no-inline-styles': 'off',
+			'@html-eslint/require-title': 'off',
+		},
+	},
+	{
+		files: ['docs/package.json'],
+		rules: {
+			'json-package/require-keywords': 'off',
+			// Because of link to parent
+			'json-package/valid-package-definition': 'off',
+		},
+	},
+	{
+		// TODO fix these code block issues in kpi
+		files: ['**/*.{mdx,md,astro}/*.{svelte,ts,js,mts,mjs}'],
+		rules: {
+			'unicorn/filename-case': 'off',
+		},
+	},
+)
 
 // TODO OLD
 // // Overrides for svelte-tweakpane-ui
@@ -115,13 +169,13 @@ export default eslintConfig({
 // 		{
 // 			files: ['*.svelte'],
 // 			rules: {
-// 				'@typescript-eslint/ban-types': 'off',
-// 				'@typescript-eslint/consistent-type-assertions': 'off',
-// 				'@typescript-eslint/dot-notation': 'off',
-// 				'@typescript-eslint/no-duplicate-type-constituents': 'off',
-// 				'@typescript-eslint/no-redundant-type-constituents': 'off',
-// 				'@typescript-eslint/no-unnecessary-type-arguments': 'off',
-// 				'@typescript-eslint/restrict-plus-operands': 'off',
+// 				'ts/ban-types': 'off',
+// 				'ts/consistent-type-assertions': 'off',
+// 				'ts/dot-notation': 'off',
+// 				'ts/no-duplicate-type-constituents': 'off',
+// 				'ts/no-redundant-type-constituents': 'off',
+// 				'ts/no-unnecessary-type-arguments': 'off',
+// 				'ts/restrict-plus-operands': 'off',
 // 				'no-return-assign': 'off',
 // 				'unicorn/no-null': 'off',
 // 				'unicorn/prefer-export-from': 'off'
@@ -143,7 +197,7 @@ export default eslintConfig({
 // 		{
 // 			files: ['*.astro'],
 // 			rules: {
-// 				'@typescript-eslint/restrict-template-expressions': 'off'
+// 				'ts/restrict-template-expressions': 'off'
 // 			}
 // 		}
 // 	],
@@ -151,12 +205,12 @@ export default eslintConfig({
 // 	root: true,
 
 // 	rules: {
-// 		'@typescript-eslint/no-inferrable-types': 'off',
-// 		'@typescript-eslint/no-unsafe-argument': 'off',
-// 		'@typescript-eslint/no-unsafe-assignment': 'off',
-// 		'@typescript-eslint/no-unsafe-call': 'off',
-// 		'@typescript-eslint/no-unsafe-member-access': 'off',
-// 		'@typescript-eslint/no-unsafe-return': 'off',
+// 		'ts/no-inferrable-types': 'off',
+// 		'ts/no-unsafe-argument': 'off',
+// 		'ts/no-unsafe-assignment': 'off',
+// 		'ts/no-unsafe-call': 'off',
+// 		'ts/no-unsafe-member-access': 'off',
+// 		'ts/no-unsafe-return': 'off',
 // 		'n/no-unsupported-features/node-builtins': 'off',
 // 		'perfectionist/sort-object-types': ['error', perfectionistSortOverrides],
 // 		'perfectionist/sort-objects': ['error', perfectionistSortOverrides],

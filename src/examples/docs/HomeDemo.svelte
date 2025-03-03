@@ -149,7 +149,6 @@
 	let offsets: PointValue4dTuple = [0, 0, 0, 0]
 	let headingUp: [boolean, boolean, boolean, boolean] = [true, true, true, true]
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	function reset() {
 		time = 0
 		playing = true
@@ -170,7 +169,6 @@
 	)
 	;(point3 as Writable<PointValue3dTuple>).set = (newItems) =>
 		($point4 = [newItems[0], newItems[1], newItems[2], $point4[3]])
-
 	;(point3 as Writable<PointValue3dTuple>).set = (newItems) =>
 		($point4 = [newItems[0], newItems[1], newItems[2], $point4[3]])
 
@@ -196,6 +194,7 @@
 		...defaultTheme,
 	}
 	$: period = 1 / ((periodSeconds / Math.PI) * 500)
+	// eslint-disable-next-line svelte/no-immutable-reactive-statements
 	$: [min, max] = interval2
 
 	$: {
@@ -240,7 +239,7 @@
 				max={1.2}
 				bufferSize={1800}
 				graph={true}
-				label={`<Monitor>`}
+				label="<Monitor>"
 			/>
 			<Separator />
 			<!-- <Button on:click={reset} label="<Button> Reset" title="Reset" /> -->
@@ -298,7 +297,7 @@ Max"
 					expanded={false}
 					label="<Color> R G B A"
 					picker="inline"
-					type={'float'}
+					type="float"
 				/>
 				<Separator />
 				<Point

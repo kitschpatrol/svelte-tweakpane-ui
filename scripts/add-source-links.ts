@@ -27,6 +27,7 @@ async function addLinksToComponentBlock(filePath: string): Promise<void> {
 			console.warn(`No @sourceLink found in ${filePath}`)
 		}
 	} else {
+		// eslint-disable-next-line ts/no-unnecessary-condition
 		if (verbose) console.log(`Added source links to ${filePath}`)
 		fs.writeFileSync(filePath, updatedContent, 'utf8')
 	}

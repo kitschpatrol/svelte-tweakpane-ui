@@ -88,6 +88,7 @@ console.log(`Healing missing prop comments for ${componentNames.length} componen
 
 // Order doesn't matter since going up the chain is consistent
 for (const componentName of componentNames) {
+	// eslint-disable-next-line ts/no-unnecessary-condition
 	if (verbose) console.log(`Adding missing prop comments for "${componentName}"`)
 	totalPropsFixed += inheritPropCommentsAndSave(componentName)
 }

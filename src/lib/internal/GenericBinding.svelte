@@ -1,5 +1,4 @@
 <script context="module" lang="ts">
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	import type { BindingOptions, BindingRef } from '$lib/core/Binding.svelte'
 </script>
 
@@ -7,7 +6,7 @@
 	generics="T extends any, U extends BindingOptions = BindingOptions, V extends BindingRef = BindingRef"
 	lang="ts"
 >
-	import type { BindingObject } from '$lib/utils.js'
+	import type { BindingObject } from '$lib/utilities.js'
 	import type { ComponentProps } from 'svelte'
 	import Binding from '$lib/core/Binding.svelte'
 	import { shallowEqual } from 'fast-equals'
@@ -37,10 +36,12 @@
 
 	function setValue() {
 		if (!shallowEqual(value, object[key])) {
+			// TODO reactive reassign here and in the template below
 			object[key] = value
 		}
 	}
 
+	// eslint-disable-next-line svelte/no-immutable-reactive-statements
 	$: object = { [key]: getValue() }
 	$: value = object[key]
 	$: value, setValue()

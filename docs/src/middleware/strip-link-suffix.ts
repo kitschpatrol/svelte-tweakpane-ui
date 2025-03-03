@@ -6,7 +6,7 @@ export const stripLinkSuffix = defineDomMiddleware((context, document) => {
 	if (context.site && baseUrl) {
 		const baseValues = [
 			`${stripTrailingSlash(context.site.toString())}${stripTrailingSlash(baseUrl)}`,
-			`${stripTrailingSlash(baseUrl)}`,
+			stripTrailingSlash(baseUrl),
 		]
 
 		// Find and modify anchor elements

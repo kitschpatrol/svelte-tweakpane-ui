@@ -2,10 +2,10 @@
 import type { Props } from '@astrojs/starlight/props'
 import StarlightTableOfContents from '@astrojs/starlight/components/TableOfContents.astro'
 import { slug } from 'github-slugger'
-import { allProps } from '../../utils/prop-utils'
+import { allProps } from '../../utils/prop-utilities'
 
 const { componentData } = Astro.props.entry.data
-import type { ComponentProp } from '../../utils/prop-utils'
+import type { ComponentProp } from '../../utils/prop-utilities'
 
 // Mutate props to add ToC items on component pages
 // bad work-around for https://github.com/withastro/astro/issues/5084
@@ -13,7 +13,7 @@ function propHeadings(propData: ComponentProp[]) {
 	return propData.map((prop) => tocItemForHeading(prop.name, 3))
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line ts/no-explicit-any
 function tocItemForHeading(heading: string, depth: number, children: any[] = []) {
 	return {
 		children,

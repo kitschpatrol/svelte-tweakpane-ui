@@ -11,7 +11,7 @@
 >
 	import type { ComponentProps } from 'svelte'
 	import GenericInput from '$lib/internal/GenericInput.svelte'
-	import { updateCollapsibility } from '$lib/utils.js'
+	import { updateCollapsibility } from '$lib/utilities.js'
 
 	// TODO share prop definitions with GenericBladeFolding?
 	type $$Props = {
@@ -59,11 +59,9 @@
 
 	$: if (!gotBinding && ref) {
 		gotBinding = true
-
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		;(ref.controller as any)?.valueController?.foldable_
 			?.value('expanded')
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 			.emitter.on('change', (event: any) => {
 				internalExpanded = event.rawValue
 				expanded = internalExpanded

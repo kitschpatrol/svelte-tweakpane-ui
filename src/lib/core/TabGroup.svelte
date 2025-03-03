@@ -4,7 +4,7 @@
 	import type { TabApi as TabGroupRef } from 'tweakpane'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
-	import { type Container, getElementIndex, isRootPane } from '$lib/utils.js'
+	import { type Container, getElementIndex, isRootPane } from '$lib/utilities.js'
 	import { BROWSER } from 'esm-env'
 	import { getContext, onDestroy, onMount, setContext } from 'svelte'
 	import { writable } from 'svelte/store'
@@ -33,7 +33,6 @@
 	 * */
 	export let theme: Theme | undefined = undefined
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {
 		/**
 		 * A `<TabPage>` component.

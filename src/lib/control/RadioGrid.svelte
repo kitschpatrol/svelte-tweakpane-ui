@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { ValueChangeEvent } from '$lib/utilities.js'
 
 	export type RadioGridChangeEvent = ValueChangeEvent<boolean | number | string>
 </script>
@@ -8,8 +8,8 @@
 	import type { ComponentProps } from 'svelte'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import GenericInput, { type GenericInputOptions } from '$lib/internal/GenericInput.svelte'
-	import { fillWith } from '$lib/utils'
-	import { getGridDimensions } from '$lib/utils.js'
+	import { fillWith } from '$lib/utilities'
+	import { getGridDimensions } from '$lib/utilities.js'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
 	import { BROWSER } from 'esm-env'
 	import { nanoid } from 'nanoid'
@@ -90,7 +90,7 @@
 	export let prefix: $$Props['prefix'] = undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 	type $$Events = {
 		/**
 		 * Fires when `value` changes.

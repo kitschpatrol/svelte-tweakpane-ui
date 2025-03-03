@@ -17,17 +17,16 @@
 				break
 			}
 			default: {
-				// eslint-disable-next-line unicorn/no-useless-undefined
 				ThemeUtils.setGlobalDefaultTheme(undefined)
 				break
 			}
 		}
 	}
 
-	// set current
+	// Set current
 	setTweakpaneThemeFromAstroTheme(document.documentElement.getAttribute(themeKey) ?? 'dark')
 
-	// watch for changes
+	// Watch for changes
 	const observer = new MutationObserver((mutations: MutationRecord[]) => {
 		for (const mutation of mutations) {
 			if (mutation.type === 'attributes' && mutation.attributeName === themeKey) {

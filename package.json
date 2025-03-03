@@ -20,10 +20,7 @@
 		"npm-package"
 	],
 	"homepage": "https://kitschpatrol.com/svelte-tweakpane-ui",
-	"bugs": {
-		"url": "https://github.com/kitschpatrol/svelte-tweakpane-ui/issues",
-		"email": "eric@ericmika.com"
-	},
+	"bugs": "https://github.com/kitschpatrol/svelte-tweakpane-ui/issues",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/kitschpatrol/svelte-tweakpane-ui.git"
@@ -39,6 +36,22 @@
 		".": {
 			"types": "./dist/index.d.ts",
 			"svelte": "./dist/index.js"
+		},
+		"./AutoObject.svelte": {
+			"types": "./dist/extra/AutoObject.svelte.d.ts",
+			"svelte": "./dist/extra/AutoObject.svelte"
+		},
+		"./AutoValue.svelte": {
+			"types": "./dist/extra/AutoValue.svelte.d.ts",
+			"svelte": "./dist/extra/AutoValue.svelte"
+		},
+		"./Binding.svelte": {
+			"types": "./dist/core/Binding.svelte.d.ts",
+			"svelte": "./dist/core/Binding.svelte"
+		},
+		"./Blade.svelte": {
+			"types": "./dist/core/Blade.svelte.d.ts",
+			"svelte": "./dist/core/Blade.svelte"
 		},
 		"./Button.svelte": {
 			"types": "./dist/control/Button.svelte.d.ts",
@@ -60,9 +73,21 @@
 			"types": "./dist/control/CubicBezier.svelte.d.ts",
 			"svelte": "./dist/control/CubicBezier.svelte"
 		},
+		"./Element.svelte": {
+			"types": "./dist/extra/Element.svelte.d.ts",
+			"svelte": "./dist/extra/Element.svelte"
+		},
 		"./File.svelte": {
 			"types": "./dist/control/File.svelte.d.ts",
 			"svelte": "./dist/control/File.svelte"
+		},
+		"./Folder.svelte": {
+			"types": "./dist/core/Folder.svelte.d.ts",
+			"svelte": "./dist/core/Folder.svelte"
+		},
+		"./FpsGraph.svelte": {
+			"types": "./dist/monitor/FpsGraph.svelte.d.ts",
+			"svelte": "./dist/monitor/FpsGraph.svelte"
 		},
 		"./Image.svelte": {
 			"types": "./dist/control/Image.svelte.d.ts",
@@ -76,9 +101,21 @@
 			"types": "./dist/control/List.svelte.d.ts",
 			"svelte": "./dist/control/List.svelte"
 		},
+		"./Monitor.svelte": {
+			"types": "./dist/monitor/Monitor.svelte.d.ts",
+			"svelte": "./dist/monitor/Monitor.svelte"
+		},
+		"./Pane.svelte": {
+			"types": "./dist/core/Pane.svelte.d.ts",
+			"svelte": "./dist/core/Pane.svelte"
+		},
 		"./Point.svelte": {
 			"types": "./dist/control/Point.svelte.d.ts",
 			"svelte": "./dist/control/Point.svelte"
+		},
+		"./Profiler.svelte": {
+			"types": "./dist/monitor/Profiler.svelte.d.ts",
+			"svelte": "./dist/monitor/Profiler.svelte"
 		},
 		"./RadioGrid.svelte": {
 			"types": "./dist/control/RadioGrid.svelte.d.ts",
@@ -96,6 +133,10 @@
 			"types": "./dist/control/RotationQuaternion.svelte.d.ts",
 			"svelte": "./dist/control/RotationQuaternion.svelte"
 		},
+		"./Separator.svelte": {
+			"types": "./dist/core/Separator.svelte.d.ts",
+			"svelte": "./dist/core/Separator.svelte"
+		},
 		"./Slider.svelte": {
 			"types": "./dist/control/Slider.svelte.d.ts",
 			"svelte": "./dist/control/Slider.svelte"
@@ -103,38 +144,6 @@
 		"./Stepper.svelte": {
 			"types": "./dist/control/Stepper.svelte.d.ts",
 			"svelte": "./dist/control/Stepper.svelte"
-		},
-		"./Text.svelte": {
-			"types": "./dist/control/Text.svelte.d.ts",
-			"svelte": "./dist/control/Text.svelte"
-		},
-		"./Textarea.svelte": {
-			"types": "./dist/control/Textarea.svelte.d.ts",
-			"svelte": "./dist/control/Textarea.svelte"
-		},
-		"./Wheel.svelte": {
-			"types": "./dist/control/Wheel.svelte.d.ts",
-			"svelte": "./dist/control/Wheel.svelte"
-		},
-		"./Binding.svelte": {
-			"types": "./dist/core/Binding.svelte.d.ts",
-			"svelte": "./dist/core/Binding.svelte"
-		},
-		"./Blade.svelte": {
-			"types": "./dist/core/Blade.svelte.d.ts",
-			"svelte": "./dist/core/Blade.svelte"
-		},
-		"./Folder.svelte": {
-			"types": "./dist/core/Folder.svelte.d.ts",
-			"svelte": "./dist/core/Folder.svelte"
-		},
-		"./Pane.svelte": {
-			"types": "./dist/core/Pane.svelte.d.ts",
-			"svelte": "./dist/core/Pane.svelte"
-		},
-		"./Separator.svelte": {
-			"types": "./dist/core/Separator.svelte.d.ts",
-			"svelte": "./dist/core/Separator.svelte"
 		},
 		"./TabGroup.svelte": {
 			"types": "./dist/core/TabGroup.svelte.d.ts",
@@ -144,33 +153,13 @@
 			"types": "./dist/core/TabPage.svelte.d.ts",
 			"svelte": "./dist/core/TabPage.svelte"
 		},
-		"./AutoObject.svelte": {
-			"types": "./dist/extra/AutoObject.svelte.d.ts",
-			"svelte": "./dist/extra/AutoObject.svelte"
+		"./Text.svelte": {
+			"types": "./dist/control/Text.svelte.d.ts",
+			"svelte": "./dist/control/Text.svelte"
 		},
-		"./AutoValue.svelte": {
-			"types": "./dist/extra/AutoValue.svelte.d.ts",
-			"svelte": "./dist/extra/AutoValue.svelte"
-		},
-		"./Element.svelte": {
-			"types": "./dist/extra/Element.svelte.d.ts",
-			"svelte": "./dist/extra/Element.svelte"
-		},
-		"./FpsGraph.svelte": {
-			"types": "./dist/monitor/FpsGraph.svelte.d.ts",
-			"svelte": "./dist/monitor/FpsGraph.svelte"
-		},
-		"./Monitor.svelte": {
-			"types": "./dist/monitor/Monitor.svelte.d.ts",
-			"svelte": "./dist/monitor/Monitor.svelte"
-		},
-		"./Profiler.svelte": {
-			"types": "./dist/monitor/Profiler.svelte.d.ts",
-			"svelte": "./dist/monitor/Profiler.svelte"
-		},
-		"./WaveformMonitor.svelte": {
-			"types": "./dist/monitor/WaveformMonitor.svelte.d.ts",
-			"svelte": "./dist/monitor/WaveformMonitor.svelte"
+		"./Textarea.svelte": {
+			"types": "./dist/control/Textarea.svelte.d.ts",
+			"svelte": "./dist/control/Textarea.svelte"
 		},
 		"./ThemeUtils.js": {
 			"types": "./dist/theme.d.ts",
@@ -179,6 +168,14 @@
 		"./Utils.js": {
 			"types": "./dist/utils.d.ts",
 			"default": "./dist/utils.js"
+		},
+		"./WaveformMonitor.svelte": {
+			"types": "./dist/monitor/WaveformMonitor.svelte.d.ts",
+			"svelte": "./dist/monitor/WaveformMonitor.svelte"
+		},
+		"./Wheel.svelte": {
+			"types": "./dist/control/Wheel.svelte.d.ts",
+			"svelte": "./dist/control/Wheel.svelte"
 		}
 	},
 	"types": "./dist/index.d.ts",
@@ -202,8 +199,8 @@
 		"build:13-build-docs": "pnpm run docs-build",
 		"build:14-build-kit": "pnpm run kit-build",
 		"build:15-build-svelte-5": "pnpm run svelte-5-build",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check-watch": "svelte-kit sync && svelte-check --ignore ./scratch --tsconfig ./tsconfig.json --watch",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.build.json",
+		"check-watch": "svelte-kit sync && svelte-check --ignore ./scratch --tsconfig ./tsconfig.build.json --watch",
 		"clean": "rm pnpm-lock.yaml ; git clean -fdX",
 		"docs-build": "pnpm -C ./docs run build",
 		"docs-dev": "pnpm -C ./docs run dev",
@@ -261,7 +258,7 @@
 		"@types/fs-extra": "^11.0.4",
 		"@types/node": "^18.19.78",
 		"bumpp": "^9.11.1",
-		"eslint": "^8.57.1",
+		"eslint": "^9.21.0",
 		"fs-extra": "^11.3.0",
 		"glob": "^11.0.1",
 		"postcss-html": "^1.8.0",

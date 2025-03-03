@@ -1,4 +1,4 @@
-import type { Simplify } from '$lib/utils'
+import type { Simplify } from '$lib/utilities'
 import {
 	getWindowDocument,
 	isRgbaColorObject,
@@ -90,6 +90,7 @@ const standard: Theme = {
 	// pluginThumbnailListWidth: '200px'
 }
 
+// eslint-disable-next-line unicorn/no-array-reduce
 export const keys = Object.keys(standard).reduce<Record<string, string>>((acc, key) => {
 	acc[key] = key
 	return acc
@@ -367,11 +368,7 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 			const isDeviationFromRoot = (rootValue && value !== rootValue) ?? false
 			const isDeviationFromStandard = (standardValue && value !== standardValue) ?? false
 
-			if (
-				theme !== undefined &&
-				value !== undefined &&
-				(isDeviationFromRoot || (!rootValue && isDeviationFromStandard))
-			) {
+			if (value !== undefined && (isDeviationFromRoot || (!rootValue && isDeviationFromStandard))) {
 				element.style.setProperty(key, value)
 			} else if (element.style.getPropertyValue(key).length > 0) {
 				element.style.removeProperty(key)
@@ -386,6 +383,7 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
  */
 export function setGlobalDefaultTheme(theme: Theme | undefined) {
 	// Wait for dom ready... better outside?
+	// eslint-disable-next-line unicorn/prefer-global-this, ts/no-unnecessary-condition
 	if (window?.document) {
 		applyTheme(getWindowDocument().documentElement, theme)
 	}
@@ -396,7 +394,7 @@ export default {
 	/**
 	 * A collection of default theme color schemes, matching those provided in the Tweakpane
 	 * [Panebuilder presets](https://tweakpane.github.io/docs/theming/#builder).
-	 * */
+	 */
 	presets,
 	setGlobalDefaultTheme,
 }

@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils'
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { Simplify } from '$lib/utilities'
+	import type { ValueChangeEvent } from '$lib/utilities.js'
 	import type { PointDimensionParams } from '@tweakpane/core'
 
 	export type RotationQuaternionOptions = Simplify<PointDimensionParams>
@@ -85,7 +85,7 @@
 	export let expanded: $$Props['expanded'] = undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 	type $$Events = {
 		/**
 		 * Fires when `value` changes.

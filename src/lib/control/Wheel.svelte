@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { ValueChangeEvent } from '$lib/utilities.js'
 
 	export type WheelChangeEvent = ValueChangeEvent<number>
 </script>
@@ -30,7 +30,7 @@
 	export let wide: $$Props['wide'] = undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 	type $$Events = {
 		/**
 		 * Fires when `value` changes.

@@ -47,6 +47,7 @@ const acknowledgmentsCollection = await getCollection(
 )
 
 // Each collection entry
+// eslint-disable-next-line unicorn/no-array-reduce
 const data = acknowledgmentsCollection.reduce<LicenseEntry[]>(
 	(acc, collection) => [...acc, ...Object.values(collection.data).flat()],
 	[],
@@ -54,6 +55,7 @@ const data = acknowledgmentsCollection.reduce<LicenseEntry[]>(
 
 // Get unique list of publisher names
 const names = data
+	// eslint-disable-next-line unicorn/no-array-reduce
 	.reduce((acc: string[], { author }) => {
 		if (author) {
 			// Split compound comma-delimited publishers as needed
@@ -70,7 +72,7 @@ const names = data
 	// Exclude me and some other vague things
 	.filter((name) => !['contributors', 'eric mika', 'inc.', 'llc'].includes(name.toLowerCase()))
 	// No emoji please
-	.filter((name) => !/[\p{Emoji}]/u.test(name))
+	.filter((name) => !/\p{Emoji}/u.test(name))
 	// Filter out case-insensitive duplicates, but keep the version with the most capitalization
 	.filter((name, index, array) => {
 		const lower = name.toLowerCase()
@@ -81,6 +83,7 @@ const names = data
 	.filter((name, index, array) => {
 		const lower = name.toLowerCase()
 		const matchIndex = array.findIndex(
+			// eslint-disable-next-line regexp/no-unused-capturing-group
 			(n) => n.toLowerCase().replace(/(corp\.|corporation|inc\.)$/, '') === lower,
 		)
 		return matchIndex === index

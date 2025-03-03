@@ -1,9 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable ts/no-unsafe-return */
+/* eslint-disable ts/no-unsafe-argument */
+/* eslint-disable ts/no-unsafe-member-access */
+/* eslint-disable ts/no-unsafe-call */
+/* eslint-disable ts/no-unsafe-assignment */
+/* eslint-disable ts/no-explicit-any */
 
 import { slug } from 'github-slugger'
 import { globSync } from 'glob'
 import matter from 'gray-matter'
-import { capitalize } from './string-utils.ts'
+import { capitalize } from './string-utilities.ts'
 
 // Create custom sidebar which nests differently from directory structure
 // can't seem to fish the menu type out of Astro's public exports
@@ -62,7 +67,7 @@ export function componentMenu(
 		const aIndex = sortOrder.indexOf(aLabel)
 		const bIndex = sortOrder.indexOf(bLabel)
 
-		if (aIndex >= 0 && bIndex >= 0) {
+		if (aIndex !== -1 && bIndex !== -1) {
 			return aIndex - bIndex // Both labels are in sortOrder
 		}
 
@@ -70,7 +75,7 @@ export function componentMenu(
 			return -1 // Only aLabel is in sortOrder
 		}
 
-		if (bIndex >= 0) {
+		if (bIndex !== -1) {
 			return 1 // Only bLabel is in sortOrder
 		}
 

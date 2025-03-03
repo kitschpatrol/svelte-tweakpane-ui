@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils'
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { Simplify } from '$lib/utilities'
+	import type { ValueChangeEvent } from '$lib/utilities.js'
 
 	// Extends tweakpane to take arbitrary arrays of values
 	export type ListOptionsArray<T> = T[]
@@ -18,7 +18,7 @@
 	import type { ListBladeApi, ListBladeParams, ListParamsOptions } from 'tweakpane'
 	import Blade from '$lib/core/Blade.svelte'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import { type UnwrapCustomEvents } from '$lib/utils'
+	import { type UnwrapCustomEvents } from '$lib/utilities'
 	import { BROWSER } from 'esm-env'
 	import copy from 'fast-copy'
 	import { shallowEqual } from 'fast-equals'

@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { ValueChangeEvent } from '$lib/utilities.js'
 	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane'
 
 	export type SliderChangeEvent = ValueChangeEvent<number>
@@ -18,7 +18,7 @@
 	} & Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'>
 
 	// Inheriting here with ComponentEvents makes a documentation mess
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 	type $$Events = {
 		/**
 		 * Fires when `value` changes.

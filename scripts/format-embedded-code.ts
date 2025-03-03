@@ -8,8 +8,7 @@ async function formatEmbeddedCode(file: string): Promise<number> {
 		const data = fs.readFileSync(file, 'utf8')
 		let formattedData = ''
 		let lastIndex = 0
-		const regex = /(```.*\n)([\S\s]*?)(\n```)/g
-		// eslint-disable-next-line @typescript-eslint/ban-types
+		const regex = /(```.*\n)([\s\S]*?)(\n```)/g
 		let match: null | RegExpExecArray
 
 		while ((match = regex.exec(data)) !== null) {

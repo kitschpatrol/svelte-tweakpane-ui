@@ -10,11 +10,13 @@ function removeComponentBlock(filePath: string): void {
 	const fileContent = readFileSync(filePath, 'utf8')
 
 	// Use regular expression to remove everything between <!-- @component and -->
-	const updatedContent = fileContent.replaceAll(/<!--\s*@component[\S\s]*?-->/g, '')
+	const updatedContent = fileContent.replaceAll(/<!--\s*@component[\s\S]*?-->/g, '')
 
 	if (fileContent === updatedContent) {
+		// eslint-disable-next-line ts/no-unnecessary-condition
 		if (verbose) console.log(`No @component comment found in ${filePath}`)
 	} else {
+		// eslint-disable-next-line ts/no-unnecessary-condition
 		if (verbose) console.log(`Stripped @component comment from ${filePath}`)
 		writeFileSync(filePath, updatedContent, 'utf8')
 	}

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ComponentProps } from 'svelte'
 	import GenericPane from '$lib/internal/GenericPane.svelte'
-	import { removeKeys } from '$lib/utils.js'
+	import { removeKeys } from '$lib/utilities.js'
 
 	type $$Props = {
 		/**
@@ -29,7 +29,6 @@
 		width?: number
 	} & Omit<ComponentProps<GenericPane>, 'userCreatedPane'>
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {
 		/**
 		 * Any Tweakpane component, except another `<Pane>`.

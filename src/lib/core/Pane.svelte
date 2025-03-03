@@ -6,7 +6,7 @@
 	import InternalPaneDraggable from '$lib/internal/InternalPaneDraggable.svelte'
 	import InternalPaneFixed from '$lib/internal/InternalPaneFixed.svelte'
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
-	import { removeKeys } from '$lib/utils'
+	import { removeKeys } from '$lib/utilities'
 	import { BROWSER } from 'esm-env'
 	import { beforeUpdate, type ComponentProps } from 'svelte'
 
@@ -39,7 +39,6 @@
 		  } & ComponentProps<InternalPaneDraggable>)
 	)
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {
 		/**
 		 * Any Tweakpane component, except another `<Pane>`.

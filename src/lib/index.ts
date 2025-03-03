@@ -1,10 +1,11 @@
-export { type ButtonClickEvent, default as Button } from '$lib/control/Button.svelte'
+export { default as Button, type ButtonClickEvent } from '$lib/control/Button.svelte'
 
-export { type ButtonGridClickEvent, default as ButtonGrid } from '$lib/control/ButtonGrid.svelte'
+export { default as ButtonGrid, type ButtonGridClickEvent } from '$lib/control/ButtonGrid.svelte'
 
-export { type CheckboxChangeEvent, default as Checkbox } from '$lib/control/Checkbox.svelte'
+export { default as Checkbox, type CheckboxChangeEvent } from '$lib/control/Checkbox.svelte'
 
 export {
+	default as Color,
 	type ColorChangeEvent,
 	type ColorValue,
 	type ColorValueRgbaObject,
@@ -12,15 +13,14 @@ export {
 	type ColorValueRgbObject,
 	type ColorValueRgbTuple,
 	type ColorValueString,
-	default as Color,
 } from '$lib/control/Color.svelte'
 
 export {
+	default as CubicBezier,
 	type CubicBezierChangeEvent,
 	type CubicBezierValue,
 	type CubicBezierValueObject,
 	type CubicBezierValueTuple,
-	default as CubicBezier,
 } from '$lib/control/CubicBezier.svelte'
 
 export { default as File, type FileChangeEvent, type FileValue } from '$lib/control/File.svelte'
@@ -100,13 +100,13 @@ export { default as Textarea, type TextareaChangeEvent } from '$lib/control/Text
 export { default as Wheel, type WheelChangeEvent } from '$lib/control/Wheel.svelte'
 
 export {
+	default as Binding,
 	type BindingChangeEvent,
 	type BindingOptions,
 	type BindingRef,
-	default as Binding,
 } from '$lib/core/Binding.svelte'
 
-export { type BladeOptions, type BladeRef, default as Blade } from '$lib/core/Blade.svelte'
+export { default as Blade, type BladeOptions, type BladeRef } from '$lib/core/Blade.svelte'
 
 export { default as Folder } from '$lib/core/Folder.svelte'
 
@@ -118,9 +118,9 @@ export { default as TabGroup } from '$lib/core/TabGroup.svelte'
 
 export { default as TabPage } from '$lib/core/TabPage.svelte'
 
-export { type AutoObjectChangeEvent, default as AutoObject } from '$lib/extra/AutoObject.svelte'
+export { default as AutoObject, type AutoObjectChangeEvent } from '$lib/extra/AutoObject.svelte'
 
-export { type AutoValueChangeEvent, default as AutoValue } from '$lib/extra/AutoValue.svelte'
+export { default as AutoValue, type AutoValueChangeEvent } from '$lib/extra/AutoValue.svelte'
 
 export { default as Element } from '$lib/extra/Element.svelte'
 
@@ -149,6 +149,6 @@ export { default as ThemeUtils } from '$lib/theme.js'
 
 // Utilities export default can still leak "internal" theme stuff, but worth it for simple file
 // structure at the moment
-export type { BindingObject, Plugin, ValueChangeEvent } from '$lib/utils.js'
+export type { BindingObject, Plugin, ValueChangeEvent } from '$lib/utilities.js'
 
-export { default as Utils } from '$lib/utils.js'
+export { default as Utils } from '$lib/utilities.js'

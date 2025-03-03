@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { ValueChangeEvent } from '$lib/utilities.js'
 
 	export type CheckboxChangeEvent = ValueChangeEvent<boolean>
 </script>
@@ -14,7 +14,7 @@
 	export let value: $$Props['value']
 
 	// Inheriting here with ComponentEvents makes a documentation mess
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 	type $$Events = {
 		/**
 		 * Fires when `value` changes.

@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils'
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { Simplify } from '$lib/utilities'
+	import type { ValueChangeEvent } from '$lib/utilities.js'
 	import type { Point2dInputParams, Point3dInputParams, Point4dInputParams } from 'tweakpane'
 
 	// Extends Tweakpane's implementation to support tuples
@@ -38,7 +38,7 @@
 	import type { ComponentProps } from 'svelte'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
-	import { type HasKey, removeKeys } from '$lib/utils'
+	import { type HasKey, removeKeys } from '$lib/utilities'
 	import { BROWSER } from 'esm-env'
 	import { shallowEqual } from 'fast-equals'
 
@@ -180,7 +180,7 @@
 	let format: $$Props['format'] = $$props['format'] ?? undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 	type $$Events = {
 		/**
 		 * Fires when `value` changes.
@@ -242,6 +242,7 @@
 
 	$: value, updateInternalValueFromValue()
 	$: internalValue, updateValueFromInternalValue()
+	// eslint-disable-next-line svelte/no-immutable-reactive-statements
 	$: options = {
 		x: optionsX,
 		y: optionsY,

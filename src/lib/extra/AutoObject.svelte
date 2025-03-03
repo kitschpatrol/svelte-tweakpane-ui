@@ -1,12 +1,12 @@
 <script context="module" lang="ts">
-	import type { BindingObject, ValueChangeEvent } from '$lib/utils.js'
+	import type { BindingObject, ValueChangeEvent } from '$lib/utilities.js'
 
 	export type AutoObjectChangeEvent = ValueChangeEvent<BindingObject>
 </script>
 
 <script lang="ts">
 	import type { Theme } from '$lib/theme.js'
-	import type { Container, UnwrapCustomEvents } from '$lib/utils.js'
+	import type { Container, UnwrapCustomEvents } from '$lib/utilities.js'
 	import type { Writable } from 'svelte/store'
 	import Text from '$lib/control/Text.svelte'
 	import Binding from '$lib/core/Binding.svelte'

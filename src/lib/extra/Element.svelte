@@ -31,7 +31,6 @@
 		resetStyle?: boolean
 	} & Omit<ComponentProps<Blade<BladeOptions, BladeRef>>, 'disabled' | 'options' | 'plugin' | 'ref'>
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {
 		/**
 		 * Any HTML Element.

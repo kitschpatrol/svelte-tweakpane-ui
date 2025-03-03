@@ -8,6 +8,7 @@ export const addLinkPrefix = defineDomMiddleware((_, document) => {
 			const attribute_ = element.getAttribute(attribute)
 			if (attribute_?.startsWith('/_astro/')) {
 				// Add the base prefix
+				// eslint-disable-next-line ts/no-unnecessary-condition
 				element.setAttribute(attribute, `${stripTrailingSlash(baseUrl ?? '')}${attribute_}`)
 			}
 		}

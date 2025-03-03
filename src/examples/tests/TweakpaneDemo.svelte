@@ -146,7 +146,6 @@
 	)
 	;(point3 as Writable<PointValue3dTuple>).set = (newItems) =>
 		($point4 = [newItems[0], newItems[1], newItems[2], $point4[3]])
-
 	;(point3 as Writable<PointValue3dTuple>).set = (newItems) =>
 		($point4 = [newItems[0], newItems[1], newItems[2], $point4[3]])
 
@@ -157,6 +156,7 @@
 	// Reactivity
 	$: theme = { ...ThemeUtils.presets[themeKey], ...defaultTheme }
 	$: period = 1 / ((periodSeconds / Math.PI) * 500)
+	// eslint-disable-next-line svelte/no-immutable-reactive-statements
 	$: [min, max] = interval2
 
 	$: {
@@ -243,7 +243,7 @@
 		expanded={false}
 		label="<Color> R G B A"
 		picker="inline"
-		type={'float'}
+		type="float"
 	/>
 	<Separator />
 	<Point

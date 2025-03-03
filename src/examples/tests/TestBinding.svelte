@@ -19,7 +19,7 @@
 			binding1ExternalEventCount++
 		}
 	}}
-	key={'v'}
+	key="v"
 	label="Binding 1"
 />
 <Binding
@@ -31,7 +31,7 @@
 			binding2ExternalEventCount++
 		}
 	}}
-	key={'v'}
+	key="v"
 	label="Binding 2"
 />
 

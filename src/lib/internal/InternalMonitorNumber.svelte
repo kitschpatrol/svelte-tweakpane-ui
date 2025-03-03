@@ -7,7 +7,7 @@
 	import type { ComponentProps } from 'svelte'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import GenericMonitor from '$lib/internal/GenericMonitor.svelte'
-	import { fillWith, rowsForMonitor } from '$lib/utils.js'
+	import { fillWith, rowsForMonitor } from '$lib/utilities.js'
 	import { BROWSER } from 'esm-env'
 
 	// Multi-file structure is legacy of previous non-dynamic component approach TODO consolidate

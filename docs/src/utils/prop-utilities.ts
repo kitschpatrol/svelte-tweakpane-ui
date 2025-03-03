@@ -22,22 +22,22 @@ export function allPropConditions(data: ComponentData): ConditionsRecord {
 	if (data?.dynamicProps) {
 		const conditionsRecord: ConditionsRecord = {}
 
-		if (data.dynamicProps)
-			for (const dynamicProp of data.dynamicProps) {
-				const unique = uniqueProps(data.props, dynamicProp.props)
+		for (const dynamicProp of data.dynamicProps) {
+			const unique = uniqueProps(data.props, dynamicProp.props)
 
-				for (const prop of unique) {
-					// Ensure unique
-					if (conditionsRecord[prop.name] === undefined) {
-						conditionsRecord[prop.name] = []
-					}
-
-					conditionsRecord[prop.name].push({
-						condition: dynamicProp.condition,
-						description: dynamicProp.description,
-					})
+			for (const prop of unique) {
+				// Ensure unique
+				// eslint-disable-next-line ts/no-unnecessary-condition
+				if (conditionsRecord[prop.name] === undefined) {
+					conditionsRecord[prop.name] = []
 				}
+
+				conditionsRecord[prop.name].push({
+					condition: dynamicProp.condition,
+					description: dynamicProp.description,
+				})
 			}
+		}
 
 		return conditionsRecord
 	}

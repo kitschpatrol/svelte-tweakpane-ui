@@ -21,7 +21,7 @@
 	$: width2 = width * scale2
 </script>
 
-<Pane position="inline" scale={scale1} title={`Tweakpane Scale Test`} width={width1}>
+<Pane position="inline" scale={scale1} title="Tweakpane Scale Test" width={width1}>
 	<FpsGraph />
 	<Slider bind:value={scale1} min={0} max={2} label="Scale" />
 	<Monitor value={wave} min={-2} max={2} bufferSize={300} graph={true} label="Monitor" />
@@ -31,7 +31,7 @@
 </Pane>
 <br />
 <br />
-<Pane position="inline" scale={scale2} title={`Tweakpane Scale Test`} width={width2}>
+<Pane position="inline" scale={scale2} title="Tweakpane Scale Test" width={width2}>
 	<FpsGraph />
 	<Slider bind:value={scale2} min={0} max={2} label="Scale" />
 	<Monitor value={wave} min={-2} max={2} bufferSize={300} graph={true} label="Monitor" />

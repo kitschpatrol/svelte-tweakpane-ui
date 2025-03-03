@@ -8,7 +8,7 @@
 	import type { ComponentProps } from 'svelte'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import GenericMonitor from '$lib/internal/GenericMonitor.svelte'
-	import { fillWith } from '$lib/utils'
+	import { fillWith } from '$lib/utilities'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-waveform'
 	import { BROWSER } from 'esm-env'
 

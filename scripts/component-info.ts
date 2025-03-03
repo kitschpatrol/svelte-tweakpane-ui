@@ -96,6 +96,7 @@ async function getStaticComponentInfoInternal(
 	const resolvedPath = path.join(testDirectory, componentPath)
 
 	const documentManager = new DocumentManager(
+		// eslint-disable-next-line ts/no-unsafe-argument
 		(textDocument) => new Document(textDocument.uri, textDocument.text),
 	)
 
@@ -221,6 +222,7 @@ async function getDynamicComponentProps(
 	const testDirectory = '.'
 
 	const documentManager = new DocumentManager(
+		// eslint-disable-next-line ts/no-unsafe-argument
 		(textDocument) => new Document(textDocument.uri, textDocument.text),
 	)
 

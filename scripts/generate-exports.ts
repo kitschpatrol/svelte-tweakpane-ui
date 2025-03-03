@@ -34,6 +34,7 @@ function addExports(sourceIndexFile: string, closestPackage: ReadResult) {
 		// eslint-disable-next-line perfectionist/sort-objects
 		exports[key] = { types, svelte }
 
+		// eslint-disable-next-line ts/no-unnecessary-condition
 		if (verbose) console.log(exports[key])
 	}
 
@@ -47,6 +48,7 @@ function addExports(sourceIndexFile: string, closestPackage: ReadResult) {
 		// eslint-disable-next-line perfectionist/sort-objects
 		exports[key] = { types, default: defaultValue }
 
+		// eslint-disable-next-line ts/no-unnecessary-condition
 		if (verbose) console.log(exports[key])
 	}
 

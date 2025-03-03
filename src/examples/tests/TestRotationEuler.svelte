@@ -20,7 +20,7 @@
 	}}
 	expanded={true}
 	label="CSS Rotation 1"
-	picker={'inline'}
+	picker="inline"
 />
 <RotationEuler
 	bind:value
@@ -33,7 +33,7 @@
 	}}
 	expanded={true}
 	label="CSS Rotation 2"
-	picker={'inline'}
+	picker="inline"
 />
 
 <pre>Value: <span>{value}</span></pre>
