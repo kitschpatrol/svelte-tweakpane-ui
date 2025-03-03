@@ -1,31 +1,31 @@
 <script context="module" lang="ts">
 	// TODO for next breaking change: Inherit from ValueChangeEvent instead
-	export type FpsGraphChangeEvent = CustomEvent<number>;
+	export type FpsGraphChangeEvent = CustomEvent<number>
 </script>
 
 <script lang="ts">
-	import type { UnwrapCustomEvents } from '$lib/utils.js';
-	import type { FpsGraphBladeApi as FpsGraphRef } from '@kitschpatrol/tweakpane-plugin-essentials';
-	import type { FpsGraphBladeParams as FpsGraphOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/fps-graph/plugin.js';
-	import type { ComponentProps } from 'svelte';
-	import Blade from '$lib/core/Blade.svelte';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import { fillWith } from '$lib/utils';
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials';
-	import { BROWSER } from 'esm-env';
-	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import type { UnwrapCustomEvents } from '$lib/utils.js'
+	import type { FpsGraphBladeApi as FpsGraphRef } from '@kitschpatrol/tweakpane-plugin-essentials'
+	import type { FpsGraphBladeParams as FpsGraphOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/fps-graph/plugin.js'
+	import type { ComponentProps } from 'svelte'
+	import Blade from '$lib/core/Blade.svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { fillWith } from '$lib/utils'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
+	import { BROWSER } from 'esm-env'
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte'
 
 	type $$Props = {
 		/**
 		 * Lower bound of the FPS graph.
 		 * @default `0`
 		 * */
-		min?: number;
+		min?: number
 		/**
 		 * Upper bound of the FPS graph.
 		 * @default `90`
 		 * */
-		max?: number;
+		max?: number
 		/**
 		 * Function to start a single frame measurement sample.
 		 *
@@ -33,7 +33,7 @@
 		 * the page.
 		 * @default `undefined`
 		 * */
-		begin?: () => void;
+		begin?: () => void
 		/**
 		 * Function to end a single frame measurement sample.
 		 *
@@ -41,46 +41,46 @@
 		 * the page.
 		 * @default `undefined`
 		 * */
-		end?: () => void;
+		end?: () => void
 		/**
 		 * Time in milliseconds between updates to the graph.
 		 * @default `1000`
 		 * */
-		interval?: number;
+		interval?: number
 		/**
 		 * Text displayed next to the FPS graph.
 		 * @default `undefined`
 		 * */
-		label?: string;
+		label?: string
 		/**
 		 * Height of the FPS graph, in rows.
 		 * @default `2`
 		 * */
-		rows?: number;
-	} & Omit<ComponentProps<Blade<FpsGraphOptions, FpsGraphRef>>, 'options' | 'plugin' | 'ref'>;
+		rows?: number
+	} & Omit<ComponentProps<Blade<FpsGraphOptions, FpsGraphRef>>, 'options' | 'plugin' | 'ref'>
 
 	// Reexport for bindability
-	export let rows: $$Props['rows'] = undefined; // Default comes from implementation
-	export let interval: $$Props['interval'] = undefined; // Default comes from implementation
-	export let max: $$Props['max'] = undefined; // Default comes from implementation
-	export let min: $$Props['min'] = undefined; // Default comes from implementation
-	export let label: $$Props['label'] = undefined;
+	export let rows: $$Props['rows'] = undefined // Default comes from implementation
+	export let interval: $$Props['interval'] = undefined // Default comes from implementation
+	export let max: $$Props['max'] = undefined // Default comes from implementation
+	export let min: $$Props['min'] = undefined // Default comes from implementation
+	export let label: $$Props['label'] = undefined
 
-	let implicitMode = true; // False as soon as the external api has been used
+	let implicitMode = true // False as soon as the external api has been used
 
 	// Begin and end can be bound and called externally for explicit timing
 	export function begin(): void {
-		implicitMode = false;
-		ref?.begin();
+		implicitMode = false
+		ref?.begin()
 	}
 
 	export function end(): void {
-		implicitMode = false;
-		ref?.end();
+		implicitMode = false
+		ref?.end()
 	}
 
-	let ref: FpsGraphRef;
-	let requestId: number;
+	let ref: FpsGraphRef
+	let requestId: number
 
 	// Seems to be the only way to get event comments to work
 	type $$Events = {
@@ -91,52 +91,52 @@
 		 * `event.detail` parameter.
 		 * @event
 		 * */
-		change: FpsGraphChangeEvent;
-	};
+		change: FpsGraphChangeEvent
+	}
 
-	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
+	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	onMount(() => {
-		startInternalLoop();
-	});
+		startInternalLoop()
+	})
 
 	onDestroy(() => {
-		stopInternalLoop();
-	});
+		stopInternalLoop()
+	})
 
 	function startInternalLoop() {
-		loop();
+		loop()
 	}
 
 	function loop() {
-		ref?.end();
-		ref?.begin();
-		requestId = requestAnimationFrame(loop);
+		ref?.end()
+		ref?.begin()
+		requestId = requestAnimationFrame(loop)
 	}
 
 	function stopInternalLoop() {
-		requestId && cancelAnimationFrame(requestId);
+		requestId && cancelAnimationFrame(requestId)
 	}
 
 	function addListeners() {
 		ref.on('tick', () => {
 			if (ref.fps !== null) {
-				dispatch('change', ref.fps);
+				dispatch('change', ref.fps)
 			}
-		});
+		})
 	}
 
-	let options: FpsGraphOptions;
+	let options: FpsGraphOptions
 	$: options = {
 		min,
 		max,
 		interval,
 		label,
 		rows,
-		view: 'fpsgraph'
-	};
-	$: ref !== undefined && addListeners();
-	$: !implicitMode && stopInternalLoop();
+		view: 'fpsgraph',
+	}
+	$: ref !== undefined && addListeners()
+	$: !implicitMode && stopInternalLoop()
 </script>
 
 <!--

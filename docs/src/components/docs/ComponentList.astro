@@ -1,29 +1,29 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
-import { marked } from 'marked';
+import { type CollectionEntry, getCollection } from 'astro:content'
+import { marked } from 'marked'
 
 type Props = {
-	scope?: string;
-};
+	scope?: string
+}
 
-const { scope } = Astro.props;
+const { scope } = Astro.props
 
-const documentation = await getCollection('docs');
+const documentation = await getCollection('docs')
 const components = documentation.filter(
 	(component: CollectionEntry<'docs'>) =>
 		component.data.componentData !== undefined &&
-		(scope === undefined ? true : component.data.componentData.pathParts.includes(scope))
-);
+		(scope === undefined ? true : component.data.componentData.pathParts.includes(scope)),
+)
 
 async function firstLine(text: string): Promise<string> {
-	return marked.parseInline(text.split('\n\n')[0]);
+	return marked.parseInline(text.split('\n\n')[0])
 }
 ---
 
 <ul>
 	{
 		components.map(async (component) => {
-			const { componentData } = component.data;
+			const { componentData } = component.data
 			if (componentData) {
 				return (
 					<li>
@@ -31,7 +31,7 @@ async function firstLine(text: string): Promise<string> {
 						<br />
 						<fragment set:html={await firstLine(componentData.doc)} />
 					</li>
-				);
+				)
 			}
 		})
 	}

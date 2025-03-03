@@ -1,28 +1,28 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils';
-	import type { ValueChangeEvent } from '$lib/utils.js';
+	import type { Simplify } from '$lib/utils'
+	import type { ValueChangeEvent } from '$lib/utils.js'
 
 	// Extends tweakpane to take arbitrary arrays of values
-	export type ListOptionsArray<T> = T[];
-	export type ListOptionsObjectArray<T> = Array<{ value: T; text: string }>;
-	export type ListOptionsRecord<T> = Record<string, T>;
+	export type ListOptionsArray<T> = T[]
+	export type ListOptionsObjectArray<T> = Array<{ value: T; text: string }>
+	export type ListOptionsRecord<T> = Record<string, T>
 
 	export type ListOptions<T> = Simplify<
 		ListOptionsArray<T> | ListOptionsObjectArray<T> | ListOptionsRecord<T>
-	>;
+	>
 
-	export type ListChangeEvent = ValueChangeEvent<unknown>;
+	export type ListChangeEvent = ValueChangeEvent<unknown>
 </script>
 
 <script generics="T extends any" lang="ts">
-	import type { ListBladeApi, ListBladeParams, ListParamsOptions } from 'tweakpane';
-	import Blade from '$lib/core/Blade.svelte';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import { type UnwrapCustomEvents } from '$lib/utils';
-	import { BROWSER } from 'esm-env';
-	import copy from 'fast-copy';
-	import { shallowEqual } from 'fast-equals';
-	import { type ComponentProps, createEventDispatcher } from 'svelte';
+	import type { ListBladeApi, ListBladeParams, ListParamsOptions } from 'tweakpane'
+	import Blade from '$lib/core/Blade.svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { type UnwrapCustomEvents } from '$lib/utils'
+	import { BROWSER } from 'esm-env'
+	import copy from 'fast-copy'
+	import { shallowEqual } from 'fast-equals'
+	import { type ComponentProps, createEventDispatcher } from 'svelte'
 
 	// Use a blade instead of an input to allow for additional value types TODO expose key value
 	// option that lets you bind to the active key?
@@ -31,28 +31,25 @@
 		 * Value of the selected `options` item.
 		 * @bindable
 		 * */
-		value: T;
+		value: T
 		/**
 		 * Text displayed next to list.
 		 * @default `undefined`
 		 * */
-		label?: string;
+		label?: string
 		/**
 		 * A collection of options to select from.
 		 *
 		 * The arbitrary array list type is a convenience addition to to the vanilla JS Tweakpane
 		 * API.
 		 * */
-		options: ListOptions<T>;
-	} & Omit<
-		ComponentProps<Blade<ListBladeParams<T>, ListBladeApi<T>>>,
-		'options' | 'plugin' | 'ref'
-	>;
+		options: ListOptions<T>
+	} & Omit<ComponentProps<Blade<ListBladeParams<T>, ListBladeApi<T>>>, 'options' | 'plugin' | 'ref'>
 
 	// Must redeclare for bindability
-	export let value: $$Props['value'];
-	export let options: $$Props['options'];
-	export let label: $$Props['label'] = undefined;
+	export let value: $$Props['value']
+	export let options: $$Props['options']
+	export let label: $$Props['label'] = undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	type $$Events = {
@@ -67,58 +64,58 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: ListChangeEvent;
-	};
+		change: ListChangeEvent
+	}
 
-	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
+	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
-	let listBlade: ListBladeApi<T>;
+	let listBlade: ListBladeApi<T>
 
 	// Note name collision with `options` prop
-	let bladeOptions: ListBladeParams<T>;
+	let bladeOptions: ListBladeParams<T>
 
 	function addEvent() {
 		listBlade.on('change', (event) => {
 			if (!shallowEqual(event.value, value)) {
-				value = event.value;
+				value = event.value
 
 				dispatch('change', {
 					value: copy(value),
-					origin: 'internal'
-				});
+					origin: 'internal',
+				})
 			}
-		});
+		})
 	}
 
 	function getInitialValue(): T {
 		if (value === undefined) {
-			const internalOptions = getInternalOptions(options);
+			const internalOptions = getInternalOptions(options)
 			if (Array.isArray(internalOptions)) {
-				value = internalOptions[0].value;
-				return value;
+				value = internalOptions[0].value
+				return value
 			}
 
-			value = internalOptions[Object.keys(internalOptions)[0]];
-			return value;
+			value = internalOptions[Object.keys(internalOptions)[0]]
+			return value
 		}
 
-		return value;
+		return value
 	}
 
 	// Type Guards
 	function isArrayStyleListOptions<T>(
-		object: ListOptions<T>
+		object: ListOptions<T>,
 	): object is Array<{ value: T; text: string }> {
 		return (
 			Array.isArray(object) &&
 			object.every(
-				(item) => typeof item === 'object' && item !== null && 'text' in item && 'value' in item
+				(item) => typeof item === 'object' && item !== null && 'text' in item && 'value' in item,
 			)
-		);
+		)
 	}
 
 	function isObjectStyleListOptions<T>(object: ListOptions<T>): object is Record<string, T> {
-		return typeof object === 'object' && object !== null && !Array.isArray(object);
+		return typeof object === 'object' && object !== null && !Array.isArray(object)
 	}
 
 	function getInternalOptions(options: ListOptions<T>): ListParamsOptions<T> {
@@ -128,18 +125,18 @@
 				? options
 				: options.map((value) => ({
 						value,
-						text: typeof value === 'object' ? JSON.stringify(value) : String(value)
-					}));
+						text: typeof value === 'object' ? JSON.stringify(value) : String(value),
+					}))
 	}
 
 	function setValue() {
 		if (!shallowEqual(listBlade.value, value)) {
-			listBlade.value = value;
+			listBlade.value = value
 
 			dispatch('change', {
 				value: copy(value),
-				origin: 'external'
-			});
+				origin: 'external',
+			})
 		}
 	}
 
@@ -147,10 +144,10 @@
 		value: getInitialValue(),
 		label,
 		options: getInternalOptions(options),
-		view: 'list'
-	};
-	$: listBlade && addEvent();
-	$: value, listBlade && setValue();
+		view: 'list',
+	}
+	$: listBlade && addEvent()
+	$: value, listBlade && setValue()
 </script>
 
 <!--

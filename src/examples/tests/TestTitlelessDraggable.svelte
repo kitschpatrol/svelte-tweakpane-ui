@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Pane, Text } from '$lib';
-	let title = '';
-	let title2 = 'Title';
+	import { Pane, Text } from '$lib'
+	let title = ''
+	let title2 = 'Title'
 </script>
 
 <a href="https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/1">Issue #1</a>

@@ -1,40 +1,40 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils';
-	import type { ValueChangeEvent } from '$lib/utils.js';
+	import type { Simplify } from '$lib/utils'
+	import type { ValueChangeEvent } from '$lib/utils.js'
 	import type {
 		RgbaColorObject,
-		RgbColorObject
-	} from '@tweakpane/core/dist/input-binding/color/model/color.js';
+		RgbColorObject,
+	} from '@tweakpane/core/dist/input-binding/color/model/color.js'
 
 	// TODO tuples, oklch, etc TODO set default picker mode between rgb, hsl, etc.?
-	export type ColorValueRgbTuple = [r: number, g: number, b: number];
-	export type ColorValueRgbaTuple = [r: number, g: number, b: number, a: number];
-	export type ColorValueRgbObject = Simplify<RgbColorObject>;
-	export type ColorValueRgbaObject = Simplify<RgbaColorObject>;
-	export type ColorValueString = string;
+	export type ColorValueRgbTuple = [r: number, g: number, b: number]
+	export type ColorValueRgbaTuple = [r: number, g: number, b: number, a: number]
+	export type ColorValueRgbObject = Simplify<RgbColorObject>
+	export type ColorValueRgbaObject = Simplify<RgbaColorObject>
+	export type ColorValueString = string
 	export type ColorValue = Simplify<
 		| ColorValueRgbaObject
 		| ColorValueRgbaTuple
 		| ColorValueRgbObject
 		| ColorValueRgbTuple
 		| ColorValueString
-	>;
+	>
 
-	export type ColorChangeEvent = ValueChangeEvent<ColorValue>;
+	export type ColorChangeEvent = ValueChangeEvent<ColorValue>
 </script>
 
 <script lang="ts">
-	import type { ComponentProps } from 'svelte';
-	import type { ColorInputParams as ColorOptions, InputBindingApi as ColorRef } from 'tweakpane';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
-	import { objectToTuple } from '$lib/utils';
-	import { fillWith } from '$lib/utils';
-	import { isColorObject, isRgbaColorObject, isRgbColorObject } from '@tweakpane/core';
-	import { BROWSER } from 'esm-env';
-	import { shallowEqual } from 'fast-equals';
+	import type { ComponentProps } from 'svelte'
+	import type { ColorInputParams as ColorOptions, InputBindingApi as ColorRef } from 'tweakpane'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
+	import { objectToTuple } from '$lib/utils'
+	import { fillWith } from '$lib/utils'
+	import { isColorObject, isRgbaColorObject, isRgbColorObject } from '@tweakpane/core'
+	import { BROWSER } from 'esm-env'
+	import { shallowEqual } from 'fast-equals'
 
-	type ColorValueInternal = ColorValueRgbaObject | ColorValueRgbObject | ColorValueString;
+	type ColorValueInternal = ColorValueRgbaObject | ColorValueRgbObject | ColorValueString
 
 	type $$Props = {
 		/**
@@ -44,21 +44,21 @@
 		 * optional `a` keys.
 		 * @bindable
 		 * */
-		value: ColorValue;
+		value: ColorValue
 		/**
 		 * Whether to treat values as floats from 0.0 to 1.0, or integers from 0 to 255.
 		 * @default `'int'`
 		 * */
-		type?: 'float' | 'int';
+		type?: 'float' | 'int'
 	} & Omit<
 		ComponentProps<GenericInputFolding<ColorValue, ColorOptions>>,
 		'buttonClass' | 'options' | 'plugin' | 'ref'
-	>;
+	>
 
 	// Must redeclare for bindability
-	export let value: $$Props['value'];
-	export let expanded: $$Props['expanded'] = undefined;
-	export let type: $$Props['type'] = undefined;
+	export let value: $$Props['value']
+	export let expanded: $$Props['expanded'] = undefined
+	export let type: $$Props['type'] = undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -74,26 +74,26 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: ColorChangeEvent;
-	};
+		change: ColorChangeEvent
+	}
 
-	let internalValue: ColorValueInternal;
-	let options: ColorOptions;
-	let ref: ColorRef;
+	let internalValue: ColorValueInternal
+	let options: ColorOptions
+	let ref: ColorRef
 
 	// Work-around for funky folding
-	const buttonClass = 'tp-colswv_b';
+	const buttonClass = 'tp-colswv_b'
 
 	function updateInternalValueFromValue() {
 		// External value can change internal type on the fly, but internal value can never change external value type!
 		// Internal value must be string or object for Tweakpane compatibility
 		if (typeof value === 'string') {
 			if (internalValue !== value) {
-				internalValue = value;
+				internalValue = value
 			}
 		} else if (isColorObject(value)) {
 			if (!shallowEqual(value, internalValue)) {
-				internalValue = { ...value } as ColorValueRgbaObject | ColorValueRgbObject;
+				internalValue = { ...value } as ColorValueRgbaObject | ColorValueRgbObject
 			}
 		} else if (Array.isArray(value)) {
 			let newInternalValue: ColorValueRgbaObject | ColorValueRgbObject | undefined =
@@ -101,40 +101,40 @@
 					? { r: value[0], g: value[1], b: value[2], a: value[3] }
 					: value.length === 3
 						? { r: value[0], g: value[1], b: value[2] }
-						: undefined;
+						: undefined
 			if (newInternalValue === undefined) {
-				console.error('Unreachable');
+				console.error('Unreachable')
 			} else if (!shallowEqual(newInternalValue, internalValue)) {
-				internalValue = newInternalValue;
+				internalValue = newInternalValue
 			}
 		} else {
-			console.error('Unreachable');
+			console.error('Unreachable')
 		}
 	}
 
 	function updateValueFromInternalValue() {
 		if (typeof value === 'string' && typeof internalValue === 'string') {
 			if (internalValue !== value) {
-				value = internalValue;
+				value = internalValue
 			}
 		} else if (Array.isArray(value) && isColorObject(internalValue)) {
 			const newValue = isRgbaColorObject(internalValue)
 				? objectToTuple(internalValue, ['r', 'g', 'b', 'a'])
 				: isRgbColorObject(internalValue)
 					? objectToTuple(internalValue, ['r', 'g', 'b'])
-					: undefined;
+					: undefined
 
 			if (newValue === undefined) {
-				console.error('Unreachable color type mismatch');
+				console.error('Unreachable color type mismatch')
 			} else if (!shallowEqual(newValue, value)) {
-				value = newValue;
+				value = newValue
 			}
 		} else if (isColorObject(value) && isColorObject(internalValue)) {
 			if (!shallowEqual(internalValue, value)) {
-				value = { ...internalValue };
+				value = { ...internalValue }
 			}
 		} else {
-			console.error('Unreachable color type mismatch');
+			console.error('Unreachable color type mismatch')
 		}
 	}
 
@@ -146,19 +146,19 @@
 		ref.on('change', () => {
 			// Issue where changes from the color picker swatch view aren't reflected in other
 			// controls on the same pane TODO figure this out...
-			ref.refresh();
-		});
+			ref.refresh()
+		})
 	}
 
-	$: value, updateInternalValueFromValue();
-	$: internalValue, updateValueFromInternalValue();
-	$: ref !== undefined && addListeners();
+	$: value, updateInternalValueFromValue()
+	$: internalValue, updateValueFromInternalValue()
+	$: ref !== undefined && addListeners()
 	$: options = {
 		color: {
-			type
+			type,
 		},
-		view: 'color'
-	};
+		view: 'color',
+	}
 </script>
 
 <!--

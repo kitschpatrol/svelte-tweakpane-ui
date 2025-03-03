@@ -1,20 +1,20 @@
 <script lang="ts">
-	import { Button, Monitor, Slider, type SliderChangeEvent } from '$lib';
+	import { Button, Monitor, Slider, type SliderChangeEvent } from '$lib'
 
-	let speed = 50;
+	let speed = 50
 
 	// Keep track of how many Slider change events originated from direct
 	// interaction with the slider (internal) vs. programmatic changes set
 	// when the button's clicked (external)
-	let internalChangeCount = 0;
-	let externalChangeCount = 0;
+	let internalChangeCount = 0
+	let externalChangeCount = 0
 
 	// Change event handler
 	// The SliderChangeEvent type is a convenient alias
 	// to ValueChangeEvent<number>
 	function onChange(event: SliderChangeEvent) {
 		// Identify where the event came from, 'internal' or 'external'
-		event.detail.origin === 'internal' ? internalChangeCount++ : externalChangeCount++;
+		event.detail.origin === 'internal' ? internalChangeCount++ : externalChangeCount++
 	}
 
 	// A Svelte reactive statement is (usually) a much better way to respond

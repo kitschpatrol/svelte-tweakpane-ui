@@ -1,33 +1,33 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js';
+	import type { ValueChangeEvent } from '$lib/utils.js'
 
-	export type WheelChangeEvent = ValueChangeEvent<number>;
+	export type WheelChangeEvent = ValueChangeEvent<number>
 </script>
 
 <script lang="ts">
-	import type { WheelInputParams } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.d.ts';
-	import type { ComponentProps } from 'svelte';
-	import GenericSlider from '$lib/internal/GenericSlider.svelte';
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-camerakit';
+	import type { WheelInputParams } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.d.ts'
+	import type { ComponentProps } from 'svelte'
+	import GenericSlider from '$lib/internal/GenericSlider.svelte'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-camerakit'
 
 	type $$Props = {
 		/**
 		 * A `number` value to control.
 		 * @bindable
 		 * */
-		value: number;
+		value: number
 		/** The amount of the value to change per pixel of movement.
 		 * @default `undefined`  \
 		 * [Dynamic based on magnitude of
 		 * `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54).
 		 */
-		amount?: number;
-	} & Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'>;
+		amount?: number
+	} & Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'>
 
 	// Reexport for bindability
-	export let value: $$Props['value'];
-	export let amount: $$Props['amount'] = undefined;
-	export let wide: $$Props['wide'] = undefined;
+	export let value: $$Props['value']
+	export let amount: $$Props['amount'] = undefined
+	export let wide: $$Props['wide'] = undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -43,16 +43,16 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: WheelChangeEvent;
-	};
+		change: WheelChangeEvent
+	}
 
-	let options: WheelInputParams;
+	let options: WheelInputParams
 
 	$: options = {
 		amount,
 		view: 'camerawheel',
-		wide
-	};
+		wide,
+	}
 </script>
 
 <!--

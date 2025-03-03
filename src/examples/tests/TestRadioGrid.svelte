@@ -1,21 +1,21 @@
 <script lang="ts">
-	import { RadioGrid } from '$lib';
+	import { RadioGrid } from '$lib'
 
-	let value = 1;
+	let value = 1
 
-	let binding1InternalEventCount = 0;
-	let binding1ExternalEventCount = 0;
-	let binding2InternalEventCount = 0;
-	let binding2ExternalEventCount = 0;
+	let binding1InternalEventCount = 0
+	let binding1ExternalEventCount = 0
+	let binding2InternalEventCount = 0
+	let binding2ExternalEventCount = 0
 </script>
 
 <RadioGrid
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding1InternalEventCount++;
+			binding1InternalEventCount++
 		} else {
-			binding1ExternalEventCount++;
+			binding1ExternalEventCount++
 		}
 	}}
 	prefix="Color Scheme "
@@ -25,9 +25,9 @@
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding2InternalEventCount++;
+			binding2InternalEventCount++
 		} else {
-			binding2ExternalEventCount++;
+			binding2ExternalEventCount++
 		}
 	}}
 	prefix="Color Scheme "

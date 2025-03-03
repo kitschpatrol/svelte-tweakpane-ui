@@ -19,7 +19,7 @@ Import and use Tweakpane components in your `.svelte` files:
 
 ```svelte title="YourComponent.svelte"
 <script lang="ts">
-  import { Button } from 'svelte-tweakpane-ui';
+  import { Button } from 'svelte-tweakpane-ui'
 </script>
 
 <Button on:click={() => alert('🎛️')} />

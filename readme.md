@@ -63,7 +63,7 @@ npm install svelte-tweakpane-ui
 
 ```svelte
 <script lang="ts">
-  import { Button } from 'svelte-tweakpane-ui';
+  import { Button } from 'svelte-tweakpane-ui'
 </script>
 
 <Button on:click={() => alert('🎛️')} />

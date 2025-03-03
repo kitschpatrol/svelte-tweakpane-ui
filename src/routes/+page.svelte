@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { PageServerData } from './$types';
-	export let data: PageServerData;
+	import type { PageServerData } from './$types'
+	export let data: PageServerData
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	$: version = typeof window !== 'undefined' && [...(window as unknown as any).__svelte.v][0];
+	$: version = typeof window !== 'undefined' && [...(window as unknown as any).__svelte.v][0]
 </script>
 
 <h1>svelte-tweakpane-ui</h1>

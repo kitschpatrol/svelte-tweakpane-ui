@@ -1,19 +1,19 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js';
+	import type { ValueChangeEvent } from '$lib/utils.js'
 
-	export type TextChangeEvent = ValueChangeEvent<string>;
+	export type TextChangeEvent = ValueChangeEvent<string>
 </script>
 
 <script lang="ts">
-	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte';
-	import { type ComponentProps, onDestroy } from 'svelte';
+	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte'
+	import { type ComponentProps, onDestroy } from 'svelte'
 
 	type $$Props = {
 		/**
 		 * A `string` value to control.
 		 * @bindable
 		 * */
-		value: string;
+		value: string
 		/**
 		 * Whether to provide live updates to the bound `value` on every keystroke.
 		 *
@@ -21,12 +21,12 @@
 		 * vanilla JS Tweakpane behavior, which only updates on blur.
 		 * @default `true`
 		 * */
-		live?: boolean;
-	} & Omit<ComponentProps<GenericInput<string>>, 'options' | 'plugin' | 'ref'>;
+		live?: boolean
+	} & Omit<ComponentProps<GenericInput<string>>, 'options' | 'plugin' | 'ref'>
 
 	// Reexport for bindability
-	export let value: $$Props['value'];
-	export let live: $$Props['live'] = true;
+	export let value: $$Props['value']
+	export let live: $$Props['live'] = true
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -42,32 +42,32 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: TextChangeEvent;
-	};
+		change: TextChangeEvent
+	}
 
 	// Do not allow for automatic detection of hex / color strings
 	// See https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/17
-	const options = { view: 'text' };
+	const options = { view: 'text' }
 
 	// Tweakpane's implementation only sends updates on blur we extend it to send continues change
 	// updates if desired
-	let ref: GenericInputRef;
+	let ref: GenericInputRef
 
 	onDestroy(() => {
-		updateListeners(live ?? true, true);
-	});
+		updateListeners(live ?? true, true)
+	})
 
 	function onInput(event: Event): void {
-		event.target?.dispatchEvent(new Event('change'));
+		event.target?.dispatchEvent(new Event('change'))
 	}
 
 	function updateListeners(live: boolean, destroy: boolean = false) {
-		const input = ref?.controller.valueController.view.element.querySelector('input');
-		input?.removeEventListener('input', onInput);
-		!destroy && live && input?.addEventListener('input', onInput);
+		const input = ref?.controller.valueController.view.element.querySelector('input')
+		input?.removeEventListener('input', onInput)
+		!destroy && live && input?.addEventListener('input', onInput)
 	}
 
-	$: ref && live !== undefined && updateListeners(live);
+	$: ref && live !== undefined && updateListeners(live)
 </script>
 
 <!--

@@ -1,20 +1,20 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils';
-	import type { ValueChangeEvent } from '$lib/utils.js';
-	import type { Point2dInputParams, Point3dInputParams, Point4dInputParams } from 'tweakpane';
+	import type { Simplify } from '$lib/utils'
+	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { Point2dInputParams, Point3dInputParams, Point4dInputParams } from 'tweakpane'
 
 	// Extends Tweakpane's implementation to support tuples
-	export type PointValue2dObject = { x: number; y: number };
-	export type PointValue2dTuple = [x: number, y: number];
-	export type PointValue2d = Simplify<PointValue2dObject | PointValue2dTuple>;
+	export type PointValue2dObject = { x: number; y: number }
+	export type PointValue2dTuple = [x: number, y: number]
+	export type PointValue2d = Simplify<PointValue2dObject | PointValue2dTuple>
 
-	export type PointValue3dObject = { x: number; y: number; z: number };
-	export type PointValue3dTuple = [x: number, y: number, z: number];
-	export type PointValue3d = Simplify<PointValue3dObject | PointValue3dTuple>;
+	export type PointValue3dObject = { x: number; y: number; z: number }
+	export type PointValue3dTuple = [x: number, y: number, z: number]
+	export type PointValue3d = Simplify<PointValue3dObject | PointValue3dTuple>
 
-	export type PointValue4dObject = { x: number; y: number; z: number; w: number };
-	export type PointValue4dTuple = [x: number, y: number, z: number, w: number];
-	export type PointValue4d = Simplify<PointValue4dObject | PointValue4dTuple>;
+	export type PointValue4dObject = { x: number; y: number; z: number; w: number }
+	export type PointValue4dTuple = [x: number, y: number, z: number, w: number]
+	export type PointValue4d = Simplify<PointValue4dObject | PointValue4dTuple>
 
 	/**
 	 * TODO docs
@@ -22,25 +22,25 @@
 
 	export type PointOptions<
 		Dimensions extends '2' | '3' | '4',
-		Axis extends 'w' | 'x' | 'y' | 'z'
+		Axis extends 'w' | 'x' | 'y' | 'z',
 	> = Dimensions extends '4'
 		? Point4dInputParams[Axis]
 		: Dimensions extends '3'
 			? Point3dInputParams[Axis]
 			: Dimensions extends '2'
 				? Point2dInputParams[Axis]
-				: never;
+				: never
 
-	export type PointChangeEvent = ValueChangeEvent<PointValue2d | PointValue3d | PointValue4d>;
+	export type PointChangeEvent = ValueChangeEvent<PointValue2d | PointValue3d | PointValue4d>
 </script>
 
 <script generics="T extends PointValue2d | PointValue3d | PointValue4d" lang="ts">
-	import type { ComponentProps } from 'svelte';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
-	import { type HasKey, removeKeys } from '$lib/utils';
-	import { BROWSER } from 'esm-env';
-	import { shallowEqual } from 'fast-equals';
+	import type { ComponentProps } from 'svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
+	import { type HasKey, removeKeys } from '$lib/utils'
+	import { BROWSER } from 'esm-env'
+	import { shallowEqual } from 'fast-equals'
 
 	type PointOptions<U> = U extends PointValue4d
 		? Point4dInputParams
@@ -48,7 +48,7 @@
 			? Point3dInputParams
 			: U extends PointValue2d
 				? Point2dInputParams
-				: unknown;
+				: unknown
 
 	type PropsForType<U> = (U extends PointValue2d | PointValue3d | PointValue4d
 		? {
@@ -59,7 +59,7 @@
 				 * a value.
 				 * @default `undefined`
 				 * */
-				optionsX?: PointOptions<U>['x'];
+				optionsX?: PointOptions<U>['x']
 				/**
 				 * Input parameters specific to the Y dimension.
 				 *
@@ -71,7 +71,7 @@
 				 * @default `undefined`  \
 				 * `inverted` is `false`
 				 * */
-				optionsY?: PointOptions<U>['y'];
+				optionsY?: PointOptions<U>['y']
 			}
 		: unknown) &
 		(U extends PointValue3d | PointValue4d
@@ -83,7 +83,7 @@
 					 * not a value.
 					 * @default `undefined`
 					 * */
-					optionsZ?: PointOptions<U>['z'];
+					optionsZ?: PointOptions<U>['z']
 				}
 			: unknown) &
 		(U extends PointValue4d
@@ -95,9 +95,9 @@
 					 * not a value.
 					 * @default `undefined`
 					 * */
-					optionsW?: PointOptions<U>['w'];
+					optionsW?: PointOptions<U>['w']
 				}
-			: unknown);
+			: unknown)
 
 	type InternalPoint<U> = U extends PointValue4d
 		? PointValue4dObject
@@ -105,7 +105,7 @@
 			? PointValue3dObject
 			: U extends PointValue2d
 				? PointValue2dObject
-				: unknown;
+				: unknown
 
 	// Some redefinition of props from GenericSlider, but redefining since we want to refine the
 	// documentation anyway
@@ -119,65 +119,65 @@
 		 * The type of this value will determine the availability of axis-specific option props.
 		 * @bindable
 		 * */
-		value: T;
+		value: T
 		/**
 		 * The minimum value for all dimensions.
 		 * @default `undefined`  \
 		 * No minimum.
 		 * */
-		min?: number;
+		min?: number
 		/**
 		 * The maximum value for all dimensions.
 		 * @default `undefined`  \
 		 * No maximum.
 		 * */
-		max?: number;
+		max?: number
 		/**
 		 * A function to customize the point value's string representation (e.g. rounding, etc.).
 		 * @default `undefined`  \
 		 * Normal `.toString()` formatting.
 		 * */
-		format?: (value: number) => string;
+		format?: (value: number) => string
 		/**
 		 * The unit scale for key-based input for all dimensions (e.g. the up and down arrow keys).
 		 * @default `1`  \
 		 * Or `stepValue` if defined.
 		 *  */
-		keyScale?: number;
+		keyScale?: number
 		/**
 		 * The unit scale for pointer-based input for all dimensions.
 		 * @default `undefined`  \
 		 * [Dynamic based on magnitude of
 		 * `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54).
 		 * */
-		pointerScale?: number;
+		pointerScale?: number
 		/**
 		 * The minimum step interval for all dimensions.
 		 * @default `undefined`  \
 		 * No step constraint.
 		 * */
-		step?: number;
+		step?: number
 	} & Omit<
 		ComponentProps<GenericInputFolding<T, PointOptions<T>>>,
 		'buttonClass' | 'options' | 'plugin' | 'ref'
 	> &
-		PropsForType<T>;
+		PropsForType<T>
 
 	// Bindable props must be re-exported
-	export let value: T;
-	export let expanded: boolean | undefined = $$props.expanded ?? undefined; //  $$Props['expanded']; not working here?
+	export let value: T
+	export let expanded: boolean | undefined = $$props.expanded ?? undefined //  $$Props['expanded']; not working here?
 
 	// No need to re-export non-bindable props
-	let pointerScale: $$Props['pointerScale'] = $$props['pointerScale'] ?? undefined;
-	let keyScale: $$Props['keyScale'] = $$props['keyScale'] ?? undefined;
-	let min: $$Props['min'] = $$props['min'] ?? undefined;
-	let max: $$Props['max'] = $$props['max'] ?? undefined;
-	let step: $$Props['step'] = $$props['step'] ?? undefined;
-	let optionsX: $$Props['optionsX'] = $$props['optionsX'] ?? undefined;
-	let optionsY: $$Props['optionsY'] = $$props['optionsY'] ?? undefined;
-	let optionsZ: HasKey<$$Props, 'optionsZ'> = $$props['optionsZ'] ?? undefined;
-	let optionsW: HasKey<$$Props, 'optionsW'> = $$props['optionsW'] ?? undefined;
-	let format: $$Props['format'] = $$props['format'] ?? undefined;
+	let pointerScale: $$Props['pointerScale'] = $$props['pointerScale'] ?? undefined
+	let keyScale: $$Props['keyScale'] = $$props['keyScale'] ?? undefined
+	let min: $$Props['min'] = $$props['min'] ?? undefined
+	let max: $$Props['max'] = $$props['max'] ?? undefined
+	let step: $$Props['step'] = $$props['step'] ?? undefined
+	let optionsX: $$Props['optionsX'] = $$props['optionsX'] ?? undefined
+	let optionsY: $$Props['optionsY'] = $$props['optionsY'] ?? undefined
+	let optionsZ: HasKey<$$Props, 'optionsZ'> = $$props['optionsZ'] ?? undefined
+	let optionsW: HasKey<$$Props, 'optionsW'> = $$props['optionsW'] ?? undefined
+	let format: $$Props['format'] = $$props['format'] ?? undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -193,16 +193,16 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: PointChangeEvent;
-	};
+		change: PointChangeEvent
+	}
 
 	// Proxy value since Tweakpane only supports PointNdObject type
-	let internalValue: InternalPoint<T>;
+	let internalValue: InternalPoint<T>
 
-	let options: PointOptions<T>;
+	let options: PointOptions<T>
 
 	// Work-around for funky folding
-	const buttonClass = 'tp-p2dv_b';
+	const buttonClass = 'tp-p2dv_b'
 
 	function updateInternalValueFromValue() {
 		if (Array.isArray(value)) {
@@ -212,13 +212,13 @@
 					: value.length === 3
 						? { x: value[0], y: value[1], z: value[2] }
 						: { x: value[0], y: value[1] }
-			) as InternalPoint<T>;
+			) as InternalPoint<T>
 
 			if (!shallowEqual(internalValue, newInternalValue)) {
-				internalValue = newInternalValue;
+				internalValue = newInternalValue
 			}
 		} else if (!shallowEqual(internalValue, value)) {
-			internalValue = { ...value } as InternalPoint<T>;
+			internalValue = { ...value } as InternalPoint<T>
 		}
 	}
 
@@ -230,18 +230,18 @@
 					: 'z' in internalValue
 						? [internalValue.x, internalValue.y, internalValue.z]
 						: [internalValue.x, internalValue.y]
-			) as T;
+			) as T
 
 			if (!shallowEqual(value, newValue)) {
-				value = newValue;
+				value = newValue
 			}
 		} else if (!shallowEqual(value, internalValue)) {
-			value = { ...internalValue } as T;
+			value = { ...internalValue } as T
 		}
 	}
 
-	$: value, updateInternalValueFromValue();
-	$: internalValue, updateValueFromInternalValue();
+	$: value, updateInternalValueFromValue()
+	$: internalValue, updateValueFromInternalValue()
 	$: options = {
 		x: optionsX,
 		y: optionsY,
@@ -252,8 +252,8 @@
 		format,
 		keyScale,
 		pointerScale,
-		step
-	} as PointOptions<T>;
+		step,
+	} as PointOptions<T>
 </script>
 
 <!--
@@ -346,7 +346,7 @@ position="inline">` component.
 		'optionsX',
 		'optionsY',
 		'optionsZ',
-		'optionsW'
+		'optionsW',
 	)}
 />
 {#if !BROWSER && !('z' in internalValue)}

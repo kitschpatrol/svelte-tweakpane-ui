@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { Checkbox, type ValueChangeEvent } from '$lib';
+	import { Checkbox, type ValueChangeEvent } from '$lib'
 
-	let value: boolean = false;
+	let value: boolean = false
 
-	let binding1InternalEventCount = 0;
-	let binding1ExternalEventCount = 0;
-	let binding2InternalEventCount = 0;
-	let binding2ExternalEventCount = 0;
+	let binding1InternalEventCount = 0
+	let binding1ExternalEventCount = 0
+	let binding2InternalEventCount = 0
+	let binding2ExternalEventCount = 0
 
 	function listener(event: ValueChangeEvent<boolean>) {
-		console.log(event);
+		console.log(event)
 	}
 </script>
 
@@ -18,9 +18,9 @@
 	on:change={listener}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding1InternalEventCount++;
+			binding1InternalEventCount++
 		} else {
-			binding1ExternalEventCount++;
+			binding1ExternalEventCount++
 		}
 	}}
 	label="Binding 1"
@@ -29,9 +29,9 @@
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding2InternalEventCount++;
+			binding2InternalEventCount++
 		} else {
-			binding2ExternalEventCount++;
+			binding2ExternalEventCount++
 		}
 	}}
 	label="Binding 2"

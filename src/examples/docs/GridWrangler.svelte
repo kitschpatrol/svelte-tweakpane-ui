@@ -1,110 +1,110 @@
 <script lang="ts">
-	import { Utils } from '$lib';
-	import { onMount } from 'svelte';
+	import { Utils } from '$lib'
+	import { onMount } from 'svelte'
 
 	/*
 	 * Horizontal space between grid points, in pixels
 	 */
-	export let gridSpacingX: number;
+	export let gridSpacingX: number
 
 	/*
 	 * Vertical space between grid points, in pixels
 	 */
-	export let gridSpacingY: number;
+	export let gridSpacingY: number
 
 	/*
 	 * Scale to apply to each grid item
 	 */
-	export let scale: number = 1;
+	export let scale: number = 1
 
 	/*
 	 * Rotate individual grid items
 	 */
-	export let rotation: [number, number, number] = [0, 0, 0];
+	export let rotation: [number, number, number] = [0, 0, 0]
 
 	/*
 	 * Rotate the whole grid group
 	 */
-	export let rotationExtrinsic: [number, number, number] = [0, 0, 0];
+	export let rotationExtrinsic: [number, number, number] = [0, 0, 0]
 
 	/*
 	 * Extra width to draw into beyond the wrapper, in pixels
 	 */
-	export let overdrawX: number = 0;
+	export let overdrawX: number = 0
 
 	/*
 	 * Extra height to draw into beyond the wrapper, in pixels
 	 */
-	export let overdrawY: number = 0;
+	export let overdrawY: number = 0
 
 	/*
 	 * Extra grid points at the center of each cell
 	 */
-	export let includeCenters: boolean = true;
+	export let includeCenters: boolean = true
 
 	/*
 	 * Show background
 	 */
-	export let showBackground = false;
+	export let showBackground = false
 
 	/*
 	 * Background color gradient start
 	 */
-	export let backgroundA = '#ffffff';
+	export let backgroundA = '#ffffff'
 
 	/*
 	 * Background color gradient end
 	 */
-	export let backgroundB = '#ffffff';
+	export let backgroundB = '#ffffff'
 
 	/*
 	 * Draw a red dot at each grid point, for debugging
 	 */
-	export let drawOrigins = false;
+	export let drawOrigins = false
 
 	/*
 	 * Number of grid points @bindable
 	 */
-	export let paneCount: number;
+	export let paneCount: number
 
-	let wrapperWidth: number;
-	let wrapperHeight: number;
-	let mounted = false;
-	let grid: number[][];
+	let wrapperWidth: number
+	let wrapperHeight: number
+	let mounted = false
+	let grid: number[][]
 
 	onMount(() => {
-		mounted = true;
-	});
+		mounted = true
+	})
 
 	function getGrid(w: number, h: number, sx: number, sy: number, centers: boolean): number[][] {
-		const xPoints = Math.floor(w / sx);
-		const yPoints = Math.floor(h / sy);
-		const gridLeft = (w - (xPoints - 1) * sx) / 2;
-		const gridTop = (h - (yPoints - 1) * sy) / 2;
+		const xPoints = Math.floor(w / sx)
+		const yPoints = Math.floor(h / sy)
+		const gridLeft = (w - (xPoints - 1) * sx) / 2
+		const gridTop = (h - (yPoints - 1) * sy) / 2
 
-		const points = [];
+		const points = []
 
 		for (let index = 0; index < xPoints; index++) {
 			for (let index_ = 0; index_ < yPoints; index_++) {
-				points.push([gridLeft + index * sx, gridTop + index_ * sy]);
+				points.push([gridLeft + index * sx, gridTop + index_ * sy])
 				if (centers && index_ < yPoints - 1 && index < xPoints - 1) {
-					points.push([points.at(-1)![0] + sx / 2, points.at(-1)![1] + sy / 2]);
+					points.push([points.at(-1)![0] + sx / 2, points.at(-1)![1] + sy / 2])
 				}
 			}
 		}
 
 		if (points.length === 0) {
-			points.push([w / 2, h / 2]);
+			points.push([w / 2, h / 2])
 		}
 
-		return points;
+		return points
 	}
 
-	$: groupWidth = wrapperWidth + overdrawX;
-	$: groupHeight = wrapperHeight + overdrawY;
+	$: groupWidth = wrapperWidth + overdrawX
+	$: groupHeight = wrapperHeight + overdrawY
 	$: mounted &&
-		(grid = getGrid(groupWidth, groupHeight, gridSpacingX, gridSpacingY, includeCenters));
-	$: mounted && (paneCount = grid.length);
+		(grid = getGrid(groupWidth, groupHeight, gridSpacingX, gridSpacingY, includeCenters))
+	$: mounted && (paneCount = grid.length)
 </script>
 
 {#if mounted}

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { Checkbox, Pane, Slider } from '$lib';
-	let colors = 0.95;
-	let darkMode = true;
-	let numbers = true;
-	let oneMore = true;
+	import { Checkbox, Pane, Slider } from '$lib'
+	let colors = 0.95
+	let darkMode = true
+	let numbers = true
+	let oneMore = true
 </script>
 
 <div class="layout-wrapper"></div>

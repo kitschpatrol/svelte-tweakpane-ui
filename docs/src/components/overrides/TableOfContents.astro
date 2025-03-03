@@ -1,16 +1,16 @@
 ---
-import type { Props } from '@astrojs/starlight/props';
-import StarlightTableOfContents from '@astrojs/starlight/components/TableOfContents.astro';
-import { slug } from 'github-slugger';
-import { allProps } from '../../utils/prop-utils';
+import type { Props } from '@astrojs/starlight/props'
+import StarlightTableOfContents from '@astrojs/starlight/components/TableOfContents.astro'
+import { slug } from 'github-slugger'
+import { allProps } from '../../utils/prop-utils'
 
-const { componentData } = Astro.props.entry.data;
-import type { ComponentProp } from '../../utils/prop-utils';
+const { componentData } = Astro.props.entry.data
+import type { ComponentProp } from '../../utils/prop-utils'
 
 // Mutate props to add ToC items on component pages
 // bad work-around for https://github.com/withastro/astro/issues/5084
 function propHeadings(propData: ComponentProp[]) {
-	return propData.map((prop) => tocItemForHeading(prop.name, 3));
+	return propData.map((prop) => tocItemForHeading(prop.name, 3))
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,25 +19,25 @@ function tocItemForHeading(heading: string, depth: number, children: any[] = [])
 		children,
 		depth,
 		slug: slug(heading),
-		text: heading
-	};
+		text: heading,
+	}
 }
 
-const localProps = Astro.props;
+const localProps = Astro.props
 if (componentData && localProps.toc) {
 	if (componentData.jsDocs?.example)
 		localProps.toc.items.push(
-			tocItemForHeading('Example', 2, [tocItemForHeading('Demo', 3), tocItemForHeading('Code', 3)])
-		);
+			tocItemForHeading('Example', 2, [tocItemForHeading('Demo', 3), tocItemForHeading('Code', 3)]),
+		)
 
 	if (componentData.props.length > 0)
-		localProps.toc.items.push(tocItemForHeading('Props', 2, propHeadings(allProps(componentData))));
+		localProps.toc.items.push(tocItemForHeading('Props', 2, propHeadings(allProps(componentData))))
 
 	if (componentData.events.length > 0)
-		localProps.toc.items.push(tocItemForHeading('Events', 2, propHeadings(componentData.events)));
+		localProps.toc.items.push(tocItemForHeading('Events', 2, propHeadings(componentData.events)))
 
 	if (componentData.slots.length > 0)
-		localProps.toc.items.push(tocItemForHeading('Slots', 2, propHeadings(componentData.slots)));
+		localProps.toc.items.push(tocItemForHeading('Slots', 2, propHeadings(componentData.slots)))
 }
 ---
 

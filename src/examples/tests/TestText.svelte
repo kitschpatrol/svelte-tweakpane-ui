@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { Checkbox, Text } from '$lib';
+	import { Checkbox, Text } from '$lib'
 
-	let text = 'Cosmic Manifold';
-	let live = true;
+	let text = 'Cosmic Manifold'
+	let live = true
 
-	let binding1InternalEventCount = 0;
-	let binding1ExternalEventCount = 0;
-	let binding2InternalEventCount = 0;
-	let binding2ExternalEventCount = 0;
+	let binding1InternalEventCount = 0
+	let binding1ExternalEventCount = 0
+	let binding2InternalEventCount = 0
+	let binding2ExternalEventCount = 0
 </script>
 
 <Checkbox bind:value={live} label="Live" />
@@ -16,9 +16,9 @@
 	bind:value={text}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding1InternalEventCount++;
+			binding1InternalEventCount++
 		} else {
-			binding1ExternalEventCount++;
+			binding1ExternalEventCount++
 		}
 	}}
 	label="The Message"
@@ -28,9 +28,9 @@
 	bind:value={text}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding2InternalEventCount++;
+			binding2InternalEventCount++
 		} else {
-			binding2ExternalEventCount++;
+			binding2ExternalEventCount++
 		}
 	}}
 	label="The Message"

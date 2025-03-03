@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { ComponentProps } from 'svelte';
+	import type { ComponentProps } from 'svelte'
 	import type {
 		SeparatorBladeApi as SeparatorBladeRef,
-		SeparatorBladeParams as SeparatorOptions
-	} from 'tweakpane';
-	import Blade from '$lib/core/Blade.svelte';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import { BROWSER } from 'esm-env';
+		SeparatorBladeParams as SeparatorOptions,
+	} from 'tweakpane'
+	import Blade from '$lib/core/Blade.svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { BROWSER } from 'esm-env'
 
 	// Note stacking multiple separators breaks SSR?
 
@@ -14,11 +14,11 @@
 	type $$Props = Omit<
 		ComponentProps<Blade<SeparatorOptions, SeparatorBladeRef>>,
 		'options' | 'plugin' | 'ref'
-	>;
+	>
 
 	const options: SeparatorOptions = {
-		view: 'separator'
-	};
+		view: 'separator',
+	}
 </script>
 
 <!--

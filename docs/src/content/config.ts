@@ -1,5 +1,5 @@
-import { docsSchema } from '@astrojs/starlight/schema';
-import { defineCollection, z } from 'astro:content';
+import { docsSchema } from '@astrojs/starlight/schema'
+import { defineCollection, z } from 'astro:content'
 
 // Acknowledgments schema as delivered from pnpm
 // license-checker-rseidelsohn is a good pnpm-agnostic alternative,
@@ -14,26 +14,26 @@ const acknowledgmentsSchema = z.record(
 			license: z.string().min(1),
 			name: z.string().min(1),
 			paths: z.array(z.string().min(1)).min(1),
-			versions: z.array(z.string().min(1)).min(1)
-		})
-	)
-);
+			versions: z.array(z.string().min(1)).min(1),
+		}),
+	),
+)
 
 // Component documentation schema
 // must be kept in sync with ./scripts/generate-documentation-data.ts
 
-const componentJsDocRecordSchema = z.record(z.string());
+const componentJsDocRecordSchema = z.record(z.string())
 
 const componentPartInfoSchema = z.array(
 	z.object({
 		doc: z.string(),
 		jsDocs: componentJsDocRecordSchema,
 		name: z.string(),
-		type: z.string()
-	})
-);
+		type: z.string(),
+	}),
+)
 
-const componentPropConditionSchema = z.record(z.union([z.boolean(), z.number(), z.string()]));
+const componentPropConditionSchema = z.record(z.union([z.boolean(), z.number(), z.string()]))
 
 const componentDocumentSchema = z.object({
 	doc: z.string(),
@@ -42,8 +42,8 @@ const componentDocumentSchema = z.object({
 			z.object({
 				condition: componentPropConditionSchema,
 				description: z.string(),
-				props: componentPartInfoSchema
-			})
+				props: componentPartInfoSchema,
+			}),
 		)
 		.optional(),
 	events: componentPartInfoSchema,
@@ -52,26 +52,26 @@ const componentDocumentSchema = z.object({
 	path: z.string(),
 	pathParts: z.array(z.string()),
 	props: componentPartInfoSchema,
-	slots: componentPartInfoSchema
-});
+	slots: componentPartInfoSchema,
+})
 
 const universalFrontmatter = z.object({
-	sourceUrl: z.string().url().optional()
-});
+	sourceUrl: z.string().url().optional(),
+})
 
 const componentFrontmatter = z.object({
 	componentData: componentDocumentSchema.optional(),
-	note: z.string().optional()
-});
+	note: z.string().optional(),
+})
 
 export const collections = {
 	acknowledgments: defineCollection({
 		schema: acknowledgmentsSchema,
-		type: 'data'
+		type: 'data',
 	}),
 	docs: defineCollection({
 		schema: docsSchema({
-			extend: universalFrontmatter.merge(componentFrontmatter)
-		})
-	})
-};
+			extend: universalFrontmatter.merge(componentFrontmatter),
+		}),
+	}),
+}

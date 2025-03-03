@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { ComponentProps } from 'svelte';
-	import GenericPane from '$lib/internal/GenericPane.svelte';
-	import { removeKeys } from '$lib/utils.js';
-	import { onMount } from 'svelte';
+	import type { ComponentProps } from 'svelte'
+	import GenericPane from '$lib/internal/GenericPane.svelte'
+	import { removeKeys } from '$lib/utils.js'
+	import { onMount } from 'svelte'
 
 	type $$Props = {
 		/**
@@ -16,40 +16,40 @@
 		 * element is not provided.
 		 * @default `undefined`
 		 * */
-		width?: number;
-	} & ComponentProps<GenericPane>;
+		width?: number
+	} & ComponentProps<GenericPane>
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {
 		/**
 		 * Any Tweakpane component, except another `<Pane>`.
 		 */
-		default: {};
-	};
+		default: {}
+	}
 
 	// Reexport for bindability
-	export let expanded: $$Props['expanded'] = undefined;
-	export let width: $$Props['width'] = undefined;
-	export let tpPane: $$Props['tpPane'] = undefined;
+	export let expanded: $$Props['expanded'] = undefined
+	export let width: $$Props['width'] = undefined
+	export let tpPane: $$Props['tpPane'] = undefined
 
 	// Override theme defaults
 	export let theme: $$Props['theme'] = {
 		baseBorderRadius: '0px',
-		baseShadowColor: 'hsla(0, 0%, 0%, 0)'
+		baseShadowColor: 'hsla(0, 0%, 0%, 0)',
 		// BladeBorderRadius: '0px'
-	};
+	}
 
-	let containerElement: HTMLDivElement;
+	let containerElement: HTMLDivElement
 
 	onMount(() => {
 		if (tpPane) {
-			const fixedContainer = tpPane.element.parentElement;
-			containerElement.append(tpPane.element);
-			fixedContainer?.remove();
+			const fixedContainer = tpPane.element.parentElement
+			containerElement.append(tpPane.element)
+			fixedContainer?.remove()
 		} else {
-			console.warn('tpPane is undefined');
+			console.warn('tpPane is undefined')
 		}
-	});
+	})
 </script>
 
 <!--

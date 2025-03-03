@@ -38,148 +38,148 @@
 		type Theme,
 		ThemeUtils,
 		WaveformMonitor,
-		Wheel
-	} from '$lib';
-	import { onMount } from 'svelte';
-	let text = 'Cosmic Manifold';
-	let waveData = [5, 6, 7, 8, 9, 3, 9, 8, 7, 6, 5];
+		Wheel,
+	} from '$lib'
+	import { onMount } from 'svelte'
+	let text = 'Cosmic Manifold'
+	let waveData = [5, 6, 7, 8, 9, 3, 9, 8, 7, 6, 5]
 
 	setInterval(() => {
-		waveData = waveData.map((v) => Math.max(0, Math.min(10, v + (Math.random() * 2 - 1) * 0.5)));
-	}, 10);
+		waveData = waveData.map((v) => Math.max(0, Math.min(10, v + (Math.random() * 2 - 1) * 0.5)))
+	}, 10)
 
-	let selection: number = 1;
-	const options: ListOptions<number> = { b: 2, a: 1, c: 3 };
+	let selection: number = 1
+	const options: ListOptions<number> = { b: 2, a: 1, c: 3 }
 
-	let booleanToMonitor = false;
-	let stringToMonitor = 'Reticulating';
-	let numberToMonitor = 85;
-
-	setInterval(() => {
-		numberToMonitor = Math.random() * 100;
-	}, 50);
+	let booleanToMonitor = false
+	let stringToMonitor = 'Reticulating'
+	let numberToMonitor = 85
 
 	setInterval(() => {
-		booleanToMonitor = !booleanToMonitor;
-		stringToMonitor = [...stringToMonitor].reverse().join('');
-	}, 1000);
+		numberToMonitor = Math.random() * 100
+	}, 50)
 
-	let rev: RotationEulerValueObject = { x: 0, y: 0, z: 0 };
-	let rev2: RotationQuaternionValueObject = { x: 0, y: 0, z: 0, w: 0 };
-	let text2 = '';
+	setInterval(() => {
+		booleanToMonitor = !booleanToMonitor
+		stringToMonitor = [...stringToMonitor].reverse().join('')
+	}, 1000)
+
+	let rev: RotationEulerValueObject = { x: 0, y: 0, z: 0 }
+	let rev2: RotationQuaternionValueObject = { x: 0, y: 0, z: 0, w: 0 }
+	let text2 = ''
 	let object = {
 		someBoolean: true, // Creates a <Checkbox>
 		someColor: {
 			r: 255,
 			g: 0,
 			// Creates a <Color> picker
-			b: 55
+			b: 55,
 		},
 		someFolder: {
 			b: 2,
 			// Wraps children in a <Folder>
 			a: 1,
-			c: 3
+			c: 3,
 		},
 		someNumber: 1, // Creates a <Slider>
 		somePoint: {
 			// Creates a <Point>
 			x: 1,
-			y: 2
+			y: 2,
 		},
-		someString: 'test' // Creates a <Text>
-	};
-	let startColor = '#fff000';
-	let startColorA = { r: 255, g: 0, b: 55, a: 50 };
+		someString: 'test', // Creates a <Text>
+	}
+	let startColor = '#fff000'
+	let startColorA = { r: 255, g: 0, b: 55, a: 50 }
 
-	let bindingObject: BindingObject = { r: 0 };
+	let bindingObject: BindingObject = { r: 0 }
 
-	let expanded = false;
+	let expanded = false
 
-	let point2d: PointValue2d = { x: 0, y: 0 };
+	let point2d: PointValue2d = { x: 0, y: 0 }
 
 	// Tuples are also fine
-	let point3d: PointValue3d = [0, 0, 0];
+	let point3d: PointValue3d = [0, 0, 0]
 
 	// Dimension-specific option type needs to know the type of the point value
-	let point3dxOptions: PointOptions<'3', 'x'> = { min: -100, max: 100 };
+	let point3dxOptions: PointOptions<'3', 'x'> = { min: -100, max: 100 }
 
 	const theme: Theme = {
 		...ThemeUtils.presets.standard,
 
 		bladeHorizontalPadding: '20px',
-		containerUnitSize: '130px'
-	};
+		containerUnitSize: '130px',
+	}
 
-	let callback: CubicBezierValueTuple = [0, 0, 0, 0];
+	let callback: CubicBezierValueTuple = [0, 0, 0, 0]
 
 	const keyboard = [
 		...Array.from({ length: 26 }, (_, index) => String.fromCodePoint(65 + index)),
 		',',
 		'.',
 		'!',
-		'⌫'
-	];
+		'⌫',
+	]
 
-	let rv = 1;
+	let rv = 1
 	// Const radioValues = [ ['magenta', 'orange'], ['yellow', 'red'], ['violet', 'gold'], ['red',
 	//  'rebeccapurple']
 	// ];
 
 	// let src = 'placeholder';
 
-	let point4d: PointValue4d = { x: 0, y: 0, z: 0, w: 0 };
+	let point4d: PointValue4d = { x: 0, y: 0, z: 0, w: 0 }
 
 	// This is a readonly function handle assigned by Profiler component first used in onMount since
 	// it is not bound until then
-	let measure: ProfilerMeasure;
+	let measure: ProfilerMeasure
 
-	let loopExponent = 1;
+	let loopExponent = 1
 
 	// Helper to test Math functions
 	function hardWork(functionToMeasure: (n: number) => number, exponent: number): void {
 		measure(functionToMeasure.name, () => {
 			for (let sum = 0; sum < Number('1e' + exponent); sum++) {
-				functionToMeasure(sum);
+				functionToMeasure(sum)
 			}
-		});
+		})
 	}
 
 	onMount(() => {
-		let animationFrameHandle: number;
+		let animationFrameHandle: number
 
-		(function tick() {
+		;(function tick() {
 			// Nesting measurements creates a hierarchy in the Profile visualization
 			measure('Tick', () => {
 				measure('Trigonometry', () => {
-					hardWork(Math.sin, loopExponent);
-					hardWork(Math.cos, loopExponent);
-					hardWork(Math.tan, loopExponent);
-					hardWork(Math.atan, loopExponent);
-					hardWork(Math.acos, loopExponent);
-					hardWork(Math.acosh, loopExponent);
-				});
+					hardWork(Math.sin, loopExponent)
+					hardWork(Math.cos, loopExponent)
+					hardWork(Math.tan, loopExponent)
+					hardWork(Math.atan, loopExponent)
+					hardWork(Math.acos, loopExponent)
+					hardWork(Math.acosh, loopExponent)
+				})
 				measure('Logarithms', () => {
-					hardWork(Math.log, loopExponent);
-					hardWork(Math.log10, loopExponent);
-					hardWork(Math.log1p, loopExponent);
-					hardWork(Math.log2, loopExponent);
-				});
+					hardWork(Math.log, loopExponent)
+					hardWork(Math.log10, loopExponent)
+					hardWork(Math.log1p, loopExponent)
+					hardWork(Math.log2, loopExponent)
+				})
 				measure('Rounding', () => {
-					hardWork(Math.round, loopExponent);
-					hardWork(Math.floor, loopExponent);
-					hardWork(Math.ceil, loopExponent);
-					hardWork(Math.fround, loopExponent);
-				});
-			});
+					hardWork(Math.round, loopExponent)
+					hardWork(Math.floor, loopExponent)
+					hardWork(Math.ceil, loopExponent)
+					hardWork(Math.fround, loopExponent)
+				})
+			})
 
-			animationFrameHandle = requestAnimationFrame(tick);
-		})();
+			animationFrameHandle = requestAnimationFrame(tick)
+		})()
 
 		return () => {
-			cancelAnimationFrame(animationFrameHandle);
-		};
-	});
+			cancelAnimationFrame(animationFrameHandle)
+		}
+	})
 </script>
 
 <Pane>

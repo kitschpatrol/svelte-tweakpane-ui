@@ -3,10 +3,10 @@ title: Plugins
 description: Components from Tweakpane plugins.
 ---
 
-import ExampleWrapper from '../../../components/docs/ExampleWrapper.astro';
-import InlineImage from '../../../components/docs/InlineImage.astro';
-import SvelteTweakpanePluginExampleCode from '../../../examples/docs/SvelteTweakpanePluginExample.md';
-import SvelteTweakpanePluginExample from '../../../examples/docs/SvelteTweakpanePluginExample.svelte';
+import ExampleWrapper from '../../../components/docs/ExampleWrapper.astro'
+import InlineImage from '../../../components/docs/InlineImage.astro'
+import SvelteTweakpanePluginExampleCode from '../../../examples/docs/SvelteTweakpanePluginExample.md'
+import SvelteTweakpanePluginExample from '../../../examples/docs/SvelteTweakpanePluginExample.svelte'
 
 Tweakpane is enriched by a [variety of first- and third-party component plugins](https://github.com/topics/tweakpane).
 
@@ -46,11 +46,11 @@ npm install @tweakpane/plugin-essentials
 Then importing, registering, and using the plugin:
 
 ```js title="VanillaTweakpanePluginExample.js"
-import * as EssentialsPlugin from '@tweakpane/plugin-essentials';
-import { Pane } from 'tweakpane';
+import * as EssentialsPlugin from '@tweakpane/plugin-essentials'
+import { Pane } from 'tweakpane'
 
-const pane = new Pane();
-pane.registerPlugin(EssentialsPlugin);
+const pane = new Pane()
+pane.registerPlugin(EssentialsPlugin)
 
 pane
   .addBlade({
@@ -58,11 +58,11 @@ pane
     expanded: true,
     label: 'cubicbezier',
     picker: 'inline',
-    view: 'cubicbezier'
+    view: 'cubicbezier',
   })
   .on('change', (event) => {
-    console.log(event);
-  });
+    console.log(event)
+  })
 ```
 
 ### Svelte Tweakpane UI

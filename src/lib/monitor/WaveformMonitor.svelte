@@ -1,66 +1,66 @@
 <script context="module" lang="ts">
-	export type WaveformMonitorValue = number[] | Uint8Array | Uint16Array | Uint32Array;
+	export type WaveformMonitorValue = number[] | Uint8Array | Uint16Array | Uint32Array
 </script>
 
 <script lang="ts">
-	import type { GenericMonitorOptions } from '$lib/internal/GenericMonitor.svelte';
-	import type { WaveformStyles as WaveformMonitorLineStyle } from '@kitschpatrol/tweakpane-plugin-waveform/dist/types/view/waveform.js';
-	import type { ComponentProps } from 'svelte';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
-	import { fillWith } from '$lib/utils';
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-waveform';
-	import { BROWSER } from 'esm-env';
+	import type { GenericMonitorOptions } from '$lib/internal/GenericMonitor.svelte'
+	import type { WaveformStyles as WaveformMonitorLineStyle } from '@kitschpatrol/tweakpane-plugin-waveform/dist/types/view/waveform.js'
+	import type { ComponentProps } from 'svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericMonitor from '$lib/internal/GenericMonitor.svelte'
+	import { fillWith } from '$lib/utils'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-waveform'
+	import { BROWSER } from 'esm-env'
 
 	// Direct prop import is wrapped in some extra stuff we don't want import type { WaveformProps }
 	// from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
 	type WaveformMonitorOptions = {
-		min?: number;
-		max?: number;
-		lineStyle?: WaveformMonitorLineStyle;
-	} & GenericMonitorOptions;
+		min?: number
+		max?: number
+		lineStyle?: WaveformMonitorLineStyle
+	} & GenericMonitorOptions
 
 	type $$Props = {
 		/**
 		 * Waveform values.
 		 * @bindable
 		 * */
-		value: WaveformMonitorValue;
+		value: WaveformMonitorValue
 		/**
 		 * Minimum graph bound.
 		 * @default `0`
 		 * */
-		min?: number;
+		min?: number
 		/**
 		 * Maximum graph bound.
 		 * @default `100`
 		 * */
-		max?: number;
+		max?: number
 		/**
 		 * Line style.
 		 * @default `'linear''`
 		 * */
-		lineStyle?: 'bezier' | 'linear';
+		lineStyle?: 'bezier' | 'linear'
 	} & Omit<
 		ComponentProps<GenericMonitor<WaveformMonitorValue, WaveformMonitorOptions>>,
 		'options' | 'plugin' | 'ref'
-	>;
+	>
 
 	// Unique
-	export let value: $$Props['value'];
-	export let max: $$Props['max'] = undefined;
-	export let min: $$Props['min'] = undefined;
-	export let lineStyle: $$Props['lineStyle'] = undefined;
+	export let value: $$Props['value']
+	export let max: $$Props['max'] = undefined
+	export let min: $$Props['min'] = undefined
+	export let lineStyle: $$Props['lineStyle'] = undefined
 
-	let options: WaveformMonitorOptions;
+	let options: WaveformMonitorOptions
 
 	$: options = {
 		min,
 		max,
 		lineStyle,
 		readonly: true,
-		view: 'waveform'
-	};
+		view: 'waveform',
+	}
 </script>
 
 <!--

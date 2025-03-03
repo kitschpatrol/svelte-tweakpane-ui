@@ -1,33 +1,33 @@
 <script lang="ts">
-	import { Button, Checkbox, Color, Monitor, Pane, RotationEuler, Separator, Slider } from '$lib';
-	import { onMount } from 'svelte';
-	import GridWrangler from './GridWrangler.svelte';
-	import Demo from './HomeDemo.svelte';
+	import { Button, Checkbox, Color, Monitor, Pane, RotationEuler, Separator, Slider } from '$lib'
+	import { onMount } from 'svelte'
+	import GridWrangler from './GridWrangler.svelte'
+	import Demo from './HomeDemo.svelte'
 
-	let mounted = false;
+	let mounted = false
 
-	export let showBackground = false;
-	export let showPane = false;
+	export let showBackground = false
+	export let showPane = false
 
 	onMount(() => {
-		mounted = true;
-	});
+		mounted = true
+	})
 
 	// Tweakpane
-	let paneWidth: number = 290;
+	let paneWidth: number = 290
 
 	// Grid
-	let paneCount: number = 0;
-	let gridSpacingX: number = 709;
-	let gridSpacingY: number = 785;
-	let scale: number = 1.5;
-	let rotation: [number, number, number] = [0.7, 0, 0.75];
-	let rotationExtrinsic: [number, number, number] = [-0.5, -0.16, 0];
-	let overdrawX: number = 1370;
-	let overdrawY: number = 1640;
-	let includeCenters: boolean = true;
-	let backgroundA = '#FF00FFFF';
-	let backgroundB = '#ffa500FF';
+	let paneCount: number = 0
+	let gridSpacingX: number = 709
+	let gridSpacingY: number = 785
+	let scale: number = 1.5
+	let rotation: [number, number, number] = [0.7, 0, 0.75]
+	let rotationExtrinsic: [number, number, number] = [-0.5, -0.16, 0]
+	let overdrawX: number = 1370
+	let overdrawY: number = 1640
+	let includeCenters: boolean = true
+	let backgroundA = '#FF00FFFF'
+	let backgroundB = '#ffa500FF'
 </script>
 
 {#if mounted}
@@ -61,8 +61,8 @@
 			/>
 			<Button
 				on:click={() => {
-					rotation = [0, 0, 0];
-					rotationExtrinsic = [0, 0, 0];
+					rotation = [0, 0, 0]
+					rotationExtrinsic = [0, 0, 0]
 				}}
 				title="Reset Rotation"
 			/>

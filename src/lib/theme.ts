@@ -1,55 +1,55 @@
-import type { Simplify } from '$lib/utils';
+import type { Simplify } from '$lib/utils'
 import {
 	getWindowDocument,
 	isRgbaColorObject,
 	isRgbColorObject,
 	type RgbaColorObject,
-	type RgbColorObject
-} from '@tweakpane/core';
+	type RgbColorObject,
+} from '@tweakpane/core'
 
 // Only need undefined if we had nested themes... undefined shouldn't override global theme
-export type ThemeColorValue = Simplify<RgbaColorObject | RgbColorObject | string>;
-export type Theme = CustomThemeKeys & ThemeKeys;
+export type ThemeColorValue = Simplify<RgbaColorObject | RgbColorObject | string>
+export type Theme = CustomThemeKeys & ThemeKeys
 
 type ThemeKeys = {
 	// Tweakpane
-	baseBackgroundColor?: ThemeColorValue;
-	baseBorderRadius?: string;
-	baseFontFamily?: string;
-	baseShadowColor?: ThemeColorValue;
-	bladeBorderRadius?: string;
-	bladeHorizontalPadding?: string;
-	bladeValueWidth?: string;
-	buttonBackgroundColor?: ThemeColorValue;
-	buttonBackgroundColorActive?: ThemeColorValue;
-	buttonBackgroundColorFocus?: ThemeColorValue;
-	buttonBackgroundColorHover?: ThemeColorValue;
-	buttonForegroundColor?: ThemeColorValue;
-	containerBackgroundColor?: ThemeColorValue;
-	containerBackgroundColorActive?: ThemeColorValue;
-	containerBackgroundColorFocus?: ThemeColorValue;
-	containerBackgroundColorHover?: ThemeColorValue;
-	containerForegroundColor?: ThemeColorValue;
-	containerHorizontalPadding?: string;
-	containerUnitSize?: string;
-	containerUnitSpacing?: string;
-	containerVerticalPadding?: string;
-	grooveForegroundColor?: ThemeColorValue;
-	inputBackgroundColor?: ThemeColorValue;
-	inputBackgroundColorActive?: ThemeColorValue;
-	inputBackgroundColorFocus?: ThemeColorValue;
-	inputBackgroundColorHover?: ThemeColorValue;
-	inputForegroundColor?: ThemeColorValue;
-	labelForegroundColor?: ThemeColorValue;
-	monitorBackgroundColor?: ThemeColorValue;
-	monitorForegroundColor?: ThemeColorValue;
+	baseBackgroundColor?: ThemeColorValue
+	baseBorderRadius?: string
+	baseFontFamily?: string
+	baseShadowColor?: ThemeColorValue
+	bladeBorderRadius?: string
+	bladeHorizontalPadding?: string
+	bladeValueWidth?: string
+	buttonBackgroundColor?: ThemeColorValue
+	buttonBackgroundColorActive?: ThemeColorValue
+	buttonBackgroundColorFocus?: ThemeColorValue
+	buttonBackgroundColorHover?: ThemeColorValue
+	buttonForegroundColor?: ThemeColorValue
+	containerBackgroundColor?: ThemeColorValue
+	containerBackgroundColorActive?: ThemeColorValue
+	containerBackgroundColorFocus?: ThemeColorValue
+	containerBackgroundColorHover?: ThemeColorValue
+	containerForegroundColor?: ThemeColorValue
+	containerHorizontalPadding?: string
+	containerUnitSize?: string
+	containerUnitSpacing?: string
+	containerVerticalPadding?: string
+	grooveForegroundColor?: ThemeColorValue
+	inputBackgroundColor?: ThemeColorValue
+	inputBackgroundColorActive?: ThemeColorValue
+	inputBackgroundColorFocus?: ThemeColorValue
+	inputBackgroundColorHover?: ThemeColorValue
+	inputForegroundColor?: ThemeColorValue
+	labelForegroundColor?: ThemeColorValue
+	monitorBackgroundColor?: ThemeColorValue
+	monitorForegroundColor?: ThemeColorValue
 	// Plugins
-	pluginImageDraggingColor?: ThemeColorValue;
+	pluginImageDraggingColor?: ThemeColorValue
 	// PluginThumbnailListHeight?: string; pluginThumbnailListThumbSize?: string;
 	// pluginThumbnailListWidth?: string;
-};
+}
 
-type CustomThemeKeys = Record<string, ThemeColorValue>;
+type CustomThemeKeys = Record<string, ThemeColorValue>
 
 // Standard Tweakpane themes from https://tweakpane.github.io/docs/theming/#builder Must be kept in
 // sync with TP...
@@ -85,15 +85,15 @@ const standard: Theme = {
 	labelForegroundColor: 'rgba(187, 188, 196, 0.7)',
 	monitorBackgroundColor: 'rgba(0, 0, 0, 0.2)',
 	monitorForegroundColor: 'rgba(187, 188, 196, 0.7)',
-	pluginImageDraggingColor: 'hsla(230, 100%, 66%, 1)'
+	pluginImageDraggingColor: 'hsla(230, 100%, 66%, 1)',
 	// PluginThumbnailListHeight: '400px', pluginThumbnailListThumbSize: '20px',
 	// pluginThumbnailListWidth: '200px'
-};
+}
 
 export const keys = Object.keys(standard).reduce<Record<string, string>>((acc, key) => {
-	acc[key] = key;
-	return acc;
-}, {});
+	acc[key] = key
+	return acc
+}, {})
 
 const light: Theme = {
 	baseBackgroundColor: 'hsla(230, 5%, 90%, 1.00)',
@@ -116,8 +116,8 @@ const light: Theme = {
 	inputForegroundColor: 'hsla(230, 10%, 30%, 1.00)',
 	labelForegroundColor: 'hsla(230, 10%, 30%, 0.70)',
 	monitorBackgroundColor: 'hsla(230, 15%, 30%, 0.10)',
-	monitorForegroundColor: 'hsla(230, 10%, 30%, 0.50)'
-};
+	monitorForegroundColor: 'hsla(230, 10%, 30%, 0.50)',
+}
 
 const iceberg: Theme = {
 	baseBackgroundColor: 'hsla(230, 20%, 11%, 1.00)',
@@ -140,8 +140,8 @@ const iceberg: Theme = {
 	inputForegroundColor: 'hsla(230, 10%, 80%, 1.00)',
 	labelForegroundColor: 'hsla(230, 12%, 48%, 1.00)',
 	monitorBackgroundColor: 'hsla(230, 20%, 8%, 1.00)',
-	monitorForegroundColor: 'hsla(230, 12%, 48%, 1.00)'
-};
+	monitorForegroundColor: 'hsla(230, 12%, 48%, 1.00)',
+}
 
 const jetblack: Theme = {
 	baseBackgroundColor: 'hsla(0, 0%, 0%, 1.00)',
@@ -164,8 +164,8 @@ const jetblack: Theme = {
 	inputForegroundColor: 'hsla(0, 0%, 70%, 1.00)',
 	labelForegroundColor: 'hsla(0, 0%, 50%, 1.00)',
 	monitorBackgroundColor: 'hsla(0, 0%, 8%, 1.00)',
-	monitorForegroundColor: 'hsla(0, 0%, 48%, 1.00)'
-};
+	monitorForegroundColor: 'hsla(0, 0%, 48%, 1.00)',
+}
 
 const retro: Theme = {
 	baseBackgroundColor: 'hsla(40, 3%, 90%, 1.00)',
@@ -188,8 +188,8 @@ const retro: Theme = {
 	inputForegroundColor: 'hsla(120, 40%, 60%, 1.00)',
 	labelForegroundColor: 'hsla(40, 3%, 50%, 1.00)',
 	monitorBackgroundColor: 'hsla(120, 3%, 20%, 1.00)',
-	monitorForegroundColor: 'hsla(120, 40%, 60%, 0.80)'
-};
+	monitorForegroundColor: 'hsla(120, 40%, 60%, 0.80)',
+}
 
 const translucent: Theme = {
 	baseBackgroundColor: 'hsla(0, 0%, 10%, 0.80)',
@@ -212,8 +212,8 @@ const translucent: Theme = {
 	inputForegroundColor: 'hsla(0, 0%, 100%, 0.50)',
 	labelForegroundColor: 'hsla(0, 0%, 100%, 0.50)',
 	monitorBackgroundColor: 'hsla(0, 0%, 0%, 0.30)',
-	monitorForegroundColor: 'hsla(0, 0%, 100%, 0.30)'
-};
+	monitorForegroundColor: 'hsla(0, 0%, 100%, 0.30)',
+}
 
 const vivid: Theme = {
 	baseBackgroundColor: 'hsla(0, 80%, 40%, 1)',
@@ -236,8 +236,8 @@ const vivid: Theme = {
 	inputForegroundColor: 'hsla(0, 0%, 100%, 0.9)',
 	labelForegroundColor: 'hsla(0, 0%, 100%, 0.9)',
 	monitorBackgroundColor: 'hsla(0, 0%, 0%, 0.5)',
-	monitorForegroundColor: 'hsla(0, 0%, 100%, 0.5)'
-};
+	monitorForegroundColor: 'hsla(0, 0%, 100%, 0.5)',
+}
 
 export const presets = {
 	/** Dark blue theme. */
@@ -253,8 +253,8 @@ export const presets = {
 	/** Dark translucent theme. */
 	translucent,
 	/** Red theme. */
-	vivid
-};
+	vivid,
+}
 
 // More humane theme names... Note that the shorthand variables don't work
 const keyToCssVariableMap = new Map([
@@ -290,11 +290,11 @@ const keyToCssVariableMap = new Map([
 	['monitorBackgroundColor', '--tp-monitor-background-color'],
 	['monitorForegroundColor', '--tp-monitor-foreground-color'],
 	// Plugins
-	['pluginImageDraggingColor', '--tp-plugin-image-dragging-color']
+	['pluginImageDraggingColor', '--tp-plugin-image-dragging-color'],
 	// ['pluginThumbnailListHeight', '--tp-plugin-thumbnail-list-height'],
 	// ['pluginThumbnailListThumbSize', '--tp-plugin-thumbnail-list-thumb-size'],
 	// ['pluginThumbnailListWidth', '--tp-plugin-thumbnail-list-width']
-]);
+])
 
 // Just do it dynamically instead of the map? function transformToCustomProperty(str: string):
 // string { return '--tp-' + str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
@@ -302,34 +302,34 @@ const keyToCssVariableMap = new Map([
 
 function stringToCssValue(v: string | ThemeColorValue | undefined): string | undefined {
 	if (v === undefined) {
-		return undefined;
+		return undefined
 	}
 
 	if (typeof v === 'string') {
-		return v;
+		return v
 	}
 
 	if (isRgbaColorObject(v)) {
-		return `rgba(${v.r}, ${v.g}, ${v.b}, ${v.a})`;
+		return `rgba(${v.r}, ${v.g}, ${v.b}, ${v.a})`
 	}
 
 	if (isRgbColorObject(v)) {
-		return `rgb(${v.r}, ${v.g}, ${v.b})`;
+		return `rgb(${v.r}, ${v.g}, ${v.b})`
 	}
 }
 
 function expandVariableKey(name: string): string {
 	// Pass explicit variables through
 	if (name.startsWith('--tp-')) {
-		return name;
+		return name
 	}
 
-	const variableName = keyToCssVariableMap.get(name);
+	const variableName = keyToCssVariableMap.get(name)
 	if (variableName) {
-		return variableName;
+		return variableName
 	}
 
-	throw new Error(`Unknown Tweakpane CSS theme map variable key: "${name}"`);
+	throw new Error(`Unknown Tweakpane CSS theme map variable key: "${name}"`)
 }
 
 /**
@@ -338,43 +338,43 @@ function expandVariableKey(name: string): string {
 export function getValueOrFallback(theme: Theme | undefined, key: keyof ThemeKeys): string {
 	return theme?.[key] === undefined
 		? stringToCssValue(standard[key])!
-		: stringToCssValue(theme[key])!;
+		: stringToCssValue(theme[key])!
 }
 
 export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
-	const rootDocument = getWindowDocument().documentElement;
+	const rootDocument = getWindowDocument().documentElement
 
 	if (theme === undefined) {
 		for (const k of Object.keys(standard)) {
-			const key = expandVariableKey(k);
+			const key = expandVariableKey(k)
 
 			if (element.style.getPropertyValue(key).length > 0) {
-				element.style.removeProperty(key);
+				element.style.removeProperty(key)
 			}
 		}
 	} else {
 		for (const [k, v] of Object.entries(theme)) {
-			const key = expandVariableKey(k);
-			const value = stringToCssValue(v);
+			const key = expandVariableKey(k)
+			const value = stringToCssValue(v)
 			// Only set the variable if it deviates from the standard theme or  the root theme (set
 			// by setGlobalDefaultTheme).... but if theme is explicitly standard and not undefined,
 			// then apply it anyway so that any global theme is overridden TODO normalize color
 			// representation for comparison? TODO tests for this logic
 
-			const standardValue = standard[k] || undefined;
-			const rootValue = rootDocument.style.getPropertyValue(key) || undefined;
+			const standardValue = standard[k] || undefined
+			const rootValue = rootDocument.style.getPropertyValue(key) || undefined
 
-			const isDeviationFromRoot = (rootValue && value !== rootValue) ?? false;
-			const isDeviationFromStandard = (standardValue && value !== standardValue) ?? false;
+			const isDeviationFromRoot = (rootValue && value !== rootValue) ?? false
+			const isDeviationFromStandard = (standardValue && value !== standardValue) ?? false
 
 			if (
 				theme !== undefined &&
 				value !== undefined &&
 				(isDeviationFromRoot || (!rootValue && isDeviationFromStandard))
 			) {
-				element.style.setProperty(key, value);
+				element.style.setProperty(key, value)
 			} else if (element.style.getPropertyValue(key).length > 0) {
-				element.style.removeProperty(key);
+				element.style.removeProperty(key)
 			}
 		}
 	}
@@ -387,7 +387,7 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 export function setGlobalDefaultTheme(theme: Theme | undefined) {
 	// Wait for dom ready... better outside?
 	if (window?.document) {
-		applyTheme(getWindowDocument().documentElement, theme);
+		applyTheme(getWindowDocument().documentElement, theme)
 	}
 }
 
@@ -398,5 +398,5 @@ export default {
 	 * [Panebuilder presets](https://tweakpane.github.io/docs/theming/#builder).
 	 * */
 	presets,
-	setGlobalDefaultTheme
-};
+	setGlobalDefaultTheme,
+}

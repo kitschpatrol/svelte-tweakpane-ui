@@ -1,13 +1,13 @@
 // TODO move this to a package
 
-import type { APIContext, MiddlewareHandler } from 'astro';
-import { defineMiddleware } from 'astro:middleware';
-import { parseHTML } from 'linkedom';
+import type { APIContext, MiddlewareHandler } from 'astro'
+import { defineMiddleware } from 'astro:middleware'
+import { parseHTML } from 'linkedom'
 
 export type DomMiddlewareHandler = (
 	context: APIContext,
-	document: Document
-) => Document | Promise<Document>;
+	document: Document,
+) => Document | Promise<Document>
 
 /**
  * Define a DOM middleware handler that can be used in `domSequence()`.
@@ -17,7 +17,7 @@ export type DomMiddlewareHandler = (
  * @returns DomMiddlewareHandler
  */
 export function defineDomMiddleware(fn: DomMiddlewareHandler): DomMiddlewareHandler {
-	return fn;
+	return fn
 }
 
 /**
@@ -26,7 +26,7 @@ export function defineDomMiddleware(fn: DomMiddlewareHandler): DomMiddlewareHand
  * @returns
  */
 export function defineDomMiddlewareAsMiddleware(fn: DomMiddlewareHandler): MiddlewareHandler {
-	return domSequence(fn);
+	return domSequence(fn)
 }
 
 /**
@@ -38,19 +38,19 @@ export function defineDomMiddlewareAsMiddleware(fn: DomMiddlewareHandler): Middl
  */
 export function domSequence(...domHandlers: DomMiddlewareHandler[]): MiddlewareHandler {
 	return defineMiddleware(async (context, next) => {
-		const response = await next();
+		const response = await next()
 		// Only operate on HTML responses
 		if (response.headers.get('content-type') !== 'text/html') {
-			return response;
+			return response
 		}
 
-		const html = await response.text();
-		let { document } = parseHTML(html);
+		const html = await response.text()
+		let { document } = parseHTML(html)
 
 		// Not actually copying the document, leaving that to the handlers,
 		//  so mutation is possible... gross but hypothetically for efficiency...
 		for (const domHandler of domHandlers) {
-			document = await domHandler(context, document);
+			document = await domHandler(context, document)
 		}
 
 		// Linkedom implements a `toString()` that serializes the document back to HTML
@@ -58,7 +58,7 @@ export function domSequence(...domHandlers: DomMiddlewareHandler[]): MiddlewareH
 		return new Response(document.toString(), {
 			headers: response.headers,
 			status: response.status,
-			statusText: response.statusText
-		});
-	});
+			statusText: response.statusText,
+		})
+	})
 }

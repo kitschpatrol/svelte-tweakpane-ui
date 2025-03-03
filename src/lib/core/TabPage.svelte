@@ -1,27 +1,27 @@
 <script lang="ts">
-	import type { Theme } from '$lib/theme.js';
-	import type { TabPageApi as TabPageRef } from '@tweakpane/core';
-	import type { Writable } from 'svelte/store';
-	import type { TabApi as TabGroupRef } from 'tweakpane';
-	import TabGroup from '$lib/core/TabGroup.svelte';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
-	import { type Container, getElementIndex, isRootPane } from '$lib/utils.js';
-	import { BROWSER } from 'esm-env';
-	import { getContext, onDestroy, onMount, setContext } from 'svelte';
-	import { writable } from 'svelte/store';
+	import type { Theme } from '$lib/theme.js'
+	import type { TabPageApi as TabPageRef } from '@tweakpane/core'
+	import type { Writable } from 'svelte/store'
+	import type { TabApi as TabGroupRef } from 'tweakpane'
+	import TabGroup from '$lib/core/TabGroup.svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
+	import { type Container, getElementIndex, isRootPane } from '$lib/utils.js'
+	import { BROWSER } from 'esm-env'
+	import { getContext, onDestroy, onMount, setContext } from 'svelte'
+	import { writable } from 'svelte/store'
 
 	/**
 	 * Text in the tab.
 	 * @default `'Tab Page'`
 	 * */
-	export let title: string = 'Tab Page';
+	export let title: string = 'Tab Page'
 
 	/**
 	 * Prevent interactivity and gray out the control.
 	 * @default `false`
 	 * */
-	export let disabled: boolean = false;
+	export let disabled: boolean = false
 
 	/**
 	 * Sets the page is the active tab.
@@ -30,7 +30,7 @@
 	 * @default `false`
 	 * @bindable
 	 * */
-	export let selected: boolean = false;
+	export let selected: boolean = false
 
 	/**
 	 * Custom color scheme.
@@ -38,35 +38,35 @@
 	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
 	 * set with `setGlobalDefaultTheme()`.)
 	 * */
-	export let theme: Theme | undefined = undefined;
+	export let theme: Theme | undefined = undefined
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {
 		/**
 		 * Any Tweakpane component, except a `<Pane>`.
 		 */
-		default: {};
-	};
+		default: {}
+	}
 
 	// Get context from tab
-	const tabGroupStore: Writable<TabGroupRef> = getContext('tabGroupStore');
-	const tabIndexStore: Writable<number> = getContext('tabIndexStore');
-	const userCreatedPane = getContext('userCreatedPane');
+	const tabGroupStore: Writable<TabGroupRef> = getContext('tabGroupStore')
+	const tabIndexStore: Writable<number> = getContext('tabIndexStore')
+	const userCreatedPane = getContext('userCreatedPane')
 
 	// Save parent context for ourselves
-	const parentStore: Writable<Container> = getContext('parentStore');
+	const parentStore: Writable<Container> = getContext('parentStore')
 
 	// Overwrite the context for our children
-	const tabPageStore = writable<TabPageRef>();
-	setContext('parentStore', tabPageStore);
+	const tabPageStore = writable<TabPageRef>()
+	setContext('parentStore', tabPageStore)
 
 	// Index not actually used, page order established by array order on tab
-	let indexElement: HTMLDivElement;
-	let index: number;
+	let indexElement: HTMLDivElement
+	let index: number
 
 	onMount(() => {
-		index = indexElement ? getElementIndex(indexElement) : 0;
-	});
+		index = indexElement ? getElementIndex(indexElement) : 0
+	})
 
 	function create() {
 		if (!$tabGroupStore) {
@@ -76,37 +76,37 @@
 				disabled: false,
 				index: $tabIndexStore,
 				// Could be cleaner to have children create the tab as needed?
-				pages: [{ title }]
-			});
+				pages: [{ title }],
+			})
 
-			$tabPageStore = $tabGroupStore.pages[0];
+			$tabPageStore = $tabGroupStore.pages[0]
 
 			// First tab selected by default
-			selected = true;
+			selected = true
 		} else if (!$tabPageStore && $tabGroupStore) {
 			// Add to existing tab
-			$tabPageStore = $tabGroupStore.addPage({ index, title });
+			$tabPageStore = $tabGroupStore.addPage({ index, title })
 		}
 
 		$tabGroupStore?.on('select', () => {
-			$tabPageStore && (selected = $tabPageStore.selected);
-		});
+			$tabPageStore && (selected = $tabPageStore.selected)
+		})
 	}
 
 	onDestroy(() => {
-		$tabPageStore?.dispose();
-	});
+		$tabPageStore?.dispose()
+	})
 
-	$: index !== undefined && $parentStore && $tabIndexStore !== undefined && create();
-	$: $tabPageStore && ($tabPageStore.title = title);
-	$: $tabPageStore && ($tabPageStore.disabled = disabled);
-	$: $tabPageStore && ($tabPageStore.selected = selected);
+	$: index !== undefined && $parentStore && $tabIndexStore !== undefined && create()
+	$: $tabPageStore && ($tabPageStore.title = title)
+	$: $tabPageStore && ($tabPageStore.disabled = disabled)
+	$: $tabPageStore && ($tabPageStore.selected = selected)
 	$: theme &&
 		$parentStore &&
 		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
-			'Set theme on the <Pane> component, not on its children! (Check nested <TabPage> components for a theme prop.)'
-		);
+			'Set theme on the <Pane> component, not on its children! (Check nested <TabPage> components for a theme prop.)',
+		)
 </script>
 
 <!--

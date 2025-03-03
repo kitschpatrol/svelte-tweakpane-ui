@@ -1,32 +1,32 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { Pane } from 'tweakpane';
+	import { onMount } from 'svelte'
+	import { Pane } from 'tweakpane'
 
 	let params = {
-		speed: 50
-	};
+		speed: 50,
+	}
 
-	let container: HTMLDivElement;
+	let container: HTMLDivElement
 
 	onMount(() => {
 		const pane = new Pane({
-			container
-		});
+			container,
+		})
 
 		pane.addBinding(params, 'speed', {
 			min: 0,
-			max: 100
-		});
+			max: 100,
+		})
 
 		pane.on('change', () => {
 			// Trigger Svelte reactivity
-			params = params;
-		});
+			params = params
+		})
 
 		return () => {
-			pane.dispose();
-		};
-	});
+			pane.dispose()
+		}
+	})
 </script>
 
 <div bind:this={container}></div>

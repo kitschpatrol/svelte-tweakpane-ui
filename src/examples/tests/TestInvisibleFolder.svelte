@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Checkbox, Folder, Pane } from '$lib';
-	let expanded = true;
-	let darkMode = true;
-	let numbers = true;
+	import { Checkbox, Folder, Pane } from '$lib'
+	let expanded = true
+	let darkMode = true
+	let numbers = true
 </script>
 
 <Pane title="" userExpandable={false}>

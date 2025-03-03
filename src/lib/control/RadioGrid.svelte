@@ -1,18 +1,18 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js';
+	import type { ValueChangeEvent } from '$lib/utils.js'
 
-	export type RadioGridChangeEvent = ValueChangeEvent<boolean | number | string>;
+	export type RadioGridChangeEvent = ValueChangeEvent<boolean | number | string>
 </script>
 
 <script generics="T extends boolean | number | string" lang="ts">
-	import type { ComponentProps } from 'svelte';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import GenericInput, { type GenericInputOptions } from '$lib/internal/GenericInput.svelte';
-	import { fillWith } from '$lib/utils';
-	import { getGridDimensions } from '$lib/utils.js';
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials';
-	import { BROWSER } from 'esm-env';
-	import { nanoid } from 'nanoid';
+	import type { ComponentProps } from 'svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericInput, { type GenericInputOptions } from '$lib/internal/GenericInput.svelte'
+	import { fillWith } from '$lib/utils'
+	import { getGridDimensions } from '$lib/utils.js'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
+	import { BROWSER } from 'esm-env'
+	import { nanoid } from 'nanoid'
 
 	// TODO allow mixed values? TODO handle records and more complex types? duplicated here because
 	// it's not exported from the plugin...
@@ -20,15 +20,15 @@
 	type RadioGridOptions<T> = {
 		cells: (
 			x: number,
-			y: number
+			y: number,
 		) => {
-			value: T;
-			title: string;
-		};
-		groupName: string;
-		size: [number, number];
-		view: 'radiogrid';
-	} & GenericInputOptions;
+			value: T
+			title: string
+		}
+		groupName: string
+		size: [number, number]
+		view: 'radiogrid'
+	} & GenericInputOptions
 
 	type $$Props = {
 		/**
@@ -38,12 +38,12 @@
 		 * @bindable
 		 * @default `undefined` If undefined, the first value in the `values` array is assigned.
 		 *  */
-		value?: T;
+		value?: T
 		/**
 		 * Number of columns to arrange the radio buttons into.
 		 * @default `undefined`
 		 * */
-		columns?: number;
+		columns?: number
 		/**
 		 * Name allowing multiple radio groups to share mutually exclusive selection state.
 		 *
@@ -53,41 +53,41 @@
 		 * @default `undefined`  \
 		 * Uses a dynamically generated globally unique id internally.
 		 */
-		groupName?: string;
+		groupName?: string
 		/**
 		 * Text to show in the radio button label before the value.
 		 * @default `undefined`
 		 * */
-		prefix?: string;
+		prefix?: string
 		/**
 		 * Number of rows to arrange the radio buttons into.
 		 * @default `undefined`
 		 * */
-		rows?: number;
+		rows?: number
 		/**
 		 * Text to show in the radio button label after the value.
 		 * @default `undefined`
 		 * */
-		suffix?: string;
+		suffix?: string
 		/**
 		 * Array of `number`, `string` or `boolean` values, each of which will become a button in
 		 * the radio grid.
 		 * */
-		values: T[];
-	} & Omit<ComponentProps<GenericInput<T, RadioGridOptions<T>>>, 'options' | 'plugin' | 'ref'>;
+		values: T[]
+	} & Omit<ComponentProps<GenericInput<T, RadioGridOptions<T>>>, 'options' | 'plugin' | 'ref'>
 
 	// Ensure no entangled selection across multiple RadioGrids, unless the user explicitly asks for
 	// it
-	const defaultGroupName = nanoid();
+	const defaultGroupName = nanoid()
 
 	// Reexport for bindability
-	export let groupName: $$Props['groupName'] = undefined;
-	export let values: $$Props['values'];
-	export let value: $$Props['value'] = values[0];
-	export let columns: $$Props['columns'] = undefined;
-	export let rows: $$Props['rows'] = undefined;
-	export let suffix: $$Props['suffix'] = undefined;
-	export let prefix: $$Props['prefix'] = undefined;
+	export let groupName: $$Props['groupName'] = undefined
+	export let values: $$Props['values']
+	export let value: $$Props['value'] = values[0]
+	export let columns: $$Props['columns'] = undefined
+	export let rows: $$Props['rows'] = undefined
+	export let suffix: $$Props['suffix'] = undefined
+	export let prefix: $$Props['prefix'] = undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -103,38 +103,38 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: RadioGridChangeEvent;
-	};
+		change: RadioGridChangeEvent
+	}
 
-	let gridDimensions: { columns: number; rows: number };
-	let options: RadioGridOptions<T>;
+	let gridDimensions: { columns: number; rows: number }
+	let options: RadioGridOptions<T>
 
 	function cells(
 		x: number,
-		y: number
+		y: number,
 	): {
-		value: T;
-		title: string;
+		value: T
+		title: string
 	} {
-		const index = y * gridDimensions.columns + x;
+		const index = y * gridDimensions.columns + x
 
 		if (index >= 0 && index < values.length) {
 			return {
 				value: values[index],
-				title: `${prefix ?? ''}${values[index]}${suffix ?? ''}`
-			};
+				title: `${prefix ?? ''}${values[index]}${suffix ?? ''}`,
+			}
 		}
 
-		return { value: values[0], title: '' };
+		return { value: values[0], title: '' }
 	}
 
-	$: gridDimensions = getGridDimensions(values.length, columns, rows);
+	$: gridDimensions = getGridDimensions(values.length, columns, rows)
 	$: options = {
 		cells,
 		groupName: groupName ?? defaultGroupName,
 		size: [gridDimensions.columns, gridDimensions.rows],
-		view: 'radiogrid'
-	};
+		view: 'radiogrid',
+	}
 </script>
 
 <!--

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-	export let data: PageData;
+	import type { PageData } from './$types'
+	export let data: PageData
 
 	// Uses dual-load approach for SSR:
 	// https://learn.svelte.dev/tutorial/using-both-load-functions

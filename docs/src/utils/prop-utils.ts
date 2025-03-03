@@ -1,66 +1,66 @@
 /* eslint-disable max-depth */
-import type { Props as StarlightProps } from '@astrojs/starlight/props';
-export type ComponentData = StarlightProps['entry']['data']['componentData'];
-export type ComponentProp = NonNullable<ComponentData>['props'][number];
+import type { Props as StarlightProps } from '@astrojs/starlight/props'
+export type ComponentData = StarlightProps['entry']['data']['componentData']
+export type ComponentProp = NonNullable<ComponentData>['props'][number]
 export type Condition = Omit<
 	NonNullable<NonNullable<ComponentData>['dynamicProps']>[number],
 	'props'
->;
-export type ConditionsRecord = Record<string, Condition[]>;
+>
+export type ConditionsRecord = Record<string, Condition[]>
 
 export function uniqueProps(
 	commonProps: ComponentProp[],
-	dynamicProps: ComponentProp[]
+	dynamicProps: ComponentProp[],
 ): ComponentProp[] {
 	const uniqueProps = dynamicProps.filter(
-		(dynamicProp) => !commonProps.some((commonProp) => dynamicProp.name === commonProp.name)
-	);
-	return uniqueProps;
+		(dynamicProp) => !commonProps.some((commonProp) => dynamicProp.name === commonProp.name),
+	)
+	return uniqueProps
 }
 
 export function allPropConditions(data: ComponentData): ConditionsRecord {
 	if (data?.dynamicProps) {
-		const conditionsRecord: ConditionsRecord = {};
+		const conditionsRecord: ConditionsRecord = {}
 
 		if (data.dynamicProps)
 			for (const dynamicProp of data.dynamicProps) {
-				const unique = uniqueProps(data.props, dynamicProp.props);
+				const unique = uniqueProps(data.props, dynamicProp.props)
 
 				for (const prop of unique) {
 					// Ensure unique
 					if (conditionsRecord[prop.name] === undefined) {
-						conditionsRecord[prop.name] = [];
+						conditionsRecord[prop.name] = []
 					}
 
 					conditionsRecord[prop.name].push({
 						condition: dynamicProp.condition,
-						description: dynamicProp.description
-					});
+						description: dynamicProp.description,
+					})
 				}
 			}
 
-		return conditionsRecord;
+		return conditionsRecord
 	}
 
-	return {};
+	return {}
 }
 
 export function allProps(data: ComponentData): ComponentProp[] {
 	if (data) {
-		const allProps = [...data.props];
+		const allProps = [...data.props]
 		if (data.dynamicProps)
 			for (const dynamicProp of data.dynamicProps) {
 				for (const prop of dynamicProp.props) {
 					// Ensure unique
-					const existingProp = allProps.find((p) => p.name === prop.name);
+					const existingProp = allProps.find((p) => p.name === prop.name)
 					if (!existingProp) {
-						allProps.push(prop);
+						allProps.push(prop)
 					}
 				}
 			}
 
-		return allProps;
+		return allProps
 	}
 
-	return [];
+	return []
 }

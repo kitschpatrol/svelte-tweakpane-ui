@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { AutoObject } from '$lib';
+	import { AutoObject } from '$lib'
 
-	let binding1InternalEventCount = 0;
-	let binding1ExternalEventCount = 0;
-	let binding2InternalEventCount = 0;
-	let binding2ExternalEventCount = 0;
+	let binding1InternalEventCount = 0
+	let binding1ExternalEventCount = 0
+	let binding2InternalEventCount = 0
+	let binding2ExternalEventCount = 0
 
 	let object = {
 		// Creates a <Checkbox>
@@ -14,38 +14,38 @@
 			r: 255,
 			g: 0,
 
-			b: 55
+			b: 55,
 		},
 		// Wraps children in a <Folder>
 		someFolder: {
 			b: 2,
 			a: 1,
-			c: 3
+			c: 3,
 		},
 		// Creates a <Slider>
 		someNumber: 1,
 		// Creates a <Point>
 		somePoint: {
 			x: 1,
-			y: 2
+			y: 2,
 		},
 		// Creates a <Text>
-		someString: 'test'
+		someString: 'test',
 		// TODO maybe
 		// Creates a <Button>
 		// someButton: () => {
 		// 	alert('🎛️');
 		// }
-	};
+	}
 </script>
 
 <AutoObject
 	bind:object
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding1InternalEventCount++;
+			binding1InternalEventCount++
 		} else {
-			binding1ExternalEventCount++;
+			binding1ExternalEventCount++
 		}
 	}}
 />
@@ -53,9 +53,9 @@
 	bind:object
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding2InternalEventCount++;
+			binding2InternalEventCount++
 		} else {
-			binding2ExternalEventCount++;
+			binding2ExternalEventCount++
 		}
 	}}
 />

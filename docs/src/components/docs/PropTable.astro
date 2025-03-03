@@ -1,44 +1,44 @@
 ---
-import { marked } from 'marked';
-import type { ComponentProp, Condition, ConditionsRecord } from '../../utils/prop-utils';
-import Flags from './Flags.astro';
-import Heading from './Heading.astro';
+import { marked } from 'marked'
+import type { ComponentProp, Condition, ConditionsRecord } from '../../utils/prop-utils'
+import Flags from './Flags.astro'
+import Heading from './Heading.astro'
 
 type Props = {
-	conditionData?: ConditionsRecord;
-	data: ComponentProp[];
-	monoTable?: boolean;
-	showDefault?: boolean;
-	showExample?: boolean;
-	showFlags?: boolean;
-};
+	conditionData?: ConditionsRecord
+	data: ComponentProp[]
+	monoTable?: boolean
+	showDefault?: boolean
+	showExample?: boolean
+	showFlags?: boolean
+}
 
 function cleanType(type: string): string {
-	return type.replaceAll('"', "'").replaceAll('&quot;', '&apos;').replace(' | undefined', '');
+	return type.replaceAll('"', "'").replaceAll('&quot;', '&apos;').replace(' | undefined', '')
 }
 
 function cleanDefault(defaultValue: string | undefined): string {
-	if (defaultValue === undefined) return '';
-	return marked.parseInline(defaultValue) as string;
+	if (defaultValue === undefined) return ''
+	return marked.parseInline(defaultValue) as string
 }
 
 function cleanExample(exampleValue: string | undefined): string {
-	if (exampleValue === undefined) return '';
-	return marked.parseInline(exampleValue) as string;
+	if (exampleValue === undefined) return ''
+	return marked.parseInline(exampleValue) as string
 }
 
 function conditionsDescription(conditions: Condition[]): string {
 	return marked.parseInline(
-		`Available when ${conditions.map(({ description }) => description).join(' or ')}.`
-	) as string;
+		`Available when ${conditions.map(({ description }) => description).join(' or ')}.`,
+	) as string
 }
 
 function isReadonly(prop: ComponentProp): boolean {
-	return 'readonly' in prop.jsDocs;
+	return 'readonly' in prop.jsDocs
 }
 
 function isRequired(type: string): boolean {
-	return !type.includes('undefined');
+	return !type.includes('undefined')
 }
 
 function getFlags(prop: ComponentProp, dynamic: boolean = false): string[] {
@@ -46,20 +46,20 @@ function getFlags(prop: ComponentProp, dynamic: boolean = false): string[] {
 		// Default gets its own row, and so does example
 		.filter((key) => key !== 'default')
 		.filter((key) => key !== 'example')
-		.map((key) => key);
+		.map((key) => key)
 
 	// Have to pull "required" from type
 	if (isRequired(prop.type)) {
-		flags.push('required');
+		flags.push('required')
 	} else {
-		flags.push('optional');
+		flags.push('optional')
 	}
 
 	if (dynamic) {
-		flags.push('dynamic');
+		flags.push('dynamic')
 	}
 
-	return flags;
+	return flags
 }
 
 const {
@@ -68,8 +68,8 @@ const {
 	monoTable = false, // Currently unused
 	showDefault = true,
 	showExample = true,
-	showFlags = true
-} = Astro.props;
+	showFlags = true,
+} = Astro.props
 ---
 
 {

@@ -1,55 +1,55 @@
 <script context="module" lang="ts">
-	import type { BindingObject } from '$lib/utils';
-	import type { ValueChangeEvent } from '$lib/utils.js';
-	import type { BindingApi, BindingParams } from '@tweakpane/core';
+	import type { BindingObject } from '$lib/utils'
+	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { BindingApi, BindingParams } from '@tweakpane/core'
 
-	export type BindingOptions = BindingParams;
-	export type BindingRef = BindingApi;
+	export type BindingOptions = BindingParams
+	export type BindingRef = BindingApi
 
-	export type BindingChangeEvent = ValueChangeEvent<BindingObject>;
+	export type BindingChangeEvent = ValueChangeEvent<BindingObject>
 </script>
 
 <script
 	generics="T extends BindingObject, U extends BindingOptions, V extends BindingRef"
 	lang="ts"
 >
-	import type { Theme } from '$lib/theme.js';
-	import type { Writable } from 'svelte/store';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
+	import type { Theme } from '$lib/theme.js'
+	import type { Writable } from 'svelte/store'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
 	import {
 		type Container,
 		enforceReadonly,
 		getElementIndex,
 		isRootPane,
 		type Plugin,
-		type UnwrapCustomEvents
-	} from '$lib/utils.js';
-	import { BROWSER, DEV } from 'esm-env';
-	import copy from 'fast-copy';
-	import { shallowEqual } from 'fast-equals';
-	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte';
+		type UnwrapCustomEvents,
+	} from '$lib/utils.js'
+	import { BROWSER, DEV } from 'esm-env'
+	import copy from 'fast-copy'
+	import { shallowEqual } from 'fast-equals'
+	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte'
 
 	/**
 	 * The binding's target object with values to manipulate.
 	 * @bindable
 	 * */
-	export let object: T;
+	export let object: T
 
 	/** The key for the value in the target `object` that the control should manipulate. */
-	export let key: keyof T;
+	export let key: keyof T
 
 	/**
 	 * Prevent interactivity and gray out the control.
 	 * @default `false`
 	 * */
-	export let disabled: boolean = false;
+	export let disabled: boolean = false
 
 	/**
 	 * Text displayed next to control.
 	 * @default `undefined`
 	 * */
-	export let label: string | undefined = undefined;
+	export let label: string | undefined = undefined
 
 	/**
 	 * Tweakpane's internal options object.
@@ -63,7 +63,7 @@
 	 * Tweakpane UI_.
 	 * @default `undefined`
 	 * */
-	export let options: U | undefined = undefined;
+	export let options: U | undefined = undefined
 
 	/**
 	 * Custom color scheme.
@@ -72,7 +72,7 @@
 	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
 	 * set with `setGlobalDefaultTheme()`.
 	 * */
-	export let theme: Theme | undefined = undefined;
+	export let theme: Theme | undefined = undefined
 
 	/**
 	 * Reference to internal Tweakpane
@@ -87,7 +87,7 @@
 	 * @bindable
 	 * @readonly
 	 * */
-	export let ref: undefined | V = undefined;
+	export let ref: undefined | V = undefined
 
 	/**
 	 * Imported Tweakpane `TpPluginBundle` (aliased as `Plugin`) module to automatically register in
@@ -100,23 +100,23 @@
 	 *
 	 * @default `undefined`
 	 * */
-	export let plugin: Plugin | undefined = undefined;
+	export let plugin: Plugin | undefined = undefined
 
-	const registerPlugin = getContext<(plugin: Plugin) => void>('registerPlugin');
-	const parentStore: Writable<Container> = getContext('parentStore');
-	const userCreatedPane = getContext('userCreatedPane');
+	const registerPlugin = getContext<(plugin: Plugin) => void>('registerPlugin')
+	const parentStore: Writable<Container> = getContext('parentStore')
+	const userCreatedPane = getContext('userCreatedPane')
 
-	let _ref: V; // Internal shadow ref
-	let indexElement: HTMLDivElement;
-	let index: number;
+	let _ref: V // Internal shadow ref
+	let indexElement: HTMLDivElement
+	let index: number
 
 	function create() {
 		// Must destroy to allow a reactive `key` parameter
-		if (_ref) _ref.dispose();
+		if (_ref) _ref.dispose()
 
 		if (plugin !== undefined) {
 			// Calls function provided by context on the containing pane
-			registerPlugin(plugin);
+			registerPlugin(plugin)
 		}
 
 		// Last one wins
@@ -124,21 +124,21 @@
 			index,
 			label,
 			...options,
-			disabled // Why last?
-		}) as V; // Cast is required by Tweakpane's design
+			disabled, // Why last?
+		}) as V // Cast is required by Tweakpane's design
 
-		ref = _ref;
+		ref = _ref
 
-		_ref.on('change', onTweakpaneChange);
+		_ref.on('change', onTweakpaneChange)
 	}
 
 	onMount(() => {
-		index = indexElement ? getElementIndex(indexElement) : 0;
-	});
+		index = indexElement ? getElementIndex(indexElement) : 0
+	})
 
 	onDestroy(() => {
-		_ref?.dispose();
-	});
+		_ref?.dispose()
+	})
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 
@@ -154,10 +154,10 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: BindingChangeEvent;
-	};
+		change: BindingChangeEvent
+	}
 
-	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
+	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	// Good grief...
 	// Work around for double-reactivity object bug
@@ -171,24 +171,24 @@
 		if (value instanceof File) {
 			return new File([value], value.name, {
 				lastModified: value.lastModified,
-				type: value.type
-			}) as T;
+				type: value.type,
+			}) as T
 		}
 
 		// Special case for <Image> component to prevent context loss
 		if (BROWSER && value instanceof HTMLImageElement) {
-			const copy = new Image();
-			copy.src = value.src;
-			return copy as T;
+			const copy = new Image()
+			copy.src = value.src
+			return copy as T
 		}
 
 		// Use fast-copy for everything else
-		return copy(value);
+		return copy(value)
 	}
 
-	let lastObject: T = object;
-	let lastValue: T[keyof T] = safeCopy(object[key]);
-	let internalChange = false;
+	let lastObject: T = object
+	let lastValue: T[keyof T] = safeCopy(object[key])
+	let internalChange = false
 	function onBoundValueChange(object: T) {
 		// Check svelte implementation?
 		// TODO primitive checks for optimization?
@@ -196,60 +196,60 @@
 		// TODO consider completely proxy-ing Tweakpane
 
 		if (lastObject !== object) {
-			internalChange = false;
+			internalChange = false
 		}
 
 		if (!shallowEqual(object[key], lastValue)) {
-			lastValue = safeCopy(object[key]);
+			lastValue = safeCopy(object[key])
 
 			dispatch('change', {
 				value: safeCopy(object[key]),
-				origin: internalChange ? 'internal' : 'external'
-			});
+				origin: internalChange ? 'internal' : 'external',
+			})
 
 			// Update the value in the pane, but don't fire
 			// a Tweakpane change event
 			if (!internalChange && _ref) {
-				_ref.off('change', onTweakpaneChange);
-				_ref.refresh();
-				_ref.on('change', onTweakpaneChange);
+				_ref.off('change', onTweakpaneChange)
+				_ref.refresh()
+				_ref.on('change', onTweakpaneChange)
 			}
 		}
 
-		internalChange = false;
+		internalChange = false
 
 		// Check for the bound object changing entirely...
 		if (lastObject !== object) {
-			lastObject = object;
-			create(); // Recreation seems to be only way to re-bind to new object
+			lastObject = object
+			create() // Recreation seems to be only way to re-bind to new object
 		}
 	}
 
 	function onTweakpaneChange() {
-		internalChange = true;
-		object[key] = safeCopy(object[key]); // Svelte 5...
+		internalChange = true
+		object[key] = safeCopy(object[key]) // Svelte 5...
 	}
 
 	// Readonly props
-	$: DEV && enforceReadonly(_ref, ref, 'Binding', 'ref', true);
+	$: DEV && enforceReadonly(_ref, ref, 'Binding', 'ref', true)
 
 	// Options seem immutable...
 	// have to recreate old version supporting key changes $: key, options,
-	$: options, $parentStore !== undefined && index !== undefined && create();
-	$: _ref !== undefined && (_ref.disabled = disabled);
-	$: _ref !== undefined && (_ref.label = label);
+	$: options, $parentStore !== undefined && index !== undefined && create()
+	$: _ref !== undefined && (_ref.disabled = disabled)
+	$: _ref !== undefined && (_ref.label = label)
 
 	// A refresh alone doesn't seem to be enough when the object itself (not
 	// just its values) has changed, so it's handled in onBoundValueChange
 	// $: object, _ref !== undefined && $parentStore !== undefined && _ref.refresh();
-	$: $parentStore !== undefined && onBoundValueChange(object);
+	$: $parentStore !== undefined && onBoundValueChange(object)
 
 	$: theme &&
 		$parentStore !== undefined &&
 		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
-			'Set theme on the <Pane> component, not on its children! (Check nested <Binding> components for a theme prop.)'
-		);
+			'Set theme on the <Pane> component, not on its children! (Check nested <Binding> components for a theme prop.)',
+		)
 </script>
 
 <!--

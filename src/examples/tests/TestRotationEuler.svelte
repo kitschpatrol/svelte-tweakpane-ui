@@ -1,21 +1,21 @@
 <script lang="ts">
-	import { RotationEuler, type RotationEulerValueObject } from '$lib';
+	import { RotationEuler, type RotationEulerValueObject } from '$lib'
 
-	let binding1InternalEventCount = 0;
-	let binding1ExternalEventCount = 0;
-	let binding2InternalEventCount = 0;
-	let binding2ExternalEventCount = 0;
+	let binding1InternalEventCount = 0
+	let binding1ExternalEventCount = 0
+	let binding2InternalEventCount = 0
+	let binding2ExternalEventCount = 0
 
-	let value: RotationEulerValueObject = { x: 0, y: 0, z: 0 };
+	let value: RotationEulerValueObject = { x: 0, y: 0, z: 0 }
 </script>
 
 <RotationEuler
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding1InternalEventCount++;
+			binding1InternalEventCount++
 		} else {
-			binding1ExternalEventCount++;
+			binding1ExternalEventCount++
 		}
 	}}
 	expanded={true}
@@ -26,9 +26,9 @@
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding2InternalEventCount++;
+			binding2InternalEventCount++
 		} else {
-			binding2ExternalEventCount++;
+			binding2ExternalEventCount++
 		}
 	}}
 	expanded={true}

@@ -1,25 +1,25 @@
 <script lang="ts">
-	import { Button, Image } from '$lib';
+	import { Button, Image } from '$lib'
 
-	let source = 'placeholder';
+	let source = 'placeholder'
 
 	async function getRandomKittenUrl() {
 		const { url } = await fetch('https://loremflickr.com/800/800/kitten', {
 			method: 'HEAD',
-			redirect: 'follow'
-		});
-		return url;
+			redirect: 'follow',
+		})
+		return url
 	}
 
-	let binding1InternalEventCount = 0;
-	let binding1ExternalEventCount = 0;
-	let binding2InternalEventCount = 0;
-	let binding2ExternalEventCount = 0;
+	let binding1InternalEventCount = 0
+	let binding1ExternalEventCount = 0
+	let binding2InternalEventCount = 0
+	let binding2ExternalEventCount = 0
 </script>
 
 <Button
 	on:click={async () => {
-		source = await getRandomKittenUrl();
+		source = await getRandomKittenUrl()
 	}}
 	label="Random Placeholder"
 	title="Load Kitten"
@@ -28,9 +28,9 @@
 	bind:value={source}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding1InternalEventCount++;
+			binding1InternalEventCount++
 		} else {
-			binding1ExternalEventCount++;
+			binding1ExternalEventCount++
 		}
 	}}
 	fit="contain"
@@ -40,9 +40,9 @@
 	bind:value={source}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding2InternalEventCount++;
+			binding2InternalEventCount++
 		} else {
-			binding2ExternalEventCount++;
+			binding2ExternalEventCount++
 		}
 	}}
 	fit="contain"

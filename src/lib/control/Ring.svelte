@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js';
-	import type { RingSeries } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.js';
+	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { RingSeries } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.js'
 
 	// TODO maybe spread RingUnit into the top level props?
 
@@ -13,7 +13,7 @@
 		 * This sets the interval between each `value` labeled on the ring. For example a `value` of
 		 * `20` will show value labels 0, 20, 40... etc. spaced according to the `pixels` value.
 		 */
-		value: number;
+		value: number
 		/**
 		 * The number of pixels per unit.
 		 *
@@ -21,49 +21,49 @@
 		 * example, if `pixels` is 100 and `value` is 10, you will see a value label on the ring in
 		 * the form of 10...(100 pixels)...20...(100 pixels)...30... etc.
 		 */
-		pixels: number;
+		pixels: number
 		/**
 		 * The number of vertical tick marks between each `value` label on the ring.
 		 *
 		 * For example, if `pixels` is `100`, `value` is `10, and `ticks` is `10`, you will have a
 		 * vertical tick mark every 10 pixels, and a value label every 100 pixels.
 		 */
-		ticks: number;
-	};
+		ticks: number
+	}
 
-	export type { RingSeries, RingUnit };
-	export type RingChangeEvent = ValueChangeEvent<number>;
+	export type { RingSeries, RingUnit }
+	export type RingChangeEvent = ValueChangeEvent<number>
 </script>
 
 <script lang="ts">
-	import type { RingInputParams } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.d.ts';
-	import type { ComponentProps } from 'svelte';
-	import GenericSlider from '$lib/internal/GenericSlider.svelte';
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-camerakit';
+	import type { RingInputParams } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.d.ts'
+	import type { ComponentProps } from 'svelte'
+	import GenericSlider from '$lib/internal/GenericSlider.svelte'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-camerakit'
 
 	type $$Props = {
 		/**
 		 * A `number` value to control.
 		 * @bindable
 		 * */
-		value: number;
+		value: number
 		/**
 		 * Style variations.
 		 * @default `0`
 		 * */
-		series?: RingSeries;
+		series?: RingSeries
 		/**
 		 * Density and value mapping of the ring's tick marks.
 		 * @default `{ ticks: 5, pixels: 40, value: 10 }`
 		 * */
-		unit?: RingUnit;
-	} & Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'>;
+		unit?: RingUnit
+	} & Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'>
 
 	// Reexport for bindability
-	export let value: $$Props['value'];
-	export let series: $$Props['series'] = undefined;
-	export let unit: $$Props['unit'] = undefined;
-	export let wide: $$Props['wide'] = undefined;
+	export let value: $$Props['value']
+	export let series: $$Props['series'] = undefined
+	export let unit: $$Props['unit'] = undefined
+	export let wide: $$Props['wide'] = undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -79,17 +79,17 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: RingChangeEvent;
-	};
+		change: RingChangeEvent
+	}
 
-	let options: RingInputParams;
+	let options: RingInputParams
 
 	$: options = {
 		series,
 		unit,
 		view: 'cameraring',
-		wide
-	};
+		wide,
+	}
 </script>
 
 <!--

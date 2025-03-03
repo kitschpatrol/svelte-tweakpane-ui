@@ -1,17 +1,17 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js';
+	import type { ValueChangeEvent } from '$lib/utils.js'
 
-	export type CheckboxChangeEvent = ValueChangeEvent<boolean>;
+	export type CheckboxChangeEvent = ValueChangeEvent<boolean>
 </script>
 
 <script lang="ts">
-	import type { ComponentProps } from 'svelte';
-	import GenericInput from '$lib/internal/GenericInput.svelte';
+	import type { ComponentProps } from 'svelte'
+	import GenericInput from '$lib/internal/GenericInput.svelte'
 
-	type $$Props = Omit<ComponentProps<GenericInput<boolean>>, 'options' | 'plugin' | 'ref'>;
+	type $$Props = Omit<ComponentProps<GenericInput<boolean>>, 'options' | 'plugin' | 'ref'>
 
 	// Must redeclare for bindability
-	export let value: $$Props['value'];
+	export let value: $$Props['value']
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -27,8 +27,8 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: CheckboxChangeEvent;
-	};
+		change: CheckboxChangeEvent
+	}
 </script>
 
 <!--

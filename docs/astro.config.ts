@@ -1,10 +1,10 @@
-import starlight from '@astrojs/starlight';
-import svelte from '@astrojs/svelte';
-import compress from '@playform/compress';
-import { defineConfig } from 'astro/config';
+import starlight from '@astrojs/starlight'
+import svelte from '@astrojs/svelte'
+import compress from '@playform/compress'
+import { defineConfig } from 'astro/config'
 /* eslint-disable @typescript-eslint/naming-convention */
-import { componentMenu } from './src/utils/config-helpers';
-process.env.BROWSER = 'chromium';
+import { componentMenu } from './src/utils/config-helpers'
+process.env.BROWSER = 'chromium'
 
 // https://astro.build/config
 export default defineConfig({
@@ -24,20 +24,20 @@ export default defineConfig({
 				MarkdownContent: './src/components/overrides/MarkdownContent.astro',
 				PageTitle: './src/components/overrides/PageTitle.astro',
 				TableOfContents: './src/components/overrides/TableOfContents.astro',
-				ThemeSelect: './src/components/overrides/ThemeSelect.astro'
+				ThemeSelect: './src/components/overrides/ThemeSelect.astro',
 			},
 			customCss: ['./src/style.css'],
 			description: 'A Svelte Tweakpane UI component library.',
 			editLink: {
-				baseUrl: 'https://github.com/kitschpatrol/svelte-tweakpane-ui/edit/main/docs/'
+				baseUrl: 'https://github.com/kitschpatrol/svelte-tweakpane-ui/edit/main/docs/',
 			},
 			expressiveCode: {
 				styleOverrides: {
 					codeLineHeight: '1.65',
 					frames: {
-						tooltipSuccessBackground: 'var(--sl-color-gray-3)'
-					}
-				}
+						tooltipSuccessBackground: 'var(--sl-color-gray-3)',
+					},
+				},
 				// Themes: ['github-dark', 'github-light']
 			},
 			lastUpdated: true,
@@ -48,41 +48,41 @@ export default defineConfig({
 			sidebar: [
 				{
 					label: 'Overview',
-					link: '/docs'
+					link: '/docs',
 				},
 				{
 					label: 'Getting Started',
-					link: '/docs/getting-started'
+					link: '/docs/getting-started',
 				},
 				{
 					label: 'Features',
-					link: '/docs/features'
+					link: '/docs/features',
 				},
 				{
 					label: 'Plugins',
-					link: '/docs/plugins'
+					link: '/docs/plugins',
 				},
 				{
 					label: 'Themes',
-					link: '/docs/themes'
+					link: '/docs/themes',
 				},
 				{
 					label: 'Utilities',
-					link: '/docs/utilities'
+					link: '/docs/utilities',
 				},
 				...componentMenu(),
 				{
 					label: 'Acknowledgments',
-					link: '/docs/acknowledgments'
-				}
+					link: '/docs/acknowledgments',
+				},
 			],
 			social: {
 				github: 'https://github.com/kitschpatrol/svelte-tweakpane-ui',
 				// Maybe later
 				// mastodon: 'https://mastodon.social/@kitschpatrol',
-				twitter: 'https://twitter.com/kitschpatrol'
+				twitter: 'https://twitter.com/kitschpatrol',
 			},
-			title: 'Svelte Tweakpane UI'
+			title: 'Svelte Tweakpane UI',
 		}),
 		svelte({}),
 		compress({
@@ -92,18 +92,18 @@ export default defineConfig({
 			Image: false,
 			JavaScript: true,
 			// Logger: false,
-			SVG: true
-		})
+			SVG: true,
+		}),
 	],
 	server: {
-		open: true
+		open: true,
 	},
 	site: 'https://kitschpatrol.com/',
 	trailingSlash: 'never',
 	vite: {
 		ssr: {
 			// https://github.com/withastro/astro/issues/8660
-			noExternal: ['nanoid']
-		}
-	}
-});
+			noExternal: ['nanoid'],
+		},
+	},
+})

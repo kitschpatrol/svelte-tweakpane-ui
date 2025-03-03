@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FpsGraph } from '$lib';
+	import { FpsGraph } from '$lib'
 </script>
 
 <FpsGraph

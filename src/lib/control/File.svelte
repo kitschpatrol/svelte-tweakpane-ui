@@ -1,21 +1,21 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js';
+	import type { ValueChangeEvent } from '$lib/utils.js'
 
-	export type FileValue = File | undefined;
-	export type FileChangeEvent = ValueChangeEvent<FileValue>;
+	export type FileValue = File | undefined
+	export type FileChangeEvent = ValueChangeEvent<FileValue>
 </script>
 
 <script lang="ts">
-	import type { PluginInputParams } from '@kitschpatrol/tweakpane-plugin-file-import/dist/types/plugin.d.ts';
-	import type { ComponentProps } from 'svelte';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import { fillWith } from '$lib/utils';
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-file-import';
-	import { BROWSER } from 'esm-env';
-	import { shallowEqual } from 'fast-equals';
+	import type { PluginInputParams } from '@kitschpatrol/tweakpane-plugin-file-import/dist/types/plugin.d.ts'
+	import type { ComponentProps } from 'svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericInput from '$lib/internal/GenericInput.svelte'
+	import { fillWith } from '$lib/utils'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-file-import'
+	import { BROWSER } from 'esm-env'
+	import { shallowEqual } from 'fast-equals'
 
-	type FileValueInternal = File | null | string;
+	type FileValueInternal = File | null | string
 
 	type $$Props = {
 		/**
@@ -23,32 +23,32 @@
 		 * @default `undefined`
 		 * @bindable
 		 */
-		value?: FileValue;
+		value?: FileValue
 
 		/**
 		 * Array of valid file extensions.
 		 * @default Any file extension
 		 */
-		extensions?: string[] | undefined;
+		extensions?: string[] | undefined
 
 		/**
 		 * String shown when the user tries to upload an invalid filetype.
 		 * @default `'Unaccepted file type.'`
 		 */
-		invalidExtensionMessage?: string | undefined;
+		invalidExtensionMessage?: string | undefined
 
 		/**
 		 * Height of the file input drop zone, in rows.
 		 * @default `3`
 		 */
-		rows?: number | undefined;
-	} & Omit<ComponentProps<GenericInput<FileValueInternal>>, 'plugin' | 'ref' | 'value'>;
+		rows?: number | undefined
+	} & Omit<ComponentProps<GenericInput<FileValueInternal>>, 'plugin' | 'ref' | 'value'>
 
 	// Unique
-	export let value: $$Props['value'] = undefined;
-	export let rows: $$Props['rows'] = undefined;
-	export let invalidExtensionMessage: $$Props['invalidExtensionMessage'] = undefined;
-	export let extensions: $$Props['extensions'] = undefined;
+	export let value: $$Props['value'] = undefined
+	export let rows: $$Props['rows'] = undefined
+	export let invalidExtensionMessage: $$Props['invalidExtensionMessage'] = undefined
+	export let extensions: $$Props['extensions'] = undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -64,17 +64,17 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: FileChangeEvent;
-	};
+		change: FileChangeEvent
+	}
 
-	let internalValue: FileValueInternal;
+	let internalValue: FileValueInternal
 
 	function updateInternalValueFromValue() {
 		// Manual difference checks required to prevent Svelte 5 infinite update loops
-		const newInternalValue: FileValueInternal = value ?? '';
+		const newInternalValue: FileValueInternal = value ?? ''
 		if (!shallowEqual(internalValue, newInternalValue)) {
 			// TODO copy?
-			internalValue = newInternalValue;
+			internalValue = newInternalValue
 		}
 	}
 
@@ -83,25 +83,25 @@
 		if (internalValue instanceof File) {
 			if (!shallowEqual(value, internalValue)) {
 				// TODO copy?
-				value = internalValue;
+				value = internalValue
 			}
 		} else if (value !== undefined) {
-			value = undefined;
+			value = undefined
 		}
 	}
 
-	let options: PluginInputParams;
+	let options: PluginInputParams
 
 	$: options = {
 		extensions,
 		filetypes: extensions,
 		invalidFiletypeMessage: invalidExtensionMessage,
 		lineCount: rows,
-		view: 'file-input'
-	};
+		view: 'file-input',
+	}
 
-	$: value, updateInternalValueFromValue();
-	$: internalValue, updateValueFromInternalValue();
+	$: value, updateInternalValueFromValue()
+	$: internalValue, updateValueFromInternalValue()
 </script>
 
 <!--

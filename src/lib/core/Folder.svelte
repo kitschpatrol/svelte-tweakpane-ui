@@ -1,13 +1,13 @@
 <script lang="ts">
-	import type { Theme } from '$lib/theme.js';
-	import type { FolderApi as FolderRef } from '@tweakpane/core';
-	import type { Writable } from 'svelte/store';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
-	import { type Container, getElementIndex, isRootPane, updateCollapsibility } from '$lib/utils.js';
-	import { BROWSER } from 'esm-env';
-	import { getContext, onDestroy, onMount, setContext } from 'svelte';
-	import { writable } from 'svelte/store';
+	import type { Theme } from '$lib/theme.js'
+	import type { FolderApi as FolderRef } from '@tweakpane/core'
+	import type { Writable } from 'svelte/store'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
+	import { type Container, getElementIndex, isRootPane, updateCollapsibility } from '$lib/utils.js'
+	import { BROWSER } from 'esm-env'
+	import { getContext, onDestroy, onMount, setContext } from 'svelte'
+	import { writable } from 'svelte/store'
 
 	/**
 	 * Text in folder title bar.
@@ -16,13 +16,13 @@
 	 * It can be set to an empty string if you want an unadorned title bar.
 	 * @default `'Folder'`
 	 * */
-	export let title: string = 'Folder';
+	export let title: string = 'Folder'
 
 	/**
 	 * Prevent interactivity and gray out the control.
 	 * @default `false`
 	 * */
-	export let disabled: boolean = false;
+	export let disabled: boolean = false
 
 	/**
 	 * Expand or collapse folder.
@@ -31,13 +31,13 @@
 	 * @default `true`
 	 * @bindable
 	 * */
-	export let expanded: boolean = true;
+	export let expanded: boolean = true
 
 	/**
 	 * Allow the user to be collapse and expand the folder by clicking its title bar.
 	 * @default `true`
 	 * */
-	export let userExpandable: boolean = true;
+	export let userExpandable: boolean = true
 
 	/**
 	 * Custom color scheme.
@@ -45,61 +45,61 @@
 	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
 	 * set with `setGlobalDefaultTheme()`.
 	 * */
-	export let theme: Theme | undefined = undefined;
+	export let theme: Theme | undefined = undefined
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {
 		/**
 		 * Any Tweakpane component, except a `<Pane>`.
 		 */
-		default: {};
-	};
+		default: {}
+	}
 
-	const parentStore: Writable<Container> = getContext('parentStore');
-	const folderStore = writable<FolderRef>();
-	const userCreatedPane = getContext('userCreatedPane');
+	const parentStore: Writable<Container> = getContext('parentStore')
+	const folderStore = writable<FolderRef>()
+	const userCreatedPane = getContext('userCreatedPane')
 
-	let indexElement: HTMLDivElement;
-	let index: number;
-	let folderRef: FolderRef | undefined = undefined;
+	let indexElement: HTMLDivElement
+	let index: number
+	let folderRef: FolderRef | undefined = undefined
 
 	// Overwrite the context for our children
-	setContext('parentStore', folderStore);
+	setContext('parentStore', folderStore)
 
 	function create() {
 		$folderStore = $parentStore.addFolder({
 			disabled,
 			expanded,
 			index,
-			title
-		});
+			title,
+		})
 
 		$folderStore.on('fold', () => {
-			expanded = $folderStore.expanded;
-		});
+			expanded = $folderStore.expanded
+		})
 
-		folderRef = $folderStore;
+		folderRef = $folderStore
 	}
 
 	onMount(() => {
-		index = indexElement ? getElementIndex(indexElement) : 0;
-	});
+		index = indexElement ? getElementIndex(indexElement) : 0
+	})
 
 	onDestroy(() => {
-		$folderStore?.dispose();
-	});
+		$folderStore?.dispose()
+	})
 
-	$: $parentStore && !folderRef && index !== undefined && create();
-	$: folderRef && updateCollapsibility(userExpandable, folderRef.element, 'tp-fldv_b', 'tp-fldv_m');
-	$: folderRef && (folderRef.title = title);
-	$: folderRef && (folderRef.disabled = disabled);
-	$: folderRef && expanded !== undefined && (folderRef.expanded = expanded); // Doing this on $folderStore causes issues
+	$: $parentStore && !folderRef && index !== undefined && create()
+	$: folderRef && updateCollapsibility(userExpandable, folderRef.element, 'tp-fldv_b', 'tp-fldv_m')
+	$: folderRef && (folderRef.title = title)
+	$: folderRef && (folderRef.disabled = disabled)
+	$: folderRef && expanded !== undefined && (folderRef.expanded = expanded) // Doing this on $folderStore causes issues
 	$: theme &&
 		$parentStore &&
 		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
-			'Set theme on the <Pane> component, not on its children! (Check nested <Folder> components for a theme prop.)'
-		);
+			'Set theme on the <Pane> component, not on its children! (Check nested <Folder> components for a theme prop.)',
+		)
 </script>
 
 <!--

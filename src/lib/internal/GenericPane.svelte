@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { Container } from '$lib/utils.js';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import { applyTheme, type Theme } from '$lib/theme.js';
-	import { type Plugin, updateCollapsibility } from '$lib/utils.js';
-	import { BROWSER } from 'esm-env';
-	import { getContext, onDestroy, setContext, tick } from 'svelte';
-	import { type Writable, writable } from 'svelte/store';
-	import { Pane as TpPane } from 'tweakpane';
+	import type { Container } from '$lib/utils.js'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { applyTheme, type Theme } from '$lib/theme.js'
+	import { type Plugin, updateCollapsibility } from '$lib/utils.js'
+	import { BROWSER } from 'esm-env'
+	import { getContext, onDestroy, setContext, tick } from 'svelte'
+	import { type Writable, writable } from 'svelte/store'
+	import { Pane as TpPane } from 'tweakpane'
 
 	// Import type { BladeState } from '@tweakpane/core';
 
@@ -16,7 +16,7 @@
 	 * Unless `position="inline"`, in which case the default is `undefined` and no title bar is
 	 * shown.
 	 * */
-	export let title: string | undefined = undefined;
+	export let title: string | undefined = undefined
 
 	/**
 	 * Allow users to interactively expand / contract the pane by clicking its title bar.
@@ -24,14 +24,14 @@
 	 * Hides the collapse button from the title bar when `false`.
 	 * @default `true`
 	 * */
-	export let userExpandable: boolean = true;
+	export let userExpandable: boolean = true
 
 	/**
 	 * Expand or collapse the pane into its title bar.
 	 * @default `true`
 	 * @bindable
 	 * */
-	export let expanded: boolean = true; // Special case
+	export let expanded: boolean = true // Special case
 
 	/**
 	 * Custom color scheme.
@@ -51,7 +51,7 @@
 	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
 	 * set with `setGlobalDefaultTheme()`.
 	 * */
-	export let theme: Theme | undefined = undefined;
+	export let theme: Theme | undefined = undefined
 
 	/**
 	 * Scales the pane's elements by a factor of `scale` to make it easier to see.
@@ -66,7 +66,7 @@
 	 * Negative values are ignored.
 	 * @default `1`
 	 */
-	export let scale: number = 1;
+	export let scale: number = 1
 
 	// Export let state: BladeState | undefined = undefined;
 
@@ -82,7 +82,7 @@
 	// }
 
 	/** Internal use only. */
-	export let userCreatedPane = true;
+	export let userCreatedPane = true
 
 	/**
 	 * The internal Tweakpane [`Pane`](https://tweakpane.github.io/docs/api/classes/Pane.html) object.
@@ -98,78 +98,78 @@
 	 * @bindable
 	 * @readonly
 	 * */
-	export let tpPane: TpPane | undefined = undefined;
+	export let tpPane: TpPane | undefined = undefined
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {
 		/**
 		 * Any Tweakpane component, except another `<Pane>`.
 		 */
-		default: {};
-	};
+		default: {}
+	}
 
-	const parentStore = writable<TpPane>();
-	const existingParentStore: Writable<Container | undefined> = getContext('parentStore'); // Sanity checks
+	const parentStore = writable<TpPane>()
+	const existingParentStore: Writable<Container | undefined> = getContext('parentStore') // Sanity checks
 
 	// the raw pane.registerPlugin function doesn't seem to prevent duplicate registrations as a
 	// minor optimization, we track plugin registrations manually to make sure child components
 	// don't redundantly re-register plugins TODO some strategy for plugin removal? not worth it
 	// since loading already happened?
-	let pluginsRegistered: string[] = [];
+	let pluginsRegistered: string[] = []
 	const registerPlugin = (plugin: Plugin) => {
 		if (tpPane === undefined) {
-			console.warn(`tpPane is undefined, failed to register plugin "${plugin.id}"`);
+			console.warn(`tpPane is undefined, failed to register plugin "${plugin.id}"`)
 		} else if (!pluginsRegistered.includes(plugin.id)) {
-			tpPane?.registerPlugin(plugin);
-			pluginsRegistered.push(plugin.id);
+			tpPane?.registerPlugin(plugin)
+			pluginsRegistered.push(plugin.id)
 		}
-	};
+	}
 
 	// Allow children to register plugins as needed
-	setContext('registerPlugin', registerPlugin);
-	setContext('userCreatedPane', userCreatedPane);
+	setContext('registerPlugin', registerPlugin)
+	setContext('userCreatedPane', userCreatedPane)
 
 	if ($existingParentStore !== undefined) {
-		console.warn('<Panes> must not be nested');
+		console.warn('<Panes> must not be nested')
 	}
 
 	if (BROWSER) {
-		$parentStore = new TpPane({ expanded, title });
+		$parentStore = new TpPane({ expanded, title })
 
 		// Plugins loaded dynamically at runtime as needed child components are responsible for
 		// registration via the registerPlugin context function
 
 		$parentStore.on('fold', () => {
 			if ($parentStore.expanded !== undefined && expanded !== $parentStore.expanded) {
-				expanded = $parentStore.expanded;
+				expanded = $parentStore.expanded
 			}
-		});
+		})
 
-		tpPane = $parentStore;
+		tpPane = $parentStore
 
-		setContext('parentStore', parentStore);
+		setContext('parentStore', parentStore)
 
 		onDestroy(() => {
-			$parentStore.dispose();
-		});
+			$parentStore.dispose()
+		})
 	} else {
 		// SSR
-		setContext('parentStore', writable<boolean>(true));
+		setContext('parentStore', writable<boolean>(true))
 	}
 
 	function setScale(scale: number) {
 		if (tpPane) {
 			if (scale === 1) {
-				tpPane.element.style.removeProperty('transform-origin');
-				tpPane.element.style.removeProperty('transform');
-				tpPane.element.style.removeProperty('width');
+				tpPane.element.style.removeProperty('transform-origin')
+				tpPane.element.style.removeProperty('transform')
+				tpPane.element.style.removeProperty('width')
 			} else {
-				const clampedScale = Math.max(0, scale);
-				tpPane.element.style.transformOrigin = '0 0';
-				tpPane.element.style.transform = `scale(${clampedScale})`;
+				const clampedScale = Math.max(0, scale)
+				tpPane.element.style.transformOrigin = '0 0'
+				tpPane.element.style.transform = `scale(${clampedScale})`
 
 				// Jitters a bit, but resizeObserver + rounding wasn't better
-				tpPane.element.style.width = `${100 / clampedScale}%`;
+				tpPane.element.style.width = `${100 / clampedScale}%`
 			}
 		}
 	}
@@ -181,17 +181,17 @@
 				expanded !== undefined &&
 				tpPane.expanded !== expanded
 			) {
-				tpPane.expanded = expanded;
+				tpPane.expanded = expanded
 			}
-		});
+		})
 	}
 
-	$: tpPane?.element && tpPane?.element.classList.add('svelte-tweakpane-ui');
-	$: tpPane && setScale(scale);
-	$: tpPane && updateCollapsibility(userExpandable, tpPane.element, 'tp-rotv_b', 'tp-rotv_m');
-	$: tpPane && title !== undefined && (tpPane.title = title.length > 0 ? title : ' ');
-	$: tpPane && applyTheme(tpPane.element, theme);
-	$: tpPane && updateExpanded(expanded);
+	$: tpPane?.element && tpPane?.element.classList.add('svelte-tweakpane-ui')
+	$: tpPane && setScale(scale)
+	$: tpPane && updateCollapsibility(userExpandable, tpPane.element, 'tp-rotv_b', 'tp-rotv_m')
+	$: tpPane && title !== undefined && (tpPane.title = title.length > 0 ? title : ' ')
+	$: tpPane && applyTheme(tpPane.element, theme)
+	$: tpPane && updateExpanded(expanded)
 </script>
 
 <!--
@@ -213,7 +213,7 @@ This component is for internal use only.
 				'containerVerticalPadding',
 				'containerVerticalPadding',
 				'containerVerticalPadding',
-				'containerUnitSize'
+				'containerUnitSize',
 			]}
 			{theme}
 		/>

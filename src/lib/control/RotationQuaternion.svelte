@@ -1,31 +1,31 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils';
-	import type { ValueChangeEvent } from '$lib/utils.js';
-	import type { PointDimensionParams } from '@tweakpane/core';
+	import type { Simplify } from '$lib/utils'
+	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { PointDimensionParams } from '@tweakpane/core'
 
-	export type RotationQuaternionOptions = Simplify<PointDimensionParams>;
+	export type RotationQuaternionOptions = Simplify<PointDimensionParams>
 	export type RotationQuaternionValueObject = {
-		x: number;
-		y: number;
-		z: number;
-		w: number;
-	};
-	export type RotationQuaternionValueTuple = [x: number, y: number, z: number, w: number];
+		x: number
+		y: number
+		z: number
+		w: number
+	}
+	export type RotationQuaternionValueTuple = [x: number, y: number, z: number, w: number]
 	export type RotationQuaternionValue = Simplify<
 		RotationQuaternionValueObject | RotationQuaternionValueTuple
-	>;
-	export type RotationQuaternionChangeEvent = ValueChangeEvent<RotationQuaternionValue>;
+	>
+	export type RotationQuaternionChangeEvent = ValueChangeEvent<RotationQuaternionValue>
 </script>
 
 <script lang="ts">
-	import type { RotationInputPluginQuaternionParams as RotationQuaternionOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/RotationInputPluginQuaternionParams';
-	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d';
-	import type { ComponentProps } from 'svelte'; // Note name collision with options params
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation';
-	import { BROWSER } from 'esm-env';
-	import { shallowEqual } from 'fast-equals';
+	import type { RotationInputPluginQuaternionParams as RotationQuaternionOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/RotationInputPluginQuaternionParams'
+	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d'
+	import type { ComponentProps } from 'svelte' // Note name collision with options params
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation'
+	import { BROWSER } from 'esm-env'
+	import { shallowEqual } from 'fast-equals'
 
 	// TODO add some utility functions to get matrices etc. from quaternions?
 	type $$Props = {
@@ -36,7 +36,7 @@
 		 * original TweakpaneRotationPlugin API.
 		 * @bindable
 		 * */
-		value: RotationQuaternionValue;
+		value: RotationQuaternionValue
 		/**
 		 * Input parameters specific to the X dimension.
 		 *
@@ -44,7 +44,7 @@
 		 * options, not a value.
 		 * @default `undefined`
 		 * */
-		optionsX?: RotationQuaternionOptions;
+		optionsX?: RotationQuaternionOptions
 		/**
 		 * Input parameters specific to the Y dimension.
 		 *
@@ -52,7 +52,7 @@
 		 * options, not a value.
 		 * @default `undefined`
 		 * */
-		optionsY?: RotationQuaternionOptions;
+		optionsY?: RotationQuaternionOptions
 		/**
 		 * Input parameters specific to the Z dimension.
 		 *
@@ -60,7 +60,7 @@
 		 * options, not a value.
 		 * @default `undefined`
 		 * */
-		optionsZ?: RotationQuaternionOptions;
+		optionsZ?: RotationQuaternionOptions
 		/**
 		 * Input parameters specific to the W dimension.
 		 *
@@ -68,21 +68,21 @@
 		 * options, not a value.
 		 * @default `undefined`
 		 * */
-		optionsW?: RotationQuaternionOptions;
+		optionsW?: RotationQuaternionOptions
 	} & Omit<
 		ComponentProps<GenericInputFolding<RotationQuaternionValue, RotationQuaternionOptionsInternal>>,
 		'buttonClass' | 'options' | 'plugin' | 'ref'
-	>;
+	>
 
 	// Unique
-	export let value: $$Props['value'];
-	export let optionsX: $$Props['optionsX'] = undefined;
-	export let optionsY: $$Props['optionsY'] = undefined;
-	export let optionsZ: $$Props['optionsZ'] = undefined;
-	export let optionsW: $$Props['optionsW'] = undefined;
+	export let value: $$Props['value']
+	export let optionsX: $$Props['optionsX'] = undefined
+	export let optionsY: $$Props['optionsY'] = undefined
+	export let optionsZ: $$Props['optionsZ'] = undefined
+	export let optionsW: $$Props['optionsW'] = undefined
 
 	// Reexport for binding
-	export let expanded: $$Props['expanded'] = undefined;
+	export let expanded: $$Props['expanded'] = undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -98,25 +98,25 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: RotationQuaternionChangeEvent;
-	};
+		change: RotationQuaternionChangeEvent
+	}
 
-	let options: RotationQuaternionOptionsInternal;
+	let options: RotationQuaternionOptionsInternal
 
 	// Proxy value since Tweakpane only supports Point4dObject type
-	let internalValue: Point4dObject;
+	let internalValue: Point4dObject
 
 	// Work-around for funky folding
-	const buttonClass = 'tp-rotationswatchv_b';
+	const buttonClass = 'tp-rotationswatchv_b'
 
 	function updateInternalValueFromValue() {
 		if (Array.isArray(value)) {
-			const newInternalValue = { x: value[0], y: value[1], z: value[2], w: value[3] };
+			const newInternalValue = { x: value[0], y: value[1], z: value[2], w: value[3] }
 			if (!shallowEqual(newInternalValue, internalValue)) {
-				internalValue = newInternalValue;
+				internalValue = newInternalValue
 			}
 		} else if (!shallowEqual(value, internalValue)) {
-			internalValue = { ...value };
+			internalValue = { ...value }
 		}
 	}
 
@@ -126,26 +126,26 @@
 				internalValue.x,
 				internalValue.y,
 				internalValue.z,
-				internalValue.w
-			];
+				internalValue.w,
+			]
 			if (!shallowEqual(newValue, value)) {
-				value = newValue;
+				value = newValue
 			}
 		} else if (!shallowEqual(internalValue, value)) {
-			value = { ...internalValue };
+			value = { ...internalValue }
 		}
 	}
 
-	$: value, updateInternalValueFromValue();
-	$: internalValue, updateValueFromInternalValue();
+	$: value, updateInternalValueFromValue()
+	$: internalValue, updateValueFromInternalValue()
 	$: options = {
 		x: optionsX,
 		y: optionsY,
 		z: optionsZ,
 		w: optionsW,
 		rotationMode: 'quaternion',
-		view: 'rotation'
-	};
+		view: 'rotation',
+	}
 </script>
 
 <!--

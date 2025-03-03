@@ -1,21 +1,21 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js';
-	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane';
+	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane'
 
-	export type SliderChangeEvent = ValueChangeEvent<number>;
+	export type SliderChangeEvent = ValueChangeEvent<number>
 </script>
 
 <script lang="ts">
-	import GenericSlider from '$lib/internal/GenericSlider.svelte';
-	import { type ComponentProps } from 'svelte';
+	import GenericSlider from '$lib/internal/GenericSlider.svelte'
+	import { type ComponentProps } from 'svelte'
 
 	type $$Props = {
 		/**
 		 * A `number` value to control.
 		 * @bindable.
 		 * */
-		value: number;
-	} & Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'>;
+		value: number
+	} & Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'>
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -31,26 +31,26 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: SliderChangeEvent;
-	};
+		change: SliderChangeEvent
+	}
 
 	// Reexport for bindability
-	export let value: $$Props['value'];
-	export let wide: $$Props['wide'] = undefined;
+	export let value: $$Props['value']
+	export let wide: $$Props['wide'] = undefined
 
-	let ref: GenericSliderRef;
+	let ref: GenericSliderRef
 
 	function updateWide(wide: boolean) {
-		const inputField = ref?.element.querySelector<HTMLDivElement>('div.tp-sldtxtv_t');
+		const inputField = ref?.element.querySelector<HTMLDivElement>('div.tp-sldtxtv_t')
 
 		if (wide) {
-			inputField?.style.setProperty('display', 'none');
+			inputField?.style.setProperty('display', 'none')
 		} else {
-			inputField?.style.removeProperty('display');
+			inputField?.style.removeProperty('display')
 		}
 	}
 
-	$: ref && wide !== undefined && updateWide(wide);
+	$: ref && wide !== undefined && updateWide(wide)
 </script>
 
 <!--

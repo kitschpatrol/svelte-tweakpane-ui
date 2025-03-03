@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Checkbox, Slider } from '$lib';
+	import { Checkbox, Slider } from '$lib'
 
-	let value = 0;
-	let wide = false;
+	let value = 0
+	let wide = false
 </script>
 
 <Slider

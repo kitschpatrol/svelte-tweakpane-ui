@@ -1,24 +1,24 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js';
+	import type { ValueChangeEvent } from '$lib/utils.js'
 
-	export type ImageValue = string | undefined;
-	export type ImageChangeEvent = ValueChangeEvent<ImageValue>;
+	export type ImageValue = string | undefined
+	export type ImageChangeEvent = ValueChangeEvent<ImageValue>
 </script>
 
 <script lang="ts">
 	// TODO CLS prerendering slightly broken because component has fractional heights
 	// TODO minor issues with internal vs. external event count
 
-	import type { PluginInputParams as ImageOptions } from '@kitschpatrol/tweakpane-plugin-image/dist/types/plugin.d.ts';
-	import type { ComponentProps } from 'svelte';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import GenericInput from '$lib/internal/GenericInput.svelte';
-	import { fillWith } from '$lib/utils';
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-image';
-	import { BROWSER } from 'esm-env';
-	import { shallowEqual } from 'fast-equals';
+	import type { PluginInputParams as ImageOptions } from '@kitschpatrol/tweakpane-plugin-image/dist/types/plugin.d.ts'
+	import type { ComponentProps } from 'svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericInput from '$lib/internal/GenericInput.svelte'
+	import { fillWith } from '$lib/utils'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-image'
+	import { BROWSER } from 'esm-env'
+	import { shallowEqual } from 'fast-equals'
 
-	type ImageValueInternal = 'placeholder' | File | HTMLImageElement | string | undefined;
+	type ImageValueInternal = 'placeholder' | File | HTMLImageElement | string | undefined
 
 	type $$Props = {
 		/**
@@ -26,25 +26,25 @@
 		 * @default `'undefined'`
 		 * @bindable
 		 */
-		value?: ImageValue;
+		value?: ImageValue
 		/**
 		 * Array of image extension types to accept.
 		 * @default `['.jpg', '.png', '.gif']`
 		 */
-		extensions?: string[];
+		extensions?: string[]
 		/**
 		 * How to display the image in the preview pane.
 		 *
 		 * Renamed from `imageFit` in `tweakpane-image-plugin` for concision.
 		 * @default `'cover'`
 		 */
-		fit?: 'contain' | 'cover';
-	} & Omit<ComponentProps<GenericInput<ImageValueInternal>>, 'plugin' | 'ref' | 'value'>;
+		fit?: 'contain' | 'cover'
+	} & Omit<ComponentProps<GenericInput<ImageValueInternal>>, 'plugin' | 'ref' | 'value'>
 
 	// Unique
-	export let value: $$Props['value'] = undefined;
-	export let fit: $$Props['fit'] = undefined;
-	export let extensions: $$Props['extensions'] = undefined;
+	export let value: $$Props['value'] = undefined
+	export let fit: $$Props['fit'] = undefined
+	export let extensions: $$Props['extensions'] = undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -60,16 +60,16 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: ImageChangeEvent;
-	};
+		change: ImageChangeEvent
+	}
 
-	let internalValue: ImageValueInternal = 'placeholder';
+	let internalValue: ImageValueInternal = 'placeholder'
 
 	function updateInternalValueFromValue() {
 		// Manual difference checks required to prevent Svelte 5 infinite update loops
-		const newInternalValue: ImageValueInternal = value ?? 'placeholder';
+		const newInternalValue: ImageValueInternal = value ?? 'placeholder'
 		if (!shallowEqual(internalValue, newInternalValue)) {
-			internalValue = newInternalValue;
+			internalValue = newInternalValue
 		}
 	}
 
@@ -77,34 +77,34 @@
 		// Manual difference checks required to prevent Svelte 5 infinite update loops
 		if (internalValue === 'placeholder') {
 			if (value !== undefined) {
-				value = undefined;
+				value = undefined
 			}
 		} else if (internalValue instanceof HTMLImageElement) {
 			if (value !== internalValue.src) {
-				value = internalValue.src;
+				value = internalValue.src
 			}
 		} else if (internalValue instanceof File) {
 			// TODO if / when the plugin ever actually returns a File object...
-			console.warn('Image control does not support File objects.');
+			console.warn('Image control does not support File objects.')
 			if (value !== undefined) {
-				value = undefined;
+				value = undefined
 			}
 		} else if (value !== internalValue) {
 			// Base64 string
-			value = internalValue;
+			value = internalValue
 		}
 	}
 
-	let options: ImageOptions;
+	let options: ImageOptions
 
 	$: options = {
 		extensions,
 		imageFit: fit,
-		view: 'input-image'
-	};
+		view: 'input-image',
+	}
 
-	$: value, updateInternalValueFromValue();
-	$: internalValue, updateValueFromInternalValue();
+	$: value, updateInternalValueFromValue()
+	$: internalValue, updateValueFromInternalValue()
 </script>
 
 <!--

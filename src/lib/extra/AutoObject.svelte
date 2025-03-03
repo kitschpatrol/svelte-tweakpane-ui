@@ -1,23 +1,23 @@
 <script context="module" lang="ts">
-	import type { BindingObject, ValueChangeEvent } from '$lib/utils.js';
+	import type { BindingObject, ValueChangeEvent } from '$lib/utils.js'
 
-	export type AutoObjectChangeEvent = ValueChangeEvent<BindingObject>;
+	export type AutoObjectChangeEvent = ValueChangeEvent<BindingObject>
 </script>
 
 <script lang="ts">
-	import type { Theme } from '$lib/theme.js';
-	import type { Container, UnwrapCustomEvents } from '$lib/utils.js';
-	import type { Writable } from 'svelte/store';
-	import Text from '$lib/control/Text.svelte';
-	import Binding from '$lib/core/Binding.svelte';
-	import Folder from '$lib/core/Folder.svelte';
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
-	import { isColorObject } from '@tweakpane/core';
-	import { Point2d } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js';
-	import { Point3d } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
-	import { Point4d } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d.js';
-	import copy from 'fast-copy';
-	import { createEventDispatcher, getContext } from 'svelte';
+	import type { Theme } from '$lib/theme.js'
+	import type { Container, UnwrapCustomEvents } from '$lib/utils.js'
+	import type { Writable } from 'svelte/store'
+	import Text from '$lib/control/Text.svelte'
+	import Binding from '$lib/core/Binding.svelte'
+	import Folder from '$lib/core/Folder.svelte'
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
+	import { isColorObject } from '@tweakpane/core'
+	import { Point2d } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js'
+	import { Point3d } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js'
+	import { Point4d } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d.js'
+	import copy from 'fast-copy'
+	import { createEventDispatcher, getContext } from 'svelte'
 
 	// TODO what about the onchange event?
 
@@ -27,14 +27,14 @@
 	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
 	 * set with `setGlobalDefaultTheme()`.
 	 * */
-	export let theme: Theme | undefined = undefined;
+	export let theme: Theme | undefined = undefined
 
 	/**
 	 * Transforms keys into more pleasant control labels (e.g. capitalization and spaces in lieu of
 	 * camelCase, kebab-case, etc.)
 	 * @default `true`
 	 * */
-	export let prettyLabels: boolean = true;
+	export let prettyLabels: boolean = true
 
 	/**
 	 * Object to create an automatic set of Tweakpane controls for.
@@ -43,7 +43,7 @@
 	 * for each value's type.
 	 * @bindable
 	 * */
-	export let object: BindingObject;
+	export let object: BindingObject
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 
@@ -59,22 +59,22 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: AutoObjectChangeEvent;
-	};
+		change: AutoObjectChangeEvent
+	}
 
-	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
+	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
-	const parentStore: Writable<Container> = getContext('parentStore');
+	const parentStore: Writable<Container> = getContext('parentStore')
 
 	// ParsePointDimensionParams wasn't quite right for this
 	function isPointObject(testObject: Record<string, unknown>): boolean {
 		return (
 			Point2d.isObject(testObject) || Point3d.isObject(testObject) || Point4d.isObject(testObject)
-		);
+		)
 	}
 
 	function prettify(value: string, active: boolean = true) {
-		if (!active) return value;
+		if (!active) return value
 
 		// TODO title case would be nicer... Replace underscores, hyphens, and camel case with
 		// spaces, and capitalize the first letter of each word
@@ -82,7 +82,7 @@
 			.replaceAll(/([\da-z])([A-Z])/g, '$1 $2')
 			.replaceAll(/[_-]+/g, ' ')
 			.toLowerCase()
-			.replaceAll(/\b[a-z]/g, (letter) => letter.toUpperCase());
+			.replaceAll(/\b[a-z]/g, (letter) => letter.toUpperCase())
 	}
 
 	function changeEventAggregator(event: ValueChangeEvent<unknown>) {
@@ -91,8 +91,8 @@
 		// to avoid the "where did this come from" question
 		dispatch('change', {
 			value: copy(object),
-			origin: event.detail.origin
-		});
+			origin: event.detail.origin,
+		})
 	}
 </script>
 

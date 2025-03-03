@@ -1,26 +1,26 @@
 <script lang="ts">
-	import { Color, type ColorValueRgbaTuple, type ColorValueRgbObject } from '$lib';
+	import { Color, type ColorValueRgbaTuple, type ColorValueRgbObject } from '$lib'
 
-	let value: ColorValueRgbObject = { r: 0, g: 0, b: 0 };
-	let value2: ColorValueRgbaTuple = [0, 0, 0, 0];
+	let value: ColorValueRgbObject = { r: 0, g: 0, b: 0 }
+	let value2: ColorValueRgbaTuple = [0, 0, 0, 0]
 
-	let binding1InternalEventCount = 0;
-	let binding1ExternalEventCount = 0;
-	let binding2InternalEventCount = 0;
-	let binding2ExternalEventCount = 0;
-	let binding3InternalEventCount = 0;
-	let binding3ExternalEventCount = 0;
-	let binding4InternalEventCount = 0;
-	let binding4ExternalEventCount = 0;
+	let binding1InternalEventCount = 0
+	let binding1ExternalEventCount = 0
+	let binding2InternalEventCount = 0
+	let binding2ExternalEventCount = 0
+	let binding3InternalEventCount = 0
+	let binding3ExternalEventCount = 0
+	let binding4InternalEventCount = 0
+	let binding4ExternalEventCount = 0
 </script>
 
 <Color
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding1InternalEventCount++;
+			binding1InternalEventCount++
 		} else {
-			binding1ExternalEventCount++;
+			binding1ExternalEventCount++
 		}
 	}}
 	label="Binding 1"
@@ -29,9 +29,9 @@
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding2InternalEventCount++;
+			binding2InternalEventCount++
 		} else {
-			binding2ExternalEventCount++;
+			binding2ExternalEventCount++
 		}
 	}}
 	label="Binding 2"
@@ -40,9 +40,9 @@
 	bind:value={value2}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding3InternalEventCount++;
+			binding3InternalEventCount++
 		} else {
-			binding3ExternalEventCount++;
+			binding3ExternalEventCount++
 		}
 	}}
 	label="Binding 3"
@@ -51,9 +51,9 @@
 	bind:value={value2}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding4InternalEventCount++;
+			binding4InternalEventCount++
 		} else {
-			binding4ExternalEventCount++;
+			binding4ExternalEventCount++
 		}
 	}}
 	label="Binding 4"

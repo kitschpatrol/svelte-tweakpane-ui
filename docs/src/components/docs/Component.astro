@@ -1,26 +1,26 @@
 ---
-import { allPropConditions, allProps, type ComponentData } from '../../utils/prop-utils';
-import DynamicPropAdmonition from './DynamicPropAdmonition.mdx';
-import ExampleWrapper from './ExampleWrapper.astro';
-import Heading from './Heading.astro';
-import PropTable from './PropTable.astro';
+import { allPropConditions, allProps, type ComponentData } from '../../utils/prop-utils'
+import DynamicPropAdmonition from './DynamicPropAdmonition.mdx'
+import ExampleWrapper from './ExampleWrapper.astro'
+import Heading from './Heading.astro'
+import PropTable from './PropTable.astro'
 // Bypasses any markdown customization in starlight...
-import { marked } from 'marked';
+import { marked } from 'marked'
 
 type Props = {
-	componentData: ComponentData;
-};
+	componentData: ComponentData
+}
 
-const { componentData: data } = Astro.props;
+const { componentData: data } = Astro.props
 
 // eslint-disable-next-line @typescript-eslint/naming-convention, unicorn/no-await-expression-member
-const ExampleCode = (await import(`../../examples/components/${data?.name}Example.md`)).default;
+const ExampleCode = (await import(`../../examples/components/${data?.name}Example.md`)).default
 
-const hasExample = Boolean(data?.jsDocs?.example);
-const hasProps = Boolean(data?.props.length);
-const hasDynamicProps = Boolean(data?.dynamicProps?.length);
-const hasEvents = Boolean(data?.events.length);
-const hasSlots = Boolean(data?.slots.length);
+const hasExample = Boolean(data?.jsDocs?.example)
+const hasProps = Boolean(data?.props.length)
+const hasDynamicProps = Boolean(data?.dynamicProps?.length)
+const hasEvents = Boolean(data?.events.length)
+const hasSlots = Boolean(data?.slots.length)
 ---
 
 {

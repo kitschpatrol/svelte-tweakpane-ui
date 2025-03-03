@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { Checkbox, IntervalSlider, Ring, Separator, Slider, Stepper, Wheel } from '$lib';
+	import { Checkbox, IntervalSlider, Ring, Separator, Slider, Stepper, Wheel } from '$lib'
 
-	let min = 0;
-	let max = 100;
-	let value = 50;
-	let wide = true;
+	let min = 0
+	let max = 100
+	let value = 50
+	let wide = true
 </script>
 
 <Checkbox bind:value={wide} label="Wide" />

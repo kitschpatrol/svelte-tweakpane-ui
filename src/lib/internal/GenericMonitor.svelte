@@ -1,15 +1,15 @@
 <script context="module" lang="ts">
-	import type { BaseMonitorParams, MonitorBindingApi } from '@tweakpane/core';
-	export type GenericMonitorOptions = BaseMonitorParams;
-	export type GenericMonitorRef = MonitorBindingApi;
+	import type { BaseMonitorParams, MonitorBindingApi } from '@tweakpane/core'
+	export type GenericMonitorOptions = BaseMonitorParams
+	export type GenericMonitorRef = MonitorBindingApi
 </script>
 
 <script
 	generics="T extends any, U extends GenericMonitorOptions, V extends GenericMonitorRef = GenericMonitorRef"
 	lang="ts"
 >
-	import type { ComponentProps } from 'svelte';
-	import GenericBinding from '$lib/internal/GenericBinding.svelte';
+	import type { ComponentProps } from 'svelte'
+	import GenericBinding from '$lib/internal/GenericBinding.svelte'
 
 	type $$Props = {
 		/**
@@ -17,14 +17,14 @@
 		 * @default `1`  \
 		 * Or `64` if value is `number` and `graph` is `true`.
 		 * */
-		bufferSize?: number;
+		bufferSize?: number
 		/**
 		 * Time between value samples in milliseconds.
 		 *
 		 * Useful when `graph` is true. Defaults to reactive value updates only (`interval={0}`).
 		 * @default `0`
 		 * */
-		interval?: number;
+		interval?: number
 		/**
 		 * Number of visible rows of state history.
 		 *
@@ -33,28 +33,28 @@
 		 * @default `1`  \
 		 * Or `3` if value is `string` and `multiline` is `true`.
 		 * */
-		rows?: number;
-	} & ComponentProps<GenericBinding<T, U, V>>;
+		rows?: number
+	} & ComponentProps<GenericBinding<T, U, V>>
 
 	// Reexport for bindability
-	export let value: $$Props['value']; // Still has to be passed manually since it's required
-	export let ref: $$Props['ref'] = undefined;
-	export let options: $$Props['options'] = undefined;
+	export let value: $$Props['value'] // Still has to be passed manually since it's required
+	export let ref: $$Props['ref'] = undefined
+	export let options: $$Props['options'] = undefined
 
 	// Union of boolean / number / string / object monitor params
-	export let rows: $$Props['rows'] = undefined;
-	export let bufferSize: $$Props['bufferSize'] = undefined;
-	export let interval: $$Props['interval'] = undefined;
+	export let rows: $$Props['rows'] = undefined
+	export let bufferSize: $$Props['bufferSize'] = undefined
+	export let interval: $$Props['interval'] = undefined
 
-	let optionsInternal: GenericMonitorOptions;
+	let optionsInternal: GenericMonitorOptions
 
 	$: optionsInternal = {
 		bufferSize,
 		interval: interval ?? 0, // Zero confirmed as never updating (not same interface as setInterval())
 		rows,
 		...options,
-		readonly: true
-	};
+		readonly: true,
+	}
 </script>
 
 <!--

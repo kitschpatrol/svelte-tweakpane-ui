@@ -6,27 +6,27 @@
 		Checkbox,
 		Pane,
 		Separator,
-		Slider
-	} from '$lib';
-	import Button from '$lib/control/Button.svelte';
-	import Folder from '$lib/core/Folder.svelte';
+		Slider,
+	} from '$lib'
+	import Button from '$lib/control/Button.svelte'
+	import Folder from '$lib/core/Folder.svelte'
 
 	let testObject = {
 		someColor: {
 			r: 255,
 			g: 0,
-			b: 55
+			b: 55,
 		},
 		someOtherColor: {
 			r: 0,
 			g: 255,
-			b: 55
-		}
-	} as BindingObject;
+			b: 55,
+		},
+	} as BindingObject
 
-	let showNumbers = true;
-	let folderWrap = false;
-	let someNumber = 1;
+	let showNumbers = true
+	let folderWrap = false
+	let someNumber = 1
 </script>
 
 <Pane>

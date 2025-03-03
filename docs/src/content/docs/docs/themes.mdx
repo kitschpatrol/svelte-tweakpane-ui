@@ -4,17 +4,17 @@ description: Guide to using themes in Svelte Tweakpane UI.
 sourceUrl: https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/theme.ts
 ---
 
-import ExampleWrapper from '../../../components/docs/ExampleWrapper.astro';
-import ThemeBasicCode from '../../../examples/docs/SvelteTweakpaneThemeBasic.md';
-import ThemeBasic from '../../../examples/docs/SvelteTweakpaneThemeBasic.svelte';
-import ThemeCustomCode from '../../../examples/docs/SvelteTweakpaneThemeCustom.md';
-import ThemeCustom from '../../../examples/docs/SvelteTweakpaneThemeCustom.svelte';
-import ThemeExtendCode from '../../../examples/docs/SvelteTweakpaneThemeExtend.md';
-import ThemeExtend from '../../../examples/docs/SvelteTweakpaneThemeExtend.svelte';
-import ThemeOverrideCode from '../../../examples/docs/SvelteTweakpaneThemeOverride.md';
-import ThemeOverride from '../../../examples/docs/SvelteTweakpaneThemeOverride.svelte';
-import ThemePickerCode from '../../../examples/docs/SvelteTweakpaneThemePicker.md';
-import ThemePicker from '../../../examples/docs/SvelteTweakpaneThemePicker.svelte';
+import ExampleWrapper from '../../../components/docs/ExampleWrapper.astro'
+import ThemeBasicCode from '../../../examples/docs/SvelteTweakpaneThemeBasic.md'
+import ThemeBasic from '../../../examples/docs/SvelteTweakpaneThemeBasic.svelte'
+import ThemeCustomCode from '../../../examples/docs/SvelteTweakpaneThemeCustom.md'
+import ThemeCustom from '../../../examples/docs/SvelteTweakpaneThemeCustom.svelte'
+import ThemeExtendCode from '../../../examples/docs/SvelteTweakpaneThemeExtend.md'
+import ThemeExtend from '../../../examples/docs/SvelteTweakpaneThemeExtend.svelte'
+import ThemeOverrideCode from '../../../examples/docs/SvelteTweakpaneThemeOverride.md'
+import ThemeOverride from '../../../examples/docs/SvelteTweakpaneThemeOverride.svelte'
+import ThemePickerCode from '../../../examples/docs/SvelteTweakpaneThemePicker.md'
+import ThemePicker from '../../../examples/docs/SvelteTweakpaneThemePicker.svelte'
 
 Vanilla Tweakpane provides a robust [theming system](https://tweakpane.github.io/docs/theming/) based on CSS variables.
 
@@ -114,8 +114,8 @@ Individual panes or standalone components can still override the global default 
 
 ```svelte
 <script lang="ts">
-  import { Button, ThemeUtils } from 'svelte-tweakpane-ui';
-  ThemeUtils.setGlobalDefaultTheme(ThemeUtils.presets.jetblack);
+  import { Button, ThemeUtils } from 'svelte-tweakpane-ui'
+  ThemeUtils.setGlobalDefaultTheme(ThemeUtils.presets.jetblack)
 </script>
 
 <Button label="I'm jet black, the custom global default" />

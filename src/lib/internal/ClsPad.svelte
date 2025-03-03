@@ -1,35 +1,35 @@
 <script lang="ts">
-	import { getValueOrFallback, type Theme } from '$lib/theme.js';
-	import { DEV } from 'esm-env';
+	import { getValueOrFallback, type Theme } from '$lib/theme.js'
+	import { DEV } from 'esm-env'
 
 	/**
 	 * The theme to use when estimating the height of the pane.
 	 */
-	export let theme: Theme | undefined = undefined;
+	export let theme: Theme | undefined = undefined
 
 	/**
 	 * Theme keys to add to the height estimate.
 	 */
-	export let keysAdd: Array<Parameters<typeof getValueOrFallback>[1]> = [];
+	export let keysAdd: Array<Parameters<typeof getValueOrFallback>[1]> = []
 
 	/**
 	 * Theme keys to subtract from the height estimate.
 	 */
-	export let keysSubtract: Array<Parameters<typeof getValueOrFallback>[1]> = [];
+	export let keysSubtract: Array<Parameters<typeof getValueOrFallback>[1]> = []
 
 	/**
 	 * Extra arbitrary space to add to the height estimate, in pixels.
 	 */
-	export let extra: number | undefined = undefined;
+	export let extra: number | undefined = undefined
 
-	const showDebugBlocks = false;
+	const showDebugBlocks = false
 
 	function getRandomCssColor() {
-		return '#' + Math.floor(Math.random() * 16_777_215).toString(16);
+		return '#' + Math.floor(Math.random() * 16_777_215).toString(16)
 	}
 
 	function getPixelValue(s: string): number {
-		return Number.parseFloat(s.replace('px', ''));
+		return Number.parseFloat(s.replace('px', ''))
 	}
 
 	function getTotal(add: typeof keysAdd, sub: typeof keysSubtract, extra: number = 0): number {
@@ -37,10 +37,10 @@
 			add.reduce((acc, key) => (acc += getPixelValue(getValueOrFallback(theme, key))), 0) -
 			sub.reduce((acc, key) => (acc += getPixelValue(getValueOrFallback(theme, key))), 0) +
 			extra
-		);
+		)
 	}
 
-	$: total = getTotal(keysAdd, keysSubtract, extra);
+	$: total = getTotal(keysAdd, keysSubtract, extra)
 </script>
 
 <!--

@@ -1,23 +1,23 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js';
-	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane';
+	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane'
 
-	export type StepperChangeEvent = ValueChangeEvent<number>;
+	export type StepperChangeEvent = ValueChangeEvent<number>
 </script>
 
 <script lang="ts">
-	import type { StepperInputParams } from '@kitschpatrol/tweakpane-plugin-inputs/dist/types/stepper/plugin.d.ts';
-	import type { ComponentProps } from 'svelte';
-	import GenericSlider from '$lib/internal/GenericSlider.svelte';
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-inputs';
+	import type { StepperInputParams } from '@kitschpatrol/tweakpane-plugin-inputs/dist/types/stepper/plugin.d.ts'
+	import type { ComponentProps } from 'svelte'
+	import GenericSlider from '$lib/internal/GenericSlider.svelte'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-inputs'
 
 	type $$Props = {
 		/**
 		 * A `number` value to control.
 		 * @bindable
 		 * */
-		value: number;
-	} & Omit<ComponentProps<GenericSlider<number>>, 'amount' | 'options' | 'plugin' | 'ref'>;
+		value: number
+	} & Omit<ComponentProps<GenericSlider<number>>, 'amount' | 'options' | 'plugin' | 'ref'>
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -33,37 +33,37 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: StepperChangeEvent;
-	};
+		change: StepperChangeEvent
+	}
 
 	// Reexport for bindability
-	export let value: $$Props['value'];
-	export let wide: $$Props['wide'] = undefined;
+	export let value: $$Props['value']
+	export let wide: $$Props['wide'] = undefined
 
-	let options: StepperInputParams;
+	let options: StepperInputParams
 
 	$: options = {
-		view: 'stepper'
-	};
+		view: 'stepper',
+	}
 
-	let ref: GenericSliderRef;
+	let ref: GenericSliderRef
 
 	function updateWide(wide: boolean) {
-		const inputField = ref?.element.querySelector<HTMLDivElement>('div.tp-stepv_t');
-		const buttonContainer = ref?.element.querySelector<HTMLDivElement>('div.tp-stepv_s');
-		const buttons = buttonContainer?.querySelectorAll<HTMLButtonElement>('button');
+		const inputField = ref?.element.querySelector<HTMLDivElement>('div.tp-stepv_t')
+		const buttonContainer = ref?.element.querySelector<HTMLDivElement>('div.tp-stepv_s')
+		const buttons = buttonContainer?.querySelectorAll<HTMLButtonElement>('button')
 		if (wide) {
-			inputField?.style.setProperty('display', 'none');
-			buttonContainer?.style.setProperty('flex', '1');
+			inputField?.style.setProperty('display', 'none')
+			buttonContainer?.style.setProperty('flex', '1')
 			for (const button of buttons ?? []) {
-				button.style.setProperty('flex', '1');
+				button.style.setProperty('flex', '1')
 			}
 		} else {
-			inputField?.style.removeProperty('display');
+			inputField?.style.removeProperty('display')
 		}
 	}
 
-	$: ref && wide !== undefined && updateWide(wide);
+	$: ref && wide !== undefined && updateWide(wide)
 </script>
 
 <!--

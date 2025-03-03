@@ -1,50 +1,50 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js';
+	import type { ValueChangeEvent } from '$lib/utils.js'
 
-	export type TextareaChangeEvent = ValueChangeEvent<string>;
+	export type TextareaChangeEvent = ValueChangeEvent<string>
 </script>
 
 <script lang="ts">
-	import type { TextareaPluginInputParams } from '@kitschpatrol/tweakpane-plugin-textarea/dist/types/plugin.js';
-	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte';
-	import { type UnwrapCustomEvents } from '$lib/utils.js';
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-textarea';
-	import { BROWSER } from 'esm-env';
-	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte';
+	import type { TextareaPluginInputParams } from '@kitschpatrol/tweakpane-plugin-textarea/dist/types/plugin.js'
+	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte'
+	import { type UnwrapCustomEvents } from '$lib/utils.js'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-textarea'
+	import { BROWSER } from 'esm-env'
+	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte'
 
 	type $$Props = {
 		/**
 		 * A `string` value to control.
 		 * @bindable
 		 * */
-		value: string;
+		value: string
 		/**
 		 * Whether to provide live updates to the bound `value` on every keystroke.
 		 * @default `true`
 		 * */
-		live?: boolean;
+		live?: boolean
 		/**
 		 * Placeholder text to display when the `value` is empty.
 		 * @default `'Enter text here'`
 		 */
-		placeholder?: string;
+		placeholder?: string
 		/**
 		 * The number of lines of text to display.
 		 *
 		 * If lines of input exceed this value, then the text area will scroll.
 		 * @default `3`
 		 */
-		rows?: number;
+		rows?: number
 	} & Omit<
 		ComponentProps<GenericInput<string, TextareaPluginInputParams>>,
 		'options' | 'plugin' | 'ref'
-	>;
+	>
 
 	// Re-exported
-	export let value: $$Props['value'];
-	export let live: $$Props['live'] = true;
-	export let rows: $$Props['rows'] = undefined;
-	export let placeholder: $$Props['placeholder'] = undefined;
+	export let value: $$Props['value']
+	export let live: $$Props['live'] = true
+	export let rows: $$Props['rows'] = undefined
+	export let placeholder: $$Props['placeholder'] = undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 
@@ -60,55 +60,55 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: TextareaChangeEvent;
-	};
+		change: TextareaChangeEvent
+	}
 
-	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
+	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
-	let _value = value; // Not bound, update events handled in svelte to allow updates on blur
-	let ref: GenericInputRef;
-	let options: TextareaPluginInputParams;
+	let _value = value // Not bound, update events handled in svelte to allow updates on blur
+	let ref: GenericInputRef
+	let options: TextareaPluginInputParams
 
 	onDestroy(() => {
-		updateListeners(live ?? true, true);
-	});
+		updateListeners(live ?? true, true)
+	})
 
 	function onBlur(event: Event): void {
-		value = (event.target as HTMLInputElement).value;
-		lastText = value;
-		dispatch('change', { value, origin: 'internal' });
+		value = (event.target as HTMLInputElement).value
+		lastText = value
+		dispatch('change', { value, origin: 'internal' })
 	}
 
 	function onInput(event: Event): void {
-		value = (event.target as HTMLInputElement).value;
-		lastText = value;
-		dispatch('change', { value, origin: 'internal' });
+		value = (event.target as HTMLInputElement).value
+		lastText = value
+		dispatch('change', { value, origin: 'internal' })
 	}
 
 	function updateListeners(live: boolean, destroy: boolean = false) {
-		const input = ref?.controller.valueController.view.element.querySelector('textarea');
-		input?.removeEventListener('blur', onBlur);
-		input?.removeEventListener('input', onInput);
-		!destroy && live && input?.addEventListener('input', onInput);
-		!destroy && !live && input?.addEventListener('blur', onBlur);
+		const input = ref?.controller.valueController.view.element.querySelector('textarea')
+		input?.removeEventListener('blur', onBlur)
+		input?.removeEventListener('input', onInput)
+		!destroy && live && input?.addEventListener('input', onInput)
+		!destroy && !live && input?.addEventListener('blur', onBlur)
 	}
 
-	let lastText = value;
+	let lastText = value
 	function onBoundValueChange(text: string) {
 		if (text !== lastText) {
-			dispatch('change', { value: text, origin: 'external' });
-			lastText = text;
+			dispatch('change', { value: text, origin: 'external' })
+			lastText = text
 		}
 	}
 
-	$: _value = value;
-	$: ref && live !== undefined && updateListeners(live);
+	$: _value = value
+	$: ref && live !== undefined && updateListeners(live)
 	$: options = {
 		placeholder,
 		rows,
-		view: 'textarea'
-	};
-	$: ref && onBoundValueChange(_value);
+		view: 'textarea',
+	}
+	$: ref && onBoundValueChange(_value)
 </script>
 
 <!--

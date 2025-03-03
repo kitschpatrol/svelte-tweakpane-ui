@@ -1,15 +1,15 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
+import { type CollectionEntry, getCollection } from 'astro:content'
 
 type Props = {
-	scope: 'all' | 'docs' | 'lib';
-};
+	scope: 'all' | 'docs' | 'lib'
+}
 
 function titleCase(text: string) {
 	return text
 		.split(' ')
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-		.join(' ');
+		.join(' ')
 }
 
 function stopShouting(text: string) {
@@ -19,38 +19,38 @@ function stopShouting(text: string) {
 		text.replaceAll(/[^A-Z]/g, '').length > text.length * 0.5 &&
 		text.replaceAll(/[^A-Z]/g, '').length < text.length * 0.75
 	) {
-		return text.toLowerCase();
+		return text.toLowerCase()
 	}
 
-	return text;
+	return text
 }
 
 function stripQuotes(text: string) {
-	return text.replaceAll(/^["']|["']$/g, '');
+	return text.replaceAll(/^["']|["']$/g, '')
 }
 
 function getNameFromEmail(name: string) {
 	if (name.includes('@')) {
-		return name.split('@')[0].replaceAll(/[_-]/g, ' ');
+		return name.split('@')[0].replaceAll(/[_-]/g, ' ')
 	}
 
-	return name;
+	return name
 }
 
-type LicenseEntry = CollectionEntry<'acknowledgments'>['data'][string][number];
+type LicenseEntry = CollectionEntry<'acknowledgments'>['data'][string][number]
 
-const { scope } = Astro.props;
+const { scope } = Astro.props
 
 const acknowledgmentsCollection = await getCollection(
 	'acknowledgments',
-	(f) => scope === 'all' || f.id === `acknowledgments-${scope}`
-);
+	(f) => scope === 'all' || f.id === `acknowledgments-${scope}`,
+)
 
 // Each collection entry
 const data = acknowledgmentsCollection.reduce<LicenseEntry[]>(
 	(acc, collection) => [...acc, ...Object.values(collection.data).flat()],
-	[]
-);
+	[],
+)
 
 // Get unique list of publisher names
 const names = data
@@ -58,14 +58,14 @@ const names = data
 		if (author) {
 			// Split compound comma-delimited publishers as needed
 			for (const subItem of author.split(/\s*(?:\sand\s|,|&)\s*/)) {
-				const subPublisher = titleCase(stopShouting(stripQuotes(getNameFromEmail(subItem.trim()))));
+				const subPublisher = titleCase(stopShouting(stripQuotes(getNameFromEmail(subItem.trim()))))
 				if (subPublisher && !acc.includes(subPublisher)) {
-					acc.push(subPublisher);
+					acc.push(subPublisher)
 				}
 			}
 		}
 
-		return acc;
+		return acc
 	}, [])
 	// Exclude me and some other vague things
 	.filter((name) => !['contributors', 'eric mika', 'inc.', 'llc'].includes(name.toLowerCase()))
@@ -73,22 +73,22 @@ const names = data
 	.filter((name) => !/[\p{Emoji}]/u.test(name))
 	// Filter out case-insensitive duplicates, but keep the version with the most capitalization
 	.filter((name, index, array) => {
-		const lower = name.toLowerCase();
-		const matchIndex = array.findIndex((n) => n.toLowerCase() === lower);
-		return matchIndex === index;
+		const lower = name.toLowerCase()
+		const matchIndex = array.findIndex((n) => n.toLowerCase() === lower)
+		return matchIndex === index
 	})
 	// Remove duplicate names like Microsoft, Microsoft Corp., Microsoft Corporation, keep the one without the Corp or Corporation suffix
 	.filter((name, index, array) => {
-		const lower = name.toLowerCase();
+		const lower = name.toLowerCase()
 		const matchIndex = array.findIndex(
-			(n) => n.toLowerCase().replace(/(corp\.|corporation|inc\.)$/, '') === lower
-		);
-		return matchIndex === index;
+			(n) => n.toLowerCase().replace(/(corp\.|corporation|inc\.)$/, '') === lower,
+		)
+		return matchIndex === index
 	})
 	// Don't break names
 	.map((n) => n.replace(/ /, '\u00A0'))
 	// Sort by last name
-	.sort((a, b) => a.localeCompare(b));
+	.sort((a, b) => a.localeCompare(b))
 ---
 
 {names.length > 0 && names.join(', ')}

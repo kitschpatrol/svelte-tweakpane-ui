@@ -1,6 +1,6 @@
 <script lang="ts">
 	// https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/10
-	import { AutoObject } from '$lib';
+	import { AutoObject } from '$lib'
 
 	let object = {
 		aFolder: {
@@ -8,11 +8,11 @@
 			bFolder: {
 				bSetting: 0,
 				cFolder: {
-					cSetting: 0
-				}
-			}
-		}
-	};
+					cSetting: 0,
+				},
+			},
+		},
+	}
 </script>
 
 <AutoObject bind:object />

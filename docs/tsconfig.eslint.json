@@ -1,19 +1,19 @@
 {
-  "compilerOptions": {
-    "noEmit": true,
-    "allowJs": true
-  },
-  "extends": "./tsconfig.json",
-  "include": [
-    "**/**.js",
-    "**/**.ts",
-    "**/**.svelte",
-    "**/**.astro",
-    "**/**.cjs",
-    "**/**.mjs",
-    "**/**.cts",
-    "**/**.mts",
-    "**/**.jsx",
-    "**/**.tsx"
-  ]
+	"compilerOptions": {
+		"noEmit": true,
+		"allowJs": true
+	},
+	"extends": "./tsconfig.json",
+	"include": [
+		"**/**.js",
+		"**/**.ts",
+		"**/**.svelte",
+		"**/**.astro",
+		"**/**.cjs",
+		"**/**.mjs",
+		"**/**.cts",
+		"**/**.mts",
+		"**/**.jsx",
+		"**/**.tsx"
+	]
 }

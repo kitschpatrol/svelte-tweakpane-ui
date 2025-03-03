@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { BladeOptions, BladeRef } from '$lib/core/Blade.svelte';
-	import type { ComponentProps } from 'svelte';
-	import Blade from '$lib/core/Blade.svelte';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import { BROWSER } from 'esm-env';
+	import type { BladeOptions, BladeRef } from '$lib/core/Blade.svelte'
+	import type { ComponentProps } from 'svelte'
+	import Blade from '$lib/core/Blade.svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { BROWSER } from 'esm-env'
 
 	// TODO more specific escape that just removes tweakpane css? TODO maybe expose scrollable prop?
 	// TODO sanitize?
@@ -21,46 +21,43 @@
 		 * @default `undefined`  \
 		 * No max height.
 		 */
-		maxHeight?: number;
+		maxHeight?: number
 		/**
 		 * Whether to reset the CSS of the element block to its default values.
 		 * Avoids inheritance of Tweakpane's CSS styles. Note that this uses a
 		 * simple `all: initial;` rule.
 		 * @default `true`
 		 */
-		resetStyle?: boolean;
-	} & Omit<
-		ComponentProps<Blade<BladeOptions, BladeRef>>,
-		'disabled' | 'options' | 'plugin' | 'ref'
-	>;
+		resetStyle?: boolean
+	} & Omit<ComponentProps<Blade<BladeOptions, BladeRef>>, 'disabled' | 'options' | 'plugin' | 'ref'>
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {
 		/**
 		 * Any HTML Element.
 		 */
-		default: {};
-	};
+		default: {}
+	}
 
-	export let maxHeight: $$Props['maxHeight'] = undefined;
-	export let resetStyle: $$Props['resetStyle'] = true;
+	export let maxHeight: $$Props['maxHeight'] = undefined
+	export let resetStyle: $$Props['resetStyle'] = true
 
 	// Pretend we're a separator blade seems to require a view the <hr> is
 	// replaced immediately with the slot contents. proper way to do this would be
 	// an actual tweakpane plugin.
 	const options: BladeOptions = {
-		view: 'separator'
-	};
+		view: 'separator',
+	}
 
-	let ref: BladeRef;
-	let sourceDiv: HTMLDivElement;
+	let ref: BladeRef
+	let sourceDiv: HTMLDivElement
 
 	// Hoist the slot into the blade
 	// Note the skip-element-index on the sourceDiv which ensures
 	// consistent ordering inside tab groups when getElementIndex()
 	// is called. This is necessary to fix the bug identified in
 	// https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/18
-	$: ref?.element.replaceChildren(sourceDiv);
+	$: ref?.element.replaceChildren(sourceDiv)
 </script>
 
 <!--

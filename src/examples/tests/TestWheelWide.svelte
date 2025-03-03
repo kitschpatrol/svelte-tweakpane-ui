@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Checkbox, Wheel } from '$lib';
+	import { Checkbox, Wheel } from '$lib'
 
-	let value = 0;
-	let wide = false;
+	let value = 0
+	let wide = false
 </script>
 
 <Wheel bind:value label="Wheel 1" {wide} />

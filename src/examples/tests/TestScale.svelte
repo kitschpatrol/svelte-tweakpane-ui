@@ -1,24 +1,24 @@
 <script lang="ts">
-	import { CubicBezier, FpsGraph, Monitor, Pane, Ring, Slider, Wheel } from '$lib';
-	import { onMount } from 'svelte';
+	import { CubicBezier, FpsGraph, Monitor, Pane, Ring, Slider, Wheel } from '$lib'
+	import { onMount } from 'svelte'
 
-	let time = 0;
+	let time = 0
 
 	onMount(() => {
 		function tick() {
-			time = Date.now() / 1000;
-			requestAnimationFrame(tick);
+			time = Date.now() / 1000
+			requestAnimationFrame(tick)
 		}
 
-		requestAnimationFrame(tick);
-	});
+		requestAnimationFrame(tick)
+	})
 
-	$: wave = Math.sin(time * 5);
-	let width = 360;
-	let scale1 = 1;
-	let scale2 = 2;
-	$: width1 = width * scale1;
-	$: width2 = width * scale2;
+	$: wave = Math.sin(time * 5)
+	let width = 360
+	let scale1 = 1
+	let scale2 = 2
+	$: width1 = width * scale1
+	$: width2 = width * scale2
 </script>
 
 <Pane position="inline" scale={scale1} title={`Tweakpane Scale Test`} width={width1}>

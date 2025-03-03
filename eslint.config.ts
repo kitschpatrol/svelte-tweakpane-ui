@@ -1,23 +1,18 @@
 import { eslintConfig } from '@kitschpatrol/eslint-config'
 
 export default eslintConfig({
+	ignores: [
+		// generated kit files
+		'src/examples/components/*',
 
+		// generated doc files
+		'docs/src/content/docs/docs/components/*',
+		'docs/src/content/acknowledgments/*',
+		'docs/src/examples/*',
 
-
-ignores:	[// generated kit files
-	'src/examples/components/*',
-	
-	// generated doc files
-	'docs/src/content/docs/docs/components/*',
-	'docs/src/content/acknowledgments/*',
-	'docs/src/examples/*',
-	
-	// svelte-5 test project
-	'svelte-5/src/*'],
-
-
-
-
+		// svelte-5 test project
+		'svelte-5/src/*',
+	],
 
 	svelte: true,
 	type: 'lib',

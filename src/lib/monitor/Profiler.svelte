@@ -1,29 +1,29 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils';
-	import type { ProfilerBladeMeasureHandler } from '@kitschpatrol/tweakpane-plugin-profiler';
+	import type { Simplify } from '$lib/utils'
+	import type { ProfilerBladeMeasureHandler } from '@kitschpatrol/tweakpane-plugin-profiler'
 
-	export type ProfilerCalcMode = 'frame' | 'mean' | 'median';
-	export type ProfilerMeasure = (name: string, functionToMeasure: () => void) => void;
+	export type ProfilerCalcMode = 'frame' | 'mean' | 'median'
+	export type ProfilerMeasure = (name: string, functionToMeasure: () => void) => void
 	export type ProfilerMeasureAsync = (
 		name: string,
-		functionToMeasure: () => Promise<void>
-	) => Promise<void>;
-	export type ProfilerMeasureHandler = Simplify<ProfilerBladeMeasureHandler>;
+		functionToMeasure: () => Promise<void>,
+	) => Promise<void>
+	export type ProfilerMeasureHandler = Simplify<ProfilerBladeMeasureHandler>
 
 	// TODO for next breaking change: Inherit from ValueChangeEvent instead
-	export type ProfilerChangeEvent = CustomEvent<number>;
+	export type ProfilerChangeEvent = CustomEvent<number>
 </script>
 
 <script lang="ts">
-	import type { UnwrapCustomEvents } from '$lib/utils';
-	import type { ProfilerBladeApi as ProfilerRef } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerBladeApi.js';
-	import type { ProfilerBladePluginParams as ProfilerOptions } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js';
-	import Blade from '$lib/core/Blade.svelte';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import { fillWith } from '$lib/utils';
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-profiler';
-	import { BROWSER } from 'esm-env';
-	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte';
+	import type { UnwrapCustomEvents } from '$lib/utils'
+	import type { ProfilerBladeApi as ProfilerRef } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerBladeApi.js'
+	import type { ProfilerBladePluginParams as ProfilerOptions } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js'
+	import Blade from '$lib/core/Blade.svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { fillWith } from '$lib/utils'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-profiler'
+	import { BROWSER } from 'esm-env'
+	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte'
 
 	type $$Props = {
 		/**
@@ -31,7 +31,7 @@
 		 * `'mean'` or `'median'`.
 		 * @default `30`
 		 */
-		bufferSize?: number;
+		bufferSize?: number
 		/**
 		 * How to calculate the delta value.
 		 *
@@ -39,7 +39,7 @@
 		 * calculated from the samples in the buffer.
 		 * @default `'mean'`
 		 */
-		calcMode?: ProfilerCalcMode;
+		calcMode?: ProfilerCalcMode
 		/**
 		 * Label suffix for the delta values shown in the control.
 		 *
@@ -47,12 +47,12 @@
 		 * measuring something other than time.
 		 * @default `'ms'`
 		 * */
-		deltaUnit?: string;
+		deltaUnit?: string
 		/**
 		 * Precision of the delta values shown in the control.
 		 * @default `2`
 		 */
-		fractionDigits?: number;
+		fractionDigits?: number
 		/**
 		 * Milliseconds between updates to the profiler visualization and delta label text.
 		 *
@@ -60,12 +60,12 @@
 		 * is determined by your calls to the bound `measure` function.
 		 * @default `500`
 		 */
-		interval?: number;
+		interval?: number
 		/**
 		 * Text displayed next to the profiler visualization.
 		 * @default `undefined`
 		 * */
-		label?: string;
+		label?: string
 		/**
 		 * Function handle that wraps another function to measure its execution duration.
 		 *
@@ -78,7 +78,7 @@
 		 * @readonly
 		 * @default `undefined`
 		 */
-		measure?: ProfilerMeasure;
+		measure?: ProfilerMeasure
 		/**
 		 * Async variation of function handle that wraps another function to measure its execution
 		 * duration.
@@ -90,7 +90,7 @@
 		 * @readonly
 		 * @default `undefined`
 		 */
-		measureAsync?: ProfilerMeasureAsync;
+		measureAsync?: ProfilerMeasureAsync
 		/**
 		 * Function wrapping the `measure` function.
 		 *
@@ -98,46 +98,46 @@
 		 * @default [`new
 		 * ProfilerBladeDefaultMeasureHandler()`](https://github.com/kitschpatrol/tweakpane-plugin-profiler/blob/dev/src/ProfilerBladeDefaultMeasureHandler.ts)
 		 */
-		measureHandler?: ProfilerMeasureHandler;
+		measureHandler?: ProfilerMeasureHandler
 		/**
 		 * Determines the horizontal scale and color mapping of the profiler visualization bars.
 		 * @default `16.67`  \
 		 * 60fps.
 		 */
-		targetDelta?: number;
-	} & Omit<ComponentProps<Blade<ProfilerOptions, ProfilerRef>>, 'options' | 'plugin' | 'ref'>;
+		targetDelta?: number
+	} & Omit<ComponentProps<Blade<ProfilerOptions, ProfilerRef>>, 'options' | 'plugin' | 'ref'>
 
 	// Exporting a const function might be cleaner, but less expected by the user?
 	function _measure(name: string, functionToMeasure: () => void): void {
-		profilerBlade?.measure(name, functionToMeasure);
+		profilerBlade?.measure(name, functionToMeasure)
 	}
 
 	async function _measureAsync(
 		name: string,
-		functionToMeasure: () => Promise<void>
+		functionToMeasure: () => Promise<void>,
 	): Promise<void> {
 		// TODO should be void instead of await?
-		await profilerBlade?.measureAsync(name, functionToMeasure);
+		await profilerBlade?.measureAsync(name, functionToMeasure)
 	}
 
 	// Unique
-	export let label: $$Props['label'] = undefined;
-	export let bufferSize: $$Props['bufferSize'] = undefined;
-	export let calcMode: $$Props['calcMode'] = undefined;
-	export let deltaUnit: $$Props['deltaUnit'] = undefined;
-	export let fractionDigits: $$Props['fractionDigits'] = undefined;
-	export let measureHandler: $$Props['measureHandler'] = undefined;
-	export const measure: $$Props['measure'] = _measure;
-	export const measureAsync: $$Props['measureAsync'] = _measureAsync;
-	export let interval: $$Props['interval'] = undefined;
-	export let targetDelta: $$Props['targetDelta'] = undefined;
+	export let label: $$Props['label'] = undefined
+	export let bufferSize: $$Props['bufferSize'] = undefined
+	export let calcMode: $$Props['calcMode'] = undefined
+	export let deltaUnit: $$Props['deltaUnit'] = undefined
+	export let fractionDigits: $$Props['fractionDigits'] = undefined
+	export let measureHandler: $$Props['measureHandler'] = undefined
+	export const measure: $$Props['measure'] = _measure
+	export const measureAsync: $$Props['measureAsync'] = _measureAsync
+	export let interval: $$Props['interval'] = undefined
+	export let targetDelta: $$Props['targetDelta'] = undefined
 
 	// $: _measure = measure;
 
-	let profilerBlade: ProfilerRef;
-	let options: ProfilerOptions;
+	let profilerBlade: ProfilerRef
+	let options: ProfilerOptions
 
-	let observer: MutationObserver | undefined = undefined;
+	let observer: MutationObserver | undefined = undefined
 
 	// Seems to be the only way to get event comments to work
 	type $$Events = {
@@ -148,47 +148,47 @@
 		 * `event.detail` parameter.
 		 * @event
 		 * */
-		change: ProfilerChangeEvent;
-	};
+		change: ProfilerChangeEvent
+	}
 
-	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
+	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	onDestroy(() => {
-		stopObservingMeasuredValue();
-	});
+		stopObservingMeasuredValue()
+	})
 
 	// Observe and update the measured profiler value from the dom This is is kind of crazy, TBD
 	// better way to get this data from the profiler blade
 	function startObservingMeasuredValue() {
 		// Clean up if needed
-		stopObservingMeasuredValue();
-		const targetNode = profilerBlade.controller.view.valueElement;
-		if (!targetNode?.innerHTML) return;
+		stopObservingMeasuredValue()
+		const targetNode = profilerBlade.controller.view.valueElement
+		if (!targetNode?.innerHTML) return
 
 		observer = new MutationObserver((mutations) => {
 			for (const mutation of mutations) {
 				if (mutation.type === 'characterData' || mutation.type === 'childList') {
 					// Parse float ignore the deltaUnit suffix
-					const fpsText = (mutation.target as HTMLElement).textContent;
+					const fpsText = (mutation.target as HTMLElement).textContent
 					if (fpsText !== null) {
-						const delta = Number.parseFloat(fpsText);
-						!Number.isNaN(delta) && dispatch('change', delta);
+						const delta = Number.parseFloat(fpsText)
+						!Number.isNaN(delta) && dispatch('change', delta)
 					}
 				}
 			}
-		});
+		})
 
-		observer.observe(targetNode, { characterData: true, childList: true, subtree: true });
+		observer.observe(targetNode, { characterData: true, childList: true, subtree: true })
 	}
 
 	function stopObservingMeasuredValue() {
 		if (observer) {
-			observer.disconnect();
-			observer = undefined;
+			observer.disconnect()
+			observer = undefined
 		}
 	}
 
-	$: profilerBlade && startObservingMeasuredValue();
+	$: profilerBlade && startObservingMeasuredValue()
 
 	// TODO... getting false alarms on this $: DEV && enforceReadonly(_measure, measure, 'Profiler',
 	// 'measure', true); $: DEV && enforceReadonly(_measureAsync, measureAsync, 'Profiler',
@@ -203,8 +203,8 @@
 		label,
 		measureHandler,
 		targetDelta,
-		view: 'profiler'
-	};
+		view: 'profiler',
+	}
 </script>
 
 <!--

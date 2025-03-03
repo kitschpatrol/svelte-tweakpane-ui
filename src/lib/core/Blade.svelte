@@ -1,37 +1,37 @@
 <script context="module" lang="ts">
-	import type { BaseBladeParams, BladeApi } from 'tweakpane';
-	export type BladeRef = BladeApi; // Required for input folding
-	export type BladeOptions = BaseBladeParams;
-	export type { Plugin } from '$lib/utils.js';
+	import type { BaseBladeParams, BladeApi } from 'tweakpane'
+	export type BladeRef = BladeApi // Required for input folding
+	export type BladeOptions = BaseBladeParams
+	export type { Plugin } from '$lib/utils.js'
 </script>
 
 <script generics="U extends BladeOptions, V extends BladeRef" lang="ts">
-	import type { Theme } from '$lib/theme.js';
-	import type { Writable } from 'svelte/store';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
+	import type { Theme } from '$lib/theme.js'
+	import type { Writable } from 'svelte/store'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
 	import {
 		type Container,
 		enforceReadonly,
 		getElementIndex,
 		isRootPane,
-		type Plugin
-	} from '$lib/utils.js';
-	import { BROWSER, DEV } from 'esm-env';
-	import { getContext, onDestroy, onMount } from 'svelte';
+		type Plugin,
+	} from '$lib/utils.js'
+	import { BROWSER, DEV } from 'esm-env'
+	import { getContext, onDestroy, onMount } from 'svelte'
 
 	/**
 	 * Blade configuration exposing Tweakpane's internal
 	 * [`BladeParams`](https://tweakpane.github.io/docs/api/interfaces/BaseBladeParams.html).
 	 *
 	 * */
-	export let options: U;
+	export let options: U
 
 	/**
 	 * Prevent interactivity and gray out the control.
 	 * @default `false`
 	 * */
-	export let disabled: boolean = false;
+	export let disabled: boolean = false
 
 	/**
 	 * Custom color scheme.
@@ -39,7 +39,7 @@
 	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
 	 * set with `setGlobalDefaultTheme()`.
 	 * */
-	export let theme: Theme | undefined = undefined;
+	export let theme: Theme | undefined = undefined
 
 	/**
 	 * Reference to internal Tweakpane
@@ -53,7 +53,7 @@
 	 * @bindable
 	 * @readonly
 	 * */
-	export let ref: undefined | V = undefined;
+	export let ref: undefined | V = undefined
 
 	/**
 	 * Imported Tweakpane `TpPluginBundle` (aliased as `Plugin`) module to automatically register in
@@ -66,54 +66,54 @@
 	 *
 	 * @default `undefined`
 	 * */
-	export let plugin: Plugin | undefined = undefined;
+	export let plugin: Plugin | undefined = undefined
 
-	const registerPlugin = getContext<(plugin: Plugin) => void>('registerPlugin');
-	const parentStore: Writable<Container> = getContext('parentStore');
-	const userCreatedPane = getContext('userCreatedPane');
+	const registerPlugin = getContext<(plugin: Plugin) => void>('registerPlugin')
+	const parentStore: Writable<Container> = getContext('parentStore')
+	const userCreatedPane = getContext('userCreatedPane')
 
-	let indexElement: HTMLDivElement;
-	let index: number;
-	let _ref: V; // Readonly shadow
+	let indexElement: HTMLDivElement
+	let index: number
+	let _ref: V // Readonly shadow
 
 	function create() {
 		// Must destroy to allow reactive parameters
-		if (_ref) _ref.dispose();
+		if (_ref) _ref.dispose()
 
 		if (plugin !== undefined) {
 			// Calls function provided by context on the containing pane
-			registerPlugin(plugin);
+			registerPlugin(plugin)
 		}
 
 		// Last one wins
 		_ref = $parentStore.addBlade({
 			index,
 			...options,
-			disabled // Why last?
-		}) as V; // Cast is required by Tweakpane's design
+			disabled, // Why last?
+		}) as V // Cast is required by Tweakpane's design
 
-		ref = _ref;
+		ref = _ref
 	}
 
 	onMount(() => {
-		index = indexElement ? getElementIndex(indexElement) : 0;
-	});
+		index = indexElement ? getElementIndex(indexElement) : 0
+	})
 
 	onDestroy(() => {
-		_ref?.dispose();
-	});
+		_ref?.dispose()
+	})
 
 	// Readonly props
-	$: DEV && enforceReadonly(_ref, ref, 'Blade', 'ref', true);
+	$: DEV && enforceReadonly(_ref, ref, 'Blade', 'ref', true)
 
-	$: options && $parentStore && index !== undefined && create();
-	$: _ref && (_ref.disabled = disabled);
+	$: options && $parentStore && index !== undefined && create()
+	$: _ref && (_ref.disabled = disabled)
 	$: theme &&
 		$parentStore &&
 		(userCreatedPane || !isRootPane($parentStore)) &&
 		console.warn(
-			'Set theme on the <Pane> component, not on its children! (Check nested <Blade> components for a theme prop.)'
-		);
+			'Set theme on the <Pane> component, not on its children! (Check nested <Blade> components for a theme prop.)',
+		)
 </script>
 
 <!--

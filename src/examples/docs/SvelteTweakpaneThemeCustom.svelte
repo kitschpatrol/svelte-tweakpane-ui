@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, type Theme } from '$lib';
+	import { Button, type Theme } from '$lib'
 
 	const customTheme: Theme = {
 		baseBackgroundColor: 'hsl(230, 70%, 27%)',
@@ -32,8 +32,8 @@
 		labelForegroundColor: 'rgba(187, 188, 196, 0.7)',
 		monitorBackgroundColor: 'rgba(0, 0, 0, 0.2)',
 		monitorForegroundColor: 'rgba(187, 188, 196, 0.7)',
-		pluginImageDraggingColor: 'hsla(230, 100%, 66%, 1)'
-	};
+		pluginImageDraggingColor: 'hsla(230, 100%, 66%, 1)',
+	}
 </script>
 
 <Button label="I'm custom" theme={customTheme} />

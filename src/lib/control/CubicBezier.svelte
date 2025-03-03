@@ -1,17 +1,17 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils';
-	import type { ValueChangeEvent } from '$lib/utils.js';
+	import type { Simplify } from '$lib/utils'
+	import type { ValueChangeEvent } from '$lib/utils.js'
 
 	export type CubicBezierValueObject = {
-		x1: number;
-		y1: number;
-		x2: number;
-		y2: number;
-	};
-	export type CubicBezierValueTuple = [x1: number, y1: number, x2: number, y2: number];
-	export type CubicBezierValue = Simplify<CubicBezierValueObject | CubicBezierValueTuple>;
+		x1: number
+		y1: number
+		x2: number
+		y2: number
+	}
+	export type CubicBezierValueTuple = [x1: number, y1: number, x2: number, y2: number]
+	export type CubicBezierValue = Simplify<CubicBezierValueObject | CubicBezierValueTuple>
 
-	export type CubicBezierChangeEvent = ValueChangeEvent<CubicBezierValue>;
+	export type CubicBezierChangeEvent = ValueChangeEvent<CubicBezierValue>
 </script>
 
 <script lang="ts">
@@ -24,17 +24,17 @@
   */
 
 	// TODO calc util already in TP?
-	import type { CubicBezierApi as CubicBezierRef } from '@kitschpatrol/tweakpane-plugin-essentials';
-	import type { CubicBezierBladeParams as CubicBezierOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/cubic-bezier/plugin.d.ts';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import GenericBladeFolding from '$lib/internal/GenericBladeFolding.svelte';
-	import { fillWith, type UnwrapCustomEvents } from '$lib/utils';
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials';
-	import { CubicBezier } from '@kitschpatrol/tweakpane-plugin-essentials';
-	import { BROWSER } from 'esm-env';
-	import copy from 'fast-copy';
-	import { shallowEqual } from 'fast-equals';
-	import { type ComponentProps, createEventDispatcher } from 'svelte';
+	import type { CubicBezierApi as CubicBezierRef } from '@kitschpatrol/tweakpane-plugin-essentials'
+	import type { CubicBezierBladeParams as CubicBezierOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/cubic-bezier/plugin.d.ts'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericBladeFolding from '$lib/internal/GenericBladeFolding.svelte'
+	import { fillWith, type UnwrapCustomEvents } from '$lib/utils'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
+	import { CubicBezier } from '@kitschpatrol/tweakpane-plugin-essentials'
+	import { BROWSER } from 'esm-env'
+	import copy from 'fast-copy'
+	import { shallowEqual } from 'fast-equals'
+	import { type ComponentProps, createEventDispatcher } from 'svelte'
 
 	type $$Props = {
 		/**
@@ -44,21 +44,21 @@
 		 * original `@tweakpane/plugin-essentials` API.
 		 * @bindable
 		 */
-		value: CubicBezierValue;
+		value: CubicBezierValue
 		/**
 		 * Text displayed next to the control.
 		 * @default `undefined`
 		 * */
-		label?: string;
+		label?: string
 	} & Omit<
 		ComponentProps<GenericBladeFolding<CubicBezierOptions, CubicBezierRef>>,
 		'buttonClass' | 'options' | 'plugin' | 'ref'
-	>;
+	>
 
 	// Reexport for bindability
-	export let value: $$Props['value'];
-	export let label: $$Props['label'] = undefined;
-	export let expanded: $$Props['expanded'] = undefined;
+	export let value: $$Props['value']
+	export let label: $$Props['label'] = undefined
+	export let expanded: $$Props['expanded'] = undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	type $$Events = {
@@ -73,20 +73,20 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: CubicBezierChangeEvent;
-	};
+		change: CubicBezierChangeEvent
+	}
 
-	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
+	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
-	let options: CubicBezierOptions;
-	let cubicBezierBlade: CubicBezierRef;
+	let options: CubicBezierOptions
+	let cubicBezierBlade: CubicBezierRef
 
 	// Work-around for funky folding
-	const buttonClass = 'tp-cbzv_b';
+	const buttonClass = 'tp-cbzv_b'
 
 	// Object to array if needed
 	function getValue(): CubicBezierOptions['value'] {
-		return Array.isArray(value) ? value : [value.x1, value.y1, value.x2, value.y2];
+		return Array.isArray(value) ? value : [value.x1, value.y1, value.x2, value.y2]
 	}
 
 	function setValue() {
@@ -95,18 +95,18 @@
 				cubicBezierBlade.value.x1,
 				cubicBezierBlade.value.y1,
 				cubicBezierBlade.value.x2,
-				cubicBezierBlade.value.y2
+				cubicBezierBlade.value.y2,
 			])
 		) {
 			// CubicBezier is a blade, not a binding, so state must be synced manually
 			cubicBezierBlade.value = Array.isArray(value)
 				? new CubicBezier(value[0], value[1], value[2], value[3])
-				: new CubicBezier(value.x1, value.y1, value.x2, value.y2);
+				: new CubicBezier(value.x1, value.y1, value.x2, value.y2)
 
 			dispatch('change', {
 				value: copy(value),
-				origin: 'external'
-			});
+				origin: 'external',
+			})
 		}
 	}
 
@@ -121,24 +121,24 @@
 							x1: event.value.x1,
 							y1: event.value.y1,
 							x2: event.value.x2,
-							y2: event.value.y2
-						};
+							y2: event.value.y2,
+						}
 
 				dispatch('change', {
 					value: copy(value),
-					origin: 'internal'
-				});
+					origin: 'internal',
+				})
 			}
-		});
+		})
 	}
 
 	$: options = {
 		value: getValue(),
 		label,
-		view: 'cubicbezier'
-	};
-	$: cubicBezierBlade && addEvent();
-	$: value, cubicBezierBlade && setValue();
+		view: 'cubicbezier',
+	}
+	$: cubicBezierBlade && addEvent()
+	$: value, cubicBezierBlade && setValue()
 </script>
 
 <!--

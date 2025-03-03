@@ -1,14 +1,14 @@
 <script context="module" lang="ts">
-	import type { NumberMonitorParams } from '@tweakpane/core';
-	export type InternalMonitorNumberOptions = NumberMonitorParams;
+	import type { NumberMonitorParams } from '@tweakpane/core'
+	export type InternalMonitorNumberOptions = NumberMonitorParams
 </script>
 
 <script lang="ts">
-	import type { ComponentProps } from 'svelte';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
-	import { fillWith, rowsForMonitor } from '$lib/utils.js';
-	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericMonitor from '$lib/internal/GenericMonitor.svelte'
+	import { fillWith, rowsForMonitor } from '$lib/utils.js'
+	import { BROWSER } from 'esm-env'
 
 	// Multi-file structure is legacy of previous non-dynamic component approach TODO consolidate
 	// eventually if dynamic components prove reliable
@@ -17,57 +17,57 @@
 		/**
 		 * A `number` value to monitor.
 		 * */
-		value: number;
+		value: number
 		/**
 		 * Minimum bound when `graph` is true.
 		 * @default `0`
 		 */
-		min?: number;
+		min?: number
 		/**
 		 * Maximum bound when `graph` is true.
 		 * @default `100`
 		 * */
-		max?: number;
+		max?: number
 		/**
 		 * A function to customize the number's string representation (e.g. rounding, etc.).
 		 * @default `undefined`  \
 		 * Normal `.toString()` formatting.
 		 * */
-		format?: (value: number) => string;
+		format?: (value: number) => string
 		/**
 		 * Display a graph of the value's changes over time.
 		 * @default `false`
 		 * */
-		graph?: boolean;
+		graph?: boolean
 	} & Omit<
 		ComponentProps<GenericMonitor<number, InternalMonitorNumberOptions>>,
 		'options' | 'plugin' | 'ref'
-	>;
+	>
 
 	// Redeclare for bindability
-	export let value: $$Props['value'];
+	export let value: $$Props['value']
 
 	// Unique
-	export let graph: $$Props['graph'] = undefined;
-	export let format: $$Props['format'] = undefined;
-	export let max: $$Props['max'] = undefined;
-	export let min: $$Props['min'] = undefined;
+	export let graph: $$Props['graph'] = undefined
+	export let format: $$Props['format'] = undefined
+	export let max: $$Props['max'] = undefined
+	export let min: $$Props['min'] = undefined
 
-	let options: InternalMonitorNumberOptions;
+	let options: InternalMonitorNumberOptions
 
 	// Deal with format firing a change firing even when the function hasn't changed probably
 	// related to https://github.com/sveltejs/svelte/issues/4265 possibly fixable with
 	// immutable=true but I don't want to go there TODO evaluate other non-primitive prop access
-	let formatProxy: typeof format = format;
+	let formatProxy: typeof format = format
 
-	$: formatProxy !== format && (formatProxy = format);
+	$: formatProxy !== format && (formatProxy = format)
 	$: options = {
 		min,
 		max,
 		format: formatProxy,
 		readonly: true,
-		view: graph ? 'graph' : undefined
-	};
+		view: graph ? 'graph' : undefined,
+	}
 </script>
 
 <!--

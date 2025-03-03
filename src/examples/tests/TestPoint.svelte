@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { Point, type PointChangeEvent, type PointValue2d } from '$lib';
+	import { Point, type PointChangeEvent, type PointValue2d } from '$lib'
 
-	let point2d: PointValue2d = { x: 0, y: 0 };
+	let point2d: PointValue2d = { x: 0, y: 0 }
 
-	let binding1InternalEventCount = 0;
-	let binding1ExternalEventCount = 0;
-	let binding2InternalEventCount = 0;
-	let binding2ExternalEventCount = 0;
+	let binding1InternalEventCount = 0
+	let binding1ExternalEventCount = 0
+	let binding2InternalEventCount = 0
+	let binding2ExternalEventCount = 0
 
 	function listener(event: PointChangeEvent) {
-		console.log(event);
+		console.log(event)
 	}
 </script>
 
@@ -18,9 +18,9 @@
 	on:change={listener}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding1InternalEventCount++;
+			binding1InternalEventCount++
 		} else {
-			binding1ExternalEventCount++;
+			binding1ExternalEventCount++
 		}
 	}}
 	expanded={true}
@@ -32,9 +32,9 @@
 	bind:value={point2d}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding2InternalEventCount++;
+			binding2InternalEventCount++
 		} else {
-			binding2ExternalEventCount++;
+			binding2ExternalEventCount++
 		}
 	}}
 	expanded={true}

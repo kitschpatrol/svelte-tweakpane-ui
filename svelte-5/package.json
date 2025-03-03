@@ -1,31 +1,31 @@
 {
-  "name": "svelte-tweakpane-ui-svelte-5-test",
-  "version": "1.0.0",
-  "type": "module",
-  "description": "Test project to evaluate Svelte Tweakpane UI in Svelte 5.",
-  "license": "MIT",
-  "private": true,
-  "engines": {
-    "node": ">=18.0.0",
-    "pnpm": ">=8.0.0"
-  },
-  "scripts": {
-    "build": "pnpm copy && vite build",
-    "check": "pnpm copy && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "copy": "rm -rf ./src && cp -r ../src ./src",
-    "dev": "pnpm copy && vite dev",
-    "preview": "vite preview"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "@sveltejs/adapter-auto": "^3.3.1",
-    "@sveltejs/kit": "^2.17.3",
-    "@sveltejs/vite-plugin-svelte": "^4.0.4",
-    "glob": "^11.0.1",
-    "svelte": "^5.20.5",
-    "svelte-check": "^4.1.4",
-    "svelte-tweakpane-ui": "link:..",
-    "typescript": "~5.6.3",
-    "vite": "^5.4.14"
-  }
+	"name": "svelte-tweakpane-ui-svelte-5-test",
+	"version": "1.0.0",
+	"private": true,
+	"description": "Test project to evaluate Svelte Tweakpane UI in Svelte 5.",
+	"license": "MIT",
+	"type": "module",
+	"scripts": {
+		"build": "pnpm copy && vite build",
+		"check": "pnpm copy && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"copy": "rm -rf ./src && cp -r ../src ./src",
+		"dev": "pnpm copy && vite dev",
+		"preview": "vite preview"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^3.3.1",
+		"@sveltejs/kit": "^2.17.3",
+		"@sveltejs/vite-plugin-svelte": "^4.0.4",
+		"glob": "^11.0.1",
+		"svelte": "^5.20.5",
+		"svelte-check": "^4.1.4",
+		"svelte-tweakpane-ui": "link:..",
+		"typescript": "~5.6.3",
+		"vite": "^5.4.14"
+	},
+	"engines": {
+		"node": ">=18.0.0",
+		"pnpm": ">=8.0.0"
+	}
 }

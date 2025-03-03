@@ -1,7 +1,8 @@
 import { remarkConfig } from '@kitschpatrol/remark-config'
 
 export default remarkConfig({
-  rules:  [
+	rules: [
 		['remark-lint-first-heading-level', false],
-		['remarkValidateLinks', false]]
+		['remarkValidateLinks', false],
+	],
 })

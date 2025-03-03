@@ -1,30 +1,30 @@
 <script context="module" lang="ts">
 	export type ButtonGridClickEvent = CustomEvent<{
 		cell: {
-			x: number;
-			y: number;
-		};
-		index: number;
-		label: string;
-	}>;
+			x: number
+			y: number
+		}
+		index: number
+		label: string
+	}>
 </script>
 
 <script lang="ts">
-	import type { ButtonGridApi as ButtonGridRef } from '@kitschpatrol/tweakpane-plugin-essentials';
-	import type { ButtonGridBladeParams as ButtonGridOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/button-grid/plugin.d.ts';
-	import Blade from '$lib/core/Blade.svelte';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import { fillWith } from '$lib/utils';
-	import { getGridDimensions, type UnwrapCustomEvents } from '$lib/utils.js';
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials';
-	import { BROWSER } from 'esm-env';
-	import { type ComponentProps, createEventDispatcher } from 'svelte';
+	import type { ButtonGridApi as ButtonGridRef } from '@kitschpatrol/tweakpane-plugin-essentials'
+	import type { ButtonGridBladeParams as ButtonGridOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/button-grid/plugin.d.ts'
+	import Blade from '$lib/core/Blade.svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { fillWith } from '$lib/utils'
+	import { getGridDimensions, type UnwrapCustomEvents } from '$lib/utils.js'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
+	import { BROWSER } from 'esm-env'
+	import { type ComponentProps, createEventDispatcher } from 'svelte'
 
 	type $$Props = {
 		/**
 		 * Array of names, each of which will become the title of a button in the grid.
 		 * */
-		buttons: string[];
+		buttons: string[]
 		/**
 		 * Number of columns to arrange the buttons into.
 		 *
@@ -33,12 +33,12 @@
 		 * @default `undefined`  \
 		 * Dynamic based on quantity of `buttons`.
 		 * */
-		columns?: number;
+		columns?: number
 		/**
 		 * Text displayed next to the button grid.
 		 * @default `undefined`
 		 */
-		label?: string;
+		label?: string
 		/**
 		 * Number of rows to arrange the buttons into.
 		 *
@@ -47,14 +47,14 @@
 		 * @default `undefined`  \
 		 * Dynamic based on quantity of `buttons`.
 		 * */
-		rows?: number;
-	} & Omit<ComponentProps<Blade<ButtonGridOptions, ButtonGridRef>>, 'options' | 'plugin' | 'ref'>;
+		rows?: number
+	} & Omit<ComponentProps<Blade<ButtonGridOptions, ButtonGridRef>>, 'options' | 'plugin' | 'ref'>
 
 	// Unique
-	export let columns: $$Props['columns'] = undefined;
-	export let rows: $$Props['rows'] = undefined;
-	export let buttons: $$Props['buttons'] = [];
-	export let label: $$Props['label'] = undefined;
+	export let columns: $$Props['columns'] = undefined
+	export let rows: $$Props['rows'] = undefined
+	export let buttons: $$Props['buttons'] = []
+	export let label: $$Props['label'] = undefined
 
 	// Seems to be the only way to get event comments to work eslint-disable-next-line
 	type $$Events = {
@@ -65,46 +65,46 @@
 		 * `event.detail` parameter.
 		 * @event
 		 * */
-		click: ButtonGridClickEvent;
-	};
+		click: ButtonGridClickEvent
+	}
 
-	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>();
+	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
-	let options: ButtonGridOptions;
-	let gridBlade: ButtonGridRef;
-	let gridDimensions: { columns: number; rows: number };
+	let options: ButtonGridOptions
+	let gridBlade: ButtonGridRef
+	let gridDimensions: { columns: number; rows: number }
 
 	function cells(
 		x: number,
-		y: number
+		y: number,
 	): {
-		title: string;
+		title: string
 	} {
-		const index = y * gridDimensions.columns + x;
+		const index = y * gridDimensions.columns + x
 
 		if (index >= 0 && index < buttons.length) {
 			return {
-				title: `${buttons[index]}`
-			};
+				title: `${buttons[index]}`,
+			}
 		}
 
-		return { title: '' };
+		return { title: '' }
 	}
 
-	$: gridDimensions = getGridDimensions(buttons.length, columns, rows);
+	$: gridDimensions = getGridDimensions(buttons.length, columns, rows)
 	$: options = {
 		cells,
 		label,
 		size: [gridDimensions.columns, gridDimensions.rows],
-		view: 'buttongrid'
-	};
+		view: 'buttongrid',
+	}
 	$: gridBlade?.on('click', (event) => {
 		dispatch('click', {
 			cell: { x: event.index[0], y: event.index[1] },
 			index: event.index[1] * gridDimensions.columns + event.index[0],
-			label: event.cell.title
-		});
-	});
+			label: event.cell.title,
+		})
+	})
 </script>
 
 <!--

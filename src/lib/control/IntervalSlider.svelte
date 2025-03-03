@@ -1,24 +1,24 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils';
-	import type { ValueChangeEvent } from '$lib/utils.js';
-	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane';
+	import type { Simplify } from '$lib/utils'
+	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane'
 
-	export type IntervalSliderValueTuple = [min: number, max: number];
+	export type IntervalSliderValueTuple = [min: number, max: number]
 	export type IntervalSliderValueObject = {
-		min: number;
-		max: number;
-	};
-	export type IntervalSliderValue = Simplify<IntervalSliderValueObject | IntervalSliderValueTuple>;
+		min: number
+		max: number
+	}
+	export type IntervalSliderValue = Simplify<IntervalSliderValueObject | IntervalSliderValueTuple>
 
-	export type IntervalSliderChangeEvent = ValueChangeEvent<IntervalSliderValue>;
+	export type IntervalSliderChangeEvent = ValueChangeEvent<IntervalSliderValue>
 </script>
 
 <script lang="ts">
-	import type { IntervalObject } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/interval/model/interval.js';
-	import type { ComponentProps } from 'svelte';
-	import GenericSlider from '$lib/internal/GenericSlider.svelte';
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials';
-	import { shallowEqual } from 'fast-equals';
+	import type { IntervalObject } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/interval/model/interval.js'
+	import type { ComponentProps } from 'svelte'
+	import GenericSlider from '$lib/internal/GenericSlider.svelte'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
+	import { shallowEqual } from 'fast-equals'
 
 	type $$Props = {
 		/**
@@ -27,18 +27,18 @@
 		 * Tuples are a convenience addition to the vanilla JS Tweakpane API.
 		 * @bindable
 		 */
-		value: IntervalSliderValue;
+		value: IntervalSliderValue
 		/**
 		 * Midpoint of the interval range value.
 		 * @bindable
 		 * */
-		meanValue?: number;
-	} & Omit<ComponentProps<GenericSlider<IntervalSliderValue>>, 'options' | 'plugin' | 'ref'>;
+		meanValue?: number
+	} & Omit<ComponentProps<GenericSlider<IntervalSliderValue>>, 'options' | 'plugin' | 'ref'>
 
 	// Reexport for bindability
-	export let value: $$Props['value'];
-	export let meanValue: $$Props['meanValue'] = undefined;
-	export let wide: $$Props['wide'] = undefined;
+	export let value: $$Props['value']
+	export let meanValue: $$Props['meanValue'] = undefined
+	export let wide: $$Props['wide'] = undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -54,18 +54,18 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: IntervalSliderChangeEvent;
-	};
+		change: IntervalSliderChangeEvent
+	}
 
 	// Proxy value since Tweakpane only supports Point3dObject type
-	let internalValue: IntervalObject;
+	let internalValue: IntervalObject
 
 	function updateInternalValueFromValue() {
 		// Internal value is always an object
 		// Manual difference checks required to prevent Svelte 5 infinite update loops
-		const newInternalValue = Array.isArray(value) ? { min: value[0], max: value[1] } : value;
+		const newInternalValue = Array.isArray(value) ? { min: value[0], max: value[1] } : value
 		if (!shallowEqual(internalValue, newInternalValue)) {
-			internalValue = { ...newInternalValue };
+			internalValue = { ...newInternalValue }
 		}
 	}
 
@@ -73,44 +73,44 @@
 		// External value can be object or tuple
 		// Manual difference checks required to prevent Svelte 5 infinite update loops
 		if (Array.isArray(value)) {
-			const newValue: IntervalSliderValueTuple = [internalValue.min, internalValue.max];
+			const newValue: IntervalSliderValueTuple = [internalValue.min, internalValue.max]
 			if (!shallowEqual(value, newValue)) {
-				value = newValue;
+				value = newValue
 			}
 		} else if (!shallowEqual(value, internalValue)) {
-			value = { ...internalValue };
+			value = { ...internalValue }
 		}
 	}
 
 	function updateValueFromMean() {
 		if (meanValue !== undefined) {
-			const r = internalValue.max - internalValue.min;
-			const valueFromMean = { min: meanValue - r / 2, max: meanValue + r / 2 };
+			const r = internalValue.max - internalValue.min
+			const valueFromMean = { min: meanValue - r / 2, max: meanValue + r / 2 }
 
 			// Manual difference checks required to prevent Svelte 5 infinite update loops
 			if (!shallowEqual(valueFromMean, internalValue)) {
-				internalValue = valueFromMean;
+				internalValue = valueFromMean
 			}
 		}
 	}
 
-	let ref: GenericSliderRef;
+	let ref: GenericSliderRef
 
 	function updateWide(wide: boolean) {
-		const inputField = ref?.element.querySelector<HTMLDivElement>('div.tp-rsltxtv_t');
+		const inputField = ref?.element.querySelector<HTMLDivElement>('div.tp-rsltxtv_t')
 		if (wide) {
-			inputField?.style.setProperty('display', 'none');
+			inputField?.style.setProperty('display', 'none')
 		} else {
-			inputField?.style.removeProperty('display');
+			inputField?.style.removeProperty('display')
 		}
 	}
 
-	$: ref && wide !== undefined && updateWide(wide);
+	$: ref && wide !== undefined && updateWide(wide)
 
-	$: value, updateInternalValueFromValue();
-	$: internalValue, updateValueFromInternalValue();
-	$: meanValue = (internalValue.min + internalValue.max) / 2;
-	$: meanValue, updateValueFromMean();
+	$: value, updateInternalValueFromValue()
+	$: internalValue, updateValueFromInternalValue()
+	$: meanValue = (internalValue.min + internalValue.max) / 2
+	$: meanValue, updateValueFromMean()
 </script>
 
 <!--

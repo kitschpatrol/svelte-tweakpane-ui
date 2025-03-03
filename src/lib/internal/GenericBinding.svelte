@@ -1,49 +1,49 @@
 <script context="module" lang="ts">
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	import type { BindingOptions, BindingRef } from '$lib/core/Binding.svelte';
+	import type { BindingOptions, BindingRef } from '$lib/core/Binding.svelte'
 </script>
 
 <script
 	generics="T extends any, U extends BindingOptions = BindingOptions, V extends BindingRef = BindingRef"
 	lang="ts"
 >
-	import type { BindingObject } from '$lib/utils.js';
-	import type { ComponentProps } from 'svelte';
-	import Binding from '$lib/core/Binding.svelte';
-	import { shallowEqual } from 'fast-equals';
+	import type { BindingObject } from '$lib/utils.js'
+	import type { ComponentProps } from 'svelte'
+	import Binding from '$lib/core/Binding.svelte'
+	import { shallowEqual } from 'fast-equals'
 
-	type BindableValue = BindingObject & Record<string, T>;
+	type BindableValue = BindingObject & Record<string, T>
 
 	type $$Props = {
 		/**
 		 * The value to control.
 		 * @bindable
 		 * */
-		value: T;
-	} & Omit<ComponentProps<Binding<BindableValue, U, V>>, 'key' | 'object'>;
+		value: T
+	} & Omit<ComponentProps<Binding<BindableValue, U, V>>, 'key' | 'object'>
 
 	// Reexport for bindability
-	export let value: $$Props['value'];
-	export let ref: $$Props['ref'] = undefined;
-	export let options: $$Props['options'] = undefined;
+	export let value: $$Props['value']
+	export let ref: $$Props['ref'] = undefined
+	export let options: $$Props['options'] = undefined
 
 	// See makeSafeKey() in past versions of utils.ts for an alternative which might provide easier
 	// debugging
-	const key = Symbol('key');
+	const key = Symbol('key')
 
 	function getValue(): T {
-		return value;
+		return value
 	}
 
 	function setValue() {
 		if (!shallowEqual(value, object[key])) {
-			object[key] = value;
+			object[key] = value
 		}
 	}
 
-	$: object = { [key]: getValue() };
-	$: value = object[key];
-	$: value, setValue();
+	$: object = { [key]: getValue() }
+	$: value = object[key]
+	$: value, setValue()
 </script>
 
 <!--

@@ -1,35 +1,35 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils';
-	import type { ValueChangeEvent } from '$lib/utils.js';
-	import type { EulerOrder } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerOrder.js';
-	import type { EulerUnit } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerUnit.js';
-	import type { PointDimensionParams } from '@tweakpane/core';
+	import type { Simplify } from '$lib/utils'
+	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { EulerOrder } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerOrder.js'
+	import type { EulerUnit } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerUnit.js'
+	import type { PointDimensionParams } from '@tweakpane/core'
 
-	export type RotationEulerOptions = Simplify<PointDimensionParams>;
-	export type RotationEulerOrder = EulerOrder;
-	export type RotationEulerUnit = EulerUnit;
+	export type RotationEulerOptions = Simplify<PointDimensionParams>
+	export type RotationEulerOrder = EulerOrder
+	export type RotationEulerUnit = EulerUnit
 
 	export type RotationEulerValueObject = {
-		x: number;
-		y: number;
-		z: number;
-	};
-	export type RotationEulerValueTuple = [x: number, y: number, z: number];
-	export type RotationEulerValue = Simplify<RotationEulerValueObject | RotationEulerValueTuple>;
+		x: number
+		y: number
+		z: number
+	}
+	export type RotationEulerValueTuple = [x: number, y: number, z: number]
+	export type RotationEulerValue = Simplify<RotationEulerValueObject | RotationEulerValueTuple>
 
-	export type RotationEulerChangeEvent = ValueChangeEvent<RotationEulerValue>;
+	export type RotationEulerChangeEvent = ValueChangeEvent<RotationEulerValue>
 	// Don't support order, for now
 </script>
 
 <script lang="ts">
-	import type { RotationInputPluginEulerParams as RotationEulerOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/RotationInputPluginEulerParams';
-	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js';
-	import type { ComponentProps } from 'svelte'; // Note name collision with options params
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte';
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation';
-	import { BROWSER } from 'esm-env';
-	import { shallowEqual } from 'fast-equals';
+	import type { RotationInputPluginEulerParams as RotationEulerOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/RotationInputPluginEulerParams'
+	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js'
+	import type { ComponentProps } from 'svelte' // Note name collision with options params
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation'
+	import { BROWSER } from 'esm-env'
+	import { shallowEqual } from 'fast-equals'
 
 	type $$Props = {
 		/**
@@ -41,7 +41,7 @@
 		 * See the `order` prop to specify the sequence in which rotations are applied.
 		 * @bindable
 		 * */
-		value: RotationEulerValue;
+		value: RotationEulerValue
 		/**
 		 * Input parameters specific to the X dimension.
 		 *
@@ -49,7 +49,7 @@
 		 * object of options, not a value.
 		 * @default `undefined`
 		 * */
-		optionsX?: RotationEulerOptions;
+		optionsX?: RotationEulerOptions
 		/**
 		 * Input parameters specific to the Y dimension.
 		 *
@@ -57,7 +57,7 @@
 		 * object of options, not a value.
 		 * @default `undefined`
 		 * */
-		optionsY?: RotationEulerOptions;
+		optionsY?: RotationEulerOptions
 		/**
 		 * Input parameters specific to the Z dimension.
 		 *
@@ -65,7 +65,7 @@
 		 * object of options, not a value.
 		 * @default `undefined`
 		 * */
-		optionsZ?: RotationEulerOptions;
+		optionsZ?: RotationEulerOptions
 		/**
 		 * Order of in which rotations are applied.
 		 *
@@ -74,27 +74,27 @@
 		 * behavior.
 		 * @default `'XYZ'`
 		 * */
-		order?: RotationEulerOrder;
+		order?: RotationEulerOrder
 		/**
 		 * Units of rotation.
 		 * @default `'rad'`
 		 */
-		unit?: RotationEulerUnit;
+		unit?: RotationEulerUnit
 	} & Omit<
 		ComponentProps<GenericInputFolding<RotationEulerValue, RotationEulerOptionsInternal>>,
 		'buttonClass' | 'options' | 'plugin' | 'ref'
-	>;
+	>
 
 	// Unique
-	export let value: $$Props['value'];
-	export let order: $$Props['order'] = undefined;
-	export let unit: $$Props['unit'] = undefined;
-	export let optionsX: $$Props['optionsX'] = undefined;
-	export let optionsY: $$Props['optionsY'] = undefined;
-	export let optionsZ: $$Props['optionsZ'] = undefined;
+	export let value: $$Props['value']
+	export let order: $$Props['order'] = undefined
+	export let unit: $$Props['unit'] = undefined
+	export let optionsX: $$Props['optionsX'] = undefined
+	export let optionsY: $$Props['optionsY'] = undefined
+	export let optionsZ: $$Props['optionsZ'] = undefined
 
 	// Reexport for binding
-	export let expanded: $$Props['expanded'] = undefined;
+	export let expanded: $$Props['expanded'] = undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -110,41 +110,41 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: RotationEulerChangeEvent;
-	};
+		change: RotationEulerChangeEvent
+	}
 
-	let options: RotationEulerOptionsInternal;
+	let options: RotationEulerOptionsInternal
 
 	// Proxy value since Tweakpane only supports Point3dObject type
-	let internalValue: Point3dObject;
+	let internalValue: Point3dObject
 
 	// Work-around for funky folding
-	const buttonClass = 'tp-rotationswatchv_b';
+	const buttonClass = 'tp-rotationswatchv_b'
 
 	function updateInternalValueFromValue() {
 		if (Array.isArray(value)) {
-			const newInternalValue = { x: value[0], y: value[1], z: value[2] };
+			const newInternalValue = { x: value[0], y: value[1], z: value[2] }
 			if (!shallowEqual(newInternalValue, internalValue)) {
-				internalValue = newInternalValue;
+				internalValue = newInternalValue
 			}
 		} else if (!shallowEqual(value, internalValue)) {
-			internalValue = { ...value };
+			internalValue = { ...value }
 		}
 	}
 
 	function updateValueFromInternalValue() {
 		if (Array.isArray(value)) {
-			const newValue: RotationEulerValueTuple = [internalValue.x, internalValue.y, internalValue.z];
+			const newValue: RotationEulerValueTuple = [internalValue.x, internalValue.y, internalValue.z]
 			if (!shallowEqual(newValue, value)) {
-				value = newValue;
+				value = newValue
 			}
 		} else if (!shallowEqual(internalValue, value)) {
-			value = { ...internalValue };
+			value = { ...internalValue }
 		}
 	}
 
-	$: value, updateInternalValueFromValue();
-	$: internalValue, updateValueFromInternalValue();
+	$: value, updateInternalValueFromValue()
+	$: internalValue, updateValueFromInternalValue()
 	$: options = {
 		x: optionsX,
 		y: optionsY,
@@ -152,8 +152,8 @@
 		order,
 		rotationMode: 'euler',
 		unit,
-		view: 'rotation'
-	};
+		view: 'rotation',
+	}
 </script>
 
 <!--

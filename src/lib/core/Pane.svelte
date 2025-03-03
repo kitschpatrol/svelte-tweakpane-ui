@@ -1,14 +1,14 @@
 <script context="module" lang="ts">
-	export type PanePosition = 'draggable' | 'fixed' | 'inline';
+	export type PanePosition = 'draggable' | 'fixed' | 'inline'
 </script>
 
 <script lang="ts">
-	import InternalPaneDraggable from '$lib/internal/InternalPaneDraggable.svelte';
-	import InternalPaneFixed from '$lib/internal/InternalPaneFixed.svelte';
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte';
-	import { removeKeys } from '$lib/utils';
-	import { BROWSER } from 'esm-env';
-	import { beforeUpdate, type ComponentProps } from 'svelte';
+	import InternalPaneDraggable from '$lib/internal/InternalPaneDraggable.svelte'
+	import InternalPaneFixed from '$lib/internal/InternalPaneFixed.svelte'
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
+	import { removeKeys } from '$lib/utils'
+	import { BROWSER } from 'esm-env'
+	import { beforeUpdate, type ComponentProps } from 'svelte'
 
 	type $$Props = {
 		/**
@@ -26,47 +26,47 @@
 		 *   vary depending on the defined `position` value.
 		 * @default `'draggable'`
 		 * */
-		position?: PanePosition;
+		position?: PanePosition
 	} & (
 		| ({
-				position: 'fixed';
+				position: 'fixed'
 		  } & ComponentProps<InternalPaneFixed>)
 		| ({
-				position: 'inline';
+				position: 'inline'
 		  } & Omit<ComponentProps<InternalPaneInline>, 'userCreatedPane'>)
 		| ({
-				position?: 'draggable' | undefined;
+				position?: 'draggable' | undefined
 		  } & ComponentProps<InternalPaneDraggable>)
-	);
+	)
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	type $$Slots = {
 		/**
 		 * Any Tweakpane component, except another `<Pane>`.
 		 */
-		default: {};
-	};
+		default: {}
+	}
 
 	// Have to do this for bindings to work... maybe related to
 	// https://svelte.dev/repl/aacb7e0b8066497490d3204f8a57491c?version=3.2.2 ?
-	export let expanded: $$Props['expanded'] = undefined;
-	export let position: $$Props['position'] = undefined;
-	export let width: $$Props['width'] = undefined;
-	export let tpPane: $$Props['tpPane'] = undefined;
+	export let expanded: $$Props['expanded'] = undefined
+	export let position: $$Props['position'] = undefined
+	export let width: $$Props['width'] = undefined
+	export let tpPane: $$Props['tpPane'] = undefined
 
 	// Redeclare types instead of referencing $$Props['key'] since certain keys aren't guaranteed
-	export let x: number | undefined = undefined;
-	export let y: number | undefined = undefined;
+	export let x: number | undefined = undefined
+	export let y: number | undefined = undefined
 
 	beforeUpdate(() => {
 		// Don't let saved draggable props override explicit props in inline and fixed modes
 		if ($$props.position === 'inline' || $$props.position === 'fixed') {
-			x = $$props.x;
-			y = $$props.y;
-			width = $$props.width;
-			expanded = $$props.expanded;
+			x = $$props.x
+			y = $$props.y
+			width = $$props.width
+			expanded = $$props.expanded
 		}
-	});
+	})
 
 	// The below proved more reliable than keying on mode and setting <svelte:component
 	// this={props.mode} {...$$restProps} />

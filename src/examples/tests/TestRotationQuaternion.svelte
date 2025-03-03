@@ -1,21 +1,21 @@
 <script lang="ts">
-	import { RotationQuaternion, type RotationQuaternionValueTuple } from '$lib';
+	import { RotationQuaternion, type RotationQuaternionValueTuple } from '$lib'
 
-	let binding1InternalEventCount = 0;
-	let binding1ExternalEventCount = 0;
-	let binding2InternalEventCount = 0;
-	let binding2ExternalEventCount = 0;
+	let binding1InternalEventCount = 0
+	let binding1ExternalEventCount = 0
+	let binding2InternalEventCount = 0
+	let binding2ExternalEventCount = 0
 
-	let value: RotationQuaternionValueTuple = [0, 0, 0, 0];
+	let value: RotationQuaternionValueTuple = [0, 0, 0, 0]
 </script>
 
 <RotationQuaternion
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding1InternalEventCount++;
+			binding1InternalEventCount++
 		} else {
-			binding1ExternalEventCount++;
+			binding1ExternalEventCount++
 		}
 	}}
 	expanded={true}
@@ -26,9 +26,9 @@
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			binding2InternalEventCount++;
+			binding2InternalEventCount++
 		} else {
-			binding2ExternalEventCount++;
+			binding2ExternalEventCount++
 		}
 	}}
 	expanded={true}

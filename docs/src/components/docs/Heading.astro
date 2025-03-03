@@ -1,17 +1,17 @@
 ---
-import { slug } from 'github-slugger';
+import { slug } from 'github-slugger'
 
 // Part of the https://github.com/withastro/astro/issues/5084  work-around
 
 type Props = {
-	level: 1 | 2 | 3 | 4 | 5 | 6;
-};
+	level: 1 | 2 | 3 | 4 | 5 | 6
+}
 
-const { level } = Astro.props;
+const { level } = Astro.props
 
-const renderedText = await Astro.slots.render('default');
-const text = renderedText.trim();
-const id = slug(text);
+const renderedText = await Astro.slots.render('default')
+const text = renderedText.trim()
+const id = slug(text)
 
 // https://docs.astro.build/en/core-concepts/astro-syntax/#dynamic-tags
 // const Element = `h${level}`;

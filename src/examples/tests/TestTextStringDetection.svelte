@@ -5,7 +5,7 @@
 	// Related:
 	// https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/17
 
-	import { AutoObject, AutoValue, Color, Text } from '$lib';
+	import { AutoObject, AutoValue, Color, Text } from '$lib'
 
 	let strings: Record<string, string> = {
 		sample01: 'Hi',
@@ -32,8 +32,8 @@
 		sample22: 'true',
 		sample23: 'False',
 		sample24: 'false',
-		sample25: 'red'
-	};
+		sample25: 'red',
+	}
 </script>
 
 <hr />

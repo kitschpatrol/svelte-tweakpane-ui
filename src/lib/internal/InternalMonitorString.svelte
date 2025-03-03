@@ -1,14 +1,14 @@
 <script context="module" lang="ts">
-	import type { StringMonitorParams } from '@tweakpane/core';
-	export type InternalMonitorStringOptions = StringMonitorParams;
+	import type { StringMonitorParams } from '@tweakpane/core'
+	export type InternalMonitorStringOptions = StringMonitorParams
 </script>
 
 <script lang="ts">
-	import type { ComponentProps } from 'svelte';
-	import ClsPad from '$lib/internal/ClsPad.svelte';
-	import GenericMonitor from '$lib/internal/GenericMonitor.svelte';
-	import { fillWith, rowsForMonitor } from '$lib/utils';
-	import { BROWSER } from 'esm-env';
+	import type { ComponentProps } from 'svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericMonitor from '$lib/internal/GenericMonitor.svelte'
+	import { fillWith, rowsForMonitor } from '$lib/utils'
+	import { BROWSER } from 'esm-env'
 
 	// Multi-file structure is legacy of previous non-dynamic component approach TODO consolidate
 	// eventually if dynamic components prove reliable
@@ -17,27 +17,27 @@
 		/**
 		 * A `string` value to monitor.
 		 * */
-		value: string;
+		value: string
 		/**
 		 * Display multiline strings.
 		 * @default `false`
 		 * */
-		multiline?: boolean;
+		multiline?: boolean
 	} & Omit<
 		ComponentProps<GenericMonitor<string, InternalMonitorStringOptions>>,
 		'interval' | 'options' | 'plugin' | 'ref'
-	>;
+	>
 
 	// Redeclare for bindability
-	export let value: $$Props['value'];
-	export let multiline: $$Props['multiline'] = undefined;
+	export let value: $$Props['value']
+	export let multiline: $$Props['multiline'] = undefined
 
-	let options: InternalMonitorStringOptions;
+	let options: InternalMonitorStringOptions
 
 	$: options = {
 		multiline,
-		readonly: true
-	};
+		readonly: true,
+	}
 </script>
 
 <!--

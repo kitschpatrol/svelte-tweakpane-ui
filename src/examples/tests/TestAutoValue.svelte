@@ -1,36 +1,36 @@
 <script lang="ts">
-	import { AutoValue } from '$lib';
+	import { AutoValue } from '$lib'
 
-	let number = 0;
-	let color = '#ff00ff';
-	let point = { x: 0, y: 0 };
-	let text = 'Cosmic manifold';
+	let number = 0
+	let color = '#ff00ff'
+	let point = { x: 0, y: 0 }
+	let text = 'Cosmic manifold'
 
-	let number1InternalEventCount = 0;
-	let number1ExternalEventCount = 0;
-	let number2InternalEventCount = 0;
-	let number2ExternalEventCount = 0;
-	let color1InternalEventCount = 0;
-	let color1ExternalEventCount = 0;
-	let color2InternalEventCount = 0;
-	let color2ExternalEventCount = 0;
-	let point1InternalEventCount = 0;
-	let point1ExternalEventCount = 0;
-	let point2InternalEventCount = 0;
-	let point2ExternalEventCount = 0;
-	let text1InternalEventCount = 0;
-	let text1ExternalEventCount = 0;
-	let text2InternalEventCount = 0;
-	let text2ExternalEventCount = 0;
+	let number1InternalEventCount = 0
+	let number1ExternalEventCount = 0
+	let number2InternalEventCount = 0
+	let number2ExternalEventCount = 0
+	let color1InternalEventCount = 0
+	let color1ExternalEventCount = 0
+	let color2InternalEventCount = 0
+	let color2ExternalEventCount = 0
+	let point1InternalEventCount = 0
+	let point1ExternalEventCount = 0
+	let point2InternalEventCount = 0
+	let point2ExternalEventCount = 0
+	let text1InternalEventCount = 0
+	let text1ExternalEventCount = 0
+	let text2InternalEventCount = 0
+	let text2ExternalEventCount = 0
 </script>
 
 <AutoValue
 	bind:value={number}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			number1InternalEventCount++;
+			number1InternalEventCount++
 		} else {
-			number1ExternalEventCount++;
+			number1ExternalEventCount++
 		}
 	}}
 	label="Number 1"
@@ -39,9 +39,9 @@
 	bind:value={number}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			number2InternalEventCount++;
+			number2InternalEventCount++
 		} else {
-			number2ExternalEventCount++;
+			number2ExternalEventCount++
 		}
 	}}
 	label="Number 2"
@@ -51,9 +51,9 @@
 	bind:value={color}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			color1InternalEventCount++;
+			color1InternalEventCount++
 		} else {
-			color1ExternalEventCount++;
+			color1ExternalEventCount++
 		}
 	}}
 	label="Color 1"
@@ -62,9 +62,9 @@
 	bind:value={color}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			color2InternalEventCount++;
+			color2InternalEventCount++
 		} else {
-			color2ExternalEventCount++;
+			color2ExternalEventCount++
 		}
 	}}
 	label="Color 2"
@@ -74,9 +74,9 @@
 	bind:value={point}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			point1InternalEventCount++;
+			point1InternalEventCount++
 		} else {
-			point1ExternalEventCount++;
+			point1ExternalEventCount++
 		}
 	}}
 	label="Point 1"
@@ -85,9 +85,9 @@
 	bind:value={point}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			point2InternalEventCount++;
+			point2InternalEventCount++
 		} else {
-			point2ExternalEventCount++;
+			point2ExternalEventCount++
 		}
 	}}
 	label="Point 2"
@@ -97,9 +97,9 @@
 	bind:value={text}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			text1InternalEventCount++;
+			text1InternalEventCount++
 		} else {
-			text1ExternalEventCount++;
+			text1ExternalEventCount++
 		}
 	}}
 	label="Text 1"
@@ -108,9 +108,9 @@
 	bind:value={text}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
-			text2InternalEventCount++;
+			text2InternalEventCount++
 		} else {
-			text2ExternalEventCount++;
+			text2ExternalEventCount++
 		}
 	}}
 	label="Text 2"

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Checkbox, Slider } from '$lib';
-	let colors = 0.95;
-	let darkMode = true;
-	let numbers = true;
+	import { Checkbox, Slider } from '$lib'
+	let colors = 0.95
+	let darkMode = true
+	let numbers = true
 </script>
 
 <div class="grid-wrapper">

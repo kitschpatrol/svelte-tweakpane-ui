@@ -1,20 +1,20 @@
 <script lang="ts">
 	// Via https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/15
-	import { Slider } from '$lib';
-	import { onMount, tick } from 'svelte';
-	import { writable } from 'svelte/store';
+	import { Slider } from '$lib'
+	import { onMount, tick } from 'svelte'
+	import { writable } from 'svelte/store'
 
-	const bear = writable({ apples: 100, name: 'Someone' });
-	const bear2 = writable({ apples: 100, name: 'Someone' });
+	const bear = writable({ apples: 100, name: 'Someone' })
+	const bear2 = writable({ apples: 100, name: 'Someone' })
 
 	onMount(async () => {
 		// No tick
-		$bear2.apples = 60;
+		$bear2.apples = 60
 
 		// With Tick
-		await tick();
-		$bear.apples = 60;
-	});
+		await tick()
+		$bear.apples = 60
+	})
 </script>
 
 <h1>With tick, works in Svelte 4</h1>

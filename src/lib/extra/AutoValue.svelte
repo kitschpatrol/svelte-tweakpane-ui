@@ -1,18 +1,18 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js';
+	import type { ValueChangeEvent } from '$lib/utils.js'
 
-	export type AutoValueChangeEvent = ValueChangeEvent<boolean | number | object | string>;
+	export type AutoValueChangeEvent = ValueChangeEvent<boolean | number | object | string>
 </script>
 
 <script lang="ts">
-	import type { ComponentProps } from 'svelte';
-	import Text from '$lib/control/Text.svelte';
-	import GenericBinding from '$lib/internal/GenericBinding.svelte';
+	import type { ComponentProps } from 'svelte'
+	import Text from '$lib/control/Text.svelte'
+	import GenericBinding from '$lib/internal/GenericBinding.svelte'
 
 	type $$Props = Omit<
 		ComponentProps<GenericBinding<boolean | number | object | string>>,
 		'options' | 'plugin' | 'ref'
-	>;
+	>
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -28,10 +28,10 @@
 		 * @extends ValueChangeEvent
 		 * @event
 		 * */
-		change: AutoValueChangeEvent;
-	};
+		change: AutoValueChangeEvent
+	}
 
-	export let value: $$Props['value'];
+	export let value: $$Props['value']
 </script>
 
 <!--
