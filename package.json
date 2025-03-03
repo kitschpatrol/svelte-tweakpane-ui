@@ -262,6 +262,7 @@
 		"fs-extra": "^11.3.0",
 		"glob": "^11.0.1",
 		"postcss-html": "^1.8.0",
+		"prettier": "^3.5.3",
 		"publint": "^0.2.12",
 		"read-package-up": "^11.0.0",
 		"remark-mdat": "^0.7.5",

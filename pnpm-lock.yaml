@@ -114,6 +114,9 @@ importers:
       postcss-html:
         specifier: ^1.8.0
         version: 1.8.0
+      prettier:
+        specifier: ^3.5.3
+        version: 3.5.3
       publint:
         specifier: ^0.2.12
         version: 0.2.12
