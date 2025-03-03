@@ -61,16 +61,16 @@ position="inline">` component.
 @example  
 ```svelte
 <script lang="ts">
-  import { InternalMonitorString } from 'svelte-tweakpane-ui';
+  import { InternalMonitorString } from 'svelte-tweakpane-ui'
 
-  let stringToMonitor = 'so\nit\ngoes';
+  let stringToMonitor = 'so\nit\ngoes'
 
   setInterval(() => {
     stringToMonitor = stringToMonitor
       .split('\n')
       .map(() => Math.round(Math.random() * 100).toString())
-      .join('\n');
-  }, 100);
+      .join('\n')
+  }, 100)
 </script>
 
 <InternalMonitorString value={stringToMonitor} multiline={true} />

@@ -172,14 +172,14 @@ position="inline">`.
 @example  
 ```svelte
 <script lang="ts">
-  import { List, type ListOptions } from 'svelte-tweakpane-ui';
+  import { List, type ListOptions } from 'svelte-tweakpane-ui'
 
   const options: ListOptions<number> = {
     b: 2,
     a: 1,
-    c: 3
-  };
-  let selection: number = 1;
+    c: 3,
+  }
+  let selection: number = 1
 </script>
 
 <List bind:value={selection} label="Alphanumerics" {options} />

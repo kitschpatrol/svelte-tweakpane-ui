@@ -135,9 +135,9 @@ provided for advanced use cases. Prefer binding to `value`.)
 @example  
 ```svelte
 <script lang="ts">
-  import { Textarea } from 'svelte-tweakpane-ui';
+  import { Textarea } from 'svelte-tweakpane-ui'
 
-  let text = '';
+  let text = ''
 </script>
 
 <Textarea bind:value={text} placeholder="The void" rows={8} />

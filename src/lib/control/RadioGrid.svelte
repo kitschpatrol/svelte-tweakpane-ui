@@ -171,22 +171,22 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 @example  
 ```svelte
 <script lang="ts">
-  import { RadioGrid } from 'svelte-tweakpane-ui';
+  import { RadioGrid } from 'svelte-tweakpane-ui'
 
   // Svelte transition works around CSS gradient
   // transition limitations
-  import { fade } from 'svelte/transition';
+  import { fade } from 'svelte/transition'
 
   const radioValues = [
     ['magenta', 'orange'],
     ['yellow', 'red'],
     ['violet', 'gold'],
-    ['red', 'rebeccapurple']
-  ];
+    ['red', 'rebeccapurple'],
+  ]
 
-  let value = 1;
+  let value = 1
 
-  $: [start, end] = radioValues[value - 1];
+  $: [start, end] = radioValues[value - 1]
 </script>
 
 <RadioGrid bind:value prefix="Color Scheme " values={[1, 2, 3, 4]} />

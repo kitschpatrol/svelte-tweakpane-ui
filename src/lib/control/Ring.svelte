@@ -112,15 +112,15 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 @example  
 ```svelte
 <script lang="ts">
-  import { Ring, type RingUnit } from 'svelte-tweakpane-ui';
+  import { Ring, type RingUnit } from 'svelte-tweakpane-ui'
 
   let unitConfig: RingUnit = {
     value: 20,
     pixels: 40,
-    ticks: 5
-  };
+    ticks: 5,
+  }
 
-  let angle = 45;
+  let angle = 45
 </script>
 
 <Ring

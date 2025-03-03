@@ -174,34 +174,34 @@ Note that _Svelte Tweakpane UI_ embeds a [fork](https://github.com/kitschpatrol/
     type CubicBezierValue,
     RadioGrid,
     Slider,
-    Utils
-  } from 'svelte-tweakpane-ui';
-  import { tweened } from 'svelte/motion';
+    Utils,
+  } from 'svelte-tweakpane-ui'
+  import { tweened } from 'svelte/motion'
 
   // could also be a tuple
   let value: CubicBezierValue = {
     x1: 0.25,
     y1: 0.1,
     x2: 0.25,
-    y2: 1
-  };
-  let duration = 1000;
-  let moods = ['Set', 'Rise'];
-  let mood: string = moods[0];
+    y2: 1,
+  }
+  let duration = 1000
+  let moods = ['Set', 'Rise']
+  let mood: string = moods[0]
 
-  const positionTween = tweened(0);
+  const positionTween = tweened(0)
 
   function lerp(value: number, low: number, high: number): number {
-    return (1 - value) * low + value * high;
+    return (1 - value) * low + value * high
   }
 
   $: positionTween.set(mood === 'Set' ? 0 : 1, {
     duration,
-    easing: Utils.cubicBezierToEaseFunction(value)
-  });
+    easing: Utils.cubicBezierToEaseFunction(value),
+  })
 
-  $: celestialHeight = lerp($positionTween, 20, 80);
-  $: twilightAmount = lerp($positionTween, 20, -80);
+  $: celestialHeight = lerp($positionTween, 20, 80)
+  $: twilightAmount = lerp($positionTween, 20, -80)
 </script>
 
 <CubicBezier bind:value expanded={true} picker="inline" />

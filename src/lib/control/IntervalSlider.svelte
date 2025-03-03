@@ -135,11 +135,11 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 @example  
 ```svelte
 <script lang="ts">
-  import { IntervalSlider } from 'svelte-tweakpane-ui';
+  import { IntervalSlider } from 'svelte-tweakpane-ui'
 
   // Could specify convenience type IntervalSliderValueTuple here, or
   // use the object {start: number, end: number} instead of a tuple
-  let value: [number, number] = [25, 75];
+  let value: [number, number] = [25, 75]
 </script>
 
 <IntervalSlider

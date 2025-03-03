@@ -177,24 +177,24 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
     Button,
     RotationQuaternion,
     type RotationQuaternionValue,
-    Utils
-  } from 'svelte-tweakpane-ui';
+    Utils,
+  } from 'svelte-tweakpane-ui'
 
   // Value could also be an object
   // e.g. {x: 0, y: 0, z: 0, w: 0}
-  let value: RotationQuaternionValue = [0, 0, 0, 0];
+  let value: RotationQuaternionValue = [0, 0, 0, 0]
 
-  $: transform = Utils.quaternionToCssTransform(value);
+  $: transform = Utils.quaternionToCssTransform(value)
   $: valueRows = Array.isArray(value)
     ? value.map((v) => `${v >= 0 ? '+' : ''}${v.toFixed(6)}`).join('\n')
-    : '';
+    : ''
 </script>
 
 <RotationQuaternion
   bind:value
   expanded={true}
   label="CSS Rotation"
-  picker={'inline'}
+  picker="inline"
 />
 <Button on:click={() => (value = [0, 0, 0, 0])} title="Reset" />
 

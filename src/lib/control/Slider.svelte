@@ -71,9 +71,9 @@ Usage outside of a `<Pane>` component will implicitly wrap the slider in `<Pane 
 @example  
 ```svelte
 <script lang="ts">
-  import { Slider } from 'svelte-tweakpane-ui';
+  import { Slider } from 'svelte-tweakpane-ui'
 
-  let value = 0;
+  let value = 0
 </script>
 
 <Slider

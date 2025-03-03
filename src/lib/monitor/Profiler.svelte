@@ -228,67 +228,67 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 @example  
 ```svelte
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount } from 'svelte'
   import {
     Profiler,
     type ProfilerMeasure,
-    Slider
-  } from 'svelte-tweakpane-ui';
+    Slider,
+  } from 'svelte-tweakpane-ui'
 
   // this is a readonly function handle assigned by Profiler component
   // first used in onMount since it is not bound until then
-  let measure: ProfilerMeasure;
+  let measure: ProfilerMeasure
 
-  let loopExponent = 1;
+  let loopExponent = 1
 
   // helper to test Math functions
   function hardWork(
     function_: (n: number) => number,
-    exponent: number
+    exponent: number,
   ): void {
     measure(function_.name, () => {
       for (let sum = 0; sum < Number('1e' + exponent); sum++) {
-        function_(sum);
+        function_(sum)
       }
-    });
+    })
   }
 
   onMount(() => {
-    let animationFrameHandle: number;
+    let animationFrameHandle: number
 
-    (function tick() {
+    ;(function tick() {
       // Nesting measurements creates a hierarchy
       // in the Profile visualization
       measure('Tick', () => {
         measure('Trigonometry', () => {
-          hardWork(Math.sin, loopExponent);
-          hardWork(Math.cos, loopExponent);
-          hardWork(Math.tan, loopExponent);
-          hardWork(Math.atan, loopExponent);
-          hardWork(Math.acos, loopExponent);
-          hardWork(Math.acosh, loopExponent);
-        });
+          hardWork(Math.sin, loopExponent)
+          hardWork(Math.cos, loopExponent)
+          hardWork(Math.tan, loopExponent)
+          hardWork(Math.atan, loopExponent)
+          hardWork(Math.acos, loopExponent)
+          hardWork(Math.acosh, loopExponent)
+        })
         measure('Logarithms', () => {
-          hardWork(Math.log, loopExponent);
-          hardWork(Math.log10, loopExponent);
-          hardWork(Math.log1p, loopExponent);
-          hardWork(Math.log2, loopExponent);
-        });
+          hardWork(Math.log, loopExponent)
+          hardWork(Math.log10, loopExponent)
+          hardWork(Math.log1p, loopExponent)
+          hardWork(Math.log2, loopExponent)
+        })
         measure('Rounding', () => {
-          hardWork(Math.round, loopExponent);
-          hardWork(Math.floor, loopExponent);
-          hardWork(Math.ceil, loopExponent);
-          hardWork(Math.fround, loopExponent);
-        });
-      });
+          hardWork(Math.round, loopExponent)
+          hardWork(Math.floor, loopExponent)
+          hardWork(Math.ceil, loopExponent)
+          hardWork(Math.fround, loopExponent)
+        })
+      })
 
-      requestAnimationFrame(tick);
-    })();
+      requestAnimationFrame(tick)
+    })()
 
     return () => {
-      cancelAnimationFrame(animationFrameHandle);
-    };
-  });
+      cancelAnimationFrame(animationFrameHandle)
+    }
+  })
 </script>
 
 <Profiler bind:measure label="Profiler" />

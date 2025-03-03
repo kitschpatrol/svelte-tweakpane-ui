@@ -175,10 +175,10 @@ position="inline">`.
 @example  
 ```svelte
 <script lang="ts">
-  import { Color } from 'svelte-tweakpane-ui';
+  import { Color } from 'svelte-tweakpane-ui'
 
-  let startColor = '#fff000';
-  let endColor = '#ff00ff';
+  let startColor = '#fff000'
+  let endColor = '#ff00ff'
 </script>
 
 <Color bind:value={startColor} label="Start Color" />

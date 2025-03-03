@@ -140,29 +140,29 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
     Button,
     ButtonGrid,
     type ButtonGridClickEvent,
-    Pane
-  } from 'svelte-tweakpane-ui';
+    Pane,
+  } from 'svelte-tweakpane-ui'
 
   const keyboard = [
     ...Array.from(
       {
-        length: 26
+        length: 26,
       },
-      (_, index) => String.fromCodePoint(65 + index)
+      (_, index) => String.fromCodePoint(65 + index),
     ),
     ',',
     '.',
     '!',
-    '⌫'
-  ];
+    '⌫',
+  ]
 
-  let textBuffer = '';
+  let textBuffer = ''
 
   function handleClick(event: ButtonGridClickEvent) {
     textBuffer =
       event.detail.label === '⌫'
         ? textBuffer.slice(0, -1)
-        : textBuffer + event.detail.label;
+        : textBuffer + event.detail.label
   }
 </script>
 

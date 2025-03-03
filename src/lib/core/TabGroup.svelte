@@ -103,7 +103,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane pos
 @example  
 ```svelte
 <script lang="ts">
-  import { Button, TabGroup, TabPage } from 'svelte-tweakpane-ui';
+  import { Button, TabGroup, TabPage } from 'svelte-tweakpane-ui'
 </script>
 
 <TabGroup>

@@ -133,23 +133,23 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 @example  
 ```svelte
 <script lang="ts">
-  import { Button, Image, type ImageValue } from '$lib';
+  import { Button, Image, type ImageValue } from '$lib'
 
-  let source: ImageValue;
+  let source: ImageValue
 
   async function getRandomKittenUrl() {
     const { url } = await fetch('https://loremflickr.com/800/800/kitten', {
       method: 'HEAD',
-      redirect: 'follow'
-    });
-    return url;
+      redirect: 'follow',
+    })
+    return url
   }
 </script>
 
 <Image bind:value={source} fit="contain" label="Image" />
 <Button
   on:click={async () => {
-    source = await getRandomKittenUrl();
+    source = await getRandomKittenUrl()
   }}
   label="Random Placeholder"
   title="Load Kitten"

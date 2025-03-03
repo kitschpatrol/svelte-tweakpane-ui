@@ -44,9 +44,9 @@ Usage outside of a `<Pane>` component will implicitly wrap the checkbox in `<Pan
 @example  
 ```svelte
 <script lang="ts">
-  import { Checkbox } from 'svelte-tweakpane-ui';
+  import { Checkbox } from 'svelte-tweakpane-ui'
 
-  let reticulationEnabled: boolean = false;
+  let reticulationEnabled: boolean = false
 </script>
 
 <Checkbox bind:value={reticulationEnabled} label="Reticulation" />

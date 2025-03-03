@@ -167,23 +167,23 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 @example  
 ```svelte
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { FpsGraph, Monitor, Slider } from 'svelte-tweakpane-ui';
+  import { onMount } from 'svelte'
+  import { FpsGraph, Monitor, Slider } from 'svelte-tweakpane-ui'
 
-  let rotation = 0;
-  let rotationSpeed = 3;
-  let phase = 500;
-  let scale = 1.25;
-  let intensity = 4;
+  let rotation = 0
+  let rotationSpeed = 3
+  let phase = 500
+  let scale = 1.25
+  let intensity = 4
 
   onMount(() => {
-    (function tick() {
-      rotation += rotationSpeed;
-      requestAnimationFrame(tick);
-    })();
-  });
+    ;(function tick() {
+      rotation += rotationSpeed
+      requestAnimationFrame(tick)
+    })()
+  })
 
-  $: gridSize = intensity ** 2;
+  $: gridSize = intensity ** 2
 </script>
 
 <FpsGraph interval={50} label="FPS" rows={5} />

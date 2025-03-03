@@ -87,8 +87,8 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 @example  
 ```svelte
 <script lang="ts">
-  import { Stepper } from 'svelte-tweakpane-ui';
-  let angle = 45;
+  import { Stepper } from 'svelte-tweakpane-ui'
+  let angle = 45
 </script>
 
 <Stepper bind:value={angle} label="Angle" step={45} />

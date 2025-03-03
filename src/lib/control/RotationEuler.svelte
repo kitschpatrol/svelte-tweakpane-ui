@@ -185,35 +185,35 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
     Button,
     RotationEuler,
     type RotationEulerValueObject,
-    Utils
-  } from 'svelte-tweakpane-ui';
+    Utils,
+  } from 'svelte-tweakpane-ui'
 
   // Value could also be a tuple
   // e.g. [0, 0, 0]
   let value: RotationEulerValueObject = {
     x: 0,
     y: 0,
-    z: 0
-  };
+    z: 0,
+  }
 
-  $: transform = Utils.eulerToCssTransform(value);
+  $: transform = Utils.eulerToCssTransform(value)
   $: valueRows = Object.values(value)
     .map((v) => `${v >= 0 ? '+' : ''}${v.toFixed(6)}`)
-    .join('\n');
+    .join('\n')
 </script>
 
 <RotationEuler
   bind:value
   expanded={true}
   label="CSS Rotation"
-  picker={'inline'}
+  picker="inline"
 />
 <Button
   on:click={() =>
     (value = {
       x: 0,
       y: 0,
-      z: 0
+      z: 0,
     })}
   title="Reset"
 />

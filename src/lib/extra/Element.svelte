@@ -92,10 +92,10 @@ case the `<Element>` will be implicitly wrapped in `<Pane position="inline">`.
 @example  
 ```svelte
 <script lang="ts">
-  import { Button, Element, Pane, Wheel } from 'svelte-tweakpane-ui';
+  import { Button, Element, Pane, Wheel } from 'svelte-tweakpane-ui'
 
-  let gradientAngle = 45;
-  let textAngle = 0;
+  let gradientAngle = 45
+  let textAngle = 0
 </script>
 
 <Pane position="inline" title="Element Demo">
@@ -124,8 +124,8 @@ case the `<Element>` will be implicitly wrapped in `<Pane position="inline">`.
   </Element>
   <Button
     on:click={() => {
-      gradientAngle = 45;
-      textAngle = 0;
+      gradientAngle = 45
+      textAngle = 0
     }}
     disabled={gradientAngle === 45 && textAngle === 0}
     title="Reset"

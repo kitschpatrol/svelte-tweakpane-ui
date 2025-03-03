@@ -89,9 +89,9 @@ position="inline">`.
 @example  
 ```svelte
 <script lang="ts">
-  import { Text } from 'svelte-tweakpane-ui';
+  import { Text } from 'svelte-tweakpane-ui'
 
-  let text = 'Cosmic Manifold';
+  let text = 'Cosmic Manifold'
 </script>
 
 <Text bind:value={text} label="The Message" />

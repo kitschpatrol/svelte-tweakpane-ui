@@ -126,26 +126,26 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 @example  
 ```svelte
 <script lang="ts">
-  import { File, type FileValue } from '$lib';
+  import { File, type FileValue } from '$lib'
 
-  let file: FileValue;
+  let file: FileValue
 
   async function getFileBase64(file: FileValue): Promise<string> {
-    if (file === undefined) return 'Your bytes here...';
+    if (file === undefined) return 'Your bytes here...'
     return new Promise((resolve, reject) => {
-      const reader = new FileReader();
+      const reader = new FileReader()
       reader.addEventListener('load', () => {
-        const { result } = reader;
-        if (result && typeof result === 'string') resolve(result);
-        else reject(new Error('Empty result'));
-      });
-      reader.addEventListener('error', reject);
-      reader.readAsDataURL(file);
-    });
+        const { result } = reader
+        if (result && typeof result === 'string') resolve(result)
+        else reject(new Error('Empty result'))
+      })
+      reader.addEventListener('error', reject)
+      reader.readAsDataURL(file)
+    })
   }
 
   function truncate(text: string, length: number) {
-    return text.length > length ? text.slice(0, length - 1) + '...' : text;
+    return text.length > length ? text.slice(0, length - 1) + '...' : text
   }
 </script>
 

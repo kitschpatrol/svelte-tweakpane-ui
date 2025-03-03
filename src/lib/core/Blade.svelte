@@ -138,12 +138,12 @@ need for the options param.
 @example  
 ```svelte
 <script lang="ts">
-  import { Blade } from 'svelte-tweakpane-ui';
+  import { Blade } from 'svelte-tweakpane-ui'
 </script>
 
 <Blade
   options={{
-    view: 'separator'
+    view: 'separator',
   }}
 />
 ```
