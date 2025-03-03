@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import type { BindingObject } from '$lib/utilities'
-	import type { ValueChangeEvent } from '$lib/utilities.js'
+	import type { BindingObject } from '$lib/utils'
+	import type { ValueChangeEvent } from '$lib/utils.js'
 	import type { BindingApi, BindingParams } from '@tweakpane/core'
 
 	export type BindingOptions = BindingParams
@@ -24,7 +24,7 @@
 		isRootPane,
 		type Plugin,
 		type UnwrapCustomEvents,
-	} from '$lib/utilities.js'
+	} from '$lib/utils.js'
 	import { BROWSER, DEV } from 'esm-env'
 	import copy from 'fast-copy'
 	import { shallowEqual } from 'fast-equals'

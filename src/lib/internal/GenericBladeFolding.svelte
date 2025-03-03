@@ -5,7 +5,7 @@
 <script generics="T extends BladeOptions, U extends BladeRef" lang="ts">
 	import type { ComponentProps } from 'svelte'
 	import Blade from '$lib/core/Blade.svelte'
-	import { updateCollapsibility } from '$lib/utilities'
+	import { updateCollapsibility } from '$lib/utils'
 
 	type $$Props = {
 		/**

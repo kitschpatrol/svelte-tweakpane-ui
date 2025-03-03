@@ -1,4 +1,4 @@
-import type { Simplify } from '$lib/utilities'
+import type { Simplify } from '$lib/utils'
 import {
 	getWindowDocument,
 	isRgbaColorObject,

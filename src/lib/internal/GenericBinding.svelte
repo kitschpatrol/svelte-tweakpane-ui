@@ -6,7 +6,7 @@
 	generics="T extends any, U extends BindingOptions = BindingOptions, V extends BindingRef = BindingRef"
 	lang="ts"
 >
-	import type { BindingObject } from '$lib/utilities.js'
+	import type { BindingObject } from '$lib/utils.js'
 	import type { ComponentProps } from 'svelte'
 	import Binding from '$lib/core/Binding.svelte'
 	import { shallowEqual } from 'fast-equals'

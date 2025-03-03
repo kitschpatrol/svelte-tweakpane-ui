@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { Container } from '$lib/utilities.js'
+	import type { Container } from '$lib/utils.js'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import { applyTheme, type Theme } from '$lib/theme.js'
-	import { type Plugin, updateCollapsibility } from '$lib/utilities.js'
+	import { type Plugin, updateCollapsibility } from '$lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { getContext, onDestroy, setContext, tick } from 'svelte'
 	import { type Writable, writable } from 'svelte/store'

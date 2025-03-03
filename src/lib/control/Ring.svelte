@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utilities.js'
+	import type { ValueChangeEvent } from '$lib/utils.js'
 	import type { RingSeries } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.js'
 
 	// TODO maybe spread RingUnit into the top level props?

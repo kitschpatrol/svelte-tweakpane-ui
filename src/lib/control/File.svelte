@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utilities.js'
+	import type { ValueChangeEvent } from '$lib/utils.js'
 
 	export type FileValue = File | undefined
 	export type FileChangeEvent = ValueChangeEvent<FileValue>
@@ -10,7 +10,7 @@
 	import type { ComponentProps } from 'svelte'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import GenericInput from '$lib/internal/GenericInput.svelte'
-	import { fillWith } from '$lib/utilities'
+	import { fillWith } from '$lib/utils'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-file-import'
 	import { BROWSER } from 'esm-env'
 	import { shallowEqual } from 'fast-equals'

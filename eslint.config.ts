@@ -34,6 +34,8 @@ export default eslintConfig(
 				// 	{ ignoredTypeNames: ['Error', 'RegExp', 'URL', 'URLSearchParams'] },
 				// ],
 				'ts/no-inferrable-types': 'off',
+				// TODO delete after next kpi patch
+				'unicorn/prevent-abbreviations': 'off',
 			},
 		},
 		type: 'lib',

@@ -10,7 +10,7 @@
 	import type { Writable } from 'svelte/store'
 	import type { BladeApi, FolderApi } from 'tweakpane'
 	import GenericPane from '$lib/internal/GenericPane.svelte'
-	import { clamp, getSwatchButton, pickerIsOpen, removeKeys } from '$lib/utilities.js'
+	import { clamp, getSwatchButton, pickerIsOpen, removeKeys } from '$lib/utils.js'
 	import { onDestroy, onMount } from 'svelte'
 	import { persisted } from 'svelte-persisted-store'
 

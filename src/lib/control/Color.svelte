@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utilities'
-	import type { ValueChangeEvent } from '$lib/utilities.js'
+	import type { Simplify } from '$lib/utils'
+	import type { ValueChangeEvent } from '$lib/utils.js'
 	import type {
 		RgbaColorObject,
 		RgbColorObject,
@@ -28,8 +28,8 @@
 	import type { ColorInputParams as ColorOptions, InputBindingApi as ColorRef } from 'tweakpane'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
-	import { objectToTuple } from '$lib/utilities'
-	import { fillWith } from '$lib/utilities'
+	import { objectToTuple } from '$lib/utils'
+	import { fillWith } from '$lib/utils'
 	import { isColorObject, isRgbaColorObject, isRgbColorObject } from '@tweakpane/core'
 	import { BROWSER } from 'esm-env'
 	import { shallowEqual } from 'fast-equals'

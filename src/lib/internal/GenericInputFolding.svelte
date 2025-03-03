@@ -11,7 +11,7 @@
 >
 	import type { ComponentProps } from 'svelte'
 	import GenericInput from '$lib/internal/GenericInput.svelte'
-	import { updateCollapsibility } from '$lib/utilities.js'
+	import { updateCollapsibility } from '$lib/utils.js'
 
 	// TODO share prop definitions with GenericBladeFolding?
 	type $$Props = {

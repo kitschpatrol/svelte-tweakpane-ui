@@ -149,6 +149,6 @@ export { default as ThemeUtils } from '$lib/theme.js'
 
 // Utilities export default can still leak "internal" theme stuff, but worth it for simple file
 // structure at the moment
-export type { BindingObject, Plugin, ValueChangeEvent } from '$lib/utilities.js'
+export type { BindingObject, Plugin, ValueChangeEvent } from '$lib/utils.js'
 
-export { default as Utils } from '$lib/utilities.js'
+export { default as Utils } from '$lib/utils.js'

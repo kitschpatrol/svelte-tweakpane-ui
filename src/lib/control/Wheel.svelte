@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utilities.js'
+	import type { ValueChangeEvent } from '$lib/utils.js'
 
 	export type WheelChangeEvent = ValueChangeEvent<number>
 </script>

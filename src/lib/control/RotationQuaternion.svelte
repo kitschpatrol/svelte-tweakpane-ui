@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utilities'
-	import type { ValueChangeEvent } from '$lib/utilities.js'
+	import type { Simplify } from '$lib/utils'
+	import type { ValueChangeEvent } from '$lib/utils.js'
 	import type { PointDimensionParams } from '@tweakpane/core'
 
 	export type RotationQuaternionOptions = Simplify<PointDimensionParams>

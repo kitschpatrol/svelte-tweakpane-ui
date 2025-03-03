@@ -6,7 +6,7 @@
 	import InternalPaneDraggable from '$lib/internal/InternalPaneDraggable.svelte'
 	import InternalPaneFixed from '$lib/internal/InternalPaneFixed.svelte'
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
-	import { removeKeys } from '$lib/utilities'
+	import { removeKeys } from '$lib/utils'
 	import { BROWSER } from 'esm-env'
 	import { beforeUpdate, type ComponentProps } from 'svelte'
 

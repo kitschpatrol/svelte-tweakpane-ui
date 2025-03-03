@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ComponentProps } from 'svelte'
 	import GenericPane from '$lib/internal/GenericPane.svelte'
-	import { removeKeys } from '$lib/utilities.js'
+	import { removeKeys } from '$lib/utils.js'
 
 	type $$Props = {
 		/**

@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utilities'
-	import type { ValueChangeEvent } from '$lib/utilities.js'
+	import type { Simplify } from '$lib/utils'
+	import type { ValueChangeEvent } from '$lib/utils.js'
 
 	export type CubicBezierValueObject = {
 		x1: number
@@ -28,7 +28,7 @@
 	import type { CubicBezierBladeParams as CubicBezierOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/cubic-bezier/plugin.d.ts'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import GenericBladeFolding from '$lib/internal/GenericBladeFolding.svelte'
-	import { fillWith, type UnwrapCustomEvents } from '$lib/utilities'
+	import { fillWith, type UnwrapCustomEvents } from '$lib/utils'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
 	import { CubicBezier } from '@kitschpatrol/tweakpane-plugin-essentials'
 	import { BROWSER } from 'esm-env'
