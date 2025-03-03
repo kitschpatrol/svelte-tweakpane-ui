@@ -253,36 +253,39 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
     })
   }
 
-  onMount(() => {
+  onMount(() => {	
     let animationFrameHandle: number
-    ;(function tick() {
-      // Nesting measurements creates a hierarchy
-      // in the Profile visualization
-      measure('Tick', () => {
-        measure('Trigonometry', () => {
-          hardWork(Math.sin, loopExponent)
-          hardWork(Math.cos, loopExponent)
-          hardWork(Math.tan, loopExponent)
-          hardWork(Math.atan, loopExponent)
-          hardWork(Math.acos, loopExponent)
-          hardWork(Math.acosh, loopExponent)
+		
+	  // Nesting measurements creates a hierarchy
+    // in the Profile visualization
+		function tick() {
+        measure('Tick', () => {
+          measure('Trigonometry', () => {
+            hardWork(Math.sin, loopExponent)
+            hardWork(Math.cos, loopExponent)
+            hardWork(Math.tan, loopExponent)
+            hardWork(Math.atan, loopExponent)
+            hardWork(Math.acos, loopExponent)
+            hardWork(Math.acosh, loopExponent)
+          })
+          measure('Logarithms', () => {
+            hardWork(Math.log, loopExponent)
+            hardWork(Math.log10, loopExponent)
+            hardWork(Math.log1p, loopExponent)
+            hardWork(Math.log2, loopExponent)
+          })
+          measure('Rounding', () => {
+            hardWork(Math.round, loopExponent)
+            hardWork(Math.floor, loopExponent)
+            hardWork(Math.ceil, loopExponent)
+            hardWork(Math.fround, loopExponent)
+          })
         })
-        measure('Logarithms', () => {
-          hardWork(Math.log, loopExponent)
-          hardWork(Math.log10, loopExponent)
-          hardWork(Math.log1p, loopExponent)
-          hardWork(Math.log2, loopExponent)
-        })
-        measure('Rounding', () => {
-          hardWork(Math.round, loopExponent)
-          hardWork(Math.floor, loopExponent)
-          hardWork(Math.ceil, loopExponent)
-          hardWork(Math.fround, loopExponent)
-        })
-      })
 
-      requestAnimationFrame(tick)
-    })()
+        animationFrameHandle = requestAnimationFrame(tick)
+      },
+    
+			tick();
 
     return () => {
       cancelAnimationFrame(animationFrameHandle)
