@@ -28,7 +28,7 @@
 [![NPM Package svelte-tweakpane-ui](https://img.shields.io/npm/v/svelte-tweakpane-ui.svg)](https://npmjs.com/package/svelte-tweakpane-ui)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![MadeWithSvelte](https://madewithsvelte.com/storage/repo-shields/4860-shield.svg)](https://madewithsvelte.com/p/svelte-tweakpane-ui/shield-link)
-[![Documentation](https://img.shields.io/badge/-Documentation-ffdd00?logo=readthedocs&logoColor=222222)](https://kitschpatrol.com/svelte-tweakpane-ui)
+[![Documentation](https://img.shields.io/badge/-Documentation-ffdd00?logo=readthedocs\&logoColor=222222)](https://kitschpatrol.com/svelte-tweakpane-ui)
 
 <!-- /badges -->
 
@@ -49,7 +49,7 @@ The library is compatible with both Svelte 4 and Svelte 5.
 ## Documentation
 
 **_Please see the documentation site for much more information:_**\
-**https://kitschpatrol.com/svelte-tweakpane-ui**
+**<https://kitschpatrol.com/svelte-tweakpane-ui>**
 
 ## Quick start
 

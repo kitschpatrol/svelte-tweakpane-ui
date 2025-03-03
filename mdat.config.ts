@@ -1,9 +1,8 @@
-// import mdatComponentRules from './scripts/mdat-component-rules.ts'
 import { mdatConfig } from '@kitschpatrol/mdat-config'
+import mdatComponentRules from './scripts/mdat-component-rules'
 
 export default mdatConfig({
-	// Todo revisit...
-	// rules: {
-	// 	...mdatComponentRules,
-	// },
+	rules: {
+		...mdatComponentRules,
+	},
 })

@@ -1,11 +1,11 @@
 // Generate basic component documentation for the readme.md file via a
 // custom mdat rule
 
-// import type { Rules } from 'remark-mdat';
+import type { Rules } from 'remark-mdat'
 import { getExportedComponents } from './ast-tools'
 import { getComponentInfo } from './component-info'
 
-const mdatComponentRules = {
+const mdatComponentRules: Rules = {
 	'component-count': String(getExportedComponents('./src/lib/index.ts').length),
 	'component-list': {
 		async content() {
