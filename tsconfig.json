@@ -18,7 +18,13 @@
 		"skipLibCheck": true
 	},
 
-	"include": ["**/*", "**/**.*", ".svelte-kit/ambient.d.ts", ".svelte-kit/types/**/$types.d.ts"],
+	"include": [
+		"**/*",
+		"**/**.*",
+		".svelte-kit/ambient.d.ts",
+		".svelte-kit/types/**/$types.d.ts",
+		"./docs/.astro/types.d.ts"
+	],
 
 	"exclude": ["**/dist/", "**/build/", "**/bin/"]
 }
