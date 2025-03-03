@@ -44,6 +44,8 @@
 	:global(html) {
 		display: flex;
 		gap: 10em;
+		/* TODO */
+		/* stylelint-disable-next-line declaration-property-value-no-unknown */
 		align-items: top;
 		justify-content: center;
 		width: 100vw;

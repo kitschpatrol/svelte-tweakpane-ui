@@ -166,7 +166,7 @@
 		width: 10px;
 		height: 10px;
 		margin: -5px 0 0 -5px;
-		background-color: red;
 		border-radius: 50%;
+		background-color: red;
 	}
 </style>
