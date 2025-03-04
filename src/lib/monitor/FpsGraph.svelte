@@ -177,10 +177,18 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
   let intensity = 4
 
   onMount(() => {
-    ;(function tick() {
+    let animationFrameHandle: number
+
+    function tick() {
       rotation += rotationSpeed
-      requestAnimationFrame(tick)
-    })()
+      animationFrameHandle = requestAnimationFrame(tick)
+    }
+
+    tick()
+
+    return () => {
+      cancelAnimationFrame(animationFrameHandle)
+    }
   })
 
   $: gridSize = intensity ** 2

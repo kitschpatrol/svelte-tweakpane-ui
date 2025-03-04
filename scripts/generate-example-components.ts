@@ -9,7 +9,8 @@ import { lintAndFormat } from './ast-tools'
 fs.rmSync('./docs/src/examples', { force: true, recursive: true })
 fs.copySync('./src/examples', './docs/src/examples')
 
-const reformat = false
+// Leave this on
+const reformat = true
 
 const files = globSync('./docs/src/examples/**/*.svelte')
 for (const filePath of files) {

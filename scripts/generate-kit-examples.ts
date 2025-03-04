@@ -6,7 +6,8 @@ import {
 	lintAndFormat,
 } from './ast-tools'
 
-const reformat = false
+// Leave this on
+const reformat = true
 const components = getExportedComponents('./src/lib/index.ts')
 
 fs.mkdirSync('./src/examples/components', { recursive: true })
