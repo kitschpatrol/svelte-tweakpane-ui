@@ -283,7 +283,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
         })
 
         animationFrameHandle = requestAnimationFrame(tick)
-      },
+      }
     
 			tick();
 

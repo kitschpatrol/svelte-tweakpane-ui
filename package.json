@@ -184,7 +184,7 @@
 	],
 	"scripts": {
 		"build": "pnpm run --sequential /^build:/",
-		"build:01-sync": "pnpm run check",
+		"build:01-sync": "pnpm run check && pnpm run docs-sync",
 		"build:02-exports": "tsx ./scripts/generate-exports.ts",
 		"build:03-add-source-links": "tsx ./scripts/add-source-links.ts",
 		"build:04-format": "pnpm run format",
@@ -204,6 +204,7 @@
 		"docs-build": "pnpm -C ./docs run build",
 		"docs-dev": "pnpm -C ./docs run dev",
 		"docs-preview": "pnpm -C ./docs run preview",
+		"docs-sync": "pnpm -C ./docs run sync",
 		"fix": "kpi fix",
 		"format": "kpi-mdat fix ; kpi-eslint fix ; kpi-prettier fix ; tsx ./scripts/format-embedded-code.ts",
 		"kit-build": "pnpm run kit-examples && vite build",
