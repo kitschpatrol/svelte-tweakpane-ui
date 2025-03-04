@@ -9,16 +9,23 @@ import { lintAndFormat } from './ast-tools'
 fs.rmSync('./docs/src/examples', { force: true, recursive: true })
 fs.copySync('./src/examples', './docs/src/examples')
 
+const reformat = false
+
 const files = globSync('./docs/src/examples/**/*.svelte')
 for (const filePath of files) {
 	try {
 		const directory = path.dirname(filePath)
 		const baseName = path.basename(filePath, '.svelte')
 
-		// Re-format and save .svelte file
+		// Optionally Re-format and save .svelte file
 		let svelteContent = fs.readFileSync(filePath, 'utf8')
 		svelteContent = svelteContent.replace(/'\$lib/, "'svelte-tweakpane-ui")
-		const formattedSvelteContent = await lintAndFormat(svelteContent, 'svelte')
+
+		// eslint-disable-next-line ts/no-unnecessary-condition
+		const formattedSvelteContent = reformat
+			? await lintAndFormat(svelteContent, 'svelte')
+			: svelteContent
+
 		fs.writeFileSync(filePath, formattedSvelteContent)
 
 		// Generate markdown with title
