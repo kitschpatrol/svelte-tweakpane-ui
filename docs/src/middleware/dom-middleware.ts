@@ -1,4 +1,3 @@
-/* eslint-disable node/no-unpublished-import */
 // TODO move this to a package
 
 import type { APIContext, MiddlewareHandler } from 'astro'

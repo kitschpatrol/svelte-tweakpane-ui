@@ -1,4 +1,3 @@
-/* eslint-disable node/no-unpublished-import */
 /* eslint-disable ts/naming-convention */
 
 import starlight from '@astrojs/starlight'

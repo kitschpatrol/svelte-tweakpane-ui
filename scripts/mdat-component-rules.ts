@@ -6,7 +6,12 @@ import { getExportedComponents } from './ast-tools'
 import { getComponentInfo } from './component-info'
 
 const mdatComponentRules: Rules = {
-	'component-count': String(getExportedComponents('./src/lib/index.ts').length),
+	'component-count': {
+		// eslint-disable-next-line ts/require-await
+		async content() {
+			return String(getExportedComponents('./src/lib/index.ts').length)
+		},
+	},
 	'component-list': {
 		async content() {
 			const components = getExportedComponents('./src/lib/index.ts')
