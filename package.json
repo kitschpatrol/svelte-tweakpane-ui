@@ -278,7 +278,7 @@
 	"pnpm": {
 		"overrides": {
 			"@sveltejs/kit>cookie": "^1.0.2",
-			"eslint-plugin-markdown": "^5.1.0"
+			"esbuild": "~0.25.0"
 		},
 		"patchedDependencies": {
 			"@astrojs/starlight@0.25.5": "patches/@astrojs__starlight@0.25.5.patch"
