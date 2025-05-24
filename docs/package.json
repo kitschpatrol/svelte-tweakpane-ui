@@ -1,6 +1,7 @@
 {
 	"name": "svelte-tweakpane-ui-docs",
 	"version": "1.0.0",
+	"description": "Documentation website for Svelte Tweakpane UI.",
 	"license": "MIT",
 	"author": {
 		"name": "Eric Mika",
@@ -33,11 +34,11 @@
 		"svelte-tweakpane-ui": "link:.."
 	},
 	"devDependencies": {
-		"@playform/compress": "^0.1.7",
-		"linkedom": "^0.18.9",
+		"@playform/compress": "^0.1.9",
+		"linkedom": "^0.18.10",
 		"linkinator": "^6.1.2",
-		"marked": "^15.0.7",
-		"svelte": "^4.2.19"
+		"marked": "^15.0.12",
+		"svelte": "^4.2.20"
 	},
 	"engines": {
 		"node": ">=18.0.0",

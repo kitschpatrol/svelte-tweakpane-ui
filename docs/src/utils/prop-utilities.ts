@@ -27,10 +27,7 @@ export function allPropConditions(data: ComponentData): ConditionsRecord {
 
 			for (const prop of unique) {
 				// Ensure unique
-				// eslint-disable-next-line ts/no-unnecessary-condition
-				if (conditionsRecord[prop.name] === undefined) {
-					conditionsRecord[prop.name] = []
-				}
+				conditionsRecord[prop.name] ??= []
 
 				conditionsRecord[prop.name].push({
 					condition: dynamicProp.condition,

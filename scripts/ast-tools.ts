@@ -1,6 +1,13 @@
 // TypeScript AST traversal and extraction tools used by various scripts.
 // @case-police-ignore jsDoc
 
+import type {
+	ClassDeclaration,
+	MethodSignature,
+	Node,
+	PropertySignature,
+	StringLiteral,
+} from 'ts-morph'
 import { query as tsquery } from '@phenomnomnominal/tsquery'
 import { ESLint } from 'eslint'
 import { globSync } from 'glob'
@@ -9,14 +16,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { readPackageUp } from 'read-package-up'
 import { svelte2tsx } from 'svelte2tsx'
-import {
-	type ClassDeclaration,
-	type MethodSignature,
-	type Node,
-	Project,
-	type PropertySignature,
-	type StringLiteral,
-} from 'ts-morph'
+import { Project } from 'ts-morph'
 
 // This will break if multiple components with the same name exist in different folders
 function findFile(

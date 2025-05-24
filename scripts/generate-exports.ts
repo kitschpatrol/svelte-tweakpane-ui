@@ -1,7 +1,8 @@
 // Inspired by https://github.com/shinokada/svelte-lib-helpers
 
+import type { ReadResult } from 'read-package-up'
 import fs from 'node:fs'
-import { readPackageUp, type ReadResult } from 'read-package-up'
+import { readPackageUp } from 'read-package-up'
 import { getExportedComponents, getExportedJs } from './ast-tools'
 
 const verbose = false

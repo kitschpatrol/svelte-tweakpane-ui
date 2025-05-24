@@ -4,13 +4,14 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import * as yaml from 'yaml'
+import type { ComponentDynamicPropTest } from './component-info'
 import {
 	format,
 	getExportedComponents,
 	getGithubUrlForSourceFile,
 	getLastUpdatedDate,
 } from './ast-tools'
-import { type ComponentDynamicPropTest, getComponentInfo } from './component-info'
+import { getComponentInfo } from './component-info'
 
 async function generateComponentData(
 	componentName: string,

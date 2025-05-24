@@ -1,11 +1,6 @@
+import type { RgbaColorObject, RgbColorObject } from '@tweakpane/core'
 import type { Simplify } from '$lib/utils'
-import {
-	getWindowDocument,
-	isRgbaColorObject,
-	isRgbColorObject,
-	type RgbaColorObject,
-	type RgbColorObject,
-} from '@tweakpane/core'
+import { getWindowDocument, isRgbaColorObject, isRgbColorObject } from '@tweakpane/core'
 
 // Only need undefined if we had nested themes... undefined shouldn't override global theme
 export type ThemeColorValue = Simplify<RgbaColorObject | RgbColorObject | string>

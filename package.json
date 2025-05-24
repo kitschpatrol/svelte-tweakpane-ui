@@ -232,53 +232,59 @@
 		"esm-env": "^1.2.2",
 		"fast-copy": "^3.0.2",
 		"fast-equals": "^5.2.2",
-		"nanoid": "^5.1.4",
+		"nanoid": "^5.1.5",
 		"svelte-persisted-store": "0.12.0",
 		"tweakpane": "4.0.5"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^5.3.1",
+		"@kitschpatrol/shared-config": "^5.4.1",
 		"@phenomnomnominal/tsquery": "^6.1.3",
-		"@playwright/test": "^1.51.1",
+		"@playwright/test": "^1.52.0",
 		"@stkb/rewrap": "^0.1.0",
 		"@sveltejs/adapter-static": "^3.0.8",
-		"@sveltejs/kit": "^2.20.0",
-		"@sveltejs/package": "^2.3.10",
+		"@sveltejs/kit": "^2.21.1",
+		"@sveltejs/package": "^2.3.11",
 		"@sveltejs/vite-plugin-svelte": "^3.1.2",
 		"@types/eslint": "^8.56.12",
 		"@types/fs-extra": "^11.0.4",
-		"@types/node": "^18.19.80",
-		"bumpp": "^10.1.0",
-		"eslint": "^9.22.0",
+		"@types/node": "^18.19.103",
+		"bumpp": "^10.1.1",
+		"eslint": "^9.27.0",
 		"fs-extra": "^11.3.0",
-		"glob": "^11.0.1",
+		"glob": "^11.0.2",
 		"postcss-html": "^1.8.0",
 		"prettier": "^3.5.3",
-		"publint": "^0.3.9",
+		"publint": "^0.3.12",
 		"read-package-up": "^11.0.0",
-		"remark-mdat": "^1.0.2",
-		"svelte": "^4.2.19",
-		"svelte-check": "^4.1.5",
+		"remark-mdat": "^1.0.4",
+		"svelte": "^4.2.20",
+		"svelte-check": "^4.2.1",
 		"svelte-language-server": "0.17.0",
-		"svelte2tsx": "^0.7.35",
+		"svelte2tsx": "^0.7.39",
 		"ts-morph": "^24.0.0",
 		"tslib": "^2.8.1",
-		"tsx": "^4.19.3",
-		"typescript": "~5.7.3",
-		"vite": "^5.4.14",
-		"yaml": "^2.7.0"
+		"tsx": "^4.19.4",
+		"typescript": "~5.8.3",
+		"vite": "^5.4.19",
+		"yaml": "^2.8.0"
 	},
 	"peerDependencies": {
 		"svelte": "^4.0.0 || ^5.0.0"
 	},
-	"packageManager": "pnpm@10.6.4",
+	"packageManager": "pnpm@10.11.0",
 	"publishConfig": {
 		"access": "public"
 	},
 	"pnpm": {
+		"onlyBuiltDependencies": [
+			"esbuild",
+			"puppeteer",
+			"sharp",
+			"unrs-resolver"
+		],
 		"overrides": {
 			"@sveltejs/kit>cookie": "^1.0.2",
-			"esbuild": "~0.25.0"
+			"esbuild": "~0.25.4"
 		},
 		"patchedDependencies": {
 			"@astrojs/starlight@0.25.5": "patches/@astrojs__starlight@0.25.5.patch"
