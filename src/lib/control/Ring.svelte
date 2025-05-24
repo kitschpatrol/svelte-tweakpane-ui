@@ -100,7 +100,7 @@ A control evoking the focus ring on a proper camera lens.
 Similar in functionality to a `<Slider>`.
 
 Integrates the [Ring](https://github.com/tweakpane/plugin-camerakit/blob/main/src/plugin-ring.ts)
-control from Tweakpane-creator [Hiroki Kokubun's](https://cocopon.me) [Camerakit
+control from Tweakpane-creator [Hiroki Kokubun's](https://cocopon.me) [CameraKit
 plugin](https://github.com/tweakpane/plugin-camerakit).
 
 Usage outside of a `<Pane>` component will implicitly wrap the ring in `<Pane position="inline">`.

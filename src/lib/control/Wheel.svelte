@@ -63,7 +63,7 @@ A control evoking a dial on a proper camera body.
 Similar in functionality to a `<Slider>`.
 
 Integrates the [Wheel](https://github.com/tweakpane/plugin-camerakit/blob/main/src/plugin-wheel.ts)
-control from Tweakpane-creator [Hiroki Kokubun's](https://cocopon.me) [Camerakit
+control from Tweakpane-creator [Hiroki Kokubun's](https://cocopon.me) [CameraKit
 plugin](https://github.com/tweakpane/plugin-camerakit).
 
 Usage outside of a `<Pane>` component will implicitly wrap the wheel in `<Pane position="inline">`.
