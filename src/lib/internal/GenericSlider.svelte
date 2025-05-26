@@ -70,7 +70,7 @@
 	// it's only used by components that inherit from GenericSlider.
 	// export let wide: $$Props['wide'] = undefined;
 
-	// Deal with format firing a change firing even when the function hasn't changed probably
+	// Deal with format firing a change even when the function hasn't changed, probably
 	// related to https://github.com/sveltejs/svelte/issues/4265 possibly fixable with
 	// immutable=true but I don't want to go there
 	let formatProxy: typeof format = format

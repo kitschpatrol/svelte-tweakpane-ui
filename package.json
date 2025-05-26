@@ -223,7 +223,7 @@
 		"@kitschpatrol/tweakpane-plugin-essentials": "0.2.2-beta.3",
 		"@kitschpatrol/tweakpane-plugin-file-import": "1.1.2-beta.2",
 		"@kitschpatrol/tweakpane-plugin-image": "2.0.1-beta.6",
-		"@kitschpatrol/tweakpane-plugin-inputs": "1.0.4-beta.4",
+		"@kitschpatrol/tweakpane-plugin-inputs": "1.0.4-beta.5",
 		"@kitschpatrol/tweakpane-plugin-profiler": "0.4.2-beta.3",
 		"@kitschpatrol/tweakpane-plugin-rotation": "0.2.1-beta.2",
 		"@kitschpatrol/tweakpane-plugin-textarea": "2.0.1-beta.2",
@@ -237,7 +237,7 @@
 		"tweakpane": "4.0.5"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^5.4.1",
+		"@kitschpatrol/shared-config": "^5.4.2",
 		"@phenomnomnominal/tsquery": "^6.1.3",
 		"@playwright/test": "^1.52.0",
 		"@stkb/rewrap": "^0.1.0",
