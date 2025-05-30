@@ -16,6 +16,12 @@ export {
 } from '$lib/control/Color.svelte'
 
 export {
+	default as ColorPlus,
+	type ColorPlusChangeEvent,
+	type ColorPlusValue,
+} from '$lib/control/ColorPlus.svelte'
+
+export {
 	default as CubicBezier,
 	type CubicBezierChangeEvent,
 	type CubicBezierValue,
