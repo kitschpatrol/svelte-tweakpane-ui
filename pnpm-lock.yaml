@@ -66,8 +66,8 @@ importers:
         specifier: 4.0.5
         version: 4.0.5
       tweakpane-plugin-color-plus:
-        specifier: 0.1.4
-        version: 0.1.4(tweakpane@4.0.5)
+        specifier: 0.1.6
+        version: 0.1.6(tweakpane@4.0.5)
     devDependencies:
       '@kitschpatrol/shared-config':
         specifier: ^5.4.2
@@ -5880,8 +5880,8 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  tweakpane-plugin-color-plus@0.1.4:
-    resolution: {integrity: sha512-wSgKkKmw0JHWzIIshHXqorVfQF2fJMCMfieYmiuRxQd6ZISFte5ishP7QDbVkFYUP9Rc0MJ6GQPJe0168gKU7A==}
+  tweakpane-plugin-color-plus@0.1.6:
+    resolution: {integrity: sha512-joH91i1CPYNb5qtQJXQrzs4n/bDaRldI1cPd5VQb89/MopELe+hp2NxboRRZlev9/uzaPRJeAJLsypDpT809TQ==}
     engines: {node: '>=20.9.0'}
     peerDependencies:
       tweakpane: ^4.0.0
@@ -13871,7 +13871,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  tweakpane-plugin-color-plus@0.1.4(tweakpane@4.0.5):
+  tweakpane-plugin-color-plus@0.1.6(tweakpane@4.0.5):
     dependencies:
       '@tweakpane/core': 2.0.5
       tweakpane: 4.0.5

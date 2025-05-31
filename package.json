@@ -69,6 +69,10 @@
 			"types": "./dist/control/Color.svelte.d.ts",
 			"svelte": "./dist/control/Color.svelte"
 		},
+		"./ColorPlus.svelte": {
+			"types": "./dist/control/ColorPlus.svelte.d.ts",
+			"svelte": "./dist/control/ColorPlus.svelte"
+		},
 		"./CubicBezier.svelte": {
 			"types": "./dist/control/CubicBezier.svelte.d.ts",
 			"svelte": "./dist/control/CubicBezier.svelte"
@@ -235,7 +239,7 @@
 		"nanoid": "^5.1.5",
 		"svelte-persisted-store": "0.12.0",
 		"tweakpane": "4.0.5",
-		"tweakpane-plugin-color-plus": "0.1.4"
+		"tweakpane-plugin-color-plus": "0.1.6"
 	},
 	"devDependencies": {
 		"@kitschpatrol/shared-config": "^5.4.2",
