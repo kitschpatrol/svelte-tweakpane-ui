@@ -216,7 +216,7 @@
 		"kit-examples": "tsx ./scripts/generate-kit-examples.ts",
 		"kit-preview": "vite preview",
 		"lint": "kpi lint && svelte-check --tsconfig ./tsconfig.build.json",
-		"release": "pnpm run build && bumpp --commit 'Release: %s' && pnpm publish --ignore-scripts --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
+		"release": "pnpm run build && bumpp --preid preview --commit 'Release: %s' && pnpm publish --tag preview --ignore-scripts --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
 		"rewrap": "rewrap -i --column 100 `find src \\( -name '*.svelte' -o -name '*.ts'  -o -name '*.html' \\) -type f | grep -v src/examples`",
 		"test": "pnpm run --sequential /^test:/",
 		"test:integration": "playwright test",
