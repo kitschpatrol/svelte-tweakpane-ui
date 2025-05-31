@@ -235,7 +235,7 @@
 		"nanoid": "^5.1.5",
 		"svelte-persisted-store": "0.12.0",
 		"tweakpane": "4.0.5",
-		"tweakpane-plugin-color-plus": "0.1.1"
+		"tweakpane-plugin-color-plus": "0.1.4"
 	},
 	"devDependencies": {
 		"@kitschpatrol/shared-config": "^5.4.2",

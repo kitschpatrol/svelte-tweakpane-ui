@@ -73,9 +73,16 @@
 
 A color picker with support for additional color value formats.
 
-Integrates the color control from the [Color Plus plugin](https://github.com/kitschpatrol/tweakpane-plugin-color-plus).
+Integrates the color control from the [Color Plus
+plugin](https://github.com/kitschpatrol/tweakpane-plugin-color-plus).
 
-Wraps Tweakpane's [color input binding](https://tweakpane.github.io/docs/input-bindings/#color).
+This component looks just like the Tweakpane-native `<Color>` control, but
+it adds support for all [CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/) color string formats as well as a
+wider range of color object keys.
+
+The plugin on which `<ColorPlus>` is based is still under active development, but can generally be used as a drop-in replacement for the `Color` control. Please report any issues you might encountered.
+
+`<ColorPlus>` might replace the `<Color>` control entirely in the next major version of `svelte-tweakpane-ui`.
 
 Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane
 position="inline">`.
@@ -87,8 +94,8 @@ position="inline">`.
 <script lang="ts">
   import { ColorPlus } from 'svelte-tweakpane-ui'
 
-  let startColor = '#fff000'
-  let endColor = '#ff00ff'
+  let startColor = 'oklch(93.7% 0.199 105deg / 1)'
+  let endColor = 'oklch(70.2% 0.322 328deg / 1)'
 </script>
 
 <ColorPlus bind:value={startColor} label="Start Color" />
