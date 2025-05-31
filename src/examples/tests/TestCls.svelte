@@ -7,6 +7,7 @@
 		Button,
 		ButtonGrid,
 		Color,
+		ColorPlus,
 		CubicBezier,
 		type CubicBezierValueTuple,
 		Element,
@@ -254,6 +255,17 @@
 <Color bind:value={startColorA} expanded={true} label="Start Color" picker="inline" />
 <h1>Color</h1>
 <Color bind:value={startColorA} expanded={true} picker="inline" />
+
+<h1>Color Plus</h1>
+<ColorPlus bind:value={startColor} label="Start Color" />
+<h1>Color Plus</h1>
+<ColorPlus bind:value={startColor} expanded={true} label="Start Color" picker="inline" />
+<h1>Color Plus</h1>
+<ColorPlus bind:value={startColor} expanded={true} picker="inline" />
+<h1>Color Plus</h1>
+<ColorPlus bind:value={startColorA} expanded={true} label="Start Color" picker="inline" />
+<h1>Color Plus</h1>
+<ColorPlus bind:value={startColorA} expanded={true} picker="inline" />
 
 <h1>Text</h1>
 <Text bind:value={text} label="The Message" />

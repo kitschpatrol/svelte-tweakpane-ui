@@ -10,6 +10,7 @@
 	import type { ComponentProps } from 'svelte'
 	import type { InputBindingApi as ColorPlusRef } from 'tweakpane'
 	import type { ColorPlusInputParams as ColorPlusOptions } from 'tweakpane-plugin-color-plus/lite'
+	import { ColorPlusModel } from 'tweakpane-plugin-color-plus/lite'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
 	import { fillWith } from '$lib/utils'
@@ -60,6 +61,8 @@
 	// Work-around for funky folding
 	const buttonClass = 'tp-colswv_b'
 
+	// TODO do we need to expose and set an explicit alpha prop?
+	// Implicit alpha seems to work fine?
 	$: options = {
 		color: {
 			type,
@@ -130,9 +133,9 @@ position="inline">`.
 	<!-- Main swatch -->
 	<ClsPad keysAdd={fillWith('containerUnitSize', 6)} theme={$$props.theme} />
 	<ClsPad keysAdd={fillWith('containerUnitSpacing', 3)} theme={$$props.theme} />
-	<!-- TODO detect alpha slider... -->
-	<!-- {#if isRgbaColorObject(internalValue)}
+	<!-- Detect alpha slider... -->
+	{#if ColorPlusModel.getFormat(value, false, type)?.alpha}
 		<ClsPad keysAdd={fillWith('containerUnitSize', 1)} theme={$$props.theme} />
 		<ClsPad extra={2} keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} />
-	{/if} -->
+	{/if}
 {/if}
