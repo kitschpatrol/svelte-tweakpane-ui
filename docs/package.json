@@ -35,7 +35,7 @@
 	},
 	"devDependencies": {
 		"@playform/compress": "^0.1.9",
-		"linkedom": "^0.18.10",
+		"linkedom": "^0.18.11",
 		"linkinator": "^6.1.2",
 		"marked": "^15.0.12",
 		"svelte": "^4.2.20"
