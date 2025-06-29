@@ -107,10 +107,10 @@
 
 	$: ref && wide !== undefined && updateWide(wide)
 
-	$: value, updateInternalValueFromValue()
-	$: internalValue, updateValueFromInternalValue()
+	$: (value, updateInternalValueFromValue())
+	$: (internalValue, updateValueFromInternalValue())
 	$: meanValue = (internalValue.min + internalValue.max) / 2
-	$: meanValue, updateValueFromMean()
+	$: (meanValue, updateValueFromMean())
 </script>
 
 <!--

@@ -44,7 +44,7 @@
 	// eslint-disable-next-line svelte/no-immutable-reactive-statements
 	$: object = { [key]: getValue() }
 	$: value = object[key]
-	$: value, setValue()
+	$: (value, setValue())
 </script>
 
 <!--

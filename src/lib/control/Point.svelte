@@ -240,8 +240,8 @@
 		}
 	}
 
-	$: value, updateInternalValueFromValue()
-	$: internalValue, updateValueFromInternalValue()
+	$: (value, updateInternalValueFromValue())
+	$: (internalValue, updateValueFromInternalValue())
 	// eslint-disable-next-line svelte/no-immutable-reactive-statements
 	$: options = {
 		x: optionsX,

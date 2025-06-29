@@ -103,8 +103,8 @@
 		view: 'input-image',
 	}
 
-	$: value, updateInternalValueFromValue()
-	$: internalValue, updateValueFromInternalValue()
+	$: (value, updateInternalValueFromValue())
+	$: (internalValue, updateValueFromInternalValue())
 </script>
 
 <!--

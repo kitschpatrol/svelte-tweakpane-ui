@@ -142,8 +142,8 @@
 	// alpha to true on 0x00ffd6 doesn't add the control... were these both deprecated in 4.0?
 	// https://github.com/cocopon/tweakpane/issues/450 options.color.alpha, options.color.type
 
-	$: value, updateInternalValueFromValue()
-	$: internalValue, updateValueFromInternalValue()
+	$: (value, updateInternalValueFromValue())
+	$: (internalValue, updateValueFromInternalValue())
 	$: options = {
 		color: {
 			type,

@@ -526,8 +526,8 @@
 	// No browser check...
 	$: maxAvailablePanelWidth = Math.min(maxWidth ?? 600, documentWidth - (x ?? 0))
 
-	$: localStoreId, storePositionLocally && addStorageId()
-	$: localStoreId, !storePositionLocally && removeStorageId()
+	$: (localStoreId, storePositionLocally && addStorageId())
+	$: (localStoreId, !storePositionLocally && removeStorageId())
 	$: localStoreId !== `${localStorePrefix}${localStoreId}` && updateLocalStoreId(localStoreId)
 
 	// Proxy everything to the store
