@@ -22,7 +22,7 @@
 		source = await getRandomKittenUrl()
 	}}
 	label="Random Placeholder"
-	title="Load Kitten"
+	title="Load Cat"
 />
 <Image
 	bind:value={source}

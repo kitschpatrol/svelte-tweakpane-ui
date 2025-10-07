@@ -28,8 +28,8 @@ importers:
         specifier: 1.1.2-beta.2
         version: 1.1.2-beta.2(tweakpane@4.0.5)
       '@kitschpatrol/tweakpane-plugin-image':
-        specifier: 2.0.1-beta.6
-        version: 2.0.1-beta.6(tweakpane@4.0.5)
+        specifier: 2.0.1-beta.8
+        version: 2.0.1-beta.8(tweakpane@4.0.5)
       '@kitschpatrol/tweakpane-plugin-inputs':
         specifier: 1.0.4-beta.5
         version: 1.0.4-beta.5(tweakpane@4.0.5)
@@ -1161,8 +1161,8 @@ packages:
     peerDependencies:
       tweakpane: ^4.0.0
 
-  '@kitschpatrol/tweakpane-plugin-image@2.0.1-beta.6':
-    resolution: {integrity: sha512-eaDYP3qjYHmXvlC9P8XIj+zVb176G96rStL224o+RcU5S4LWPXRXvpucltPbLWVFRi2AFo5LHoEFSkSB1P07Og==}
+  '@kitschpatrol/tweakpane-plugin-image@2.0.1-beta.8':
+    resolution: {integrity: sha512-QiJtvKPwrPWQ9rBR8DLWV0dY6AUiLuE8QcuuseK5EKXaTfc4KNMGI7ihaWw4FVayIzsEQyb7D6vwjeiW3dIqvA==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       tweakpane: ^4.0.0
@@ -7680,7 +7680,7 @@ snapshots:
       '@tweakpane/core': 2.0.5
       tweakpane: 4.0.5
 
-  '@kitschpatrol/tweakpane-plugin-image@2.0.1-beta.6(tweakpane@4.0.5)':
+  '@kitschpatrol/tweakpane-plugin-image@2.0.1-beta.8(tweakpane@4.0.5)':
     dependencies:
       '@tweakpane/core': 2.0.5
       tweakpane: 4.0.5
