@@ -138,7 +138,7 @@
 		view: 'cubicbezier',
 	}
 	$: cubicBezierBlade && addEvent()
-	$: value, cubicBezierBlade && setValue()
+	$: (value, cubicBezierBlade && setValue())
 </script>
 
 <!--

@@ -142,18 +142,8 @@
 	// alpha to true on 0x00ffd6 doesn't add the control... were these both deprecated in 4.0?
 	// https://github.com/cocopon/tweakpane/issues/450 options.color.alpha, options.color.type
 
-	// TODO necessary? Svelte 4 vs 5? Can't reproduce at the moment.
-	// function addListeners() {
-	// 	// ref.on('change', () => {
-	// 	// 	// Issue where changes from the color picker swatch view aren't reflected in other
-	// 	// 	// controls on the same pane TODO figure this out...
-	// 	// 	ref.refresh()
-	// 	// })
-	// }
-
-	$: value, updateInternalValueFromValue()
-	$: internalValue, updateValueFromInternalValue()
-	// $: ref !== undefined && addListeners()
+	$: (value, updateInternalValueFromValue())
+	$: (internalValue, updateValueFromInternalValue())
 	$: options = {
 		color: {
 			type,

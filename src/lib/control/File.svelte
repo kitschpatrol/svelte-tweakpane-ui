@@ -99,8 +99,8 @@
 		view: 'file-input',
 	}
 
-	$: value, updateInternalValueFromValue()
-	$: internalValue, updateValueFromInternalValue()
+	$: (value, updateInternalValueFromValue())
+	$: (internalValue, updateValueFromInternalValue())
 </script>
 
 <!--

@@ -235,7 +235,7 @@
 
 	// Options seem immutable...
 	// have to recreate old version supporting key changes $: key, options,
-	$: options, $parentStore !== undefined && index !== undefined && create()
+	$: (options, $parentStore !== undefined && index !== undefined && create())
 	$: _ref !== undefined && (_ref.disabled = disabled)
 	$: _ref !== undefined && (_ref.label = label)
 

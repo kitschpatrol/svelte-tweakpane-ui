@@ -38,7 +38,7 @@ export default eslintConfig(
 				'depend/ban-dependencies': [
 					'error',
 					{
-						allowed: ['execa', 'glob', 'fs-extra'],
+						allowed: ['execa', 'glob', 'fs-extra', 'read-package-up'],
 					},
 				],
 				'import/no-named-as-default-member': 'off',

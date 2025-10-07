@@ -147,7 +147,7 @@
 		view: 'list',
 	}
 	$: listBlade && addEvent()
-	$: value, listBlade && setValue()
+	$: (value, listBlade && setValue())
 </script>
 
 <!--

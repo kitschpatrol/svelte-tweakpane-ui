@@ -103,8 +103,8 @@
 		view: 'input-image',
 	}
 
-	$: value, updateInternalValueFromValue()
-	$: internalValue, updateValueFromInternalValue()
+	$: (value, updateInternalValueFromValue())
+	$: (internalValue, updateValueFromInternalValue())
 </script>
 
 <!--
@@ -136,28 +136,22 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
   import { Button, Image, type ImageValue } from '$lib'
 
   let source: ImageValue
-
-  async function getRandomKittenUrl() {
-    const { url } = await fetch('https://loremflickr.com/800/800/kitten', {
-      method: 'HEAD',
-      redirect: 'follow',
-    })
-    return url
-  }
 </script>
 
 <Image bind:value={source} fit="contain" label="Image" />
 <Button
-  on:click={async () => {
-    source = await getRandomKittenUrl()
+  on:click={() => {
+    const randomIndex = Math.floor(Math.random() * 1000)
+    source = `https://static.photos/textures/640x360/${randomIndex}`
   }}
   label="Random Placeholder"
-  title="Load Kitten"
+  title="Load Placeholder"
 />
 
 <div class="demo">
   {#if source === undefined}
     <p>Tap “No Image” above to load an image from disk.</p>
+    <p>Or tap "Load Placeholder" to show a random image from the web.</p>
   {:else if typeof source === 'string'}
     <img alt="" src={source} />
   {/if}
@@ -166,6 +160,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 <style>
   div.demo {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     aspect-ratio: 1;

@@ -143,8 +143,8 @@
 		}
 	}
 
-	$: value, updateInternalValueFromValue()
-	$: internalValue, updateValueFromInternalValue()
+	$: (value, updateInternalValueFromValue())
+	$: (internalValue, updateValueFromInternalValue())
 	$: options = {
 		x: optionsX,
 		y: optionsY,
