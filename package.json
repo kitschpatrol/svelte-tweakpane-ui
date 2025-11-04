@@ -212,7 +212,7 @@
 		"kit-examples": "tsx ./scripts/generate-kit-examples.ts",
 		"kit-preview": "vite preview",
 		"lint": "kpi lint && svelte-check --tsconfig ./tsconfig.build.json",
-		"release": "pnpm run build && bumpp --commit 'Release: %s' && pnpm publish --ignore-scripts --otp $(op read 'op://Personal/Npmjs/one-time password?attribute=otp')",
+		"release": "pnpm run build && bumpp --commit 'Release: %s' && NPM_AUTH_TOKEN=$(op read 'op://Personal/npm/token') && pnpm publish --ignore-scripts",
 		"rewrap": "rewrap -i --column 100 `find src \\( -name '*.svelte' -o -name '*.ts'  -o -name '*.html' \\) -type f | grep -v src/examples`",
 		"test": "pnpm run --sequential /^test:/",
 		"test:integration": "playwright test",
@@ -231,47 +231,46 @@
 		"@tweakpane/core": "2.0.5",
 		"esm-env": "^1.2.2",
 		"fast-copy": "^3.0.2",
-		"fast-equals": "^5.2.2",
-		"nanoid": "^5.1.5",
+		"fast-equals": "^5.3.2",
+		"nanoid": "^5.1.6",
 		"svelte-persisted-store": "0.12.0",
 		"tweakpane": "4.0.5"
 	},
 	"devDependencies": {
 		"@kitschpatrol/shared-config": "~5.4.4",
 		"@phenomnomnominal/tsquery": "^6.1.3",
-		"@playwright/test": "^1.53.1",
+		"@playwright/test": "^1.56.1",
 		"@stkb/rewrap": "^0.1.0",
-		"@sveltejs/adapter-static": "^3.0.8",
-		"@sveltejs/kit": "^2.22.2",
-		"@sveltejs/package": "^2.3.12",
+		"@sveltejs/adapter-static": "^3.0.10",
+		"@sveltejs/kit": "^2.48.4",
+		"@sveltejs/package": "^2.5.4",
 		"@sveltejs/vite-plugin-svelte": "^3.1.2",
 		"@types/eslint": "^8.56.12",
 		"@types/fs-extra": "^11.0.4",
-		"@types/node": "^18.19.113",
-		"bumpp": "^10.2.0",
-		"eslint": "^9.30.0",
-		"fs-extra": "^11.3.0",
+		"@types/node": "^18.19.130",
+		"bumpp": "^10.3.1",
+		"eslint": "^9.39.1",
+		"fs-extra": "^11.3.2",
 		"glob": "^11.0.3",
 		"postcss-html": "^1.8.0",
 		"prettier": "^3.6.2",
-		"publint": "^0.3.12",
+		"publint": "^0.3.15",
 		"read-package-up": "^11.0.0",
-		"remark-mdat": "^1.0.4",
 		"svelte": "^4.2.20",
-		"svelte-check": "^4.2.2",
+		"svelte-check": "^4.3.3",
 		"svelte-language-server": "0.17.0",
-		"svelte2tsx": "^0.7.40",
+		"svelte2tsx": "^0.7.45",
 		"ts-morph": "^24.0.0",
 		"tslib": "^2.8.1",
-		"tsx": "^4.20.3",
+		"tsx": "^4.20.6",
 		"typescript": "~5.8.3",
-		"vite": "^5.4.20",
-		"yaml": "^2.8.0"
+		"vite": "^5.4.21",
+		"yaml": "^2.8.1"
 	},
 	"peerDependencies": {
 		"svelte": "^4.0.0 || ^5.0.0"
 	},
-	"packageManager": "pnpm@10.12.4",
+	"packageManager": "pnpm@10.20.0",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -283,9 +282,9 @@
 			"unrs-resolver"
 		],
 		"overrides": {
-			"@eslint/plugin-kit": "~0.4.0",
+			"@eslint/plugin-kit": "~0.4.1",
 			"@sveltejs/kit>cookie": "^1.0.2",
-			"esbuild": "~0.25.5"
+			"esbuild": "~0.25.12"
 		},
 		"patchedDependencies": {
 			"@astrojs/starlight@0.25.5": "patches/@astrojs__starlight@0.25.5.patch"

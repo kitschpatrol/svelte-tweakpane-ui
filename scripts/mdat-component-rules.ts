@@ -1,7 +1,7 @@
 // Generate basic component documentation for the readme.md file via a
 // custom mdat rule
 
-import type { Rules } from 'remark-mdat'
+import type { Rules } from 'mdat'
 import { getExportedComponents } from './ast-tools'
 import { getComponentInfo } from './component-info'
 

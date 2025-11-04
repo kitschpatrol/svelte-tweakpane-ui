@@ -14,15 +14,15 @@
 
 	type $$Props = {
 		/**
-		 * A `string` value to control.
-		 * @bindable
-		 * */
-		value: string
-		/**
 		 * Whether to provide live updates to the bound `value` on every keystroke.
 		 * @default `true`
-		 * */
+		 */
 		live?: boolean
+		/**
+		 * A `string` value to control.
+		 * @bindable
+		 */
+		value: string
 		/**
 		 * Placeholder text to display when the `value` is empty.
 		 * @default `'Enter text here'`

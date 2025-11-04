@@ -10,6 +10,7 @@ export default knipConfig({
 		'@stkb/rewrap',
 		'@types/eslint',
 		'linkedom',
+		'mdat',
 		'postcss-html',
 		'prettier-plugin-packagejson',
 		'prettier-plugin-sh',
