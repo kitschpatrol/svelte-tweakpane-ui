@@ -101,8 +101,8 @@ importers:
         specifier: ^18.19.130
         version: 18.19.130
       bumpp:
-        specifier: ^10.3.1
-        version: 10.3.1(magicast@0.5.1)
+        specifier: ^10.3.2
+        version: 10.3.2(magicast@0.5.1)
       eslint:
         specifier: ^9.39.1
         version: 9.39.1(jiti@2.6.1)
@@ -116,7 +116,7 @@ importers:
         specifier: ^1.8.0
         version: 1.8.0
       prettier:
-        specifier: ^3.6.2
+        specifier: ~3.6.2
         version: 3.6.2
       publint:
         specifier: ^0.3.15
@@ -162,13 +162,13 @@ importers:
         version: 0.9.6(prettier-plugin-astro@0.14.1)(prettier@3.6.2)(typescript@5.8.3)
       '@astrojs/starlight':
         specifier: 0.36.3
-        version: 0.36.3(patch_hash=f86c6c290e4859da6dbb5a1bed412e5086ed64bc87a1aa1e5ee3b36874380556)(astro@5.16.1(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1))
+        version: 0.36.3(patch_hash=f86c6c290e4859da6dbb5a1bed412e5086ed64bc87a1aa1e5ee3b36874380556)(astro@5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1))
       '@astrojs/svelte':
         specifier: ^7.2.2
-        version: 7.2.2(@types/node@22.19.1)(astro@5.16.1(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1))(jiti@2.6.1)(lightningcss@1.30.1)(svelte@5.45.2)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)
+        version: 7.2.2(@types/node@22.19.1)(astro@5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1))(jiti@2.6.1)(lightningcss@1.30.1)(svelte@5.45.2)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)
       astro:
-        specifier: ^5.16.1
-        version: 5.16.1(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)
+        specifier: ^5.16.2
+        version: 5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)
       github-slugger:
         specifier: ^2.0.0
         version: 2.0.0
@@ -194,6 +194,9 @@ importers:
       marked:
         specifier: ^17.0.1
         version: 17.0.1
+      starlight-llms-txt:
+        specifier: ^0.6.0
+        version: 0.6.0(@astrojs/starlight@0.36.3(patch_hash=f86c6c290e4859da6dbb5a1bed412e5086ed64bc87a1aa1e5ee3b36874380556)(astro@5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)))(astro@5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1))
       svelte:
         specifier: ^5.45.2
         version: 5.45.2
@@ -1750,6 +1753,9 @@ packages:
   '@tybys/wasm-util@0.10.1':
     resolution: {integrity: sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg==}
 
+  '@types/braces@3.0.5':
+    resolution: {integrity: sha512-SQFof9H+LXeWNz8wDe7oN5zu7ket0qwMu5vZubW4GCJ8Kkeh6nBWUz87+KTz/G3Kqsrp0j/W253XJb3KMEeg3w==}
+
   '@types/concat-stream@2.0.3':
     resolution: {integrity: sha512-3qe4oQAPNwVNwK4C9c8u+VJqv9kez+2MR4qJpoPFfXtgxxif1QbFusvXzK0/Wra2VX07smostI2VMmJNSpZjuQ==}
 
@@ -1809,6 +1815,9 @@ packages:
 
   '@types/mdx@2.0.13':
     resolution: {integrity: sha512-+OWZQfAYyio6YkJb3HLxDrvnx6SWWDbC0zVPfBRzUk0/nqoDyf6dNxQi3eArPe8rJ473nobTMQ/8Zk+LxJ+Yuw==}
+
+  '@types/micromatch@4.0.10':
+    resolution: {integrity: sha512-5jOhFDElqr4DKTrTEbnW8DZ4Hz5LRUEmyrGpCMrD/NphYv3nUnaF08xmSLx1rGGnyEs/kFnhiw6dCgcDqMr5PQ==}
 
   '@types/ms@2.1.0':
     resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
@@ -2182,8 +2191,8 @@ packages:
     peerDependencies:
       astro: ^4.0.0-beta || ^5.0.0-beta || ^3.3.0
 
-  astro@5.16.1:
-    resolution: {integrity: sha512-fkEP3Qi7QlVL4ncyecLRzi+eZx/2RByNApjyw7n5kMhkF9vCYuOZBBm7EbdYM3vrCirSqvSn19C03vjhvKRa6A==}
+  astro@5.16.2:
+    resolution: {integrity: sha512-NFXqhB1UgBvleF5rLZ7a31Qzprf1lSch+k8o2XTvsw1d97gxGrjVVeWa8AnZUFtirz84YPW6+5NbLVNzS2y+uQ==}
     engines: {node: 18.20.8 || ^20.3.0 || >=22.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -2277,8 +2286,8 @@ packages:
     resolution: {integrity: sha512-bkXY9WsVpY7CvMhKSR6pZilZu9Ln5WDrKVBUXf2S443etkmEO4V58heTecXcUIsNsi4Rx8JUO4NfX1IcQl4deg==}
     engines: {node: '>=18.20'}
 
-  bumpp@10.3.1:
-    resolution: {integrity: sha512-cOKPRFCWvHcYPJQAHN6V7Jp/wAfnyqQRXQ+2fgWIL6Gao20rpu7xQ1cGGo1APOfmbQmmHngEPg9Fy7nJ3giRkQ==}
+  bumpp@10.3.2:
+    resolution: {integrity: sha512-yUUkVx5zpTywLNX97MlrqtpanI7eMMwFwLntWR2EBVDw3/Pm3aRIzCoDEGHATLIiHK9PuJC7xWI4XNWqXItSPg==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -3536,6 +3545,9 @@ packages:
 
   hast-util-to-jsx-runtime@2.3.6:
     resolution: {integrity: sha512-zl6s8LwNyo1P9uw+XJGvZtdFF1GdAkOg8ujOw+4Pyb76874fLps4ueHXDhXWdk6YHQ6OgUtinliG7RsYvCbbBg==}
+
+  hast-util-to-mdast@10.1.2:
+    resolution: {integrity: sha512-FiCRI7NmOvM4y+f5w32jPRzcxDIz+PUqDwEqn1A+1q2cdp3B8Gx7aVrXORdOKjMNDQsD1ogOr896+0jJHW1EFQ==}
 
   hast-util-to-parse5@8.0.0:
     resolution: {integrity: sha512-3KKrV5ZVI8if87DVSi1vDeByYrkGzg4mEfeu4alwgmmIeARiBLKCZS2uw5Gb6nU9x9Yufyj3iudm6i7nl52PFw==}
@@ -5016,6 +5028,9 @@ packages:
   rehype-format@5.0.1:
     resolution: {integrity: sha512-zvmVru9uB0josBVpr946OR8ui7nJEdzZobwLOOqHb/OOD88W0Vk2SqLwoVOj0fM6IPCCO6TaV9CvQvJMWwukFQ==}
 
+  rehype-minify-whitespace@6.0.2:
+    resolution: {integrity: sha512-Zk0pyQ06A3Lyxhe9vGtOtzz3Z0+qZ5+7icZ/PL/2x1SHPbKao5oB/g/rlc6BCTajqBb33JcOe71Ye1oFsuYbnw==}
+
   rehype-parse@9.0.1:
     resolution: {integrity: sha512-ksCzCD0Fgfh7trPDxr2rSylbwq9iYDkSn8TCDmEJ49ljEUBxDVCzCHv7QNzZOfODanX4+bWQ4WZqLCRWYLfhag==}
 
@@ -5024,6 +5039,9 @@ packages:
 
   rehype-recma@1.0.0:
     resolution: {integrity: sha512-lqA4rGUf1JmacCNWWZx0Wv1dHqMwxzsDWYMTowuplHF3xH0N/MmrZ/G3BDZnzAkRmxDadujCjaKM2hqYdCBOGw==}
+
+  rehype-remark@10.0.1:
+    resolution: {integrity: sha512-EmDndlb5NVwXGfUa4c9GPK+lXeItTilLhE6ADSaQuHr4JUlKw9MidzGzx4HpqZrNCt6vnHmEifXQiiA+CEnjYQ==}
 
   rehype-stringify@10.0.1:
     resolution: {integrity: sha512-k9ecfXHmIPuFVI61B9DeLPN0qFHfawM6RsuX48hoqlaKSF61RskNjSm1lI8PhBEM0MRdLxVVm4WmTqJQccH9mA==}
@@ -5426,6 +5444,13 @@ packages:
     resolution: {integrity: sha512-o3yWv49B/o4QZk5ZcsALc6t0+eCelPc44zZsLtCQnZPDwFpDYSWcDnrv2TtMmMbQ7uKo3J0HTURCqckw23czNQ==}
     engines: {node: '>=12.0.0'}
 
+  starlight-llms-txt@0.6.0:
+    resolution: {integrity: sha512-mKkRPlGZ+kKJlnclXkW3s+RSVF/10Ct2BsQ4dYDaK8j4h/L55WbZCds1PsqQiLYPrDp7wIN6gm7LYsrUlGaBjQ==}
+    engines: {node: ^18.17.1 || ^20.3.0 || >=21.0.0}
+    peerDependencies:
+      '@astrojs/starlight': '>=0.31'
+      astro: ^5.1.6
+
   stop-iteration-iterator@1.1.0:
     resolution: {integrity: sha512-eLoXW/DHyl62zxY4SCaIgnRhuMr6ri4juEYARS8E6sCEqzKpOiE521Ucofdx+KnDZl5xmvGYaaKCk5FEOxJCoQ==}
     engines: {node: '>= 0.4'}
@@ -5665,6 +5690,9 @@ packages:
   trim-lines@3.0.1:
     resolution: {integrity: sha512-kRj8B+YHZCc9kQYdWfJB2/oUl9rA99qbowYYBtr4ui4mZyAQ2JpvVBd/6U2YloATfqBhBTSMhTpgBHtU0Mf3Rg==}
 
+  trim-trailing-lines@2.1.0:
+    resolution: {integrity: sha512-5UR5Biq4VlVOtzqkm2AZlgvSlDJtME46uV0br0gENbwN4l5+mMKT4b9gJKqWtuL2zAIqajGJGuvbCbcAJUZqBg==}
+
   trough@2.2.0:
     resolution: {integrity: sha512-tmMpK00BjZiUyVyvrBK7knerNgmgvcV/KLVyuma/SC+TQN167GrMRciANTz09+k3zW8L8t60jWO1GpfkZdjTaw==}
 
@@ -5830,6 +5858,9 @@ packages:
 
   unist-util-remove-position@5.0.0:
     resolution: {integrity: sha512-Hp5Kh3wLxv0PHj9m2yZhhLt58KzPtEYKQQ4yxfYFEO7EvHwzyDYnduhHnY1mDxoqr7VUwVuHXk9RXKIiYS1N8Q==}
+
+  unist-util-remove@4.0.0:
+    resolution: {integrity: sha512-b4gokeGId57UVRX/eVKej5gXqGlc9+trkORhFJpu9raqZkZhU0zm8Doi05+HaiBsMEIJowL+2WtQ5ItjsngPXg==}
 
   unist-util-stringify-position@4.0.0:
     resolution: {integrity: sha512-0ASV06AAoKCDkS2+xw5RXJywruurpbC4JZSm7nr7MOt1ojAzvyyaO+UxZf18j8FCF6kmzCZKcAgN/yu2gm2XgQ==}
@@ -6370,12 +6401,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@4.3.12(astro@5.16.1(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1))':
+  '@astrojs/mdx@4.3.12(astro@5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1))':
     dependencies:
       '@astrojs/markdown-remark': 6.3.9
       '@mdx-js/mdx': 3.1.1
       acorn: 8.15.0
-      astro: 5.16.1(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)
+      astro: 5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)
       es-module-lexer: 1.7.0
       estree-util-visit: 2.0.0
       hast-util-to-html: 9.0.5
@@ -6399,17 +6430,17 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.25.76
 
-  '@astrojs/starlight@0.36.3(patch_hash=f86c6c290e4859da6dbb5a1bed412e5086ed64bc87a1aa1e5ee3b36874380556)(astro@5.16.1(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1))':
+  '@astrojs/starlight@0.36.3(patch_hash=f86c6c290e4859da6dbb5a1bed412e5086ed64bc87a1aa1e5ee3b36874380556)(astro@5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1))':
     dependencies:
       '@astrojs/markdown-remark': 6.3.9
-      '@astrojs/mdx': 4.3.12(astro@5.16.1(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1))
+      '@astrojs/mdx': 4.3.12(astro@5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1))
       '@astrojs/sitemap': 3.6.0
       '@pagefind/default-ui': 1.4.0
       '@types/hast': 3.0.4
       '@types/js-yaml': 4.0.9
       '@types/mdast': 4.0.4
-      astro: 5.16.1(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)
-      astro-expressive-code: 0.41.3(astro@5.16.1(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1))
+      astro: 5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)
+      astro-expressive-code: 0.41.3(astro@5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1))
       bcp-47: 2.1.0
       hast-util-from-html: 2.0.3
       hast-util-select: 6.0.4
@@ -6432,10 +6463,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/svelte@7.2.2(@types/node@22.19.1)(astro@5.16.1(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1))(jiti@2.6.1)(lightningcss@1.30.1)(svelte@5.45.2)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)':
+  '@astrojs/svelte@7.2.2(@types/node@22.19.1)(astro@5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1))(jiti@2.6.1)(lightningcss@1.30.1)(svelte@5.45.2)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)':
     dependencies:
       '@sveltejs/vite-plugin-svelte': 5.1.1(svelte@5.45.2)(vite@6.4.1(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(terser@5.42.0)(tsx@4.20.6)(yaml@2.8.1))
-      astro: 5.16.1(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)
+      astro: 5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)
       svelte: 5.45.2
       svelte2tsx: 0.7.45(svelte@5.45.2)(typescript@5.8.3)
       typescript: 5.8.3
@@ -7860,7 +7891,7 @@ snapshots:
       '@playform/pipe': 0.1.3
       '@types/csso': 5.0.4
       '@types/html-minifier-terser': 7.0.2
-      astro: 5.16.1(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)
+      astro: 5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)
       commander: 14.0.0
       csso: 5.0.5
       deepmerge-ts: 7.1.5
@@ -8162,6 +8193,8 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
+  '@types/braces@3.0.5': {}
+
   '@types/concat-stream@2.0.3':
     dependencies:
       '@types/node': 18.19.130
@@ -8225,6 +8258,10 @@ snapshots:
       '@types/unist': 3.0.3
 
   '@types/mdx@2.0.13': {}
+
+  '@types/micromatch@4.0.10':
+    dependencies:
+      '@types/braces': 3.0.5
 
   '@types/ms@2.1.0': {}
 
@@ -8626,12 +8663,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  astro-expressive-code@0.41.3(astro@5.16.1(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)):
+  astro-expressive-code@0.41.3(astro@5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)):
     dependencies:
-      astro: 5.16.1(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)
+      astro: 5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)
       rehype-expressive-code: 0.41.3
 
-  astro@5.16.1(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1):
+  astro@5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1):
     dependencies:
       '@astrojs/compiler': 2.13.0
       '@astrojs/internal-helpers': 0.7.5
@@ -8816,7 +8853,7 @@ snapshots:
 
   builtin-modules@5.0.0: {}
 
-  bumpp@10.3.1(magicast@0.5.1):
+  bumpp@10.3.2(magicast@0.5.1):
     dependencies:
       ansis: 4.2.0
       args-tokenizer: 0.3.0
@@ -10550,6 +10587,23 @@ snapshots:
       vfile-message: 4.0.3
     transitivePeerDependencies:
       - supports-color
+
+  hast-util-to-mdast@10.1.2:
+    dependencies:
+      '@types/hast': 3.0.4
+      '@types/mdast': 4.0.4
+      '@ungap/structured-clone': 1.3.0
+      hast-util-phrasing: 3.0.1
+      hast-util-to-html: 9.0.5
+      hast-util-to-text: 4.0.2
+      hast-util-whitespace: 3.0.0
+      mdast-util-phrasing: 4.1.0
+      mdast-util-to-hast: 13.2.1
+      mdast-util-to-string: 4.0.0
+      rehype-minify-whitespace: 6.0.2
+      trim-trailing-lines: 2.1.0
+      unist-util-position: 5.0.0
+      unist-util-visit: 5.0.0
 
   hast-util-to-parse5@8.0.0:
     dependencies:
@@ -12313,6 +12367,11 @@ snapshots:
       '@types/hast': 3.0.4
       hast-util-format: 1.1.0
 
+  rehype-minify-whitespace@6.0.2:
+    dependencies:
+      '@types/hast': 3.0.4
+      hast-util-minify-whitespace: 1.0.1
+
   rehype-parse@9.0.1:
     dependencies:
       '@types/hast': 3.0.4
@@ -12332,6 +12391,14 @@ snapshots:
       hast-util-to-estree: 3.1.3
     transitivePeerDependencies:
       - supports-color
+
+  rehype-remark@10.0.1:
+    dependencies:
+      '@types/hast': 3.0.4
+      '@types/mdast': 4.0.4
+      hast-util-to-mdast: 10.1.2
+      unified: 11.0.5
+      vfile: 6.0.3
 
   rehype-stringify@10.0.1:
     dependencies:
@@ -13084,6 +13151,25 @@ snapshots:
 
   stable-hash-x@0.2.0: {}
 
+  starlight-llms-txt@0.6.0(@astrojs/starlight@0.36.3(patch_hash=f86c6c290e4859da6dbb5a1bed412e5086ed64bc87a1aa1e5ee3b36874380556)(astro@5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)))(astro@5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)):
+    dependencies:
+      '@astrojs/mdx': 4.3.12(astro@5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1))
+      '@astrojs/starlight': 0.36.3(patch_hash=f86c6c290e4859da6dbb5a1bed412e5086ed64bc87a1aa1e5ee3b36874380556)(astro@5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1))
+      '@types/hast': 3.0.4
+      '@types/micromatch': 4.0.10
+      astro: 5.16.2(@types/node@22.19.1)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.3)(terser@5.42.0)(tsx@4.20.6)(typescript@5.8.3)(yaml@2.8.1)
+      github-slugger: 2.0.0
+      hast-util-select: 6.0.4
+      micromatch: 4.0.8
+      rehype-parse: 9.0.1
+      rehype-remark: 10.0.1
+      remark-gfm: 4.0.1
+      remark-stringify: 11.0.0
+      unified: 11.0.5
+      unist-util-remove: 4.0.0
+    transitivePeerDependencies:
+      - supports-color
+
   stop-iteration-iterator@1.1.0:
     dependencies:
       es-errors: 1.3.0
@@ -13434,6 +13520,8 @@ snapshots:
 
   trim-lines@3.0.1: {}
 
+  trim-trailing-lines@2.1.0: {}
+
   trough@2.2.0: {}
 
   ts-api-utils@2.1.0(typescript@5.8.3):
@@ -13650,6 +13738,12 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.3
       unist-util-visit: 5.0.0
+
+  unist-util-remove@4.0.0:
+    dependencies:
+      '@types/unist': 3.0.3
+      unist-util-is: 6.0.1
+      unist-util-visit-parents: 6.0.2
 
   unist-util-stringify-position@4.0.0:
     dependencies:
