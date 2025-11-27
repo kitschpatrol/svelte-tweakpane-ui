@@ -24,7 +24,7 @@
 		"validate-links-live": "pnpx linkinator https://kitschpatrol.com/svelte-tweakpane-ui --recurse --verbosity error --retry-errors-count 2 --retry-errors true --retry true --concurrency 1 --timeout 10000 --retry-errors-jitter 50  --skip www.linkedin.com"
 	},
 	"dependencies": {
-		"@astrojs/check": "^0.9.5",
+		"@astrojs/check": "^0.9.6",
 		"@astrojs/starlight": "0.25.5",
 		"@astrojs/svelte": "^5.7.3",
 		"astro": "^4.16.19",
