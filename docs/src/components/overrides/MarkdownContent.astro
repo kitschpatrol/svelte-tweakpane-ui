@@ -1,14 +1,13 @@
 ---
 // Adds component data to components pages, if available
 
-import type { Props } from '@astrojs/starlight/props'
 import StarlightMarkdownContent from '@astrojs/starlight/components/MarkdownContent.astro'
 import Component from '../docs/Component.astro'
 
-const { componentData } = Astro.props.entry.data
+const { componentData } = Astro.locals.starlightRoute.entry.data
 ---
 
-<StarlightMarkdownContent {...Astro.props}>
+<StarlightMarkdownContent>
 	{
 		componentData ? (
 			<Component {componentData}>

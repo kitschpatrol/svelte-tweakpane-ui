@@ -39,6 +39,22 @@
 	--sl-color-blue-low: hsl(var(--sl-hue-blue) 60% 15%);
 	--sl-color-purple-low: hsl(var(--sl-hue-purple) 60% 15%);
 	--sl-color-orange-low: hsl(var(--sl-hue-orange) 60% 15%);
+	/* --sl-line-height-headings: 0.8em; */
+}
+
+.sl-markdown-content .sl-heading-wrapper {
+	/* The size of the SVG icon. */
+	--sl-anchor-icon-size: 0.7em;
+	/* The horizontal space between the SVG icon and the end of the heading text. */
+	--sl-anchor-icon-gap: 0.15em;
+	/* The end of line space required to accommodate the anchor link. */
+	--sl-anchor-icon-space: calc(var(--sl-anchor-icon-size) + var(--sl-anchor-icon-gap));
+
+	line-height: var(--sl-line-height-headings);
+}
+
+div.hero .sl-link-button {
+	padding: 0.5rem 1.25rem;
 }
 
 :root[data-theme='light'] {
@@ -104,78 +120,6 @@ nav ul li a[aria-current='page'] {
 	color: white;
 	background: var(--st-gradient-alpha);
 	transition: background-color 0.25s ease;
-}
-
-/* Heading anchors */
-
-.heading-anchor-wrapper {
-	position: relative;
-	display: grid;
-	grid-template-columns: auto auto;
-	justify-content: flex-start;
-}
-
-/* stylelint-disable-next-line no-descending-specificity */
-.heading-anchor-wrapper a {
-	position: unset;
-	transform: unset;
-	display: grid;
-	place-items: center;
-	/* aspect-ratio: 1; Weird on safari? */
-	width: 200%;
-	height: 100%;
-	text-decoration: none;
-	opacity: 0;
-	transition: opacity 0.25s ease;
-}
-
-.heading-anchor-wrapper:hover a {
-	opacity: 0.5;
-	transition: opacity 0s ease;
-}
-
-.heading-anchor-wrapper a:hover {
-	opacity: 1;
-	transition: opacity 0s ease;
-}
-
-/* special case to push anchor outside table on prop links */
-/* stylelint-disable-next-line no-descending-specificity */
-table .heading-anchor-wrapper a {
-	justify-items: left;
-	aspect-ratio: unset;
-}
-
-table .heading-anchor-wrapper a span {
-	aspect-ratio: 1;
-	margin-top: -0.5em;
-	margin-bottom: -0.5em;
-	margin-left: 20%;
-}
-
-/* Media query for screens wider than 92rem */
-@media (width >= 92rem) {
-	.heading-anchor-wrapper {
-		display: flex;
-		grid-template-columns: none;
-		justify-content: unset;
-	}
-
-	.heading-anchor-wrapper a {
-		position: absolute;
-		transform: translateX(-100%);
-		aspect-ratio: 1;
-		width: auto;
-	}
-
-	table .heading-anchor-wrapper a {
-		aspect-ratio: 2;
-	}
-
-	table .heading-anchor-wrapper a span {
-		margin-top: unset;
-		margin-bottom: unset;
-	}
 }
 
 nav ul li a[aria-current='true']:hover,

@@ -1,6 +1,6 @@
 /* eslint-disable max-depth */
-import type { Props as StarlightProps } from '@astrojs/starlight/props'
-export type ComponentData = StarlightProps['entry']['data']['componentData']
+import type { StarlightRouteData } from '@astrojs/starlight/route-data'
+export type ComponentData = StarlightRouteData['entry']['data']['componentData']
 export type ComponentProp = NonNullable<ComponentData>['props'][number]
 export type Condition = Omit<
 	NonNullable<NonNullable<ComponentData>['dynamicProps']>[number],

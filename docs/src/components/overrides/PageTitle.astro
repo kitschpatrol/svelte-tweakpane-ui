@@ -1,9 +1,8 @@
 ---
-import type { Props } from '@astrojs/starlight/props'
 import StarlightPageTitle from '@astrojs/starlight/components/PageTitle.astro'
 import { capitalize } from '../../utils/string-utilities.ts'
 
-const { componentData } = Astro.props.entry.data
+const { componentData } = Astro.locals.starlightRoute.entry.data
 ---
 
 {
@@ -14,7 +13,7 @@ const { componentData } = Astro.props.entry.data
 	)
 }
 
-<StarlightPageTitle {...Astro.props} />
+<StarlightPageTitle />
 
 <style>
 	strong {

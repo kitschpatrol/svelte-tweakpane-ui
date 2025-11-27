@@ -77,12 +77,21 @@ export default defineConfig({
 					link: '/docs/acknowledgments',
 				},
 			],
-			social: {
-				github: 'https://github.com/kitschpatrol/svelte-tweakpane-ui',
+			social: [
+				{
+					href: 'https://github.com/kitschpatrol/svelte-tweakpane-ui',
+					icon: 'github',
+					label: 'GitHub',
+				},
+				{ href: 'https://x.com/kitschpatrol', icon: 'x.com', label: 'X' },
 				// Maybe later
-				// mastodon: 'https://mastodon.social/@kitschpatrol',
-				twitter: 'https://twitter.com/kitschpatrol',
-			},
+				// { href: 'https://mastodon.social/@kitschpatrol', icon: 'mastodon', label: 'Mastodon' },
+				// {
+				// 	href: 'https://bsky.app/profile/kitschpatrol.bsky.social',
+				// 	icon: 'blueSky',
+				// 	label: 'Bluesky',
+				// },
+			],
 			title: 'Svelte Tweakpane UI',
 		}),
 		svelte({}),

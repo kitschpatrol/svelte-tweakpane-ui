@@ -1,8 +1,8 @@
 ---
+import AnchorHeading from '@astrojs/starlight/components/AnchorHeading.astro'
 import { marked } from 'marked'
 import type { ComponentProp, Condition, ConditionsRecord } from '../../utils/prop-utilities'
 import Flags from './Flags.astro'
-import Heading from './Heading.astro'
 
 type Props = {
 	conditionData?: ConditionsRecord
@@ -107,8 +107,7 @@ const {
 					<tr>
 						<td class="prop-name" colspan="2">
 							<span class="prop-heading">
-								<Heading level={3} set:html={prop.name} />
-
+								<AnchorHeading id={prop.name.toLowerCase()} level={3} set:text={prop.name} />
 								{showFlags && (
 									<Flags
 										names={getFlags(
@@ -189,6 +188,10 @@ const {
 
 	td {
 		width: auto;
+	}
+
+	table td.prop-name :global(.sl-heading-wrapper) {
+		font-size: var(--sl-text-xl);
 	}
 
 	table td.prop-name :global(h3) {

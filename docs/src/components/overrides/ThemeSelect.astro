@@ -1,5 +1,4 @@
 ---
-import type { Props } from '@astrojs/starlight/props'
 import StarlightThemeSelect from '@astrojs/starlight/components/ThemeSelect.astro'
 
 // eslint-disable-next-line ts/naming-convention
@@ -10,13 +9,13 @@ const { BASE_URL } = import.meta.env
 
 {/* Only show documentation link on home page */}
 {
-	Astro.props.slug === '' && (
+	Astro.locals.starlightRoute.id === '' && (
 		<div>
 			<a href={BASE_URL + '/docs'}>Documentation</a>
 		</div>
 	)
 }
-<StarlightThemeSelect {...Astro.props}>
+<StarlightThemeSelect>
 	<slot />
 </StarlightThemeSelect>
 
