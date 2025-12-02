@@ -28,7 +28,7 @@ async function firstLine(text: string): Promise<string> {
 			if (componentData) {
 				return (
 					<li>
-						<a class="component" href={component.slug} set:html={componentData.name} />
+						<a class="component" href={component.id} set:html={componentData.name} />
 						<br />
 						<fragment set:html={await firstLine(componentData.doc)} />
 					</li>

@@ -1,9 +1,9 @@
 ---
+import AnchorHeading from '@astrojs/starlight/components/AnchorHeading.astro'
 import type { ComponentData } from '../../utils/prop-utilities'
 import { allPropConditions, allProps } from '../../utils/prop-utilities'
 import DynamicPropAdmonition from './DynamicPropAdmonition.mdx'
 import ExampleWrapper from './ExampleWrapper.astro'
-import Heading from './Heading.astro'
 import PropTable from './PropTable.astro'
 // Bypasses any markdown customization in starlight...
 import { marked } from 'marked'
@@ -31,19 +31,19 @@ const hasSlots = Boolean(data?.slots.length)
 			{hasExample && (
 				<>
 					<hr />
-					<Heading level={2}>Example</Heading>
-					<Heading level={3}>Demo</Heading>
+					<AnchorHeading id="example" level={2} set:text="Example" />
+					<AnchorHeading id="demo" level={3} set:text="Demo" />
 					<ExampleWrapper>
 						<slot />
 					</ExampleWrapper>
-					<Heading level={3}>Code</Heading>
+					<AnchorHeading id="code" level={3} set:text="Code" />
 					<ExampleCode />
 				</>
 			)}
 			{hasProps && (
 				<>
 					<hr />
-					<Heading level={2}>Props</Heading>
+					<AnchorHeading id="props" level={2} set:text="Props" />
 					{hasDynamicProps ? (
 						<>
 							<DynamicPropAdmonition />
@@ -57,14 +57,14 @@ const hasSlots = Boolean(data?.slots.length)
 			{hasEvents && (
 				<>
 					<hr />
-					<Heading level={2}>Events</Heading>
+					<AnchorHeading id="events" level={2} set:text="Events" />
 					<PropTable data={data.events} showDefault={false} showFlags={false} />
 				</>
 			)}
 			{hasSlots && (
 				<>
 					<hr />
-					<Heading level={2}>Slots</Heading>
+					<AnchorHeading id="slots" level={2} set:text="Slots" />
 					<PropTable data={data.slots} showDefault={false} showFlags={false} />
 				</>
 			)}

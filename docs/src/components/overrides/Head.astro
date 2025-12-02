@@ -3,11 +3,10 @@
 // We have to do this here instead of in astro.config starlight.head
 // so we can get the bundled asset URL for the font files
 
-import type { Props } from '@astrojs/starlight/props'
 import StarlightHead from '@astrojs/starlight/components/Head.astro'
 import ThemeWatcher from '../docs/ThemeWatcher.astro'
 ---
 
 <ThemeWatcher />
 
-<StarlightHead {...Astro.props} />
+<StarlightHead />
