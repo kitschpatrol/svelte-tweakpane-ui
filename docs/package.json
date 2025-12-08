@@ -34,7 +34,6 @@
 		"svelte-tweakpane-ui": "link:.."
 	},
 	"devDependencies": {
-		"@playform/compress": "^0.2.0",
 		"linkedom": "^0.18.12",
 		"linkinator": "^7.5.1",
 		"marked": "^17.0.1",

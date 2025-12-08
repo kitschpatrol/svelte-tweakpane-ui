@@ -2,7 +2,6 @@
 
 import starlight from '@astrojs/starlight'
 import svelte from '@astrojs/svelte'
-import compress from '@playform/compress'
 import { defineConfig } from 'astro/config'
 import { componentMenu } from './src/utils/config-helpers'
 process.env.BROWSER = 'chromium'
@@ -10,8 +9,8 @@ process.env.BROWSER = 'chromium'
 // https://astro.build/config
 export default defineConfig({
 	base: '/svelte-tweakpane-ui/',
-	compressHTML: false, // Handled via astro-compress
-	// messes up pagefind index if we want to strip the .html
+	compressHTML: true,
+	// Messes up pagefind index if we want to strip the .html
 	// build: {
 	// 	format: 'file'
 	// },
@@ -95,15 +94,6 @@ export default defineConfig({
 			title: 'Svelte Tweakpane UI',
 		}),
 		svelte({}),
-		compress({
-			// Breaks layout in build as of version 0.0.12
-			CSS: false,
-			HTML: true,
-			Image: false,
-			JavaScript: true,
-			// Logger: false,
-			SVG: true,
-		}),
 	],
 	server: {
 		open: true,
