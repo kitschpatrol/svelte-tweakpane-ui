@@ -296,7 +296,6 @@ const keyToCssVariableMap = new Map([
 // string { return '--tp-' + str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
 // }
 
-// eslint-disable-next-line ts/no-redundant-type-constituents
 function stringToCssValue(v: string | ThemeColorValue | undefined): string | undefined {
 	if (v === undefined) {
 		return undefined
