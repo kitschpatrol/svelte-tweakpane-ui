@@ -36,7 +36,8 @@ If you're starting completely from scratch and just want to test out the _Svelte
 Of course you can use _Svelte Tweakpane UI_ anywhere Svelte works, including island frameworks like [Astro](https://astro.build) or [Eleventy](https://is-land.11ty.dev) (albeit with a [caveat or two](/svelte-tweakpane-ui/docs#island-framework-compatibility)).
 
 ```sh
-npx sv create --no-add-ons --types ts --template minimal svelte-tweakpane-sandbox
+npx sv create --no-add-ons --types ts --template minimal --install npm svelte-tweakpane-sandbox
+cd svelte-tweakpane-sandbox
 ```
 
 ---
