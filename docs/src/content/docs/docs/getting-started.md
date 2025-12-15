@@ -35,8 +35,15 @@ If you're starting completely from scratch and just want to test out the _Svelte
 
 Of course you can use _Svelte Tweakpane UI_ anywhere Svelte works, including island frameworks like [Astro](https://astro.build) or [Eleventy](https://is-land.11ty.dev) (albeit with a [caveat or two](/svelte-tweakpane-ui/docs#island-framework-compatibility)).
 
+Create a new SvelteKit project using Svelte's [sv](https://svelte.dev/docs/cli/overview) CLI tool:
+
 ```sh
 npx sv create --no-add-ons --types ts --template minimal --install npm svelte-tweakpane-sandbox
+```
+
+Move into the project directory for the following steps:
+
+```sh
 cd svelte-tweakpane-sandbox
 ```
 
@@ -62,7 +69,7 @@ If you're starting from an empty SvelteKit starter project, you can add a button
 + </script>
 +
 <h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
 + <Button on:click={() => alert('🎛️')} />
 ```
 
