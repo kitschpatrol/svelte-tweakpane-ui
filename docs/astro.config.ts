@@ -8,7 +8,7 @@ process.env.BROWSER = 'chromium'
 
 // https://astro.build/config
 export default defineConfig({
-	base: '/svelte-tweakpane-ui/',
+	base: '/svelte-tweakpane-ui',
 	compressHTML: true,
 	// Messes up pagefind index if we want to strip the .html
 	// build: {
@@ -95,6 +95,7 @@ export default defineConfig({
 		}),
 		svelte({}),
 	],
+	outDir: './dist/svelte-tweakpane-ui',
 	server: {
 		open: true,
 	},

@@ -56,7 +56,7 @@
 	"explorer.fileNesting.patterns": {
 		"*.js": "${basename}.ts.map, ${basename}.js.map, ${basename}.d.ts, ${basename}.d.ts.map, ${basename}.d.js.map",
 		"*.ts": "${basename}.ts.map, ${basename}.d.ts, ${basename}.d.ts.map",
-		".env": ".env.*",
+		".env": ".env.*, .template.env",
 		"package.json": ".*ignore, .*rc, .*.js, .*.mjs, .*.cjs, .*.ts, .*.mts, .*.cts, .*.json, .*.jsonc, .*.json5, .*.yml, .*.yaml, *config.js, *config.mjs, *config.cjs, *config.ts, *config.mts, *config.cts, *config.json, *config.jsonc, *config.json5, *config.yml, *config.yaml, pnpm*, workspace*, yarn*, lerna.json, netlify.toml, package-lock.json, turbo.json, vercel.json, wrangler.toml, yarn.lock",
 		"readme.md": "authors*, backers*, changelog*, citation*, code_of_conduct*, contributing*, contributors*, copying*, credits*, governance*, history*, license*, maintainers*, release_notes*, security*, sponsors*"
 	},

@@ -1,0 +1,16 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "svelte-tweakpane-ui",
+	"compatibility_date": "2026-01-13",
+	"dev": {
+		"local_protocol": "https",
+		"port": 8787
+	},
+	"assets": {
+		"directory": "./dist",
+		"html_handling": "drop-trailing-slash",
+		"not_found_handling": "404-page"
+	},
+	"workers_dev": false,
+	"route": "kitschpatrol.com/svelte-tweakpane-ui*"
+}

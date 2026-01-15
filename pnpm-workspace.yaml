@@ -20,7 +20,6 @@ onlyBuiltDependencies:
   - unrs-resolver
 overrides:
   '@eslint/plugin-kit': '~0.4.1'
-  '@sveltejs/kit>cookie': '^1.1.1'
-  esbuild: '~0.25.12'
+  esbuild: '~0.27.2'
 patchedDependencies:
   '@astrojs/starlight': patches/@astrojs__starlight.patch

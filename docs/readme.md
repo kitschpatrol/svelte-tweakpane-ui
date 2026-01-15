@@ -11,3 +11,5 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <!-- /badges -->
+
+There's some issue with Astro 5.16.8 breaking the HomeGrid component. Reverting to 5.16.7 for now.
