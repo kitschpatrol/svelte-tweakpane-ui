@@ -6,10 +6,12 @@
 
 <!-- /title -->
 
-<!-- badges { npm: [] } -->
+<!-- description -->
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+**Documentation website for Svelte Tweakpane UI.**
 
-<!-- /badges -->
+<!-- /description -->
 
-There's some issue with Astro 5.16.8 breaking the HomeGrid component. Reverting to 5.16.7 for now.
+The site deploys automatically to [kitschpatrol.com/svelte-tweakpane-ui](https://kitschpatrol.com/svelte-tweakpane-ui) on push to main branch via Cloudflare Workers.
+
+There's some unknown issue with Astro 5.16.8 breaking the HomeGrid component. Reverting to 5.16.7 for now.
