@@ -111,6 +111,14 @@
 		 * @bindable
 		 * */
 		width?: number
+		/**
+		 * Sets the draggable panes positioning to either absolute or fixed.
+		 *
+		 * Controls whether pane moves with the screen or is absolutely positioned on page
+		 *
+		 * @default `fixed`
+		 * */
+		positioning?: 'fixed' | 'absolute'
 	} & Omit<ComponentProps<GenericPane>, 'userCreatedPane'>
 
 	type $$Slots = {
@@ -147,6 +155,7 @@
 	export let x: $$Props['x'] = $positionStore?.x ?? 0
 	export let y: $$Props['y'] = $positionStore?.y ?? 0
 	export let width: $$Props['width'] = $positionStore?.width ?? 256
+	export let positioning: $$Props['positioning'] = 'fixed'
 	export let resizable: $$Props['resizable'] = true
 	export let userExpandable: $$Props['userExpandable'] = true
 	export let minWidth: $$Props['minWidth'] = 200
@@ -582,6 +591,7 @@ This component is for internal use only.
 	style:top="{y}px"
 	style:width="{width}px"
 	style:z-index={zIndexLocal}
+	style:position={positioning}
 >
 	<GenericPane bind:expanded bind:tpPane {scale} {title} {...removeKeys($$restProps, 'position')}>
 		<slot />
@@ -590,7 +600,6 @@ This component is for internal use only.
 
 <style>
 	div.draggable-container {
-		position: fixed;
 		z-index: auto;
 		padding: 20px;
 		/* 0.2s matches Tweakpane's internal animation duration */
