@@ -396,7 +396,6 @@
 			event.target.setPointerCapture(event.pointerId)
 
 			startWidth = width ?? 0
-
 			startOffsetX = x - event.pageX
 			startOffsetY = y - event.pageY
 		}
@@ -609,7 +608,6 @@
 
 	onDestroy(() => {
 		stopInertia()
-
 		removeDragStartListeners()
 		removeDragMoveAndEndListeners()
 
