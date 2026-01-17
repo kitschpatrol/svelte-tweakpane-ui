@@ -353,27 +353,19 @@
 		}
 	}
 
-	//* Converts a viewport-relative rect (getBoundingClientRect) into page/document coordinates.
-	function viewportRectToPage(rect: DOMRect) {
-		return new DOMRect(
+	//* Absolute mode positions via CSS left/top relative to the element's offsetParent.
+	//* This clamps a proposed (x,y) in that same coordinate space against the document/page bounds.
+	function clampAbsolute(proposedX: number, proposedY: number) {
+		// Get offsetParent rect
+		const rect = (containerElement?.offsetParent ?? containerElement).getBoundingClientRect()
+
+		//* Page-space rect of the element's offsetParent (origin for CSS left/top when position:absolute).
+		const origin = new DOMRect(
 			rect.left + window.scrollX,
 			rect.top + window.scrollY,
 			rect.width,
 			rect.height,
 		)
-	}
-
-	//* Page-space rect of the element's offsetParent (origin for CSS left/top when position:absolute).
-	function getOffsetParentPageRect(): DOMRect {
-		const offsetParent = (containerElement?.offsetParent ?? containerElement) as HTMLElement | null
-		if (offsetParent) return viewportRectToPage(offsetParent.getBoundingClientRect())
-		return new DOMRect(0, 0, 0, 0)
-	}
-
-	//* Absolute mode positions via CSS left/top relative to the element's offsetParent.
-	//* This clamps a proposed (x,y) in that same coordinate space against the document/page bounds.
-	function clampAbsolute(proposedX: number, proposedY: number) {
-		const origin = getOffsetParentPageRect()
 
 		const minX = -origin.left
 		const minY = -origin.top
@@ -449,8 +441,8 @@
 
 			startWidth = width ?? 0
 
-			startOffsetX = x - event.clientX
-			startOffsetY = y - event.clientY
+			startOffsetX = x - event.pageX
+			startOffsetY = y - event.pageY
 		}
 	}
 
@@ -473,19 +465,38 @@
 			if (event.target === dragBarElement) {
 				moveDistance += Math.hypot(event.movementX, event.movementY)
 
-				x = startOffsetX + event.pageX
-				y = startOffsetY + event.pageY
+				x = event.pageX + startOffsetX
+				y = event.pageY + startOffsetY
 
 				if (inertia) {
 					const now = performance.now()
-					const dt = Math.max(0.001, (now - lastMoveTime) / 1000)
+
+					const rawDt = (now - lastMoveTime) / 1000
+
+					// Clamp dt to kill outliers:
+					// - minDt prevents rocket velocities from near-zero dt
+					// - maxDt prevents stale samples from creating weird low speeds / jumps
+					const dt = Math.min(0.25, Math.max(0.002, rawDt)) // min 2ms, max 250ms
 
 					// Use actual applied movement (post-clamp, works for absolute+fixed)
 					const dx = (x ?? 0) - lastMoveX
 					const dy = (y ?? 0) - lastMoveY
 
-					vx = dx / dt
-					vy = dy / dt
+					let rawVx = dx / dt
+					let rawVy = dy / dt
+
+					const speed = Math.hypot(rawVx, rawVy)
+					const maxSpeed = 5000 * (window.devicePixelRatio || 1) // px/s, increase cap on high dpr screens
+					if (speed > maxSpeed) {
+						const s = maxSpeed / speed
+						rawVx *= s
+						rawVy *= s
+					}
+
+					// smooth throw velocity over multiple frames to reduce spikes
+					const alpha = 0.35
+					vx += (rawVx - vx) * alpha
+					vy += (rawVy - vy) * alpha
 
 					lastMoveTime = now
 					lastMoveX = x ?? 0
@@ -512,6 +523,7 @@
 				pointerId: initialDragEvent.pointerId,
 				pointerType: initialDragEvent.pointerType,
 			})
+
 			target.dispatchEvent(pointerCancelEvent)
 		}
 	}
