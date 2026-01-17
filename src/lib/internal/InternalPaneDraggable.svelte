@@ -228,43 +228,23 @@
 		lastInertiaTime = performance.now()
 
 		const inertiaStep = (now: number) => {
-			const dt = Math.min(0.05, Math.max(0, (now - lastInertiaTime) / 1000))
+			const dt = Math.min(0.05, Math.max(0.001, (now - lastInertiaTime) / 1000))
 			lastInertiaTime = now
 
 			const velocity = Math.hypot(vx, vy)
 
 			// integrate
-			const proposedX = (x ?? 0) + vx * dt
-			const proposedY = (y ?? 0) + vy * dt
-
-			const clamped = absolute
-				? clampAbsolute(proposedX, proposedY)
-				: {
-						x: clamp(proposedX, 0, Math.max(0, documentWidth - containerWidth)),
-						y: clamp(proposedY, 0, Math.max(0, documentHeight - containerHeightScaled)),
-					}
-
-			// stop on hard clamp (prevents buzzing on edges)
-			const hitX = Math.abs(clamped.x - proposedX) > 0.001
-			const hitY = Math.abs(clamped.y - proposedY) > 0.001
-			if (hitX) vx = 0
-			if (hitY) vy = 0
+			x = (x ?? 0) + vx * dt
+			y = (y ?? 0) + vy * dt
 
 			// round position when slowing down to avoid subpixel jitter near stop
 			if (velocity < 30) {
-				clamped.x = Math.round(clamped.x)
-				clamped.y = Math.round(clamped.y)
+				x = Math.round(x)
+				y = Math.round(y)
 			}
 
-			// apply position
-			x = clamped.x
-			y = clamped.y
-
-			// corner / fully blocked
-			if (hitX && hitY) return stopInertia()
-
 			// decay
-			const friction = Math.max(0, inertiaFriction!) // 0 - frictionless, 10 - snappy
+			const friction = Math.max(0, inertiaFriction ?? 8) // 0 - frictionless, 10 - snappy
 			const decay = Math.exp(-friction * dt)
 			vx *= decay
 			vy *= decay
@@ -353,30 +333,6 @@
 		}
 	}
 
-	//* Absolute mode positions via CSS left/top relative to the element's offsetParent.
-	//* This clamps a proposed (x,y) in that same coordinate space against the document/page bounds.
-	function clampAbsolute(proposedX: number, proposedY: number) {
-		// Get offsetParent rect
-		const rect = (containerElement?.offsetParent ?? containerElement).getBoundingClientRect()
-
-		//* Page-space rect of the element's offsetParent (origin for CSS left/top when position:absolute).
-		const origin = new DOMRect(
-			rect.left + window.scrollX,
-			rect.top + window.scrollY,
-			rect.width,
-			rect.height,
-		)
-
-		const minX = -origin.left
-		const minY = -origin.top
-		const maxX = Math.max(minX, documentWidth - origin.left - containerWidth)
-		const maxY = Math.max(minY, documentHeight - origin.top - containerHeightScaled)
-
-		return {
-			x: clamp(proposedX, minX, maxX),
-			y: clamp(proposedY, minY, maxY),
-		}
-	}
 	const clickBlocker = (event: MouseEvent) => {
 		event.stopPropagation()
 		// TBD
@@ -724,9 +680,23 @@
 
 		// Prioritize visibility of the top / left corner
 		if (absolute) {
-			const clamped = clampAbsolute(x, y)
-			x = clamped.x
-			y = clamped.y
+			const rect = (containerElement?.offsetParent ?? containerElement).getBoundingClientRect()
+
+			// Page-space rect of the element's offsetParent (origin for CSS left/top when position:absolute).
+			const origin = new DOMRect(
+				rect.left + window.scrollX,
+				rect.top + window.scrollY,
+				rect.width,
+				rect.height,
+			)
+
+			const minX = -origin.left
+			const minY = -origin.top
+			const maxX = Math.max(minX, documentWidth - origin.left - containerWidth)
+			const maxY = Math.max(minY, documentHeight - origin.top - containerHeightScaled)
+
+			x = clamp(x, minX, maxX)
+			y = clamp(y, minY, maxY)
 		} else {
 			x = clamp(x, 0, Math.max(0, documentWidth - containerWidth))
 			y = clamp(y, 0, Math.max(0, documentHeight - containerHeightScaled))
