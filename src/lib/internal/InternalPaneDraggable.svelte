@@ -449,19 +449,8 @@
 
 			startWidth = width ?? 0
 
-			if (absolute) {
-				// startPageRect = viewportRectToPage(containerElement.getBoundingClientRect())
-				// Stable anchors for transform-based drag
-				// startPageX = event.pageX
-				// startPageY = event.pageY
-				// startX = x
-				// startY = y
-				startOffsetX = x - event.pageX
-				startOffsetY = y - event.pageY
-			} else {
-				startOffsetX = x - event.clientX
-				startOffsetY = y - event.clientY
-			}
+			startOffsetX = x - event.clientX
+			startOffsetY = y - event.clientY
 		}
 	}
 
@@ -484,13 +473,8 @@
 			if (event.target === dragBarElement) {
 				moveDistance += Math.hypot(event.movementX, event.movementY)
 
-				if (absolute) {
-					x = startOffsetX + event.pageX
-					y = startOffsetY + event.pageY
-				} else {
-					x = startOffsetX + event.clientX
-					y = startOffsetY + event.clientY
-				}
+				x = startOffsetX + event.pageX
+				y = startOffsetY + event.pageY
 
 				if (inertia) {
 					const now = performance.now()
