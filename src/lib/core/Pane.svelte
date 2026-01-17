@@ -55,6 +55,7 @@
 	export let absolute: ComponentProps<InternalPaneDraggable>['absolute'] = false
 	export let inertia: ComponentProps<InternalPaneDraggable>['inertia'] = false
 	export let inertiaFriction: ComponentProps<InternalPaneDraggable>['inertiaFriction'] = 8
+	export let bounce: ComponentProps<InternalPaneDraggable>['bounce'] = 0
 
 	// Redeclare types instead of referencing $$Props['key'] since certain keys aren't guaranteed
 	export let x: number | undefined = undefined
@@ -177,6 +178,7 @@ Position mode overview:
 			{absolute}
 			{inertia}
 			{inertiaFriction}
+			{bounce}
 			bind:expanded
 			bind:tpPane
 			bind:width
