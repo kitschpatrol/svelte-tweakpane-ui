@@ -1,589 +1,775 @@
 <script context="module" lang="ts">
-  const localStorePrefix = 'svelte-tweakpane-ui-draggable-position-'
-  const localStoreDefaultId = '1'
-  const localStoreIds: string[] = []
-  let zIndexGlobal = 1000
+	const localStorePrefix = 'svelte-tweakpane-ui-draggable-position-'
+	const localStoreDefaultId = '1'
+	const localStoreIds: string[] = []
+	let zIndexGlobal = 1000
 </script>
 
 <script lang="ts">
-  import type { ComponentProps } from 'svelte'
-  import type { Writable } from 'svelte/store'
-  import type { BladeApi, FolderApi } from 'tweakpane'
-  import GenericPane from '$lib/internal/GenericPane.svelte'
-  import { clamp, getSwatchButton, pickerIsOpen, removeKeys } from '$lib/utils.js'
-  import { onDestroy, onMount } from 'svelte'
-  import { persisted } from 'svelte-persisted-store'
-
-  // Maybe expose as props
-  const titlebarWindowShadeSingleClick = true
-  const titlebarWindowShadeDoubleClick = false
-  const pointerCancelOnWindowBlur = true // A compromise for #7
-  const dragMovementDistanceThreshold = 3
-
-  // Necessary for dispatching coherent pointer events on blur
-  let initialDragEvent: PointerEvent | undefined
-
-  // Could extend from InternalPaneFixed, but need to revise documentation anyway Many gratuitous
-  // defined checks since NonNullable didn't work and not sure how to make an optional prop remain
-  // optional but with a default value in the $$Props type
-  type $$Props = {
-    /**
-     * Horizontal position of the pane relative to the left edge of the window, in pixels.
-     *
-     * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is
-     * positioned on the page. (So-named because of its similarity to CSS `position` property.)
-     *
-     * By default, this position is saved to local storage for persistence across page loads.
-     * @default `0`
-     * @bindable
-     * */
-    x?: number
-    /**
-     * Vertical position of the pane relative to the top of the window, in pixels.
-     *
-     * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is
-     * positioned on the page. (So-named because of its similarity to CSS `position` property.)
-     *
-     * By default, this position is saved to local storage for persistence across page loads.
-     * @default `0`
-     * @bindable
-     * */
-    y?: number
-    /**
-     * Minimum pane width in pixels.
-     * @default `200`
-     * */
-    minWidth?: number
-    /**
-     * Maximum pane width in pixels.
-     * @default `600`
-     * */
-    maxWidth?: number
-    /**
-     * Automatically collapse open panels when the available window size is less than the height
-     * of the pane.
-     *
-     * @default `false`
-     * */
-    collapseChildrenToFit?: boolean
-    /**
-     * Identifier to be used if multiple `<Pane position="draggable">` components with
-     * `storePositionLocally` set to true are used on the same page.
-     * @default `'1'`
-     */
-    localStoreId?: string
-    /**
-     * CSS [padding property string](https://developer.mozilla.org/en-US/docs/Web/CSS/padding)
-     * to apply to the draggable pane container to prevent it from being dragged all the way to
-     * the edge of the window.
-     *
-     * Useful for keeping the pane away from of menu bars, etc.
-     * @default `'0'`
-     */
-    padding?: string
-    /**
-     * Allow the user to resize the width of the pane by dragging the right corner of the title
-     * bar.
-     * @default `true`
-     * */
-    resizable?: boolean
-    /**
-     * Store the pane's position and width when the user changes it interactively.
-     *
-     * Set the `localStoreId` prop if you have multiple draggable panes on the same page with
-     * `storePositionLocally` set to `true`.
-     * @default `true`
-     * */
-    storePositionLocally?: boolean
-    /**
-     * Width of the pane, in pixels.
-     *
-     * Setting explicitly via a passed prop will override saved user-specified width.
-     *
-     * Use this prop to set a starting width, or to monitor changes in the the pane's width when
-     * a user resizes it.
-     *
-     * Note that height is not exposed because it is determined dynamically by the pane's
-     * contents and state of its foldable elements.
-     *
-     * By default, the width value is saved to local storage for persistence across page loads.
-     * @default `256`
-     * @bindable
-     * */
-    width?: number
-    /**
-     * Sets the draggable panes positioning to either absolute or fixed.
-     *
-     * Controls whether pane moves with the screen or is absolutely positioned on page
-     *
-     * @default `fixed`
-     * */
-    positioning?: 'fixed' | 'absolute'
-  } & Omit<ComponentProps<GenericPane>, 'userCreatedPane'>
-
-  type $$Slots = {
-    /**
-     * Any Tweakpane component, except another `<Pane>`.
-     */
-    default: {}
-  }
-
-  // Reexport for bindability
-  export let storePositionLocally: $$Props['storePositionLocally'] = true
-  export let localStoreId: $$Props['localStoreId'] = localStoreDefaultId
-  export let tpPane: $$Props['tpPane'] = undefined
-
-  // Defaults are managed here, and must be set here
-  let positionStore: Writable<{
-    x: number
-    y: number
-    expanded: boolean
-    width: number
-  }>
-
-  if (storePositionLocally) {
-    positionStore = persisted(`${localStorePrefix}${localStoreId}`, {
-      x: 0,
-      y: 0,
-      expanded: true,
-      width: 350,
-    })
-  }
-
-  export let expanded: $$Props['expanded'] = $positionStore?.expanded ?? true
-  export let collapseChildrenToFit: $$Props['collapseChildrenToFit'] = false
-  export let x: $$Props['x'] = $positionStore?.x ?? 0
-  export let y: $$Props['y'] = $positionStore?.y ?? 0
-  export let width: $$Props['width'] = $positionStore?.width ?? 256
-  export let positioning: $$Props['positioning'] = 'fixed'
-
-  let prevPositioning: 'fixed' | 'absolute' = positioning
-
-  //* Update coordinates when going between 'fixed' or 'absolute'
-  $: if (prevPositioning !== positioning && x !== undefined && y !== undefined) {
-    if (prevPositioning === 'fixed' && positioning === 'absolute') {
-      // viewport -> page
-      x += window.scrollX
-      y += window.scrollY
-    } else if (prevPositioning === 'absolute' && positioning === 'fixed') {
-      // page -> viewport
-      x -= window.scrollX
-      y -= window.scrollY
-    }
-    prevPositioning = positioning
-
-    // refresh bounds + re-clamp immediately in the new coordinate space
-    setDocumentSize()
-  }
-
-  export let resizable: $$Props['resizable'] = true
-  export let userExpandable: $$Props['userExpandable'] = true
-  export let minWidth: $$Props['minWidth'] = 200
-  export let maxWidth: $$Props['maxWidth'] = 600
-  export let title: $$Props['title'] = 'Tweakpane'
-  export let scale: $$Props['scale'] = 1
-  export let padding: $$Props['padding'] = '0'
-
-  let containerElement: HTMLDivElement
-  let dragBarElement: HTMLElement // Added dynamically to tweakpane DOM
-  let widthHandleElement: HTMLDivElement | undefined
-  let containerHeight: number // Driven by tweakpane's internal layout
-  let containerHeightScaled: number // Derived
-  let containerWidth: number // For padding
-  let documentWidth: number
-  let documentHeight: number
-  let zIndexLocal = zIndexGlobal
-
-  // Local storage helpers, warn about ID collisions
-  function addStorageId() {
-    if (localStoreId !== undefined) {
-      if (localStoreIds.includes(localStoreId)) {
-        console.warn(
-          'Multiple instances of <Pane> with `mode="draggable"` and `storePositionLocally=true` detected. You must explicitly set unique localStoreId property on each component to avoid collisions.',
-        )
-      }
-
-      localStoreIds.push(localStoreId)
-    }
-  }
-
-  function removeStorageId() {
-    if (localStoreId) {
-      localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1)
-      localStorage.removeItem(`${localStorePrefix}${localStoreId}`)
-    }
-  }
-
-  function updateLocalStoreId(id: string | undefined) {
-    if (
-      id !== undefined &&
-      positionStore !== undefined &&
-      expanded !== undefined &&
-      width !== undefined &&
-      x !== undefined &&
-      y !== undefined
-    ) {
-      positionStore = persisted(`${localStorePrefix}${localStoreId}`, {
-        x,
-        y,
-        expanded,
-        width,
-      })
-    }
-  }
-
-  // Helpers
-  function setDocumentSize() {
-    if (x !== undefined && y !== undefined && width !== undefined) {
-      const documentWidthPrevious = documentWidth
-      const documentHeightPrevious = documentHeight
-      documentWidth =
-        positioning === 'absolute' ? document.documentElement.scrollWidth : document.documentElement.clientWidth
-
-      documentHeight =
-        positioning === 'absolute' ? document.documentElement.scrollHeight : document.documentElement.clientHeight
-      const dx = documentWidth - documentWidthPrevious
-      const dy = documentHeight - documentHeightPrevious
-
-      // Ensure we "stick" to the correct quadrant
-      const centerPercentX = (x + width / 2) / documentWidth
-      const centerPercentY = (y + containerHeightScaled / 2) / documentHeight
-
-      if (!Number.isNaN(dx) && centerPercentX >= 0.5) {
-        x += dx
-      }
-
-      if (!Number.isNaN(dy) && centerPercentY >= 0.5) {
-        y += dy
-      }
-    }
-  }
-
-  const clickBlocker = (event: MouseEvent) => {
-    event.stopPropagation()
-    // TBD
-    // e.preventDefault();
-    // e.stopImmediatePropagation();
-  }
-
-  let startWidth = 0
-  let startOffsetX = 0
-  let startOffsetY = 0
-  let moveDistance = 0
-
-  // Pointer coords in the same space as `left/top` for the current positioning mode
-  const ptr = (e: PointerEvent) =>
-    positioning === 'fixed'
-      ? { x: e.clientX, y: e.clientY } // viewport
-      : { x: e.pageX, y: e.pageY } // page
-
-  const doubleClickListener = (event: MouseEvent) => {
-    event.stopPropagation()
-    if (event.target) {
-      if (width !== undefined && event.target === widthHandleElement) {
-        width = width < maxAvailablePanelWidth ? maxAvailablePanelWidth : minWidth
-      } else if (
-        // Consider pointer movement threshold check...
-        // e.g. if (moveDistance < dragMovementDistanceThreshold && userExpandable)...
-        titlebarWindowShadeDoubleClick &&
-        event.target === dragBarElement &&
-        tpPane
-      ) {
-        tpPane.expanded = !tpPane.expanded
-      }
-    }
-  }
-
-  const dragStartListener = (event: PointerEvent) => {
-    if (x !== undefined && y !== undefined && event.button === 0 && event.target instanceof HTMLElement) {
-      moveDistance = 0
-
-      // Remove down listeners, prevents drag-related multi-touch
-      // Can revisit this with a more robust approach...
-      initialDragEvent = event
-      removeDragStartListeners()
-      addDragMoveAndEndListeners()
-
-      if (event.target === dragBarElement) {
-        // Would rather do this with :active pseudo-class, but it doesn't
-        // update on blur events in Firefox
-        dragBarElement.style.cursor = 'grabbing'
-      }
-
-      /* Have to do this in JS due to single ":active" element in multi-pane situations */
-      containerElement.style.transition = 'width 0s ease'
-
-      event.target.setPointerCapture(event.pointerId)
-
-      startWidth = width ?? 0
-      const p = ptr(event)
-      startOffsetX = x - p.x
-      startOffsetY = y - p.y
-    }
-  }
-
-  // Things that don't help drag latency:
-  // -[x] Directly setting style
-  // -[x] Awaiting ticking
-  // -[x] Rounding to pixel values
-  // -[x] Setting transform / translate instead of left / top
-  // -[x] Managing separate requestAnimationFrame loop
-  // -[ ] Using touch or mouse events instead of pointer
-  // -[ ] Using the native drag / drop API (no reasonable control over drawing and bounds?)
-  const dragMoveListener = (event: PointerEvent) => {
-    if (
-      event.target instanceof HTMLElement &&
-      width !== undefined &&
-      minWidth !== undefined &&
-      x !== undefined &&
-      y !== undefined
-    ) {
-      if (event.target === dragBarElement) {
-        moveDistance += Math.hypot(event.movementX, event.movementY)
-
-        const p = ptr(event)
-        x = p.x + startOffsetX
-        y = p.y + startOffsetY
-      } else if (event.target === widthHandleElement) {
-        const p = ptr(event)
-        width = clamp(p.x + startOffsetX + startWidth - x, minWidth, maxAvailablePanelWidth)
-      }
-    }
-  }
-
-  // Simulates a pointer cancel event when the window loses focus while dragging
-  // Event simulation approach is necessary for Firefox to redraw the cursor
-  const blurListener = () => {
-    if (pointerCancelOnWindowBlur && initialDragEvent?.target instanceof HTMLElement) {
-      const { target } = initialDragEvent
-
-      const bounds = target.getBoundingClientRect()
-      const pointerCancelEvent = new PointerEvent('pointercancel', {
-        bubbles: true,
-        clientX: bounds.left + bounds.width / 2,
-        clientY: bounds.top + bounds.height / 2,
-        composed: true,
-        pointerId: initialDragEvent.pointerId,
-        pointerType: initialDragEvent.pointerType,
-      })
-
-      target.dispatchEvent(pointerCancelEvent)
-    }
-  }
-
-  const dragEndListener = (event: PointerEvent) => {
-    event.stopImmediatePropagation()
-
-    if (event.target instanceof HTMLElement) {
-      // Release capture no matter what
-      if (event.target.hasPointerCapture(event.pointerId)) {
-        event.target.releasePointerCapture(event.pointerId)
-      }
-
-      // Only way to get Firefox to react while blurred
-      if (event.target === dragBarElement) {
-        dragBarElement.style.removeProperty('cursor')
-      }
-
-      /* Have to do this in JS due to single ":active" element in multi-pane situations */
-      containerElement.style.removeProperty('transition')
-
-      // Treat as a click if the mouse hasn't moved much
-      // But don't do this for cancellations or focus loss
-      if (
-        event.type === 'pointerup' &&
-        titlebarWindowShadeSingleClick &&
-        event.target === dragBarElement &&
-        moveDistance < dragMovementDistanceThreshold &&
-        userExpandable &&
-        tpPane
-      ) {
-        tpPane.expanded = !tpPane.expanded
-      }
-
-      initialDragEvent = undefined
-      removeDragMoveAndEndListeners()
-      addDragStartListeners()
-    }
-  }
-
-  const addDragStartListeners = () => {
-    dragBarElement.addEventListener('pointerdown', dragStartListener)
-    widthHandleElement?.addEventListener('pointerdown', dragStartListener)
-  }
-
-  const removeDragStartListeners = () => {
-    dragBarElement.removeEventListener('pointerdown', dragStartListener)
-    widthHandleElement?.removeEventListener('pointerdown', dragStartListener)
-  }
-
-  const addDragMoveAndEndListeners = () => {
-    window.addEventListener('blur', blurListener)
-
-    dragBarElement.addEventListener('pointermove', dragMoveListener)
-    dragBarElement.addEventListener('pointerup', dragEndListener)
-    dragBarElement.addEventListener('pointercancel', dragEndListener)
-
-    widthHandleElement?.addEventListener('pointermove', dragMoveListener)
-    widthHandleElement?.addEventListener('pointerup', dragEndListener)
-    widthHandleElement?.addEventListener('pointercancel', dragEndListener)
-  }
-
-  const removeDragMoveAndEndListeners = () => {
-    window.removeEventListener('blur', blurListener)
-
-    dragBarElement.removeEventListener('pointermove', dragMoveListener)
-    dragBarElement.removeEventListener('pointerup', dragEndListener)
-    dragBarElement.removeEventListener('pointercancel', dragEndListener)
-
-    widthHandleElement?.removeEventListener('pointermove', dragMoveListener)
-    widthHandleElement?.removeEventListener('pointerup', dragEndListener)
-    widthHandleElement?.removeEventListener('pointercancel', dragEndListener)
-  }
-
-  const touchScrollBlocker = (event: TouchEvent) => {
-    event.preventDefault()
-  }
-
-  onMount(() => {
-    setDocumentSize()
-
-    if (tpPane) {
-      // eslint-disable-next-line svelte/no-dom-manipulating
-      containerElement.append(tpPane.element)
-    } else {
-      console.warn('no tpPane in draggable')
-    }
-
-    // Prevent scrolling content behind the pane on mobile when dragging the pane or otherwise
-    containerElement.addEventListener('touchmove', touchScrollBlocker, { passive: false })
-
-    // Make the pane draggable the Tweakpane pane is NOT itself a svelte component, so we have
-    // to manage events directly through the DOM... click blocking and handling collapse in
-    // pointerup was most reliable cross-browser approach
-    const dragBarElementCheck = containerElement.querySelector<HTMLElement>('.tp-rotv_t')
-    if (dragBarElementCheck) {
-      dragBarElement = dragBarElementCheck
-      dragBarElement.addEventListener('click', clickBlocker)
-      dragBarElement.addEventListener('dblclick', doubleClickListener)
-
-      // Add width adjuster handle
-      widthHandleElement = dragBarElement.parentElement?.appendChild(document.createElement('div'))
-      if (widthHandleElement) {
-        widthHandleElement.className = 'tp-custom-width-handle'
-        widthHandleElement.textContent = '↔'
-        widthHandleElement.addEventListener('click', clickBlocker)
-        widthHandleElement.addEventListener('dblclick', doubleClickListener)
-      }
-
-      // Adds to both
-      addDragStartListeners()
-    }
-  })
-
-  onDestroy(() => {
-    removeDragStartListeners()
-    removeDragMoveAndEndListeners()
-
-    dragBarElement.removeEventListener('click', clickBlocker)
-    dragBarElement.removeEventListener('dblclick', doubleClickListener)
-
-    widthHandleElement?.removeEventListener('click', clickBlocker)
-    widthHandleElement?.removeEventListener('dblclick', doubleClickListener)
-
-    containerElement?.removeEventListener('touchmove', touchScrollBlocker)
-
-    // Clean up store id check, e.g. when cycling through the mode of a single pane
-    if (localStoreId !== undefined) {
-      localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1)
-    }
-  })
-
-  function updateResizability(isResizable: boolean) {
-    if (widthHandleElement) {
-      widthHandleElement.style.display = isResizable ? 'block' : 'none'
-    }
-  }
-
-  $: tpPane && resizable && updateResizability(resizable)
-
-  function recursiveCollapse(children: BladeApi[], maxToCollapse: number = Number.MAX_SAFE_INTEGER) {
-    if (maxToCollapse > 0) {
-      for (const child of children) {
-        if ('expanded' in child) {
-          if ((child as FolderApi).expanded) {
-            maxToCollapse--
-            ;(child as FolderApi).expanded = false
-          }
-
-          if ('children' in child) {
-            recursiveCollapse((child as FolderApi).children, maxToCollapse)
-          }
-        } else {
-          const swatchButton = getSwatchButton(child)
-          if (swatchButton && pickerIsOpen(child)) {
-            maxToCollapse--
-            swatchButton.click()
-          }
-        }
-      }
-    }
-  }
-
-  // Ensure the tweakpane panel is within the viewport additional checks in the width drag handler
-  $: if (
-    containerHeightScaled !== undefined &&
-    documentWidth !== undefined &&
-    documentHeight !== undefined &&
-    x !== undefined &&
-    y !== undefined &&
-    width !== undefined &&
-    minWidth !== undefined &&
-    maxWidth !== undefined
-  ) {
-    // Collapse children if needed TODO progressive collapsing not working because of container
-    // height update delays...
-    if (collapseChildrenToFit && containerHeightScaled > documentHeight && tpPane) {
-      recursiveCollapse(tpPane.children)
-    }
-
-    // Prioritize visibility of the top / left corner
-    x = clamp(x, 0, Math.max(0, documentWidth - containerWidth))
-    y = clamp(y, 0, Math.max(0, documentHeight - containerHeightScaled))
-
-    if (documentWidth < containerWidth) {
-      width = Math.max(minWidth, Math.min(maxWidth, documentWidth))
-    }
-  }
-
-  // No browser check...
-  $: maxAvailablePanelWidth = Math.min(maxWidth ?? 600, documentWidth - (x ?? 0))
-
-  $: (localStoreId, storePositionLocally && addStorageId())
-  $: (localStoreId, !storePositionLocally && removeStorageId())
-  $: localStoreId !== `${localStorePrefix}${localStoreId}` && updateLocalStoreId(localStoreId)
-
-  // Proxy everything to the store
-  $: storePositionLocally &&
-    localStoreId !== undefined &&
-    x !== undefined &&
-    y !== undefined &&
-    width !== undefined &&
-    expanded !== undefined &&
-    positionStore?.set({ x, y, expanded, width })
-
-  $: {
-    if (containerElement) {
-      if (scale === undefined || scale === 1) {
-        containerHeightScaled = containerHeight
-      } else {
-        // Padding doesn't scale
-        const style = window.getComputedStyle(containerElement)
-        const vPadding = Number.parseFloat(style.paddingTop) + Number.parseFloat(style.paddingBottom)
-        containerHeightScaled = (containerHeight - vPadding) * scale + vPadding
-      }
-    }
-  }
+	import type { ComponentProps } from 'svelte'
+	import type { Writable } from 'svelte/store'
+	import type { BladeApi, FolderApi } from 'tweakpane'
+	import GenericPane from '$lib/internal/GenericPane.svelte'
+	import { clamp, getSwatchButton, pickerIsOpen, removeKeys } from '$lib/utils.js'
+	import { onDestroy, onMount } from 'svelte'
+	import { persisted } from 'svelte-persisted-store'
+
+	// Maybe expose as props
+	const titlebarWindowShadeSingleClick = true
+	const titlebarWindowShadeDoubleClick = false
+	const pointerCancelOnWindowBlur = true // A compromise for #7
+	const dragMovementDistanceThreshold = 3
+
+	// Necessary for dispatching coherent pointer events on blur
+	let initialDragEvent: PointerEvent | undefined
+
+	// Could extend from InternalPaneFixed, but need to revise documentation anyway Many gratuitous
+	// defined checks since NonNullable didn't work and not sure how to make an optional prop remain
+	// optional but with a default value in the $$Props type
+	type $$Props = {
+		/**
+		 * Horizontal position of the pane relative to the left edge of the window, in pixels.
+		 *
+		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is
+		 * positioned on the page. (So-named because of its similarity to CSS `position` property.)
+		 *
+		 * By default, this position is saved to local storage for persistence across page loads.
+		 * @default `0`
+		 * @bindable
+		 * */
+		x?: number
+		/**
+		 * Vertical position of the pane relative to the top of the window, in pixels.
+		 *
+		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is
+		 * positioned on the page. (So-named because of its similarity to CSS `position` property.)
+		 *
+		 * By default, this position is saved to local storage for persistence across page loads.
+		 * @default `0`
+		 * @bindable
+		 * */
+		y?: number
+		/**
+		 * Minimum pane width in pixels.
+		 * @default `200`
+		 * */
+		minWidth?: number
+		/**
+		 * Maximum pane width in pixels.
+		 * @default `600`
+		 * */
+		maxWidth?: number
+		/**
+		 * Automatically collapse open panels when the available window size is less than the height
+		 * of the pane.
+		 *
+		 * @default `false`
+		 * */
+		collapseChildrenToFit?: boolean
+		/**
+		 * Identifier to be used if multiple `<Pane position="draggable">` components with
+		 * `storePositionLocally` set to true are used on the same page.
+		 * @default `'1'`
+		 */
+		localStoreId?: string
+		/**
+		 * CSS [padding property string](https://developer.mozilla.org/en-US/docs/Web/CSS/padding)
+		 * to apply to the draggable pane container to prevent it from being dragged all the way to
+		 * the edge of the window.
+		 *
+		 * Useful for keeping the pane away from of menu bars, etc.
+		 * @default `'0'`
+		 */
+		padding?: string
+		/**
+		 * Allow the user to resize the width of the pane by dragging the right corner of the title
+		 * bar.
+		 * @default `true`
+		 * */
+		resizable?: boolean
+		/**
+		 * Store the pane's position and width when the user changes it interactively.
+		 *
+		 * Set the `localStoreId` prop if you have multiple draggable panes on the same page with
+		 * `storePositionLocally` set to `true`.
+		 * @default `true`
+		 * */
+		storePositionLocally?: boolean
+		/**
+		 * Width of the pane, in pixels.
+		 *
+		 * Setting explicitly via a passed prop will override saved user-specified width.
+		 *
+		 * Use this prop to set a starting width, or to monitor changes in the the pane's width when
+		 * a user resizes it.
+		 *
+		 * Note that height is not exposed because it is determined dynamically by the pane's
+		 * contents and state of its foldable elements.
+		 *
+		 * By default, the width value is saved to local storage for persistence across page loads.
+		 * @default `256`
+		 * @bindable
+		 * */
+		width?: number
+		/**
+		 * Sets the draggable panes position to absolute.
+		 *
+		 * Makes dragging work with absolute coordinates and bounds pane to the document instead of viewport.
+		 *
+		 * @default `false`
+		 *
+		 * */
+		absolute?: boolean
+		/**
+		 * Adds simple inertial motion after drag release.
+		 *
+		 * @default `false`
+		 */
+		inertia?: boolean
+		/**
+		 * Controls inertia friction (0 = none, higher = stops faster)
+		 *
+		 * Typical range: 4–16.
+		 *
+		 * @default `8`
+		 */
+		inertiaFriction?: number
+	} & Omit<ComponentProps<GenericPane>, 'userCreatedPane'>
+
+	type $$Slots = {
+		/**
+		 * Any Tweakpane component, except another `<Pane>`.
+		 */
+		default: {}
+	}
+
+	// Reexport for bindability
+	export let storePositionLocally: $$Props['storePositionLocally'] = true
+	export let localStoreId: $$Props['localStoreId'] = localStoreDefaultId
+	export let tpPane: $$Props['tpPane'] = undefined
+
+	// Defaults are managed here, and must be set here
+	let positionStore: Writable<{
+		x: number
+		y: number
+		expanded: boolean
+		width: number
+	}>
+
+	if (storePositionLocally) {
+		positionStore = persisted(`${localStorePrefix}${localStoreId}`, {
+			x: 0,
+			y: 0,
+			expanded: true,
+			width: 350,
+		})
+	}
+
+	export let expanded: $$Props['expanded'] = $positionStore?.expanded ?? true
+	export let collapseChildrenToFit: $$Props['collapseChildrenToFit'] = false
+	export let x: $$Props['x'] = $positionStore?.x ?? 0
+	export let y: $$Props['y'] = $positionStore?.y ?? 0
+	export let width: $$Props['width'] = $positionStore?.width ?? 256
+	export let resizable: $$Props['resizable'] = true
+	export let userExpandable: $$Props['userExpandable'] = true
+	export let minWidth: $$Props['minWidth'] = 200
+	export let maxWidth: $$Props['maxWidth'] = 600
+	export let title: $$Props['title'] = 'Tweakpane'
+	export let scale: $$Props['scale'] = 1
+	export let padding: $$Props['padding'] = '0'
+
+	let containerElement: HTMLDivElement
+	let dragBarElement: HTMLElement // Added dynamically to tweakpane DOM
+	let widthHandleElement: HTMLDivElement | undefined
+	let containerHeight: number // Driven by tweakpane's internal layout
+	let containerHeightScaled: number // Derived
+	let containerWidth: number // For padding
+	let documentWidth: number
+	let documentHeight: number
+	let zIndexLocal = zIndexGlobal
+
+	//Inertia Vars
+	export let inertia: $$Props['inertia'] = false
+	export let absolute: $$Props['absolute'] = false
+	export let inertiaFriction: $$Props['inertiaFriction'] = 8
+
+	let vx = 0
+	let vy = 0
+	let lastMoveTime = 0
+	let lastMoveX = 0
+	let lastMoveY = 0
+
+	let inertiaRaf = 0
+	let lastInertiaTime = 0
+
+	// cancel any existing inertia loop and reset velocity
+	function stopInertia() {
+		if (inertiaRaf) cancelAnimationFrame(inertiaRaf)
+		inertiaRaf = 0
+		lastInertiaTime = 0
+		vx = 0
+		vy = 0
+	}
+
+	function startInertia() {
+		if (!inertia) return
+		if (!documentWidth || !documentHeight) return
+
+		// small threshold so a tiny release doesn't drift
+		if (Math.hypot(vx, vy) < 20) {
+			vx = 0
+			vy = 0
+			return
+		}
+
+		// cancel any existing inertia loop whilst keeping current velocity
+		if (inertiaRaf) cancelAnimationFrame(inertiaRaf)
+		inertiaRaf = 0
+		lastInertiaTime = performance.now()
+
+		const inertiaStep = (now: number) => {
+			const dt = Math.min(0.05, Math.max(0, (now - lastInertiaTime) / 1000))
+			lastInertiaTime = now
+
+			const velocity = Math.hypot(vx, vy)
+
+			// integrate
+			const proposedX = (x ?? 0) + vx * dt
+			const proposedY = (y ?? 0) + vy * dt
+
+			const clamped = absolute
+				? clampAbsolute(proposedX, proposedY)
+				: {
+						x: clamp(proposedX, 0, Math.max(0, documentWidth - containerWidth)),
+						y: clamp(proposedY, 0, Math.max(0, documentHeight - containerHeightScaled)),
+					}
+
+			// stop on hard clamp (prevents buzzing on edges)
+			const hitX = Math.abs(clamped.x - proposedX) > 0.001
+			const hitY = Math.abs(clamped.y - proposedY) > 0.001
+			if (hitX) vx = 0
+			if (hitY) vy = 0
+
+			// round position when slowing down to avoid subpixel jitter near stop
+			if (velocity < 30) {
+				clamped.x = Math.round(clamped.x)
+				clamped.y = Math.round(clamped.y)
+			}
+
+			// apply position
+			x = clamped.x
+			y = clamped.y
+
+			// corner / fully blocked
+			if (hitX && hitY) return stopInertia()
+
+			// decay
+			const friction = Math.max(0, inertiaFriction!) // 0 - frictionless, 10 - snappy
+			const decay = Math.exp(-friction * dt)
+			vx *= decay
+			vy *= decay
+
+			// Stop Threshold (uses post decay velocity)
+			if (Math.hypot(vx, vy) < 5) return stopInertia()
+
+			inertiaRaf = requestAnimationFrame(inertiaStep)
+		}
+
+		inertiaRaf = requestAnimationFrame(inertiaStep)
+	}
+
+	// Local storage helpers, warn about ID collisions
+	function addStorageId() {
+		if (localStoreId !== undefined) {
+			if (localStoreIds.includes(localStoreId)) {
+				console.warn(
+					'Multiple instances of <Pane> with `mode="draggable"` and `storePositionLocally=true` detected. You must explicitly set unique localStoreId property on each component to avoid collisions.',
+				)
+			}
+
+			localStoreIds.push(localStoreId)
+		}
+	}
+
+	function removeStorageId() {
+		if (localStoreId) {
+			localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1)
+			localStorage.removeItem(`${localStorePrefix}${localStoreId}`)
+		}
+	}
+
+	function updateLocalStoreId(id: string | undefined) {
+		if (
+			id !== undefined &&
+			positionStore !== undefined &&
+			expanded !== undefined &&
+			width !== undefined &&
+			x !== undefined &&
+			y !== undefined
+		) {
+			positionStore = persisted(`${localStorePrefix}${localStoreId}`, {
+				x,
+				y,
+				expanded,
+				width,
+			})
+		}
+	}
+
+	// Helpers
+	function setDocumentSize() {
+		if (x !== undefined && y !== undefined && width !== undefined) {
+			const documentWidthPrevious = documentWidth
+			const documentHeightPrevious = documentHeight
+
+			const doc = document.documentElement
+
+			// When absolute consider full page size with scrollWidth/scrollHeight
+			if (absolute) {
+				documentWidth = Math.max(doc.scrollWidth, doc.clientWidth)
+				documentHeight = Math.max(doc.scrollHeight, doc.clientHeight)
+			} else {
+				documentWidth = doc.clientWidth
+				documentHeight = doc.clientHeight
+			}
+
+			const dx = documentWidth - documentWidthPrevious
+			const dy = documentHeight - documentHeightPrevious
+
+			// Don't stick pane to quadrant if absolute
+			if (absolute) return
+
+			// Ensure we "stick" to the correct quadrant
+			const centerPercentX = (x + width / 2) / documentWidth
+			const centerPercentY = (y + containerHeightScaled / 2) / documentHeight
+
+			if (!Number.isNaN(dx) && centerPercentX >= 0.5) {
+				x += dx
+			}
+
+			if (!Number.isNaN(dy) && centerPercentY >= 0.5) {
+				y += dy
+			}
+		}
+	}
+
+	//* Converts a viewport-relative rect (getBoundingClientRect) into page/document coordinates.
+	function viewportRectToPage(rect: DOMRect) {
+		return new DOMRect(
+			rect.left + window.scrollX,
+			rect.top + window.scrollY,
+			rect.width,
+			rect.height,
+		)
+	}
+
+	//* Page-space rect of the element's offsetParent (origin for CSS left/top when position:absolute).
+	function getOffsetParentPageRect(): DOMRect {
+		const offsetParent = (containerElement?.offsetParent ?? containerElement) as HTMLElement | null
+		if (offsetParent) return viewportRectToPage(offsetParent.getBoundingClientRect())
+		return new DOMRect(0, 0, 0, 0)
+	}
+
+	//* Absolute mode positions via CSS left/top relative to the element's offsetParent.
+	//* This clamps a proposed (x,y) in that same coordinate space against the document/page bounds.
+	function clampAbsolute(proposedX: number, proposedY: number) {
+		const origin = getOffsetParentPageRect()
+
+		const minX = -origin.left
+		const minY = -origin.top
+		const maxX = Math.max(minX, documentWidth - origin.left - containerWidth)
+		const maxY = Math.max(minY, documentHeight - origin.top - containerHeightScaled)
+
+		return {
+			x: clamp(proposedX, minX, maxX),
+			y: clamp(proposedY, minY, maxY),
+		}
+	}
+	const clickBlocker = (event: MouseEvent) => {
+		event.stopPropagation()
+		// TBD
+		// e.preventDefault();
+		// e.stopImmediatePropagation();
+	}
+
+	let startWidth = 0
+	let startOffsetX = 0
+	let startOffsetY = 0
+	let moveDistance = 0
+
+	const doubleClickListener = (event: MouseEvent) => {
+		event.stopPropagation()
+		if (event.target) {
+			if (width !== undefined && event.target === widthHandleElement) {
+				width = width < maxAvailablePanelWidth ? maxAvailablePanelWidth : minWidth
+			} else if (
+				// Consider pointer movement threshold check...
+				// e.g. if (moveDistance < dragMovementDistanceThreshold && userExpandable)...
+				titlebarWindowShadeDoubleClick &&
+				event.target === dragBarElement &&
+				tpPane
+			) {
+				tpPane.expanded = !tpPane.expanded
+			}
+		}
+	}
+
+	const dragStartListener = (event: PointerEvent) => {
+		if (
+			x !== undefined &&
+			y !== undefined &&
+			event.button === 0 &&
+			event.target instanceof HTMLElement
+		) {
+			moveDistance = 0
+
+			if (inertia) {
+				stopInertia()
+
+				lastMoveTime = performance.now()
+				lastMoveX = x ?? 0
+				lastMoveY = y ?? 0
+			}
+			// Remove down listeners, prevents drag-related multi-touch
+			// Can revisit this with a more robust approach...
+			initialDragEvent = event
+			removeDragStartListeners()
+			addDragMoveAndEndListeners()
+
+			if (event.target === dragBarElement) {
+				// Would rather do this with :active pseudo-class, but it doesn't
+				// update on blur events in Firefox
+				dragBarElement.style.cursor = 'grabbing'
+			}
+
+			/* Have to do this in JS due to single ":active" element in multi-pane situations */
+			containerElement.style.transition = 'width 0s ease'
+
+			event.target.setPointerCapture(event.pointerId)
+
+			startWidth = width ?? 0
+
+			if (absolute) {
+				// startPageRect = viewportRectToPage(containerElement.getBoundingClientRect())
+				// Stable anchors for transform-based drag
+				// startPageX = event.pageX
+				// startPageY = event.pageY
+				// startX = x
+				// startY = y
+				startOffsetX = x - event.pageX
+				startOffsetY = y - event.pageY
+			} else {
+				startOffsetX = x - event.clientX
+				startOffsetY = y - event.clientY
+			}
+		}
+	}
+
+	// Things that don't help drag latency:
+	// -[x] Directly setting style
+	// -[x] Awaiting ticking
+	// -[x] Rounding to pixel values
+	// -[x] Setting transform / translate instead of left / top
+	// -[x] Managing separate requestAnimationFrame loop
+	// -[ ] Using touch or mouse events instead of pointer
+	// -[ ] Using the native drag / drop API (no reasonable control over drawing and bounds?)
+	const dragMoveListener = (event: PointerEvent) => {
+		if (
+			event.target instanceof HTMLElement &&
+			width !== undefined &&
+			minWidth !== undefined &&
+			x !== undefined &&
+			y !== undefined
+		) {
+			if (event.target === dragBarElement) {
+				moveDistance += Math.hypot(event.movementX, event.movementY)
+
+				if (absolute) {
+					x = startOffsetX + event.pageX
+					y = startOffsetY + event.pageY
+				} else {
+					x = startOffsetX + event.clientX
+					y = startOffsetY + event.clientY
+				}
+
+				if (inertia) {
+					const now = performance.now()
+					const dt = Math.max(0.001, (now - lastMoveTime) / 1000)
+
+					// Use actual applied movement (post-clamp, works for absolute+fixed)
+					const dx = (x ?? 0) - lastMoveX
+					const dy = (y ?? 0) - lastMoveY
+
+					vx = dx / dt
+					vy = dy / dt
+
+					lastMoveTime = now
+					lastMoveX = x ?? 0
+					lastMoveY = y ?? 0
+				}
+			} else if (event.target === widthHandleElement) {
+				width = clamp(event.pageX + startOffsetX + startWidth - x, minWidth, maxAvailablePanelWidth)
+			}
+		}
+	}
+
+	// Simulates a pointer cancel event when the window loses focus while dragging
+	// Event simulation approach is necessary for Firefox to redraw the cursor
+	const blurListener = () => {
+		if (pointerCancelOnWindowBlur && initialDragEvent?.target instanceof HTMLElement) {
+			const { target } = initialDragEvent
+
+			const bounds = target.getBoundingClientRect()
+			const pointerCancelEvent = new PointerEvent('pointercancel', {
+				bubbles: true,
+				clientX: bounds.left + bounds.width / 2,
+				clientY: bounds.top + bounds.height / 2,
+				composed: true,
+				pointerId: initialDragEvent.pointerId,
+				pointerType: initialDragEvent.pointerType,
+			})
+			target.dispatchEvent(pointerCancelEvent)
+		}
+	}
+
+	const dragEndListener = (event: PointerEvent) => {
+		event.stopImmediatePropagation()
+
+		if (event.target instanceof HTMLElement) {
+			// Release capture no matter what
+			if (event.target.hasPointerCapture(event.pointerId)) {
+				event.target.releasePointerCapture(event.pointerId)
+			}
+
+			// Only way to get Firefox to react while blurred
+			if (event.target === dragBarElement) {
+				dragBarElement.style.removeProperty('cursor')
+			}
+
+			/* Have to do this in JS due to single ":active" element in multi-pane situations */
+			containerElement.style.removeProperty('transition')
+
+			// Treat as a click if the mouse hasn't moved much
+			// But don't do this for cancellations or focus loss
+			if (
+				event.type === 'pointerup' &&
+				titlebarWindowShadeSingleClick &&
+				event.target === dragBarElement &&
+				moveDistance < dragMovementDistanceThreshold &&
+				userExpandable &&
+				tpPane
+			) {
+				tpPane.expanded = !tpPane.expanded
+			}
+
+			if (
+				inertia &&
+				event.type === 'pointerup' &&
+				event.target === dragBarElement &&
+				moveDistance >= dragMovementDistanceThreshold
+			) {
+				startInertia()
+			} else {
+				// reset any stale velocity
+				vx = 0
+				vy = 0
+			}
+
+			initialDragEvent = undefined
+			removeDragMoveAndEndListeners()
+			addDragStartListeners()
+		}
+	}
+
+	const addDragStartListeners = () => {
+		dragBarElement.addEventListener('pointerdown', dragStartListener)
+		widthHandleElement?.addEventListener('pointerdown', dragStartListener)
+	}
+
+	const removeDragStartListeners = () => {
+		dragBarElement.removeEventListener('pointerdown', dragStartListener)
+		widthHandleElement?.removeEventListener('pointerdown', dragStartListener)
+	}
+
+	const addDragMoveAndEndListeners = () => {
+		window.addEventListener('blur', blurListener)
+
+		dragBarElement.addEventListener('pointermove', dragMoveListener)
+		dragBarElement.addEventListener('pointerup', dragEndListener)
+		dragBarElement.addEventListener('pointercancel', dragEndListener)
+
+		widthHandleElement?.addEventListener('pointermove', dragMoveListener)
+		widthHandleElement?.addEventListener('pointerup', dragEndListener)
+		widthHandleElement?.addEventListener('pointercancel', dragEndListener)
+	}
+
+	const removeDragMoveAndEndListeners = () => {
+		window.removeEventListener('blur', blurListener)
+
+		dragBarElement.removeEventListener('pointermove', dragMoveListener)
+		dragBarElement.removeEventListener('pointerup', dragEndListener)
+		dragBarElement.removeEventListener('pointercancel', dragEndListener)
+
+		widthHandleElement?.removeEventListener('pointermove', dragMoveListener)
+		widthHandleElement?.removeEventListener('pointerup', dragEndListener)
+		widthHandleElement?.removeEventListener('pointercancel', dragEndListener)
+	}
+
+	const touchScrollBlocker = (event: TouchEvent) => {
+		event.preventDefault()
+	}
+
+	onMount(() => {
+		setDocumentSize()
+
+		if (tpPane) {
+			// eslint-disable-next-line svelte/no-dom-manipulating
+			containerElement.append(tpPane.element)
+		} else {
+			console.warn('no tpPane in draggable')
+		}
+
+		// Prevent scrolling content behind the pane on mobile when dragging the pane or otherwise
+		containerElement.addEventListener('touchmove', touchScrollBlocker, { passive: false })
+
+		// Make the pane draggable the Tweakpane pane is NOT itself a svelte component, so we have
+		// to manage events directly through the DOM... click blocking and handling collapse in
+		// pointerup was most reliable cross-browser approach
+		const dragBarElementCheck = containerElement.querySelector<HTMLElement>('.tp-rotv_t')
+		if (dragBarElementCheck) {
+			dragBarElement = dragBarElementCheck
+			dragBarElement.addEventListener('click', clickBlocker)
+			dragBarElement.addEventListener('dblclick', doubleClickListener)
+
+			// Add width adjuster handle
+			widthHandleElement = dragBarElement.parentElement?.appendChild(document.createElement('div'))
+			if (widthHandleElement) {
+				widthHandleElement.className = 'tp-custom-width-handle'
+				widthHandleElement.textContent = '↔'
+				widthHandleElement.addEventListener('click', clickBlocker)
+				widthHandleElement.addEventListener('dblclick', doubleClickListener)
+			}
+
+			// Adds to both
+			addDragStartListeners()
+		}
+	})
+
+	onDestroy(() => {
+		stopInertia()
+
+		removeDragStartListeners()
+		removeDragMoveAndEndListeners()
+
+		dragBarElement.removeEventListener('click', clickBlocker)
+		dragBarElement.removeEventListener('dblclick', doubleClickListener)
+
+		widthHandleElement?.removeEventListener('click', clickBlocker)
+		widthHandleElement?.removeEventListener('dblclick', doubleClickListener)
+
+		containerElement?.removeEventListener('touchmove', touchScrollBlocker)
+
+		// Clean up store id check, e.g. when cycling through the mode of a single pane
+		if (localStoreId !== undefined) {
+			localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1)
+		}
+	})
+
+	function updateResizability(isResizable: boolean) {
+		if (widthHandleElement) {
+			widthHandleElement.style.display = isResizable ? 'block' : 'none'
+		}
+	}
+
+	$: tpPane && resizable && updateResizability(resizable)
+
+	function recursiveCollapse(
+		children: BladeApi[],
+		maxToCollapse: number = Number.MAX_SAFE_INTEGER,
+	) {
+		if (maxToCollapse > 0) {
+			for (const child of children) {
+				if ('expanded' in child) {
+					if ((child as FolderApi).expanded) {
+						maxToCollapse--
+						;(child as FolderApi).expanded = false
+					}
+
+					if ('children' in child) {
+						recursiveCollapse((child as FolderApi).children, maxToCollapse)
+					}
+				} else {
+					const swatchButton = getSwatchButton(child)
+					if (swatchButton && pickerIsOpen(child)) {
+						maxToCollapse--
+						swatchButton.click()
+					}
+				}
+			}
+		}
+	}
+
+	// Ensure the tweakpane panel is within the viewport additional checks in the width drag handler
+	$: if (
+		containerHeightScaled !== undefined &&
+		documentWidth !== undefined &&
+		documentHeight !== undefined &&
+		x !== undefined &&
+		y !== undefined &&
+		width !== undefined &&
+		minWidth !== undefined &&
+		maxWidth !== undefined
+	) {
+		// Collapse children if needed TODO progressive collapsing not working because of container
+		// height update delays...
+		if (collapseChildrenToFit && containerHeightScaled > documentHeight && tpPane) {
+			recursiveCollapse(tpPane.children)
+		}
+
+		// Prioritize visibility of the top / left corner
+		if (absolute) {
+			const clamped = clampAbsolute(x, y)
+			x = clamped.x
+			y = clamped.y
+		} else {
+			x = clamp(x, 0, Math.max(0, documentWidth - containerWidth))
+			y = clamp(y, 0, Math.max(0, documentHeight - containerHeightScaled))
+		}
+
+		if (documentWidth < containerWidth) {
+			width = Math.max(minWidth, Math.min(maxWidth, documentWidth))
+		}
+	}
+
+	// No browser check...
+	$: maxAvailablePanelWidth = Math.min(maxWidth ?? 600, documentWidth - (x ?? 0))
+
+	$: (localStoreId, storePositionLocally && addStorageId())
+	$: (localStoreId, !storePositionLocally && removeStorageId())
+	$: localStoreId !== `${localStorePrefix}${localStoreId}` && updateLocalStoreId(localStoreId)
+
+	// Proxy everything to the store
+	$: storePositionLocally &&
+		localStoreId !== undefined &&
+		x !== undefined &&
+		y !== undefined &&
+		width !== undefined &&
+		expanded !== undefined &&
+		positionStore?.set({ x, y, expanded, width })
+
+	$: {
+		if (containerElement) {
+			if (scale === undefined || scale === 1) {
+				containerHeightScaled = containerHeight
+			} else {
+				// Padding doesn't scale
+				const style = window.getComputedStyle(containerElement)
+				const vPadding =
+					Number.parseFloat(style.paddingTop) + Number.parseFloat(style.paddingBottom)
+				containerHeightScaled = (containerHeight - vPadding) * scale + vPadding
+			}
+		}
+	}
 </script>
 
 <!--
@@ -597,81 +783,81 @@ This component is for internal use only.
 <svelte:window on:resize={setDocumentSize} />
 
 <div
-  bind:clientHeight={containerHeight}
-  bind:clientWidth={containerWidth}
-  bind:this={containerElement}
-  on:focus|capture={() => {
-    zIndexLocal = ++zIndexGlobal
-  }}
-  on:pointerdown|capture={() => {
-    zIndexLocal = ++zIndexGlobal
-  }}
-  class="draggable-container"
-  class:not-collapsable={!userExpandable}
-  class:not-resizable={!resizable}
-  style:left="{x}px"
-  style:padding
-  style:top="{y}px"
-  style:width="{width}px"
-  style:z-index={zIndexLocal}
-  style:position={positioning}
+	bind:clientHeight={containerHeight}
+	bind:clientWidth={containerWidth}
+	bind:this={containerElement}
+	on:focus|capture={() => {
+		zIndexLocal = ++zIndexGlobal
+	}}
+	on:pointerdown|capture={() => {
+		zIndexLocal = ++zIndexGlobal
+	}}
+	class="draggable-container"
+	class:not-collapsable={!userExpandable}
+	class:not-resizable={!resizable}
+	style:left={`${x}px`}
+	style:top={`${y}px`}
+	style:padding
+	style:width="{width}px"
+	style:z-index={zIndexLocal}
+	style:position={absolute ? 'absolute' : 'fixed'}
 >
-  <GenericPane bind:expanded bind:tpPane {scale} {title} {...removeKeys($$restProps, 'position')}>
-    <slot />
-  </GenericPane>
+	<GenericPane bind:expanded bind:tpPane {scale} {title} {...removeKeys($$restProps, 'position')}>
+		<slot />
+	</GenericPane>
 </div>
 
 <style>
-  div.draggable-container {
-    z-index: auto;
-    padding: 20px;
-    /* 0.2s matches Tweakpane's internal animation duration */
-    transition: width 0.2s ease;
-  }
+	div.draggable-container {
+		z-index: auto;
+		padding: 20px;
+		/* 0.2s matches Tweakpane's internal animation duration */
+		transition: width 0.2s ease;
+	}
 
-  /* stylelint-disable-next-line selector-class-pattern */
-  div.draggable-container :global(div.tp-rotv_t) {
-    cursor: grab;
-    overflow: hidden;
-    /* Ensure draggable hit zone does not collapse if title is missing */
-    /* Fixes #1 */
-    height: 100%;
-  }
+	/* stylelint-disable-next-line selector-class-pattern */
+	div.draggable-container :global(div.tp-rotv_t) {
+		cursor: grab;
+		overflow: hidden;
+		/* Ensure draggable hit zone does not collapse if title is missing */
+		/* Fixes #1 */
+		height: 100%;
+	}
 
-  div.draggable-container.not-collapsable :global(div.tp-rotv_t) {
-    /* TODO remove the magic numbers */
-    /* Expand the drag bar to fill the missing window shade icon space */
-    margin-left: -28px;
-    padding-left: 28px;
-  }
+	div.draggable-container.not-collapsable :global(div.tp-rotv_t) {
+		/* TODO remove the magic numbers */
+		/* Expand the drag bar to fill the missing window shade icon space */
+		margin-left: -28px;
+		padding-left: 28px;
+	}
 
-  div.draggable-container.not-resizable :global(div.tp-rotv_t) {
-    /* TODO remove the magic numbers */
-    /* Expand the drag bar to fill the missing width drag icon space */
-    margin-right: -28px;
-    padding-right: 28px;
-  }
+	div.draggable-container.not-resizable :global(div.tp-rotv_t) {
+		/* TODO remove the magic numbers */
+		/* Expand the drag bar to fill the missing width drag icon space */
+		margin-right: -28px;
+		padding-right: 28px;
+	}
 
-  div.draggable-container :global(div.tp-lblv_l) {
-    white-space: nowrap;
-  }
+	div.draggable-container :global(div.tp-lblv_l) {
+		white-space: nowrap;
+	}
 
-  div.draggable-container :global(div.tp-rotv_m) {
-    right: unset;
-    left: 0;
-    /* inflate the icon into a better hit zone */
-    margin: auto calc((var(--cnt-usz) + (var(--cnt-hp)) - 6px) / 2);
-  }
+	div.draggable-container :global(div.tp-rotv_m) {
+		right: unset;
+		left: 0;
+		/* inflate the icon into a better hit zone */
+		margin: auto calc((var(--cnt-usz) + (var(--cnt-hp)) - 6px) / 2);
+	}
 
-  div.draggable-container :global(div.tp-custom-width-handle) {
-    cursor: col-resize;
-    position: absolute;
-    top: 0;
-    right: 0;
-    aspect-ratio: 1;
-    height: 100%;
-    font-size: 1.5em;
-    color: var(--tp-container-fg);
-    opacity: 0.5;
-  }
+	div.draggable-container :global(div.tp-custom-width-handle) {
+		cursor: col-resize;
+		position: absolute;
+		top: 0;
+		right: 0;
+		aspect-ratio: 1;
+		height: 100%;
+		font-size: 1.5em;
+		color: var(--tp-container-fg);
+		opacity: 0.5;
+	}
 </style>
