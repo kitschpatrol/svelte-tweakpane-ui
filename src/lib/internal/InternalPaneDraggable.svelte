@@ -123,6 +123,8 @@
 		/**
 		 * Adds simple inertial motion after drag release.
 		 *
+		 * Adjust friction to control feel
+		 *
 		 * Draggable panes only.
 		 *
 		 * @default `false`
@@ -137,13 +139,13 @@
 		 *
 		 * @default `8`
 		 */
-		inertiaFriction?: number
+		friction?: number
 		/**
-		 * Controls bounce amount when inertia is enabled
-		 *
-		 * Only applies when `inertia` is enabled.
+		 * Controls bounce strength.
 		 *
 		 * 0 = bounce disabled, 1 = perfectly elastic
+		 *
+		 * Only applies when `inertia` is enabled.
 		 *
 		 * @default `0`
 		 */
@@ -193,7 +195,7 @@
 	export let padding: $$Props['padding'] = '0'
 	export let absolute: $$Props['absolute'] = false
 	export let inertia: $$Props['inertia'] = false
-	export let inertiaFriction: $$Props['inertiaFriction'] = 8
+	export let friction: $$Props['friction'] = 8
 	export let bounce: $$Props['bounce'] = 0
 
 	let containerElement: HTMLDivElement
@@ -241,8 +243,8 @@
 		lastInertiaTime = performance.now()
 
 		const inertiaStep = (now: number) => {
-			// Clamp dt to prevent huge jumps/spikes when raf hiccups (tab switch/dropped frames)
-			const dt = Math.min(0.05, Math.max(0.001, (now - lastInertiaTime) / 1000))
+			// Clamp dt to prevent huge jumps/spikes when Raf hiccups (tab switch/dropped frames)
+			const dt = Math.min(0.05, Math.max(0.001, (now - lastInertiaTime) / 1000)) // Min 1ms, Max 50ms
 			lastInertiaTime = now
 
 			// update position
@@ -250,11 +252,13 @@
 			y = (y ?? 0) + vy * dt
 
 			if (bounce && bounce > 0) {
+				// Fixed bounds
 				let minX = 0
 				let minY = 0
 				let maxX = Math.max(0, documentWidth - containerWidth)
 				let maxY = Math.max(0, documentHeight - containerHeightScaled)
 
+				// If absolute update bounds to consider offsetParent
 				if (absolute) {
 					const offsetParent = (containerElement?.offsetParent ?? containerElement) as HTMLElement
 					const rect = offsetParent.getBoundingClientRect()
@@ -274,7 +278,6 @@
 					x = maxX
 					vx = -vx * bounce
 				}
-
 				if (y < minY) {
 					y = minY
 					vy = -vy * bounce
@@ -285,17 +288,18 @@
 			}
 
 			// friction / velocity decay
-			const friction = Math.max(0, inertiaFriction ?? 8) // 0 - frictionless, 10 - snappy
-			const decay = Math.exp(-friction * dt)
+			const decay = Math.exp(-Math.max(0, friction ?? 8) * dt) // 0 = frictionless, 10 = snappy
 			vx *= decay
 			vy *= decay
 
 			const pxPerFrame = Math.hypot(vx, vy) * dt
+
+			// Use device pixels for consistency across different zoom levels and resolutions
 			const devicePxPerFrame = pxPerFrame * window.devicePixelRatio
 
 			// Snap near-rest motion to device pixels to avoid subpixel shimmer.
 			const step = 1 / window.devicePixelRatio
-			if (devicePxPerFrame < 0.4) {
+			if (devicePxPerFrame < 0.35) {
 				x = Math.round(x / step) * step
 				y = Math.round(y / step) * step
 			}
@@ -355,7 +359,7 @@
 
 			const doc = document.documentElement
 
-			// When absolute consider full page height but still clamp to viewport on x
+			// When absolute consider full page height but still clamp to viewport width
 			documentWidth = doc.clientWidth
 			documentHeight = absolute ? Math.max(doc.scrollHeight, doc.clientHeight) : doc.clientHeight
 
@@ -409,7 +413,6 @@
 	}
 
 	let haveVelocitySample = false
-	let lastMotionTime = 0
 
 	const dragStartListener = (event: PointerEvent) => {
 		if (
@@ -422,7 +425,6 @@
 
 			if (inertia) {
 				stopInertia()
-				lastMotionTime = performance.now()
 				haveVelocitySample = false
 				lastMoveTime = performance.now()
 				lastMoveX = x ?? 0
@@ -473,14 +475,14 @@
 				x = event.pageX + startOffsetX
 				y = event.pageY + startOffsetY
 
-				//Calculate inertia velocity for when letting go
+				//Calculate inertia velocity for when releasing drag
 				if (inertia) {
 					const now = performance.now()
 
-					// Clamp dt to kill outliers:
-					const dt = Math.min(0.05, Math.max(0.004, (now - lastMoveTime) / 1000))
+					// Caps stalls at 50 ms
+					const dt = Math.min(0.05, (now - lastMoveTime) / 1000)
 
-					// Use actual applied movement (post-clamp, works for absolute+fixed)
+					// Calculate applied movement
 					const dx = (x ?? 0) - lastMoveX
 					const dy = (y ?? 0) - lastMoveY
 
@@ -513,7 +515,7 @@
 
 					//Cap max inital velocity
 					const speed = Math.hypot(vx, vy)
-					const maxSpeed = 20000 / (inertiaFriction ?? 1) // px/s (more friction -> lower max speed)
+					const maxSpeed = 20000 / (friction ?? 1) // px/s (more friction -> lower max speed)
 					if (speed > maxSpeed) {
 						const s = maxSpeed / speed
 						vx *= s
@@ -582,7 +584,7 @@
 				event.target === dragBarElement &&
 				moveDistance >= dragMovementDistanceThreshold
 			) {
-				//If havent moved in 80ms set velocity to 0
+				//If havent moved in 80ms set velocity to 0 (prevents stale velocity from dragMove)
 				if (performance.now() - lastMoveTime > 80) {
 					vx = 0
 					vy = 0
@@ -747,26 +749,17 @@
 
 		// Prioritize visibility of the top / left corner
 		if (absolute) {
+			// OffsetParent top-left in page space: convert viewport rect → page coords (add scroll) so absolute left/top clamps correctly.
 			const rect = (containerElement?.offsetParent ?? containerElement).getBoundingClientRect()
+			const originLeft = rect.left + window.scrollX
+			const originTop = rect.top + window.scrollY
 
-			// Page-space rect of the element's offsetParent (origin for CSS left/top when position:absolute).
-			const origin = new DOMRect(
-				rect.left + window.scrollX,
-				rect.top + window.scrollY,
-				rect.width,
-				rect.height,
-			)
+			const minX = -originLeft
+			const minY = -originTop
+			const maxX = Math.max(-originLeft, documentWidth - -originLeft - containerWidth)
+			const maxY = Math.max(minY, documentHeight - originTop - containerHeightScaled)
 
-			const minX = -origin.left
-			const minY = -origin.top
-			// const maxX = Math.max(minX, documentWidth - origin.left - containerWidth)
-			const maxX = documentWidth - width - origin.left
-
-			// const maxY = Math.max(minY, documentHeight - origin.top - containerHeightScaled)
-			const maxY = Math.max(minY, documentHeight - origin.top - containerHeightScaled)
-
-			// x = clamp(x, minX, maxX)
-			x = clamp(x, minX, Math.max(minX, maxX))
+			x = clamp(x, minX, maxX)
 			y = clamp(y, minY, maxY)
 		} else {
 			x = clamp(x, 0, Math.max(0, documentWidth - containerWidth))
