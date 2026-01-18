@@ -258,7 +258,7 @@
 				let maxX = Math.max(0, documentWidth - containerWidth)
 				let maxY = Math.max(0, documentHeight - containerHeightScaled)
 
-				// If absolute update bounds to consider offsetParent and scroll
+				// If absolute, update bounds to consider offsetParent and scroll
 				if (absolute) {
 					const offsetParent = containerElement?.offsetParent ?? containerElement
 					const rect = offsetParent.getBoundingClientRect()
@@ -756,7 +756,7 @@
 
 			const minX = -originLeft
 			const minY = -originTop
-			const maxX = Math.max(-originLeft, documentWidth - -originLeft - containerWidth)
+			const maxX = Math.max(minX, documentWidth - originLeft - containerWidth)
 			const maxY = Math.max(minY, documentHeight - originTop - containerHeightScaled)
 
 			x = clamp(x, minX, maxX)
