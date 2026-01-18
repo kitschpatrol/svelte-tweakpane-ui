@@ -749,7 +749,7 @@
 
 		// Prioritize visibility of the top / left corner
 		if (absolute) {
-			// OffsetParent top-left in page space: convert viewport rect → page coords (add scroll) so absolute left/top clamps correctly.
+			// Convert offsetParent origin to page coords so absolute left/top can be clamped to document bounds.
 			const rect = (containerElement?.offsetParent ?? containerElement).getBoundingClientRect()
 			const originLeft = rect.left + window.scrollX
 			const originTop = rect.top + window.scrollY
