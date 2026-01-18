@@ -258,9 +258,9 @@
 				let maxX = Math.max(0, documentWidth - containerWidth)
 				let maxY = Math.max(0, documentHeight - containerHeightScaled)
 
-				// If absolute update bounds to consider offsetParent
+				// If absolute update bounds to consider offsetParent and scroll
 				if (absolute) {
-					const offsetParent = (containerElement?.offsetParent ?? containerElement) as HTMLElement
+					const offsetParent = containerElement?.offsetParent ?? containerElement
 					const rect = offsetParent.getBoundingClientRect()
 					const originLeft = rect.left + window.scrollX
 					const originTop = rect.top + window.scrollY
@@ -479,7 +479,7 @@
 				if (inertia) {
 					const now = performance.now()
 
-					// Caps stalls at 50 ms
+					// Caps dt stalls at 50ms
 					const dt = Math.min(0.05, (now - lastMoveTime) / 1000)
 
 					// Calculate applied movement
