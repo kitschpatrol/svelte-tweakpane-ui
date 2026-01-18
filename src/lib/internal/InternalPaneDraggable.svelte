@@ -754,7 +754,9 @@
 
 			const minX = -originLeft
 			const minY = -originTop
-			const maxX = Math.max(minX, documentWidth - originLeft - containerWidth)
+
+			const gutter = 1 / window.devicePixelRatio // ~1 physical pixel (prevents rare overflow)
+			const maxX = Math.max(minX, documentWidth - originLeft - containerWidth - gutter)
 			const maxY = Math.max(minY, documentHeight - originTop - containerHeightScaled)
 
 			x = clamp(x, minX, maxX)
