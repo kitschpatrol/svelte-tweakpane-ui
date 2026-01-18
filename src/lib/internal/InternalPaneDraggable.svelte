@@ -111,6 +111,45 @@
 		 * @bindable
 		 * */
 		width?: number
+		/**
+		 * Sets the draggable panes position to absolute.
+		 *
+		 * Makes dragging work with absolute coordinates and bounds pane to the entire page instead of viewport.
+		 *
+		 * @default `false`
+		 *
+		 * */
+		absolute?: boolean
+		/**
+		 * Adds simple inertial motion after drag release.
+		 *
+		 * Adjust friction to control feel
+		 *
+		 * Draggable panes only.
+		 *
+		 * @default `false`
+		 */
+		inertia?: boolean
+		/**
+		 * Controls inertia friction (0 = none, higher = stops faster)
+		 *
+		 * Typical range: 4–16.
+		 *
+		 * Only applies when `inertia` is enabled.
+		 *
+		 * @default `8`
+		 */
+		friction?: number
+		/**
+		 * Controls bounce strength.
+		 *
+		 * 0 = bounce disabled, 1 = perfectly elastic
+		 *
+		 * Only applies when `inertia` is enabled.
+		 *
+		 * @default `0`
+		 */
+		bounce?: number
 	} & Omit<ComponentProps<GenericPane>, 'userCreatedPane'>
 
 	type $$Slots = {
@@ -154,6 +193,10 @@
 	export let title: $$Props['title'] = 'Tweakpane'
 	export let scale: $$Props['scale'] = 1
 	export let padding: $$Props['padding'] = '0'
+	export let absolute: $$Props['absolute'] = false
+	export let inertia: $$Props['inertia'] = false
+	export let friction: $$Props['friction'] = 8
+	export let bounce: $$Props['bounce'] = 0
 
 	let containerElement: HTMLDivElement
 	let dragBarElement: HTMLElement // Added dynamically to tweakpane DOM
@@ -164,6 +207,109 @@
 	let documentWidth: number
 	let documentHeight: number
 	let zIndexLocal = zIndexGlobal
+
+	//Inertia Logic
+	let vx = 0
+	let vy = 0
+	let lastMoveTime = 0
+	let lastMoveX = 0
+	let lastMoveY = 0
+	let inertiaRaf = 0
+	let lastInertiaTime = 0
+
+	// cancel any existing inertia loop and reset velocity
+	function stopInertia() {
+		if (inertiaRaf) cancelAnimationFrame(inertiaRaf)
+		inertiaRaf = 0
+		lastInertiaTime = 0
+		vx = 0
+		vy = 0
+	}
+
+	function startInertia() {
+		if (!inertia) return
+		if (!documentWidth || !documentHeight) return
+
+		// small threshold so a tiny release doesn't drift
+		if (Math.hypot(vx, vy) < 20) {
+			vx = 0
+			vy = 0
+			return
+		}
+
+		// cancel any existing inertia loop whilst keeping current velocity
+		if (inertiaRaf) cancelAnimationFrame(inertiaRaf)
+		inertiaRaf = 0
+		lastInertiaTime = performance.now()
+
+		const inertiaStep = (now: number) => {
+			// Clamp dt to prevent huge jumps/spikes when Raf hiccups (tab switch/dropped frames)
+			const dt = Math.min(0.05, Math.max(0.001, (now - lastInertiaTime) / 1000)) // Min 1ms, Max 50ms
+			lastInertiaTime = now
+
+			// update position
+			x = (x ?? 0) + vx * dt
+			y = (y ?? 0) + vy * dt
+
+			if (bounce && bounce > 0) {
+				// Fixed bounds
+				let minX = 0
+				let minY = 0
+				let maxX = Math.max(0, documentWidth - containerWidth)
+				let maxY = Math.max(0, documentHeight - containerHeightScaled)
+
+				// If absolute, update bounds to consider offsetParent and scroll
+				if (absolute) {
+					const offsetParent = containerElement?.offsetParent ?? containerElement
+					const rect = offsetParent.getBoundingClientRect()
+					const originLeft = rect.left + window.scrollX
+					const originTop = rect.top + window.scrollY
+
+					minX = -originLeft
+					minY = -originTop
+					maxX = Math.max(minX, documentWidth - originLeft - containerWidth)
+					maxY = Math.max(minY, documentHeight - originTop - containerHeightScaled)
+				}
+
+				if (x < minX) {
+					x = minX
+					vx = -vx * bounce
+				} else if (x > maxX) {
+					x = maxX
+					vx = -vx * bounce
+				}
+				if (y < minY) {
+					y = minY
+					vy = -vy * bounce
+				} else if (y > maxY) {
+					y = maxY
+					vy = -vy * bounce
+				}
+			}
+
+			// friction / velocity decay
+			const decay = Math.exp(-Math.max(0, friction ?? 8) * dt) // 0 = frictionless, 10 = snappy
+			vx *= decay
+			vy *= decay
+
+			// Use device pixels for consistency across different zoom levels and resolutions
+			const devicePxPerFrame = Math.hypot(vx, vy) * dt * devicePixelRatio
+
+			// Snap near-rest motion to device pixels to avoid subpixel shimmer.
+			if (devicePxPerFrame < 0.35) {
+				const step = 1 / window.devicePixelRatio
+				x = Math.round(x / step) * step
+				y = Math.round(y / step) * step
+			}
+
+			// stop when effectively not moving
+			if (devicePxPerFrame < 0.01) return stopInertia()
+
+			inertiaRaf = requestAnimationFrame(inertiaStep)
+		}
+
+		inertiaRaf = requestAnimationFrame(inertiaStep)
+	}
 
 	// Local storage helpers, warn about ID collisions
 	function addStorageId() {
@@ -208,8 +354,16 @@
 		if (x !== undefined && y !== undefined && width !== undefined) {
 			const documentWidthPrevious = documentWidth
 			const documentHeightPrevious = documentHeight
-			documentWidth = document.documentElement.clientWidth
-			documentHeight = document.documentElement.clientHeight
+
+			const doc = document.documentElement
+
+			// When absolute consider full page height but still clamp to viewport width
+			documentWidth = doc.clientWidth
+			documentHeight = absolute ? Math.max(doc.scrollHeight, doc.clientHeight) : doc.clientHeight
+
+			// Don't stick pane to quadrant if absolute
+			if (absolute) return
+
 			const dx = documentWidth - documentWidthPrevious
 			const dy = documentHeight - documentHeightPrevious
 
@@ -256,6 +410,8 @@
 		}
 	}
 
+	let haveVelocitySample = false
+
 	const dragStartListener = (event: PointerEvent) => {
 		if (
 			x !== undefined &&
@@ -265,6 +421,13 @@
 		) {
 			moveDistance = 0
 
+			if (inertia) {
+				stopInertia()
+				haveVelocitySample = false
+				lastMoveTime = performance.now()
+				lastMoveX = x ?? 0
+				lastMoveY = y ?? 0
+			}
 			// Remove down listeners, prevents drag-related multi-touch
 			// Can revisit this with a more robust approach...
 			initialDragEvent = event
@@ -309,6 +472,54 @@
 
 				x = event.pageX + startOffsetX
 				y = event.pageY + startOffsetY
+
+				//Calculate inertia velocity for when releasing drag
+				if (inertia) {
+					const now = performance.now()
+
+					// Caps dt stalls at 50ms
+					const dt = Math.min(0.05, (now - lastMoveTime) / 1000)
+
+					// Calculate applied movement
+					const dx = (x ?? 0) - lastMoveX
+					const dy = (y ?? 0) - lastMoveY
+
+					lastMoveTime = now
+					lastMoveX = x ?? 0
+					lastMoveY = y ?? 0
+
+					// ignore first sample after pointerdown (common spike source)
+					if (!haveVelocitySample) {
+						haveVelocitySample = true
+						vx = 0
+						vy = 0
+						return
+					}
+
+					// treat tiny movement as "stopped" so we don't carry momentum when still
+					if (Math.abs(dx) < 0.25 && Math.abs(dy) < 0.25) {
+						vx = 0
+						vy = 0
+						return
+					}
+
+					const newVx = dx / dt
+					const newVy = dy / dt
+
+					// smooth velocity over multiple frames to kill spikes/jitter in pointer sampling
+					const alpha = 0.35
+					vx += (newVx - vx) * alpha
+					vy += (newVy - vy) * alpha
+
+					//Cap max inital velocity
+					const speed = Math.hypot(vx, vy)
+					const maxSpeed = 20000
+					if (speed > maxSpeed) {
+						const s = maxSpeed / speed
+						vx *= s
+						vy *= s
+					}
+				}
 			} else if (event.target === widthHandleElement) {
 				width = clamp(event.pageX + startOffsetX + startWidth - x, minWidth, maxAvailablePanelWidth)
 			}
@@ -363,6 +574,25 @@
 				tpPane
 			) {
 				tpPane.expanded = !tpPane.expanded
+			}
+
+			if (
+				inertia &&
+				event.type === 'pointerup' &&
+				event.target === dragBarElement &&
+				moveDistance >= dragMovementDistanceThreshold
+			) {
+				//If havent moved in 80ms set velocity to 0 (prevents stale velocity from dragMove)
+				if (performance.now() - lastMoveTime > 80) {
+					vx = 0
+					vy = 0
+				}
+
+				startInertia()
+			} else {
+				// reset any stale velocity
+				vx = 0
+				vy = 0
 			}
 
 			initialDragEvent = undefined
@@ -446,6 +676,7 @@
 	})
 
 	onDestroy(() => {
+		stopInertia()
 		removeDragStartListeners()
 		removeDragMoveAndEndListeners()
 
@@ -510,13 +741,30 @@
 	) {
 		// Collapse children if needed TODO progressive collapsing not working because of container
 		// height update delays...
-		if (collapseChildrenToFit && containerHeightScaled > documentHeight && tpPane) {
+		if (collapseChildrenToFit && containerHeightScaled > documentHeight && tpPane && !absolute) {
 			recursiveCollapse(tpPane.children)
 		}
 
 		// Prioritize visibility of the top / left corner
-		x = clamp(x, 0, Math.max(0, documentWidth - containerWidth))
-		y = clamp(y, 0, Math.max(0, documentHeight - containerHeightScaled))
+		if (absolute) {
+			// Convert offsetParent origin to page coords so absolute left/top can be clamped to document bounds.
+			const rect = (containerElement?.offsetParent ?? containerElement).getBoundingClientRect()
+			const originLeft = rect.left + window.scrollX
+			const originTop = rect.top + window.scrollY
+
+			const minX = -originLeft
+			const minY = -originTop
+
+			const gutter = 1 / window.devicePixelRatio // ~1 physical pixel (prevents rare overflow)
+			const maxX = Math.max(minX, documentWidth - originLeft - containerWidth - gutter)
+			const maxY = Math.max(minY, documentHeight - originTop - containerHeightScaled)
+
+			x = clamp(x, minX, maxX)
+			y = clamp(y, minY, maxY)
+		} else {
+			x = clamp(x, 0, Math.max(0, documentWidth - containerWidth))
+			y = clamp(y, 0, Math.max(0, documentHeight - containerHeightScaled))
+		}
 
 		if (documentWidth < containerWidth) {
 			width = Math.max(minWidth, Math.min(maxWidth, documentWidth))
@@ -577,11 +825,12 @@ This component is for internal use only.
 	class="draggable-container"
 	class:not-collapsable={!userExpandable}
 	class:not-resizable={!resizable}
-	style:left="{x}px"
+	style:left={`${x}px`}
+	style:top={`${y}px`}
 	style:padding
-	style:top="{y}px"
 	style:width="{width}px"
 	style:z-index={zIndexLocal}
+	style:position={absolute ? 'absolute' : 'fixed'}
 >
 	<GenericPane bind:expanded bind:tpPane {scale} {title} {...removeKeys($$restProps, 'position')}>
 		<slot />
@@ -590,7 +839,6 @@ This component is for internal use only.
 
 <style>
 	div.draggable-container {
-		position: fixed;
 		z-index: auto;
 		padding: 20px;
 		/* 0.2s matches Tweakpane's internal animation duration */
