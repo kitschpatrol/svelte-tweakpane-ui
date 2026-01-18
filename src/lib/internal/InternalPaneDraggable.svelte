@@ -292,20 +292,18 @@
 			vx *= decay
 			vy *= decay
 
-			const pxPerFrame = Math.hypot(vx, vy) * dt
-
 			// Use device pixels for consistency across different zoom levels and resolutions
-			const devicePxPerFrame = pxPerFrame * window.devicePixelRatio
+			const devicePxPerFrame = Math.hypot(vx, vy) * dt * devicePixelRatio
 
 			// Snap near-rest motion to device pixels to avoid subpixel shimmer.
-			const step = 1 / window.devicePixelRatio
 			if (devicePxPerFrame < 0.35) {
+				const step = 1 / window.devicePixelRatio
 				x = Math.round(x / step) * step
 				y = Math.round(y / step) * step
 			}
 
 			// stop when effectively not moving
-			if (pxPerFrame < 0.01) return stopInertia()
+			if (devicePxPerFrame < 0.01) return stopInertia()
 
 			inertiaRaf = requestAnimationFrame(inertiaStep)
 		}
