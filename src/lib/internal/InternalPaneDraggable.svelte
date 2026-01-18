@@ -515,7 +515,7 @@
 
 					//Cap max inital velocity
 					const speed = Math.hypot(vx, vy)
-					const maxSpeed = 20000 / (friction ?? 1) // px/s (more friction -> lower max speed)
+					const maxSpeed = 20000
 					if (speed > maxSpeed) {
 						const s = maxSpeed / speed
 						vx *= s
