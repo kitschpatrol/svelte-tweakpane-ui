@@ -14,7 +14,9 @@
 	},
 	"cSpell.enabled": true,
 	"editor.codeActionsOnSave": {
-		"source.fixAll": "explicit",
+		"source.fixAll.ts": "explicit",
+		"source.fixAll.eslint": "explicit",
+		"source.fixAll.stylelint": "explicit",
 		"source.organizeImports": "never"
 	},
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -57,7 +59,7 @@
 		"*.js": "${basename}.ts.map, ${basename}.js.map, ${basename}.d.ts, ${basename}.d.ts.map, ${basename}.d.js.map",
 		"*.ts": "${basename}.ts.map, ${basename}.d.ts, ${basename}.d.ts.map",
 		".env": ".env.*, .template.env",
-		"package.json": ".*ignore, .*rc, .*.js, .*.mjs, .*.cjs, .*.ts, .*.mts, .*.cts, .*.json, .*.jsonc, .*.json5, .*.yml, .*.yaml, *config.js, *config.mjs, *config.cjs, *config.ts, *config.mts, *config.cts, *config.json, *config.jsonc, *config.json5, *config.yml, *config.yaml, pnpm*, workspace*, yarn*, lerna.json, netlify.toml, package-lock.json, turbo.json, vercel.json, wrangler.toml, yarn.lock",
+		"package.json": ".*.cjs, .*.cts, .*.js, .*.json, .*.json5, .*.jsonc, .*.mjs, .*.mts, .*.toml, .*.ts, .*.yaml, .*.yml, .*ignore, .*rc, *config.cjs, *config.cts, *config.js, *config.json, *config.json5, *config.jsonc, *config.mjs, *config.mts, *config.toml, *config.ts, *config.yaml, *config.yml, lerna.json, netlify.toml, package-lock.json, pnpm*, turbo.json, vercel.json, workspace*, wrangler.toml, wrangler.json, wrangler.jsonc, yarn.lock, yarn*",
 		"readme.md": "authors*, backers*, changelog*, citation*, code_of_conduct*, contributing*, contributors*, copying*, credits*, governance*, history*, license*, maintainers*, release_notes*, security*, sponsors*"
 	},
 	"typescript.tsdk": "node_modules/typescript/lib",
