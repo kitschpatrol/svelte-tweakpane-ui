@@ -1,11 +1,11 @@
-import fs from 'node:fs'
+import fs from 'node:fs/promises'
 import { getAllLibraryFiles, lintAndFormat } from './ast-tools'
 
 // Assumes all code blocks are svelte-like
 async function formatEmbeddedCode(file: string): Promise<number> {
 	let embedsFormatted = 0
 	try {
-		const data = fs.readFileSync(file, 'utf8')
+		const data = await fs.readFile(file, 'utf8')
 		let formattedData = ''
 		let lastIndex = 0
 		const regex = /(```.*\n)([\s\S]*?)(\n```)/g
@@ -44,7 +44,7 @@ async function formatEmbeddedCode(file: string): Promise<number> {
 		if (formattedData === data) {
 			embedsFormatted = 0
 		} else {
-			fs.writeFileSync(file, formattedData, 'utf8')
+			await fs.writeFile(file, formattedData, 'utf8')
 		}
 	} catch (error) {
 		if (error instanceof Error) {
@@ -61,13 +61,10 @@ const files = getAllLibraryFiles()
 
 console.log(`Checking ${files.length} files for embedded code blocks with incorrect formatting...`)
 
-let totalEmbedsFormatted = 0
-let totalFilesTouched = 0
-for (const file of files) {
-	const count = await formatEmbeddedCode(file)
-	if (count > 0) totalFilesTouched++
-	totalEmbedsFormatted += count
-}
+const results = await Promise.all(files.map(async (file) => formatEmbeddedCode(file)))
+
+const totalFilesTouched = results.filter((count) => count > 0).length
+const totalEmbedsFormatted = results.reduce((sum, count) => sum + count, 0)
 
 if (totalFilesTouched === 0) {
 	console.log(`Embedded formatting is correct in all files.`)

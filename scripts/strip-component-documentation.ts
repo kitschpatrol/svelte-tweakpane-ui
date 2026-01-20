@@ -1,13 +1,13 @@
 // There's redundant @component documentation between the svelte file and the svelte.d.ts file
 
 import { globSync } from 'glob'
-import { readFileSync, writeFileSync } from 'node:fs'
+import { readFile, writeFile } from 'node:fs/promises'
 
 const verbose = false
 
-function removeComponentBlock(filePath: string): void {
+async function removeComponentBlock(filePath: string): Promise<void> {
 	// Read the file
-	const fileContent = readFileSync(filePath, 'utf8')
+	const fileContent = await readFile(filePath, 'utf8')
 
 	// Use regular expression to remove everything between <!-- @component and -->
 	const updatedContent = fileContent.replaceAll(/<!--\s*@component[\s\S]*?-->/g, '')
@@ -18,7 +18,7 @@ function removeComponentBlock(filePath: string): void {
 	} else {
 		// eslint-disable-next-line ts/no-unnecessary-condition
 		if (verbose) console.log(`Stripped @component comment from ${filePath}`)
-		writeFileSync(filePath, updatedContent, 'utf8')
+		await writeFile(filePath, updatedContent, 'utf8')
 	}
 }
 
@@ -27,8 +27,6 @@ const svelteFiles = globSync(`./dist/**/*.svelte`)
 console.log(`Removing @component blocks from ${svelteFiles.length} Svelte files...`)
 console.log(`Documentation is preserved in .svelte.d.ts files.`)
 
-for (const filePath of svelteFiles) {
-	removeComponentBlock(filePath)
-}
+await Promise.all(svelteFiles.map(async (filePath) => removeComponentBlock(filePath)))
 
 console.log(`Done.`)
