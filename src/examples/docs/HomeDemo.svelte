@@ -1,4 +1,9 @@
 <script lang="ts">
+	// eslint-disable-next-line import/no-duplicates
+	import { onMount } from 'svelte'
+	import { derived, type Writable, writable } from 'svelte/store'
+	// eslint-disable-next-line import/no-duplicates
+	import { fade } from 'svelte/transition'
 	import {
 		Checkbox,
 		Color,
@@ -20,9 +25,6 @@
 		type Theme,
 		ThemeUtils,
 	} from '$lib'
-	import { onMount } from 'svelte'
-	import { derived, type Writable, writable } from 'svelte/store'
-	import { fade } from 'svelte/transition'
 
 	const themeDataKey = 'data-theme'
 	let astroTheme: 'dark' | 'light'
@@ -149,16 +151,17 @@
 	let offsets: PointValue4dTuple = [0, 0, 0, 0]
 	let headingUp: [boolean, boolean, boolean, boolean] = [true, true, true, true]
 
-	function reset() {
-		time = 0
-		playing = true
-		text = 'Svelte Tweakpane UI'
-		periodSeconds = 10
-		min = 0
-		max = 1
-		themeKey = 'standard'
-		offsets = [0, 0, 0, 0]
-	}
+	//
+	// function reset() {
+	// 	time = 0
+	// 	playing = true
+	// 	text = 'Svelte Tweakpane UI'
+	// 	periodSeconds = 10
+	// 	min = 0
+	// 	max = 1
+	// 	themeKey = 'standard'
+	// 	offsets = [0, 0, 0, 0]
+	// }
 
 	// Stores
 	const point4 = writable<PointValue4dTuple>([0, 0, 0, 0])
@@ -167,12 +170,15 @@
 		point4,
 		($point4) => [$point4[0], $point4[1], $point4[2]] as PointValue3dTuple,
 	)
+	// eslint-disable-next-line no-return-assign
 	;(point3 as Writable<PointValue3dTuple>).set = (newItems) =>
 		($point4 = [newItems[0], newItems[1], newItems[2], $point4[3]])
+	// eslint-disable-next-line no-return-assign
 	;(point3 as Writable<PointValue3dTuple>).set = (newItems) =>
 		($point4 = [newItems[0], newItems[1], newItems[2], $point4[3]])
 
 	const point2 = derived(point4, ($point4) => [$point4[0], $point4[1]] as PointValue2dTuple)
+	// eslint-disable-next-line no-return-assign
 	;(point2 as Writable<PointValue2dTuple>).set = (newItems) =>
 		($point4 = [newItems[0], newItems[1], $point4[2], $point4[3]])
 
@@ -200,6 +206,7 @@
 	$: {
 		if (!interacting) {
 			const newValue = offsets.map((offset, index) =>
+				// eslint-disable-next-line ts/restrict-plus-operands
 				map(Math.sin(time + offset + offsetAngle[index]), -1, 1, min, max),
 			) as PointValue4dTuple
 
@@ -307,9 +314,9 @@ Max"
 					expanded={true}
 					label="<Point> X Y"
 					optionsY={{
-						min,
-						max,
 						inverted: true,
+						max,
+						min,
 					}}
 					picker="inline"
 				/>

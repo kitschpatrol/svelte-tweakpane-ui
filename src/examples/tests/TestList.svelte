@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { List, type ListOptions } from '$lib'
 
-	const options: ListOptions<number> = { b: 2, a: 1, c: 3 }
+	const options: ListOptions<number> = { a: 1, b: 2, c: 3 }
 	let selection: number = 1
 
 	let binding1InternalEventCount = 0

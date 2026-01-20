@@ -6,8 +6,10 @@
 </script>
 
 <script generics="U extends BladeOptions, V extends BladeRef" lang="ts">
-	import type { Theme } from '$lib/theme.js'
 	import type { Writable } from 'svelte/store'
+	import { BROWSER, DEV } from 'esm-env'
+	import { getContext, onDestroy, onMount } from 'svelte'
+	import type { Theme } from '$lib/theme.js'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
 	import {
@@ -17,20 +19,18 @@
 		isRootPane,
 		type Plugin,
 	} from '$lib/utils.js'
-	import { BROWSER, DEV } from 'esm-env'
-	import { getContext, onDestroy, onMount } from 'svelte'
 
 	/**
 	 * Blade configuration exposing Tweakpane's internal
 	 * [`BladeParams`](https://tweakpane.github.io/docs/api/interfaces/BaseBladeParams.html).
 	 *
-	 * */
+	 */
 	export let options: U
 
 	/**
 	 * Prevent interactivity and gray out the control.
 	 * @default `false`
-	 * */
+	 */
 	export let disabled: boolean = false
 
 	/**
@@ -38,7 +38,7 @@
 	 * @default `undefined`  \
 	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
 	 * set with `setGlobalDefaultTheme()`.
-	 * */
+	 */
 	export let theme: Theme | undefined = undefined
 
 	/**
@@ -49,10 +49,9 @@
 	 * components wrapping `<Blade>`'s functionality.
 	 *
 	 * Direct manipulation of Tweakpane's internals can break _Svelte Tweakpane UI_ abstractions.
-	 *
 	 * @bindable
 	 * @readonly
-	 * */
+	 */
 	export let ref: undefined | V = undefined
 
 	/**
@@ -63,9 +62,8 @@
 	 * components wrapping `<Blade>`'s functionality in combination with a Tweakpane plugin.
 	 *
 	 * Direct manipulation of Tweakpane's internals can break _Svelte Tweakpane UI_ abstractions.
-	 *
 	 * @default `undefined`
-	 * */
+	 */
 	export let plugin: Plugin | undefined = undefined
 
 	const registerPlugin = getContext<(plugin: Plugin) => void>('registerPlugin')
@@ -110,7 +108,7 @@
 	$: _ref && (_ref.disabled = disabled)
 	$: theme &&
 		$parentStore &&
-		(userCreatedPane || !isRootPane($parentStore)) &&
+		(userCreatedPane ?? !isRootPane($parentStore)) &&
 		console.warn(
 			'Set theme on the <Pane> component, not on its children! (Check nested <Blade> components for a theme prop.)',
 		)

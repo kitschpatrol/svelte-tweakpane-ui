@@ -1,9 +1,9 @@
-<script generics="W extends number | string | boolean | unknown" lang="ts">
+<script generics="W extends boolean | number | string | unknown" lang="ts">
+	import type { ComponentProps } from 'svelte'
 	import type {
 		default as GenericMonitor,
 		GenericMonitorOptions,
 	} from '$lib/internal/GenericMonitor.svelte'
-	import type { ComponentProps } from 'svelte'
 	import InternalMonitorBoolean, {
 		type InternalMonitorBooleanOptions,
 	} from '$lib/internal/InternalMonitorBoolean.svelte'
@@ -35,7 +35,7 @@
 						/**
 						 * A value to monitor.
 						 * @bindable
-						 * */
+						 */
 						value: boolean | number | string
 					}
 

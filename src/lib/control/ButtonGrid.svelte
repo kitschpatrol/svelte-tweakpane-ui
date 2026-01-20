@@ -12,18 +12,21 @@
 <script lang="ts">
 	import type { ButtonGridApi as ButtonGridRef } from '@kitschpatrol/tweakpane-plugin-essentials'
 	import type { ButtonGridBladeParams as ButtonGridOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/button-grid/plugin.d.ts'
-	import Blade from '$lib/core/Blade.svelte'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import { fillWith } from '$lib/utils'
-	import { getGridDimensions, type UnwrapCustomEvents } from '$lib/utils.js'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
 	import { BROWSER } from 'esm-env'
 	import { type ComponentProps, createEventDispatcher } from 'svelte'
+	import Blade from '$lib/core/Blade.svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { fillWith } from '$lib/utils.js'
+	import { getGridDimensions, type UnwrapCustomEvents } from '$lib/utils.js'
 
-	type $$Props = {
+	type $$Props = Omit<
+		ComponentProps<Blade<ButtonGridOptions, ButtonGridRef>>,
+		'options' | 'plugin' | 'ref'
+	> & {
 		/**
 		 * Array of names, each of which will become the title of a button in the grid.
-		 * */
+		 */
 		buttons: string[]
 		/**
 		 * Number of columns to arrange the buttons into.
@@ -32,7 +35,7 @@
 		 * count to change dynamically based on the number of buttons.
 		 * @default `undefined`  \
 		 * Dynamic based on quantity of `buttons`.
-		 * */
+		 */
 		columns?: number
 		/**
 		 * Text displayed next to the button grid.
@@ -46,9 +49,9 @@
 		 * count to change dynamically based on the number of buttons.
 		 * @default `undefined`  \
 		 * Dynamic based on quantity of `buttons`.
-		 * */
+		 */
 		rows?: number
-	} & Omit<ComponentProps<Blade<ButtonGridOptions, ButtonGridRef>>, 'options' | 'plugin' | 'ref'>
+	}
 
 	// Unique
 	export let columns: $$Props['columns'] = undefined
@@ -64,14 +67,15 @@
 		 * Note that the values described in the `ButtonGridClickEvent` type are available on the
 		 * `event.detail` parameter.
 		 * @event
-		 * */
+		 */
 		click: ButtonGridClickEvent
 	}
 
+	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	let options: ButtonGridOptions
-	let gridBlade: ButtonGridRef
+	let gridBlade: ButtonGridRef | undefined
 	let gridDimensions: { columns: number; rows: number }
 
 	function cells(
@@ -84,7 +88,7 @@
 
 		if (index >= 0 && index < buttons.length) {
 			return {
-				title: `${buttons[index]}`,
+				title: buttons[index],
 			}
 		}
 

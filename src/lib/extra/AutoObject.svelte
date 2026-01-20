@@ -5,19 +5,19 @@
 </script>
 
 <script lang="ts">
-	import type { Theme } from '$lib/theme.js'
-	import type { Container, UnwrapCustomEvents } from '$lib/utils.js'
 	import type { Writable } from 'svelte/store'
-	import Text from '$lib/control/Text.svelte'
-	import Binding from '$lib/core/Binding.svelte'
-	import Folder from '$lib/core/Folder.svelte'
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
 	import { isColorObject } from '@tweakpane/core'
 	import { Point2d } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js'
 	import { Point3d } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js'
 	import { Point4d } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d.js'
 	import { copy } from 'fast-copy'
 	import { createEventDispatcher, getContext } from 'svelte'
+	import type { Theme } from '$lib/theme.js'
+	import type { Container, UnwrapCustomEvents } from '$lib/utils.js'
+	import Text from '$lib/control/Text.svelte'
+	import Binding from '$lib/core/Binding.svelte'
+	import Folder from '$lib/core/Folder.svelte'
+	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
 
 	// TODO what about the onchange event?
 
@@ -26,14 +26,14 @@
 	 * @default `undefined`  \
 	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
 	 * set with `setGlobalDefaultTheme()`.
-	 * */
+	 */
 	export let theme: Theme | undefined = undefined
 
 	/**
 	 * Transforms keys into more pleasant control labels (e.g. capitalization and spaces in lieu of
 	 * camelCase, kebab-case, etc.)
 	 * @default `true`
-	 * */
+	 */
 	export let prettyLabels: boolean = true
 
 	/**
@@ -42,7 +42,7 @@
 	 * Keys will be used as labels, and a (reasonably) appropriate Tweakpane control will be used
 	 * for each value's type.
 	 * @bindable
-	 * */
+	 */
 	export let object: BindingObject
 
 	// Inheriting here with ComponentEvents makes a documentation mess
@@ -55,13 +55,13 @@
 		 *
 		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
 		 * and changes resulting from programmatic manipulation of the `object` (`external`).
-		 *
 		 * @extends ValueChangeEvent
 		 * @event
-		 * */
+		 */
 		change: AutoObjectChangeEvent
 	}
 
+	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	const parentStore: Writable<Container> = getContext('parentStore')

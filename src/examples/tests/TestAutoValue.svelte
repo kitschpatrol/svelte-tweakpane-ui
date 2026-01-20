@@ -3,6 +3,7 @@
 
 	let number = 0
 	let color = '#ff00ff'
+	let colorArray = { r: 0, g: 0, b: 255 }
 	let point = { x: 0, y: 0 }
 	let text = 'Cosmic manifold'
 
@@ -117,6 +118,8 @@
 />
 
 <hr />
+
+<AutoValue bind:value={colorArray} label="Color Array" />
 
 <pre>Number Value: <span>{number}</span></pre>
 <pre>Number 1 Internal: <span>{number1InternalEventCount}</span></pre>

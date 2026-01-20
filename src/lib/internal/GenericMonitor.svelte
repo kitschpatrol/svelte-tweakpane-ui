@@ -11,19 +11,19 @@
 	import type { ComponentProps } from 'svelte'
 	import GenericBinding from '$lib/internal/GenericBinding.svelte'
 
-	type $$Props = {
+	type $$Props = ComponentProps<GenericBinding<T, U, V>> & {
 		/**
 		 * Number of past states to retain.
 		 * @default `1`  \
 		 * Or `64` if value is `number` and `graph` is `true`.
-		 * */
+		 */
 		bufferSize?: number
 		/**
 		 * Time between value samples in milliseconds.
 		 *
 		 * Useful when `graph` is true. Defaults to reactive value updates only (`interval={0}`).
 		 * @default `0`
-		 * */
+		 */
 		interval?: number
 		/**
 		 * Number of visible rows of state history.
@@ -32,9 +32,9 @@
 		 * row count.
 		 * @default `1`  \
 		 * Or `3` if value is `string` and `multiline` is `true`.
-		 * */
+		 */
 		rows?: number
-	} & ComponentProps<GenericBinding<T, U, V>>
+	}
 
 	// Reexport for bindability
 	export let value: $$Props['value'] // Still has to be passed manually since it's required

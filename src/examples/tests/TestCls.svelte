@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte'
 	import {
 		AutoObject,
 		Binding,
@@ -40,7 +41,6 @@
 		WaveformMonitor,
 		Wheel,
 	} from '$lib'
-	import { onMount } from 'svelte'
 	let text = 'Cosmic Manifold'
 	let waveData = [5, 6, 7, 8, 9, 3, 9, 8, 7, 6, 5]
 
@@ -49,7 +49,7 @@
 	}, 10)
 
 	let selection: number = 1
-	const options: ListOptions<number> = { b: 2, a: 1, c: 3 }
+	const options: ListOptions<number> = { a: 1, b: 2, c: 3 }
 
 	let booleanToMonitor = false
 	let stringToMonitor = 'Reticulating'
@@ -61,6 +61,7 @@
 
 	setInterval(() => {
 		booleanToMonitor = !booleanToMonitor
+		// eslint-disable-next-line ts/no-misused-spread, unicorn/no-array-reverse
 		stringToMonitor = [...stringToMonitor].reverse().join('')
 	}, 1000)
 
@@ -76,9 +77,9 @@
 			b: 55,
 		},
 		someFolder: {
-			b: 2,
 			// Wraps children in a <Folder>
 			a: 1,
+			b: 2,
 			c: 3,
 		},
 		someNumber: 1, // Creates a <Slider>

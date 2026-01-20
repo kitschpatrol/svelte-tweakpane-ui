@@ -4,12 +4,12 @@
 	/*
 	 * Horizontal space between grid points, in pixels
 	 */
-	export let gridSpacingX: number
+	export let gridSpacingX: number = 100
 
 	/*
 	 * Vertical space between grid points, in pixels
 	 */
-	export let gridSpacingY: number
+	export let gridSpacingY: number = 100
 
 	/*
 	 * Scale to apply to each grid item

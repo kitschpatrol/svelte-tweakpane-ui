@@ -92,7 +92,7 @@ const names = data
 	// Don't break names
 	.map((n) => n.replace(/ /, '\u00A0'))
 	// Sort by last name
-	.sort((a, b) => a.localeCompare(b))
+	.toSorted((a, b) => a.localeCompare(b))
 ---
 
 {names.length > 0 && names.join(', ')}

@@ -22,9 +22,8 @@
 		"**/**.*",
 		".svelte-kit/ambient.d.ts",
 		".svelte-kit/types/**/$types.d.ts",
-		"./docs/.astro/types.d.ts",
-		"docs/src/content/docs/docs/plugins.mdx/*.js"
+		"./docs/.astro/types.d.ts"
 	],
 
-	"exclude": ["**/dist/", "**/build/", "**/bin/", "**/*.mdx"]
+	"exclude": ["**/dist/", "**/build/", "**/bin/"]
 }

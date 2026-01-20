@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Pane, Slider } from '$lib'
-	import Checkbox from '$lib/control/Checkbox.svelte'
 	import { onMount } from 'svelte'
 	import { type Pane as TpPane } from 'tweakpane'
+	import { Pane, Slider } from '$lib'
+	import Checkbox from '$lib/control/Checkbox.svelte'
 
 	let tpPane1: TpPane
 	let tpPane2: TpPane
@@ -13,17 +13,17 @@
 
 	onMount(() => {
 		// Have your way with the pane...
-		console.log(`tpPane1: ${String(tpPane1)}`)
+		console.log('tpPane1:', tpPane1)
 		tpPane1.on('change', (event) => {
 			console.log('tpPane1')
 			console.log(event)
 		})
-		console.log(`tpPane2: ${String(tpPane2)}`)
+		console.log('tpPane2:', tpPane2)
 		tpPane2.on('change', (event) => {
 			console.log('tpPane2')
 			console.log(event)
 		})
-		console.log(`tpPane3: ${String(tpPane3)}`)
+		console.log('tpPane3:', tpPane3)
 		tpPane3.on('change', (event) => {
 			console.log('tpPane3')
 			console.log(event)

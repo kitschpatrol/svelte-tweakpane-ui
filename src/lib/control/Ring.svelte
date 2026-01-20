@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js'
 	import type { RingSeries } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.js'
+	import type { ValueChangeEvent } from '$lib/utils.js'
 
 	// TODO maybe spread RingUnit into the top level props?
 
@@ -31,6 +31,7 @@
 		ticks: number
 	}
 
+	// eslint-disable-next-line unicorn/prefer-export-from
 	export type { RingSeries, RingUnit }
 	export type RingChangeEvent = ValueChangeEvent<number>
 </script>
@@ -38,26 +39,26 @@
 <script lang="ts">
 	import type { RingInputParams } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.d.ts'
 	import type { ComponentProps } from 'svelte'
-	import GenericSlider from '$lib/internal/GenericSlider.svelte'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-camerakit'
+	import GenericSlider from '$lib/internal/GenericSlider.svelte'
 
-	type $$Props = {
+	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {
 		/**
 		 * A `number` value to control.
 		 * @bindable
-		 * */
+		 */
 		value: number
 		/**
 		 * Style variations.
 		 * @default `0`
-		 * */
+		 */
 		series?: RingSeries
 		/**
 		 * Density and value mapping of the ring's tick marks.
 		 * @default `{ ticks: 5, pixels: 40, value: 10 }`
-		 * */
+		 */
 		unit?: RingUnit
-	} & Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'>
+	}
 
 	// Reexport for bindability
 	export let value: $$Props['value']
@@ -75,10 +76,9 @@
 		 *
 		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
 		 * and changes resulting from programmatic manipulation of the `value` (`external`).
-		 *
 		 * @extends ValueChangeEvent
 		 * @event
-		 * */
+		 */
 		change: RingChangeEvent
 	}
 

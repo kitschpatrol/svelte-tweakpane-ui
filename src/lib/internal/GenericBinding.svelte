@@ -6,20 +6,20 @@
 	generics="T extends any, U extends BindingOptions = BindingOptions, V extends BindingRef = BindingRef"
 	lang="ts"
 >
-	import type { BindingObject } from '$lib/utils.js'
 	import type { ComponentProps } from 'svelte'
-	import Binding from '$lib/core/Binding.svelte'
 	import { shallowEqual } from 'fast-equals'
+	import type { BindingObject } from '$lib/utils.js'
+	import Binding from '$lib/core/Binding.svelte'
 
 	type BindableValue = BindingObject & Record<string, T>
 
-	type $$Props = {
+	type $$Props = Omit<ComponentProps<Binding<BindableValue, U, V>>, 'key' | 'object'> & {
 		/**
 		 * The value to control.
 		 * @bindable
-		 * */
+		 */
 		value: T
-	} & Omit<ComponentProps<Binding<BindableValue, U, V>>, 'key' | 'object'>
+	}
 
 	// Reexport for bindability
 	export let value: $$Props['value']

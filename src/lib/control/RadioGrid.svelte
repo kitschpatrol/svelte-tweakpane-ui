@@ -6,18 +6,18 @@
 
 <script generics="T extends boolean | number | string" lang="ts">
 	import type { ComponentProps } from 'svelte'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import GenericInput, { type GenericInputOptions } from '$lib/internal/GenericInput.svelte'
-	import { fillWith } from '$lib/utils'
-	import { getGridDimensions } from '$lib/utils.js'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
 	import { BROWSER } from 'esm-env'
 	import { nanoid } from 'nanoid'
+	import type { GenericInputOptions } from '$lib/internal/GenericInput.svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericInput from '$lib/internal/GenericInput.svelte'
+	import { fillWith, getGridDimensions } from '$lib/utils.js'
 
 	// TODO allow mixed values? TODO handle records and more complex types? duplicated here because
 	// it's not exported from the plugin...
 	// @tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
-	type RadioGridOptions<T> = {
+	type RadioGridOptions<T> = GenericInputOptions & {
 		cells: (
 			x: number,
 			y: number,
@@ -28,21 +28,24 @@
 		groupName: string
 		size: [number, number]
 		view: 'radiogrid'
-	} & GenericInputOptions
+	}
 
-	type $$Props = {
+	type $$Props = Omit<
+		ComponentProps<GenericInput<T, RadioGridOptions<T>>>,
+		'options' | 'plugin' | 'ref'
+	> & {
 		/**
 		 * Value of selected radio button.
 		 *
 		 * Bind to this prop to receive updates when the user clicks a radio button.
 		 * @bindable
 		 * @default `undefined` If undefined, the first value in the `values` array is assigned.
-		 *  */
+		 */
 		value?: T
 		/**
 		 * Number of columns to arrange the radio buttons into.
 		 * @default `undefined`
-		 * */
+		 */
 		columns?: number
 		/**
 		 * Name allowing multiple radio groups to share mutually exclusive selection state.
@@ -57,24 +60,24 @@
 		/**
 		 * Text to show in the radio button label before the value.
 		 * @default `undefined`
-		 * */
+		 */
 		prefix?: string
 		/**
 		 * Number of rows to arrange the radio buttons into.
 		 * @default `undefined`
-		 * */
+		 */
 		rows?: number
 		/**
 		 * Text to show in the radio button label after the value.
 		 * @default `undefined`
-		 * */
+		 */
 		suffix?: string
 		/**
 		 * Array of `number`, `string` or `boolean` values, each of which will become a button in
 		 * the radio grid.
-		 * */
+		 */
 		values: T[]
-	} & Omit<ComponentProps<GenericInput<T, RadioGridOptions<T>>>, 'options' | 'plugin' | 'ref'>
+	}
 
 	// Ensure no entangled selection across multiple RadioGrids, unless the user explicitly asks for
 	// it
@@ -99,10 +102,9 @@
 		 *
 		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
 		 * and changes resulting from programmatic manipulation of the `value` (`external`).
-		 *
 		 * @extends ValueChangeEvent
 		 * @event
-		 * */
+		 */
 		change: RadioGridChangeEvent
 	}
 

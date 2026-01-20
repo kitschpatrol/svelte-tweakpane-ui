@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { getValueOrFallback, type Theme } from '$lib/theme.js'
 	import { DEV } from 'esm-env'
+	import { getValueOrFallback, type Theme } from '$lib/theme.js'
 
 	/**
 	 * The theme to use when estimating the height of the pane.
@@ -34,7 +34,9 @@
 
 	function getTotal(add: typeof keysAdd, sub: typeof keysSubtract, extra: number = 0): number {
 		return (
+			// eslint-disable-next-line no-return-assign
 			add.reduce((acc, key) => (acc += getPixelValue(getValueOrFallback(theme, key))), 0) -
+			// eslint-disable-next-line no-return-assign
 			sub.reduce((acc, key) => (acc += getPixelValue(getValueOrFallback(theme, key))), 0) +
 			extra
 		)

@@ -5,19 +5,19 @@
 <script generics="T extends BladeOptions, U extends BladeRef" lang="ts">
 	import type { ComponentProps } from 'svelte'
 	import Blade from '$lib/core/Blade.svelte'
-	import { updateCollapsibility } from '$lib/utils'
+	import { updateCollapsibility } from '$lib/utils.js'
 
-	type $$Props = {
+	type $$Props = ComponentProps<Blade<T, U>> & {
 		/**
 		 * DOM class name of the button used to expand and collapse the blade's picker.
 		 * @default `undefined`
-		 * */
+		 */
 		buttonClass?: string
 		/**
 		 * Expand or collapse the blade's picker.
 		 * @default `true`
 		 * @bindable
-		 * */
+		 */
 		expanded?: boolean
 		/**
 		 * The style of value "picker" to use in the blade.
@@ -29,9 +29,9 @@
 		 *
 		 * Most useful when `picker` is `inline`.
 		 * @default `true`
-		 * */
+		 */
 		userExpandable?: boolean
-	} & ComponentProps<Blade<T, U>>
+	}
 
 	// Reexport for bindability
 	export let options: $$Props['options']

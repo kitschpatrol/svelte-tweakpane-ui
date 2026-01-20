@@ -3,7 +3,7 @@
 	import GenericPane from '$lib/internal/GenericPane.svelte'
 	import { removeKeys } from '$lib/utils.js'
 
-	type $$Props = {
+	type $$Props = Omit<ComponentProps<GenericPane>, 'userCreatedPane'> & {
 		/**
 		 * Horizontal position of the pane relative to the left edge of the window, in pixels.
 		 *
@@ -11,7 +11,7 @@
 		 * positioned on the page. (So-named because of its similarity to CSS `position` property.)
 		 * @default `undefined`  \
 		 * 8 pixels from the right edge of the window.
-		 * */
+		 */
 		x?: number
 		/**
 		 * Vertical position of the pane relative to the top of the window, in pixels.
@@ -20,14 +20,14 @@
 		 * positioned on the page. (So-named because of its similarity to CSS `position` property.)
 		 * @default `undefined`  \
 		 * 8 pixels from the top edge of the window.
-		 * */
+		 */
 		y?: number
 		/**
 		 * Width of the pane, in pixels.
 		 * @default `256`
-		 * */
+		 */
 		width?: number
-	} & Omit<ComponentProps<GenericPane>, 'userCreatedPane'>
+	}
 
 	type $$Slots = {
 		/**

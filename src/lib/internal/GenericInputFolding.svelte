@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import type { GenericInputOptions, GenericInputRef } from '$lib/internal/GenericInput.svelte'
 	// Can't find picker options in the type definitions
-	export type GenericInputFoldingOptions = { expanded?: boolean } & GenericInputOptions // Technically not shared, but useful
+	export type GenericInputFoldingOptions = GenericInputOptions & { expanded?: boolean } // Technically not shared, but useful
 	export type GenericInputFoldingRef = GenericInputRef // No changes for now?
 </script>
 
@@ -14,17 +14,17 @@
 	import { updateCollapsibility } from '$lib/utils.js'
 
 	// TODO share prop definitions with GenericBladeFolding?
-	type $$Props = {
+	type $$Props = ComponentProps<GenericInput<T, U, V>> & {
 		/**
 		 * DOM class name of the button used to expand and collapse the input's picker.
 		 * @default `undefined`
-		 * */
+		 */
 		buttonClass?: string
 		/**
 		 * Expand or collapse the input's picker.
 		 * @default `false`
 		 * @bindable
-		 * */
+		 */
 		expanded?: boolean
 		/**
 		 * The style of value "picker" to use in the input.
@@ -34,9 +34,9 @@
 		/**
 		 * Allow users to interactively expand / contract the picker.
 		 * @default `true`
-		 * */
+		 */
 		userExpandable?: boolean
-	} & ComponentProps<GenericInput<T, U, V>>
+	}
 
 	// Reexport for bindability
 	export let value: $$Props['value']
@@ -59,6 +59,7 @@
 
 	$: if (!gotBinding && ref) {
 		gotBinding = true
+		// eslint-disable-next-line ts/no-unnecessary-type-assertion
 		;(ref.controller as any)?.valueController?.foldable_
 			?.value('expanded')
 

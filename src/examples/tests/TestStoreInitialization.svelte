@@ -1,8 +1,10 @@
 <script lang="ts">
 	// Via https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/15
-	import { Slider } from '$lib'
+	// eslint-disable-next-line import/no-duplicates
 	import { onMount, tick } from 'svelte'
+	// eslint-disable-next-line import/no-duplicates
 	import { writable } from 'svelte/store'
+	import { Slider } from '$lib'
 
 	const bear = writable({ apples: 100, name: 'Someone' })
 	const bear2 = writable({ apples: 100, name: 'Someone' })

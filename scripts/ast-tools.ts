@@ -63,10 +63,7 @@ export async function getGithubUrlForSourceFile(filePath: string): Promise<strin
 		throw new Error('No repository url found in package.json')
 	}
 
-	const sourceBaseUrl = `${url
-		.toString()
-		.replace(/^git\+/, '')
-		.replace(/\.git$/, '')}/blob/main/`
+	const sourceBaseUrl = `${url.replace(/^git\+/, '').replace(/\.git$/, '')}/blob/main/`
 	return sourceBaseUrl + filePath
 }
 
@@ -77,9 +74,7 @@ export async function getEditUrlForSourceFile(filePath: string): Promise<string>
 		throw new Error('No repository url found in package.json')
 	}
 
-	const sourceBaseUrl = `${String(url)
-		.replace(/^git\+/, '')
-		.replace(/\.git$/, '')}/edit/main/`
+	const sourceBaseUrl = `${url.replace(/^git\+/, '').replace(/\.git$/, '')}/edit/main/`
 	return sourceBaseUrl + filePath
 }
 

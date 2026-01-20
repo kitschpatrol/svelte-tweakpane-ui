@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte'
+	import { derived, type Writable, writable } from 'svelte/store'
 	import {
 		Button,
 		Checkbox,
@@ -22,8 +24,6 @@
 		type Theme,
 		ThemeUtils,
 	} from '$lib'
-	import { onMount } from 'svelte'
-	import { derived, type Writable, writable } from 'svelte/store'
 
 	function onPointerDown(event: PointerEvent) {
 		if (event.target && !hasParentWithClassName(event.target as HTMLElement, 'tp-rotv_b')) {
@@ -144,12 +144,15 @@
 		point4,
 		($point4) => [$point4[0], $point4[1], $point4[2]] as PointValue3dTuple,
 	)
+	// eslint-disable-next-line no-return-assign
 	;(point3 as Writable<PointValue3dTuple>).set = (newItems) =>
 		($point4 = [newItems[0], newItems[1], newItems[2], $point4[3]])
+	// eslint-disable-next-line no-return-assign
 	;(point3 as Writable<PointValue3dTuple>).set = (newItems) =>
 		($point4 = [newItems[0], newItems[1], newItems[2], $point4[3]])
 
 	const point2 = derived(point4, ($point4) => [$point4[0], $point4[1]] as PointValue2dTuple)
+	// eslint-disable-next-line no-return-assign
 	;(point2 as Writable<PointValue2dTuple>).set = (newItems) =>
 		($point4 = [newItems[0], newItems[1], $point4[2], $point4[3]])
 
@@ -162,6 +165,7 @@
 	$: {
 		if (!interacting) {
 			const newValue = offsets.map((offset, index) =>
+				// eslint-disable-next-line ts/restrict-plus-operands
 				map(Math.sin(time + offset + offsetAngle[index]), -1, 1, min, max),
 			) as PointValue4dTuple
 
@@ -252,7 +256,7 @@
 		{max}
 		expanded={true}
 		label="<Point> X Y"
-		optionsY={{ min, max, inverted: true }}
+		optionsY={{ inverted: true, max, min }}
 		picker="inline"
 	/>
 	<Separator />

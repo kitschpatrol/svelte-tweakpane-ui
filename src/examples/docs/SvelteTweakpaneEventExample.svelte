@@ -24,4 +24,10 @@
 <Slider bind:value={speed} min={0} max={100} on:change={onChange} label="Set Speed Limit:" />
 <Monitor value={internalChangeCount} format={(v) => v.toFixed(0)} label="Internal change events:" />
 <Monitor value={externalChangeCount} format={(v) => v.toFixed(0)} label="External change events:" />
-<Button on:click={() => (speed = 55)} label="Change limit externally:" title="Limit: 55" />
+<Button
+	on:click={() => {
+		speed = 55
+	}}
+	label="Change limit externally:"
+	title="Limit: 55"
+/>

@@ -4,27 +4,30 @@
 </script>
 
 <script lang="ts">
-	import type { UnwrapCustomEvents } from '$lib/utils.js'
 	import type { FpsGraphBladeApi as FpsGraphRef } from '@kitschpatrol/tweakpane-plugin-essentials'
 	import type { FpsGraphBladeParams as FpsGraphOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/fps-graph/plugin.js'
 	import type { ComponentProps } from 'svelte'
-	import Blade from '$lib/core/Blade.svelte'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import { fillWith } from '$lib/utils'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
 	import { BROWSER } from 'esm-env'
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte'
+	import type { UnwrapCustomEvents } from '$lib/utils.js'
+	import Blade from '$lib/core/Blade.svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { fillWith } from '$lib/utils.js'
 
-	type $$Props = {
+	type $$Props = Omit<
+		ComponentProps<Blade<FpsGraphOptions, FpsGraphRef>>,
+		'options' | 'plugin' | 'ref'
+	> & {
 		/**
 		 * Lower bound of the FPS graph.
 		 * @default `0`
-		 * */
+		 */
 		min?: number
 		/**
 		 * Upper bound of the FPS graph.
 		 * @default `90`
-		 * */
+		 */
 		max?: number
 		/**
 		 * Function to start a single frame measurement sample.
@@ -32,7 +35,7 @@
 		 * If undefined, a `requestAnimationFrame` is used to indicate the overall performance of
 		 * the page.
 		 * @default `undefined`
-		 * */
+		 */
 		begin?: () => void
 		/**
 		 * Function to end a single frame measurement sample.
@@ -40,24 +43,24 @@
 		 * If undefined, a `requestAnimationFrame` is used to indicate the overall performance of
 		 * the page.
 		 * @default `undefined`
-		 * */
+		 */
 		end?: () => void
 		/**
 		 * Time in milliseconds between updates to the graph.
 		 * @default `1000`
-		 * */
+		 */
 		interval?: number
 		/**
 		 * Text displayed next to the FPS graph.
 		 * @default `undefined`
-		 * */
+		 */
 		label?: string
 		/**
 		 * Height of the FPS graph, in rows.
 		 * @default `2`
-		 * */
+		 */
 		rows?: number
-	} & Omit<ComponentProps<Blade<FpsGraphOptions, FpsGraphRef>>, 'options' | 'plugin' | 'ref'>
+	}
 
 	// Reexport for bindability
 	export let rows: $$Props['rows'] = undefined // Default comes from implementation
@@ -68,12 +71,17 @@
 
 	let implicitMode = true // False as soon as the external api has been used
 
-	// Begin and end can be bound and called externally for explicit timing
+	/**
+	 * Bind and call for explicit timing
+	 */
 	export function begin(): void {
 		implicitMode = false
 		ref?.begin()
 	}
 
+	/**
+	 * Bind and call for explicit timing
+	 */
 	export function end(): void {
 		implicitMode = false
 		ref?.end()
@@ -90,10 +98,11 @@
 		 * Note that the values described in the `FpsGraphChangeEvent` type are available on the
 		 * `event.detail` parameter.
 		 * @event
-		 * */
+		 */
 		change: FpsGraphChangeEvent
 	}
 
+	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	onMount(() => {
@@ -128,10 +137,10 @@
 
 	let options: FpsGraphOptions
 	$: options = {
-		min,
-		max,
 		interval,
 		label,
+		max,
+		min,
 		rows,
 		view: 'fpsgraph',
 	}

@@ -1,14 +1,17 @@
 <script lang="ts">
-	import type { BladeOptions, BladeRef } from '$lib/core/Blade.svelte'
 	import type { ComponentProps } from 'svelte'
+	import { BROWSER } from 'esm-env'
+	import type { BladeOptions, BladeRef } from '$lib/core/Blade.svelte'
 	import Blade from '$lib/core/Blade.svelte'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import { BROWSER } from 'esm-env'
 
 	// TODO more specific escape that just removes tweakpane css? TODO maybe expose scrollable prop?
 	// TODO sanitize?
 
-	type $$Props = {
+	type $$Props = Omit<
+		ComponentProps<Blade<BladeOptions, BladeRef>>,
+		'disabled' | 'options' | 'plugin' | 'ref'
+	> & {
 		/**
 		 * Maximum height of the element block, in pixels. By default, the element
 		 * block will expand vertically to fit its contents, but clip any horizontal
@@ -29,7 +32,7 @@
 		 * @default `true`
 		 */
 		resetStyle?: boolean
-	} & Omit<ComponentProps<Blade<BladeOptions, BladeRef>>, 'disabled' | 'options' | 'plugin' | 'ref'>
+	}
 
 	type $$Slots = {
 		/**
