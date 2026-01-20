@@ -114,7 +114,7 @@ async function getStaticComponentInfoInternal(
 
 	const document = documentManager.openClientDocument({
 		text: fileText,
-		uri: `file:///${resolvedPath}`,
+		uri: pathToUrl(path.resolve(resolvedPath)),
 	})
 
 	const { lang, tsDoc } = await lsAndTsDocumentResolver.getLSAndTSDoc(document)
@@ -245,10 +245,16 @@ async function getDynamicComponentProps(
 	// to avoid stale autocompletion values across repeat invocations
 	const document = documentManager.openClientDocument({
 		text: testComponentSourceRows.join('\n'),
-		uri: `file:///in-memory-${componentName}-${nanoid()}.svelte`,
+		uri: pathToUrl(path.resolve(`.in-memory-${componentName}-${nanoid()}.svelte`)),
 	})
 
-	const { lang, tsDoc } = await lsAndTsDocumentResolver.getLSAndTSDoc(document)
+	const { lsContainer, tsDoc } = await lsAndTsDocumentResolver.getLSAndTSDoc(document)
+
+	// Ensure the virtual document is added to the language service program
+	lsContainer.openVirtualDocument(document)
+
+	// Get the synchronized language service after opening the virtual document
+	const lang = lsContainer.getService(false)
 	const program = lang.getProgram()
 	if (!program) return []
 

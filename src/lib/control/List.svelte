@@ -20,7 +20,7 @@
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import { type UnwrapCustomEvents } from '$lib/utils'
 	import { BROWSER } from 'esm-env'
-	import copy from 'fast-copy'
+	import { copy } from 'fast-copy'
 	import { shallowEqual } from 'fast-equals'
 	import { type ComponentProps, createEventDispatcher } from 'svelte'
 
@@ -175,8 +175,8 @@ position="inline">`.
   import { List, type ListOptions } from 'svelte-tweakpane-ui'
 
   const options: ListOptions<number> = {
-    b: 2,
     a: 1,
+    b: 2,
     c: 3,
   }
   let selection: number = 1

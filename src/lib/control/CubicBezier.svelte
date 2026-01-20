@@ -32,7 +32,7 @@
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
 	import { CubicBezier } from '@kitschpatrol/tweakpane-plugin-essentials'
 	import { BROWSER } from 'esm-env'
-	import copy from 'fast-copy'
+	import { copy } from 'fast-copy'
 	import { shallowEqual } from 'fast-equals'
 	import { type ComponentProps, createEventDispatcher } from 'svelte'
 

@@ -26,7 +26,7 @@
 		type UnwrapCustomEvents,
 	} from '$lib/utils.js'
 	import { BROWSER, DEV } from 'esm-env'
-	import copy from 'fast-copy'
+	import { copy } from 'fast-copy'
 	import { shallowEqual } from 'fast-equals'
 	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte'
 

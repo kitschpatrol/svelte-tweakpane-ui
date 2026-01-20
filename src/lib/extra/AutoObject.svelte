@@ -16,7 +16,7 @@
 	import { Point2d } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js'
 	import { Point3d } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js'
 	import { Point4d } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d.js'
-	import copy from 'fast-copy'
+	import { copy } from 'fast-copy'
 	import { createEventDispatcher, getContext } from 'svelte'
 
 	// TODO what about the onchange event?
