@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
 	import type { ValueChangeEvent } from '$lib/utils.js'
 
+	// eslint-disable-next-line ts/no-restricted-types
 	export type AutoValueChangeEvent = ValueChangeEvent<boolean | number | object | string>
 </script>
 
@@ -10,6 +11,7 @@
 	import GenericBinding from '$lib/internal/GenericBinding.svelte'
 
 	type $$Props = Omit<
+		// eslint-disable-next-line ts/no-restricted-types
 		ComponentProps<GenericBinding<boolean | number | object | string>>,
 		'options' | 'plugin' | 'ref'
 	>
@@ -24,10 +26,9 @@
 		 *
 		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
 		 * and changes resulting from programmatic manipulation of the `value` (`external`).
-		 *
 		 * @extends ValueChangeEvent
 		 * @event
-		 * */
+		 */
 		change: AutoValueChangeEvent
 	}
 

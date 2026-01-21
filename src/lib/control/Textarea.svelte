@@ -6,23 +6,26 @@
 
 <script lang="ts">
 	import type { TextareaPluginInputParams } from '@kitschpatrol/tweakpane-plugin-textarea/dist/types/plugin.js'
-	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte'
-	import { type UnwrapCustomEvents } from '$lib/utils.js'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-textarea'
 	import { BROWSER } from 'esm-env'
 	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte'
+	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte'
+	import { type UnwrapCustomEvents } from '$lib/utils.js'
 
-	type $$Props = {
-		/**
-		 * Whether to provide live updates to the bound `value` on every keystroke.
-		 * @default `true`
-		 */
-		live?: boolean
+	type $$Props = Omit<
+		ComponentProps<GenericInput<string, TextareaPluginInputParams>>,
+		'options' | 'plugin' | 'ref'
+	> & {
 		/**
 		 * A `string` value to control.
 		 * @bindable
 		 */
 		value: string
+		/**
+		 * Whether to provide live updates to the bound `value` on every keystroke.
+		 * @default `true`
+		 */
+		live?: boolean
 		/**
 		 * Placeholder text to display when the `value` is empty.
 		 * @default `'Enter text here'`
@@ -35,10 +38,7 @@
 		 * @default `3`
 		 */
 		rows?: number
-	} & Omit<
-		ComponentProps<GenericInput<string, TextareaPluginInputParams>>,
-		'options' | 'plugin' | 'ref'
-	>
+	}
 
 	// Re-exported
 	export let value: $$Props['value']
@@ -56,13 +56,13 @@
 		 *
 		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
 		 * and changes resulting from programmatic manipulation of the `value` (`external`).
-		 *
 		 * @extends ValueChangeEvent
 		 * @event
-		 * */
+		 */
 		change: TextareaChangeEvent
 	}
 
+	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	let _value = value // Not bound, update events handled in svelte to allow updates on blur

@@ -1,7 +1,6 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils'
-	import type { ValueChangeEvent } from '$lib/utils.js'
 	import type { PointDimensionParams } from '@tweakpane/core'
+	import type { Simplify, ValueChangeEvent } from '$lib/utils.js'
 
 	export type RotationQuaternionOptions = Simplify<PointDimensionParams>
 	export type RotationQuaternionValueObject = {
@@ -21,21 +20,24 @@
 	import type { RotationInputPluginQuaternionParams as RotationQuaternionOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/RotationInputPluginQuaternionParams'
 	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d'
 	import type { ComponentProps } from 'svelte' // Note name collision with options params
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation'
 	import { BROWSER } from 'esm-env'
 	import { shallowEqual } from 'fast-equals'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
 
 	// TODO add some utility functions to get matrices etc. from quaternions?
-	type $$Props = {
+	type $$Props = Omit<
+		ComponentProps<GenericInputFolding<RotationQuaternionValue, RotationQuaternionOptionsInternal>>,
+		'buttonClass' | 'options' | 'plugin' | 'ref'
+	> & {
 		/**
 		 * The quaternion value to control.
 		 *
 		 * Tuple values are a convenience added by _Svelte Tweakpane UI_, and is not part of the
 		 * original TweakpaneRotationPlugin API.
 		 * @bindable
-		 * */
+		 */
 		value: RotationQuaternionValue
 		/**
 		 * Input parameters specific to the X dimension.
@@ -43,7 +45,7 @@
 		 * Renamed from `x` in TweakpaneRotationPlugin API to clarify that it is an object of
 		 * options, not a value.
 		 * @default `undefined`
-		 * */
+		 */
 		optionsX?: RotationQuaternionOptions
 		/**
 		 * Input parameters specific to the Y dimension.
@@ -51,7 +53,7 @@
 		 * Renamed from `y` in TweakpaneRotationPlugin API to clarify that it is an object of
 		 * options, not a value.
 		 * @default `undefined`
-		 * */
+		 */
 		optionsY?: RotationQuaternionOptions
 		/**
 		 * Input parameters specific to the Z dimension.
@@ -59,7 +61,7 @@
 		 * Renamed from `z` in TweakpaneRotationPlugin API to clarify that it is an object of
 		 * options, not a value.
 		 * @default `undefined`
-		 * */
+		 */
 		optionsZ?: RotationQuaternionOptions
 		/**
 		 * Input parameters specific to the W dimension.
@@ -67,12 +69,9 @@
 		 * Renamed from `w` in TweakpaneRotationPlugin API to clarify that it is an object of
 		 * options, not a value.
 		 * @default `undefined`
-		 * */
+		 */
 		optionsW?: RotationQuaternionOptions
-	} & Omit<
-		ComponentProps<GenericInputFolding<RotationQuaternionValue, RotationQuaternionOptionsInternal>>,
-		'buttonClass' | 'options' | 'plugin' | 'ref'
-	>
+	}
 
 	// Unique
 	export let value: $$Props['value']
@@ -94,10 +93,9 @@
 		 *
 		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
 		 * and changes resulting from programmatic manipulation of the `value` (`external`).
-		 *
 		 * @extends ValueChangeEvent
 		 * @event
-		 * */
+		 */
 		change: RotationQuaternionChangeEvent
 	}
 
@@ -139,12 +137,12 @@
 	$: (value, updateInternalValueFromValue())
 	$: (internalValue, updateValueFromInternalValue())
 	$: options = {
+		rotationMode: 'quaternion',
+		view: 'rotation',
+		w: optionsW,
 		x: optionsX,
 		y: optionsY,
 		z: optionsZ,
-		w: optionsW,
-		rotationMode: 'quaternion',
-		view: 'rotation',
 	}
 </script>
 

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { CubicBezier, FpsGraph, Monitor, Pane, Ring, Slider, Wheel } from '$lib'
 	import { onMount } from 'svelte'
+	import { CubicBezier, FpsGraph, Monitor, Pane, Ring, Slider, Wheel } from '$lib'
 
 	let time = 0
 

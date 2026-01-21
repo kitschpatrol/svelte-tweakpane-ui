@@ -2,7 +2,8 @@
 	import type { PageServerData } from './$types'
 	export let data: PageServerData
 
-	$: version = typeof window !== 'undefined' && [...(window as unknown as any).__svelte.v][0]
+	const version =
+		globalThis.window !== undefined && [...(globalThis as unknown as any).__svelte.v][0]
 </script>
 
 <h1>svelte-tweakpane-ui</h1>

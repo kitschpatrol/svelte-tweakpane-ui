@@ -1,18 +1,17 @@
 <script lang="ts">
-	import type { Theme } from '$lib/theme.js'
-	import type { Writable } from 'svelte/store'
 	import type { TabApi as TabGroupRef } from 'tweakpane'
+	import { BROWSER } from 'esm-env'
+	import { getContext, onDestroy, onMount, setContext } from 'svelte'
+	import { writable, type Writable } from 'svelte/store'
+	import type { Theme } from '$lib/theme.js'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
 	import { type Container, getElementIndex, isRootPane } from '$lib/utils.js'
-	import { BROWSER } from 'esm-env'
-	import { getContext, onDestroy, onMount, setContext } from 'svelte'
-	import { writable } from 'svelte/store'
 
 	/**
 	 * Prevent interactivity and gray out the control.
 	 * @default `false`
-	 * */
+	 */
 	export let disabled: boolean = false
 
 	/**
@@ -22,7 +21,7 @@
 	 * index.
 	 * @default `0`
 	 * @bindable
-	 * */
+	 */
 	export let selectedIndex: number = 0
 
 	/**
@@ -30,7 +29,7 @@
 	 * @default `undefined`  \
 	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
 	 * set with `setGlobalDefaultTheme()`.
-	 * */
+	 */
 	export let theme: Theme | undefined = undefined
 
 	type $$Slots = {
@@ -82,7 +81,7 @@
 	$: $tabGroupStore && ($tabGroupStore.disabled = disabled)
 	$: theme &&
 		$parentStore &&
-		(userCreatedPane || !isRootPane($parentStore)) &&
+		(userCreatedPane ?? !isRootPane($parentStore)) &&
 		console.warn(
 			'Set theme on the <Pane> component, not on its children! (Check nested <TabGroup> components for a theme prop.)',
 		)

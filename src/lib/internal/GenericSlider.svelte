@@ -1,57 +1,59 @@
-<script generics="T extends number | IntervalSliderValue" lang="ts">
-	import type { IntervalSliderValue } from '$lib/control/IntervalSlider.svelte'
+<script generics="T extends IntervalSliderValue | number" lang="ts">
 	import type { ComponentProps } from 'svelte'
-	import type { NumberInputParams as GenericSliderOptions } from 'tweakpane'
-	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane'
+	import type {
+		NumberInputParams as GenericSliderOptions,
+		SliderInputBindingApi as GenericSliderRef,
+	} from 'tweakpane'
+	import type { IntervalSliderValue } from '$lib/control/IntervalSlider.svelte'
 	import GenericInput from '$lib/internal/GenericInput.svelte'
 
-	type $$Props = {
-		/**
-		 * Minimum value.
-		 *
-		 * Specifying both a `min` and a `max` prop turns the control into a slider.
-		 * @default `undefined`
-		 * */
-		min?: number
-		/**
-		 * Maximum value.
-		 *
-		 * Specifying both a `min` and a `max` prop turns the control into a slider.
-		 * @default `undefined`
-		 * */
-		max?: number
+	type $$Props = ComponentProps<GenericInput<T, GenericSliderOptions, GenericSliderRef>> & {
 		/**
 		 * A function to customize the point value's string representation (e.g. rounding, etc.).
 		 * @default `undefined`  \
 		 * Normal `.toString()` formatting.
-		 * */
+		 */
 		format?: (value: number) => string
 		/**
 		 * The unit scale for key-based input for all dimensions (e.g. the up and down arrow keys).
 		 * @default `1`  \
 		 * Or `stepValue` if defined.
-		 * */
+		 */
 		keyScale?: number
+		/**
+		 * Maximum value.
+		 *
+		 * Specifying both a `min` and a `max` prop turns the control into a slider.
+		 * @default `undefined`
+		 */
+		max?: number
+		/**
+		 * Minimum value.
+		 *
+		 * Specifying both a `min` and a `max` prop turns the control into a slider.
+		 * @default `undefined`
+		 */
+		min?: number
 		/**
 		 * The unit scale for pointer-based input for all dimensions.
 		 * @default `undefined`  \
 		 * [Dynamic based on magnitude of
 		 * `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54).
-		 * */
+		 */
 		pointerScale?: number
 		/**
 		 * The minimum step interval.
 		 * @default `undefined`  \
 		 * No step constraint.
-		 * */
+		 */
 		step?: number
 		/**
 		 * When `true`, expand the width of the control at the expense of the numeric input
 		 * field.
 		 * @default `false`
-		 * */
+		 */
 		wide?: boolean
-	} & ComponentProps<GenericInput<T, GenericSliderOptions, GenericSliderRef>>
+	}
 
 	// Redeclare for bindability
 	export let value: $$Props['value']

@@ -3,12 +3,12 @@
 </script>
 
 <script lang="ts">
+	import { BROWSER } from 'esm-env'
+	import { beforeUpdate, type ComponentProps } from 'svelte'
 	import InternalPaneDraggable from '$lib/internal/InternalPaneDraggable.svelte'
 	import InternalPaneFixed from '$lib/internal/InternalPaneFixed.svelte'
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
-	import { removeKeys } from '$lib/utils'
-	import { BROWSER } from 'esm-env'
-	import { beforeUpdate, type ComponentProps } from 'svelte'
+	import { removeKeys } from '$lib/utils.js'
 
 	type $$Props = {
 		/**
@@ -25,18 +25,19 @@
 		 *   Note that `<Pane>` is a dynamic component, and availability of additional props will
 		 *   vary depending on the defined `position` value.
 		 * @default `'draggable'`
-		 * */
+		 */
 		position?: PanePosition
 	} & (
-		| ({
+		| (ComponentProps<InternalPaneFixed> & {
 				position: 'fixed'
-		  } & ComponentProps<InternalPaneFixed>)
-		| ({
+		  })
+		| (Omit<ComponentProps<InternalPaneInline>, 'userCreatedPane'> & {
 				position: 'inline'
-		  } & Omit<ComponentProps<InternalPaneInline>, 'userCreatedPane'>)
-		| ({
+		  })
+		// eslint-disable-next-line ts/no-duplicate-type-constituents, perfectionist/sort-union-types
+		| (ComponentProps<InternalPaneDraggable> & {
 				position?: 'draggable' | undefined
-		  } & ComponentProps<InternalPaneDraggable>)
+		  })
 	)
 
 	type $$Slots = {
@@ -57,6 +58,7 @@
 	export let x: number | undefined = undefined
 	export let y: number | undefined = undefined
 
+	// eslint-disable-next-line ts/no-deprecated
 	beforeUpdate(() => {
 		// Don't let saved draggable props override explicit props in inline and fixed modes
 		if ($$props.position === 'inline' || $$props.position === 'fixed') {

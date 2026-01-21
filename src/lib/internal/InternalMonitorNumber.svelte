@@ -5,18 +5,21 @@
 
 <script lang="ts">
 	import type { ComponentProps } from 'svelte'
+	import { BROWSER } from 'esm-env'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import GenericMonitor from '$lib/internal/GenericMonitor.svelte'
 	import { fillWith, rowsForMonitor } from '$lib/utils.js'
-	import { BROWSER } from 'esm-env'
 
 	// Multi-file structure is legacy of previous non-dynamic component approach TODO consolidate
 	// eventually if dynamic components prove reliable
 
-	type $$Props = {
+	type $$Props = Omit<
+		ComponentProps<GenericMonitor<number, InternalMonitorNumberOptions>>,
+		'options' | 'plugin' | 'ref'
+	> & {
 		/**
 		 * A `number` value to monitor.
-		 * */
+		 */
 		value: number
 		/**
 		 * Minimum bound when `graph` is true.
@@ -26,23 +29,20 @@
 		/**
 		 * Maximum bound when `graph` is true.
 		 * @default `100`
-		 * */
+		 */
 		max?: number
 		/**
 		 * A function to customize the number's string representation (e.g. rounding, etc.).
 		 * @default `undefined`  \
 		 * Normal `.toString()` formatting.
-		 * */
+		 */
 		format?: (value: number) => string
 		/**
 		 * Display a graph of the value's changes over time.
 		 * @default `false`
-		 * */
+		 */
 		graph?: boolean
-	} & Omit<
-		ComponentProps<GenericMonitor<number, InternalMonitorNumberOptions>>,
-		'options' | 'plugin' | 'ref'
-	>
+	}
 
 	// Redeclare for bindability
 	export let value: $$Props['value']
@@ -62,9 +62,9 @@
 
 	$: formatProxy !== format && (formatProxy = format)
 	$: options = {
-		min,
-		max,
 		format: formatProxy,
+		max,
+		min,
 		readonly: true,
 		view: graph ? 'graph' : undefined,
 	}

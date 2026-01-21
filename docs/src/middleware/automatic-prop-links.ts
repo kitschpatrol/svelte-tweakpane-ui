@@ -11,7 +11,6 @@ export const automaticPropLinks = defineDomMiddleware((context, document) => {
 	if (componentData) {
 		const props = allProps(context.props.entry.data.componentData)
 
-		// eslint-disable-next-line unicorn/no-array-reduce
 		const propLinks = props.reduce<Record<string, string>>((acc, prop) => {
 			acc[prop.name] = `#${slug(prop.name)}`
 			return acc

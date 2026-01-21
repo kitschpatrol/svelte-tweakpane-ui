@@ -5,11 +5,11 @@ const { BASE_URL: baseUrl } = import.meta.env
 export const addLinkPrefix = defineDomMiddleware((_, document) => {
 	for (const attribute of ['href', 'src']) {
 		for (const element of document.querySelectorAll(`[${attribute}]`)) {
-			const attribute_ = element.getAttribute(attribute)
-			if (attribute_?.startsWith('/_astro/')) {
+			const theAttribute = element.getAttribute(attribute)
+			if (theAttribute?.startsWith('/_astro/')) {
 				// Add the base prefix
 				// eslint-disable-next-line ts/no-unnecessary-condition
-				element.setAttribute(attribute, `${stripTrailingSlash(baseUrl ?? '')}${attribute_}`)
+				element.setAttribute(attribute, `${stripTrailingSlash(baseUrl ?? '')}${theAttribute}`)
 			}
 		}
 	}

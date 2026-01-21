@@ -3,48 +3,48 @@
 </script>
 
 <script lang="ts">
-	import type { GenericMonitorOptions } from '$lib/internal/GenericMonitor.svelte'
 	import type { WaveformStyles as WaveformMonitorLineStyle } from '@kitschpatrol/tweakpane-plugin-waveform/dist/types/view/waveform.js'
 	import type { ComponentProps } from 'svelte'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import GenericMonitor from '$lib/internal/GenericMonitor.svelte'
-	import { fillWith } from '$lib/utils'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-waveform'
 	import { BROWSER } from 'esm-env'
+	import type { GenericMonitorOptions } from '$lib/internal/GenericMonitor.svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericMonitor from '$lib/internal/GenericMonitor.svelte'
+	import { fillWith } from '$lib/utils.js'
 
 	// Direct prop import is wrapped in some extra stuff we don't want import type { WaveformProps }
 	// from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';
-	type WaveformMonitorOptions = {
+	type WaveformMonitorOptions = GenericMonitorOptions & {
 		min?: number
 		max?: number
 		lineStyle?: WaveformMonitorLineStyle
-	} & GenericMonitorOptions
+	}
 
-	type $$Props = {
+	type $$Props = Omit<
+		ComponentProps<GenericMonitor<WaveformMonitorValue, WaveformMonitorOptions>>,
+		'options' | 'plugin' | 'ref'
+	> & {
 		/**
 		 * Waveform values.
 		 * @bindable
-		 * */
+		 */
 		value: WaveformMonitorValue
 		/**
 		 * Minimum graph bound.
 		 * @default `0`
-		 * */
+		 */
 		min?: number
 		/**
 		 * Maximum graph bound.
 		 * @default `100`
-		 * */
+		 */
 		max?: number
 		/**
 		 * Line style.
 		 * @default `'linear''`
-		 * */
+		 */
 		lineStyle?: 'bezier' | 'linear'
-	} & Omit<
-		ComponentProps<GenericMonitor<WaveformMonitorValue, WaveformMonitorOptions>>,
-		'options' | 'plugin' | 'ref'
-	>
+	}
 
 	// Unique
 	export let value: $$Props['value']
@@ -55,9 +55,9 @@
 	let options: WaveformMonitorOptions
 
 	$: options = {
-		min,
-		max,
 		lineStyle,
+		max,
+		min,
 		readonly: true,
 		view: 'waveform',
 	}

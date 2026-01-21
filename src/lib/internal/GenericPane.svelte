@@ -1,12 +1,11 @@
 <script lang="ts">
-	import type { Container } from '$lib/utils.js'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import { applyTheme, type Theme } from '$lib/theme.js'
-	import { type Plugin, updateCollapsibility } from '$lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { getContext, onDestroy, setContext, tick } from 'svelte'
 	import { type Writable, writable } from 'svelte/store'
 	import { Pane as TpPane } from 'tweakpane'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { applyTheme, type Theme } from '$lib/theme.js'
+	import { type Container, type Plugin, updateCollapsibility } from '$lib/utils.js'
 
 	// Import type { BladeState } from '@tweakpane/core';
 
@@ -15,7 +14,7 @@
 	 * @default `Tweakpane`  \
 	 * Unless `position="inline"`, in which case the default is `undefined` and no title bar is
 	 * shown.
-	 * */
+	 */
 	export let title: string | undefined = undefined
 
 	/**
@@ -23,14 +22,14 @@
 	 *
 	 * Hides the collapse button from the title bar when `false`.
 	 * @default `true`
-	 * */
+	 */
 	export let userExpandable: boolean = true
 
 	/**
 	 * Expand or collapse the pane into its title bar.
 	 * @default `true`
 	 * @bindable
-	 * */
+	 */
 	export let expanded: boolean = true // Special case
 
 	/**
@@ -50,7 +49,7 @@
 	 * @default `undefined`  \
 	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
 	 * set with `setGlobalDefaultTheme()`.
-	 * */
+	 */
 	export let theme: Theme | undefined = undefined
 
 	/**
@@ -71,8 +70,10 @@
 	// Export let state: BladeState | undefined = undefined;
 
 	// TODO Giant pain to pass through,
-	/** Function to import a state object and set all pane values simultaneously. Returns true if
-	 * successful. */
+	/**
+	 * Function to import a state object and set all pane values simultaneously. Returns true if
+	 * successful.
+	 */
 	// export function importState(state: BladeState): boolean { return tpPane?.importState(state)
 	//  ?? false;
 	// };
@@ -94,10 +95,9 @@
 	 * Note that the `Pane` type for this property comes from the core Tweakpane library.
 	 * Creating an alias is suggested to avoid confusion with the _Svelte Tweakpane UI_ `Pane`
 	 * component: e.g. `import { type Pane as TpPane } from 'tweakpane'`
-	 *
 	 * @bindable
 	 * @readonly
-	 * */
+	 */
 	export let tpPane: TpPane | undefined = undefined
 
 	type $$Slots = {
@@ -186,7 +186,7 @@
 		})
 	}
 
-	$: tpPane?.element && tpPane?.element.classList.add('svelte-tweakpane-ui')
+	$: tpPane?.element?.classList.add('svelte-tweakpane-ui')
 	$: tpPane && setScale(scale)
 	$: tpPane && updateCollapsibility(userExpandable, tpPane.element, 'tp-rotv_b', 'tp-rotv_m')
 	$: tpPane && title !== undefined && (tpPane.title = title.length > 0 ? title : ' ')

@@ -1,7 +1,6 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils'
-	import type { ValueChangeEvent } from '$lib/utils.js'
 	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane'
+	import type { Simplify, ValueChangeEvent } from '$lib/utils.js'
 
 	export type IntervalSliderValueTuple = [min: number, max: number]
 	export type IntervalSliderValueObject = {
@@ -16,11 +15,14 @@
 <script lang="ts">
 	import type { IntervalObject } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/interval/model/interval.js'
 	import type { ComponentProps } from 'svelte'
-	import GenericSlider from '$lib/internal/GenericSlider.svelte'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
 	import { shallowEqual } from 'fast-equals'
+	import GenericSlider from '$lib/internal/GenericSlider.svelte'
 
-	type $$Props = {
+	type $$Props = Omit<
+		ComponentProps<GenericSlider<IntervalSliderValue>>,
+		'options' | 'plugin' | 'ref'
+	> & {
 		/**
 		 * Interval value to control.
 		 *
@@ -31,9 +33,9 @@
 		/**
 		 * Midpoint of the interval range value.
 		 * @bindable
-		 * */
+		 */
 		meanValue?: number
-	} & Omit<ComponentProps<GenericSlider<IntervalSliderValue>>, 'options' | 'plugin' | 'ref'>
+	}
 
 	// Reexport for bindability
 	export let value: $$Props['value']
@@ -50,10 +52,9 @@
 		 *
 		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
 		 * and changes resulting from programmatic manipulation of the `value` (`external`).
-		 *
 		 * @extends ValueChangeEvent
 		 * @event
-		 * */
+		 */
 		change: IntervalSliderChangeEvent
 	}
 

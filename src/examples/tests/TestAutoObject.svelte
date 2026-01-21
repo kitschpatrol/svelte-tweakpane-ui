@@ -13,13 +13,12 @@
 		someColor: {
 			r: 255,
 			g: 0,
-
 			b: 55,
 		},
 		// Wraps children in a <Folder>
 		someFolder: {
-			b: 2,
 			a: 1,
+			b: 2,
 			c: 3,
 		},
 		// Creates a <Slider>

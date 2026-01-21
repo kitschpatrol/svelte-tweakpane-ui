@@ -7,22 +7,23 @@
 <script lang="ts">
 	import type { WheelInputParams } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.d.ts'
 	import type { ComponentProps } from 'svelte'
-	import GenericSlider from '$lib/internal/GenericSlider.svelte'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-camerakit'
+	import GenericSlider from '$lib/internal/GenericSlider.svelte'
 
-	type $$Props = {
+	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {
 		/**
 		 * A `number` value to control.
 		 * @bindable
-		 * */
+		 */
 		value: number
-		/** The amount of the value to change per pixel of movement.
+		/**
+		 * The amount of the value to change per pixel of movement.
 		 * @default `undefined`  \
 		 * [Dynamic based on magnitude of
 		 * `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54).
 		 */
 		amount?: number
-	} & Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'>
+	}
 
 	// Reexport for bindability
 	export let value: $$Props['value']
@@ -39,10 +40,9 @@
 		 *
 		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
 		 * and changes resulting from programmatic manipulation of the `value` (`external`).
-		 *
 		 * @extends ValueChangeEvent
 		 * @event
-		 * */
+		 */
 		change: WheelChangeEvent
 	}
 

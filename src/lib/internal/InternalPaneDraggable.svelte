@@ -6,13 +6,14 @@
 </script>
 
 <script lang="ts">
-	import type { ComponentProps } from 'svelte'
+	// eslint-disable-next-line import/no-duplicates
 	import type { Writable } from 'svelte/store'
 	import type { BladeApi, FolderApi } from 'tweakpane'
+	// eslint-disable-next-line import/no-duplicates
+	import { type ComponentProps, onDestroy, onMount } from 'svelte'
+	import { persisted } from 'svelte-persisted-store'
 	import GenericPane from '$lib/internal/GenericPane.svelte'
 	import { clamp, getSwatchButton, pickerIsOpen, removeKeys } from '$lib/utils.js'
-	import { onDestroy, onMount } from 'svelte'
-	import { persisted } from 'svelte-persisted-store'
 
 	// Maybe expose as props
 	const titlebarWindowShadeSingleClick = true
@@ -26,7 +27,7 @@
 	// Could extend from InternalPaneFixed, but need to revise documentation anyway Many gratuitous
 	// defined checks since NonNullable didn't work and not sure how to make an optional prop remain
 	// optional but with a default value in the $$Props type
-	type $$Props = {
+	type $$Props = Omit<ComponentProps<GenericPane>, 'userCreatedPane'> & {
 		/**
 		 * Horizontal position of the pane relative to the left edge of the window, in pixels.
 		 *
@@ -36,7 +37,7 @@
 		 * By default, this position is saved to local storage for persistence across page loads.
 		 * @default `0`
 		 * @bindable
-		 * */
+		 */
 		x?: number
 		/**
 		 * Vertical position of the pane relative to the top of the window, in pixels.
@@ -47,54 +48,8 @@
 		 * By default, this position is saved to local storage for persistence across page loads.
 		 * @default `0`
 		 * @bindable
-		 * */
+		 */
 		y?: number
-		/**
-		 * Minimum pane width in pixels.
-		 * @default `200`
-		 * */
-		minWidth?: number
-		/**
-		 * Maximum pane width in pixels.
-		 * @default `600`
-		 * */
-		maxWidth?: number
-		/**
-		 * Automatically collapse open panels when the available window size is less than the height
-		 * of the pane.
-		 *
-		 * @default `false`
-		 * */
-		collapseChildrenToFit?: boolean
-		/**
-		 * Identifier to be used if multiple `<Pane position="draggable">` components with
-		 * `storePositionLocally` set to true are used on the same page.
-		 * @default `'1'`
-		 */
-		localStoreId?: string
-		/**
-		 * CSS [padding property string](https://developer.mozilla.org/en-US/docs/Web/CSS/padding)
-		 * to apply to the draggable pane container to prevent it from being dragged all the way to
-		 * the edge of the window.
-		 *
-		 * Useful for keeping the pane away from of menu bars, etc.
-		 * @default `'0'`
-		 */
-		padding?: string
-		/**
-		 * Allow the user to resize the width of the pane by dragging the right corner of the title
-		 * bar.
-		 * @default `true`
-		 * */
-		resizable?: boolean
-		/**
-		 * Store the pane's position and width when the user changes it interactively.
-		 *
-		 * Set the `localStoreId` prop if you have multiple draggable panes on the same page with
-		 * `storePositionLocally` set to `true`.
-		 * @default `true`
-		 * */
-		storePositionLocally?: boolean
 		/**
 		 * Width of the pane, in pixels.
 		 *
@@ -109,9 +64,54 @@
 		 * By default, the width value is saved to local storage for persistence across page loads.
 		 * @default `256`
 		 * @bindable
-		 * */
+		 */
 		width?: number
-	} & Omit<ComponentProps<GenericPane>, 'userCreatedPane'>
+		/**
+		 * Minimum pane width in pixels.
+		 * @default `200`
+		 */
+		minWidth?: number
+		/**
+		 * Maximum pane width in pixels.
+		 * @default `600`
+		 */
+		maxWidth?: number
+		/**
+		 * Allow the user to resize the width of the pane by dragging the right corner of the title
+		 * bar.
+		 * @default `true`
+		 */
+		resizable?: boolean
+		/**
+		 * CSS [padding property string](https://developer.mozilla.org/en-US/docs/Web/CSS/padding)
+		 * to apply to the draggable pane container to prevent it from being dragged all the way to
+		 * the edge of the window.
+		 *
+		 * Useful for keeping the pane away from of menu bars, etc.
+		 * @default `'0'`
+		 */
+		padding?: string
+		/**
+		 * Automatically collapse open panels when the available window size is less than the height
+		 * of the pane.
+		 * @default `false`
+		 */
+		collapseChildrenToFit?: boolean
+		/**
+		 * Store the pane's position and width when the user changes it interactively.
+		 *
+		 * Set the `localStoreId` prop if you have multiple draggable panes on the same page with
+		 * `storePositionLocally` set to `true`.
+		 * @default `true`
+		 */
+		storePositionLocally?: boolean
+		/**
+		 * Identifier to be used if multiple `<Pane position="draggable">` components with
+		 * `storePositionLocally` set to true are used on the same page.
+		 * @default `'1'`
+		 */
+		localStoreId?: string
+	}
 
 	type $$Slots = {
 		/**
@@ -129,16 +129,16 @@
 	let positionStore: Writable<{
 		x: number
 		y: number
-		expanded: boolean
 		width: number
+		expanded: boolean
 	}>
 
 	if (storePositionLocally) {
 		positionStore = persisted(`${localStorePrefix}${localStoreId}`, {
 			x: 0,
 			y: 0,
-			expanded: true,
 			width: 350,
+			expanded: true,
 		})
 	}
 
@@ -197,8 +197,8 @@
 			positionStore = persisted(`${localStorePrefix}${localStoreId}`, {
 				x,
 				y,
-				expanded,
 				width,
+				expanded,
 			})
 		}
 	}
@@ -432,6 +432,7 @@
 			dragBarElement.addEventListener('dblclick', doubleClickListener)
 
 			// Add width adjuster handle
+			// eslint-disable-next-line unicorn/prefer-dom-node-append
 			widthHandleElement = dragBarElement.parentElement?.appendChild(document.createElement('div'))
 			if (widthHandleElement) {
 				widthHandleElement.className = 'tp-custom-width-handle'
@@ -537,7 +538,7 @@
 		y !== undefined &&
 		width !== undefined &&
 		expanded !== undefined &&
-		positionStore?.set({ x, y, expanded, width })
+		positionStore?.set({ x, y, width, expanded })
 
 	$: {
 		if (containerElement) {
@@ -545,6 +546,7 @@
 				containerHeightScaled = containerHeight
 			} else {
 				// Padding doesn't scale
+				// eslint-disable-next-line unicorn/prefer-global-this
 				const style = window.getComputedStyle(containerElement)
 				const vPadding =
 					Number.parseFloat(style.paddingTop) + Number.parseFloat(style.paddingBottom)

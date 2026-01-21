@@ -5,14 +5,14 @@
 </script>
 
 <script lang="ts">
-	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte'
 	import { type ComponentProps, onDestroy } from 'svelte'
+	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte'
 
-	type $$Props = {
+	type $$Props = Omit<ComponentProps<GenericInput<string>>, 'options' | 'plugin' | 'ref'> & {
 		/**
 		 * A `string` value to control.
 		 * @bindable
-		 * */
+		 */
 		value: string
 		/**
 		 * Whether to provide live updates to the bound `value` on every keystroke.
@@ -20,9 +20,9 @@
 		 * To match expectations around reactive components, the default here diverges from the
 		 * vanilla JS Tweakpane behavior, which only updates on blur.
 		 * @default `true`
-		 * */
+		 */
 		live?: boolean
-	} & Omit<ComponentProps<GenericInput<string>>, 'options' | 'plugin' | 'ref'>
+	}
 
 	// Reexport for bindability
 	export let value: $$Props['value']
@@ -38,10 +38,9 @@
 		 *
 		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
 		 * and changes resulting from programmatic manipulation of the `value` (`external`).
-		 *
 		 * @extends ValueChangeEvent
 		 * @event
-		 * */
+		 */
 		change: TextChangeEvent
 	}
 

@@ -15,6 +15,7 @@ export function linkifyTerms(
 	base: string = '',
 ) {
 	if (node.nodeType === node.ELEMENT_NODE && node.parentNode && node.ownerDocument) {
+		// eslint-disable-next-line ts/no-unnecessary-condition
 		const text = (node as HTMLElement).textContent ?? ''
 
 		if (Object.keys(termDictionary).includes(text)) {

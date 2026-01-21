@@ -2,7 +2,30 @@ packages:
   - .
   - docs
   - svelte-5
+
 onlyBuiltDependencies:
   - esbuild
   - puppeteer
   - sharp
+  - unrs-resolver
+  - workerd
+
+overrides:
+  '@eslint/plugin-kit': ~0.5.1
+  'cookie': '~0.7.0'
+  esbuild: ~0.27.2
+
+patchedDependencies:
+  '@astrojs/starlight': patches/@astrojs__starlight.patch
+
+publicHoistPattern:
+  - '@kitschpatrol/repo-config'
+  - '@kitschpatrol/typescript-config'
+  - case-police
+  - '*cspell*'
+  - '*eslint*'
+  - '*knip*'
+  - '*mdat*'
+  - '*prettier*'
+  - '*remark*'
+  - '*stylelint*'

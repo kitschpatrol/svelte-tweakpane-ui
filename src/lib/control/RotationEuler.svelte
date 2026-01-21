@@ -1,9 +1,8 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils'
-	import type { ValueChangeEvent } from '$lib/utils.js'
 	import type { EulerOrder } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerOrder.js'
 	import type { EulerUnit } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerUnit.js'
 	import type { PointDimensionParams } from '@tweakpane/core'
+	import type { Simplify, ValueChangeEvent } from '$lib/utils.js'
 
 	export type RotationEulerOptions = Simplify<PointDimensionParams>
 	export type RotationEulerOrder = EulerOrder
@@ -25,13 +24,16 @@
 	import type { RotationInputPluginEulerParams as RotationEulerOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/RotationInputPluginEulerParams'
 	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js'
 	import type { ComponentProps } from 'svelte' // Note name collision with options params
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation'
 	import { BROWSER } from 'esm-env'
 	import { shallowEqual } from 'fast-equals'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
 
-	type $$Props = {
+	type $$Props = Omit<
+		ComponentProps<GenericInputFolding<RotationEulerValue, RotationEulerOptionsInternal>>,
+		'buttonClass' | 'options' | 'plugin' | 'ref'
+	> & {
 		/**
 		 * The rotation value to control.
 		 *
@@ -40,7 +42,7 @@
 		 *
 		 * See the `order` prop to specify the sequence in which rotations are applied.
 		 * @bindable
-		 * */
+		 */
 		value: RotationEulerValue
 		/**
 		 * Input parameters specific to the X dimension.
@@ -48,7 +50,7 @@
 		 * Renamed from `x` in the original TweakpaneRotationPlugin API to clarify that it is an
 		 * object of options, not a value.
 		 * @default `undefined`
-		 * */
+		 */
 		optionsX?: RotationEulerOptions
 		/**
 		 * Input parameters specific to the Y dimension.
@@ -56,7 +58,7 @@
 		 * Renamed from `y` in the original TweakpaneRotationPlugin API to clarify that it is an
 		 * object of options, not a value.
 		 * @default `undefined`
-		 * */
+		 */
 		optionsY?: RotationEulerOptions
 		/**
 		 * Input parameters specific to the Z dimension.
@@ -64,7 +66,7 @@
 		 * Renamed from `z` in the original TweakpaneRotationPlugin API to clarify that it is an
 		 * object of options, not a value.
 		 * @default `undefined`
-		 * */
+		 */
 		optionsZ?: RotationEulerOptions
 		/**
 		 * Order of in which rotations are applied.
@@ -73,17 +75,14 @@
 		 * intrinsic rotations, so you have to reverse the order if you want to match Three.js'
 		 * behavior.
 		 * @default `'XYZ'`
-		 * */
+		 */
 		order?: RotationEulerOrder
 		/**
 		 * Units of rotation.
 		 * @default `'rad'`
 		 */
 		unit?: RotationEulerUnit
-	} & Omit<
-		ComponentProps<GenericInputFolding<RotationEulerValue, RotationEulerOptionsInternal>>,
-		'buttonClass' | 'options' | 'plugin' | 'ref'
-	>
+	}
 
 	// Unique
 	export let value: $$Props['value']
@@ -106,10 +105,9 @@
 		 *
 		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
 		 * and changes resulting from programmatic manipulation of the `value` (`external`).
-		 *
 		 * @extends ValueChangeEvent
 		 * @event
-		 * */
+		 */
 		change: RotationEulerChangeEvent
 	}
 
@@ -146,13 +144,13 @@
 	$: (value, updateInternalValueFromValue())
 	$: (internalValue, updateValueFromInternalValue())
 	$: options = {
-		x: optionsX,
-		y: optionsY,
-		z: optionsZ,
 		order,
 		rotationMode: 'euler',
 		unit,
 		view: 'rotation',
+		x: optionsX,
+		y: optionsY,
+		z: optionsZ,
 	}
 </script>
 

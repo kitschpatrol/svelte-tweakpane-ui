@@ -1,11 +1,14 @@
 <script context="module" lang="ts">
+	// eslint-disable-next-line ts/no-restricted-types
 	export type ButtonClickEvent = CustomEvent<null>
 </script>
 
 <script lang="ts">
-	import type { Theme } from '$lib/theme.js'
 	import type { ButtonApi as ButtonRef } from '@tweakpane/core'
 	import type { Writable } from 'svelte/store'
+	import { BROWSER } from 'esm-env'
+	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte'
+	import type { Theme } from '$lib/theme.js'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
 	import {
@@ -14,25 +17,23 @@
 		isRootPane,
 		type UnwrapCustomEvents,
 	} from '$lib/utils.js'
-	import { BROWSER } from 'esm-env'
-	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte'
 
 	/**
 	 * Text inside of the button.
 	 * @default `'Button'`
-	 * */
+	 */
 	export let title: string = 'Button'
 
 	/**
 	 * Text displayed next to the button.
 	 * @default `undefined`
-	 * */
+	 */
 	export let label: string | undefined = undefined
 
 	/**
 	 * Prevent interactivity and gray out the control.
 	 * @default `false`
-	 * */
+	 */
 	export let disabled: boolean = false
 
 	/**
@@ -41,38 +42,39 @@
 	 * Inherits default Tweakpane theme equivalent to
 	 * `ThemeUtils.presets.standard`, or the theme set with
 	 * `setGlobalDefaultTheme()`.)
-	 * */
+	 */
 	export let theme: Theme | undefined = undefined
 
-	const parentStore: Writable<Container> = getContext('parentStore')
-	const userCreatedPane = getContext('userCreatedPane')
+	const parentStore: undefined | Writable<Container> = getContext('parentStore')
+	const userCreatedPane: boolean | undefined = getContext<boolean>('userCreatedPane')
 
 	// Seems to be the only way to get event comments to work
 	type $$Events = {
 		/**
 		 * Fires when the button is clicked.
 		 * @event
-		 * */
+		 */
 		click: ButtonClickEvent
 	}
 
+	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
-	let indexElement: HTMLDivElement
-	let button: ButtonRef
-	let index: number
+	let indexElement: HTMLDivElement | undefined
+	let button: ButtonRef | undefined
+	let index: number | undefined
 
 	function create() {
 		if (button) button.dispose()
 
-		button = $parentStore.addButton({
+		button = $parentStore?.addButton({
 			disabled,
 			index,
 			label,
 			title,
 		})
 
-		button.on('click', () => {
+		button?.on('click', () => {
 			// Event type? Does TpEvent with its target value make any sense? note that this event
 			// must be forwarded manually...
 			dispatch('click')
@@ -93,7 +95,7 @@
 	$: button && (button.disabled = disabled)
 	$: theme &&
 		$parentStore &&
-		(userCreatedPane || !isRootPane($parentStore)) &&
+		(userCreatedPane ?? !isRootPane($parentStore)) &&
 		console.warn(
 			'Set theme on the <Pane> component, not on its children! (Check nested <Button> components for a theme prop.)',
 		)

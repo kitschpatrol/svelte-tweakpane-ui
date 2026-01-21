@@ -1,7 +1,7 @@
 // Replaces @sourceLink in JSDocs with GitHub URLs in source files References the git url provided
 // in package.json.
 
-import fs from 'node:fs'
+import fs from 'node:fs/promises'
 import path from 'node:path'
 import { getAllLibraryFiles, getGithubUrlForSourceFile } from './ast-tools'
 
@@ -10,7 +10,7 @@ const verbose = false
 const files = getAllLibraryFiles()
 
 async function addLinksToComponentBlock(filePath: string): Promise<void> {
-	const fileContent = fs.readFileSync(filePath, 'utf8')
+	const fileContent = await fs.readFile(filePath, 'utf8')
 	const fileName = path.basename(filePath)
 	const url = await getGithubUrlForSourceFile(filePath)
 
@@ -29,14 +29,12 @@ async function addLinksToComponentBlock(filePath: string): Promise<void> {
 	} else {
 		// eslint-disable-next-line ts/no-unnecessary-condition
 		if (verbose) console.log(`Added source links to ${filePath}`)
-		fs.writeFileSync(filePath, updatedContent, 'utf8')
+		await fs.writeFile(filePath, updatedContent, 'utf8')
 	}
 }
 
 console.log(`Replacing @sourceLink with GitHub URLs in ${files.length} files...`)
 
-for (const filePath of files) {
-	await addLinksToComponentBlock(filePath)
-}
+await Promise.all(files.map(async (filePath) => addLinksToComponentBlock(filePath)))
 
-console.log(`Done.`)
+console.log('Done.')

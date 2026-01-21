@@ -7,8 +7,8 @@
 
 // Type aliases and utility functions
 
-import type { Theme } from '$lib/theme'
 import type { FolderApi, Pane, TabPageApi } from 'tweakpane'
+import type { Theme } from '$lib/theme.js'
 
 // Internal types
 export type Container = FolderApi | Pane | TabPageApi
@@ -38,15 +38,15 @@ export type Plugin = TpPluginBundle
  */
 export type ValueChangeEvent<V> = CustomEvent<{
 	/**
+	 * A copy of the value at the time of the event.
+	 */
+	value: V
+	/**
 	 * The origin of the event.
 	 * Changes resulting from the user's direct manipulation of the control will are marked as `internal`.
 	 * Changes resulting from manipulation of the bound value from _outside_ the component are marked as `external`.
 	 */
 	origin: 'external' | 'internal'
-	/**
-	 * A copy of the value at the time of the event.
-	 */
-	value: V
 }>
 
 /**
@@ -133,10 +133,8 @@ export function enforceReadonly(
 	allowAssignmentToUndefined ??= false
 
 	if (
-		!(
-			external === internal ||
-			(allowAssignmentToUndefined && internal === undefined && external !== undefined)
-		)
+		external !== internal &&
+		(!allowAssignmentToUndefined || internal !== undefined || external === undefined)
 	) {
 		const componentString = componentName ? `<${componentName}> ` : ''
 		const propertyString = propertyName ? `property "${propertyName}" ` : ''

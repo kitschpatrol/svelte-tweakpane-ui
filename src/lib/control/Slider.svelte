@@ -1,21 +1,21 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js'
 	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane'
+	import type { ValueChangeEvent } from '$lib/utils.js'
 
 	export type SliderChangeEvent = ValueChangeEvent<number>
 </script>
 
 <script lang="ts">
-	import GenericSlider from '$lib/internal/GenericSlider.svelte'
 	import { type ComponentProps } from 'svelte'
+	import GenericSlider from '$lib/internal/GenericSlider.svelte'
 
-	type $$Props = {
+	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {
 		/**
 		 * A `number` value to control.
 		 * @bindable.
-		 * */
+		 */
 		value: number
-	} & Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'>
+	}
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 
@@ -27,10 +27,9 @@
 		 *
 		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
 		 * and changes resulting from programmatic manipulation of the `value` (`external`).
-		 *
 		 * @extends ValueChangeEvent
 		 * @event
-		 * */
+		 */
 		change: SliderChangeEvent
 	}
 

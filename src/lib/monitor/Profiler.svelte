@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils'
 	import type { ProfilerBladeMeasureHandler } from '@kitschpatrol/tweakpane-plugin-profiler'
+	import type { Simplify } from '$lib/utils.js'
 
 	export type ProfilerCalcMode = 'frame' | 'mean' | 'median'
 	export type ProfilerMeasure = (name: string, functionToMeasure: () => void) => void
@@ -15,17 +15,20 @@
 </script>
 
 <script lang="ts">
-	import type { UnwrapCustomEvents } from '$lib/utils'
 	import type { ProfilerBladeApi as ProfilerRef } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerBladeApi.js'
 	import type { ProfilerBladePluginParams as ProfilerOptions } from '@kitschpatrol/tweakpane-plugin-profiler/dist/types/ProfilerBladePluginParams.js'
-	import Blade from '$lib/core/Blade.svelte'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import { fillWith } from '$lib/utils'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-profiler'
 	import { BROWSER } from 'esm-env'
 	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte'
+	import type { UnwrapCustomEvents } from '$lib/utils.js'
+	import Blade from '$lib/core/Blade.svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { fillWith } from '$lib/utils.js'
 
-	type $$Props = {
+	type $$Props = Omit<
+		ComponentProps<Blade<ProfilerOptions, ProfilerRef>>,
+		'options' | 'plugin' | 'ref'
+	> & {
 		/**
 		 * Number of duration samples from which to calculate the delta value when `calcMode` is
 		 * `'mean'` or `'median'`.
@@ -46,7 +49,7 @@
 		 * Possibly useful if you're using a custom `ProfilerBladeDefaultMeasureHandler` and are
 		 * measuring something other than time.
 		 * @default `'ms'`
-		 * */
+		 */
 		deltaUnit?: string
 		/**
 		 * Precision of the delta values shown in the control.
@@ -64,16 +67,14 @@
 		/**
 		 * Text displayed next to the profiler visualization.
 		 * @default `undefined`
-		 * */
+		 */
 		label?: string
 		/**
 		 * Function handle that wraps another function to measure its execution duration.
 		 *
 		 *  If you want to measure something other than execution duration, customize
 		 * `ProfilerBladeDefaultMeasureHandler`.
-		 *
 		 * @example `measure('Hard Work', () => { ... })`;
-		 *
 		 * @bindable
 		 * @readonly
 		 * @default `undefined`
@@ -82,9 +83,7 @@
 		/**
 		 * Async variation of function handle that wraps another function to measure its execution
 		 * duration.
-		 *
 		 * @example `measureAsync('Hard Work', async () => { ... })`;
-		 *
 		 * @bindable
 		 * @async
 		 * @readonly
@@ -105,7 +104,7 @@
 		 * 60fps.
 		 */
 		targetDelta?: number
-	} & Omit<ComponentProps<Blade<ProfilerOptions, ProfilerRef>>, 'options' | 'plugin' | 'ref'>
+	}
 
 	// Exporting a const function might be cleaner, but less expected by the user?
 	function _measure(name: string, functionToMeasure: () => void): void {
@@ -147,10 +146,11 @@
 		 * Note that the values described in the `ProfilerChangeEvent` type are available on the
 		 * `event.detail` parameter.
 		 * @event
-		 * */
+		 */
 		change: ProfilerChangeEvent
 	}
 
+	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	onDestroy(() => {

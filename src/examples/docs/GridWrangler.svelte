@@ -1,16 +1,15 @@
 <script lang="ts">
 	import { Utils } from '$lib'
-	import { onMount } from 'svelte'
 
 	/*
 	 * Horizontal space between grid points, in pixels
 	 */
-	export let gridSpacingX: number
+	export let gridSpacingX: number = 100
 
 	/*
 	 * Vertical space between grid points, in pixels
 	 */
-	export let gridSpacingY: number
+	export let gridSpacingY: number = 100
 
 	/*
 	 * Scale to apply to each grid item
@@ -67,14 +66,9 @@
 	 */
 	export let paneCount: number
 
-	let wrapperWidth: number
-	let wrapperHeight: number
-	let mounted = false
-	let grid: number[][]
-
-	onMount(() => {
-		mounted = true
-	})
+	let wrapperWidth: number | undefined
+	let wrapperHeight: number | undefined
+	let grid: number[][] = []
 
 	function getGrid(w: number, h: number, sx: number, sy: number, centers: boolean): number[][] {
 		const xPoints = Math.floor(w / sx)
@@ -100,45 +94,46 @@
 		return points
 	}
 
-	$: groupWidth = wrapperWidth + overdrawX
-	$: groupHeight = wrapperHeight + overdrawY
-	$: mounted &&
-		(grid = getGrid(groupWidth, groupHeight, gridSpacingX, gridSpacingY, includeCenters))
-	$: mounted && (paneCount = grid.length)
+	// Only calculate grid when dimensions are actually available
+	$: hasDimensions = wrapperWidth !== undefined && wrapperHeight !== undefined
+	$: groupWidth = (wrapperWidth ?? 0) + overdrawX
+	$: groupHeight = (wrapperHeight ?? 0) + overdrawY
+	$: if (hasDimensions) {
+		grid = getGrid(groupWidth, groupHeight, gridSpacingX, gridSpacingY, includeCenters)
+	}
+	$: paneCount = grid.length
 </script>
 
-{#if mounted}
-	<div bind:clientHeight={wrapperHeight} bind:clientWidth={wrapperWidth} class="wrapper">
-		<div
-			class="grid-group"
-			style={`transform: ${Utils.eulerToCssTransform(rotationExtrinsic)};`}
-			style:background={showBackground
-				? `linear-gradient(45deg, ${backgroundA}, ${backgroundB})`
-				: null}
-			style:height="{groupHeight}px"
-			style:left="{-overdrawX / 2}px"
-			style:top="{-overdrawY / 2}px"
-			style:width="{groupWidth}px"
-		>
-			{#each grid as [x, y]}
-				<div
-					class="grid-item"
-					style={`transform: translate(-50%, -50%)
+<div bind:clientHeight={wrapperHeight} bind:clientWidth={wrapperWidth} class="wrapper">
+	<div
+		class="grid-group"
+		style={`transform: ${Utils.eulerToCssTransform(rotationExtrinsic)};`}
+		style:background={showBackground
+			? `linear-gradient(45deg, ${backgroundA}, ${backgroundB})`
+			: null}
+		style:height="{groupHeight}px"
+		style:left="{-overdrawX / 2}px"
+		style:top="{-overdrawY / 2}px"
+		style:width="{groupWidth}px"
+	>
+		{#each grid as [x, y], i (i)}
+			<div
+				class="grid-item"
+				style={`transform: translate(-50%, -50%)
 				${Utils.eulerToCssTransform(rotation)} scale(${scale})`}
-					style:left="{x}px"
-					style:top="{y}px"
-				>
-					<slot />
-				</div>
+				style:left="{x}px"
+				style:top="{y}px"
+			>
+				<slot />
+			</div>
+		{/each}
+		{#if drawOrigins}
+			{#each grid as [x, y], i (i)}
+				<div class="grid-marker" style:left="{x}px" style:top="{y}px"></div>
 			{/each}
-			{#if drawOrigins}
-				{#each grid as [x, y]}
-					<div class="grid-marker" style:left="{x}px" style:top="{y}px"></div>
-				{/each}
-			{/if}
-		</div>
+		{/if}
 	</div>
-{/if}
+</div>
 
 <style>
 	div.wrapper {

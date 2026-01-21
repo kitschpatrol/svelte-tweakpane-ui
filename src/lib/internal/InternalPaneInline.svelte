@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { ComponentProps } from 'svelte'
+	import { onMount } from 'svelte'
 	import GenericPane from '$lib/internal/GenericPane.svelte'
 	import { removeKeys } from '$lib/utils.js'
-	import { onMount } from 'svelte'
 
-	type $$Props = {
+	type $$Props = ComponentProps<GenericPane> & {
 		/**
 		 * Width of the pane, in pixels.
 		 *
@@ -15,9 +15,9 @@
 		 * pane will grow indefinitely wider if an intrinsic width is not specified and a containing
 		 * element is not provided.
 		 * @default `undefined`
-		 * */
+		 */
 		width?: number
-	} & ComponentProps<GenericPane>
+	}
 
 	type $$Slots = {
 		/**

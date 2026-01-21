@@ -1,40 +1,44 @@
 // Copies examples from kit src to docs
 // changes import path, formats for narrower screens, and also generates markdown
 
-import fs from 'fs-extra'
 import { globSync } from 'glob'
+import fs from 'node:fs/promises'
 import path from 'node:path'
 import { lintAndFormat } from './ast-tools'
 
-fs.rmSync('./docs/src/examples', { force: true, recursive: true })
-fs.copySync('./src/examples', './docs/src/examples')
+await fs.rm('./docs/src/examples', { force: true, recursive: true })
+// eslint-disable-next-line node/no-unsupported-features/node-builtins
+await fs.cp('./src/examples', './docs/src/examples', { recursive: true })
 
 // Leave this on
 const reformat = true
 
 const files = globSync('./docs/src/examples/**/*.svelte')
-for (const filePath of files) {
-	try {
-		const directory = path.dirname(filePath)
-		const baseName = path.basename(filePath, '.svelte')
 
-		// Optionally Re-format and save .svelte file
-		let svelteContent = fs.readFileSync(filePath, 'utf8')
-		svelteContent = svelteContent.replace(/'\$lib/, "'svelte-tweakpane-ui")
+await Promise.all(
+	files.map(async (filePath) => {
+		try {
+			const directory = path.dirname(filePath)
+			const baseName = path.basename(filePath, '.svelte')
 
-		// eslint-disable-next-line ts/no-unnecessary-condition
-		const formattedSvelteContent = reformat
-			? await lintAndFormat(svelteContent, 'svelte')
-			: svelteContent
+			// Optionally Re-format and save .svelte file
+			let svelteContent = await fs.readFile(filePath, 'utf8')
+			svelteContent = svelteContent.replace(/'\$lib/, "'svelte-tweakpane-ui")
 
-		fs.writeFileSync(filePath, formattedSvelteContent)
+			// eslint-disable-next-line ts/no-unnecessary-condition
+			const formattedSvelteContent = reformat
+				? await lintAndFormat(svelteContent, 'svelte')
+				: svelteContent
 
-		// Generate markdown with title
-		const markdownContent =
-			'```svelte title="' + baseName + '.svelte"\n' + formattedSvelteContent + '```\n'
-		const markdownPath = path.join(directory, `${baseName}.md`)
-		fs.writeFileSync(markdownPath, markdownContent)
-	} catch (error) {
-		console.error(`Error processing file ${filePath}:`, error)
-	}
-}
+			await fs.writeFile(filePath, formattedSvelteContent)
+
+			// Generate markdown with title
+			const markdownContent =
+				'```svelte title="' + baseName + '.svelte"\n' + formattedSvelteContent + '```\n'
+			const markdownPath = path.join(directory, `${baseName}.md`)
+			await fs.writeFile(markdownPath, markdownContent)
+		} catch (error) {
+			console.error(`Error processing file ${filePath}:`, error)
+		}
+	}),
+)

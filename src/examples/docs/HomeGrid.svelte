@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Button, Checkbox, Color, Monitor, Pane, RotationEuler, Separator, Slider } from '$lib'
 	import { onMount } from 'svelte'
+	import { Button, Checkbox, Color, Monitor, Pane, RotationEuler, Separator, Slider } from '$lib'
 	import GridWrangler from './GridWrangler.svelte'
 	import Demo from './HomeDemo.svelte'
 

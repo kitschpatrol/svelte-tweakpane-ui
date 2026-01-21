@@ -1,26 +1,25 @@
 <script lang="ts">
-	import type { Theme } from '$lib/theme.js'
 	import type { TabPageApi as TabPageRef } from '@tweakpane/core'
-	import type { Writable } from 'svelte/store'
 	import type { TabApi as TabGroupRef } from 'tweakpane'
+	import { BROWSER } from 'esm-env'
+	import { getContext, onDestroy, onMount, setContext } from 'svelte'
+	import { writable, type Writable } from 'svelte/store'
+	import type { Theme } from '$lib/theme.js'
 	import TabGroup from '$lib/core/TabGroup.svelte'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
 	import { type Container, getElementIndex, isRootPane } from '$lib/utils.js'
-	import { BROWSER } from 'esm-env'
-	import { getContext, onDestroy, onMount, setContext } from 'svelte'
-	import { writable } from 'svelte/store'
 
 	/**
 	 * Text in the tab.
 	 * @default `'Tab Page'`
-	 * */
+	 */
 	export let title: string = 'Tab Page'
 
 	/**
 	 * Prevent interactivity and gray out the control.
 	 * @default `false`
-	 * */
+	 */
 	export let disabled: boolean = false
 
 	/**
@@ -29,7 +28,7 @@
 	 * When bound it will indicate whether the tab is active.
 	 * @default `false`
 	 * @bindable
-	 * */
+	 */
 	export let selected: boolean = false
 
 	/**
@@ -37,7 +36,7 @@
 	 * @default `undefined`  \
 	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
 	 * set with `setGlobalDefaultTheme()`.)
-	 * */
+	 */
 	export let theme: Theme | undefined = undefined
 
 	type $$Slots = {
@@ -102,7 +101,7 @@
 	$: $tabPageStore && ($tabPageStore.selected = selected)
 	$: theme &&
 		$parentStore &&
-		(userCreatedPane || !isRootPane($parentStore)) &&
+		(userCreatedPane ?? !isRootPane($parentStore)) &&
 		console.warn(
 			'Set theme on the <Pane> component, not on its children! (Check nested <TabPage> components for a theme prop.)',
 		)

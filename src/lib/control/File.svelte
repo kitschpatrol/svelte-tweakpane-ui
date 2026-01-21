@@ -8,16 +8,20 @@
 <script lang="ts">
 	import type { PluginInputParams } from '@kitschpatrol/tweakpane-plugin-file-import/dist/types/plugin.d.ts'
 	import type { ComponentProps } from 'svelte'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import GenericInput from '$lib/internal/GenericInput.svelte'
-	import { fillWith } from '$lib/utils'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-file-import'
 	import { BROWSER } from 'esm-env'
 	import { shallowEqual } from 'fast-equals'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericInput from '$lib/internal/GenericInput.svelte'
+	import { fillWith } from '$lib/utils.js'
 
+	// eslint-disable-next-line ts/no-restricted-types
 	type FileValueInternal = File | null | string
 
-	type $$Props = {
+	type $$Props = Omit<
+		ComponentProps<GenericInput<FileValueInternal>>,
+		'plugin' | 'ref' | 'value'
+	> & {
 		/**
 		 * File data, or `undefined` to clear the file input.
 		 * @default `undefined`
@@ -42,7 +46,7 @@
 		 * @default `3`
 		 */
 		rows?: number | undefined
-	} & Omit<ComponentProps<GenericInput<FileValueInternal>>, 'plugin' | 'ref' | 'value'>
+	}
 
 	// Unique
 	export let value: $$Props['value'] = undefined
@@ -59,10 +63,9 @@
 		 *
 		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
 		 * and changes resulting from programmatic manipulation of the `value` (`external`).
-		 *
 		 * @extends ValueChangeEvent
 		 * @event
-		 * */
+		 */
 		change: FileChangeEvent
 	}
 

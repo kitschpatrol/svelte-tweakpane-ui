@@ -1,6 +1,5 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils'
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { Simplify, ValueChangeEvent } from '$lib/utils.js'
 
 	// Extends tweakpane to take arbitrary arrays of values
 	export type ListOptionsArray<T> = T[]
@@ -16,35 +15,38 @@
 
 <script generics="T extends any" lang="ts">
 	import type { ListBladeApi, ListBladeParams, ListParamsOptions } from 'tweakpane'
-	import Blade from '$lib/core/Blade.svelte'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import { type UnwrapCustomEvents } from '$lib/utils'
 	import { BROWSER } from 'esm-env'
-	import copy from 'fast-copy'
+	import { copy } from 'fast-copy'
 	import { shallowEqual } from 'fast-equals'
 	import { type ComponentProps, createEventDispatcher } from 'svelte'
+	import Blade from '$lib/core/Blade.svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { type UnwrapCustomEvents } from '$lib/utils.js'
 
 	// Use a blade instead of an input to allow for additional value types TODO expose key value
 	// option that lets you bind to the active key?
-	type $$Props = {
+	type $$Props = Omit<
+		ComponentProps<Blade<ListBladeParams<T>, ListBladeApi<T>>>,
+		'options' | 'plugin' | 'ref'
+	> & {
 		/**
 		 * Value of the selected `options` item.
 		 * @bindable
-		 * */
+		 */
 		value: T
 		/**
 		 * Text displayed next to list.
 		 * @default `undefined`
-		 * */
+		 */
 		label?: string
 		/**
 		 * A collection of options to select from.
 		 *
 		 * The arbitrary array list type is a convenience addition to to the vanilla JS Tweakpane
 		 * API.
-		 * */
+		 */
 		options: ListOptions<T>
-	} & Omit<ComponentProps<Blade<ListBladeParams<T>, ListBladeApi<T>>>, 'options' | 'plugin' | 'ref'>
+	}
 
 	// Must redeclare for bindability
 	export let value: $$Props['value']
@@ -60,13 +62,13 @@
 		 *
 		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
 		 * and changes resulting from programmatic manipulation of the `value` (`external`).
-		 *
 		 * @extends ValueChangeEvent
 		 * @event
-		 * */
+		 */
 		change: ListChangeEvent
 	}
 
+	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	let listBlade: ListBladeApi<T>
@@ -141,9 +143,9 @@
 	}
 
 	$: bladeOptions = {
-		value: getInitialValue(),
 		label,
 		options: getInternalOptions(options),
+		value: getInitialValue(),
 		view: 'list',
 	}
 	$: listBlade && addEvent()
@@ -175,8 +177,8 @@ position="inline">`.
   import { List, type ListOptions } from 'svelte-tweakpane-ui'
 
   const options: ListOptions<number> = {
-    b: 2,
     a: 1,
+    b: 2,
     c: 3,
   }
   let selection: number = 1

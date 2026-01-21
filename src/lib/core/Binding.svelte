@@ -1,7 +1,6 @@
 <script context="module" lang="ts">
-	import type { BindingObject } from '$lib/utils'
-	import type { ValueChangeEvent } from '$lib/utils.js'
 	import type { BindingApi, BindingParams } from '@tweakpane/core'
+	import type { BindingObject, ValueChangeEvent } from '$lib/utils.js'
 
 	export type BindingOptions = BindingParams
 	export type BindingRef = BindingApi
@@ -13,8 +12,12 @@
 	generics="T extends BindingObject, U extends BindingOptions, V extends BindingRef"
 	lang="ts"
 >
-	import type { Theme } from '$lib/theme.js'
 	import type { Writable } from 'svelte/store'
+	import { BROWSER, DEV } from 'esm-env'
+	import { copy } from 'fast-copy'
+	import { shallowEqual } from 'fast-equals'
+	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte'
+	import type { Theme } from '$lib/theme.js'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
 	import {
@@ -25,15 +28,11 @@
 		type Plugin,
 		type UnwrapCustomEvents,
 	} from '$lib/utils.js'
-	import { BROWSER, DEV } from 'esm-env'
-	import copy from 'fast-copy'
-	import { shallowEqual } from 'fast-equals'
-	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte'
 
 	/**
 	 * The binding's target object with values to manipulate.
 	 * @bindable
-	 * */
+	 */
 	export let object: T
 
 	/** The key for the value in the target `object` that the control should manipulate. */
@@ -42,13 +41,13 @@
 	/**
 	 * Prevent interactivity and gray out the control.
 	 * @default `false`
-	 * */
+	 */
 	export let disabled: boolean = false
 
 	/**
 	 * Text displayed next to control.
 	 * @default `undefined`
-	 * */
+	 */
 	export let label: string | undefined = undefined
 
 	/**
@@ -62,16 +61,15 @@
 	 * functionality. Options of interest are instead exposed as top-level props in _Svelte
 	 * Tweakpane UI_.
 	 * @default `undefined`
-	 * */
+	 */
 	export let options: U | undefined = undefined
 
 	/**
 	 * Custom color scheme.
-	 *
 	 * @default `undefined`  \
 	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
 	 * set with `setGlobalDefaultTheme()`.
-	 * */
+	 */
 	export let theme: Theme | undefined = undefined
 
 	/**
@@ -83,10 +81,9 @@
 	 * components wrapping `<Binding>`'s functionality.
 	 *
 	 * Direct manipulation of Tweakpane's internals can break _Svelte Tweakpane UI_ abstractions.
-	 *
 	 * @bindable
 	 * @readonly
-	 * */
+	 */
 	export let ref: undefined | V = undefined
 
 	/**
@@ -97,9 +94,8 @@
 	 * components wrapping `<Binding>`'s functionality in combination with a Tweakpane plugin.
 	 *
 	 * Direct manipulation of Tweakpane's internals can break _Svelte Tweakpane UI_ abstractions.
-	 *
 	 * @default `undefined`
-	 * */
+	 */
 	export let plugin: Plugin | undefined = undefined
 
 	const registerPlugin = getContext<(plugin: Plugin) => void>('registerPlugin')
@@ -150,13 +146,13 @@
 		 *
 		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
 		 * and changes resulting from programmatic manipulation of the `object` (`external`).
-		 *
 		 * @extends ValueChangeEvent
 		 * @event
-		 * */
+		 */
 		change: BindingChangeEvent
 	}
 
+	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	// Good grief...
@@ -246,7 +242,7 @@
 
 	$: theme &&
 		$parentStore !== undefined &&
-		(userCreatedPane || !isRootPane($parentStore)) &&
+		(userCreatedPane ?? !isRootPane($parentStore)) &&
 		console.warn(
 			'Set theme on the <Pane> component, not on its children! (Check nested <Binding> components for a theme prop.)',
 		)

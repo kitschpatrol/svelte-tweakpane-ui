@@ -10,8 +10,8 @@
 			b: 55,
 		},
 		someFolder: {
-			b: 2,
 			a: 1,
+			b: 2,
 			c: 3,
 		},
 		someNumber: 1,
@@ -25,12 +25,12 @@
 	let testObjectB = {
 		someBoolean: false,
 		someFolder: {
-			r: 3,
-			b: 2,
 			a: 1,
+			b: 2,
 			c: 3,
 			d: 4,
 			e: 5,
+			r: 3,
 		},
 		someNumber: 3,
 		someOtherColor: {
@@ -39,10 +39,10 @@
 			b: 55,
 		},
 		someOtherPoint: {
+			f: 3,
 			x: 1,
 			y: 2,
 			z: 2,
-			f: 3,
 		},
 		someString: 'test',
 	}

@@ -12,12 +12,12 @@
 	"scripts": {
 		"build": "pnpm run --sequential /^build:/",
 		"build:01-acknowledgments-data": "mkdir -p ./src/content/acknowledgments && pnpm licenses list --json > ./src/content/acknowledgments/acknowledgments-docs.json",
-		"build:02-astro": "pnpm run sync && pnpm run check && astro build",
+		"build:02-astro": "pnpm run sync && pnpm run check && astro build && tsx ./scripts/generate-version-json.ts > ./dist/svelte-tweakpane-ui/version.json",
 		"build:03-cloudflare-fix": "bash ./scripts/migrate-index.sh",
 		"check": "astro check --tsconfig tsconfig.build.json",
 		"clean": "rm -rf .astro && rm -rf dist",
 		"dev": "astro dev",
-		"preview": "astro preview",
+		"preview": "poptab ; open https://localhost:8787/svelte-tweakpane-ui ; wrangler dev --show-interactive-dev-session false --https-cert-path ~/.vite-plugin-mkcert/cert.pem --https-key-path ~/.vite-plugin-mkcert/dev.pem",
 		"start": "astro dev",
 		"sync": "astro sync",
 		"validate-links": "pnpx linkinator http://localhost:4321/svelte-tweakpane-ui --recurse --verbosity error --retry-errors-count 2 --retry-errors true --retry true --concurrency 1 --timeout 10000 --retry-errors-jitter 50 --skip www.linkedin.com",
@@ -25,23 +25,28 @@
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.6",
-		"@astrojs/starlight": "0.36.3",
-		"@astrojs/svelte": "^7.2.2",
-		"astro": "^5.16.3",
+		"@astrojs/starlight": "^0.37.3",
+		"@astrojs/svelte": "^7.2.5",
+		"astro": "5.16.8",
 		"github-slugger": "^2.0.0",
 		"gray-matter": "^4.0.3",
 		"sharp": "^0.34.5",
 		"svelte-tweakpane-ui": "link:.."
 	},
 	"devDependencies": {
-		"@playform/compress": "^0.2.0",
+		"@types/semver": "^7.7.1",
+		"execa": "^9.6.1",
 		"linkedom": "^0.18.12",
-		"linkinator": "^7.5.0",
+		"linkinator": "^7.5.3",
 		"marked": "^17.0.1",
-		"svelte": "^5.45.3"
+		"poptab": "^1.0.4",
+		"read-package-up": "^12.0.0",
+		"semver": "^7.7.3",
+		"svelte": "^5.47.1",
+		"wrangler": "^4.59.3"
 	},
 	"engines": {
-		"node": ">=18.0.0",
-		"pnpm": ">=8.0.0"
+		"node": ">=20.19.0",
+		"pnpm": ">=10.0.0"
 	}
 }

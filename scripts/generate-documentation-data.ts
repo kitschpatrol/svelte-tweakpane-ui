@@ -1,7 +1,7 @@
 // Figures out prop data from src components
 // and writes out a json and / or markdown file with the prop info in the frontmatter for each
 
-import fs from 'node:fs'
+import fs from 'node:fs/promises'
 import path from 'node:path'
 import * as yaml from 'yaml'
 import type { ComponentDynamicPropTest } from './component-info'
@@ -27,7 +27,7 @@ async function generateComponentData(
 	if (componentInfo) {
 		// Overwrites existing, creates intermediate directories
 		const resolvedPath = path.resolve(`${destination}/${componentName}.${outputFormat}`)
-		fs.mkdirSync(path.dirname(resolvedPath), { recursive: true })
+		await fs.mkdir(path.dirname(resolvedPath), { recursive: true })
 
 		let content: string
 		switch (outputFormat) {
@@ -60,36 +60,13 @@ async function generateComponentData(
 					// Embed example component so we don't have to load it dynamically so that it can prerender to avoid cls
 					content += `\nimport Example from '../../../../examples/components/${componentName}Example.svelte';\n`
 					content += `\n<Example client:load />\n`
-
-					// This would be nicer to lay out in astro, but looking for ways around
-					// around https://github.com/withastro/astro/issues/5084
-					// if (componentInfo.doc.length > 0) {
-					// 	content += `## Overview\n\n`;
-					// 	content += `<slot slot="overview" name="overview">overview fallback</slot>\n\n`;
-					// }
-					// if (componentInfo.jsDocs['example']) {
-					// 	content += `## Example\n\n`;
-					// 	content += `<slot slot="example" name="example">example fallback</slot>\n\n`;
-					// }
-					// if (componentInfo.props.length > 0) {
-					// 	content += `## Props\n\n`;
-					// 	content += `<slot slot="props" name="props">props fallback</slot>\n\n`;
-					// }
-					// if (componentInfo.events.length > 0) {
-					// 	content += `## Events\n\n`;
-					// 	content += `<slot slot="events" name="events">events fallback</slot>\n\n`;
-					// }
-					// if (componentInfo.slots.length > 0) {
-					// 	content += `## Slots\n\n`;
-					// 	content += `<slot slot="slots" name="slots">slots fallback</slot>\n\n`;
-					// }
 				}
 
 				break
 			}
 		}
 
-		fs.writeFileSync(resolvedPath, content)
+		await fs.writeFile(resolvedPath, content)
 
 		return true
 	}
@@ -98,101 +75,112 @@ async function generateComponentData(
 }
 
 // Main
-let totalComponentsGenerated = 0
-
 const components = getExportedComponents('./src/lib/index.ts')
 const destination = './docs/src/content/docs/docs/components'
 const extension = 'mdx'
 
 console.log(`Generating documentation data for ${components.length} components...`)
 
-if (fs.existsSync(destination)) {
+try {
+	await fs.access(destination)
 	console.log(`Removing existing component documentation data at "${destination}"...`)
-	fs.rmSync(destination, { recursive: true })
+	await fs.rm(destination, { recursive: true })
+} catch {
+	// Directory doesn't exist, nothing to remove
 }
 
-for (const { name, path } of components) {
-	//  TODO break out and pass in this config...
-	// Pass custom dynamic prop test cases to certain components
-	let testProps: ComponentDynamicPropTest[] | undefined
+const results = await Promise.all(
+	components.map(async ({ name, path: componentPath }) => {
+		//  TODO break out and pass in this config...
+		// Pass custom dynamic prop test cases to certain components
+		let testProps: ComponentDynamicPropTest[] | undefined
 
-	if (name === 'Pane') {
-		testProps = [
-			{
-				condition: {
-					position: 'draggable',
+		if (name === 'Pane') {
+			testProps = [
+				{
+					condition: {
+						position: 'draggable',
+					},
+					description: '`position="draggable"`',
 				},
-				description: '`position="draggable"`',
-			},
-			{
-				condition: {
-					position: 'inline',
+				{
+					condition: {
+						position: 'inline',
+					},
+					description: '`position="inline"`',
 				},
-				description: '`position="inline"`',
-			},
-			{
-				condition: {
-					position: 'fixed',
+				{
+					condition: {
+						position: 'fixed',
+					},
+					description: '`position="fixed"`',
 				},
-				description: '`position="fixed"`',
-			},
-		]
-	}
+			]
+		}
 
-	if (name === 'Monitor') {
-		testProps = [
-			{
-				condition: {
-					value: 1,
+		if (name === 'Monitor') {
+			testProps = [
+				{
+					condition: {
+						value: 1,
+					},
+					description: '`value` is of type `number`',
 				},
-				description: '`value` is of type `number`',
-			},
-			{
-				condition: {
-					value: false,
+				{
+					condition: {
+						value: false,
+					},
+					description: '`value` is of type `boolean`',
 				},
-				description: '`value` is of type `boolean`',
-			},
-			{
-				condition: {
-					value: 'string',
+				{
+					condition: {
+						value: 'string',
+					},
+					description: '`value` is of type `string`',
 				},
-				description: '`value` is of type `string`',
-			},
-		]
-	}
+			]
+		}
 
-	if (name === 'Point') {
-		testProps = [
-			{
-				condition: {
-					value: '{[0, 0]}',
+		if (name === 'Point') {
+			testProps = [
+				{
+					condition: {
+						value: '{[0, 0]}',
+					},
+					description: '`value` is 2D',
 				},
-				description: '`value` is 2D',
-			},
-			{
-				condition: {
-					value: '{[0, 0, 0]}',
+				{
+					condition: {
+						value: '{[0, 0, 0]}',
+					},
+					description: '`value` is 3D',
 				},
-				description: '`value` is 3D',
-			},
-			{
-				condition: {
-					value: '{[0, 0, 0, 0]}',
+				{
+					condition: {
+						value: '{[0, 0, 0, 0]}',
+					},
+					description: '`value` is 4D',
 				},
-				description: '`value` is 4D',
-			},
-		]
-	}
+			]
+		}
 
-	const success = await generateComponentData(name, path, destination, extension, testProps)
+		const success = await generateComponentData(
+			name,
+			componentPath,
+			destination,
+			extension,
+			testProps,
+		)
 
-	if (success) {
-		totalComponentsGenerated++
-	} else {
-		console.warn(`Issue generating component data for "${name}.svelte"`)
-	}
-}
+		if (!success) {
+			console.warn(`Issue generating component data for "${name}.svelte"`)
+		}
+
+		return success
+	}),
+)
+
+const totalComponentsGenerated = results.filter(Boolean).length
 
 console.log(
 	`Done. Created ${totalComponentsGenerated} component documentation ${extension} files in "${destination}" .`,

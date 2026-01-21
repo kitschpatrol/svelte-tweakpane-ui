@@ -1,6 +1,5 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils'
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { Simplify, ValueChangeEvent } from '$lib/utils.js'
 
 	export type CubicBezierValueObject = {
 		x1: number
@@ -26,17 +25,20 @@
 	// TODO calc util already in TP?
 	import type { CubicBezierApi as CubicBezierRef } from '@kitschpatrol/tweakpane-plugin-essentials'
 	import type { CubicBezierBladeParams as CubicBezierOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/cubic-bezier/plugin.d.ts'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import GenericBladeFolding from '$lib/internal/GenericBladeFolding.svelte'
-	import { fillWith, type UnwrapCustomEvents } from '$lib/utils'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
 	import { CubicBezier } from '@kitschpatrol/tweakpane-plugin-essentials'
 	import { BROWSER } from 'esm-env'
-	import copy from 'fast-copy'
+	import { copy } from 'fast-copy'
 	import { shallowEqual } from 'fast-equals'
 	import { type ComponentProps, createEventDispatcher } from 'svelte'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericBladeFolding from '$lib/internal/GenericBladeFolding.svelte'
+	import { fillWith, type UnwrapCustomEvents } from '$lib/utils.js'
 
-	type $$Props = {
+	type $$Props = Omit<
+		ComponentProps<GenericBladeFolding<CubicBezierOptions, CubicBezierRef>>,
+		'buttonClass' | 'options' | 'plugin' | 'ref'
+	> & {
 		/**
 		 * The cubic bezier value to control.
 		 *
@@ -48,12 +50,9 @@
 		/**
 		 * Text displayed next to the control.
 		 * @default `undefined`
-		 * */
+		 */
 		label?: string
-	} & Omit<
-		ComponentProps<GenericBladeFolding<CubicBezierOptions, CubicBezierRef>>,
-		'buttonClass' | 'options' | 'plugin' | 'ref'
-	>
+	}
 
 	// Reexport for bindability
 	export let value: $$Props['value']
@@ -69,13 +68,13 @@
 		 *
 		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
 		 * and changes resulting from programmatic manipulation of the `value` (`external`).
-		 *
 		 * @extends ValueChangeEvent
 		 * @event
-		 * */
+		 */
 		change: CubicBezierChangeEvent
 	}
 
+	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	let options: CubicBezierOptions
@@ -133,8 +132,8 @@
 	}
 
 	$: options = {
-		value: getValue(),
 		label,
+		value: getValue(),
 		view: 'cubicbezier',
 	}
 	$: cubicBezierBlade && addEvent()

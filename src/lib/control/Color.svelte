@@ -1,10 +1,9 @@
 <script context="module" lang="ts">
-	import type { Simplify } from '$lib/utils'
-	import type { ValueChangeEvent } from '$lib/utils.js'
 	import type {
 		RgbaColorObject,
 		RgbColorObject,
 	} from '@tweakpane/core/dist/input-binding/color/model/color.js'
+	import type { Simplify, ValueChangeEvent } from '$lib/utils.js'
 
 	// TODO tuples, oklch, etc TODO set default picker mode between rgb, hsl, etc.?
 	export type ColorValueRgbTuple = [r: number, g: number, b: number]
@@ -26,34 +25,33 @@
 <script lang="ts">
 	import type { ComponentProps } from 'svelte'
 	import type { ColorInputParams as ColorOptions, InputBindingApi as ColorRef } from 'tweakpane'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
-	import { objectToTuple } from '$lib/utils'
-	import { fillWith } from '$lib/utils'
 	import { isColorObject, isRgbaColorObject, isRgbColorObject } from '@tweakpane/core'
 	import { BROWSER } from 'esm-env'
 	import { shallowEqual } from 'fast-equals'
+	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
+	import { fillWith, objectToTuple } from '$lib/utils.js'
 
 	type ColorValueInternal = ColorValueRgbaObject | ColorValueRgbObject | ColorValueString
 
-	type $$Props = {
+	type $$Props = Omit<
+		ComponentProps<GenericInputFolding<ColorValue, ColorOptions>>,
+		'buttonClass' | 'options' | 'plugin' | 'ref'
+	> & {
 		/**
 		 * A color value to control.
 		 *
 		 * Use either a color-like string (e.g. #ff00ff), or an object with `r`, `b`, `g`, and
 		 * optional `a` keys.
 		 * @bindable
-		 * */
+		 */
 		value: ColorValue
 		/**
 		 * Whether to treat values as floats from 0.0 to 1.0, or integers from 0 to 255.
 		 * @default `'int'`
-		 * */
+		 */
 		type?: 'float' | 'int'
-	} & Omit<
-		ComponentProps<GenericInputFolding<ColorValue, ColorOptions>>,
-		'buttonClass' | 'options' | 'plugin' | 'ref'
-	>
+	}
 
 	// Must redeclare for bindability
 	export let value: $$Props['value']
@@ -70,10 +68,9 @@
 		 *
 		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
 		 * and changes resulting from programmatic manipulation of the `value` (`external`).
-		 *
 		 * @extends ValueChangeEvent
 		 * @event
-		 * */
+		 */
 		change: ColorChangeEvent
 	}
 
@@ -93,7 +90,7 @@
 			}
 		} else if (isColorObject(value)) {
 			if (!shallowEqual(value, internalValue)) {
-				internalValue = { ...value } as ColorValueRgbaObject | ColorValueRgbObject
+				internalValue = { ...value } satisfies ColorValueRgbaObject | ColorValueRgbObject
 			}
 		} else if (Array.isArray(value)) {
 			let newInternalValue: ColorValueRgbaObject | ColorValueRgbObject | undefined =
