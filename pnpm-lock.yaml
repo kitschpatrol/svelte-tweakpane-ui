@@ -6,7 +6,7 @@ settings:
 
 overrides:
   '@eslint/plugin-kit': ~0.5.1
-  cookie: ~0.7.0
+  cookie: ~0.7.2
   esbuild: ~0.27.2
 
 patchedDependencies:
@@ -66,6 +66,9 @@ importers:
       tweakpane:
         specifier: 4.0.5
         version: 4.0.5
+      tweakpane-plugin-color-plus:
+        specifier: 0.2.0
+        version: 0.2.0(tweakpane@4.0.5)
     devDependencies:
       '@kitschpatrol/shared-config':
         specifier: ^5.12.0
@@ -1127,11 +1130,11 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
-  '@keyv/bigmap@1.3.0':
-    resolution: {integrity: sha512-KT01GjzV6AQD5+IYrcpoYLkCu1Jod3nau1Z7EsEuViO3TZGRacSbO9MfHmbJ1WaOXFtWLxPVj169cn2WNKPkIg==}
+  '@keyv/bigmap@1.3.1':
+    resolution: {integrity: sha512-WbzE9sdmQtKy8vrNPa9BRnwZh5UF4s1KTmSK0KUVLo3eff5BlQNNWDnFOouNpKfPKDnms9xynJjsMYjMaT/aFQ==}
     engines: {node: '>= 18'}
     peerDependencies:
-      keyv: ^5.5.4
+      keyv: ^5.6.0
 
   '@keyv/serialize@1.1.1':
     resolution: {integrity: sha512-dXn3FZhPv0US+7dtJsIi2R+c7qWYiReoEh5zUntWCf4oSpMNib8FDhSoed6m3QyZdx5hK7iLFkYk3rNxwt8vTA==}
@@ -3868,8 +3871,8 @@ packages:
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
-  keyv@5.5.5:
-    resolution: {integrity: sha512-FA5LmZVF1VziNc0bIdCSA1IoSVnDCqE8HJIZZv2/W8YmoAM50+tnUgJR/gQZwEeIMleuIOnRnHA/UaZRNeV4iQ==}
+  keyv@5.6.0:
+    resolution: {integrity: sha512-CYDD3SOtsHtyXeEORYRx2qBtpDJFjRTGXUtmNEMGyzYOKj1TE3tycdlho7kA1Ufx9OYWZzg52QFBGALTirzDSw==}
 
   kind-of@6.0.3:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
@@ -5513,8 +5516,8 @@ packages:
     resolution: {integrity: sha512-g9ljZiwki/LfxmQADO3dEY1CbpmXT5Hm2fJ+QaGKwSXUylMybePR7/67YW7jOrrvjEgL1Fmz5kzyAjWVWLlucg==}
     engines: {node: '>=6'}
 
-  tar@7.5.4:
-    resolution: {integrity: sha512-AN04xbWGrSTDmVwlI4/GTlIIwMFk/XEv7uL8aa57zuvRy6s4hdBed+lVq2fAZ89XDa7Us3ANXcE3Tvqvja1kTA==}
+  tar@7.5.5:
+    resolution: {integrity: sha512-ocjwSUBo2V8ExKxy9FH6iROIsK60OCW//h14MFYpivNSYIj7ntgm35ijGT82Jl//xwbxBhIYXkfAovjtVm9nrA==}
     engines: {node: '>=18'}
 
   tiny-inflate@1.0.3:
@@ -5584,6 +5587,12 @@ packages:
     resolution: {integrity: sha512-5C1sg4USs1lfG0GFb2RLXsdpXqBSEhAaA/0kPL01wxzpMqLILNxIxIOKiILz+cdg/pLnOUxFYOR5yhHU666wbw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
+
+  tweakpane-plugin-color-plus@0.2.0:
+    resolution: {integrity: sha512-eQiK2YP7yf/5gN/rIaKCQ5baF3Zj++p6NBnfZ4hyXBpGwbp2xU8FkPSP/h/X38J27/eKx5HJ/sRRpDN0Wd/RtA==}
+    engines: {node: '>=20.19.0'}
+    peerDependencies:
+      tweakpane: ^4.0.0
 
   tweakpane@4.0.5:
     resolution: {integrity: sha512-rxEXdSI+ArlG1RyO6FghC4ZUX8JkEfz8F3v1JuteXSV0pEtHJzyo07fcDG+NsJfN5L39kSbCYbB9cBGHyuI/tQ==}
@@ -6426,14 +6435,14 @@ snapshots:
   '@cacheable/memory@2.0.7':
     dependencies:
       '@cacheable/utils': 2.3.3
-      '@keyv/bigmap': 1.3.0(keyv@5.5.5)
+      '@keyv/bigmap': 1.3.1(keyv@5.6.0)
       hookified: 1.15.0
-      keyv: 5.5.5
+      keyv: 5.6.0
 
   '@cacheable/utils@2.3.3':
     dependencies:
       hashery: 1.4.0
-      keyv: 5.5.5
+      keyv: 5.6.0
 
   '@capsizecss/unpack@4.0.0':
     dependencies:
@@ -7217,11 +7226,11 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@keyv/bigmap@1.3.0(keyv@5.5.5)':
+  '@keyv/bigmap@1.3.1(keyv@5.6.0)':
     dependencies:
       hashery: 1.4.0
       hookified: 1.15.0
-      keyv: 5.5.5
+      keyv: 5.6.0
 
   '@keyv/serialize@1.1.1': {}
 
@@ -8737,7 +8746,7 @@ snapshots:
       '@cacheable/memory': 2.0.7
       '@cacheable/utils': 2.3.3
       hookified: 1.15.0
-      keyv: 5.5.5
+      keyv: 5.6.0
       qified: 0.6.0
 
   call-bind-apply-helpers@1.0.2:
@@ -10771,7 +10780,7 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  keyv@5.5.5:
+  keyv@5.6.0:
     dependencies:
       '@keyv/serialize': 1.1.1
 
@@ -11559,7 +11568,7 @@ snapshots:
       nopt: 9.0.0
       proc-log: 6.1.0
       semver: 7.7.3
-      tar: 7.5.4
+      tar: 7.5.5
       tinyglobby: 0.2.15
       which: 6.0.0
     transitivePeerDependencies:
@@ -13204,7 +13213,7 @@ snapshots:
 
   tapable@2.3.0: {}
 
-  tar@7.5.4:
+  tar@7.5.5:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
       chownr: 3.0.0
@@ -13268,6 +13277,11 @@ snapshots:
       get-tsconfig: 4.13.0
     optionalDependencies:
       fsevents: 2.3.3
+
+  tweakpane-plugin-color-plus@0.2.0(tweakpane@4.0.5):
+    dependencies:
+      '@tweakpane/core': 2.0.5
+      tweakpane: 4.0.5
 
   tweakpane@4.0.5: {}
 

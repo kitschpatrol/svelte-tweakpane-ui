@@ -1,39 +1,39 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js'
 	import type { ColorPlusValue } from 'tweakpane-plugin-color-plus/lite'
+	import type { ValueChangeEvent } from '$lib/utils.js'
 	export type { ColorPlusValue } from 'tweakpane-plugin-color-plus/lite'
 	export type ColorPlusChangeEvent = ValueChangeEvent<ColorPlusValue>
 </script>
 
 <script lang="ts">
-	import * as pluginModule from 'tweakpane-plugin-color-plus/lite'
 	import type { ComponentProps } from 'svelte'
 	import type { InputBindingApi as ColorPlusRef } from 'tweakpane'
 	import type { ColorPlusInputParams as ColorPlusOptions } from 'tweakpane-plugin-color-plus/lite'
+	import { BROWSER } from 'esm-env'
+	import * as pluginModule from 'tweakpane-plugin-color-plus/lite'
 	import { ColorPlusModel } from 'tweakpane-plugin-color-plus/lite'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
-	import { fillWith } from '$lib/utils'
-	import { BROWSER } from 'esm-env'
+	import { fillWith } from '$lib/utils.js'
 
-	type $$Props = {
+	type $$Props = Omit<
+		ComponentProps<GenericInputFolding<ColorPlusValue, ColorPlusOptions>>,
+		'buttonClass' | 'options' | 'plugin' | 'ref'
+	> & {
 		/**
 		 * A color value to control.
 		 *
 		 * Use either a color-like string (e.g. #ff00ff), a number, an object with `r`, `b`, `g`, and
 		 * optional `a` keys, or a tuple.
 		 * @bindable
-		 * */
+		 */
 		value: ColorPlusValue
 		/**
 		 * Whether to treat values as floats from 0.0 to 1.0, or integers from 0 to 255.
 		 * @default `'int'`
-		 * */
+		 */
 		type?: 'float' | 'int'
-	} & Omit<
-		ComponentProps<GenericInputFolding<ColorPlusValue, ColorPlusOptions>>,
-		'buttonClass' | 'options' | 'plugin' | 'ref'
-	>
+	}
 
 	// Must redeclare for bindability
 	export let value: $$Props['value']
@@ -48,10 +48,9 @@
 		 *
 		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
 		 * and changes resulting from programmatic manipulation of the `value` (`external`).
-		 *
 		 * @extends ValueChangeEvent
 		 * @event
-		 * */
+		 */
 		change: ColorPlusChangeEvent
 	}
 
