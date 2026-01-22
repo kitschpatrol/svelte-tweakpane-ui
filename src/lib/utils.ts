@@ -319,6 +319,46 @@ export function getSwatchButton(
 	return swatch
 }
 
+// Svelte Action that prevents tweakpane tooltips from causing overflow when not position:fixed
+export function tooltipFix(node: HTMLElement, enabled: boolean) {
+	const onDown = (event: PointerEvent) => {
+		if (!enabled) return
+
+		const valueDrag = (event.target as Element | undefined)?.closest<HTMLElement>('.tp-txtv_k')
+		if (!valueDrag) return
+
+		const valueContainer = valueDrag.closest<HTMLElement>('.tp-txtv')
+		if (!valueContainer) return
+
+		// Wait for tweakpane to add drag class
+		requestAnimationFrame(() => {
+			// If not dragging return
+			if (!valueContainer.classList.contains('tp-txtv-drg')) return
+
+			const tooltip = valueDrag.querySelector<HTMLElement>('.tp-ttv')
+			if (!tooltip) return
+
+			const r = valueDrag.getBoundingClientRect()
+			tooltip.style.top = `${r.top - 20}px`
+			tooltip.style.transform = `translateX(${r.left}px) translateX(-50%)`
+		})
+	}
+
+	if (enabled) node.addEventListener('pointerdown', onDown)
+
+	return {
+		destroy() {
+			if (enabled) node.removeEventListener('pointerdown', onDown)
+		},
+		update(v: boolean) {
+			if (v === enabled) return
+			if (enabled) node.removeEventListener('pointerdown', onDown)
+			else node.addEventListener('pointerdown', onDown)
+			enabled = v
+		},
+	}
+}
+
 // ------------------------
 
 // public runtime helpers, mostly used in examples but re-exported for user's convenience end

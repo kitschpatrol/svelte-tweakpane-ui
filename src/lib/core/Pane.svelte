@@ -53,6 +53,10 @@
 	export let position: $$Props['position'] = undefined
 	export let width: $$Props['width'] = undefined
 	export let tpPane: $$Props['tpPane'] = undefined
+	export let absolute: ComponentProps<InternalPaneDraggable>['absolute'] = false
+	export let inertia: ComponentProps<InternalPaneDraggable>['inertia'] = false
+	export let friction: ComponentProps<InternalPaneDraggable>['friction'] = 8
+	export let bounce: ComponentProps<InternalPaneDraggable>['bounce'] = 0
 
 	// Redeclare types instead of referencing $$Props['key'] since certain keys aren't guaranteed
 	export let x: number | undefined = undefined
@@ -172,7 +176,18 @@ Position mode overview:
 -->
 {#if position === undefined || position === 'draggable'}
 	{#if BROWSER}
-		<InternalPaneDraggable bind:expanded bind:tpPane bind:width bind:x bind:y {...$$restProps}>
+		<InternalPaneDraggable
+			{absolute}
+			{inertia}
+			{friction}
+			{bounce}
+			bind:expanded
+			bind:tpPane
+			bind:width
+			bind:x
+			bind:y
+			{...$$restProps}
+		>
 			<slot />
 		</InternalPaneDraggable>
 	{:else}

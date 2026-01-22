@@ -13,7 +13,7 @@
 	import { type ComponentProps, onDestroy, onMount } from 'svelte'
 	import { persisted } from 'svelte-persisted-store'
 	import GenericPane from '$lib/internal/GenericPane.svelte'
-	import { clamp, getSwatchButton, pickerIsOpen, removeKeys } from '$lib/utils.js'
+	import { clamp, getSwatchButton, pickerIsOpen, removeKeys, tooltipFix } from '$lib/utils.js'
 
 	// Maybe expose as props
 	const titlebarWindowShadeSingleClick = true
@@ -28,6 +28,101 @@
 	// defined checks since NonNullable didn't work and not sure how to make an optional prop remain
 	// optional but with a default value in the $$Props type
 	type $$Props = Omit<ComponentProps<GenericPane>, 'userCreatedPane'> & {
+		/**
+		 * Sets the draggable panes position to absolute.
+		 *
+		 * Makes dragging work with absolute coordinates and bounds pane to the entire page instead of viewport.
+		 * @default `false`
+		 */
+		absolute?: boolean
+		/**
+		 * Controls bounce strength.
+		 *
+		 * 0 = bounce disabled, 1 = perfectly elastic
+		 *
+		 * Only applies when `inertia` is enabled.
+		 * @default `0`
+		 */
+		bounce?: number
+		/**
+		 * Automatically collapse open panels when the available window size is less than the height
+		 * of the pane.
+		 * @default `false`
+		 */
+		collapseChildrenToFit?: boolean
+		/**
+		 * Controls inertia friction (0 = none, higher = stops faster)
+		 *
+		 * Typical range: 4–16.
+		 *
+		 * Only applies when `inertia` is enabled.
+		 * @default `8`
+		 */
+		friction?: number
+		/**
+		 * Adds simple inertial motion after drag release.
+		 *
+		 * Adjust friction to control feel
+		 *
+		 * Draggable panes only.
+		 * @default `false`
+		 */
+		inertia?: boolean
+		/**
+		 * Identifier to be used if multiple `<Pane position="draggable">` components with
+		 * `storePositionLocally` set to true are used on the same page.
+		 * @default `'1'`
+		 */
+		localStoreId?: string
+		/**
+		 * Maximum pane width in pixels.
+		 * @default `600`
+		 */
+		maxWidth?: number
+		/**
+		 * Minimum pane width in pixels.
+		 * @default `200`
+		 */
+		minWidth?: number
+		/**
+		 * CSS [padding property string](https://developer.mozilla.org/en-US/docs/Web/CSS/padding)
+		 * to apply to the draggable pane container to prevent it from being dragged all the way to
+		 * the edge of the window.
+		 *
+		 * Useful for keeping the pane away from of menu bars, etc.
+		 * @default `'0'`
+		 */
+		padding?: string
+		/**
+		 * Allow the user to resize the width of the pane by dragging the right corner of the title
+		 * bar.
+		 * @default `true`
+		 */
+		resizable?: boolean
+		/**
+		 * Store the pane's position and width when the user changes it interactively.
+		 *
+		 * Set the `localStoreId` prop if you have multiple draggable panes on the same page with
+		 * `storePositionLocally` set to `true`.
+		 * @default `true`
+		 */
+		storePositionLocally?: boolean
+		/**
+		 * Width of the pane, in pixels.
+		 *
+		 * Setting explicitly via a passed prop will override saved user-specified width.
+		 *
+		 * Use this prop to set a starting width, or to monitor changes in the the pane's width when
+		 * a user resizes it.
+		 *
+		 * Note that height is not exposed because it is determined dynamically by the pane's
+		 * contents and state of its foldable elements.
+		 *
+		 * By default, the width value is saved to local storage for persistence across page loads.
+		 * @default `256`
+		 * @bindable
+		 */
+		width?: number
 		/**
 		 * Horizontal position of the pane relative to the left edge of the window, in pixels.
 		 *
@@ -50,67 +145,6 @@
 		 * @bindable
 		 */
 		y?: number
-		/**
-		 * Width of the pane, in pixels.
-		 *
-		 * Setting explicitly via a passed prop will override saved user-specified width.
-		 *
-		 * Use this prop to set a starting width, or to monitor changes in the the pane's width when
-		 * a user resizes it.
-		 *
-		 * Note that height is not exposed because it is determined dynamically by the pane's
-		 * contents and state of its foldable elements.
-		 *
-		 * By default, the width value is saved to local storage for persistence across page loads.
-		 * @default `256`
-		 * @bindable
-		 */
-		width?: number
-		/**
-		 * Minimum pane width in pixels.
-		 * @default `200`
-		 */
-		minWidth?: number
-		/**
-		 * Maximum pane width in pixels.
-		 * @default `600`
-		 */
-		maxWidth?: number
-		/**
-		 * Allow the user to resize the width of the pane by dragging the right corner of the title
-		 * bar.
-		 * @default `true`
-		 */
-		resizable?: boolean
-		/**
-		 * CSS [padding property string](https://developer.mozilla.org/en-US/docs/Web/CSS/padding)
-		 * to apply to the draggable pane container to prevent it from being dragged all the way to
-		 * the edge of the window.
-		 *
-		 * Useful for keeping the pane away from of menu bars, etc.
-		 * @default `'0'`
-		 */
-		padding?: string
-		/**
-		 * Automatically collapse open panels when the available window size is less than the height
-		 * of the pane.
-		 * @default `false`
-		 */
-		collapseChildrenToFit?: boolean
-		/**
-		 * Store the pane's position and width when the user changes it interactively.
-		 *
-		 * Set the `localStoreId` prop if you have multiple draggable panes on the same page with
-		 * `storePositionLocally` set to `true`.
-		 * @default `true`
-		 */
-		storePositionLocally?: boolean
-		/**
-		 * Identifier to be used if multiple `<Pane position="draggable">` components with
-		 * `storePositionLocally` set to true are used on the same page.
-		 * @default `'1'`
-		 */
-		localStoreId?: string
 	}
 
 	type $$Slots = {
@@ -155,6 +189,11 @@
 	export let scale: $$Props['scale'] = 1
 	export let padding: $$Props['padding'] = '0'
 
+	export let absolute: $$Props['absolute'] = false
+	export let inertia: $$Props['inertia'] = false
+	export let friction: $$Props['friction'] = 8
+	export let bounce: $$Props['bounce'] = 0
+
 	let containerElement: HTMLDivElement
 	let dragBarElement: HTMLElement // Added dynamically to tweakpane DOM
 	let widthHandleElement: HTMLDivElement | undefined
@@ -164,6 +203,100 @@
 	let documentWidth: number
 	let documentHeight: number
 	let zIndexLocal = zIndexGlobal
+
+	//Inertia Logic
+	let vx = 0
+	let vy = 0
+	let sx = 0
+	let sy = 0
+	let lastMoveTime = 0
+	let lastInertiaTime = 0
+	let lastMoveX = 0
+	let lastMoveY = 0
+	let inertiaRaf = 0
+	let haveVelocitySample = false
+
+	// Cancel any existing inertia loop and reset velocity
+	function stopInertia() {
+		if (inertiaRaf) cancelAnimationFrame(inertiaRaf)
+		inertiaRaf = 0
+		lastInertiaTime = 0
+		vx = 0
+		vy = 0
+		sx = x ?? sx
+		sy = y ?? sy
+	}
+	function startInertia() {
+		if (!inertia) return
+		if (!documentWidth || !documentHeight) return
+		// Small threshold so a tiny release doesn't drift
+		if (Math.hypot(vx, vy) < 20) {
+			vx = 0
+			vy = 0
+			return
+		}
+		// Cancel any existing inertia loop whilst keeping current velocity
+		if (inertiaRaf) cancelAnimationFrame(inertiaRaf)
+		inertiaRaf = 0
+		lastInertiaTime = performance.now()
+		// Seed sim state from current rendered state
+		sx = x ?? 0
+		sy = y ?? 0
+		const inertiaStep = (now: number) => {
+			// Clamp dt to prevent huge jumps/spikes when Raf hiccups (tab switch/dropped frames)
+			const dt = Math.min(0.05, Math.max(0.001, (now - lastInertiaTime) / 1000)) // Min 1ms, Max 50ms
+			lastInertiaTime = now
+			// Integrate sim state
+			sx += vx * dt
+			sy += vy * dt
+			if (bounce && bounce > 0) {
+				// Fixed bounds
+				let minX = 0
+				let minY = 0
+				let maxX = Math.max(0, documentWidth - containerWidth)
+				let maxY = Math.max(0, documentHeight - containerHeightScaled)
+				// If absolute, update bounds to consider offsetParent and scroll
+				if (absolute) {
+					const offsetParent = containerElement?.offsetParent ?? containerElement
+					const rect = offsetParent.getBoundingClientRect()
+					const originLeft = rect.left + window.scrollX
+					const originTop = rect.top + window.scrollY
+					minX = -originLeft
+					minY = -originTop
+					maxX = Math.max(minX, documentWidth - originLeft - containerWidth)
+					maxY = Math.max(minY, documentHeight - originTop - containerHeightScaled)
+				}
+				if (sx < minX) {
+					sx = minX
+					vx = -vx * bounce
+				} else if (sx > maxX) {
+					sx = maxX
+					vx = -vx * bounce
+				}
+				if (sy < minY) {
+					sy = minY
+					vy = -vy * bounce
+				} else if (sy > maxY) {
+					sy = maxY
+					vy = -vy * bounce
+				}
+			}
+			// Friction / velocity decay
+			const decay = Math.exp(-Math.max(0, friction ?? 8) * dt) // 0 = frictionless, 10 = snappy
+			vx *= decay
+			vy *= decay
+			// Use device pixels for consistency across different zoom levels and resolutions
+			const devicePxPerFrame = Math.hypot(vx, vy) * dt * devicePixelRatio
+			// Snap simulated position to device pixels for rendering
+			const step = 1 / devicePixelRatio
+			x = Math.round(sx / step) * step
+			y = Math.round(sy / step) * step
+			// Stop when effectively not moving
+			if (devicePxPerFrame < 0.01) return stopInertia()
+			inertiaRaf = requestAnimationFrame(inertiaStep)
+		}
+		inertiaRaf = requestAnimationFrame(inertiaStep)
+	}
 
 	// Local storage helpers, warn about ID collisions
 	function addStorageId() {
@@ -208,8 +341,15 @@
 		if (x !== undefined && y !== undefined && width !== undefined) {
 			const documentWidthPrevious = documentWidth
 			const documentHeightPrevious = documentHeight
-			documentWidth = document.documentElement.clientWidth
-			documentHeight = document.documentElement.clientHeight
+
+			const doc = document.documentElement
+
+			// When absolute consider full page height but still clamp to viewport width
+			documentWidth = doc.clientWidth
+			documentHeight = absolute ? Math.max(doc.scrollHeight, doc.clientHeight) : doc.clientHeight
+
+			// Don't stick pane to quadrant if absolute
+			if (absolute) return
 			const dx = documentWidth - documentWidthPrevious
 			const dy = documentHeight - documentHeightPrevious
 
@@ -265,6 +405,14 @@
 		) {
 			moveDistance = 0
 
+			if (inertia) {
+				stopInertia()
+				haveVelocitySample = false
+				lastMoveTime = performance.now()
+				lastMoveX = x ?? 0
+				lastMoveY = y ?? 0
+			}
+
 			// Remove down listeners, prevents drag-related multi-touch
 			// Can revisit this with a more robust approach...
 			initialDragEvent = event
@@ -309,6 +457,46 @@
 
 				x = event.pageX + startOffsetX
 				y = event.pageY + startOffsetY
+
+				//Calculate inertia velocity for when releasing drag
+				if (inertia) {
+					const now = performance.now()
+					// Caps dt stalls at 50ms
+					const dt = Math.min(0.05, (now - lastMoveTime) / 1000)
+					// Calculate applied movement
+					const dx = (x ?? 0) - lastMoveX
+					const dy = (y ?? 0) - lastMoveY
+					lastMoveTime = now
+					lastMoveX = x ?? 0
+					lastMoveY = y ?? 0
+					// ignore first sample after pointerdown (common spike source)
+					if (!haveVelocitySample) {
+						haveVelocitySample = true
+						vx = 0
+						vy = 0
+						return
+					}
+					// Treat tiny movement as "stopped" so we don't carry momentum when still
+					if (Math.abs(dx) < 0.25 && Math.abs(dy) < 0.25) {
+						vx = 0
+						vy = 0
+						return
+					}
+					const newVx = dx / dt
+					const newVy = dy / dt
+					// Smooth velocity over multiple frames to kill spikes/jitter in pointer sampling
+					const alpha = 0.35
+					vx += (newVx - vx) * alpha
+					vy += (newVy - vy) * alpha
+					//Cap max inital velocity
+					const speed = Math.hypot(vx, vy)
+					const maxSpeed = 20_000
+					if (speed > maxSpeed) {
+						const s = maxSpeed / speed
+						vx *= s
+						vy *= s
+					}
+				}
 			} else if (event.target === widthHandleElement) {
 				width = clamp(event.pageX + startOffsetX + startWidth - x, minWidth, maxAvailablePanelWidth)
 			}
@@ -363,6 +551,24 @@
 				tpPane
 			) {
 				tpPane.expanded = !tpPane.expanded
+			}
+
+			if (
+				inertia &&
+				event.type === 'pointerup' &&
+				event.target === dragBarElement &&
+				moveDistance >= dragMovementDistanceThreshold
+			) {
+				//If havent moved in 80ms set velocity to 0 (prevents stale velocity from dragMove)
+				if (performance.now() - lastMoveTime > 80) {
+					vx = 0
+					vy = 0
+				}
+				startInertia()
+			} else {
+				// Reset any stale velocity
+				vx = 0
+				vy = 0
 			}
 
 			initialDragEvent = undefined
@@ -447,6 +653,7 @@
 	})
 
 	onDestroy(() => {
+		stopInertia()
 		removeDragStartListeners()
 		removeDragMoveAndEndListeners()
 
@@ -516,8 +723,22 @@
 		}
 
 		// Prioritize visibility of the top / left corner
-		x = clamp(x, 0, Math.max(0, documentWidth - containerWidth))
-		y = clamp(y, 0, Math.max(0, documentHeight - containerHeightScaled))
+		if (absolute) {
+			// Convert offsetParent origin to page coords so absolute left/top can be clamped to document bounds.
+			const rect = (containerElement?.offsetParent ?? containerElement).getBoundingClientRect()
+			const originLeft = rect.left + window.scrollX
+			const originTop = rect.top + window.scrollY
+			const minX = -originLeft
+			const minY = -originTop
+			const gutter = 1 / window.devicePixelRatio // ~1 physical pixel (prevents rare overflow)
+			const maxX = Math.max(minX, documentWidth - originLeft - containerWidth - gutter)
+			const maxY = Math.max(minY, documentHeight - originTop - containerHeightScaled)
+			x = clamp(x, minX, maxX)
+			y = clamp(y, minY, maxY)
+		} else {
+			x = clamp(x, 0, Math.max(0, documentWidth - containerWidth))
+			y = clamp(y, 0, Math.max(0, documentHeight - containerHeightScaled))
+		}
 
 		if (documentWidth < containerWidth) {
 			width = Math.max(minWidth, Math.min(maxWidth, documentWidth))
@@ -584,6 +805,8 @@ This component is for internal use only.
 	style:top="{y}px"
 	style:width="{width}px"
 	style:z-index={zIndexLocal}
+	class:is-absolute={absolute ?? false}
+	use:tooltipFix={absolute ?? false}
 >
 	<GenericPane bind:expanded bind:tpPane {scale} {title} {...removeKeys($$restProps, 'position')}>
 		<slot />
@@ -643,5 +866,13 @@ This component is for internal use only.
 		font-size: 1.5em;
 		color: var(--tp-container-fg);
 		opacity: 0.5;
+	}
+
+	div.draggable-container.is-absolute {
+		position: absolute;
+	}
+
+	div.draggable-container.is-absolute :global(.tp-ttv) {
+		position: fixed;
 	}
 </style>
