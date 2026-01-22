@@ -204,6 +204,10 @@
 	let documentHeight: number
 	let zIndexLocal = zIndexGlobal
 
+	// Absolute Offsets
+	let originLeft = 0
+	let originTop = 0
+
 	//Inertia Logic
 	let vx = 0
 	let vy = 0
@@ -257,13 +261,10 @@
 				let maxY = Math.max(0, documentHeight - containerHeightScaled)
 				// If absolute, update bounds to consider offsetParent and scroll
 				if (absolute) {
-					const offsetParent = containerElement?.offsetParent ?? containerElement
-					const rect = offsetParent.getBoundingClientRect()
-					const originLeft = rect.left + window.scrollX
-					const originTop = rect.top + window.scrollY
+					const gutter = 1 / devicePixelRatio
 					minX = -originLeft
 					minY = -originTop
-					maxX = Math.max(minX, documentWidth - originLeft - containerWidth)
+					maxX = Math.max(minX, documentWidth - originLeft - containerWidth - gutter)
 					maxY = Math.max(minY, documentHeight - originTop - containerHeightScaled)
 				}
 				if (sx < minX) {
@@ -349,7 +350,13 @@
 			documentHeight = absolute ? Math.max(doc.scrollHeight, doc.clientHeight) : doc.clientHeight
 
 			// Don't stick pane to quadrant if absolute
-			if (absolute) return
+			if (absolute) {
+				const op = (containerElement?.offsetParent ?? document.body) as HTMLElement
+				const r = op.getBoundingClientRect()
+				originLeft = r.left + window.scrollX
+				originTop = r.top + window.scrollY
+				return
+			}
 			const dx = documentWidth - documentWidthPrevious
 			const dy = documentHeight - documentHeightPrevious
 
@@ -724,13 +731,9 @@
 
 		// Prioritize visibility of the top / left corner
 		if (absolute) {
-			// Convert offsetParent origin to page coords so absolute left/top can be clamped to document bounds.
-			const rect = (containerElement?.offsetParent ?? containerElement).getBoundingClientRect()
-			const originLeft = rect.left + window.scrollX
-			const originTop = rect.top + window.scrollY
 			const minX = -originLeft
 			const minY = -originTop
-			const gutter = 1 / window.devicePixelRatio // ~1 physical pixel (prevents rare overflow)
+			const gutter = 1 / devicePixelRatio
 			const maxX = Math.max(minX, documentWidth - originLeft - containerWidth - gutter)
 			const maxY = Math.max(minY, documentHeight - originTop - containerHeightScaled)
 			x = clamp(x, minX, maxX)
