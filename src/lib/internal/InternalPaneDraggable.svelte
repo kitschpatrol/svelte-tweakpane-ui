@@ -623,7 +623,10 @@
 	}
 
 	onMount(() => {
-		setDocumentSize()
+		// Wait for potential portals before setting Document Size
+		requestAnimationFrame(() => {
+			setDocumentSize()
+		})
 
 		if (tpPane) {
 			// eslint-disable-next-line svelte/no-dom-manipulating
