@@ -2,7 +2,7 @@
 	import type { ComponentProps } from 'svelte'
 	import { onMount } from 'svelte'
 	import GenericPane from '$lib/internal/GenericPane.svelte'
-	import { removeKeys } from '$lib/utils.js'
+	import { removeKeys, tooltipFix } from '$lib/utils.js'
 
 	type $$Props = ComponentProps<GenericPane> & {
 		/**
@@ -60,8 +60,19 @@ This component is for internal use only.
 [InternalPaneInline.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalPaneInline.svelte)
 -->
 
-<div bind:this={containerElement} style:width={width === undefined ? null : `${width}px`}>
+<div
+	bind:this={containerElement}
+	style:width={width === undefined ? null : `${width}px`}
+	class="tooltipFix"
+	use:tooltipFix={true}
+>
 	<GenericPane bind:expanded bind:tpPane {theme} {...removeKeys($$restProps, 'position')}>
 		<slot />
 	</GenericPane>
 </div>
+
+<style>
+	div.tooltipFix :global(.tp-ttv) {
+		position: fixed;
+	}
+</style>
