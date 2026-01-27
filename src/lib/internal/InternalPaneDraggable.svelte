@@ -170,7 +170,7 @@
 		if (localStoreId !== undefined) {
 			if (localStoreIds.includes(localStoreId)) {
 				console.warn(
-					'Multiple instances of <Pane> with `mode="draggable"` and `storePositionLocally=true` detected. You must explicitly set unique localStoreId property on each component to avoid collisions.',
+					'Multiple instances of <Pane> with `position="draggable"` and `storePositionLocally=true` detected. You must explicitly set unique localStoreId property on each component to avoid collisions.',
 				)
 			}
 
@@ -468,7 +468,7 @@
 
 		containerElement?.removeEventListener('touchmove', touchScrollBlocker)
 
-		// Clean up store id check, e.g. when cycling through the mode of a single pane
+		// Clean up store id check, e.g. when cycling through the position mode of a single pane
 		if (localStoreId !== undefined) {
 			localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1)
 		}
