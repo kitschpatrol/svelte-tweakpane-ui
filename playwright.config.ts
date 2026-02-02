@@ -6,6 +6,7 @@ const config: PlaywrightTestConfig = {
 	webServer: {
 		command: 'vite dev',
 		port: 5173,
+		reuseExistingServer: true,
 	},
 }
 

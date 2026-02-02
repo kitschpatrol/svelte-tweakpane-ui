@@ -69,3 +69,58 @@ test('on chang events are fired when the user interacts', async ({ page }) => {
 
 	// FirstBox.press('up');
 })
+
+test('repro issue 31', async ({ page }) => {
+	await page.goto('/TestTabIndexBinding.svelte')
+
+	// Initial state
+	/// Mode 0, Tab 1, Tab B active
+	await expect(page.getByText('Mode: 0')).toBeVisible()
+	await expect(page.getByText('TabIndex: 1')).toBeVisible()
+	await expect(page.getByRole('button', { exact: true, name: 'B' }).locator('..')).toHaveClass(
+		'tp-tbiv tp-tbiv-sel',
+	)
+
+	// Select tab A
+	await page.getByRole('button', { exact: true, name: 'A' }).click()
+	await expect(page.getByText('TabIndex: 0')).toBeVisible()
+	await expect(page.getByRole('button', { exact: true, name: 'A' }).locator('..')).toHaveClass(
+		'tp-tbiv tp-tbiv-sel',
+	)
+
+	// Back to tab B
+	await page.getByRole('button', { exact: true, name: 'B' }).click()
+	await expect(page.getByText('TabIndex: 1')).toBeVisible()
+	await expect(page.getByRole('button', { exact: true, name: 'B' }).locator('..')).toHaveClass(
+		'tp-tbiv tp-tbiv-sel',
+	)
+
+	// Cycle mode
+	await page.getByRole('button', { name: 'Cycle Mode' }).first().click()
+
+	/// Mode 1, Tab 1, Tab B active
+	await expect(page.getByText('Mode: 1')).toBeVisible()
+	await expect(page.getByText('TabIndex: 1')).toBeVisible()
+	await expect(page.getByRole('button', { exact: true, name: 'B' }).locator('..')).toHaveClass(
+		'tp-tbiv tp-tbiv-sel',
+	)
+
+	// Select tab A
+	await page.getByRole('button', { exact: true, name: 'A' }).click()
+	await expect(page.getByText('TabIndex: 0')).toBeVisible()
+	await expect(page.getByRole('button', { exact: true, name: 'A' }).locator('..')).toHaveClass(
+		'tp-tbiv tp-tbiv-sel',
+	)
+
+	// Back to tab B
+	await page.getByRole('button', { exact: true, name: 'B' }).click()
+	await expect(page.getByText('TabIndex: 1')).toBeVisible()
+	await expect(page.getByRole('button', { exact: true, name: 'B' }).locator('..')).toHaveClass(
+		'tp-tbiv tp-tbiv-sel',
+	)
+
+	// Cycle mode, preserving tab index
+	await page.getByRole('button', { name: 'Cycle Mode' }).first().click()
+	await expect(page.getByText('Mode: 2')).toBeVisible()
+	await expect(page.getByText('TabIndex: 1')).toBeVisible()
+})
