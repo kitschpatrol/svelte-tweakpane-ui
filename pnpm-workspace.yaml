@@ -12,8 +12,9 @@ onlyBuiltDependencies:
 
 overrides:
   '@eslint/plugin-kit': ~0.5.1
-  'cookie': '~0.7.2'
+  cookie: ~0.7.2
   esbuild: ~0.27.2
+  lodash: ^4.17.23
 
 patchedDependencies:
   '@astrojs/starlight': patches/@astrojs__starlight.patch
