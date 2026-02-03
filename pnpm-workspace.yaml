@@ -1,7 +1,6 @@
 packages:
   - .
   - docs
-  - svelte-5
 
 onlyBuiltDependencies:
   - esbuild
