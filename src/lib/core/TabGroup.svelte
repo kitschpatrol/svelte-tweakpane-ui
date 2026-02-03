@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { TabApi as TabGroupRef } from 'tweakpane'
 	import { BROWSER } from 'esm-env'
-	import { getContext, onDestroy, onMount, setContext } from 'svelte'
+	import { getContext, onDestroy, onMount, setContext, tick } from 'svelte'
 	import { writable, type Writable } from 'svelte/store'
 	import type { Theme } from '$lib/theme.js'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
@@ -47,17 +47,30 @@
 	const tabIndexStore = writable<number>()
 	setContext('tabIndexStore', tabIndexStore)
 
+	// Share the desired selected index with TabPages so they can set selection correctly on creation
+	setContext('initialSelectedIndex', selectedIndex)
+
+	// Track initialization state to prevent auto-select from overriding the bound index
+	const tabGroupInitialized = writable(false)
+
 	const userCreatedPane = getContext('userCreatedPane')
 
 	let indexElement: HTMLDivElement
 
-	onMount(() => {
+	onMount(async () => {
 		// Pass the tab context and index down as a store instead of a plain context, so that the
 		// child pages can edit it when needed that lets us support a childless <TabGroup />
 		// component, where the first page to be added handles construction of the tab this is
 		// necessary because the tweakpane tab API can only construct tab groups with at least one
 		// page
 		$tabIndexStore = userCreatedPane ? getElementIndex(indexElement) : 0
+
+		// Wait for all TabPages to mount and initialize before listening to select events
+		// This prevents Tweakpane's automatic first-tab selection from overriding the bound index
+		await tick()
+		// Reapply the selected index now that all pages are mounted
+		setSelectedIndex(selectedIndex)
+		$tabGroupInitialized = true
 	})
 
 	onDestroy(() => {
@@ -67,7 +80,15 @@
 	// TODO does this need cleanup?
 	function setUpListeners(t: TabGroupRef) {
 		t?.on('select', (event) => {
-			selectedIndex = event.index
+			// Check if the DOM element is still in the document - if not, component is being destroyed
+			// This is necessary because Svelte removes DOM elements before running onDestroy callbacks,
+			// and Tweakpane can fire select events during DOM removal
+			const isInDocument = indexElement?.isConnected ?? false
+			// Only update after initialization (to prevent auto-select from overriding bound index)
+			// and guard against invalid indices and destruction
+			if ($tabGroupInitialized && isInDocument && event.index >= 0) {
+				selectedIndex = event.index
+			}
 		})
 	}
 
@@ -77,7 +98,8 @@
 	}
 
 	$: setUpListeners($tabGroupStore)
-	$: setSelectedIndex(selectedIndex)
+	// Also re-run when $tabGroupStore changes (when pages are added)
+	$: $tabGroupStore && setSelectedIndex(selectedIndex)
 	$: $tabGroupStore && ($tabGroupStore.disabled = disabled)
 	$: theme &&
 		$parentStore &&

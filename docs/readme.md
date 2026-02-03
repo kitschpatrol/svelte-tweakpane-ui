@@ -13,5 +13,3 @@
 <!-- /description -->
 
 The site deploys automatically to [kitschpatrol.com/svelte-tweakpane-ui](https://kitschpatrol.com/svelte-tweakpane-ui) on push to main branch via Cloudflare Workers.
-
-There's some unknown issue with Astro 5.16.8 - 5.16.11 breaking the HomeGrid component. Reverting to 5.16.7 for now.

@@ -242,12 +242,12 @@
 		"tweakpane-plugin-color-plus": "0.2.0"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^5.12.0",
+		"@kitschpatrol/shared-config": "^5.13.0",
 		"@phenomnomnominal/tsquery": "^6.1.4",
-		"@playwright/test": "^1.57.0",
+		"@playwright/test": "^1.58.1",
 		"@stkb/rewrap": "^0.1.0",
 		"@sveltejs/adapter-static": "^3.0.10",
-		"@sveltejs/kit": "^2.50.0",
+		"@sveltejs/kit": "^2.50.2",
 		"@sveltejs/package": "^2.5.7",
 		"@sveltejs/vite-plugin-svelte": "^3.1.2",
 		"@types/eslint": "^8.56.12",
@@ -255,14 +255,14 @@
 		"bumpp": "^10.4.0",
 		"glob": "^13.0.0",
 		"node-addon-api": "^8.5.0",
-		"node-gyp": "^12.1.0",
+		"node-gyp": "^12.2.0",
 		"postcss-html": "^1.8.1",
-		"publint": "^0.3.16",
+		"publint": "^0.3.17",
 		"read-package-up": "^12.0.0",
 		"svelte": "^4.2.20",
-		"svelte-check": "^4.3.5",
-		"svelte-language-server": "^0.17.23",
-		"svelte2tsx": "^0.7.46",
+		"svelte-check": "^4.3.6",
+		"svelte-language-server": "^0.17.25",
+		"svelte2tsx": "^0.7.47",
 		"ts-morph": "^27.0.2",
 		"tslib": "^2.8.1",
 		"tsx": "^4.21.0",
@@ -273,5 +273,5 @@
 	"peerDependencies": {
 		"svelte": "^4.0.0 || ^5.0.0"
 	},
-	"packageManager": "pnpm@10.28.1"
+	"packageManager": "pnpm@10.28.2"
 }

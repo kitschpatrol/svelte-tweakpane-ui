@@ -170,7 +170,7 @@
 		if (localStoreId !== undefined) {
 			if (localStoreIds.includes(localStoreId)) {
 				console.warn(
-					'Multiple instances of <Pane> with `mode="draggable"` and `storePositionLocally=true` detected. You must explicitly set unique localStoreId property on each component to avoid collisions.',
+					'Multiple instances of <Pane> with `position="draggable"` and `storePositionLocally=true` detected. You must explicitly set unique localStoreId property on each component to avoid collisions.',
 				)
 			}
 
@@ -238,6 +238,8 @@
 	let startOffsetX = 0
 	let startOffsetY = 0
 	let moveDistance = 0
+	let startScrollX = 0
+	let startScrollY = 0
 
 	const doubleClickListener = (event: MouseEvent) => {
 		event.stopPropagation()
@@ -264,6 +266,10 @@
 			event.target instanceof HTMLElement
 		) {
 			moveDistance = 0
+
+			// Compensate for any window scrolling during the drag
+			startScrollY = window.scrollY
+			startScrollX = window.scrollX
 
 			// Remove down listeners, prevents drag-related multi-touch
 			// Can revisit this with a more robust approach...
@@ -307,8 +313,8 @@
 			if (event.target === dragBarElement) {
 				moveDistance += Math.hypot(event.movementX, event.movementY)
 
-				x = event.pageX + startOffsetX
-				y = event.pageY + startOffsetY
+				x = event.pageX + startOffsetX - (window.scrollX - startScrollX)
+				y = event.pageY + startOffsetY - (window.scrollY - startScrollY)
 			} else if (event.target === widthHandleElement) {
 				width = clamp(event.pageX + startOffsetX + startWidth - x, minWidth, maxAvailablePanelWidth)
 			}
@@ -348,6 +354,10 @@
 			if (event.target === dragBarElement) {
 				dragBarElement.style.removeProperty('cursor')
 			}
+
+			// Reset scroll tracking
+			startScrollY = 0
+			startScrollX = 0
 
 			/* Have to do this in JS due to single ":active" element in multi-pane situations */
 			containerElement.style.removeProperty('transition')
@@ -458,7 +468,7 @@
 
 		containerElement?.removeEventListener('touchmove', touchScrollBlocker)
 
-		// Clean up store id check, e.g. when cycling through the mode of a single pane
+		// Clean up store id check, e.g. when cycling through the position mode of a single pane
 		if (localStoreId !== undefined) {
 			localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1)
 		}

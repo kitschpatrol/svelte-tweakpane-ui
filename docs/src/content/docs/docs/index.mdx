@@ -290,7 +290,7 @@ _Svelte Tweakpane UI_ drew some inspiration from these projects, but was develop
 
 ### Tweakpane adaptations for reactive frameworks
 
-- [solid-tweakpane](https://github.com/MrFoxPro/solid-tweakpane)
+- [solid-tweakpane](https://github.com/0x241F31/solid-tweakpane)
 - [react-tweakpane](https://github.com/MelonCode/react-tweakpane)
 - [use-tweaks](https://github.com/tweakpane/use-tweaks)
 - [v-tweakpane](https://github.com/vinayakkulkarni/v-tweakpane)
@@ -316,3 +316,5 @@ Svelte libraries are distributed as source, not as compiled components, so the v
 Due to some subtle differences in how Svelte 5 compiles Svelte 4 "legacy" code, there are some rare edge cases where you might see slightly different behavior in components compiled with Svelte 5 vs. Svelte 4. If you encounter an intractable case, please [open an issue](https://github.com/kitschpatrol/svelte-tweakpane-ui/issues).
 
 Longer-term, I'd like to rewrite the library in the Svelte 5 "Runes" style; there's complexity in the current implementation around fine-grained reactivity that I'd love to simplify — but at this point I'd rather not maintain separate versions of Svelte Tweakpane UI for Svelte 4 and Svelte 5.
+
+Note that the _Svelte Tweakpane UI_ must continue to use Svelte 4 internally to package the library components since there does not appear to be a way to generate Svelte 4-compatible components with Svelte 5. Even though the library uses Svelte 4's "legacy" syntax exclusively, Svelte 5 packages components as [functions instead of classes](https://svelte.dev/docs/svelte/v5-migration-guide#Components-are-no-longer-classes), breaking backwards compatibility.

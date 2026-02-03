@@ -50,6 +50,7 @@
 	const tabGroupStore: Writable<TabGroupRef> = getContext('tabGroupStore')
 	const tabIndexStore: Writable<number> = getContext('tabIndexStore')
 	const userCreatedPane = getContext('userCreatedPane')
+	const initialSelectedIndex: number = getContext('initialSelectedIndex')
 
 	// Save parent context for ourselves
 	const parentStore: Writable<Container> = getContext('parentStore')
@@ -79,11 +80,19 @@
 
 			$tabPageStore = $tabGroupStore.pages[0]
 
-			// First tab selected by default
-			selected = true
+			// Only set selected if this is the initially selected tab
+			// Don't explicitly deselect - let Tweakpane manage auto-selection
+			if (index === initialSelectedIndex) {
+				selected = true
+			}
 		} else if (!$tabPageStore && $tabGroupStore) {
 			// Add to existing tab
 			$tabPageStore = $tabGroupStore.addPage({ index, title })
+
+			// Only set selected if this is the initially selected tab
+			if (index === initialSelectedIndex) {
+				selected = true
+			}
 		}
 
 		$tabGroupStore?.on('select', () => {
