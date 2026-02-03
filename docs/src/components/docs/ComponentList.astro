@@ -3,6 +3,9 @@ import type { CollectionEntry } from 'astro:content'
 import { getCollection } from 'astro:content'
 import { marked } from 'marked'
 
+// eslint-disable-next-line ts/naming-convention
+const { BASE_URL } = import.meta.env
+
 type Props = {
 	scope?: string
 }
@@ -28,7 +31,11 @@ async function firstLine(text: string): Promise<string> {
 			if (componentData) {
 				return (
 					<li>
-						<a class="component" href={component.id} set:html={componentData.name} />
+						<a
+							class="component"
+							href={`${BASE_URL}/${component.id}`}
+							set:html={componentData.name}
+						/>
 						<br />
 						<fragment set:html={await firstLine(componentData.doc)} />
 					</li>

@@ -120,9 +120,9 @@ Usage outside of a `<Pane>` component will implicitly wrap the component in `<Pa
 position="inline">`.
 
 `<AutoObject>` was inspired by the
-[`<TWPAutoMutable>`](https://github.com/MrFoxPro/solid-tweakpane/blob/master/src/automutable.tsx)
-component in [Dmitriy Nikiforov's](https://github.com/MrFoxPro)
-[solid-tweakpane](https://github.com/MrFoxPro/solid-tweakpane) library.
+[`<TWPAutoMutable>`](https://github.com/0x241F31/solid-tweakpane/blob/master/src/automutable.tsx)
+component in [Dmitriy Nikiforov's](https://github.com/0x241F31)
+[solid-tweakpane](https://github.com/0x241F31/solid-tweakpane) library.
 
 Plugin component behavior is not available in `<AutoObject>`.
 

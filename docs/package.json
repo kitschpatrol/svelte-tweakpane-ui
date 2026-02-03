@@ -20,7 +20,7 @@
 		"preview": "poptab ; open https://localhost:8787/svelte-tweakpane-ui ; wrangler dev --show-interactive-dev-session false --https-cert-path ~/.vite-plugin-mkcert/cert.pem --https-key-path ~/.vite-plugin-mkcert/dev.pem",
 		"start": "astro dev",
 		"sync": "astro sync",
-		"validate-links": "pnpx linkinator http://localhost:4321/svelte-tweakpane-ui --recurse --verbosity error --retry-errors-count 2 --retry-errors true --retry true --concurrency 1 --timeout 10000 --retry-errors-jitter 50 --skip www.linkedin.com",
+		"validate-links": "export NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" && pnpx linkinator https://localhost:8787/svelte-tweakpane-ui --recurse --verbosity error --retry-errors-count 2 --retry-errors true --retry true --concurrency 1 --timeout 10000 --retry-errors-jitter 50 --skip www.linkedin.com",
 		"validate-links-live": "pnpx linkinator https://kitschpatrol.com/svelte-tweakpane-ui --recurse --verbosity error --retry-errors-count 2 --retry-errors true --retry true --concurrency 1 --timeout 10000 --retry-errors-jitter 50  --skip www.linkedin.com"
 	},
 	"dependencies": {
