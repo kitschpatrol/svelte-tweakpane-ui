@@ -25,9 +25,9 @@
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.6",
-		"@astrojs/starlight": "^0.37.3",
+		"@astrojs/starlight": "^0.37.6",
 		"@astrojs/svelte": "^7.2.5",
-		"astro": "5.16.8",
+		"astro": "^5.17.1",
 		"github-slugger": "^2.0.0",
 		"gray-matter": "^4.0.3",
 		"sharp": "^0.34.5",
@@ -42,8 +42,8 @@
 		"poptab": "^1.0.4",
 		"read-package-up": "^12.0.0",
 		"semver": "^7.7.3",
-		"svelte": "^5.47.1",
-		"wrangler": "^4.59.3"
+		"svelte": "^5.49.1",
+		"wrangler": "^4.61.1"
 	},
 	"engines": {
 		"node": ">=20.19.0",
