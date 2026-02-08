@@ -155,6 +155,22 @@
 	export let scale: $$Props['scale'] = 1
 	export let padding: $$Props['padding'] = '0'
 
+	/** @internal */
+	export let useScrollCoordinates = false
+	let scrollX = 0
+	let scrollY = 0
+
+	const syncScroll = () => {
+		scrollX = window.scrollX
+		scrollY = window.scrollY
+	}
+
+	const onScroll = () => {
+		// Don't update scroll when dragging
+		if (initialDragEvent) return
+		syncScroll()
+	}
+
 	let containerElement: HTMLDivElement
 	let dragBarElement: HTMLElement // Added dynamically to tweakpane DOM
 	let widthHandleElement: HTMLDivElement | undefined
@@ -208,8 +224,16 @@
 		if (x !== undefined && y !== undefined && width !== undefined) {
 			const documentWidthPrevious = documentWidth
 			const documentHeightPrevious = documentHeight
-			documentWidth = document.documentElement.clientWidth
-			documentHeight = document.documentElement.clientHeight
+			if (useScrollCoordinates) {
+				// Full page size (scrollable document)
+				const scrollElement = document.scrollingElement ?? document.documentElement
+				documentWidth = scrollElement.scrollWidth
+				documentHeight = scrollElement.scrollHeight
+			} else {
+				// Viewport size (fixed overlay)
+				documentWidth = document.documentElement.clientWidth
+				documentHeight = document.documentElement.clientHeight
+			}
 			const dx = documentWidth - documentWidthPrevious
 			const dy = documentHeight - documentHeightPrevious
 
@@ -238,8 +262,6 @@
 	let startOffsetX = 0
 	let startOffsetY = 0
 	let moveDistance = 0
-	let startScrollX = 0
-	let startScrollY = 0
 
 	const doubleClickListener = (event: MouseEvent) => {
 		event.stopPropagation()
@@ -267,10 +289,6 @@
 		) {
 			moveDistance = 0
 
-			// Compensate for any window scrolling during the drag
-			startScrollY = window.scrollY
-			startScrollX = window.scrollX
-
 			// Remove down listeners, prevents drag-related multi-touch
 			// Can revisit this with a more robust approach...
 			initialDragEvent = event
@@ -289,8 +307,16 @@
 			event.target.setPointerCapture(event.pointerId)
 
 			startWidth = width ?? 0
-			startOffsetX = x - event.pageX
-			startOffsetY = y - event.pageY
+			if (useScrollCoordinates) {
+				// Stored pos is document-based so subtract scroll to compare against viewport coords.
+				syncScroll()
+				startOffsetX = x - scrollX - event.clientX
+				startOffsetY = y - scrollY - event.clientY
+			} else {
+				// Stored pos is viewport-based so client coords match directly.
+				startOffsetX = x - event.clientX
+				startOffsetY = y - event.clientY
+			}
 		}
 	}
 
@@ -313,8 +339,15 @@
 			if (event.target === dragBarElement) {
 				moveDistance += Math.hypot(event.movementX, event.movementY)
 
-				x = event.pageX + startOffsetX - (window.scrollX - startScrollX)
-				y = event.pageY + startOffsetY - (window.scrollY - startScrollY)
+				if (useScrollCoordinates) {
+					// Drag in viewport space, then add scroll to convert back to document coords
+					x = event.clientX + startOffsetX + scrollX
+					y = event.clientY + startOffsetY + scrollY
+				} else {
+					// Drag entirely in viewport space
+					x = event.clientX + startOffsetX
+					y = event.clientY + startOffsetY
+				}
 			} else if (event.target === widthHandleElement) {
 				width = clamp(event.pageX + startOffsetX + startWidth - x, minWidth, maxAvailablePanelWidth)
 			}
@@ -355,9 +388,12 @@
 				dragBarElement.style.removeProperty('cursor')
 			}
 
-			// Reset scroll tracking
-			startScrollY = 0
-			startScrollX = 0
+			if (useScrollCoordinates && x !== undefined && y !== undefined) {
+				// Apply any scroll that happened during the drag so stored document coords stay correct
+				x += window.scrollX - scrollX
+				y += window.scrollY - scrollY
+				syncScroll()
+			}
 
 			/* Have to do this in JS due to single ":active" element in multi-pane situations */
 			containerElement.style.removeProperty('transition')
@@ -454,6 +490,8 @@
 			// Adds to both
 			addDragStartListeners()
 		}
+
+		if (useScrollCoordinates) window.addEventListener('scroll', onScroll, { passive: true })
 	})
 
 	onDestroy(() => {
@@ -472,6 +510,8 @@
 		if (localStoreId !== undefined) {
 			localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1)
 		}
+
+		if (useScrollCoordinates) window.removeEventListener('scroll', onScroll)
 	})
 
 	function updateResizability(isResizable: boolean) {
@@ -519,13 +559,11 @@
 		minWidth !== undefined &&
 		maxWidth !== undefined
 	) {
-		// Collapse children if needed TODO progressive collapsing not working because of container
-		// height update delays...
 		if (collapseChildrenToFit && containerHeightScaled > documentHeight && tpPane) {
 			recursiveCollapse(tpPane.children)
 		}
 
-		// Prioritize visibility of the top / left corner
+		// Clamp x/y directly (they are either viewport coords or document coords depending on mode)
 		x = clamp(x, 0, Math.max(0, documentWidth - containerWidth))
 		y = clamp(y, 0, Math.max(0, documentHeight - containerHeightScaled))
 
@@ -589,9 +627,9 @@ This component is for internal use only.
 	class="draggable-container"
 	class:not-collapsable={!userExpandable}
 	class:not-resizable={!resizable}
-	style:left="{x}px"
+	style:left="{useScrollCoordinates ? (x ?? 0) - scrollX : (x ?? 0)}px"
+	style:top="{useScrollCoordinates ? (y ?? 0) - scrollY : (y ?? 0)}px"
 	style:padding
-	style:top="{y}px"
 	style:width="{width}px"
 	style:z-index={zIndexLocal}
 >
