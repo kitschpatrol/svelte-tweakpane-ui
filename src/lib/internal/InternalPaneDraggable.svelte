@@ -559,11 +559,13 @@
 		minWidth !== undefined &&
 		maxWidth !== undefined
 	) {
+		// Collapse children if needed TODO progressive collapsing not working because of container
+		// height update delays...
 		if (collapseChildrenToFit && containerHeightScaled > documentHeight && tpPane) {
 			recursiveCollapse(tpPane.children)
 		}
 
-		// Clamp x/y directly (they are either viewport coords or document coords depending on mode)
+		// Prioritize visibility of the top / left corner
 		x = clamp(x, 0, Math.max(0, documentWidth - containerWidth))
 		y = clamp(y, 0, Math.max(0, documentHeight - containerHeightScaled))
 
