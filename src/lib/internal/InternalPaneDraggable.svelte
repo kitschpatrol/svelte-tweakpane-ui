@@ -159,6 +159,7 @@
 	export let useScrollCoordinates = false
 	let scrollX = 0
 	let scrollY = 0
+	let scrollPending = false
 
 	const syncScroll = () => {
 		scrollX = window.scrollX
@@ -168,7 +169,15 @@
 	const onScroll = () => {
 		// Don't update scroll when dragging
 		if (initialDragEvent) return
-		syncScroll()
+		if (!scrollPending) {
+			scrollPending = true
+
+			// Coalesce scroll events
+			requestAnimationFrame(() => {
+				scrollPending = false
+				syncScroll()
+			})
+		}
 	}
 
 	let containerElement: HTMLDivElement
