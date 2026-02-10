@@ -57,6 +57,8 @@
 	export let width: $$Props['width'] = undefined
 	export let tpPane: $$Props['tpPane'] = undefined
 
+	export let inertia: ComponentProps<InternalPaneDraggable>['inertia'] = false
+
 	// Redeclare types instead of referencing $$Props['key'] since certain keys aren't guaranteed
 	export let x: number | undefined = undefined
 	export let y: number | undefined = undefined
@@ -189,7 +191,15 @@ y={position === 'inline' ? undefined : 110}>
 -->
 {#if position === undefined || position === 'draggable'}
 	{#if BROWSER}
-		<InternalPaneDraggable bind:expanded bind:tpPane bind:width bind:x bind:y {...$$restProps}>
+		<InternalPaneDraggable
+			bind:expanded
+			bind:tpPane
+			bind:width
+			bind:x
+			bind:y
+			{inertia}
+			{...$$restProps}
+		>
 			<slot />
 		</InternalPaneDraggable>
 	{:else}
@@ -205,6 +215,7 @@ y={position === 'inline' ? undefined : 110}>
 			bind:width
 			bind:x
 			bind:y
+			{inertia}
 			{...DRAGGABLE_ABSOLUTE_PROPS}
 			{...$$restProps}
 		>
