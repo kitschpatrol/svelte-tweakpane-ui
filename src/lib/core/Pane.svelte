@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	export type PanePosition = 'draggable' | 'fixed' | 'inline'
+	export type PanePosition = 'draggable' | 'draggable-absolute' | 'fixed' | 'inline'
 </script>
 
 <script lang="ts">
@@ -15,6 +15,9 @@
 		 * Pane mode, one of three options:
 		 * - **'draggable'** *(default)*  \
 		 *   The pane is draggable and resizable, and may be placed anywhere over the page.
+		 * - **'draggable-absolute'** \
+		 *   Draggable + resizable overlay, but position is stored in document coordinates
+		 *   so the pane moves with the page during scroll.
 		 * - **'inline'**  \
 		 *   The pane appears inline with other content in the normal flow of the document.  \
 		 *   This is the default mode for components created outside of an explicit `<Pane>`
@@ -36,7 +39,7 @@
 		  })
 		// eslint-disable-next-line ts/no-duplicate-type-constituents, perfectionist/sort-union-types
 		| (ComponentProps<InternalPaneDraggable> & {
-				position?: 'draggable' | undefined
+				position?: 'draggable' | 'draggable-absolute' | undefined
 		  })
 	)
 
@@ -71,6 +74,9 @@
 
 	// The below proved more reliable than keying on mode and setting <svelte:component
 	// this={props.mode} {...$$restProps} />
+
+	// Potentially a better way to pass props
+	const DRAGGABLE_ABSOLUTE_PROPS = { useScrollCoordinates: true } as const
 </script>
 
 <!--
@@ -115,6 +121,13 @@ Position mode overview:
   Double-clicking the width drag handle will expand or contract the pane between to its `minWidth`
   and `maxWidth` sizes.
 
+  - **`<Pane position="draggable-absolute" ...>`**  \
+	Like `draggable`, but behaves as if absolutely positioned in the document: `x/y` are stored in
+  document coordinates so the pane moves with the page while scrolling.  
+      \
+  Internally, the pane is rendered as `position: fixed` to avoid affecting layout or overflow, with its
+  viewport coordinates converted to document coordinates using the current scroll position.
+
 - **`<Pane position="inline" ...>`**  \
     Provides an inline version of the pane component, allowing the Tweakpane window to appear in the
   normal flow of the document.  
@@ -136,11 +149,13 @@ Position mode overview:
 <script lang="ts">
   import { Pane, type PanePosition, RadioGrid } from 'svelte-tweakpane-ui'
 
-  const options: PanePosition[] = ['inline', 'fixed', 'draggable']
+  const options: PanePosition[] = ['inline', 'fixed', 'draggable', 'draggable-absolute']
   let position: PanePosition = options[0]
 </script>
 
-<Pane {position} title="Pane" y={position === 'inline' ? undefined : 110}>
+<Pane {position} title="Pane" 
+x={position === 'inline' ? undefined : Math.round(window.innerWidth / 2 - 200)} 
+y={position === 'inline' ? undefined : 110}>
   <RadioGrid
     bind:value={position}
     columns={1}
@@ -151,7 +166,9 @@ Position mode overview:
 {#if position === 'fixed'}
   <p>Pane is fixed at the top-right of the page.</p>
 {:else if position === 'draggable'}
-  <p>Pane is draggable at the top-right of the page.</p>
+  <p>Pane is draggable at the top of the page.</p>
+{:else if position === 'draggable-absolute'}
+  <p>Pane is draggable-absolute at the top of the page.</p>
 {/if}
 
 <style>
@@ -173,6 +190,24 @@ Position mode overview:
 {#if position === undefined || position === 'draggable'}
 	{#if BROWSER}
 		<InternalPaneDraggable bind:expanded bind:tpPane bind:width bind:x bind:y {...$$restProps}>
+			<slot />
+		</InternalPaneDraggable>
+	{:else}
+		<div style="display: none;">
+			<slot />
+		</div>
+	{/if}
+{:else if position === 'draggable-absolute'}
+	{#if BROWSER}
+		<InternalPaneDraggable
+			bind:expanded
+			bind:tpPane
+			bind:width
+			bind:x
+			bind:y
+			{...DRAGGABLE_ABSOLUTE_PROPS}
+			{...$$restProps}
+		>
 			<slot />
 		</InternalPaneDraggable>
 	{:else}
