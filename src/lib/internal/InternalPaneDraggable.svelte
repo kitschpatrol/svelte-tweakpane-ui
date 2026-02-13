@@ -500,7 +500,10 @@
 			addDragStartListeners()
 		}
 
-		if (useScrollCoordinates) window.addEventListener('scroll', onScroll, { passive: true })
+		if (useScrollCoordinates) {
+			syncScroll()
+			window.addEventListener('scroll', onScroll, { passive: true })
+		}
 	})
 
 	onDestroy(() => {
