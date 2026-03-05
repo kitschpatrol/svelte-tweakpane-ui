@@ -151,6 +151,8 @@ export default eslintConfig(
 	{
 		files: ['docs/package.json'],
 		rules: {
+			// TODO remove after next shared-config release
+			'json-package/require-files': 'off',
 			'json-package/require-keywords': 'off',
 			// Because of link to parent
 			'json-package/valid-dependencies': 'off',

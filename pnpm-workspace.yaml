@@ -11,9 +11,9 @@ onlyBuiltDependencies:
   - workerd
 
 overrides:
-  '@eslint/plugin-kit': ~0.5.1
-  cookie: ~0.7.2
-  esbuild: ~0.27.2
+  '@eslint/plugin-kit': ~0.6.0
+  cookie: ~1.1.1
+  esbuild: ~0.27.3
   lodash: ^4.17.23
   '@isaacs/brace-expansion': ^5.0.1
 

@@ -11,11 +11,11 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Sync Package info to GitHub
-        uses: kitschpatrol/github-action-repo-sync@v3
+        uses: kitschpatrol/github-action-repo-sync@v4
         with:
           TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
