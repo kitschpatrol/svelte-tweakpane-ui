@@ -2,12 +2,17 @@
 	"name": "svelte-tweakpane-ui-docs",
 	"version": "1.0.0",
 	"description": "Documentation website for Svelte Tweakpane UI.",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/kitschpatrol/svelte-tweakpane-ui.git"
+	},
 	"license": "MIT",
 	"author": {
 		"name": "Eric Mika",
 		"email": "eric@ericmika.com",
 		"url": "https://ericmika.com"
 	},
+	"sideEffects": false,
 	"type": "module",
 	"scripts": {
 		"build": "pnpm run --sequential /^build:/",

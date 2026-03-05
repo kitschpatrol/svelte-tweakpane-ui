@@ -10,7 +10,18 @@
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
 	import { removeKeys } from '$lib/utils.js'
 
-	type $$Props = {
+	type $$Props = (
+		| (ComponentProps<InternalPaneFixed> & {
+				position: 'fixed'
+		  })
+		| (Omit<ComponentProps<InternalPaneInline>, 'userCreatedPane'> & {
+				position: 'inline'
+		  })
+		// eslint-disable-next-line ts/no-duplicate-type-constituents, perfectionist/sort-union-types
+		| (ComponentProps<InternalPaneDraggable> & {
+				position?: 'draggable' | undefined
+		  })
+	) & {
 		/**
 		 * Pane mode, one of three options:
 		 * - **'draggable'** *(default)*  \
@@ -27,18 +38,7 @@
 		 * @default `'draggable'`
 		 */
 		position?: PanePosition
-	} & (
-		| (ComponentProps<InternalPaneFixed> & {
-				position: 'fixed'
-		  })
-		| (Omit<ComponentProps<InternalPaneInline>, 'userCreatedPane'> & {
-				position: 'inline'
-		  })
-		// eslint-disable-next-line ts/no-duplicate-type-constituents, perfectionist/sort-union-types
-		| (ComponentProps<InternalPaneDraggable> & {
-				position?: 'draggable' | undefined
-		  })
-	)
+	}
 
 	type $$Slots = {
 		/**
