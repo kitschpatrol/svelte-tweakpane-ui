@@ -380,6 +380,9 @@
 		) {
 			moveDistance = 0
 
+			// Compensate for any window scrolling during the drag
+			startScrollY = window.scrollY
+			startScrollX = window.scrollX
 			if (inertia) {
 				stopInertia()
 				lastMoveTime = performance.now()
@@ -428,6 +431,9 @@
 		) {
 			if (event.target === dragBarElement) {
 				moveDistance += Math.hypot(event.movementX, event.movementY)
+
+				x = event.pageX + startOffsetX - (window.scrollX - startScrollX)
+				y = event.pageY + startOffsetY - (window.scrollY - startScrollY)
 
 				const previousX = x
 				const previousY = y
