@@ -37,6 +37,7 @@
 		 *   vary depending on the defined `position` value.
 		 * @default `'draggable'`
 		 */
+		inertia?: ComponentProps<InternalPaneDraggable>['inertia']
 		position?: PanePosition
 	}
 
@@ -54,6 +55,7 @@
 	export let width: $$Props['width'] = undefined
 	export let tpPane: $$Props['tpPane'] = undefined
 
+	export let inertia: $$Props['inertia'] = false
 	// Redeclare types instead of referencing $$Props['key'] since certain keys aren't guaranteed
 	export let x: number | undefined = undefined
 	export let y: number | undefined = undefined
@@ -172,7 +174,15 @@ Position mode overview:
 -->
 {#if position === undefined || position === 'draggable'}
 	{#if BROWSER}
-		<InternalPaneDraggable bind:expanded bind:tpPane bind:width bind:x bind:y {...$$restProps}>
+		<InternalPaneDraggable
+			bind:expanded
+			bind:tpPane
+			bind:width
+			bind:x
+			bind:y
+			{inertia}
+			{...$$restProps}
+		>
 			<slot />
 		</InternalPaneDraggable>
 	{:else}
