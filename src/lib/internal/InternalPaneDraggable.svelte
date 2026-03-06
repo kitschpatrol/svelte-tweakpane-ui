@@ -183,75 +183,88 @@
 		inertiaRaf = 0
 		vx = 0
 		vy = 0
-		sx = x ?? sx
-		sy = y ?? sy
 	}
 
 	function startInertia() {
-		if (!inertia) return
-		if (!documentWidth || !documentHeight) return
+		if (!inertia || x === undefined || y === undefined || !documentWidth || !documentHeight) return
+
+		//If havent moved in 80ms set velocity to 0 (prevents stale velocity from dragMove)
+		if (performance.now() - lastMoveTime > 120) {
+			vx = 0
+			vy = 0
+		}
 
 		// Set default values if no object provided
-		const friction = inertia === true ? 8 : (inertia.friction ?? 8)
-		const bounce = inertia === true ? 0 : (inertia.bounce ?? 0)
+		const friction = Math.max(0, inertia === true ? 8 : (inertia.friction ?? 8))
+		const bounce = Math.max(0, inertia === true ? 0 : (inertia.bounce ?? 0))
 
 		// Small threshold so a tiny release doesn't drift
 		if (Math.hypot(vx, vy) < 20) {
-			vx = 0
-			vy = 0
+			stopInertia()
 			return
 		}
+
 		// Cancel any existing inertia loop whilst keeping current velocity
 		if (inertiaRaf) cancelAnimationFrame(inertiaRaf)
-		inertiaRaf = 0
-		let lastStep = performance.now()
+
 		// Seed sim state from current rendered state
-		sx = x ?? 0
-		sy = y ?? 0
+		sx = x
+		sy = y
+
+		let lastStep = performance.now()
+
 		const inertiaStep = (now: number) => {
 			// Clamp dt to prevent huge jumps/spikes when Raf hiccups (tab switch/dropped frames)
 			const dt = Math.min(0.05, (now - lastStep) / 1000) // Max 50ms
 			lastStep = now
+
 			// Integrate sim state
 			sx += vx * dt
 			sy += vy * dt
-			if (bounce && bounce > 0) {
-				// Fixed bounds
-				let minX = 0
-				let minY = 0
-				let maxX = Math.max(0, documentWidth - containerWidth)
-				let maxY = Math.max(0, documentHeight - containerHeightScaled)
-				// If absolute, update bounds to consider offsetParent and scroll
 
-				if (sx < minX) {
-					sx = minX
+			if (bounce > 0) {
+				const maxX = Math.max(0, documentWidth - containerWidth)
+				const maxY = Math.max(0, documentHeight - containerHeightScaled)
+
+				if (sx < 0) {
+					sx = 0
 					vx = -vx * bounce
 				} else if (sx > maxX) {
 					sx = maxX
 					vx = -vx * bounce
 				}
-				if (sy < minY) {
-					sy = minY
+
+				if (sy < 0) {
+					sy = 0
 					vy = -vy * bounce
 				} else if (sy > maxY) {
 					sy = maxY
 					vy = -vy * bounce
 				}
 			}
+
 			// Friction / velocity decay
-			const decay = Math.exp(-Math.max(0, friction) * dt) // 0 = frictionless, 10 = snappy
+			const decay = Math.exp(-friction * dt)
 			vx *= decay
 			vy *= decay
-			// Use device pixels for consistency across different zoom levels and resolutions
-			const devicePxPerFrame = Math.hypot(vx, vy) * dt * devicePixelRatio
+
 			// Snap simulated position to device pixels for rendering
 			const step = 1 / devicePixelRatio
 			x = Math.round(sx / step) * step
 			y = Math.round(sy / step) * step
+
+			// Use device pixels for consistency across different zoom levels and resolutions
+			const devicePxPerFrame = Math.hypot(vx, vy) * dt * devicePixelRatio
+
 			// Stop when effectively not moving
-			if (devicePxPerFrame < 0.01) return stopInertia()
+			if (devicePxPerFrame < 0.01) {
+				stopInertia()
+				return
+			}
+
 			inertiaRaf = requestAnimationFrame(inertiaStep)
 		}
+
 		inertiaRaf = requestAnimationFrame(inertiaStep)
 	}
 
@@ -370,6 +383,8 @@
 			if (inertia) {
 				stopInertia()
 				lastMoveTime = performance.now()
+				sx = x ?? 0
+				sy = y ?? 0
 			}
 
 			// Remove down listeners, prevents drag-related multi-touch
@@ -420,32 +435,37 @@
 				//Calculate inertia velocity for when releasing drag
 				if (inertia) {
 					const now = performance.now()
+
 					// Caps dt stalls at 50ms
 					const dt = Math.min(0.05, (now - lastMoveTime) / 1000)
+					lastMoveTime = now
+
+					sx = x
+					sy = y
+
+					if (dt <= 0) return
+
 					// Calculate applied movement
 					const dx = x - previousX
 					const dy = y - previousY
-					lastMoveTime = now
 
-					// Treat tiny movement as "stopped" so we don't carry momentum when still
-					if (Math.abs(dx) < 0.25 && Math.abs(dy) < 0.25) {
-						vx = 0
-						vy = 0
-						return
-					}
-					const newVx = dx / dt
-					const newVy = dy / dt
+					// If barely moving, return
+					if (Math.abs(dx) < 0.25 && Math.abs(dy) < 0.25) return
+
 					// Smooth velocity over multiple frames to kill spikes/jitter in pointer sampling
 					const alpha = 0.35
-					vx += (newVx - vx) * alpha
-					vy += (newVy - vy) * alpha
-					//Cap max inital velocity
+					vx += (dx / dt - vx) * alpha
+					vy += (dy / dt - vy) * alpha
+
 					const speed = Math.hypot(vx, vy)
+
+					//Cap max inital velocity
 					const maxSpeed = 20_000
+
 					if (speed > maxSpeed) {
-						const s = maxSpeed / speed
-						vx *= s
-						vy *= s
+						const scale = maxSpeed / speed
+						vx *= scale
+						vy *= scale
 					}
 				}
 			} else if (event.target === widthHandleElement) {
@@ -514,11 +534,6 @@
 				event.target === dragBarElement &&
 				moveDistance >= dragMovementDistanceThreshold
 			) {
-				//If havent moved in 80ms set velocity to 0 (prevents stale velocity from dragMove)
-				if (performance.now() - lastMoveTime > 80) {
-					vx = 0
-					vy = 0
-				}
 				startInertia()
 			} else {
 				// Reset any stale velocity
