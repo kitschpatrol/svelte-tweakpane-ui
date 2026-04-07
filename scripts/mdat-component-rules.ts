@@ -1,11 +1,11 @@
 // Generate basic component documentation for the readme.md file via a
 // custom mdat rule
 
-import type { Rules } from 'mdat'
+import { defineConfig } from 'mdat'
 import { getExportedComponents } from './ast-tools'
 import { getComponentInfo } from './component-info'
 
-const mdatComponentRules: Rules = {
+export default defineConfig({
 	'component-count': {
 		// eslint-disable-next-line ts/require-await
 		async content() {
@@ -54,6 +54,4 @@ const mdatComponentRules: Rules = {
 			return finalOutput.join('\n')
 		},
 	},
-} // Not working in this context: `satisfies Rules;`
-
-export default mdatComponentRules
+})

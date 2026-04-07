@@ -118,11 +118,8 @@ export function getExportedJs(indexPath: string): Array<{ name: string; path: st
 		new Project().addSourceFileAtPath(indexPath),
 		'ExportDeclaration[isTypeOnly=false]:has(StringLiteral[value=/.+.js/])',
 	).map((node) => {
-		const name = queryTree<StringLiteral>(node, 'Identifier.name').at(0)!.getText()
-		const path = queryTree<StringLiteral>(node, 'StringLiteral')
-			.at(0)!
-			.getText()
-			.replaceAll(/["']/g, '')
+		const name = queryTree(node, 'Identifier.name').at(0)!.getText()
+		const path = queryTree(node, 'StringLiteral').at(0)!.getText().replaceAll(/["']/g, '')
 
 		return {
 			name,

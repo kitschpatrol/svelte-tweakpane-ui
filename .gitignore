@@ -33,3 +33,5 @@ docs/.wrangler
 # Svelte-5 test project
 svelte-5/src
 /test-results
+/.claude
+/docs/.claude

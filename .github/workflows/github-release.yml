@@ -5,6 +5,9 @@ on:
     tags:
       - 'v[0-9]*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Create Release
@@ -16,13 +19,17 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Log Token Type
+        env:
+          TOKEN: ${{ env.ACCESS_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if [ ${{ env.ACCESS_TOKEN }} == ${{ secrets.GITHUB_TOKEN }} ]; then
+          if [ "$TOKEN" = "$GH_TOKEN" ]; then
             echo "🗝️ Authenticated with GitHub Token"
           else
             echo "🔑 Authenticated with Personal Access token"
@@ -75,7 +82,11 @@ jobs:
 
       - name: Log Release Details
         if: env.IS_VALID_COMMIT == 'true'
+        env:
+          TAG: ${{ env.TAG_NAME }}
+          RELEASE_URL: ${{ steps.release.outputs.url }}
+          RELEASE_ID: ${{ steps.release.outputs.id }}
         run: |
-          echo "📦 Successfully released: ${{ env.TAG_NAME }}"
-          echo "🔗 Release URL: ${{ steps.release.outputs.url }}"
-          echo "🪪 Release ID: ${{ steps.release.outputs.id }}"
+          echo "📦 Successfully released: $TAG"
+          echo "🔗 Release URL: $RELEASE_URL"
+          echo "🪪 Release ID: $RELEASE_ID"

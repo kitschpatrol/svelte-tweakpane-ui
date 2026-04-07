@@ -153,6 +153,7 @@
 		})
 	} else {
 		// SSR
+		// eslint-disable-next-line ts/no-unnecessary-type-arguments
 		setContext('parentStore', writable<boolean>(true))
 	}
 

@@ -53,6 +53,8 @@ const perfectionistSortConfig = [
  * These rules are used in both TypeScript and Svelte files.
  */
 const sharedOverrides: Rules = {
+	'e18e/prefer-array-fill': 'off', // Messes with types
+	'e18e/prefer-static-regex': 'off', // Never in hot path
 	'perfectionist/sort-object-types': [
 		'error',
 		...perfectionistSortConfig,
@@ -72,6 +74,7 @@ export default eslintConfig(
 	{
 		astro: {
 			overrides: {
+				'e18e/prefer-static-regex': 'off',
 				'ts/no-unsafe-type-assertion': 'off',
 			},
 		},
