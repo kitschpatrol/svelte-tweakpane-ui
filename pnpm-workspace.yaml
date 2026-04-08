@@ -10,9 +10,11 @@ onlyBuiltDependencies:
   - workerd
 
 overrides:
-  '@eslint/plugin-kit': ~0.5.1
-  'cookie': '~0.7.2'
-  esbuild: ~0.27.2
+  '@eslint/plugin-kit': ~0.6.1
+  cookie: ~1.1.1
+  # 0.27.7 is too far...
+  # 0.27.6 does not exist?
+  esbuild: 0.27.5
 
 patchedDependencies:
   '@astrojs/starlight': patches/@astrojs__starlight.patch

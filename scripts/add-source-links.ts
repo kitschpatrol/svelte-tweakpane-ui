@@ -7,8 +7,6 @@ import { getAllLibraryFiles, getGithubUrlForSourceFile } from './ast-tools'
 
 const verbose = false
 
-const files = getAllLibraryFiles()
-
 async function addLinksToComponentBlock(filePath: string): Promise<void> {
 	const fileContent = await fs.readFile(filePath, 'utf8')
 	const fileName = path.basename(filePath)
@@ -33,8 +31,12 @@ async function addLinksToComponentBlock(filePath: string): Promise<void> {
 	}
 }
 
-console.log(`Replacing @sourceLink with GitHub URLs in ${files.length} files...`)
+export async function addSourceLinks(): Promise<void> {
+	const files = getAllLibraryFiles()
 
-await Promise.all(files.map(async (filePath) => addLinksToComponentBlock(filePath)))
+	console.log(`Replacing @sourceLink with GitHub URLs in ${files.length} files...`)
 
-console.log('Done.')
+	await Promise.all(files.map(async (filePath) => addLinksToComponentBlock(filePath)))
+
+	console.log('Done.')
+}

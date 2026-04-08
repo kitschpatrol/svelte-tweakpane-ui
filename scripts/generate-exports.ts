@@ -72,10 +72,12 @@ function addExports(sourceIndexFile: string, closestPackage: ReadResult) {
 	)
 }
 
-const closestPackage = await readPackageUp({ normalize: false })
+export async function generateExports(): Promise<void> {
+	const closestPackage = await readPackageUp({ normalize: false })
 
-if (closestPackage === undefined) {
-	throw new Error('Could not find package.json')
-} else {
-	addExports('./src/lib/index.ts', closestPackage)
+	if (closestPackage === undefined) {
+		throw new Error('Could not find package.json')
+	} else {
+		addExports('./src/lib/index.ts', closestPackage)
+	}
 }

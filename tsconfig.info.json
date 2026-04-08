@@ -1,0 +1,6 @@
+{
+	"extends": "./tsconfig.json",
+
+	// Leaner set of files for programmatic extraction of type metadata for documentation
+	"include": ["src/lib/**/*", "./.svelte-kit/ambient.d.ts", "./.svelte-kit/types/**/$types.d.ts"]
+}

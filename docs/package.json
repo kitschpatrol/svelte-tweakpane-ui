@@ -2,18 +2,20 @@
 	"name": "svelte-tweakpane-ui-docs",
 	"version": "1.0.0",
 	"description": "Documentation website for Svelte Tweakpane UI.",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/kitschpatrol/svelte-tweakpane-ui.git"
+	},
 	"license": "MIT",
 	"author": {
 		"name": "Eric Mika",
 		"email": "eric@ericmika.com",
 		"url": "https://ericmika.com"
 	},
+	"sideEffects": false,
 	"type": "module",
 	"scripts": {
-		"build": "pnpm run --sequential /^build:/",
-		"build:01-acknowledgments-data": "mkdir -p ./src/content/acknowledgments && pnpm licenses list --json > ./src/content/acknowledgments/acknowledgments-docs.json",
-		"build:02-astro": "pnpm run sync && pnpm run check && astro build && tsx ./scripts/generate-version-json.ts > ./dist/svelte-tweakpane-ui/version.json",
-		"build:03-cloudflare-fix": "bash ./scripts/migrate-index.sh",
+		"build": "tsx ./scripts/build.ts",
 		"check": "astro check --tsconfig tsconfig.build.json",
 		"clean": "rm -rf .astro && rm -rf dist",
 		"dev": "astro dev",
@@ -24,10 +26,10 @@
 		"validate-links-live": "pnpx linkinator https://kitschpatrol.com/svelte-tweakpane-ui --recurse --verbosity error --retry-errors-count 2 --retry-errors true --retry true --concurrency 1 --timeout 10000 --retry-errors-jitter 50  --skip www.linkedin.com"
 	},
 	"dependencies": {
-		"@astrojs/check": "^0.9.6",
-		"@astrojs/starlight": "^0.37.6",
+		"@astrojs/check": "^0.9.8",
+		"@astrojs/starlight": "^0.37.7",
 		"@astrojs/svelte": "^7.2.5",
-		"astro": "^5.17.1",
+		"astro": "^5.18.1",
 		"github-slugger": "^2.0.0",
 		"gray-matter": "^4.0.3",
 		"sharp": "^0.34.5",
@@ -37,16 +39,16 @@
 		"@types/semver": "^7.7.1",
 		"execa": "^9.6.1",
 		"linkedom": "^0.18.12",
-		"linkinator": "^7.5.3",
-		"marked": "^17.0.1",
-		"poptab": "^1.0.4",
+		"linkinator": "^7.6.1",
+		"marked": "^17.0.6",
+		"poptab": "^1.0.5",
 		"read-package-up": "^12.0.0",
-		"semver": "^7.7.3",
-		"svelte": "^5.49.1",
-		"wrangler": "^4.61.1"
+		"semver": "^7.7.4",
+		"svelte": "^5.55.2",
+		"wrangler": "^4.81.0"
 	},
 	"engines": {
-		"node": ">=20.19.0",
+		"node": ">=20.19.5",
 		"pnpm": ">=10.0.0"
 	}
 }

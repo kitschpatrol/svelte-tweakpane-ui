@@ -586,6 +586,7 @@ This component is for internal use only.
 	on:pointerdown|capture={() => {
 		zIndexLocal = ++zIndexGlobal
 	}}
+	role="group"
 	class="draggable-container"
 	class:not-collapsable={!userExpandable}
 	class:not-resizable={!resizable}

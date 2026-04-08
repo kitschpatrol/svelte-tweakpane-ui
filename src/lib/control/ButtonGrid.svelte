@@ -15,10 +15,10 @@
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
 	import { BROWSER } from 'esm-env'
 	import { type ComponentProps, createEventDispatcher } from 'svelte'
+	import type { UnwrapCustomEvents } from '$lib/utils.js'
 	import Blade from '$lib/core/Blade.svelte'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import { fillWith } from '$lib/utils.js'
-	import { getGridDimensions, type UnwrapCustomEvents } from '$lib/utils.js'
+	import { fillWith, getGridDimensions } from '$lib/utils.js'
 
 	type $$Props = Omit<
 		ComponentProps<Blade<ButtonGridOptions, ButtonGridRef>>,

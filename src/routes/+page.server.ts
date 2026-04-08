@@ -2,7 +2,7 @@ import { glob } from 'glob'
 import type { PageServerLoad } from './$types'
 
 export const load: PageServerLoad = async () => {
-	const examples = await glob('./src/examples/**/*.svelte')
+	const examples = await glob('./src/examples/**/*.svelte', { posix: true })
 	const sortedExamples = examples
 		.map((example) => example.replace('src/examples/', './'))
 		.toSorted((a, b) => a.localeCompare(b))

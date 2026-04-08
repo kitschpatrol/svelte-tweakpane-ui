@@ -31,6 +31,7 @@
 		"email": "eric@ericmika.com",
 		"url": "https://ericmika.com"
 	},
+	"sideEffects": false,
 	"type": "module",
 	"exports": {
 		".": {
@@ -187,40 +188,18 @@
 		"./dist"
 	],
 	"scripts": {
-		"build": "pnpm run --sequential /^build:/",
-		"build:01-sync": "pnpm run check && pnpm run docs-sync",
-		"build:02-exports": "tsx ./scripts/generate-exports.ts",
-		"build:03-add-source-links": "tsx ./scripts/add-source-links.ts",
-		"build:04-format": "pnpm run format",
-		"build:05-package": "svelte-package && publint",
-		"build:06-heal-dts-comments": "tsx ./scripts/heal-dts-comments.ts",
-		"build:07-strip-component-documentation": "tsx ./scripts/strip-component-documentation.ts",
-		"build:08-format-library": "prettier --ignore-path --plugin prettier-plugin-svelte --write ./dist",
-		"build:09-doc-data": "tsx ./scripts/generate-documentation-data.ts",
-		"build:10-examples-to-kit": "tsx ./scripts/generate-kit-examples.ts",
-		"build:11-examples-to-docs": "tsx ./scripts/generate-example-components.ts",
-		"build:12-acknowledgments-data": "mkdir -p ./docs/src/content/acknowledgments && pnpm licenses list --json > ./docs/src/content/acknowledgments/acknowledgments-lib.json",
-		"build:13-build-docs": "pnpm run docs-build",
-		"build:14-build-kit": "pnpm run kit-build",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.build.json",
-		"check-watch": "svelte-kit sync && svelte-check --ignore ./scratch --tsconfig ./tsconfig.build.json --watch",
+		"build": "tsx ./scripts/build.ts",
 		"clean": "rm pnpm-lock.yaml ; git clean -fdX",
-		"docs-build": "pnpm -C ./docs run build",
 		"docs-dev": "pnpm -C ./docs run dev",
 		"docs-preview": "pnpm -C ./docs run preview",
-		"docs-sync": "pnpm -C ./docs run sync",
-		"fix": "ksc fix",
-		"format": "ksc-mdat fix ; ksc-eslint fix ; ksc-prettier fix ; tsx ./scripts/format-embedded-code.ts",
-		"kit-build": "pnpm run kit-examples && vite build",
+		"fix": "ksc fix --skip repo",
 		"kit-dev": " pnpm run kit-examples && vite dev",
-		"kit-examples": "tsx ./scripts/generate-kit-examples.ts",
 		"kit-preview": "vite preview",
-		"lint": "ksc lint && svelte-check --tsconfig ./tsconfig.build.json",
-		"release": "pnpm run build && bumpp --preid preview --commit 'Release: %s' && NPM_AUTH_TOKEN=$(op read 'op://Personal/npm/token') && pnpm publish --tag preview --ignore-scripts",
+		"lint": "ksc lint --skip repo && svelte-kit sync && svelte-check --tsconfig ./tsconfig.build.json",
+		"release": "pnpm run build && bumpp --commit 'Release: %s' && NPM_AUTH_TOKEN=$(op read 'op://Personal/npm/token') && pnpm publish --ignore-scripts",
 		"rewrap": "rewrap -i --column 100 `find src \\( -name '*.svelte' -o -name '*.ts'  -o -name '*.html' \\) -type f | grep -v src/examples`",
 		"test": "pnpm run --sequential /^test:/",
-		"test:integration": "playwright test",
-		"type-check": "tsc --noEmit"
+		"test:integration": "playwright test"
 	},
 	"dependencies": {
 		"@kitschpatrol/tweakpane-plugin-camerakit": "0.3.1-beta.3",
@@ -236,42 +215,49 @@
 		"esm-env": "^1.2.2",
 		"fast-copy": "^4.0.2",
 		"fast-equals": "^6.0.0",
-		"nanoid": "^5.1.6",
+		"nanoid": "^5.1.7",
 		"svelte-persisted-store": "0.12.0",
 		"tweakpane": "4.0.5",
 		"tweakpane-plugin-color-plus": "0.2.0"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^5.13.0",
-		"@phenomnomnominal/tsquery": "^6.1.4",
-		"@playwright/test": "^1.58.1",
+		"@kitschpatrol/shared-config": "^7.2.0",
+		"@phenomnomnominal/tsquery": "^6.2.0",
+		"@playwright/test": "^1.59.1",
 		"@stkb/rewrap": "^0.1.0",
 		"@sveltejs/adapter-static": "^3.0.10",
-		"@sveltejs/kit": "^2.50.2",
+		"@sveltejs/kit": "^2.57.0",
 		"@sveltejs/package": "^2.5.7",
 		"@sveltejs/vite-plugin-svelte": "^3.1.2",
-		"@types/eslint": "^8.56.12",
-		"@types/node": "^20.19.30",
-		"bumpp": "^10.4.0",
-		"glob": "^13.0.0",
-		"node-addon-api": "^8.5.0",
+		"@types/node": "^20.19.39",
+		"bumpp": "^11.0.1",
+		"execa": "^9.6.1",
+		"glob": "^13.0.6",
+		"node-addon-api": "^8.7.0",
 		"node-gyp": "^12.2.0",
 		"postcss-html": "^1.8.1",
-		"publint": "^0.3.17",
+		"pretty-ms": "^9.3.0",
+		"publint": "^0.3.18",
 		"read-package-up": "^12.0.0",
 		"svelte": "^4.2.20",
-		"svelte-check": "^4.3.6",
-		"svelte-language-server": "^0.17.25",
-		"svelte2tsx": "^0.7.47",
+		"svelte-check": "^4.4.6",
+		"svelte-language-server": "^0.17.30",
+		"svelte2tsx": "^0.7.53",
 		"ts-morph": "^27.0.2",
 		"tslib": "^2.8.1",
 		"tsx": "^4.21.0",
 		"typescript": "~5.9.3",
 		"vite": "^5.4.21",
-		"yaml": "^2.8.2"
+		"yaml": "^2.8.3"
 	},
 	"peerDependencies": {
 		"svelte": "^4.0.0 || ^5.0.0"
 	},
-	"packageManager": "pnpm@10.28.2"
+	"packageManager": "pnpm@10.33.0",
+	"devEngines": {
+		"runtime": {
+			"name": "node",
+			"version": ">=22.18.0"
+		}
+	}
 }

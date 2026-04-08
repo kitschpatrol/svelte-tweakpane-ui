@@ -77,14 +77,16 @@ async function getPackageInfo(): Promise<PackageInfo> {
 	return packageInfo
 }
 
-const packageInfo = await getPackageInfo()
-const parsedVersion = parse(packageInfo.version)
+export async function generateVersionJson(): Promise<string> {
+	const packageInfo = await getPackageInfo()
+	const parsedVersion = parse(packageInfo.version)
 
-const versionJson = {
-	date: new Date().toISOString(),
-	deployment: parsedVersion?.prerelease.length === 0 ? 'main' : 'preview',
-	git: await getGitInfo(),
-	package: packageInfo,
+	const versionJson = {
+		date: new Date().toISOString(),
+		deployment: parsedVersion?.prerelease.length === 0 ? 'main' : 'preview',
+		git: await getGitInfo(),
+		package: packageInfo,
+	}
+
+	return JSON.stringify(versionJson, undefined, 2)
 }
-
-console.log(JSON.stringify(versionJson, undefined, 2))

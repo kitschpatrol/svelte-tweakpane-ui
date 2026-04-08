@@ -8,10 +8,11 @@ import type {
 	PropertySignature,
 	StringLiteral,
 } from 'ts-morph'
+import { fix as eslintFix } from '@kitschpatrol/eslint-config'
+import { fix as prettierFix } from '@kitschpatrol/prettier-config'
 import { query as tsquery } from '@phenomnomnominal/tsquery'
-import { ESLint } from 'eslint'
 import { globSync } from 'glob'
-import { exec, spawn } from 'node:child_process'
+import { exec } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import { readPackageUp } from 'read-package-up'
@@ -25,7 +26,7 @@ function findFile(
 	suffix: string,
 	warn: boolean = true,
 ): string | undefined {
-	const files = globSync(`./${base}/**/${componentName}${suffix}`)
+	const files = globSync(`./${base}/**/${componentName}${suffix}`, { posix: true })
 	if (files.length === 0) {
 		if (warn) console.warn(`No files found for ${componentName}`)
 		return undefined
@@ -90,17 +91,31 @@ export function getSourceFilePath(componentName: string, warn: boolean = true): 
 }
 
 export function getAllLibraryFiles(): string[] {
-	return globSync('./src/lib/**/*').filter((file) => fs.statSync(file).isFile())
+	return globSync('./src/lib/**/*', { posix: true }).filter((file) => fs.statSync(file).isFile())
 }
 
 export function getAllLibraryComponentNames(): string[] {
 	// What happens with js components?
-	return globSync('./src/lib/**/*.svelte').map((file) => path.basename(file).replace('.svelte', ''))
+	return globSync('./src/lib/**/*.svelte', { posix: true }).map((file) =>
+		path.basename(file).replace('.svelte', ''),
+	)
+}
+
+const sourceFileCache = new Map<string, Node>()
+
+function getOrCreateSourceFile(filePath: string): Node {
+	let sourceFile = sourceFileCache.get(filePath)
+	if (!sourceFile) {
+		sourceFile = new Project().addSourceFileAtPath(filePath)
+		sourceFileCache.set(filePath, sourceFile)
+	}
+
+	return sourceFile
 }
 
 export function getExportedComponents(indexPath: string): Array<{ name: string; path: string }> {
 	return queryTree<StringLiteral>(
-		new Project().addSourceFileAtPath(indexPath),
+		getOrCreateSourceFile(indexPath),
 		'ExportDeclaration StringLiteral[value=/.+.svelte/]',
 	).map((node) => {
 		const cleanPath = node.getText().replaceAll(/["']/g, '')
@@ -115,14 +130,11 @@ export function getExportedComponents(indexPath: string): Array<{ name: string; 
 // Brittle
 export function getExportedJs(indexPath: string): Array<{ name: string; path: string }> {
 	return queryTree<StringLiteral>(
-		new Project().addSourceFileAtPath(indexPath),
+		getOrCreateSourceFile(indexPath),
 		'ExportDeclaration[isTypeOnly=false]:has(StringLiteral[value=/.+.js/])',
 	).map((node) => {
-		const name = queryTree<StringLiteral>(node, 'Identifier.name').at(0)!.getText()
-		const path = queryTree<StringLiteral>(node, 'StringLiteral')
-			.at(0)!
-			.getText()
-			.replaceAll(/["']/g, '')
+		const name = queryTree(node, 'Identifier.name').at(0)!.getText()
+		const path = queryTree(node, 'StringLiteral').at(0)!.getText().replaceAll(/["']/g, '')
 
 		return {
 			name,
@@ -133,6 +145,7 @@ export function getExportedJs(indexPath: string): Array<{ name: string; path: st
 
 /**
  * Wraps tsquery to return ts-morph Nodes
+ *
  * @see https://tsquery-playground.firebaseapp.com
  * @see https://astexplorer.net/
  */
@@ -148,10 +161,16 @@ export type PropNode = MethodSignature | PropertySignature
 
 /**
  * Get a prop node by name from a component definition file
- * @param source - either a string of source code, the name of a component with an existing definition file, or a Node
- * @param propertyName - optional name of a specific prop to return, happens at query level so might be more efficient than filtering the returned array
- * @param include - 'all' | 'commented' | 'uncommented' to filter the props returned by the presence of comments on the props
- * @returns an array of ts-morph Nodes representing the props meeting the argument criteria, or an empty array if none are found
+ *
+ * @param source - Either a string of source code, the name of a component with
+ *   an existing definition file, or a Node
+ * @param propertyName - Optional name of a specific prop to return, happens at
+ *   query level so might be more efficient than filtering the returned array
+ * @param include - 'all' | 'commented' | 'uncommented' to filter the props
+ *   returned by the presence of comments on the props
+ *
+ * @returns An array of ts-morph Nodes representing the props meeting the
+ *   argument criteria, or an empty array if none are found
  */
 export function getProp(
 	source: Node | string,
@@ -163,9 +182,14 @@ export function getProp(
 
 /**
  * Get all prop nodes from a component definition file
- * @param source - either a string of source code, the name of a component with an existing definition file, or a Node
- * @param include - 'all' | 'commented' | 'uncommented' to filter the props returned by the presence of comments on the props
- * @returns an array of ts-morph Nodes representing the props meeting the argument criteria, or an empty array if none are found
+ *
+ * @param source - Either a string of source code, the name of a component with
+ *   an existing definition file, or a Node
+ * @param include - 'all' | 'commented' | 'uncommented' to filter the props
+ *   returned by the presence of comments on the props
+ *
+ * @returns An array of ts-morph Nodes representing the props meeting the
+ *   argument criteria, or an empty array if none are found
  */
 export function getProps(
 	source: Node | string,
@@ -279,86 +303,16 @@ export async function getComponentExampleCodeFromSource(
 	return includeMarkdown ? wrappedComment : formattedComment
 }
 
-// TODO better to format and lint?
 export async function lintAndFormat(
 	code: string,
 	fileExtension: string = 'svelte',
-	formatParser: string = 'svelte',
 ): Promise<string> {
-	const lintedCode = await lint(code, fileExtension)
-	const lintedAndFormattedCode = await format(lintedCode, formatParser)
-	return lintedAndFormattedCode
+	const lintedCode = await eslintFix(code, fileExtension)
+	return format(lintedCode, fileExtension)
 }
 
-async function lint(code: string, fileExtension: string): Promise<string> {
-	// Create an instance of the linter
-	const eslint = new ESLint({
-		fix: true,
-		// TODO does this find the config?
-		// eslint-disable-next-line unicorn/no-null
-		overrideConfigFile: null,
-	})
-
-	let result: ESLint.LintResult | undefined
-	try {
-		;[result] = await eslint.lintText(code, {
-			filePath: `example.${fileExtension}`,
-		})
-	} catch (error) {
-		console.log(error)
-	}
-
-	// Output is undefined when there are no errors
-
-	return result?.output ?? code
-}
-
-export async function format(code: string, formatParser: string): Promise<string> {
-	// Much slower than the node api, but more consistently gets the right config
-	return new Promise((resolve, reject) => {
-		// Spawn Prettier process
-		const prettierProcess = spawn('prettier', [
-			'--plugin',
-			'prettier-plugin-svelte',
-			'--parser',
-			formatParser,
-			'--print-width',
-			'75',
-			'--use-tabs',
-			'false',
-		])
-
-		let formattedCode = ''
-		let errorOutput = ''
-
-		// Collect formatted code
-		prettierProcess.stdout.on('data', (data: Uint8Array) => {
-			formattedCode += data.toString()
-		})
-
-		// Collect error messages
-		prettierProcess.stderr.on('data', (data: Uint8Array) => {
-			errorOutput += data.toString()
-		})
-
-		// Handle process completion
-		prettierProcess.on('close', (code) => {
-			if (code === 0) {
-				resolve(formattedCode)
-			} else {
-				reject(new Error(`Prettier exited with code ${code}: ${errorOutput}`))
-			}
-		})
-
-		// Handle process errors (e.g., Prettier not found)
-		prettierProcess.on('error', (error) => {
-			reject(error)
-		})
-
-		// Write code to Prettier process and end input
-		prettierProcess.stdin.write(code)
-		prettierProcess.stdin.end()
-	})
+export async function format(code: string, fileType: string): Promise<string> {
+	return prettierFix(code, fileType, { printWidth: 75, useTabs: false })
 }
 
 export async function getLastUpdatedDate(filePath: string): Promise<Date | undefined> {

@@ -1,9 +1,11 @@
 {
-	"prettier.enable": true,
 	"[astro]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"[gitignore]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[ruby]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"[shellscript]": {
@@ -13,15 +15,18 @@
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"cSpell.enabled": true,
+	"cSpell.workspaceRootPath": ".",
 	"editor.codeActionsOnSave": {
-		"source.fixAll.ts": "explicit",
 		"source.fixAll.eslint": "explicit",
 		"source.fixAll.stylelint": "explicit",
+		"source.fixAll.ts": "explicit",
 		"source.organizeImports": "never"
 	},
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnSave": true,
 	"eslint.enable": true,
+	"eslint.runtime": "node",
+	"eslint.useFlatConfig": true,
 	"eslint.validate": [
 		"javascript",
 		"javascriptreact",
@@ -39,6 +44,17 @@
 		"xml",
 		"yaml"
 	],
+	"explorer.fileNesting.enabled": true,
+	"explorer.fileNesting.expand": false,
+	"explorer.fileNesting.patterns": {
+		".env": ".env.*, .template.env",
+		"*.js": "${basename}.ts.map, ${basename}.js.map, ${basename}.d.ts, ${basename}.d.ts.map, ${basename}.d.js.map",
+		"*.ts": "${basename}.ts.map, ${basename}.d.ts, ${basename}.d.ts.map",
+		"package.json": ".*.cjs, .*.cts, .*.js, .*.json, .*.json5, .*.jsonc, .*.mjs, .*.mts, .*.toml, .*.ts, .*.yaml, .*.yml, .*attributes, .*ignore, .*rc, .node-version, *config.cjs, *config.cts, *config.js, *config.json, *config.json5, *config.jsonc, *config.mjs, *config.mts, *config.toml, *config.ts, *config.yaml, *config.yml, tsconfig.*.json, lerna.json, netlify.toml, package-lock.json, pnpm*, skills-lock.json, turbo.json, vercel.json, workspace*, wrangler.toml, wrangler.json, wrangler.jsonc, yarn.lock, yarn*",
+		"readme.md": "authors*, backers*, changelog*, citation*, code_of_conduct*, contributing*, contributors*, copying*, credits*, governance*, history*, license*, maintainers*, release_notes*, security*, sponsors*"
+	},
+	"js/ts.tsdk.path": "node_modules/typescript/lib",
+	"js/ts.tsdk.promptToUseWorkspaceVersion": true,
 	"mdx.validate.ignoreLinks": ["/svelte-tweakpane-ui/**/*"],
 	"prettier.documentSelectors": [
 		"**/*.astro",
@@ -49,25 +65,9 @@
 		"**/.node-version",
 		"**/*.rb"
 	],
-	"stylelint.enable": true,
-	"stylelint.validate": ["css", "html", "svelte", "astro"],
-	"stylelint.configBasedir": ".",
+	"prettier.enable": true,
 	"rewrap.wrappingColumn": 75,
-	"explorer.fileNesting.enabled": true,
-	"explorer.fileNesting.expand": false,
-	"explorer.fileNesting.patterns": {
-		"*.js": "${basename}.ts.map, ${basename}.js.map, ${basename}.d.ts, ${basename}.d.ts.map, ${basename}.d.js.map",
-		"*.ts": "${basename}.ts.map, ${basename}.d.ts, ${basename}.d.ts.map",
-		".env": ".env.*, .template.env",
-		"package.json": ".*.cjs, .*.cts, .*.js, .*.json, .*.json5, .*.jsonc, .*.mjs, .*.mts, .*.toml, .*.ts, .*.yaml, .*.yml, .*ignore, .*rc, *config.cjs, *config.cts, *config.js, *config.json, *config.json5, *config.jsonc, *config.mjs, *config.mts, *config.toml, *config.ts, *config.yaml, *config.yml, lerna.json, netlify.toml, package-lock.json, pnpm*, turbo.json, vercel.json, workspace*, wrangler.toml, wrangler.json, wrangler.jsonc, yarn.lock, yarn*",
-		"readme.md": "authors*, backers*, changelog*, citation*, code_of_conduct*, contributing*, contributors*, copying*, credits*, governance*, history*, license*, maintainers*, release_notes*, security*, sponsors*"
-	},
-	"typescript.tsdk": "node_modules/typescript/lib",
-	"typescript.enablePromptUseWorkspaceTsdk": true,
-	"eslint.runtime": "node",
-	"eslint.useFlatConfig": true,
-	"cSpell.workspaceRootPath": ".",
-	"[ruby]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	}
+	"stylelint.configBasedir": ".",
+	"stylelint.enable": true,
+	"stylelint.validate": ["css", "html", "svelte", "astro"]
 }

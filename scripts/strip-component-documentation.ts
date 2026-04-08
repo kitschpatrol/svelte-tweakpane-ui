@@ -22,11 +22,13 @@ async function removeComponentBlock(filePath: string): Promise<void> {
 	}
 }
 
-const svelteFiles = globSync(`./dist/**/*.svelte`)
+export async function stripComponentDocumentation(): Promise<void> {
+	const svelteFiles = globSync(`./dist/**/*.svelte`, { posix: true })
 
-console.log(`Removing @component blocks from ${svelteFiles.length} Svelte files...`)
-console.log(`Documentation is preserved in .svelte.d.ts files.`)
+	console.log(`Removing @component blocks from ${svelteFiles.length} Svelte files...`)
+	console.log(`Documentation is preserved in .svelte.d.ts files.`)
 
-await Promise.all(svelteFiles.map(async (filePath) => removeComponentBlock(filePath)))
+	await Promise.all(svelteFiles.map(async (filePath) => removeComponentBlock(filePath)))
 
-console.log(`Done.`)
+	console.log(`Done.`)
+}

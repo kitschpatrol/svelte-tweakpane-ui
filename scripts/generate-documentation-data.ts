@@ -74,114 +74,115 @@ async function generateComponentData(
 	return false
 }
 
-// Main
-const components = getExportedComponents('./src/lib/index.ts')
-const destination = './docs/src/content/docs/docs/components'
-const extension = 'mdx'
+export async function generateDocumentationData(): Promise<void> {
+	const components = getExportedComponents('./src/lib/index.ts')
+	const destination = './docs/src/content/docs/docs/components'
+	const extension = 'mdx'
 
-console.log(`Generating documentation data for ${components.length} components...`)
+	console.log(`Generating documentation data for ${components.length} components...`)
 
-try {
-	await fs.access(destination)
-	console.log(`Removing existing component documentation data at "${destination}"...`)
-	await fs.rm(destination, { recursive: true })
-} catch {
-	// Directory doesn't exist, nothing to remove
+	try {
+		await fs.access(destination)
+		console.log(`Removing existing component documentation data at "${destination}"...`)
+		await fs.rm(destination, { recursive: true })
+	} catch {
+		// Directory doesn't exist, nothing to remove
+	}
+
+	const results = await Promise.all(
+		components.map(async ({ name, path: componentPath }) => {
+			//  TODO break out and pass in this config...
+			// Pass custom dynamic prop test cases to certain components
+			let testProps: ComponentDynamicPropTest[] | undefined
+
+			if (name === 'Pane') {
+				testProps = [
+					{
+						condition: {
+							position: 'draggable',
+						},
+						description: '`position="draggable"`',
+					},
+					{
+						condition: {
+							position: 'inline',
+						},
+						description: '`position="inline"`',
+					},
+					{
+						condition: {
+							position: 'fixed',
+						},
+						description: '`position="fixed"`',
+					},
+				]
+			}
+
+			if (name === 'Monitor') {
+				testProps = [
+					{
+						condition: {
+							value: 1,
+						},
+						description: '`value` is of type `number`',
+					},
+					{
+						condition: {
+							value: false,
+						},
+						description: '`value` is of type `boolean`',
+					},
+					{
+						condition: {
+							value: 'string',
+						},
+						description: '`value` is of type `string`',
+					},
+				]
+			}
+
+			if (name === 'Point') {
+				testProps = [
+					{
+						condition: {
+							value: '{[0, 0]}',
+						},
+						description: '`value` is 2D',
+					},
+					{
+						condition: {
+							value: '{[0, 0, 0]}',
+						},
+						description: '`value` is 3D',
+					},
+					{
+						condition: {
+							value: '{[0, 0, 0, 0]}',
+						},
+						description: '`value` is 4D',
+					},
+				]
+			}
+
+			const success = await generateComponentData(
+				name,
+				componentPath,
+				destination,
+				extension,
+				testProps,
+			)
+
+			if (!success) {
+				console.warn(`Issue generating component data for "${name}.svelte"`)
+			}
+
+			return success
+		}),
+	)
+
+	const totalComponentsGenerated = results.filter(Boolean).length
+
+	console.log(
+		`Done. Created ${totalComponentsGenerated} component documentation ${extension} files in "${destination}" .`,
+	)
 }
-
-const results = await Promise.all(
-	components.map(async ({ name, path: componentPath }) => {
-		//  TODO break out and pass in this config...
-		// Pass custom dynamic prop test cases to certain components
-		let testProps: ComponentDynamicPropTest[] | undefined
-
-		if (name === 'Pane') {
-			testProps = [
-				{
-					condition: {
-						position: 'draggable',
-					},
-					description: '`position="draggable"`',
-				},
-				{
-					condition: {
-						position: 'inline',
-					},
-					description: '`position="inline"`',
-				},
-				{
-					condition: {
-						position: 'fixed',
-					},
-					description: '`position="fixed"`',
-				},
-			]
-		}
-
-		if (name === 'Monitor') {
-			testProps = [
-				{
-					condition: {
-						value: 1,
-					},
-					description: '`value` is of type `number`',
-				},
-				{
-					condition: {
-						value: false,
-					},
-					description: '`value` is of type `boolean`',
-				},
-				{
-					condition: {
-						value: 'string',
-					},
-					description: '`value` is of type `string`',
-				},
-			]
-		}
-
-		if (name === 'Point') {
-			testProps = [
-				{
-					condition: {
-						value: '{[0, 0]}',
-					},
-					description: '`value` is 2D',
-				},
-				{
-					condition: {
-						value: '{[0, 0, 0]}',
-					},
-					description: '`value` is 3D',
-				},
-				{
-					condition: {
-						value: '{[0, 0, 0, 0]}',
-					},
-					description: '`value` is 4D',
-				},
-			]
-		}
-
-		const success = await generateComponentData(
-			name,
-			componentPath,
-			destination,
-			extension,
-			testProps,
-		)
-
-		if (!success) {
-			console.warn(`Issue generating component data for "${name}.svelte"`)
-		}
-
-		return success
-	}),
-)
-
-const totalComponentsGenerated = results.filter(Boolean).length
-
-console.log(
-	`Done. Created ${totalComponentsGenerated} component documentation ${extension} files in "${destination}" .`,
-)
