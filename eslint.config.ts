@@ -75,6 +75,7 @@ export default eslintConfig(
 		astro: {
 			overrides: {
 				'e18e/prefer-static-regex': 'off',
+				'import/no-unresolved': 'off',
 				'ts/no-unsafe-type-assertion': 'off',
 			},
 		},

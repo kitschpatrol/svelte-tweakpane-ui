@@ -8,18 +8,21 @@ import {
 
 // Leave this on
 const reformat = true
-const components = getExportedComponents('./src/lib/index.ts')
 
-fs.mkdirSync('./src/examples/components', { recursive: true })
+export async function generateKitExamples(): Promise<void> {
+	const components = getExportedComponents('./src/lib/index.ts')
 
-await Promise.all(
-	components.map(async ({ name }) => {
-		const code = await getComponentExampleCodeFromSource(name, false)
-		if (code) {
-			const codeWithFixedImport = code.replace(/'svelte-tweakpane-ui/, "'$lib")
-			// eslint-disable-next-line ts/no-unnecessary-condition
-			const formattedCode = reformat ? await lintAndFormat(codeWithFixedImport) : code
-			fs.writeFileSync(`./src/examples/components/${name}Example.svelte`, formattedCode)
-		}
-	}),
-)
+	fs.mkdirSync('./src/examples/components', { recursive: true })
+
+	await Promise.all(
+		components.map(async ({ name }) => {
+			const code = await getComponentExampleCodeFromSource(name, false)
+			if (code) {
+				const codeWithFixedImport = code.replace(/'svelte-tweakpane-ui/, "'$lib")
+				// eslint-disable-next-line ts/no-unnecessary-condition
+				const formattedCode = reformat ? await lintAndFormat(codeWithFixedImport) : code
+				fs.writeFileSync(`./src/examples/components/${name}Example.svelte`, formattedCode)
+			}
+		}),
+	)
+}
