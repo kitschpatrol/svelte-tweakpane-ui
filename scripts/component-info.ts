@@ -15,8 +15,8 @@ import {
 } from '../node_modules/svelte-language-server/dist/src/utils.js'
 
 /**
- * Records of jsdoc tag names (without the @) and their values
- * e.g. { default: "`256`" }
+ * Records of jsdoc tag names (without the @) and their values e.g. { default:
+ * "`256`" }
  */
 export type JsDocRecord = Record<string, string>
 
@@ -50,10 +50,6 @@ export type ComponentInfo = {
 	slots: ComponentPartInfo
 }
 
-// Function sortPropsByName(props: ComponentPartInfo): ComponentPartInfo {
-// 	return props.sort((a, b) => a.name.localeCompare(b.name));
-// }
-
 function jsDocumentTagInfoToJsDocumentRecord(jsDocumentTags: ts.JSDocTagInfo[]): JsDocRecord {
 	const result: JsDocRecord = {}
 	for (const tag of jsDocumentTags) {
@@ -61,6 +57,33 @@ function jsDocumentTagInfoToJsDocumentRecord(jsDocumentTags: ts.JSDocTagInfo[]):
 	}
 
 	return result
+}
+
+// Shared language server infrastructure to avoid creating a new TypeScript
+// program for every component. Lazily initialized on first use.
+const testDirectory = '.'
+let sharedDocumentManager: DocumentManager | undefined
+let sharedResolver: LSAndTSDocResolver | undefined
+
+function getSharedResolver(): {
+	documentManager: DocumentManager
+	resolver: LSAndTSDocResolver
+} {
+	if (!sharedDocumentManager || !sharedResolver) {
+		sharedDocumentManager = new DocumentManager(
+			// eslint-disable-next-line ts/no-unsafe-argument
+			(textDocument) => new Document(textDocument.uri, textDocument.text),
+		)
+
+		sharedResolver = new LSAndTSDocResolver(
+			sharedDocumentManager,
+			[pathToUrl(testDirectory)],
+			new LSConfigManager(),
+			{ tsconfigPath: path.join(path.resolve(testDirectory), 'tsconfig.info.json') },
+		)
+	}
+
+	return { documentManager: sharedDocumentManager, resolver: sharedResolver }
 }
 
 // Alt approach to get cleaner types... use the static approach for the basics,
@@ -91,21 +114,8 @@ async function getStaticComponentInfo(componentPath: string): Promise<ComponentI
 async function getStaticComponentInfoInternal(
 	componentPath: string,
 ): Promise<ComponentInfo | undefined> {
-	// Set up language server
-	const testDirectory = '.'
 	const resolvedPath = path.join(testDirectory, componentPath)
-
-	const documentManager = new DocumentManager(
-		// eslint-disable-next-line ts/no-unsafe-argument
-		(textDocument) => new Document(textDocument.uri, textDocument.text),
-	)
-
-	const lsAndTsDocumentResolver = new LSAndTSDocResolver(
-		documentManager,
-		[pathToUrl(testDirectory)],
-		new LSConfigManager(),
-		{ tsconfigPath: path.join(path.resolve(testDirectory), 'tsconfig.json') },
-	)
+	const { documentManager, resolver } = getSharedResolver()
 
 	const fileText = ts.sys.readFile(resolvedPath)
 	if (fileText === undefined) {
@@ -117,7 +127,7 @@ async function getStaticComponentInfoInternal(
 		uri: pathToUrl(path.resolve(resolvedPath)),
 	})
 
-	const { lang, tsDoc } = await lsAndTsDocumentResolver.getLSAndTSDoc(document)
+	const { lang, tsDoc } = await resolver.getLSAndTSDoc(document)
 	const program = lang.getProgram()
 	if (!program) return undefined
 
@@ -152,7 +162,7 @@ async function getStaticComponentInfoInternal(
 		slots: getInfoFor('$$slot_def', classType, typeChecker), // Natural sorting...
 	}
 
-	await lsAndTsDocumentResolver.deleteSnapshot(tsDoc.filePath)
+	await resolver.deleteSnapshot(tsDoc.filePath)
 	return results
 }
 
@@ -218,20 +228,7 @@ async function getDynamicComponentProps(
 	componentPath: string,
 	testProps: ComponentPropCondition,
 ): Promise<ComponentPartInfo> {
-	// Set up language server
-	const testDirectory = '.'
-
-	const documentManager = new DocumentManager(
-		// eslint-disable-next-line ts/no-unsafe-argument
-		(textDocument) => new Document(textDocument.uri, textDocument.text),
-	)
-
-	const lsAndTsDocumentResolver = new LSAndTSDocResolver(
-		documentManager,
-		[pathToUrl(testDirectory)],
-		new LSConfigManager(),
-		{ tsconfigPath: path.join(path.resolve(testDirectory), 'tsconfig.json') },
-	)
+	const { documentManager, resolver } = getSharedResolver()
 
 	const componentName = componentPath.split('/').pop()!.replace('.svelte', '')
 	const testComponentSourceRows = [
@@ -248,7 +245,7 @@ async function getDynamicComponentProps(
 		uri: pathToUrl(path.resolve(`.in-memory-${componentName}-${nanoid()}.svelte`)),
 	})
 
-	const { lsContainer, tsDoc } = await lsAndTsDocumentResolver.getLSAndTSDoc(document)
+	const { lsContainer, tsDoc } = await resolver.getLSAndTSDoc(document)
 
 	// Ensure the virtual document is added to the language service program
 	lsContainer.openVirtualDocument(document)
@@ -296,7 +293,7 @@ async function getDynamicComponentProps(
 			}
 		}) ?? []
 
-	await lsAndTsDocumentResolver.deleteSnapshot(tsDoc.filePath)
+	await resolver.deleteSnapshot(tsDoc.filePath)
 	return results
 }
 
