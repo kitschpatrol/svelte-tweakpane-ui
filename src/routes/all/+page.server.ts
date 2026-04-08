@@ -3,7 +3,7 @@ import { glob } from 'glob'
 import type { PageServerLoad } from './$types'
 
 export const load: PageServerLoad = async () => {
-	let examples = await glob('./src/examples/**/*.svelte')
+	let examples = await glob('./src/examples/**/*.svelte', { posix: true })
 	if (examples.length === 0) error(404, 'Component not found')
 
 	examples = examples.toSorted((a, b) => a.localeCompare(b))

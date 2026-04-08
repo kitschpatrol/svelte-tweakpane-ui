@@ -26,7 +26,7 @@ function findFile(
 	suffix: string,
 	warn: boolean = true,
 ): string | undefined {
-	const files = globSync(`./${base}/**/${componentName}${suffix}`)
+	const files = globSync(`./${base}/**/${componentName}${suffix}`, { posix: true })
 	if (files.length === 0) {
 		if (warn) console.warn(`No files found for ${componentName}`)
 		return undefined

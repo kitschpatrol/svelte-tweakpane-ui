@@ -26,7 +26,7 @@ export function componentMenu(
 
 	// Would prefer to use `astro:content` here, but there's a chicken / egg problem
 	// since `astro:content` depends on the config to know where to look for content
-	globSync('src/content/docs/docs/components/*.mdx').map((file) => {
+	globSync('src/content/docs/docs/components/*.mdx', { posix: true }).map((file) => {
 		const { data } = matter.read(file)
 
 		let currentMenu = menu
