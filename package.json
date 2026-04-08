@@ -196,7 +196,7 @@
 		"kit-dev": " pnpm run kit-examples && vite dev",
 		"kit-preview": "vite preview",
 		"lint": "ksc lint --skip repo && svelte-kit sync && svelte-check --tsconfig ./tsconfig.build.json",
-		"release": "pnpm run build && bumpp --commit 'Release: %s' && NPM_AUTH_TOKEN=$(op read 'op://Personal/npm/token') && pnpm publish --ignore-scripts",
+		"release": "pnpm run build && bumpp --preid preview --commit 'Release: %s' && NPM_AUTH_TOKEN=$(op read 'op://Personal/npm/token') && pnpm publish --tag preview --ignore-scripts",
 		"rewrap": "rewrap -i --column 100 `find src \\( -name '*.svelte' -o -name '*.ts'  -o -name '*.html' \\) -type f | grep -v src/examples`",
 		"test": "pnpm run --sequential /^test:/",
 		"test:integration": "playwright test"
@@ -218,7 +218,7 @@
 		"nanoid": "^5.1.7",
 		"svelte-persisted-store": "0.12.0",
 		"tweakpane": "4.0.5",
-		"tweakpane-plugin-color-plus": "0.2.0"
+		"tweakpane-plugin-color-plus": "0.3.0"
 	},
 	"devDependencies": {
 		"@kitschpatrol/shared-config": "^7.2.0",
