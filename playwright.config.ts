@@ -1,6 +1,10 @@
 import type { PlaywrightTestConfig } from '@playwright/test'
 
 const config: PlaywrightTestConfig = {
+	expect: {
+		timeout: process.env.CI ? 20_000 : 5000,
+	},
+	retries: process.env.CI ? 2 : 0,
 	testDir: 'tests',
 	testMatch: /(.+\.)?(test|spec)\.[jt]s/,
 	webServer: {

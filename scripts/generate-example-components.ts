@@ -14,7 +14,7 @@ export async function generateExampleComponents(): Promise<void> {
 	// eslint-disable-next-line node/no-unsupported-features/node-builtins
 	await fs.cp('./src/examples', './docs/src/examples', { recursive: true })
 
-	const files = globSync('./docs/src/examples/**/*.svelte')
+	const files = globSync('./docs/src/examples/**/*.svelte', { posix: true })
 
 	await Promise.all(
 		files.map(async (filePath) => {

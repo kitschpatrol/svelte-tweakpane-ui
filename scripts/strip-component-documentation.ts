@@ -23,7 +23,7 @@ async function removeComponentBlock(filePath: string): Promise<void> {
 }
 
 export async function stripComponentDocumentation(): Promise<void> {
-	const svelteFiles = globSync(`./dist/**/*.svelte`)
+	const svelteFiles = globSync(`./dist/**/*.svelte`, { posix: true })
 
 	console.log(`Removing @component blocks from ${svelteFiles.length} Svelte files...`)
 	console.log(`Documentation is preserved in .svelte.d.ts files.`)
