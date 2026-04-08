@@ -25,6 +25,7 @@
 
 [![NPM Package svelte-tweakpane-ui](https://img.shields.io/npm/v/svelte-tweakpane-ui.svg)](https://npmjs.com/package/svelte-tweakpane-ui)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI](https://github.com/kitschpatrol/svelte-tweakpane-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/kitschpatrol/svelte-tweakpane-ui/actions/workflows/ci.yml)
 [![MadeWithSvelte](https://madewithsvelte.com/storage/repo-shields/4860-shield.svg)](https://madewithsvelte.com/p/svelte-tweakpane-ui/shield-link)
 [![Documentation](https://img.shields.io/badge/-Documentation-ffdd00?logo=readthedocs&logoColor=222222)](https://kitschpatrol.com/svelte-tweakpane-ui)
 
