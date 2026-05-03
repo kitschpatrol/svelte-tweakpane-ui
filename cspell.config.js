@@ -1,3 +1,3 @@
 import { cspellConfig } from '@kitschpatrol/cspell-config'
 
-export default cspellConfig({ words: ['Titleless'] })
+export default cspellConfig({ words: ['onwarn', 'Titleless'] })
