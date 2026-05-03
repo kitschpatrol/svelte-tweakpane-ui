@@ -20,28 +20,33 @@
 
 	/**
 	 * Text inside of the button.
+	 *
 	 * @default `'Button'`
 	 */
 	export let title: string = 'Button'
 
 	/**
 	 * Text displayed next to the button.
+	 *
 	 * @default `undefined`
 	 */
 	export let label: string | undefined = undefined
 
 	/**
 	 * Prevent interactivity and gray out the control.
+	 *
 	 * @default `false`
 	 */
 	export let disabled: boolean = false
 
 	/**
 	 * Custom color scheme.
-	 * @default `undefined`  \
+	 *
 	 * Inherits default Tweakpane theme equivalent to
 	 * `ThemeUtils.presets.standard`, or the theme set with
 	 * `setGlobalDefaultTheme()`.)
+	 *
+	 * @default `undefined`
 	 */
 	export let theme: Theme | undefined = undefined
 
@@ -52,6 +57,7 @@
 	type $$Events = {
 		/**
 		 * Fires when the button is clicked.
+		 *
 		 * @event
 		 */
 		click: ButtonClickEvent
@@ -65,7 +71,9 @@
 	let index: number | undefined
 
 	function create() {
-		if (button) button.dispose()
+		if (button) {
+			button.dispose()
+		}
 
 		button = $parentStore?.addButton({
 			disabled,

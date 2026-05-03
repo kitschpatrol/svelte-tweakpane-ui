@@ -23,45 +23,54 @@
 	/**
 	 * Blade configuration exposing Tweakpane's internal
 	 * [`BladeParams`](https://tweakpane.github.io/docs/api/interfaces/BaseBladeParams.html).
-	 *
 	 */
 	export let options: U
 
 	/**
 	 * Prevent interactivity and gray out the control.
+	 *
 	 * @default `false`
 	 */
 	export let disabled: boolean = false
 
 	/**
 	 * Custom color scheme.
-	 * @default `undefined`  \
-	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
-	 * set with `setGlobalDefaultTheme()`.
+	 *
+	 * If undefined, inherits default Tweakpane theme equivalent to
+	 * `ThemeUtils.presets.standard`, or the theme set with
+	 * `setGlobalDefaultTheme()`.
+	 *
+	 * @default `undefined`
 	 */
 	export let theme: Theme | undefined = undefined
 
 	/**
 	 * Reference to internal Tweakpane
-	 * [`BladeApi`](https://tweakpane.github.io/docs/api/classes/BladeApi.html) for this blade.
+	 * [`BladeApi`](https://tweakpane.github.io/docs/api/classes/BladeApi.html)
+	 * for this blade.
 	 *
-	 * This property is exposed for advanced use cases only, such as when implementing convenience
-	 * components wrapping `<Blade>`'s functionality.
+	 * This property is exposed for advanced use cases only, such as when
+	 * implementing convenience components wrapping `<Blade>`'s functionality.
 	 *
-	 * Direct manipulation of Tweakpane's internals can break _Svelte Tweakpane UI_ abstractions.
+	 * Direct manipulation of Tweakpane's internals can break _Svelte Tweakpane
+	 * UI_ abstractions.
+	 *
 	 * @bindable
 	 * @readonly
 	 */
 	export let ref: undefined | V = undefined
 
 	/**
-	 * Imported Tweakpane `TpPluginBundle` (aliased as `Plugin`) module to automatically register in
-	 * the `<Blade>`'s containing `<Pane>`.
+	 * Imported Tweakpane `TpPluginBundle` (aliased as `Plugin`) module to
+	 * automatically register in the `<Blade>`'s containing `<Pane>`.
 	 *
-	 * This property is exposed for advanced use cases only, such as when implementing convenience
-	 * components wrapping `<Blade>`'s functionality in combination with a Tweakpane plugin.
+	 * This property is exposed for advanced use cases only, such as when
+	 * implementing convenience components wrapping `<Blade>`'s functionality in
+	 * combination with a Tweakpane plugin.
 	 *
-	 * Direct manipulation of Tweakpane's internals can break _Svelte Tweakpane UI_ abstractions.
+	 * Direct manipulation of Tweakpane's internals can break _Svelte Tweakpane
+	 * UI_ abstractions.
+	 *
 	 * @default `undefined`
 	 */
 	export let plugin: Plugin | undefined = undefined
@@ -76,7 +85,9 @@
 
 	function create() {
 		// Must destroy to allow reactive parameters
-		if (_ref) _ref.dispose()
+		if (_ref) {
+			_ref.dispose()
+		}
 
 		if (plugin !== undefined) {
 			// Calls function provided by context on the containing pane
@@ -84,6 +95,7 @@
 		}
 
 		// Last one wins
+		// eslint-disable-next-line ts/no-unnecessary-type-assertion
 		_ref = $parentStore.addBlade({
 			index,
 			...options,

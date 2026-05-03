@@ -23,22 +23,28 @@
 		value: number
 		/**
 		 * Minimum bound when `graph` is true.
+		 *
 		 * @default `0`
 		 */
 		min?: number
 		/**
 		 * Maximum bound when `graph` is true.
+		 *
 		 * @default `100`
 		 */
 		max?: number
 		/**
-		 * A function to customize the number's string representation (e.g. rounding, etc.).
-		 * @default `undefined`  \
-		 * Normal `.toString()` formatting.
+		 * A function to customize the number's string representation (e.g.
+		 * rounding, etc.).
+		 *
+		 * If undefined, normal `.toString()` formatting is used.
+		 *
+		 * @default `undefined`
 		 */
 		format?: (value: number) => string
 		/**
 		 * Display a graph of the value's changes over time.
+		 *
 		 * @default `false`
 		 */
 		graph?: boolean

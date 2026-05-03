@@ -42,13 +42,15 @@
 		/**
 		 * The cubic bezier value to control.
 		 *
-		 * Object value type is a convenience added by _Svelte Tweakpane UI_, and is not part of the
-		 * original `@tweakpane/plugin-essentials` API.
+		 * Object value type is a convenience added by _Svelte Tweakpane UI_, and is
+		 * not part of the original `@tweakpane/plugin-essentials` API.
+		 *
 		 * @bindable
 		 */
 		value: CubicBezierValue
 		/**
 		 * Text displayed next to the control.
+		 *
 		 * @default `undefined`
 		 */
 		label?: string
@@ -64,10 +66,14 @@
 		/**
 		 * Fires when `value` changes.
 		 *
-		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 * _This event is provided for advanced use cases. It's usually preferred to
+		 * bind to the `value` prop instead._
 		 *
-		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
-		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 * The `event.details` payload includes a copy of the value and an `origin`
+		 * field to distinguish between user-interactive changes (`internal`) and
+		 * changes resulting from programmatic manipulation of the `value`
+		 * (`external`).
+		 *
 		 * @extends ValueChangeEvent
 		 * @event
 		 */

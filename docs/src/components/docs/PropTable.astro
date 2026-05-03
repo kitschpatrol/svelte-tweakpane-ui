@@ -18,12 +18,18 @@ function cleanType(type: string): string {
 }
 
 function cleanDefault(defaultValue: string | undefined): string {
-	if (defaultValue === undefined) return ''
+	if (defaultValue === undefined) {
+		return ''
+	}
+
 	return marked.parseInline(defaultValue) as string
 }
 
 function cleanExample(exampleValue: string | undefined): string {
-	if (exampleValue === undefined) return ''
+	if (exampleValue === undefined) {
+		return ''
+	}
+
 	return marked.parseInline(exampleValue) as string
 }
 

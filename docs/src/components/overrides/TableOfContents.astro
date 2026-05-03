@@ -24,19 +24,23 @@ function tocItemForHeading(heading: string, depth: number, children: any[] = [])
 
 const localRoute = Astro.locals.starlightRoute
 if (componentData && localRoute.toc) {
-	if (componentData.jsDocs?.example)
+	if (componentData.jsDocs?.example) {
 		localRoute.toc.items.push(
 			tocItemForHeading('Example', 2, [tocItemForHeading('Demo', 3), tocItemForHeading('Code', 3)]),
 		)
+	}
 
-	if (componentData.props.length > 0)
+	if (componentData.props.length > 0) {
 		localRoute.toc.items.push(tocItemForHeading('Props', 2, propHeadings(allProps(componentData))))
+	}
 
-	if (componentData.events.length > 0)
+	if (componentData.events.length > 0) {
 		localRoute.toc.items.push(tocItemForHeading('Events', 2, propHeadings(componentData.events)))
+	}
 
-	if (componentData.slots.length > 0)
+	if (componentData.slots.length > 0) {
 		localRoute.toc.items.push(tocItemForHeading('Slots', 2, propHeadings(componentData.slots)))
+	}
 }
 ---
 

@@ -31,19 +31,21 @@
 	> & {
 		/**
 		 * Value of the selected `options` item.
+		 *
 		 * @bindable
 		 */
 		value: T
 		/**
 		 * Text displayed next to list.
+		 *
 		 * @default `undefined`
 		 */
 		label?: string
 		/**
 		 * A collection of options to select from.
 		 *
-		 * The arbitrary array list type is a convenience addition to to the vanilla JS Tweakpane
-		 * API.
+		 * The arbitrary array list type is a convenience addition to to the vanilla
+		 * JS Tweakpane API.
 		 */
 		options: ListOptions<T>
 	}
@@ -58,10 +60,14 @@
 		/**
 		 * Fires when `value` changes.
 		 *
-		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 * _This event is provided for advanced use cases. It's usually preferred to
+		 * bind to the `value` prop instead._
 		 *
-		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
-		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 * The `event.details` payload includes a copy of the value and an `origin`
+		 * field to distinguish between user-interactive changes (`internal`) and
+		 * changes resulting from programmatic manipulation of the `value`
+		 * (`external`).
+		 *
 		 * @extends ValueChangeEvent
 		 * @event
 		 */

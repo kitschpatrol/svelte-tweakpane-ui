@@ -9,25 +9,31 @@
 
 	type $$Props = ComponentProps<Blade<T, U>> & {
 		/**
-		 * DOM class name of the button used to expand and collapse the blade's picker.
+		 * DOM class name of the button used to expand and collapse the blade's
+		 * picker.
+		 *
 		 * @default `undefined`
 		 */
 		buttonClass?: string
 		/**
 		 * Expand or collapse the blade's picker.
+		 *
 		 * @default `true`
 		 * @bindable
 		 */
 		expanded?: boolean
 		/**
 		 * The style of value "picker" to use in the blade.
+		 *
 		 * @default `'popup'`
 		 */
 		picker?: 'inline' | 'popup'
 		/**
-		 * Allow users to interactively expand / contract the value picker by clicking its icon.
+		 * Allow users to interactively expand / contract the value picker by
+		 * clicking its icon.
 		 *
 		 * Most useful when `picker` is `inline`.
+		 *
 		 * @default `true`
 		 */
 		userExpandable?: boolean

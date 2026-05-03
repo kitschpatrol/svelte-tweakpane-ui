@@ -24,7 +24,7 @@
 }) -->
 
 [![NPM Package svelte-tweakpane-ui](https://img.shields.io/npm/v/svelte-tweakpane-ui.svg)](https://npmjs.com/package/svelte-tweakpane-ui)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/mit/)
 [![CI](https://github.com/kitschpatrol/svelte-tweakpane-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/kitschpatrol/svelte-tweakpane-ui/actions/workflows/ci.yml)
 [![MadeWithSvelte](https://madewithsvelte.com/storage/repo-shields/4860-shield.svg)](https://madewithsvelte.com/p/svelte-tweakpane-ui/shield-link)
 [![Documentation](https://img.shields.io/badge/-Documentation-ffdd00?logo=readthedocs&logoColor=222222)](https://kitschpatrol.com/svelte-tweakpane-ui)
@@ -166,11 +166,15 @@ Additional acknowledgments are listed [on the documentation site](https://kitsch
 
 ## Contributing
 
-[Issues](https://github.com/kitschpatrol/svelte-tweakpane-ui/issues) and pull requests are welcome.
+[Issues](https://github.com/kitschpatrol/svelte-tweakpane-ui/issues) are welcome and appreciated.
+
+Please open an issue to discuss changes before submitting a pull request. Unsolicited PRs (especially AI-generated ones) are unlikely to be merged.
+
+This repository uses [@kitschpatrol/shared-config](https://github.com/kitschpatrol/shared-config) (via its `ksc` CLI) for linting and formatting, plus [MDAT](https://github.com/kitschpatrol/mdat) for readme placeholder expansion.
 
 ## License
 
-[MIT](license.txt) © Eric Mika
+[MIT](license.txt) © [Eric Mika](https://ericmika.com)
 
 <!-- /footer -->
 

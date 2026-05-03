@@ -13,14 +13,17 @@
 	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {
 		/**
 		 * A `number` value to control.
+		 *
 		 * @bindable
 		 */
 		value: number
 		/**
 		 * The amount of the value to change per pixel of movement.
-		 * @default `undefined`  \
-		 * [Dynamic based on magnitude of
+		 *
+		 * If undefined, value is dynamic based on [magnitude of
 		 * `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54).
+		 *
+		 * @default `undefined`
 		 */
 		amount?: number
 	}
@@ -36,10 +39,14 @@
 		/**
 		 * Fires when `value` changes.
 		 *
-		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 * _This event is provided for advanced use cases. It's usually preferred to
+		 * bind to the `value` prop instead._
 		 *
-		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
-		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 * The `event.details` payload includes a copy of the value and an `origin`
+		 * field to distinguish between user-interactive changes (`internal`) and
+		 * changes resulting from programmatic manipulation of the `value`
+		 * (`external`).
+		 *
 		 * @extends ValueChangeEvent
 		 * @event
 		 */

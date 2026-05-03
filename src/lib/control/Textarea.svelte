@@ -18,16 +18,19 @@
 	> & {
 		/**
 		 * A `string` value to control.
+		 *
 		 * @bindable
 		 */
 		value: string
 		/**
 		 * Whether to provide live updates to the bound `value` on every keystroke.
+		 *
 		 * @default `true`
 		 */
 		live?: boolean
 		/**
 		 * Placeholder text to display when the `value` is empty.
+		 *
 		 * @default `'Enter text here'`
 		 */
 		placeholder?: string
@@ -35,6 +38,7 @@
 		 * The number of lines of text to display.
 		 *
 		 * If lines of input exceed this value, then the text area will scroll.
+		 *
 		 * @default `3`
 		 */
 		rows?: number
@@ -52,10 +56,14 @@
 		/**
 		 * Fires when `value` changes.
 		 *
-		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 * _This event is provided for advanced use cases. It's usually preferred to
+		 * bind to the `value` prop instead._
 		 *
-		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
-		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 * The `event.details` payload includes a copy of the value and an `origin`
+		 * field to distinguish between user-interactive changes (`internal`) and
+		 * changes resulting from programmatic manipulation of the `value`
+		 * (`external`).
+		 *
 		 * @extends ValueChangeEvent
 		 * @event
 		 */

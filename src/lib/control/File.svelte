@@ -24,6 +24,7 @@
 	> & {
 		/**
 		 * File data, or `undefined` to clear the file input.
+		 *
 		 * @default `undefined`
 		 * @bindable
 		 */
@@ -31,18 +32,21 @@
 
 		/**
 		 * Array of valid file extensions.
+		 *
 		 * @default Any file extension
 		 */
 		extensions?: string[] | undefined
 
 		/**
 		 * String shown when the user tries to upload an invalid filetype.
+		 *
 		 * @default `'Unaccepted file type.'`
 		 */
 		invalidExtensionMessage?: string | undefined
 
 		/**
 		 * Height of the file input drop zone, in rows.
+		 *
 		 * @default `3`
 		 */
 		rows?: number | undefined
@@ -59,10 +63,14 @@
 		/**
 		 * Fires when `value` changes.
 		 *
-		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 * _This event is provided for advanced use cases. It's usually preferred to
+		 * bind to the `value` prop instead._
 		 *
-		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
-		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 * The `event.details` payload includes a copy of the value and an `origin`
+		 * field to distinguish between user-interactive changes (`internal`) and
+		 * changes resulting from programmatic manipulation of the `value`
+		 * (`external`).
+		 *
 		 * @extends ValueChangeEvent
 		 * @event
 		 */

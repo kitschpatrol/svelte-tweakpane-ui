@@ -14,10 +14,15 @@ async function removeComponentBlock(filePath: string): Promise<void> {
 
 	if (fileContent === updatedContent) {
 		// eslint-disable-next-line ts/no-unnecessary-condition
-		if (verbose) console.log(`No @component comment found in ${filePath}`)
+		if (verbose) {
+			console.log(`No @component comment found in ${filePath}`)
+		}
 	} else {
 		// eslint-disable-next-line ts/no-unnecessary-condition
-		if (verbose) console.log(`Stripped @component comment from ${filePath}`)
+		if (verbose) {
+			console.log(`Stripped @component comment from ${filePath}`)
+		}
+
 		await writeFile(filePath, updatedContent, 'utf8')
 	}
 }

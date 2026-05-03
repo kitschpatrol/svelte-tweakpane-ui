@@ -23,15 +23,19 @@
 
 	/**
 	 * Custom color scheme.
-	 * @default `undefined`  \
-	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
-	 * set with `setGlobalDefaultTheme()`.
+	 *
+	 * If undefined, inherits default Tweakpane theme equivalent to
+	 * `ThemeUtils.presets.standard`, or the theme set with
+	 * `setGlobalDefaultTheme()`.
+	 *
+	 * @default `undefined`
 	 */
 	export let theme: Theme | undefined = undefined
 
 	/**
-	 * Transforms keys into more pleasant control labels (e.g. capitalization and spaces in lieu of
-	 * camelCase, kebab-case, etc.)
+	 * Transforms keys into more pleasant control labels (e.g. capitalization and
+	 * spaces in lieu of camelCase, kebab-case, etc.)
+	 *
 	 * @default `true`
 	 */
 	export let prettyLabels: boolean = true
@@ -39,8 +43,9 @@
 	/**
 	 * Object to create an automatic set of Tweakpane controls for.
 	 *
-	 * Keys will be used as labels, and a (reasonably) appropriate Tweakpane control will be used
-	 * for each value's type.
+	 * Keys will be used as labels, and a (reasonably) appropriate Tweakpane
+	 * control will be used for each value's type.
+	 *
 	 * @bindable
 	 */
 	export let object: BindingObject
@@ -51,10 +56,14 @@
 		/**
 		 * Fires when a value in the `object` changes.
 		 *
-		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `object` prop instead._
+		 * _This event is provided for advanced use cases. It's usually preferred to
+		 * bind to the `object` prop instead._
 		 *
-		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
-		 * and changes resulting from programmatic manipulation of the `object` (`external`).
+		 * The `event.details` payload includes a copy of the value and an `origin`
+		 * field to distinguish between user-interactive changes (`internal`) and
+		 * changes resulting from programmatic manipulation of the `object`
+		 * (`external`).
+		 *
 		 * @extends ValueChangeEvent
 		 * @event
 		 */
@@ -74,7 +83,9 @@
 	}
 
 	function prettify(value: string, active: boolean = true) {
-		if (!active) return value
+		if (!active) {
+			return value
+		}
 
 		// TODO title case would be nicer... Replace underscores, hyphens, and camel case with
 		// spaces, and capitalize the first letter of each word

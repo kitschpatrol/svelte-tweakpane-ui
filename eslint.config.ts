@@ -2,9 +2,10 @@ import type { Rules } from '@kitschpatrol/eslint-config'
 import { eslintConfig, generatePerfectionistSortConfig } from '@kitschpatrol/eslint-config'
 
 /**
- * This completely overrides the defaults provided in \@kitschpatrol/shared-config
- * It is clunky and duplicative, but is the only way to ensure consistent
- * sorting of props across both the source code and documentation.
+ * This completely overrides the defaults provided in
+ * `@kitschpatrol/shared-config` It is clunky and duplicative, but is the only
+ * way to ensure consistent sorting of props across both the source code and
+ * documentation.
  */
 const perfectionistSortConfig = [
 	['min', 'max'],

@@ -11,14 +11,17 @@
 	/**
 	 * Text in folder title bar.
 	 *
-	 * Unlike a `<Pane>`, a `<Folder>`'s title bar is always visible and the title is always shown.
-	 * It can be set to an empty string if you want an unadorned title bar.
+	 * Unlike a `<Pane>`, a `<Folder>`'s title bar is always visible and the title
+	 * is always shown. It can be set to an empty string if you want an unadorned
+	 * title bar.
+	 *
 	 * @default `'Folder'`
 	 */
 	export let title: string = 'Folder'
 
 	/**
 	 * Prevent interactivity and gray out the control.
+	 *
 	 * @default `false`
 	 */
 	export let disabled: boolean = false
@@ -27,22 +30,28 @@
 	 * Expand or collapse folder.
 	 *
 	 * When bound it will indicate whether the folder is expanded or collapsed.
+	 *
 	 * @default `true`
 	 * @bindable
 	 */
 	export let expanded: boolean = true
 
 	/**
-	 * Allow the user to be collapse and expand the folder by clicking its title bar.
+	 * Allow the user to be collapse and expand the folder by clicking its title
+	 * bar.
+	 *
 	 * @default `true`
 	 */
 	export let userExpandable: boolean = true
 
 	/**
 	 * Custom color scheme.
-	 * @default `undefined`  \
-	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
-	 * set with `setGlobalDefaultTheme()`.
+	 *
+	 * If undefined, inherits default Tweakpane theme equivalent to
+	 * `ThemeUtils.presets.standard`, or the theme set with
+	 * `setGlobalDefaultTheme()`.
+	 *
+	 * @default `undefined`
 	 */
 	export let theme: Theme | undefined = undefined
 

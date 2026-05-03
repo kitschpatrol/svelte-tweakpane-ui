@@ -93,7 +93,10 @@ async function run(command: string): Promise<void> {
 type Step = (() => Promise<void> | void) | Promise<void> | string
 
 async function resolve(step: Step): Promise<void> {
-	if (typeof step === 'string') return run(step)
+	if (typeof step === 'string') {
+		return run(step)
+	}
+
 	if (typeof step === 'function') {
 		await step()
 		return
@@ -103,7 +106,9 @@ async function resolve(step: Step): Promise<void> {
 }
 
 async function serial(...steps: Step[]): Promise<void> {
-	for (const step of steps) await resolve(step)
+	for (const step of steps) {
+		await resolve(step)
+	}
 }
 
 async function parallel(...steps: Step[]): Promise<void> {

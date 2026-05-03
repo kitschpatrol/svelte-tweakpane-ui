@@ -34,40 +34,45 @@
 		/**
 		 * The quaternion value to control.
 		 *
-		 * Tuple values are a convenience added by _Svelte Tweakpane UI_, and is not part of the
-		 * original TweakpaneRotationPlugin API.
+		 * Tuple values are a convenience added by _Svelte Tweakpane UI_, and is not
+		 * part of the original TweakpaneRotationPlugin API.
+		 *
 		 * @bindable
 		 */
 		value: RotationQuaternionValue
 		/**
 		 * Input parameters specific to the X dimension.
 		 *
-		 * Renamed from `x` in TweakpaneRotationPlugin API to clarify that it is an object of
-		 * options, not a value.
+		 * Renamed from `x` in TweakpaneRotationPlugin API to clarify that it is an
+		 * object of options, not a value.
+		 *
 		 * @default `undefined`
 		 */
 		optionsX?: RotationQuaternionOptions
 		/**
 		 * Input parameters specific to the Y dimension.
 		 *
-		 * Renamed from `y` in TweakpaneRotationPlugin API to clarify that it is an object of
-		 * options, not a value.
+		 * Renamed from `y` in TweakpaneRotationPlugin API to clarify that it is an
+		 * object of options, not a value.
+		 *
 		 * @default `undefined`
 		 */
 		optionsY?: RotationQuaternionOptions
 		/**
 		 * Input parameters specific to the Z dimension.
 		 *
-		 * Renamed from `z` in TweakpaneRotationPlugin API to clarify that it is an object of
-		 * options, not a value.
+		 * Renamed from `z` in TweakpaneRotationPlugin API to clarify that it is an
+		 * object of options, not a value.
+		 *
 		 * @default `undefined`
 		 */
 		optionsZ?: RotationQuaternionOptions
 		/**
 		 * Input parameters specific to the W dimension.
 		 *
-		 * Renamed from `w` in TweakpaneRotationPlugin API to clarify that it is an object of
-		 * options, not a value.
+		 * Renamed from `w` in TweakpaneRotationPlugin API to clarify that it is an
+		 * object of options, not a value.
+		 *
 		 * @default `undefined`
 		 */
 		optionsW?: RotationQuaternionOptions
@@ -89,10 +94,14 @@
 		/**
 		 * Fires when `value` changes.
 		 *
-		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 * _This event is provided for advanced use cases. It's usually preferred to
+		 * bind to the `value` prop instead._
 		 *
-		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
-		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 * The `event.details` payload includes a copy of the value and an `origin`
+		 * field to distinguish between user-interactive changes (`internal`) and
+		 * changes resulting from programmatic manipulation of the `value`
+		 * (`external`).
+		 *
 		 * @extends ValueChangeEvent
 		 * @event
 		 */

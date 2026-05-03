@@ -21,42 +21,49 @@
 	> & {
 		/**
 		 * Lower bound of the FPS graph.
+		 *
 		 * @default `0`
 		 */
 		min?: number
 		/**
 		 * Upper bound of the FPS graph.
+		 *
 		 * @default `90`
 		 */
 		max?: number
 		/**
 		 * Function to start a single frame measurement sample.
 		 *
-		 * If undefined, a `requestAnimationFrame` is used to indicate the overall performance of
-		 * the page.
+		 * If undefined, a `requestAnimationFrame` is used to indicate the overall
+		 * performance of the page.
+		 *
 		 * @default `undefined`
 		 */
 		begin?: () => void
 		/**
 		 * Function to end a single frame measurement sample.
 		 *
-		 * If undefined, a `requestAnimationFrame` is used to indicate the overall performance of
-		 * the page.
+		 * If undefined, a `requestAnimationFrame` is used to indicate the overall
+		 * performance of the page.
+		 *
 		 * @default `undefined`
 		 */
 		end?: () => void
 		/**
 		 * Time in milliseconds between updates to the graph.
+		 *
 		 * @default `1000`
 		 */
 		interval?: number
 		/**
 		 * Text displayed next to the FPS graph.
+		 *
 		 * @default `undefined`
 		 */
 		label?: string
 		/**
 		 * Height of the FPS graph, in rows.
+		 *
 		 * @default `2`
 		 */
 		rows?: number
@@ -95,8 +102,9 @@
 		/**
 		 * Fires when the FPS value changes, passing the latest FPS measurement.
 		 *
-		 * Note that the values described in the `FpsGraphChangeEvent` type are available on the
-		 * `event.detail` parameter.
+		 * Note that the values described in the `FpsGraphChangeEvent` type are
+		 * available on the `event.detail` parameter.
+		 *
 		 * @event
 		 */
 		change: FpsGraphChangeEvent

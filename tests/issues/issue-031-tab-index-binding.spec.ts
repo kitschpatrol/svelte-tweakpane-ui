@@ -1,13 +1,13 @@
 import { expect, test } from '@playwright/test'
 
 /**
- * Issue #31: Tab Group selectedIndex binding gets set to -1 when switching Pane Position
- * https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/31
+ * Issue #31: Tab Group selectedIndex binding gets set to -1 when switching Pane
+ * Position https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/31
  *
  * When reactively switching between Pane positions (e.g., inline vs draggable),
- * the TabGroup's selectedIndex binding would incorrectly get set to -1.
- * This test verifies that the tab index is preserved when cycling through
- * different pane position modes.
+ * the TabGroup's selectedIndex binding would incorrectly get set to -1. This
+ * test verifies that the tab index is preserved when cycling through different
+ * pane position modes.
  */
 test.describe('Issue #31: Tab Group selectedIndex binding with Pane position changes', () => {
 	test('initial state shows correct mode and tab index', async ({ page }) => {

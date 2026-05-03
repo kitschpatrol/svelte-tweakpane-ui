@@ -5,8 +5,8 @@ import { expect, test } from '@playwright/test'
  * https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/4
  *
  * When setting expanded={false} on a Pane, the pane should start collapsed.
- * Clicking on it should expand it. Previously, setting expanded={false}
- * would cause the pane to start collapsed but not open when clicked.
+ * Clicking on it should expand it. Previously, setting expanded={false} would
+ * cause the pane to start collapsed but not open when clicked.
  */
 test.describe('Issue #4: Pane collapse/expand behavior', () => {
 	test('inline pane with expanded={false} starts collapsed and can be expanded', async ({

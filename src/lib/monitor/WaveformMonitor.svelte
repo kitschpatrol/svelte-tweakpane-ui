@@ -26,21 +26,25 @@
 	> & {
 		/**
 		 * Waveform values.
+		 *
 		 * @bindable
 		 */
 		value: WaveformMonitorValue
 		/**
 		 * Minimum graph bound.
+		 *
 		 * @default `0`
 		 */
 		min?: number
 		/**
 		 * Maximum graph bound.
+		 *
 		 * @default `100`
 		 */
 		max?: number
 		/**
 		 * Line style.
+		 *
 		 * @default `'linear''`
 		 */
 		lineStyle?: 'bezier' | 'linear'

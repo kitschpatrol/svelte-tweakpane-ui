@@ -28,12 +28,18 @@ function findFile(
 ): string | undefined {
 	const files = globSync(`./${base}/**/${componentName}${suffix}`, { posix: true })
 	if (files.length === 0) {
-		if (warn) console.warn(`No files found for ${componentName}`)
+		if (warn) {
+			console.warn(`No files found for ${componentName}`)
+		}
+
 		return undefined
 	}
 
 	if (files.length > 1) {
-		if (warn) console.error(`Fatal: Found multiple files for ${componentName}: ${files.join(' ')}`)
+		if (warn) {
+			console.error(`Fatal: Found multiple files for ${componentName}: ${files.join(' ')}`)
+		}
+
 		return undefined
 	}
 
@@ -43,7 +49,9 @@ function findFile(
 async function getRepositoryUrl(): Promise<string | undefined> {
 	const closestPackageJson = await readPackageUp({ normalize: false })
 	const { repository } = closestPackageJson?.packageJson ?? {}
-	if (!repository) return undefined
+	if (!repository) {
+		return undefined
+	}
 
 	// Handle string case or object with url property
 	if (typeof repository === 'string') {
@@ -229,7 +237,9 @@ export async function getComponentExampleCodeFromSource(
 	includeMarkdown: boolean = false,
 ): Promise<string | undefined> {
 	const componentPath = getSourceFilePath(componentName)
-	if (!componentPath) return undefined
+	if (!componentPath) {
+		return undefined
+	}
 
 	const componentCode = svelte2tsx(fs.readFileSync(componentPath, 'utf8')).code
 

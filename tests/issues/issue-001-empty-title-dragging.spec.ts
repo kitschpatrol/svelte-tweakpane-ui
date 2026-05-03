@@ -4,8 +4,9 @@ import { expect, test } from '@playwright/test'
  * Issue #1: Empty titles break dragging behavior
  * https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/1
  *
- * When a Pane has an empty title (title=''), the pane should still be draggable.
- * Previously, setting an empty title would break the dragging functionality.
+ * When a Pane has an empty title (title=''), the pane should still be
+ * draggable. Previously, setting an empty title would break the dragging
+ * functionality.
  */
 test.describe('Issue #1: Empty titles break dragging behavior', () => {
 	test('pane with empty title renders', async ({ page }) => {

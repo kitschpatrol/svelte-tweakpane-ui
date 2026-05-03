@@ -37,48 +37,55 @@
 		/**
 		 * The rotation value to control.
 		 *
-		 * Tuple values are a convenience added by _Svelte Tweakpane UI_, and are not part of the
-		 * original TweakpaneRotationPlugin API.
+		 * Tuple values are a convenience added by _Svelte Tweakpane UI_, and are
+		 * not part of the original TweakpaneRotationPlugin API.
 		 *
-		 * See the `order` prop to specify the sequence in which rotations are applied.
+		 * See the `order` prop to specify the sequence in which rotations are
+		 * applied.
+		 *
 		 * @bindable
 		 */
 		value: RotationEulerValue
 		/**
 		 * Input parameters specific to the X dimension.
 		 *
-		 * Renamed from `x` in the original TweakpaneRotationPlugin API to clarify that it is an
-		 * object of options, not a value.
+		 * Renamed from `x` in the original TweakpaneRotationPlugin API to clarify
+		 * that it is an object of options, not a value.
+		 *
 		 * @default `undefined`
 		 */
 		optionsX?: RotationEulerOptions
 		/**
 		 * Input parameters specific to the Y dimension.
 		 *
-		 * Renamed from `y` in the original TweakpaneRotationPlugin API to clarify that it is an
-		 * object of options, not a value.
+		 * Renamed from `y` in the original TweakpaneRotationPlugin API to clarify
+		 * that it is an object of options, not a value.
+		 *
 		 * @default `undefined`
 		 */
 		optionsY?: RotationEulerOptions
 		/**
 		 * Input parameters specific to the Z dimension.
 		 *
-		 * Renamed from `z` in the original TweakpaneRotationPlugin API to clarify that it is an
-		 * object of options, not a value.
+		 * Renamed from `z` in the original TweakpaneRotationPlugin API to clarify
+		 * that it is an object of options, not a value.
+		 *
 		 * @default `undefined`
 		 */
 		optionsZ?: RotationEulerOptions
 		/**
 		 * Order of in which rotations are applied.
 		 *
-		 * Note that this is extrinsic rotations (used by Blender, Maya, and Unity). Three.js uses
-		 * intrinsic rotations, so you have to reverse the order if you want to match Three.js'
-		 * behavior.
+		 * Note that this is extrinsic rotations (used by Blender, Maya, and Unity).
+		 * Three.js uses intrinsic rotations, so you have to reverse the order if
+		 * you want to match Three.js' behavior.
+		 *
 		 * @default `'XYZ'`
 		 */
 		order?: RotationEulerOrder
 		/**
 		 * Units of rotation.
+		 *
 		 * @default `'rad'`
 		 */
 		unit?: RotationEulerUnit
@@ -101,10 +108,14 @@
 		/**
 		 * Fires when `value` changes.
 		 *
-		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 * _This event is provided for advanced use cases. It's usually preferred to
+		 * bind to the `value` prop instead._
 		 *
-		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
-		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 * The `event.details` payload includes a copy of the value and an `origin`
+		 * field to distinguish between user-interactive changes (`internal`) and
+		 * changes resulting from programmatic manipulation of the `value`
+		 * (`external`).
+		 *
 		 * @extends ValueChangeEvent
 		 * @event
 		 */
