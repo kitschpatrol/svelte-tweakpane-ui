@@ -37,8 +37,8 @@
 	},
 	"devDependencies": {
 		"@types/semver": "^7.7.1",
+		"astro-html-kit": "^0.3.2",
 		"execa": "^9.6.1",
-		"linkedom": "^0.18.12",
 		"linkinator": "^7.6.1",
 		"marked": "^18.0.3",
 		"poptab": "^1.1.1",

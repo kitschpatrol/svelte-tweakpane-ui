@@ -224,13 +224,13 @@ dialog::backdrop {
 	padding: 8px;
 }
 
-/* Works with middleware to annotate external links */
+/* Works with astro-html-kit middleware to annotate external links */
 
-main a.external-link {
+html:not([data-has-hero]) main .sl-markdown-content a[data-external-link] {
 	position: relative;
 }
 
-main a.external-link::after {
+html:not([data-has-hero]) main .sl-markdown-content a[data-external-link]::after {
 	content: '↗';
 	position: absolute;
 	transform: scale(0.75) translate(-100%, -55%);
@@ -239,7 +239,7 @@ main a.external-link::after {
 	transition: opacity 0.25s ease;
 }
 
-main a.external-link:hover::after {
+html:not([data-has-hero]) main .sl-markdown-content a[data-external-link]:hover::after {
 	opacity: 0.5;
 	transition: opacity 0s ease;
 }

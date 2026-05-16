@@ -216,7 +216,7 @@
 		"tweakpane": "4.0.5"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^7.6.0",
+		"@kitschpatrol/shared-config": "^7.6.1",
 		"@phenomnomnominal/tsquery": "^6.2.0",
 		"@playwright/test": "^1.60.0",
 		"@stkb/rewrap": "^0.1.0",
@@ -241,7 +241,7 @@
 		"svelte2tsx": "^0.7.55",
 		"ts-morph": "^28.0.0",
 		"tslib": "^2.8.1",
-		"tsx": "^4.22.0",
+		"tsx": "^4.22.1",
 		"typescript": "~5.9.3",
 		"vite": "^5.4.21",
 		"yaml": "^2.9.0"
