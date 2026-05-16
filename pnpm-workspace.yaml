@@ -1,24 +1,14 @@
 packages:
   - .
   - docs
-
-onlyBuiltDependencies:
-  - esbuild
-  - puppeteer
-  - sharp
-  - unrs-resolver
-  - workerd
-
 overrides:
   '@eslint/plugin-kit': ~0.6.1
   cookie: ~1.1.1
   # 0.27.7 is too far...
   # 0.27.6 does not exist?
   esbuild: 0.27.5
-
 patchedDependencies:
   '@astrojs/starlight': patches/@astrojs__starlight.patch
-
 publicHoistPattern:
   - '@kitschpatrol/repo-config'
   - '@kitschpatrol/typescript-config'
@@ -30,3 +20,9 @@ publicHoistPattern:
   - '*prettier*'
   - '*remark*'
   - '*stylelint*'
+allowBuilds:
+  esbuild: true
+  puppeteer: true
+  sharp: true
+  unrs-resolver: true
+  workerd: true
