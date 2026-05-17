@@ -194,7 +194,7 @@
 		"lint": "ksc lint --skip repo && svelte-kit sync && svelte-check --tsconfig ./tsconfig.build.json",
 		"release": "pnpm build && bumpp --commit 'Release: %s' && NPM_AUTH_TOKEN=$(op read 'op://Personal/npm/token') pnpm publish --ignore-scripts",
 		"rewrap": "rewrap -i --column 100 `find src \\( -name '*.svelte' -o -name '*.ts'  -o -name '*.html' \\) -type f | grep -v src/examples`",
-		"test": "pnpm --sequential /^test:/",
+		"test": "pnpm run --sequential /^test:/",
 		"test:integration": "playwright test"
 	},
 	"dependencies": {
