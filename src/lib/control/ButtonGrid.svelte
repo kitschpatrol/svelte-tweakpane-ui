@@ -25,30 +25,34 @@
 		'options' | 'plugin' | 'ref'
 	> & {
 		/**
-		 * Array of names, each of which will become the title of a button in the grid.
+		 * Array of names, each of which will become the title of a button in the
+		 * grid.
 		 */
 		buttons: string[]
 		/**
 		 * Number of columns to arrange the buttons into.
 		 *
-		 * Setting `columns` without setting `rows` will lock the column count and allow the row
-		 * count to change dynamically based on the number of buttons.
-		 * @default `undefined`  \
-		 * Dynamic based on quantity of `buttons`.
+		 * Setting `columns` without setting `rows` will lock the column count and
+		 * allow the row count to change dynamically based on the number of
+		 * buttons.
+		 *
+		 * @default `undefined`
 		 */
 		columns?: number
 		/**
 		 * Text displayed next to the button grid.
+		 *
 		 * @default `undefined`
 		 */
 		label?: string
 		/**
 		 * Number of rows to arrange the buttons into.
 		 *
-		 * Setting `rows` without setting `columns` will lock the column count and allow the column
-		 * count to change dynamically based on the number of buttons.
-		 * @default `undefined`  \
-		 * Dynamic based on quantity of `buttons`.
+		 * Setting `rows` without setting `columns` will lock the column count and
+		 * allow the column count to change dynamically based on the number of
+		 * buttons.
+		 *
+		 * @default `undefined`
 		 */
 		rows?: number
 	}
@@ -64,8 +68,9 @@
 		/**
 		 * Fires when a button is clicked.
 		 *
-		 * Note that the values described in the `ButtonGridClickEvent` type are available on the
-		 * `event.detail` parameter.
+		 * Note that the values described in the `ButtonGridClickEvent` type are
+		 * available on the `event.detail` parameter.
+		 *
 		 * @event
 		 */
 		click: ButtonGridClickEvent

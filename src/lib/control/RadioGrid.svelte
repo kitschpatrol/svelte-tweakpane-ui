@@ -38,43 +38,53 @@
 		 * Value of selected radio button.
 		 *
 		 * Bind to this prop to receive updates when the user clicks a radio button.
+		 *
+		 * If undefined, the first value in the `values` array is assigned.
+		 *
+		 * @default `undefined`
 		 * @bindable
-		 * @default `undefined` If undefined, the first value in the `values` array is assigned.
 		 */
 		value?: T
 		/**
 		 * Number of columns to arrange the radio buttons into.
+		 *
 		 * @default `undefined`
 		 */
 		columns?: number
 		/**
-		 * Name allowing multiple radio groups to share mutually exclusive selection state.
+		 * Name allowing multiple radio groups to share mutually exclusive selection
+		 * state.
 		 *
-		 * Allows spanning exclusive selection state across multiple independent `<RadioGrid>`
-		 * components, but should remain `undefined` for most use cases to keep exclusivity scoped
-		 * to a single `<RadioGrid>`.
-		 * @default `undefined`  \
-		 * Uses a dynamically generated globally unique id internally.
+		 * Allows spanning exclusive selection state across multiple independent
+		 * `<RadioGrid>` components, but should remain `undefined` for most use
+		 * cases to keep exclusivity scoped to a single `<RadioGrid>`.
+		 *
+		 * If undefined, uses a dynamically generated globally unique id internally.
+		 *
+		 * @default `undefined`
 		 */
 		groupName?: string
 		/**
 		 * Text to show in the radio button label before the value.
+		 *
 		 * @default `undefined`
 		 */
 		prefix?: string
 		/**
 		 * Number of rows to arrange the radio buttons into.
+		 *
 		 * @default `undefined`
 		 */
 		rows?: number
 		/**
 		 * Text to show in the radio button label after the value.
+		 *
 		 * @default `undefined`
 		 */
 		suffix?: string
 		/**
-		 * Array of `number`, `string` or `boolean` values, each of which will become a button in
-		 * the radio grid.
+		 * Array of `number`, `string` or `boolean` values, each of which will
+		 * become a button in the radio grid.
 		 */
 		values: T[]
 	}
@@ -98,10 +108,14 @@
 		/**
 		 * Fires when `value` changes.
 		 *
-		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 * _This event is provided for advanced use cases. It's usually preferred to
+		 * bind to the `value` prop instead._
 		 *
-		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
-		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 * The `event.details` payload includes a copy of the value and an `origin`
+		 * field to distinguish between user-interactive changes (`internal`) and
+		 * changes resulting from programmatic manipulation of the `value`
+		 * (`external`).
+		 *
 		 * @extends ValueChangeEvent
 		 * @event
 		 */

@@ -31,21 +31,27 @@
 
 	/**
 	 * The binding's target object with values to manipulate.
+	 *
 	 * @bindable
 	 */
 	export let object: T
 
-	/** The key for the value in the target `object` that the control should manipulate. */
+	/**
+	 * The key for the value in the target `object` that the control should
+	 * manipulate.
+	 */
 	export let key: keyof T
 
 	/**
 	 * Prevent interactivity and gray out the control.
+	 *
 	 * @default `false`
 	 */
 	export let disabled: boolean = false
 
 	/**
 	 * Text displayed next to control.
+	 *
 	 * @default `undefined`
 	 */
 	export let label: string | undefined = undefined
@@ -53,47 +59,58 @@
 	/**
 	 * Tweakpane's internal options object.
 	 *
-	 * See [`BindingParams`](https://tweakpane.github.io/docs/api/types/BindingParams.html).
+	 * See
+	 * [`BindingParams`](https://tweakpane.github.io/docs/api/types/BindingParams.html).
 	 *
-	 * Valid types are contingent on the type of the value `key` points to in `object`.
+	 * Valid types are contingent on the type of the value `key` points to in
+	 * `object`.
 	 *
-	 * This is intended internal use, when implementing convenience components wrapping Binding's
-	 * functionality. Options of interest are instead exposed as top-level props in _Svelte
-	 * Tweakpane UI_.
+	 * This is intended internal use, when implementing convenience components
+	 * wrapping Binding's functionality. Options of interest are instead exposed
+	 * as top-level props in _Svelte Tweakpane UI_.
+	 *
 	 * @default `undefined`
 	 */
 	export let options: U | undefined = undefined
 
 	/**
 	 * Custom color scheme.
-	 * @default `undefined`  \
-	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
-	 * set with `setGlobalDefaultTheme()`.
+	 *
+	 * If undefined, inherits default Tweakpane theme equivalent to
+	 * `ThemeUtils.presets.standard`, or the theme set with
+	 * `setGlobalDefaultTheme()`.
+	 *
+	 * @default `undefined`
 	 */
 	export let theme: Theme | undefined = undefined
 
 	/**
 	 * Reference to internal Tweakpane
-	 * [`BindingApi`](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html) for
-	 * this control.
+	 * [`BindingApi`](https://tweakpane.github.io/docs/api/classes/_internal_.BindingApi.html)
+	 * for this control.
 	 *
-	 * This property is exposed for advanced use cases only, such as when implementing convenience
-	 * components wrapping `<Binding>`'s functionality.
+	 * This property is exposed for advanced use cases only, such as when
+	 * implementing convenience components wrapping `<Binding>`'s functionality.
 	 *
-	 * Direct manipulation of Tweakpane's internals can break _Svelte Tweakpane UI_ abstractions.
+	 * Direct manipulation of Tweakpane's internals can break _Svelte Tweakpane
+	 * UI_ abstractions.
+	 *
 	 * @bindable
 	 * @readonly
 	 */
 	export let ref: undefined | V = undefined
 
 	/**
-	 * Imported Tweakpane `TpPluginBundle` (aliased as `Plugin`) module to automatically register in
-	 * the `<Binding>`'s containing `<Pane>`.
+	 * Imported Tweakpane `TpPluginBundle` (aliased as `Plugin`) module to
+	 * automatically register in the `<Binding>`'s containing `<Pane>`.
 	 *
-	 * This property is exposed for advanced use cases only, such as when implementing convenience
-	 * components wrapping `<Binding>`'s functionality in combination with a Tweakpane plugin.
+	 * This property is exposed for advanced use cases only, such as when
+	 * implementing convenience components wrapping `<Binding>`'s functionality in
+	 * combination with a Tweakpane plugin.
 	 *
-	 * Direct manipulation of Tweakpane's internals can break _Svelte Tweakpane UI_ abstractions.
+	 * Direct manipulation of Tweakpane's internals can break _Svelte Tweakpane
+	 * UI_ abstractions.
+	 *
 	 * @default `undefined`
 	 */
 	export let plugin: Plugin | undefined = undefined
@@ -108,7 +125,9 @@
 
 	function create() {
 		// Must destroy to allow a reactive `key` parameter
-		if (_ref) _ref.dispose()
+		if (_ref) {
+			_ref.dispose()
+		}
 
 		if (plugin !== undefined) {
 			// Calls function provided by context on the containing pane
@@ -142,10 +161,14 @@
 		/**
 		 * Fires when the value of `object[key]` changes.
 		 *
-		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `object` prop instead._
+		 * _This event is provided for advanced use cases. It's usually preferred to
+		 * bind to the `object` prop instead._
 		 *
-		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
-		 * and changes resulting from programmatic manipulation of the `object` (`external`).
+		 * The `event.details` payload includes a copy of the value and an `origin`
+		 * field to distinguish between user-interactive changes (`internal`) and
+		 * changes resulting from programmatic manipulation of the `object`
+		 * (`external`).
+		 *
 		 * @extends ValueChangeEvent
 		 * @event
 		 */

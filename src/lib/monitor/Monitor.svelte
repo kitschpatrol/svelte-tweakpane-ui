@@ -34,6 +34,7 @@
 				: {
 						/**
 						 * A value to monitor.
+						 *
 						 * @bindable
 						 */
 						value: boolean | number | string

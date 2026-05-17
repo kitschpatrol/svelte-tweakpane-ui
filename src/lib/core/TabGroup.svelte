@@ -10,6 +10,7 @@
 
 	/**
 	 * Prevent interactivity and gray out the control.
+	 *
 	 * @default `false`
 	 */
 	export let disabled: boolean = false
@@ -17,8 +18,9 @@
 	/**
 	 * Active page index.
 	 *
-	 * Note that SSR will always render the first page height, regardless of the initial active
-	 * index.
+	 * Note that SSR will always render the first page height, regardless of the
+	 * initial active index.
+	 *
 	 * @default `0`
 	 * @bindable
 	 */
@@ -26,9 +28,12 @@
 
 	/**
 	 * Custom color scheme.
-	 * @default `undefined`  \
-	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
-	 * set with `setGlobalDefaultTheme()`.
+	 *
+	 * If undefined, inherits default Tweakpane theme equivalent to
+	 * `ThemeUtils.presets.standard`, or the theme set with
+	 * `setGlobalDefaultTheme()`.
+	 *
+	 * @default `undefined`
 	 */
 	export let theme: Theme | undefined = undefined
 
@@ -94,7 +99,9 @@
 
 	function setSelectedIndex(index: number) {
 		const tabPageApi = $tabGroupStore?.pages.at(index)
-		if (tabPageApi && !tabPageApi.selected) tabPageApi.selected = true
+		if (tabPageApi && !tabPageApi.selected) {
+			tabPageApi.selected = true
+		}
 	}
 
 	$: setUpListeners($tabGroupStore)

@@ -45,7 +45,7 @@ export function allPropConditions(data: ComponentData): ConditionsRecord {
 export function allProps(data: ComponentData): ComponentProp[] {
 	if (data) {
 		const allProps = [...data.props]
-		if (data.dynamicProps)
+		if (data.dynamicProps) {
 			for (const dynamicProp of data.dynamicProps) {
 				for (const prop of dynamicProp.props) {
 					// Ensure unique
@@ -55,6 +55,7 @@ export function allProps(data: ComponentData): ComponentProp[] {
 					}
 				}
 			}
+		}
 
 		return allProps
 	}

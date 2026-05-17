@@ -4,10 +4,9 @@ import { expect, test } from '@playwright/test'
  * Issue #18: Element inside an IF block make next blade fly away
  * https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/18
  *
- * When using an Element component inside an if block within a TabPage,
- * the next blade after the Element would be incorrectly positioned.
- * Specifically, blades inside the if block would appear outside their
- * expected position.
+ * When using an Element component inside an if block within a TabPage, the next
+ * blade after the Element would be incorrectly positioned. Specifically, blades
+ * inside the if block would appear outside their expected position.
  */
 test.describe('Issue #18: Element inside IF block ordering', () => {
 	test('initial state shows checkbox and outer controls', async ({ page }) => {
@@ -44,7 +43,9 @@ test.describe('Issue #18: Element inside IF block ordering', () => {
 		const count = await blades.count()
 		for (let i = 0; i < count; i++) {
 			const text = await blades.nth(i).textContent()
-			if (text) labels.push(text.trim())
+			if (text) {
+				labels.push(text.trim())
+			}
 		}
 
 		// The order should include: Visibility, C, D

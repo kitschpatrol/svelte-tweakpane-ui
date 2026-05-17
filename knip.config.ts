@@ -8,7 +8,7 @@ export default knipConfig({
 		'@stkb/rewrap',
 		'@sveltejs/package',
 		'@types/eslint',
-		'linkedom',
+		'astro-html-kit',
 		'mdat',
 		'node-addon-api',
 		'node-gyp',

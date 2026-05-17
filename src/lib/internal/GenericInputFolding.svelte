@@ -16,23 +16,28 @@
 	// TODO share prop definitions with GenericBladeFolding?
 	type $$Props = ComponentProps<GenericInput<T, U, V>> & {
 		/**
-		 * DOM class name of the button used to expand and collapse the input's picker.
+		 * DOM class name of the button used to expand and collapse the input's
+		 * picker.
+		 *
 		 * @default `undefined`
 		 */
 		buttonClass?: string
 		/**
 		 * Expand or collapse the input's picker.
+		 *
 		 * @default `false`
 		 * @bindable
 		 */
 		expanded?: boolean
 		/**
 		 * The style of value "picker" to use in the input.
+		 *
 		 * @default `'popup'`
 		 */
 		picker?: 'inline' | 'popup' // Technically not guaranteed, but advantages to assuming it's there for coherent userExpandable behavior
 		/**
 		 * Allow users to interactively expand / contract the picker.
+		 *
 		 * @default `true`
 		 */
 		userExpandable?: boolean

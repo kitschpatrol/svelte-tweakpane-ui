@@ -30,78 +30,96 @@
 		'options' | 'plugin' | 'ref'
 	> & {
 		/**
-		 * Number of duration samples from which to calculate the delta value when `calcMode` is
-		 * `'mean'` or `'median'`.
+		 * Number of duration samples from which to calculate the delta value when
+		 * `calcMode` is `'mean'` or `'median'`.
+		 *
 		 * @default `30`
 		 */
 		bufferSize?: number
 		/**
 		 * How to calculate the delta value.
 		 *
-		 * `'frame'` takes only the latest sample into account, while `'mean'` and `'median'` are
-		 * calculated from the samples in the buffer.
+		 * `'frame'` takes only the latest sample into account, while `'mean'` and
+		 * `'median'` are calculated from the samples in the buffer.
+		 *
 		 * @default `'mean'`
 		 */
 		calcMode?: ProfilerCalcMode
 		/**
 		 * Label suffix for the delta values shown in the control.
 		 *
-		 * Possibly useful if you're using a custom `ProfilerBladeDefaultMeasureHandler` and are
-		 * measuring something other than time.
+		 * Possibly useful if you're using a custom
+		 * `ProfilerBladeDefaultMeasureHandler` and are measuring something other
+		 * than time.
+		 *
 		 * @default `'ms'`
 		 */
 		deltaUnit?: string
 		/**
 		 * Precision of the delta values shown in the control.
+		 *
 		 * @default `2`
 		 */
 		fractionDigits?: number
 		/**
-		 * Milliseconds between updates to the profiler visualization and delta label text.
+		 * Milliseconds between updates to the profiler visualization and delta
+		 * label text.
 		 *
-		 * Note that this does not affect the internal sampling rate of the profiler itself, which
-		 * is determined by your calls to the bound `measure` function.
+		 * Note that this does not affect the internal sampling rate of the profiler
+		 * itself, which is determined by your calls to the bound `measure`
+		 * function.
+		 *
 		 * @default `500`
 		 */
 		interval?: number
 		/**
 		 * Text displayed next to the profiler visualization.
+		 *
 		 * @default `undefined`
 		 */
 		label?: string
 		/**
-		 * Function handle that wraps another function to measure its execution duration.
+		 * Function handle that wraps another function to measure its execution
+		 * duration.
 		 *
-		 *  If you want to measure something other than execution duration, customize
+		 * If you want to measure something other than execution duration, customize
 		 * `ProfilerBladeDefaultMeasureHandler`.
-		 * @example `measure('Hard Work', () => { ... })`;
+		 *
+		 * @example
+		 * 	;`measure('Hard Work', () => { ... })`
+		 *
+		 * @default `undefined`
 		 * @bindable
 		 * @readonly
-		 * @default `undefined`
 		 */
 		measure?: ProfilerMeasure
 		/**
-		 * Async variation of function handle that wraps another function to measure its execution
-		 * duration.
-		 * @example `measureAsync('Hard Work', async () => { ... })`;
-		 * @bindable
+		 * Async variation of function handle that wraps another function to measure
+		 * its execution duration.
+		 *
 		 * @async
-		 * @readonly
+		 * @example
+		 * 	;`measureAsync('Hard Work', async () => { ... })`
+		 *
 		 * @default `undefined`
+		 * @bindable
+		 * @readonly
 		 */
 		measureAsync?: ProfilerMeasureAsync
 		/**
 		 * Function wrapping the `measure` function.
 		 *
-		 * The default is fine for most cases when you want to measure a temporal duration.
-		 * @default [`new
-		 * ProfilerBladeDefaultMeasureHandler()`](https://github.com/kitschpatrol/tweakpane-plugin-profiler/blob/dev/src/ProfilerBladeDefaultMeasureHandler.ts)
+		 * The default is fine for most cases when you want to measure a temporal
+		 * duration.
+		 *
+		 * @default
 		 */
 		measureHandler?: ProfilerMeasureHandler
 		/**
-		 * Determines the horizontal scale and color mapping of the profiler visualization bars.
-		 * @default `16.67`  \
-		 * 60fps.
+		 * Determines the horizontal scale and color mapping of the profiler
+		 * visualization bars.
+		 *
+		 * @default `16.67` (60 FPS)
 		 */
 		targetDelta?: number
 	}
@@ -141,10 +159,12 @@
 	// Seems to be the only way to get event comments to work
 	type $$Events = {
 		/**
-		 * Fires when the overall delta value changes, passing the latest measurement.
+		 * Fires when the overall delta value changes, passing the latest
+		 * measurement.
 		 *
-		 * Note that the values described in the `ProfilerChangeEvent` type are available on the
-		 * `event.detail` parameter.
+		 * Note that the values described in the `ProfilerChangeEvent` type are
+		 * available on the `event.detail` parameter.
+		 *
 		 * @event
 		 */
 		change: ProfilerChangeEvent
@@ -163,7 +183,9 @@
 		// Clean up if needed
 		stopObservingMeasuredValue()
 		const targetNode = profilerBlade.controller.view.valueElement
-		if (!targetNode?.innerHTML) return
+		if (!targetNode?.innerHTML) {
+			return
+		}
 
 		observer = new MutationObserver((mutations) => {
 			for (const mutation of mutations) {

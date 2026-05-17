@@ -50,7 +50,9 @@ export function healDtsComments(): void {
 	// looks at use of ComponentProps in $$Props type to find the name of the component that is extended
 	function getParentComponentNames(componentName: string): string[] {
 		const sourceFile = sourceFiles.get(componentName)
-		if (!sourceFile) return []
+		if (!sourceFile) {
+			return []
+		}
 
 		return queryTree<PropNode>(
 			sourceFile,
@@ -60,7 +62,9 @@ export function healDtsComments(): void {
 
 	function getCommentForProp(componentName: string, propName: string): JSDoc[] | undefined {
 		const definitionFile = definitionFiles.get(componentName)
-		if (!definitionFile) return undefined
+		if (!definitionFile) {
+			return undefined
+		}
 
 		return getProp(definitionFile, propName, 'commented')?.getJsDocs()
 	}
@@ -84,7 +88,9 @@ export function healDtsComments(): void {
 		let quantityFixed = 0
 
 		const definitionFile = definitionFiles.get(componentName)
-		if (!definitionFile) return 0
+		if (!definitionFile) {
+			return 0
+		}
 
 		const props = getProps(definitionFile, 'uncommented')
 		for (const propNode of props) {
@@ -118,7 +124,10 @@ export function healDtsComments(): void {
 	// Order doesn't matter since going up the chain is consistent
 	for (const componentName of componentNames) {
 		// eslint-disable-next-line ts/no-unnecessary-condition
-		if (verbose) console.log(`Adding missing prop comments for "${componentName}"`)
+		if (verbose) {
+			console.log(`Adding missing prop comments for "${componentName}"`)
+		}
+
 		totalPropsFixed += inheritPropCommentsAndSave(componentName)
 	}
 

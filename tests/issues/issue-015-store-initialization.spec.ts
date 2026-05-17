@@ -1,12 +1,12 @@
 import { expect, test } from '@playwright/test'
 
 /**
- * Issue #15: Slider does not react immediately to store values updated in onMount
- * https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/15
+ * Issue #15: Slider does not react immediately to store values updated in
+ * onMount https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/15
  *
- * When updating a store value in onMount, the Slider component would not
- * pick up the new value immediately. The fix involved using Svelte's tick()
- * to ensure the component updates after the store change.
+ * When updating a store value in onMount, the Slider component would not pick
+ * up the new value immediately. The fix involved using Svelte's tick() to
+ * ensure the component updates after the store change.
  */
 test.describe('Issue #15: Slider store initialization', () => {
 	test('slider shows correct value after store update in onMount with tick', async ({ page }) => {

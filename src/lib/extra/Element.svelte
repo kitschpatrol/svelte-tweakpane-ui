@@ -21,14 +21,17 @@
 		 * the actual element content is less than the max, you will see CLS. If it
 		 * is not set, the contents are rendered... but keep in mind that style and
 		 * other contextual changes during the client render could result in CLS.
-		 * @default `undefined`  \
-		 * No max height.
+		 *
+		 * If undefined, no max height is specified.
+		 *
+		 * @default `undefined`
 		 */
 		maxHeight?: number
 		/**
 		 * Whether to reset the CSS of the element block to its default values.
 		 * Avoids inheritance of Tweakpane's CSS styles. Note that this uses a
 		 * simple `all: initial;` rule.
+		 *
 		 * @default `true`
 		 */
 		resetStyle?: boolean

@@ -92,7 +92,9 @@ function getSharedResolver(): {
 async function getStaticComponentInfo(componentPath: string): Promise<ComponentInfo | undefined> {
 	// Static approach
 	const info = await getStaticComponentInfoInternal(componentPath)
-	if (!info) return undefined
+	if (!info) {
+		return undefined
+	}
 
 	// Amend type data with dynamic approach
 	const lsPropInfo = await getDynamicComponentProps(componentPath, {})
@@ -129,11 +131,15 @@ async function getStaticComponentInfoInternal(
 
 	const { lang, tsDoc } = await resolver.getLSAndTSDoc(document)
 	const program = lang.getProgram()
-	if (!program) return undefined
+	if (!program) {
+		return undefined
+	}
 
 	// Get the component class definition
 	const componentSourceFile = program.getSourceFile(tsDoc.filePath)
-	if (!componentSourceFile) return undefined
+	if (!componentSourceFile) {
+		return undefined
+	}
 
 	const classDefinition = getClassDefinition(componentSourceFile)
 	if (!classDefinition) {
@@ -253,7 +259,9 @@ async function getDynamicComponentProps(
 	// Get the synchronized language service after opening the virtual document
 	const lang = lsContainer.getService(false)
 	const program = lang.getProgram()
-	if (!program) return []
+	if (!program) {
+		return []
+	}
 
 	const testPosition = {
 		character: testComponentSourceRows.at(-1)!.length - 2,

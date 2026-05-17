@@ -5,25 +5,34 @@
 
 	type $$Props = Omit<ComponentProps<GenericPane>, 'userCreatedPane'> & {
 		/**
-		 * Horizontal position of the pane relative to the left edge of the window, in pixels.
+		 * Horizontal position of the pane relative to the left edge of the window,
+		 * in pixels.
 		 *
-		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is
-		 * positioned on the page. (So-named because of its similarity to CSS `position` property.)
-		 * @default `undefined`  \
-		 * 8 pixels from the right edge of the window.
+		 * Not to be confused with the `position` prop which defines _how_, not
+		 * _where_, the pane is positioned on the page. (So-named because of its
+		 * similarity to CSS `position` property.)
+		 *
+		 * If undefined, position is 8 pixels from the right edge of the window.
+		 *
+		 * @default `undefined`
 		 */
 		x?: number
 		/**
-		 * Vertical position of the pane relative to the top of the window, in pixels.
+		 * Vertical position of the pane relative to the top of the window, in
+		 * pixels.
 		 *
-		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is
-		 * positioned on the page. (So-named because of its similarity to CSS `position` property.)
-		 * @default `undefined`  \
-		 * 8 pixels from the top edge of the window.
+		 * Not to be confused with the `position` prop which defines _how_, not
+		 * _where_, the pane is positioned on the page. (So-named because of its
+		 * similarity to CSS `position` property.)
+		 *
+		 * If undefined, position is 8 pixels from the top edge of the window.
+		 *
+		 * @default `undefined`
 		 */
 		y?: number
 		/**
 		 * Width of the pane, in pixels.
+		 *
 		 * @default `256`
 		 */
 		width?: number

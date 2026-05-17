@@ -1,9 +1,9 @@
 /* eslint-disable ts/no-unsafe-member-access */
 /* eslint-disable ts/no-unsafe-argument */
+import { defineDomMiddleware } from 'astro-html-kit/middleware'
 import { slug } from 'github-slugger'
 import type { ComponentData } from '../utils/prop-utilities'
 import { allProps } from '../utils/prop-utilities'
-import { defineDomMiddleware } from './dom-middleware'
 import { linkifyTerms } from './utilities'
 
 export const automaticPropLinks = defineDomMiddleware((context, document) => {

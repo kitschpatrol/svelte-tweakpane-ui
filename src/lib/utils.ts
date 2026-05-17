@@ -34,7 +34,8 @@ export type BindingObject = Bindable
 export type Plugin = TpPluginBundle
 
 /**
- * The base event type for value change notification events emitted by various controls.
+ * The base event type for value change notification events emitted by various
+ * controls.
  */
 export type ValueChangeEvent<V> = CustomEvent<{
 	/**
@@ -42,22 +43,22 @@ export type ValueChangeEvent<V> = CustomEvent<{
 	 */
 	value: V
 	/**
-	 * The origin of the event.
-	 * Changes resulting from the user's direct manipulation of the control will are marked as `internal`.
-	 * Changes resulting from manipulation of the bound value from _outside_ the component are marked as `external`.
+	 * The origin of the event. Changes resulting from the user's direct
+	 * manipulation of the control will are marked as `internal`. Changes
+	 * resulting from manipulation of the bound value from _outside_ the component
+	 * are marked as `external`.
 	 */
 	origin: 'external' | 'internal'
 }>
 
 /**
- * Needed to conveniently use $$Events as the single source of truth for component events Performs
- * the transformation necessary (extracting detail types) to pass the $$Events type into
- * createEventDispatcher(). See
+ * Needed to conveniently use $$Events as the single source of truth for
+ * component events Performs the transformation necessary (extracting detail
+ * types) to pass the $$Events type into createEventDispatcher(). See
  * [documentation](https://svelte.dev/docs/typescript#script-lang-ts-events).
  *
  * An alternative would be to use a custom dispatcher, like [Threlte
  * does])https://github.com/threlte/threlte/blob/main/packages/core/src/lib/lib/createRawEventDispatcher.ts_.
- *
  */
 export type UnwrapCustomEvents<T> = {
 	[P in keyof T]: T[P] extends CustomEvent<infer detail> ? detail : never
@@ -101,11 +102,14 @@ export function fillWith<T>(value: T, quantity: number): T[] {
 }
 
 /**
- * There's no way to enforce readonly properties in Svelte components, so this is a workaround. See
- * [general approach](https://github.com/sveltejs/svelte/issues/7712#issuecomment-1642470141) and
- * [runtime error approach](https://github.com/sveltejs/svelte/issues/7712#issuecomment-1642817764)
+ * There's no way to enforce readonly properties in Svelte components, so this
+ * is a workaround. See [general
+ * approach](https://github.com/sveltejs/svelte/issues/7712#issuecomment-1642470141)
+ * and [runtime error
+ * approach](https://github.com/sveltejs/svelte/issues/7712#issuecomment-1642817764)
  *
  * Generally:
+ *
  * ```svelte
  * <script>
  *   export let value = "foo"
@@ -121,7 +125,7 @@ export function fillWith<T>(value: T, quantity: number): T[] {
  *
  * This is not perfect and there are some edge cases it doesn't catch because we have to
  * allow assignment to undefined in some internal cases (via the `allowAssignmentToUndefined` flag).
- *
+ * ```
  */
 export function enforceReadonly(
 	internal: unknown,
@@ -187,7 +191,9 @@ export function removeKeys<T extends Record<string, unknown>>(object: T, ...keys
 
 function clickBlocker(event: MouseEvent) {
 	// Only block user clicks, not programmatic ones
-	if (event.isTrusted) event.stopPropagation()
+	if (event.isTrusted) {
+		event.stopPropagation()
+	}
 }
 
 // Used by folder and pane TODO rewrite to use getSwatchButton etc.
@@ -209,13 +215,17 @@ export function updateCollapsibility(
 				titleBarElement.removeEventListener('click', clickBlocker, { capture: true })
 				titleBarElement.style.cursor = 'pointer'
 
-				if (iconElement) iconElement.style.display = 'block'
+				if (iconElement) {
+					iconElement.style.display = 'block'
+				}
 			} else {
 				// Expanded = true;
 				titleBarElement.addEventListener('click', clickBlocker, { capture: true })
 				titleBarElement.style.cursor = 'default'
 
-				if (iconElement) iconElement.style.display = 'none'
+				if (iconElement) {
+					iconElement.style.display = 'none'
+				}
 			}
 		}
 	} else {
@@ -224,12 +234,13 @@ export function updateCollapsibility(
 }
 
 /**
- * Infers grid dimensions for a given number of items, respecting optional maximums for rows and
- * columns.
+ * Infers grid dimensions for a given number of items, respecting optional
+ * maximums for rows and columns.
  *
  * If no constraints are provided, it creates the most square grid possible.
  *
- * If a single constraint is provided, it lets the undefined axis grow / shrink as needed.
+ * If a single constraint is provided, it lets the undefined axis grow / shrink
+ * as needed.
  *
  * If both constraints are provided, values may be clipped.
  */
@@ -383,23 +394,31 @@ function cubicBezierToEaseFunction(cubicBezier: CubicBezierValue): (t: number) =
 // Library exports
 export default {
 	/**
-	 * Convenience function for creating easing functions ready for Svelte's tween and animation
-	 * systems
-	 * @param cubicBezier - `CubicBezierValue`, probably from a `<CubicBezier>` component
+	 * Convenience function for creating easing functions ready for Svelte's tween
+	 * and animation systems
+	 *
+	 * @param cubicBezier - `CubicBezierValue`, probably from a `<CubicBezier>`
+	 *   component
+	 *
 	 * @returns Tween function
 	 */
 	cubicBezierToEaseFunction,
 	/**
 	 * Convenience function for creating CSS-ready euler rotation transforms
-	 * @param rotation - `RotationEulerValue`, probably from a `<RotationEuler>` component
+	 *
+	 * @param rotation - `RotationEulerValue`, probably from a `<RotationEuler>`
+	 *   component
 	 * @param quaternion
+	 *
 	 * @returns CSS rotate X/Y/Z string ready to be passed into a CSS transform
 	 */
 	eulerToCssTransform,
 	/**
 	 * Convenience function for creating CSS-ready quaternion rotation transforms
-	 * @param rotation - RotationQuaternionValue, probably from a <RotationQuaternionValue>
-	 * component
+	 *
+	 * @param rotation - RotationQuaternionValue, probably from a
+	 *   <RotationQuaternionValue> component
+	 *
 	 * @returns CSS matrix3d string ready to be passed into a CSS transform
 	 */
 	quaternionToCssTransform,

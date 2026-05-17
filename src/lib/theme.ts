@@ -372,8 +372,8 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 }
 
 /**
- * Sets a default theme for all Tweakpane components on the page. Useful if you have a light / dark
- * mode toggle.
+ * Sets a default theme for all Tweakpane components on the page. Useful if you
+ * have a light / dark mode toggle.
  */
 export function setGlobalDefaultTheme(theme: Theme | undefined) {
 	// Wait for dom ready... better outside?
@@ -386,8 +386,9 @@ export function setGlobalDefaultTheme(theme: Theme | undefined) {
 // Library exports
 export default {
 	/**
-	 * A collection of default theme color schemes, matching those provided in the Tweakpane
-	 * [Panebuilder presets](https://tweakpane.github.io/docs/theming/#builder).
+	 * A collection of default theme color schemes, matching those provided in the
+	 * Tweakpane [Panebuilder
+	 * presets](https://tweakpane.github.io/docs/theming/#builder).
 	 */
 	presets,
 	setGlobalDefaultTheme,

@@ -41,13 +41,16 @@
 		/**
 		 * A color value to control.
 		 *
-		 * Use either a color-like string (e.g. #ff00ff), or an object with `r`, `b`, `g`, and
-		 * optional `a` keys.
+		 * Use either a color-like string (e.g. #ff00ff), or an object with `r`,
+		 * `b`, `g`, and optional `a` keys.
+		 *
 		 * @bindable
 		 */
 		value: ColorValue
 		/**
-		 * Whether to treat values as floats from 0.0 to 1.0, or integers from 0 to 255.
+		 * Whether to treat values as floats from 0.0 to 1.0, or integers from 0 to
+		 * 255.
+		 *
 		 * @default `'int'`
 		 */
 		type?: 'float' | 'int'
@@ -64,10 +67,14 @@
 		/**
 		 * Fires when `value` changes.
 		 *
-		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 * _This event is provided for advanced use cases. It's usually preferred to
+		 * bind to the `value` prop instead._
 		 *
-		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
-		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 * The `event.details` payload includes a copy of the value and an `origin`
+		 * field to distinguish between user-interactive changes (`internal`) and
+		 * changes resulting from programmatic manipulation of the `value`
+		 * (`external`).
+		 *
 		 * @extends ValueChangeEvent
 		 * @event
 		 */

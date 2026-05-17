@@ -29,23 +29,31 @@
 	// optional but with a default value in the $$Props type
 	type $$Props = Omit<ComponentProps<GenericPane>, 'userCreatedPane'> & {
 		/**
-		 * Horizontal position of the pane relative to the left edge of the window, in pixels.
+		 * Horizontal position of the pane relative to the left edge of the window,
+		 * in pixels.
 		 *
-		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is
-		 * positioned on the page. (So-named because of its similarity to CSS `position` property.)
+		 * Not to be confused with the `position` prop which defines _how_, not
+		 * _where_, the pane is positioned on the page. (So-named because of its
+		 * similarity to CSS `position` property.)
 		 *
-		 * By default, this position is saved to local storage for persistence across page loads.
+		 * By default, this position is saved to local storage for persistence
+		 * across page loads.
+		 *
 		 * @default `0`
 		 * @bindable
 		 */
 		x?: number
 		/**
-		 * Vertical position of the pane relative to the top of the window, in pixels.
+		 * Vertical position of the pane relative to the top of the window, in
+		 * pixels.
 		 *
-		 * Not to be confused with the `position` prop which defines _how_, not _where_, the pane is
-		 * positioned on the page. (So-named because of its similarity to CSS `position` property.)
+		 * Not to be confused with the `position` prop which defines _how_, not
+		 * _where_, the pane is positioned on the page. (So-named because of its
+		 * similarity to CSS `position` property.)
 		 *
-		 * By default, this position is saved to local storage for persistence across page loads.
+		 * By default, this position is saved to local storage for persistence
+		 * across page loads.
+		 *
 		 * @default `0`
 		 * @bindable
 		 */
@@ -53,61 +61,74 @@
 		/**
 		 * Width of the pane, in pixels.
 		 *
-		 * Setting explicitly via a passed prop will override saved user-specified width.
+		 * Setting explicitly via a passed prop will override saved user-specified
+		 * width.
 		 *
-		 * Use this prop to set a starting width, or to monitor changes in the the pane's width when
-		 * a user resizes it.
+		 * Use this prop to set a starting width, or to monitor changes in the the
+		 * pane's width when a user resizes it.
 		 *
-		 * Note that height is not exposed because it is determined dynamically by the pane's
-		 * contents and state of its foldable elements.
+		 * Note that height is not exposed because it is determined dynamically by
+		 * the pane's contents and state of its foldable elements.
 		 *
-		 * By default, the width value is saved to local storage for persistence across page loads.
+		 * By default, the width value is saved to local storage for persistence
+		 * across page loads.
+		 *
 		 * @default `256`
 		 * @bindable
 		 */
 		width?: number
 		/**
 		 * Minimum pane width in pixels.
+		 *
 		 * @default `200`
 		 */
 		minWidth?: number
 		/**
 		 * Maximum pane width in pixels.
+		 *
 		 * @default `600`
 		 */
 		maxWidth?: number
 		/**
-		 * Allow the user to resize the width of the pane by dragging the right corner of the title
-		 * bar.
+		 * Allow the user to resize the width of the pane by dragging the right
+		 * corner of the title bar.
+		 *
 		 * @default `true`
 		 */
 		resizable?: boolean
 		/**
-		 * CSS [padding property string](https://developer.mozilla.org/en-US/docs/Web/CSS/padding)
-		 * to apply to the draggable pane container to prevent it from being dragged all the way to
-		 * the edge of the window.
+		 * CSS [padding property
+		 * string](https://developer.mozilla.org/en-US/docs/Web/CSS/padding) to
+		 * apply to the draggable pane container to prevent it from being dragged
+		 * all the way to the edge of the window.
 		 *
 		 * Useful for keeping the pane away from of menu bars, etc.
+		 *
 		 * @default `'0'`
 		 */
 		padding?: string
 		/**
-		 * Automatically collapse open panels when the available window size is less than the height
-		 * of the pane.
+		 * Automatically collapse open panels when the available window size is less
+		 * than the height of the pane.
+		 *
 		 * @default `false`
 		 */
 		collapseChildrenToFit?: boolean
 		/**
-		 * Store the pane's position and width when the user changes it interactively.
+		 * Store the pane's position and width when the user changes it
+		 * interactively.
 		 *
-		 * Set the `localStoreId` prop if you have multiple draggable panes on the same page with
-		 * `storePositionLocally` set to `true`.
+		 * Set the `localStoreId` prop if you have multiple draggable panes on the
+		 * same page with `storePositionLocally` set to `true`.
+		 *
 		 * @default `true`
 		 */
 		storePositionLocally?: boolean
 		/**
-		 * Identifier to be used if multiple `<Pane position="draggable">` components with
-		 * `storePositionLocally` set to true are used on the same page.
+		 * Identifier to be used if multiple `<Pane position="draggable">`
+		 * components with `storePositionLocally` set to true are used on the same
+		 * page.
+		 *
 		 * @default `'1'`
 		 */
 		localStoreId?: string

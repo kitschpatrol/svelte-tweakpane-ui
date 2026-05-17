@@ -14,24 +14,30 @@
 	type $$Props = ComponentProps<GenericBinding<T, U, V>> & {
 		/**
 		 * Number of past states to retain.
-		 * @default `1`  \
-		 * Or `64` if value is `number` and `graph` is `true`.
+		 *
+		 * If value is `number` and `graph` is `true`, default value is `64`.
+		 *
+		 * @default `1`
 		 */
 		bufferSize?: number
 		/**
 		 * Time between value samples in milliseconds.
 		 *
-		 * Useful when `graph` is true. Defaults to reactive value updates only (`interval={0}`).
+		 * Useful when `graph` is true. Defaults to reactive value updates only
+		 * (`interval={0}`).
+		 *
 		 * @default `0`
 		 */
 		interval?: number
 		/**
 		 * Number of visible rows of state history.
 		 *
-		 * If `bufferSize` is larger, then the value window will scroll once state history exceeds
-		 * row count.
-		 * @default `1`  \
-		 * Or `3` if value is `string` and `multiline` is `true`.
+		 * If `bufferSize` is larger, then the value window will scroll once state
+		 * history exceeds row count.
+		 *
+		 * If value is `string` and `multiline` is `true`, default value is `3`.
+		 *
+		 * @default `1`
 		 */
 		rows?: number
 	}

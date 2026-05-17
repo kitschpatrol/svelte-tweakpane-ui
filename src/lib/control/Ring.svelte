@@ -10,23 +10,26 @@
 		/**
 		 * The value for the unit.
 		 *
-		 * This sets the interval between each `value` labeled on the ring. For example a `value` of
-		 * `20` will show value labels 0, 20, 40... etc. spaced according to the `pixels` value.
+		 * This sets the interval between each `value` labeled on the ring. For
+		 * example a `value` of `20` will show value labels 0, 20, 40... etc. spaced
+		 * according to the `pixels` value.
 		 */
 		value: number
 		/**
 		 * The number of pixels per unit.
 		 *
-		 * This is the amount of space in pixels between each `value` labeled on the ring. For
-		 * example, if `pixels` is 100 and `value` is 10, you will see a value label on the ring in
-		 * the form of 10...(100 pixels)...20...(100 pixels)...30... etc.
+		 * This is the amount of space in pixels between each `value` labeled on the
+		 * ring. For example, if `pixels` is 100 and `value` is 10, you will see a
+		 * value label on the ring in the form of 10...(100 pixels)...20...(100
+		 * pixels)...30... etc.
 		 */
 		pixels: number
 		/**
 		 * The number of vertical tick marks between each `value` label on the ring.
 		 *
-		 * For example, if `pixels` is `100`, `value` is `10, and `ticks` is `10`, you will have a
-		 * vertical tick mark every 10 pixels, and a value label every 100 pixels.
+		 * For example, if `pixels` is `100`, `value` is `10, and `ticks`is`10`, you
+		 * will have a vertical tick mark every 10 pixels, and a value label every
+		 * 100 pixels.
 		 */
 		ticks: number
 	}
@@ -45,16 +48,19 @@
 	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {
 		/**
 		 * A `number` value to control.
+		 *
 		 * @bindable
 		 */
 		value: number
 		/**
 		 * Style variations.
+		 *
 		 * @default `0`
 		 */
 		series?: RingSeries
 		/**
 		 * Density and value mapping of the ring's tick marks.
+		 *
 		 * @default `{ ticks: 5, pixels: 40, value: 10 }`
 		 */
 		unit?: RingUnit
@@ -72,10 +78,14 @@
 		/**
 		 * Fires when `value` changes.
 		 *
-		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 * _This event is provided for advanced use cases. It's usually preferred to
+		 * bind to the `value` prop instead._
 		 *
-		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
-		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 * The `event.details` payload includes a copy of the value and an `origin`
+		 * field to distinguish between user-interactive changes (`internal`) and
+		 * changes resulting from programmatic manipulation of the `value`
+		 * (`external`).
+		 *
 		 * @extends ValueChangeEvent
 		 * @event
 		 */

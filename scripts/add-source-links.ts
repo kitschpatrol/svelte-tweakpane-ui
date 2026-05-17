@@ -26,7 +26,10 @@ async function addLinksToComponentBlock(filePath: string): Promise<void> {
 		}
 	} else {
 		// eslint-disable-next-line ts/no-unnecessary-condition
-		if (verbose) console.log(`Added source links to ${filePath}`)
+		if (verbose) {
+			console.log(`Added source links to ${filePath}`)
+		}
+
 		await fs.writeFile(filePath, updatedContent, 'utf8')
 	}
 }

@@ -16,6 +16,7 @@
 	type $$Props = Omit<ComponentProps<Binding<BindableValue, U, V>>, 'key' | 'object'> & {
 		/**
 		 * The value to control.
+		 *
 		 * @bindable
 		 */
 		value: T

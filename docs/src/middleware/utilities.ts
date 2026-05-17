@@ -1,11 +1,3 @@
-export function stripTrailingSlash(string: string): string {
-	if (string.endsWith('/')) {
-		return string.slice(0, -1)
-	}
-
-	return string
-}
-
 // Helper to... linkify words
 // ONLY works if the entire child of the element is the word
 // document is mutated

@@ -1,4 +1,4 @@
-import { defineDomMiddleware } from './dom-middleware'
+import { defineDomMiddleware } from 'astro-html-kit/middleware'
 import { linkifyTerms } from './utilities'
 const { BASE_URL: baseUrl } = import.meta.env
 import { getCollection } from 'astro:content'

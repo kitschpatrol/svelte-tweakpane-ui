@@ -36,7 +36,9 @@ function addExports(sourceIndexFile: string, closestPackage: ReadResult) {
 		exports[key] = { types, svelte }
 
 		// eslint-disable-next-line ts/no-unnecessary-condition
-		if (verbose) console.log(exports[key])
+		if (verbose) {
+			console.log(exports[key])
+		}
 	}
 
 	// Extract JS exports from index file (like Utils, etc.)
@@ -50,7 +52,9 @@ function addExports(sourceIndexFile: string, closestPackage: ReadResult) {
 		exports[key] = { types, default: defaultValue }
 
 		// eslint-disable-next-line ts/no-unnecessary-condition
-		if (verbose) console.log(exports[key])
+		if (verbose) {
+			console.log(exports[key])
+		}
 	}
 
 	// Save to package.json

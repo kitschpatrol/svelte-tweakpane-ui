@@ -24,17 +24,22 @@
 	) & {
 		/**
 		 * Pane mode, one of three options:
-		 * - **'draggable'** *(default)*  \
-		 *   The pane is draggable and resizable, and may be placed anywhere over the page.
-		 * - **'inline'**  \
-		 *   The pane appears inline with other content in the normal flow of the document.  \
-		 *   This is the default mode for components created outside of an explicit `<Pane>`
-		 *   component.*
-		 * - **'fixed'** \
-		 *   Standard Tweakpane behavior where the pane is shown in a fixed position over the page.
 		 *
-		 *   Note that `<Pane>` is a dynamic component, and availability of additional props will
-		 *   vary depending on the defined `position` value.
+		 * - **'draggable'** _(default)_\
+		 *   The pane is draggable and resizable, and may be placed anywhere over the
+		 *   page.
+		 * - **'inline'**\
+		 *   The pane appears inline with other content in the normal flow of the
+		 *   document.\
+		 *   This is the default mode for components created outside of an explicit
+		 *   `<Pane>` component.*
+		 * - **'fixed'**\
+		 *   Standard Tweakpane behavior where the pane is shown in a fixed position
+		 *   over the page.
+		 *
+		 *   Note that `<Pane>` is a dynamic component, and availability of additional
+		 *   props will vary depending on the defined `position` value.
+		 *
 		 * @default `'draggable'`
 		 */
 		position?: PanePosition

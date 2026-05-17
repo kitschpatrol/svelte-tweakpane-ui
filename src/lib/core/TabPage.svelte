@@ -12,12 +12,14 @@
 
 	/**
 	 * Text in the tab.
+	 *
 	 * @default `'Tab Page'`
 	 */
 	export let title: string = 'Tab Page'
 
 	/**
 	 * Prevent interactivity and gray out the control.
+	 *
 	 * @default `false`
 	 */
 	export let disabled: boolean = false
@@ -26,6 +28,7 @@
 	 * Sets the page is the active tab.
 	 *
 	 * When bound it will indicate whether the tab is active.
+	 *
 	 * @default `false`
 	 * @bindable
 	 */
@@ -33,9 +36,12 @@
 
 	/**
 	 * Custom color scheme.
-	 * @default `undefined`  \
-	 * Inherits default Tweakpane theme equivalent to `ThemeUtils.presets.standard`, or the theme
-	 * set with `setGlobalDefaultTheme()`.)
+	 *
+	 * If undefined, inherits default Tweakpane theme equivalent to
+	 * `ThemeUtils.presets.standard`, or the theme set with
+	 * `setGlobalDefaultTheme()`.)
+	 *
+	 * @default `undefined`
 	 */
 	export let theme: Theme | undefined = undefined
 

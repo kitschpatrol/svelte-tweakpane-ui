@@ -54,21 +54,22 @@
 				/**
 				 * Input parameters specific to the X dimension.
 				 *
-				 * Renamed from `x` in Tweakpane API to clarify that it is an object of options, not
-				 * a value.
+				 * Renamed from `x` in Tweakpane API to clarify that it is an object of
+				 * options, not a value.
+				 *
 				 * @default `undefined`
 				 */
 				optionsX?: PointOptions<U>['x']
 				/**
 				 * Input parameters specific to the Y dimension.
 				 *
-				 * For 2D point values, the object also includes the `inverted` key, which inverts
-				 * the Y axis.
+				 * For 2D point values, the object also includes the `inverted` key,
+				 * which inverts the Y axis.
 				 *
-				 * Renamed from `y` in Tweakpane API to clarify that it is an object of options, not
-				 * a value.
-				 * @default `undefined`  \
-				 * `inverted` is `false`
+				 * Renamed from `y` in Tweakpane API to clarify that it is an object of
+				 * options, not a value.
+				 *
+				 * @default `undefined`
 				 */
 				optionsY?: PointOptions<U>['y']
 			}
@@ -78,8 +79,9 @@
 					/**
 					 * Input parameters specific to the Z dimension.
 					 *
-					 * Renamed from `z` in Tweakpane API to clarify that it is an object of options,
-					 * not a value.
+					 * Renamed from `z` in Tweakpane API to clarify that it is an object
+					 * of options, not a value.
+					 *
 					 * @default `undefined`
 					 */
 					optionsZ?: PointOptions<U>['z']
@@ -90,8 +92,9 @@
 					/**
 					 * Input parameters specific to the W dimension.
 					 *
-					 * Renamed from `w` in Tweakpane API to clarify that it is an object of options,
-					 * not a value.
+					 * Renamed from `w` in Tweakpane API to clarify that it is an object
+					 * of options, not a value.
+					 *
 					 * @default `undefined`
 					 */
 					optionsW?: PointOptions<U>['w']
@@ -116,48 +119,65 @@
 			/**
 			 * A 2D, 3D, or 4D point object to control.
 			 *
-			 * Takes a tuple with a `number` value for each dimension, or an object with at least `x`
-			 * and `y` values, and optionally `z` and `w` values for additional dimensions.
+			 * Takes a tuple with a `number` value for each dimension, or an object
+			 * with at least `x` and `y` values, and optionally `z` and `w` values for
+			 * additional dimensions.
 			 *
-			 * The type of this value will determine the availability of axis-specific option props.
+			 * The type of this value will determine the availability of axis-specific
+			 * option props.
+			 *
 			 * @bindable
 			 */
 			value: T
 			/**
 			 * The minimum value for all dimensions.
-			 * @default `undefined`  \
-			 * No minimum.
+			 *
+			 * If undefined, there is no minimum.
+			 *
+			 * @default `undefined`
 			 */
 			min?: number
 			/**
 			 * The maximum value for all dimensions.
-			 * @default `undefined`  \
-			 * No maximum.
+			 *
+			 * If undefined, there is no maximum.
+			 *
+			 * @default `undefined`
 			 */
 			max?: number
 			/**
-			 * A function to customize the point value's string representation (e.g. rounding, etc.).
-			 * @default `undefined`  \
-			 * Normal `.toString()` formatting.
+			 * A function to customize the point value's string representation (e.g.
+			 * rounding, etc.).
+			 *
+			 * If undefined, normal `.toString()` formatting is used.
+			 *
+			 * @default `undefined`
 			 */
 			format?: (value: number) => string
 			/**
-			 * The unit scale for key-based input for all dimensions (e.g. the up and down arrow keys).
-			 * @default `1`  \
-			 * Or `stepValue` if defined.
+			 * The unit scale for key-based input for all dimensions (e.g. the up and
+			 * down arrow keys).
+			 *
+			 * Will be overridden by `stepValue` if defined.
+			 *
+			 * @default `1`
 			 */
 			keyScale?: number
 			/**
 			 * The unit scale for pointer-based input for all dimensions.
-			 * @default `undefined`  \
-			 * [Dynamic based on magnitude of
+			 *
+			 * If undefined, default is dynamic [based on magnitude of
 			 * `value`](https://github.com/cocopon/tweakpane/blob/66dfbea04bfe9b7f031673c955ceda1f92356e75/packages/core/src/common/number/util.ts#L54).
+			 *
+			 * @default `undefined``
 			 */
 			pointerScale?: number
 			/**
 			 * The minimum step interval for all dimensions.
-			 * @default `undefined`  \
-			 * No step constraint.
+			 *
+			 * If undefined, there is no step constraint.
+			 *
+			 * @default `undefined`
 			 */
 			step?: number
 		}
@@ -184,10 +204,14 @@
 		/**
 		 * Fires when `value` changes.
 		 *
-		 * _This event is provided for advanced use cases. It's usually preferred to bind to the `value` prop instead._
+		 * _This event is provided for advanced use cases. It's usually preferred to
+		 * bind to the `value` prop instead._
 		 *
-		 * The `event.details` payload includes a copy of the value and an `origin` field to distinguish between user-interactive changes (`internal`)
-		 * and changes resulting from programmatic manipulation of the `value` (`external`).
+		 * The `event.details` payload includes a copy of the value and an `origin`
+		 * field to distinguish between user-interactive changes (`internal`) and
+		 * changes resulting from programmatic manipulation of the `value`
+		 * (`external`).
+		 *
 		 * @extends ValueChangeEvent
 		 * @event
 		 */
@@ -216,6 +240,7 @@
 				internalValue = newInternalValue
 			}
 		} else if (!shallowEqual(internalValue, value)) {
+			// eslint-disable-next-line ts/no-unnecessary-type-assertion
 			internalValue = { ...value } as InternalPoint<T>
 		}
 	}
@@ -234,6 +259,7 @@
 				value = newValue
 			}
 		} else if (!shallowEqual(value, internalValue)) {
+			// eslint-disable-next-line ts/no-unnecessary-type-assertion
 			value = { ...internalValue } as T
 		}
 	}

@@ -13,7 +13,9 @@ export async function load({ data }) {
 
 		// Find matching module by filename to avoid platform-specific path issues
 		const entry = Object.entries(modules).find(([key]) => key.endsWith(`/${filename}`))
-		if (!entry) continue
+		if (!entry) {
+			continue
+		}
 
 		const { default: component } = await entry[1]()
 

@@ -10,7 +10,9 @@ export async function load({ data }) {
 
 	// Find matching module by filename to avoid platform-specific path issues
 	const entry = Object.entries(modules).find(([key]) => key.endsWith(`/${filename}`))
-	if (!entry) throw new Error(`Component not found: ${filename}`)
+	if (!entry) {
+		throw new Error(`Component not found: ${filename}`)
+	}
 
 	const { default: component } = await entry[1]()
 

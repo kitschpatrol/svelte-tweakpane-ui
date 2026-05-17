@@ -23,6 +23,7 @@
 		value: string
 		/**
 		 * Display multiline strings.
+		 *
 		 * @default `false`
 		 */
 		multiline?: boolean
