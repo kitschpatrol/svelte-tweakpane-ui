@@ -11,7 +11,7 @@ const reformat = true
 
 export async function generateExampleComponents(): Promise<void> {
 	await fs.rm('./docs/src/examples', { force: true, recursive: true })
-	// eslint-disable-next-line node/no-unsupported-features/node-builtins
+
 	await fs.cp('./src/examples', './docs/src/examples', { recursive: true })
 
 	const files = globSync('./docs/src/examples/**/*.svelte', { posix: true })
