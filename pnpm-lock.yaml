@@ -65,8 +65,8 @@ importers:
         specifier: 4.0.5
         version: 4.0.5
       tweakpane-plugin-color-plus:
-        specifier: 0.3.1
-        version: 0.3.1(tweakpane@4.0.5)
+        specifier: 0.4.1
+        version: 0.4.1(tweakpane@4.0.5)
     devDependencies:
       '@kitschpatrol/shared-config':
         specifier: ^7.6.2
@@ -2841,8 +2841,8 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
-  baseline-browser-mapping@2.10.34:
-    resolution: {integrity: sha512-IMDedajPifLnHNY0X9n8hKxRTQ6/eTHwr5bDo04WnuqxyKw6LYtQywCuuqPZwhl3aBXMvQpJov42GLCwRRdQzw==}
+  baseline-browser-mapping@2.10.35:
+    resolution: {integrity: sha512-honAfLBde0HAFLdNyBEfuuENkF6zR+ozxqxa/2zJKHBe1qzLqyTSeRKpdPEHAP03rlDGyQOPnCSxnVpVqQo9Mg==}
     engines: {node: '>=6.0.0'}
     hasBin: true
 
@@ -6512,8 +6512,8 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  tweakpane-plugin-color-plus@0.3.1:
-    resolution: {integrity: sha512-D6j7R616TRgMp3W/YHmWYiVd3bLKrx4jsBR9ZdxNd/saWzbE+B/KIYSn3vVcSKn9kAb48u20dd/1KhRzTU0OXA==}
+  tweakpane-plugin-color-plus@0.4.1:
+    resolution: {integrity: sha512-S9meaQt1RPmDhFBiBtV/RI50K2m2sawHXAWJ93wFs7cLEiEkys/hw/79if+UR/31qUh+dY/5BaeucnFXabyifg==}
     engines: {node: '>=20.19.0'}
     peerDependencies:
       tweakpane: ^4.0.0
@@ -10238,7 +10238,7 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  baseline-browser-mapping@2.10.34: {}
+  baseline-browser-mapping@2.10.35: {}
 
   bcp-47-match@2.0.3: {}
 
@@ -10295,7 +10295,7 @@ snapshots:
 
   browserslist@4.28.2:
     dependencies:
-      baseline-browser-mapping: 2.10.34
+      baseline-browser-mapping: 2.10.35
       caniuse-lite: 1.0.30001797
       electron-to-chromium: 1.5.370
       node-releases: 2.0.47
@@ -15192,7 +15192,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  tweakpane-plugin-color-plus@0.3.1(tweakpane@4.0.5):
+  tweakpane-plugin-color-plus@0.4.1(tweakpane@4.0.5):
     dependencies:
       '@tweakpane/core': 2.0.5
       tweakpane: 4.0.5

@@ -26,3 +26,5 @@ allowBuilds:
   sharp: true
   unrs-resolver: true
   workerd: true
+minimumReleaseAgeExclude:
+  - tweakpane-plugin-color-plus@0.4.1
