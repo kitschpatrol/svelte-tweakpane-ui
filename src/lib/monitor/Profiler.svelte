@@ -183,19 +183,22 @@
 		// Clean up if needed
 		stopObservingMeasuredValue()
 		const targetNode = profilerBlade.controller.view.valueElement
-		if (!targetNode?.innerHTML) {
+		if (targetNode?.innerHTML === undefined || targetNode.innerHTML === '') {
 			return
 		}
 
 		observer = new MutationObserver((mutations) => {
 			for (const mutation of mutations) {
-				if (mutation.type === 'characterData' || mutation.type === 'childList') {
-					// Parse float ignore the deltaUnit suffix
-					const fpsText = (mutation.target as HTMLElement).textContent
-					if (fpsText !== null) {
-						const delta = Number.parseFloat(fpsText)
-						!Number.isNaN(delta) && dispatch('change', delta)
-					}
+				if (mutation.type !== 'characterData' && mutation.type !== 'childList') {
+					continue
+				}
+
+				// Parse float ignore the deltaUnit suffix
+				const fpsText = (mutation.target as HTMLElement).textContent
+				if (fpsText !== null) {
+					// eslint-disable-next-line unicorn/prefer-number-coercion -- Text has a deltaUnit suffix that `Number()` can't parse
+					const delta = Number.parseFloat(fpsText)
+					!Number.isNaN(delta) && dispatch('change', delta)
 				}
 			}
 		})
@@ -204,13 +207,15 @@
 	}
 
 	function stopObservingMeasuredValue() {
-		if (observer) {
-			observer.disconnect()
-			observer = undefined
+		if (!observer) {
+			return
 		}
+
+		observer.disconnect()
+		observer = undefined
 	}
 
-	$: profilerBlade && startObservingMeasuredValue()
+	$: profilerBlade !== undefined && startObservingMeasuredValue()
 
 	// TODO... getting false alarms on this $: DEV && enforceReadonly(_measure, measure, 'Profiler',
 	// 'measure', true); $: DEV && enforceReadonly(_measureAsync, measureAsync, 'Profiler',

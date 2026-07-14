@@ -96,44 +96,48 @@
 
 	function setValue() {
 		if (
-			!shallowEqual(getValue(), [
+			shallowEqual(getValue(), [
 				cubicBezierBlade.value.x1,
 				cubicBezierBlade.value.y1,
 				cubicBezierBlade.value.x2,
 				cubicBezierBlade.value.y2,
 			])
 		) {
-			// CubicBezier is a blade, not a binding, so state must be synced manually
-			cubicBezierBlade.value = Array.isArray(value)
-				? new CubicBezier(value[0], value[1], value[2], value[3])
-				: new CubicBezier(value.x1, value.y1, value.x2, value.y2)
-
-			dispatch('change', {
-				value: copy(value),
-				origin: 'external',
-			})
+			return
 		}
+
+		// CubicBezier is a blade, not a binding, so state must be synced manually
+		cubicBezierBlade.value = Array.isArray(value)
+			? new CubicBezier(value[0], value[1], value[2], value[3])
+			: new CubicBezier(value.x1, value.y1, value.x2, value.y2)
+
+		dispatch('change', {
+			value: copy(value),
+			origin: 'external',
+		})
 	}
 
 	function addEvent() {
 		cubicBezierBlade.on('change', (event) => {
 			if (
-				!shallowEqual(getValue(), [event.value.x1, event.value.y1, event.value.x2, event.value.y2])
+				shallowEqual(getValue(), [event.value.x1, event.value.y1, event.value.x2, event.value.y2])
 			) {
-				value = Array.isArray(value)
-					? [event.value.x1, event.value.y1, event.value.x2, event.value.y2]
-					: {
-							x1: event.value.x1,
-							y1: event.value.y1,
-							x2: event.value.x2,
-							y2: event.value.y2,
-						}
-
-				dispatch('change', {
-					value: copy(value),
-					origin: 'internal',
-				})
+				return
 			}
+
+			value = Array.isArray(value)
+				? [event.value.x1, event.value.y1, event.value.x2, event.value.y2]
+				: {
+						x1: event.value.x1,
+						y1: event.value.y1,
+						x2: event.value.x2,
+						y2: event.value.y2,
+					}
+
+			dispatch('change', {
+				value: copy(value),
+				origin: 'internal',
+			})
 		})
 	}
 
@@ -142,8 +146,8 @@
 		value: getValue(),
 		view: 'cubicbezier',
 	}
-	$: cubicBezierBlade && addEvent()
-	$: (value, cubicBezierBlade && setValue())
+	$: cubicBezierBlade !== undefined && addEvent()
+	$: (value, cubicBezierBlade !== undefined && setValue())
 </script>
 
 <!--
@@ -260,7 +264,7 @@ Note that _Svelte Tweakpane UI_ embeds a [fork](https://github.com/kitschpatrol/
 />
 {#if !BROWSER}
 	<ClsPad keysAdd={fillWith('containerUnitSize', 1)} theme={$$props.theme} />
-	{#if expanded && $$props.picker === 'inline'}
+	{#if expanded === true && $$props.picker === 'inline'}
 		<ClsPad keysAdd={fillWith('containerUnitSize', 6)} theme={$$props.theme} />
 		<ClsPad keysAdd={fillWith('containerUnitSpacing', 2)} theme={$$props.theme} />
 	{/if}

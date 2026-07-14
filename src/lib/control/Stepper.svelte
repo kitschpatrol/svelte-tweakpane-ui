@@ -56,14 +56,14 @@
 
 	let ref: GenericSliderRef
 
-	function updateWide(wide: boolean) {
+	function updateWide(isWide: boolean) {
 		const inputField = ref?.element.querySelector<HTMLDivElement>('div.tp-stepv_t')
 		const buttonContainer = ref?.element.querySelector<HTMLDivElement>('div.tp-stepv_s')
-		const buttons = buttonContainer?.querySelectorAll<HTMLButtonElement>('button')
-		if (wide) {
+		const buttons = buttonContainer?.querySelectorAll<HTMLButtonElement>('button') ?? []
+		if (isWide) {
 			inputField?.style.setProperty('display', 'none')
 			buttonContainer?.style.setProperty('flex', '1')
-			for (const button of buttons ?? []) {
+			for (const button of buttons) {
 				button.style.setProperty('flex', '1')
 			}
 		} else {
@@ -71,7 +71,7 @@
 		}
 	}
 
-	$: ref && wide !== undefined && updateWide(wide)
+	$: ref !== undefined && wide !== undefined && updateWide(wide)
 </script>
 
 <!--

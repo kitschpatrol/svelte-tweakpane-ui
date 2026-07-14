@@ -42,13 +42,13 @@
 	let containerElement: HTMLDivElement
 
 	onMount(() => {
-		if (tpPane) {
+		if (tpPane === undefined) {
+			console.warn('tpPane is undefined')
+		} else {
 			const fixedContainer = tpPane.element.parentElement
 			// eslint-disable-next-line svelte/no-dom-manipulating
 			containerElement.append(tpPane.element)
 			fixedContainer?.remove()
-		} else {
-			console.warn('tpPane is undefined')
 		}
 	})
 </script>

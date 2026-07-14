@@ -9,8 +9,8 @@
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-textarea'
 	import { BROWSER } from 'esm-env'
 	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte'
+	import type { UnwrapCustomEvents } from '$lib/utils.js'
 	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte'
-	import { type UnwrapCustomEvents } from '$lib/utils.js'
 
 	type $$Props = Omit<
 		ComponentProps<GenericInput<string, TextareaPluginInputParams>>,
@@ -73,6 +73,7 @@
 	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
+	// eslint-disable-next-line no-useless-assignment -- Defensive init; reactive statement overwrites before first read
 	let _value = value // Not bound, update events handled in svelte to allow updates on blur
 	let ref: GenericInputRef
 	let options: TextareaPluginInputParams
@@ -93,30 +94,32 @@
 		dispatch('change', { value, origin: 'internal' })
 	}
 
-	function updateListeners(live: boolean, destroy: boolean = false) {
+	function updateListeners(isLive: boolean, destroy: boolean = false) {
 		const input = ref?.controller.valueController.view.element.querySelector('textarea')
 		input?.removeEventListener('blur', onBlur)
 		input?.removeEventListener('input', onInput)
-		!destroy && live && input?.addEventListener('input', onInput)
-		!destroy && !live && input?.addEventListener('blur', onBlur)
+		!destroy && isLive && input?.addEventListener('input', onInput)
+		!destroy && !isLive && input?.addEventListener('blur', onBlur)
 	}
 
 	let lastText = value
 	function onBoundValueChange(text: string) {
-		if (text !== lastText) {
-			dispatch('change', { value: text, origin: 'external' })
-			lastText = text
+		if (text === lastText) {
+			return
 		}
+
+		dispatch('change', { value: text, origin: 'external' })
+		lastText = text
 	}
 
 	$: _value = value
-	$: ref && live !== undefined && updateListeners(live)
+	$: ref !== undefined && live !== undefined && updateListeners(live)
 	$: options = {
 		placeholder,
 		rows,
 		view: 'textarea',
 	}
-	$: ref && onBoundValueChange(_value)
+	$: ref !== undefined && onBoundValueChange(_value)
 </script>
 
 <!--
@@ -126,7 +129,7 @@ element.
 
 Integrates the
 [tweakpane-textarea-plugin](https://github.com/panGenerator/tweakpane-textarea-plugin)
-by [Krzysztof Goliński](http://www.golinski.org) and [Jakub
+by [Krzysztof Goliński](https://www.golinski.org) and [Jakub
 Koźniewski](https://pangenerator.com).
 
 Extends the underlying implementation with the `live` property to match the

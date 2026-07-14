@@ -31,7 +31,7 @@ export default defineConfig({
 				const sectionName = componentInfo.pathParts[0]
 				const output = sections.get(sectionName) ?? []
 
-				const firstLineOfDocumentation = componentInfo.doc.split('\n\n')[0].replaceAll('\n', ' ')
+				const firstLineOfDocumentation = componentInfo.doc.split('\n\n', 1)[0].replaceAll('\n', ' ')
 
 				output.push(
 					`- **[${name}](https://kitschpatrol.com/svelte-tweakpane-ui/docs/components/${name.toLowerCase()})**  `,

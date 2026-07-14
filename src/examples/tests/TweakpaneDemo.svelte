@@ -88,12 +88,14 @@
 	}
 
 	function hasParentWithClassName(element: HTMLElement, className: string): boolean {
-		if (element.classList.contains(className)) {
-			return true
-		}
+		let currentElement: HTMLElement | undefined = element
 
-		if (element.parentElement) {
-			return hasParentWithClassName(element.parentElement, className)
+		while (currentElement !== undefined) {
+			if (currentElement.classList.contains(className)) {
+				return true
+			}
+
+			currentElement = currentElement.parentElement ?? undefined
 		}
 
 		return false
@@ -144,17 +146,14 @@
 		point4,
 		($point4) => [$point4[0], $point4[1], $point4[2]] as PointValue3dTuple,
 	)
-	// eslint-disable-next-line no-return-assign
-	;(point3 as Writable<PointValue3dTuple>).set = (newItems) =>
-		($point4 = [newItems[0], newItems[1], newItems[2], $point4[3]])
-	// eslint-disable-next-line no-return-assign
-	;(point3 as Writable<PointValue3dTuple>).set = (newItems) =>
-		($point4 = [newItems[0], newItems[1], newItems[2], $point4[3]])
+	;(point3 as Writable<PointValue3dTuple>).set = (newItems) => {
+		$point4 = [newItems[0], newItems[1], newItems[2], $point4[3]]
+	}
 
 	const point2 = derived(point4, ($point4) => [$point4[0], $point4[1]] as PointValue2dTuple)
-	// eslint-disable-next-line no-return-assign
-	;(point2 as Writable<PointValue2dTuple>).set = (newItems) =>
-		($point4 = [newItems[0], newItems[1], $point4[2], $point4[3]])
+	;(point2 as Writable<PointValue2dTuple>).set = (newItems) => {
+		$point4 = [newItems[0], newItems[1], $point4[2], $point4[3]]
+	}
 
 	// Reactivity
 	$: theme = { ...ThemeUtils.presets[themeKey], ...defaultTheme }

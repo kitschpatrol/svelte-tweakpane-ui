@@ -55,7 +55,6 @@ const perfectionistSortConfig = [
  */
 const sharedOverrides: Rules = {
 	'e18e/prefer-array-fill': 'off', // Messes with types
-	'e18e/prefer-static-regex': 'off', // Never in hot path
 	'perfectionist/sort-object-types': [
 		'error',
 		...perfectionistSortConfig,
@@ -67,19 +66,11 @@ const sharedOverrides: Rules = {
 		{ newlinesBetween: 0, order: 'asc', type: 'natural' },
 	],
 	'ts/no-inferrable-types': 'off',
-	'ts/no-unsafe-type-assertion': 'off',
 	'unicorn/no-array-reduce': 'off',
 }
 
 export default eslintConfig(
 	{
-		astro: {
-			overrides: {
-				'e18e/prefer-static-regex': 'off',
-				'import/no-unresolved': 'off',
-				'ts/no-unsafe-type-assertion': 'off',
-			},
-		},
 		ignores: [
 			// Generated kit files
 			'src/examples/components/*',
@@ -90,20 +81,8 @@ export default eslintConfig(
 			// Virtual Svelte files from markdown code blocks (not in tsconfig
 			// project)
 			'**/*.md/*.svelte',
-			'**/*.mdx/*.svelte',
-			'**/*.mdx/*.js',
+			'**/*.mdx/*.{svelte,js}',
 		],
-		js: {
-			overrides: {
-				'import/no-unresolved': 'off',
-			},
-			// // Issues with code blocks in MDX files not appearing in tsconfig
-			// // project
-			// typeAware: {
-			// 	enabled: true,
-			// 	ignores: ['**/*.mdx/*.js'],
-			// },
-		},
 		svelte: {
 			overrides: {
 				'import/consistent-type-specifier-style': 'off',
@@ -111,6 +90,8 @@ export default eslintConfig(
 				'jsdoc/valid-types': 'off',
 				'no-self-assign': 'off',
 				'node/no-unsupported-features/node-builtins': 'off',
+				// The Svelte 4 compiler can't parse the 'v' flag, so require 'u' instead
+				'require-unicode-regexp': ['error', { requireFlag: 'u' }],
 				'svelte/no-navigation-without-resolve': 'off',
 				'svelte/no-reactive-reassign': 'off',
 				'svelte/require-each-key': 'off',
@@ -135,6 +116,8 @@ export default eslintConfig(
 					},
 				],
 				'unicorn/no-null': 'off',
+				// False positives on Svelte's compiler-declared `$store` auto-subscription variables
+				'unicorn/no-optional-chaining-on-undeclared-variable': 'off',
 				...sharedOverrides,
 			},
 		},
@@ -146,7 +129,6 @@ export default eslintConfig(
 						allowed: ['execa', 'glob', 'read-package-up'],
 					},
 				],
-				'import/no-named-as-default-member': 'off',
 				'jsdoc/require-jsdoc': 'off',
 				...sharedOverrides,
 			},
@@ -156,18 +138,8 @@ export default eslintConfig(
 	{
 		files: ['docs/package.json'],
 		rules: {
-			// TODO remove after next shared-config release
 			'json-package/require-files': 'off',
 			'json-package/require-keywords': 'off',
-			// Because of link to parent
-			'json-package/valid-dependencies': 'off',
-			'json-package/valid-package-definition': 'off',
-		},
-	},
-	{
-		files: ['**/*.{mdx,md,astro}/*.{svelte,ts,js,mts,mjs}'],
-		rules: {
-			'unicorn/filename-case': 'off',
 		},
 	},
 )

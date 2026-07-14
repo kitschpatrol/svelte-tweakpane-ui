@@ -31,7 +31,7 @@ export function healDtsComments(): void {
 	const sourceFiles = new Map<string, SourceFile>()
 	for (const name of componentNames) {
 		const filePath = getSourceFilePath(name)
-		if (filePath) {
+		if (filePath !== undefined && filePath !== '') {
 			sourceFiles.set(name, sourceProject.addSourceFileAtPath(filePath))
 		}
 	}
@@ -40,7 +40,7 @@ export function healDtsComments(): void {
 	const definitionFiles = new Map<string, SourceFile>()
 	for (const name of componentNames) {
 		const filePath = getDefinitionFilePath(name)
-		if (filePath) {
+		if (filePath !== undefined && filePath !== '') {
 			definitionFiles.set(name, definitionProject.addSourceFileAtPath(filePath))
 		}
 	}
@@ -85,13 +85,12 @@ export function healDtsComments(): void {
 	}
 
 	function inheritPropCommentsAndSave(componentName: string): number {
-		let quantityFixed = 0
-
 		const definitionFile = definitionFiles.get(componentName)
 		if (!definitionFile) {
 			return 0
 		}
 
+		let quantityFixed = 0
 		const props = getProps(definitionFile, 'uncommented')
 		for (const propNode of props) {
 			// Check self first, then go up the component inheritance chain

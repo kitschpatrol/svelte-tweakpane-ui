@@ -188,22 +188,26 @@
 
 	// Local storage helpers, warn about ID collisions
 	function addStorageId() {
-		if (localStoreId !== undefined) {
-			if (localStoreIds.includes(localStoreId)) {
-				console.warn(
-					'Multiple instances of <Pane> with `position="draggable"` and `storePositionLocally=true` detected. You must explicitly set unique localStoreId property on each component to avoid collisions.',
-				)
-			}
-
-			localStoreIds.push(localStoreId)
+		if (localStoreId === undefined) {
+			return
 		}
+
+		if (localStoreIds.includes(localStoreId)) {
+			console.warn(
+				'Multiple instances of <Pane> with `position="draggable"` and `storePositionLocally=true` detected. You must explicitly set unique localStoreId property on each component to avoid collisions.',
+			)
+		}
+
+		localStoreIds.push(localStoreId)
 	}
 
 	function removeStorageId() {
-		if (localStoreId) {
-			localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1)
-			localStorage.removeItem(`${localStorePrefix}${localStoreId}`)
+		if (localStoreId === undefined || localStoreId === '') {
+			return
 		}
+
+		localStoreIds.splice(localStoreIds.indexOf(localStoreId), 1)
+		localStorage.removeItem(`${localStorePrefix}${localStoreId}`)
 	}
 
 	function updateLocalStoreId(id: string | undefined) {
@@ -226,25 +230,27 @@
 
 	// Helpers
 	function setDocumentSize() {
-		if (x !== undefined && y !== undefined && width !== undefined) {
-			const documentWidthPrevious = documentWidth
-			const documentHeightPrevious = documentHeight
-			documentWidth = document.documentElement.clientWidth
-			documentHeight = document.documentElement.clientHeight
-			const dx = documentWidth - documentWidthPrevious
-			const dy = documentHeight - documentHeightPrevious
+		if (x === undefined || y === undefined || width === undefined) {
+			return
+		}
 
-			// Ensure we "stick" to the correct quadrant
-			const centerPercentX = (x + width / 2) / documentWidth
-			const centerPercentY = (y + containerHeightScaled / 2) / documentHeight
+		const documentWidthPrevious = documentWidth
+		const documentHeightPrevious = documentHeight
+		documentWidth = document.documentElement.clientWidth
+		documentHeight = document.documentElement.clientHeight
+		const dx = documentWidth - documentWidthPrevious
+		const dy = documentHeight - documentHeightPrevious
 
-			if (!Number.isNaN(dx) && centerPercentX >= 0.5) {
-				x += dx
-			}
+		// Ensure we "stick" to the correct quadrant
+		const centerPercentX = (x + width / 2) / documentWidth
+		const centerPercentY = (y + containerHeightScaled / 2) / documentHeight
 
-			if (!Number.isNaN(dy) && centerPercentY >= 0.5) {
-				y += dy
-			}
+		if (!Number.isNaN(dx) && centerPercentX >= 0.5) {
+			x += dx
+		}
+
+		if (!Number.isNaN(dy) && centerPercentY >= 0.5) {
+			y += dy
 		}
 	}
 
@@ -272,47 +278,49 @@
 				// e.g. if (moveDistance < dragMovementDistanceThreshold && userExpandable)...
 				titlebarWindowShadeDoubleClick &&
 				event.target === dragBarElement &&
-				tpPane
+				tpPane !== undefined
 			) {
-				tpPane.expanded = !tpPane.expanded
+				tpPane.expanded = tpPane.expanded !== true
 			}
 		}
 	}
 
 	const dragStartListener = (event: PointerEvent) => {
 		if (
-			x !== undefined &&
-			y !== undefined &&
-			event.button === 0 &&
-			event.target instanceof HTMLElement
+			x === undefined ||
+			y === undefined ||
+			event.button !== 0 ||
+			!(event.target instanceof HTMLElement)
 		) {
-			moveDistance = 0
-
-			// Compensate for any window scrolling during the drag
-			startScrollY = window.scrollY
-			startScrollX = window.scrollX
-
-			// Remove down listeners, prevents drag-related multi-touch
-			// Can revisit this with a more robust approach...
-			initialDragEvent = event
-			removeDragStartListeners()
-			addDragMoveAndEndListeners()
-
-			if (event.target === dragBarElement) {
-				// Would rather do this with :active pseudo-class, but it doesn't
-				// update on blur events in Firefox
-				dragBarElement.style.cursor = 'grabbing'
-			}
-
-			/* Have to do this in JS due to single ":active" element in multi-pane situations */
-			containerElement.style.transition = 'width 0s ease'
-
-			event.target.setPointerCapture(event.pointerId)
-
-			startWidth = width ?? 0
-			startOffsetX = x - event.pageX
-			startOffsetY = y - event.pageY
+			return
 		}
+
+		moveDistance = 0
+
+		// Compensate for any window scrolling during the drag
+		startScrollY = window.scrollY
+		startScrollX = window.scrollX
+
+		// Remove down listeners, prevents drag-related multi-touch
+		// Can revisit this with a more robust approach...
+		initialDragEvent = event
+		removeDragStartListeners()
+		addDragMoveAndEndListeners()
+
+		if (event.target === dragBarElement) {
+			// Would rather do this with :active pseudo-class, but it doesn't
+			// update on blur events in Firefox
+			dragBarElement.style.cursor = 'grabbing'
+		}
+
+		/* Have to do this in JS due to single ":active" element in multi-pane situations */
+		containerElement.style.transition = 'width 0s ease'
+
+		event.target.setPointerCapture(event.pointerId)
+
+		startWidth = width ?? 0
+		startOffsetX = x - event.pageX
+		startOffsetY = y - event.pageY
 	}
 
 	// Things that don't help drag latency:
@@ -345,21 +353,23 @@
 	// Simulates a pointer cancel event when the window loses focus while dragging
 	// Event simulation approach is necessary for Firefox to redraw the cursor
 	const blurListener = () => {
-		if (pointerCancelOnWindowBlur && initialDragEvent?.target instanceof HTMLElement) {
-			const { target } = initialDragEvent
-
-			const bounds = target.getBoundingClientRect()
-			const pointerCancelEvent = new PointerEvent('pointercancel', {
-				bubbles: true,
-				clientX: bounds.left + bounds.width / 2,
-				clientY: bounds.top + bounds.height / 2,
-				composed: true,
-				pointerId: initialDragEvent.pointerId,
-				pointerType: initialDragEvent.pointerType,
-			})
-
-			target.dispatchEvent(pointerCancelEvent)
+		if (!pointerCancelOnWindowBlur || !(initialDragEvent?.target instanceof HTMLElement)) {
+			return
 		}
+
+		const { target } = initialDragEvent
+
+		const bounds = target.getBoundingClientRect()
+		const pointerCancelEvent = new PointerEvent('pointercancel', {
+			bubbles: true,
+			clientX: bounds.left + bounds.width / 2,
+			clientY: bounds.top + bounds.height / 2,
+			composed: true,
+			pointerId: initialDragEvent.pointerId,
+			pointerType: initialDragEvent.pointerType,
+		})
+
+		target.dispatchEvent(pointerCancelEvent)
 	}
 
 	const dragEndListener = (event: PointerEvent) => {
@@ -390,10 +400,10 @@
 				titlebarWindowShadeSingleClick &&
 				event.target === dragBarElement &&
 				moveDistance < dragMovementDistanceThreshold &&
-				userExpandable &&
-				tpPane
+				userExpandable === true &&
+				tpPane !== undefined
 			) {
-				tpPane.expanded = !tpPane.expanded
+				tpPane.expanded = tpPane.expanded !== true
 			}
 
 			initialDragEvent = undefined
@@ -443,11 +453,11 @@
 	onMount(() => {
 		setDocumentSize()
 
-		if (tpPane) {
+		if (tpPane === undefined) {
+			console.warn('no tpPane in draggable')
+		} else {
 			// eslint-disable-next-line svelte/no-dom-manipulating
 			containerElement.append(tpPane.element)
-		} else {
-			console.warn('no tpPane in draggable')
 		}
 
 		// Prevent scrolling content behind the pane on mobile when dragging the pane or otherwise
@@ -501,7 +511,7 @@
 		}
 	}
 
-	$: tpPane && resizable && updateResizability(resizable)
+	$: tpPane !== undefined && resizable && updateResizability(resizable)
 
 	function recursiveCollapse(
 		children: BladeApi[],
@@ -542,7 +552,7 @@
 	) {
 		// Collapse children if needed TODO progressive collapsing not working because of container
 		// height update delays...
-		if (collapseChildrenToFit && containerHeightScaled > documentHeight && tpPane) {
+		if (collapseChildrenToFit && containerHeightScaled > documentHeight && tpPane !== undefined) {
 			recursiveCollapse(tpPane.children)
 		}
 
@@ -572,7 +582,7 @@
 		positionStore?.set({ x, y, width, expanded })
 
 	$: {
-		if (containerElement) {
+		if (containerElement !== undefined) {
 			if (scale === undefined || scale === 1) {
 				containerHeightScaled = containerHeight
 			} else {
@@ -580,6 +590,7 @@
 				// eslint-disable-next-line unicorn/prefer-global-this
 				const style = window.getComputedStyle(containerElement)
 				const vPadding =
+					// eslint-disable-next-line unicorn/prefer-number-coercion -- Computed style values have a 'px' suffix that `Number()` can't parse
 					Number.parseFloat(style.paddingTop) + Number.parseFloat(style.paddingBottom)
 				containerHeightScaled = (containerHeight - vPadding) * scale + vPadding
 			}
@@ -609,7 +620,7 @@ This component is for internal use only.
 	}}
 	role="group"
 	class="draggable-container"
-	class:not-collapsable={!userExpandable}
+	class:not-collapsable={userExpandable !== true}
 	class:not-resizable={!resizable}
 	style:left="{x}px"
 	style:padding
@@ -627,8 +638,13 @@ This component is for internal use only.
 		position: fixed;
 		z-index: auto;
 		padding: 20px;
-		/* 0.2s matches Tweakpane's internal animation duration */
-		transition: width 0.2s ease;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		div.draggable-container {
+			/* 0.2s matches Tweakpane's internal animation duration */
+			transition: width 0.2s ease;
+		}
 	}
 
 	/* stylelint-disable-next-line selector-class-pattern */

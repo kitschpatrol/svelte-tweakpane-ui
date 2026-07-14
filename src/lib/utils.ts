@@ -140,8 +140,10 @@ export function enforceReadonly(
 		external !== internal &&
 		(!allowAssignmentToUndefined || internal !== undefined || external === undefined)
 	) {
-		const componentString = componentName ? `<${componentName}> ` : ''
-		const propertyString = propertyName ? `property "${propertyName}" ` : ''
+		const componentString =
+			componentName === undefined || componentName === '' ? '' : `<${componentName}> `
+		const propertyString =
+			propertyName === undefined || propertyName === '' ? '' : `property "${propertyName}" `
 
 		console.error(
 			`Svelte component "${componentString}" property "${propertyString}" is intended for readonly use.\nAssigning\n"${String(
@@ -180,7 +182,7 @@ export function getElementIndex(element: HTMLElement): number {
 // Doesn't create a new object, only works with string keys
 export function removeKeys<T extends Record<string, unknown>>(object: T, ...keys: string[]): T {
 	for (const key of keys) {
-		if (key in object) {
+		if (Object.hasOwn(object, key)) {
 			// eslint-disable-next-line ts/no-dynamic-delete
 			delete object[key as keyof T]
 		}
@@ -207,9 +209,10 @@ export function updateCollapsibility(
 		const titleBarElement = element.querySelector<HTMLButtonElement>(`.${titleBarClass}`)
 
 		if (titleBarElement) {
-			const iconElement = iconClass
-				? element.querySelector<HTMLDivElement>(`.${iconClass}`)
-				: undefined
+			const iconElement =
+				iconClass === undefined || iconClass === ''
+					? undefined
+					: element.querySelector<HTMLDivElement>(`.${iconClass}`)
 
 			if (isUserExpandableEnabled) {
 				titleBarElement.removeEventListener('click', clickBlocker, { capture: true })
@@ -252,15 +255,15 @@ export function getGridDimensions(
 	let rows: number
 	let columns: number
 
-	if (maxColumns && maxRows) {
+	if (maxColumns !== undefined && maxColumns > 0 && maxRows !== undefined && maxRows > 0) {
 		// No flexing; items can exceed the available slots
 		rows = Math.min(Math.ceil(itemCount / maxColumns), maxRows)
 		columns = Math.min(maxColumns, itemCount)
-	} else if (maxColumns) {
+	} else if (maxColumns !== undefined && maxColumns > 0) {
 		// Only maxColumns defined, so rows will flex
 		rows = Math.ceil(itemCount / maxColumns)
 		columns = maxColumns
-	} else if (maxRows) {
+	} else if (maxRows !== undefined && maxRows > 0) {
 		// Only maxRows defined, so columns will flex
 		columns = Math.ceil(itemCount / maxRows)
 		rows = maxRows
@@ -324,8 +327,7 @@ export function getSwatchButton(
 	const swatch = ((blade.controller as any)?.valueController?.view?.swatchElement?.querySelector(
 		'button',
 	) ?? (blade.controller as any)?.valueController?.view?.buttonElement) as
-		| HTMLButtonElement
-		| undefined
+		HTMLButtonElement | undefined
 
 	return swatch
 }
@@ -387,8 +389,8 @@ function cubicBezierToEaseFunction(cubicBezier: CubicBezierValue): (t: number) =
 			: [cubicBezier.x1, cubicBezier.y1, cubicBezier.x2, cubicBezier.y2]
 	) as [number, number, number, number]
 
-	return (t: number): number =>
-		(1 - t) ** 3 * 0 + (1 - t) ** 2 * t * 3 * y1 + (1 - t) * t ** 2 * 3 * y2 + t ** 3 * 1
+	// The Bernstein term for y0 is omitted since y0 is always 0
+	return (t: number): number => (1 - t) ** 2 * t * 3 * y1 + (1 - t) * t ** 2 * 3 * y2 + t ** 3 * 1
 }
 
 // Library exports

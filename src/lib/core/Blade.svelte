@@ -77,7 +77,7 @@
 
 	const registerPlugin = getContext<(plugin: Plugin) => void>('registerPlugin')
 	const parentStore: Writable<Container> = getContext('parentStore')
-	const userCreatedPane = getContext('userCreatedPane')
+	const userCreatedPane = getContext<boolean | undefined>('userCreatedPane')
 
 	let indexElement: HTMLDivElement
 	let index: number
@@ -85,7 +85,7 @@
 
 	function create() {
 		// Must destroy to allow reactive parameters
-		if (_ref) {
+		if (_ref !== undefined) {
 			_ref.dispose()
 		}
 
@@ -106,7 +106,7 @@
 	}
 
 	onMount(() => {
-		index = indexElement ? getElementIndex(indexElement) : 0
+		index = indexElement === undefined ? 0 : getElementIndex(indexElement)
 	})
 
 	onDestroy(() => {
@@ -116,10 +116,10 @@
 	// Readonly props
 	$: DEV && enforceReadonly(_ref, ref, 'Blade', 'ref', true)
 
-	$: options && $parentStore && index !== undefined && create()
-	$: _ref && (_ref.disabled = disabled)
+	$: options !== undefined && $parentStore !== undefined && index !== undefined && create()
+	$: _ref !== undefined && (_ref.disabled = disabled)
 	$: theme &&
-		$parentStore &&
+		$parentStore !== undefined &&
 		(userCreatedPane ?? !isRootPane($parentStore)) &&
 		console.warn(
 			'Set theme on the <Pane> component, not on its children! (Check nested <Blade> components for a theme prop.)',

@@ -29,16 +29,18 @@
 	}
 
 	function getPixelValue(s: string): number {
-		return Number.parseFloat(s.replace('px', ''))
+		return Number(s.replace('px', ''))
 	}
 
-	function getTotal(add: typeof keysAdd, sub: typeof keysSubtract, extra: number = 0): number {
+	function getTotal(
+		add: typeof keysAdd,
+		sub: typeof keysSubtract,
+		extraPixels: number = 0,
+	): number {
 		return (
-			// eslint-disable-next-line no-return-assign
-			add.reduce((acc, key) => (acc += getPixelValue(getValueOrFallback(theme, key))), 0) -
-			// eslint-disable-next-line no-return-assign
-			sub.reduce((acc, key) => (acc += getPixelValue(getValueOrFallback(theme, key))), 0) +
-			extra
+			add.reduce((acc, key) => acc + getPixelValue(getValueOrFallback(theme, key)), 0) -
+			sub.reduce((acc, key) => acc + getPixelValue(getValueOrFallback(theme, key)), 0) +
+			extraPixels
 		)
 	}
 

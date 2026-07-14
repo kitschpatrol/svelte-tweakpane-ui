@@ -8,6 +8,7 @@ import {
 
 // Leave this on
 const reformat = true
+const IMPORT_TWEAKPANE_PATH_REGEX = /'svelte-tweakpane-ui/v
 
 export async function generateKitExamples(): Promise<void> {
 	const components = getExportedComponents('./src/lib/index.ts')
@@ -17,8 +18,8 @@ export async function generateKitExamples(): Promise<void> {
 	await Promise.all(
 		components.map(async ({ name }) => {
 			const code = await getComponentExampleCodeFromSource(name, false)
-			if (code) {
-				const codeWithFixedImport = code.replace(/'svelte-tweakpane-ui/, "'$lib")
+			if (code !== undefined && code !== '') {
+				const codeWithFixedImport = code.replace(IMPORT_TWEAKPANE_PATH_REGEX, "'$lib")
 				// eslint-disable-next-line ts/no-unnecessary-condition
 				const formattedCode = reformat ? await lintAndFormat(codeWithFixedImport) : code
 				fs.writeFileSync(`./src/examples/components/${name}Example.svelte`, formattedCode)

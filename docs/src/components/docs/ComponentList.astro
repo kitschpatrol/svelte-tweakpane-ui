@@ -20,7 +20,7 @@ const components = documentation.filter(
 )
 
 async function firstLine(text: string): Promise<string> {
-	return marked.parseInline(text.split('\n\n')[0])
+	return marked.parseInline(text.split('\n\n', 1)[0])
 }
 ---
 
@@ -47,7 +47,7 @@ async function firstLine(text: string): Promise<string> {
 
 <style>
 	a.component {
-		font-family: var(--sl-font-system-mono);
+		font-family: var(--sl-font-system-mono), monospace;
 		font-size: var(--sl-text-base);
 		font-weight: bold;
 	}

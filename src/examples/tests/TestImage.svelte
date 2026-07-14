@@ -6,7 +6,6 @@
 	async function getRandomKittenUrl() {
 		const { url } = await fetch('https://loremflickr.com/800/800/kitten', {
 			method: 'HEAD',
-			redirect: 'follow',
 		})
 		return url
 	}

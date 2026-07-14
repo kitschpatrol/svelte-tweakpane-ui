@@ -62,7 +62,8 @@
 	const initialExpanded = expanded
 	let internalExpanded = initialExpanded
 
-	$: if (!gotBinding && ref) {
+	$: if (!gotBinding && ref !== undefined) {
+		// eslint-disable-next-line no-useless-assignment -- Read again when the reactive statement re-runs
 		gotBinding = true
 		// eslint-disable-next-line ts/no-unnecessary-type-assertion
 		;(ref.controller as any)?.valueController?.foldable_
@@ -81,9 +82,13 @@
 	}
 
 	// Click instead of setting expanded to avoid  animation jankiness
-	$: ref && buttonClass && updateCollapsibility(userExpandable ?? true, ref.element, buttonClass)
-	$: ref &&
-		buttonClass &&
+	$: ref !== undefined &&
+		buttonClass !== undefined &&
+		buttonClass !== '' &&
+		updateCollapsibility(userExpandable ?? true, ref.element, buttonClass)
+	$: ref !== undefined &&
+		buttonClass !== undefined &&
+		buttonClass !== '' &&
 		expanded !== internalExpanded &&
 		ref.element.querySelectorAll<HTMLButtonElement>(`.${buttonClass}`).length > 0 &&
 		ref.element.querySelector<HTMLButtonElement>(`.${buttonClass}`)?.click()

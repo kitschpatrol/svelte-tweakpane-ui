@@ -5,7 +5,6 @@ import starlight from '@astrojs/starlight'
 import svelte from '@astrojs/svelte'
 import { defineConfig } from 'astro/config'
 import { componentMenu } from './src/utils/config-helpers'
-process.env.BROWSER = 'chromium'
 
 // https://astro.build/config
 export default defineConfig({
@@ -84,13 +83,6 @@ export default defineConfig({
 					label: 'GitHub',
 				},
 				{ href: 'https://x.com/kitschpatrol', icon: 'x.com', label: 'X' },
-				// Maybe later
-				// { href: 'https://mastodon.social/@kitschpatrol', icon: 'mastodon', label: 'Mastodon' },
-				// {
-				// 	href: 'https://bsky.app/profile/kitschpatrol.bsky.social',
-				// 	icon: 'blueSky',
-				// 	label: 'Bluesky',
-				// },
 			],
 			title: 'Svelte Tweakpane UI',
 		}),

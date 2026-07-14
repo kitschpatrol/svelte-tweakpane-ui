@@ -17,8 +17,8 @@ function stopShouting(text: string) {
 	// If between 50% and 75% of the letters are uppercase,
 	// then lowercase the whole text
 	if (
-		text.replaceAll(/[^A-Z]/g, '').length > text.length * 0.5 &&
-		text.replaceAll(/[^A-Z]/g, '').length < text.length * 0.75
+		text.replaceAll(/[^A-Z]/gv, '').length > text.length * 0.5 &&
+		text.replaceAll(/[^A-Z]/gv, '').length < text.length * 0.75
 	) {
 		return text.toLowerCase()
 	}
@@ -27,12 +27,12 @@ function stopShouting(text: string) {
 }
 
 function stripQuotes(text: string) {
-	return text.replaceAll(/^["']|["']$/g, '')
+	return text.replaceAll(/^["']|["']$/gv, '')
 }
 
 function getNameFromEmail(name: string) {
 	if (name.includes('@')) {
-		return name.split('@')[0].replaceAll(/[_-]/g, ' ')
+		return name.split('@', 1)[0].replaceAll(/[_\-]/gv, ' ')
 	}
 
 	return name
@@ -58,11 +58,11 @@ const data = acknowledgmentsCollection.reduce<LicenseEntry[]>(
 const names = data
 	// eslint-disable-next-line unicorn/no-array-reduce
 	.reduce((acc: string[], { author }) => {
-		if (author) {
+		if (author !== undefined && author !== '') {
 			// Split compound comma-delimited publishers as needed
-			for (const subItem of author.split(/\s*(?:\sand\s|,|&)\s*/)) {
+			for (const subItem of author.split(/\s*(?:\sand\s|,|&)\s*/v)) {
 				const subPublisher = titleCase(stopShouting(stripQuotes(getNameFromEmail(subItem.trim()))))
-				if (subPublisher && !acc.includes(subPublisher)) {
+				if (subPublisher !== '' && !acc.includes(subPublisher)) {
 					acc.push(subPublisher)
 				}
 			}
@@ -73,7 +73,7 @@ const names = data
 	// Exclude me and some other vague things
 	.filter((name) => !['contributors', 'eric mika', 'inc.', 'llc'].includes(name.toLowerCase()))
 	// No emoji please
-	.filter((name) => !/\p{Emoji}/u.test(name))
+	.filter((name) => !/\p{Emoji}/v.test(name))
 	// Filter out case-insensitive duplicates, but keep the version with the most capitalization
 	.filter((name, index, array) => {
 		const lower = name.toLowerCase()
@@ -85,12 +85,12 @@ const names = data
 		const lower = name.toLowerCase()
 		const matchIndex = array.findIndex(
 			// eslint-disable-next-line regexp/no-unused-capturing-group
-			(n) => n.toLowerCase().replace(/(corp\.|corporation|inc\.)$/, '') === lower,
+			(n) => n.toLowerCase().replace(/(corp\.|corporation|inc\.)$/v, '') === lower,
 		)
 		return matchIndex === index
 	})
 	// Don't break names
-	.map((n) => n.replace(/ /, '\u00A0'))
+	.map((n) => n.replace(/ /v, '\u{A0}'))
 	// Sort by last name
 	.toSorted((a, b) => a.localeCompare(b))
 ---

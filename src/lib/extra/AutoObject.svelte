@@ -90,10 +90,10 @@
 		// TODO title case would be nicer... Replace underscores, hyphens, and camel case with
 		// spaces, and capitalize the first letter of each word
 		return value
-			.replaceAll(/([\da-z])([A-Z])/g, '$1 $2')
-			.replaceAll(/[_-]+/g, ' ')
+			.replaceAll(/([\da-z])([A-Z])/gu, '$1 $2')
+			.replaceAll(/[_-]+/gu, ' ')
 			.toLowerCase()
-			.replaceAll(/\b[a-z]/g, (letter) => letter.toUpperCase())
+			.replaceAll(/\b[a-z]/gu, (letter) => letter.toUpperCase())
 	}
 
 	function changeEventAggregator(event: ValueChangeEvent<unknown>) {

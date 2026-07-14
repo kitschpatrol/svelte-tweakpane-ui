@@ -12,10 +12,10 @@ export function uniqueProps(
 	commonProps: ComponentProp[],
 	dynamicProps: ComponentProp[],
 ): ComponentProp[] {
-	const uniqueProps = dynamicProps.filter(
-		(dynamicProp) => !commonProps.some((commonProp) => dynamicProp.name === commonProp.name),
+	const filteredProps = dynamicProps.filter((dynamicProp) =>
+		commonProps.every((commonProp) => dynamicProp.name !== commonProp.name),
 	)
-	return uniqueProps
+	return filteredProps
 }
 
 export function allPropConditions(data: ComponentData): ConditionsRecord {
@@ -44,20 +44,20 @@ export function allPropConditions(data: ComponentData): ConditionsRecord {
 
 export function allProps(data: ComponentData): ComponentProp[] {
 	if (data) {
-		const allProps = [...data.props]
+		const collectedProps = [...data.props]
 		if (data.dynamicProps) {
 			for (const dynamicProp of data.dynamicProps) {
 				for (const prop of dynamicProp.props) {
 					// Ensure unique
-					const existingProp = allProps.find((p) => p.name === prop.name)
-					if (!existingProp) {
-						allProps.push(prop)
+					const alreadyPresent = collectedProps.some((p) => p.name === prop.name)
+					if (!alreadyPresent) {
+						collectedProps.push(prop)
 					}
 				}
 			}
 		}
 
-		return allProps
+		return collectedProps
 	}
 
 	return []

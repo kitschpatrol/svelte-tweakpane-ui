@@ -82,9 +82,11 @@ a {
 	text-underline-offset: 0.125em;
 }
 
-a:hover {
-	text-decoration-color: var(--sl-color-text-accent);
-	text-underline-offset: 0.125em;
+@media (hover: hover) {
+	a:hover {
+		text-decoration-color: var(--sl-color-text-accent);
+		text-underline-offset: 0.125em;
+	}
 }
 
 /* Title */
@@ -111,7 +113,7 @@ mobile-starlight-toc a[href='#events'] + ul li a,
 starlight-toc a[href='#props'] + ul li a,
 starlight-toc a[href='#slots'] + ul li a,
 starlight-toc a[href='#events'] + ul li a {
-	font-family: var(--sl-font-system-mono);
+	font-family: var(--sl-font-system-mono), monospace;
 }
 
 /* sidebar and toc */
@@ -122,11 +124,13 @@ nav ul li a[aria-current='page'] {
 	transition: background-color 0.25s ease;
 }
 
-nav ul li a[aria-current='true']:hover,
-nav ul li a[aria-current='page']:hover {
-	color: white;
-	background-color: var(--st-color-b);
-	transition: background-color 0s ease;
+@media (hover: hover) {
+	nav ul li a[aria-current='true']:hover,
+	nav ul li a[aria-current='page']:hover {
+		color: white;
+		background-color: var(--st-color-b);
+		transition: background-color 0s ease;
+	}
 }
 
 div.hero .tagline a {
@@ -134,13 +138,15 @@ div.hero .tagline a {
 	white-space: nowrap;
 }
 
-div.hero .tagline a:hover {
-	color: var(--sl-color-white);
+@media (hover: hover) {
+	div.hero .tagline a:hover {
+		color: var(--sl-color-white);
+	}
 }
 
 /* Component pages */
 .component-section-heading ~ h1 {
-	font-family: var(--sl-font-system-mono);
+	font-family: var(--sl-font-system-mono), monospace;
 	font-weight: normal;
 }
 
@@ -172,9 +178,10 @@ html[data-has-hero] div.page {
 
 html[data-has-hero] div.main-frame {
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 	justify-content: center;
-	height: 100vh;
+	height: 100dvh;
 }
 
 html[data-has-hero] div.main-pane {
@@ -225,7 +232,6 @@ dialog::backdrop {
 }
 
 /* Works with astro-html-kit middleware to annotate external links */
-
 html:not([data-has-hero]) main .sl-markdown-content a[data-external-link] {
 	position: relative;
 }
@@ -239,9 +245,11 @@ html:not([data-has-hero]) main .sl-markdown-content a[data-external-link]::after
 	transition: opacity 0.25s ease;
 }
 
-html:not([data-has-hero]) main .sl-markdown-content a[data-external-link]:hover::after {
-	opacity: 0.5;
-	transition: opacity 0s ease;
+@media (hover: hover) {
+	html:not([data-has-hero]) main .sl-markdown-content a[data-external-link]:hover::after {
+		opacity: 0.5;
+		transition: opacity 0s ease;
+	}
 }
 
 main div.sl-markdown-content header {

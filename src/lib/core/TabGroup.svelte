@@ -58,7 +58,7 @@
 	// Track initialization state to prevent auto-select from overriding the bound index
 	const tabGroupInitialized = writable(false)
 
-	const userCreatedPane = getContext('userCreatedPane')
+	const userCreatedPane = getContext<boolean | undefined>('userCreatedPane')
 
 	let indexElement: HTMLDivElement
 
@@ -68,7 +68,7 @@
 		// component, where the first page to be added handles construction of the tab this is
 		// necessary because the tweakpane tab API can only construct tab groups with at least one
 		// page
-		$tabIndexStore = userCreatedPane ? getElementIndex(indexElement) : 0
+		$tabIndexStore = userCreatedPane === true ? getElementIndex(indexElement) : 0
 
 		// Wait for all TabPages to mount and initialize before listening to select events
 		// This prevents Tweakpane's automatic first-tab selection from overriding the bound index
@@ -106,10 +106,10 @@
 
 	$: setUpListeners($tabGroupStore)
 	// Also re-run when $tabGroupStore changes (when pages are added)
-	$: $tabGroupStore && setSelectedIndex(selectedIndex)
-	$: $tabGroupStore && ($tabGroupStore.disabled = disabled)
+	$: $tabGroupStore !== undefined && setSelectedIndex(selectedIndex)
+	$: $tabGroupStore !== undefined && ($tabGroupStore.disabled = disabled)
 	$: theme &&
-		$parentStore &&
+		$parentStore !== undefined &&
 		(userCreatedPane ?? !isRootPane($parentStore)) &&
 		console.warn(
 			'Set theme on the <Pane> component, not on its children! (Check nested <TabGroup> components for a theme prop.)',

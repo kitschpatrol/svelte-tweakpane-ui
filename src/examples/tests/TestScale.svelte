@@ -43,12 +43,11 @@
 <style>
 	:global(html) {
 		display: flex;
+		flex-wrap: wrap;
 		gap: 10em;
-		/* TODO */
-		/* stylelint-disable-next-line declaration-property-value-no-unknown */
-		align-items: top;
+		align-items: flex-start;
 		justify-content: center;
 		width: 100vw;
-		height: 100vh;
+		height: 100dvh;
 	}
 </style>

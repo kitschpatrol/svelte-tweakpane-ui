@@ -19,6 +19,12 @@ import { readPackageUp } from 'read-package-up'
 import { svelte2tsx } from 'svelte2tsx'
 import { Project } from 'ts-morph'
 
+const GIT_PREFIX_REGEX = /^git\+/v
+const GIT_SUFFIX_REGEX = /\.git$/v
+const CODE_BLOCK_EXTRACTION_REGEX = /```\w*\n([\s\S]+?)```/v
+const EXAMPLE_TAG_EXTRACTION_REGEX = /@example[\s\S]+(```[\s\S]+```)/v
+const JSDOC_PREFIX_STRIPPING_REGEX = /^ ?\/*\*+[ \/]?/gmv
+
 // This will break if multiple components with the same name exist in different folders
 function findFile(
 	base: string,
@@ -46,10 +52,10 @@ function findFile(
 	return path.resolve(files[0])
 }
 
-async function getRepositoryUrl(): Promise<string | undefined> {
+async function getRepoUrl(): Promise<string | undefined> {
 	const closestPackageJson = await readPackageUp({ normalize: false })
 	const { repository } = closestPackageJson?.packageJson ?? {}
-	if (!repository) {
+	if (repository === undefined || repository === '') {
 		return undefined
 	}
 
@@ -58,7 +64,7 @@ async function getRepositoryUrl(): Promise<string | undefined> {
 		return repository
 	}
 
-	if (typeof repository === 'object' && repository.url) {
+	if (typeof repository === 'object' && repository.url !== '') {
 		return repository.url
 	}
 
@@ -67,23 +73,23 @@ async function getRepositoryUrl(): Promise<string | undefined> {
 
 export async function getGithubUrlForSourceFile(filePath: string): Promise<string> {
 	// Gonna be slow
-	const url = await getRepositoryUrl()
-	if (!url) {
+	const url = await getRepoUrl()
+	if (url === undefined || url === '') {
 		throw new Error('No repository url found in package.json')
 	}
 
-	const sourceBaseUrl = `${url.replace(/^git\+/, '').replace(/\.git$/, '')}/blob/main/`
+	const sourceBaseUrl = `${url.replace(GIT_PREFIX_REGEX, '').replace(GIT_SUFFIX_REGEX, '')}/blob/main/`
 	return sourceBaseUrl + filePath
 }
 
 export async function getEditUrlForSourceFile(filePath: string): Promise<string> {
 	// Gonna be slow
-	const url = await getRepositoryUrl()
-	if (!url) {
+	const url = await getRepoUrl()
+	if (url === undefined || url === '') {
 		throw new Error('No repository url found in package.json')
 	}
 
-	const sourceBaseUrl = `${url.replace(/^git\+/, '').replace(/\.git$/, '')}/edit/main/`
+	const sourceBaseUrl = `${url.replace(GIT_PREFIX_REGEX, '').replace(GIT_SUFFIX_REGEX, '')}/edit/main/`
 	return sourceBaseUrl + filePath
 }
 
@@ -124,9 +130,9 @@ function getOrCreateSourceFile(filePath: string): Node {
 export function getExportedComponents(indexPath: string): Array<{ name: string; path: string }> {
 	return queryTree<StringLiteral>(
 		getOrCreateSourceFile(indexPath),
-		'ExportDeclaration StringLiteral[value=/.+.svelte/]',
+		'ExportDeclaration[isTypeOnly=false] StringLiteral[value=/.+.svelte/]',
 	).map((node) => {
-		const cleanPath = node.getText().replaceAll(/["']/g, '')
+		const cleanPath = node.getText().replaceAll(/["']/gv, '')
 
 		return {
 			name: path.basename(cleanPath).replace('.svelte', ''),
@@ -142,11 +148,11 @@ export function getExportedJs(indexPath: string): Array<{ name: string; path: st
 		'ExportDeclaration[isTypeOnly=false]:has(StringLiteral[value=/.+.js/])',
 	).map((node) => {
 		const name = queryTree(node, 'Identifier.name').at(0)!.getText()
-		const path = queryTree(node, 'StringLiteral').at(0)!.getText().replaceAll(/["']/g, '')
+		const importPath = queryTree(node, 'StringLiteral').at(0)!.getText().replaceAll(/["']/gv, '')
 
 		return {
 			name,
-			path,
+			path: importPath,
 		}
 	})
 }
@@ -225,9 +231,8 @@ function getPropsInternal(
 // Doc-specific
 
 function extractCodeBlock(inputString: string): string | undefined {
-	const regex = /```\w*\n([\s\S]+?)```/
-	const match = regex.exec(inputString)
-	if (match?.[1]) {
+	const match = CODE_BLOCK_EXTRACTION_REGEX.exec(inputString)
+	if (match?.[1] !== undefined && match[1] !== '') {
 		return match[1].trim()
 	}
 }
@@ -237,7 +242,7 @@ export async function getComponentExampleCodeFromSource(
 	includeMarkdown: boolean = false,
 ): Promise<string | undefined> {
 	const componentPath = getSourceFilePath(componentName)
-	if (!componentPath) {
+	if (componentPath === undefined || componentPath === '') {
 		return undefined
 	}
 
@@ -277,7 +282,7 @@ export async function getComponentExampleCodeFromSource(
 			.getJsDocs()
 			.at(0)
 			?.getFullText()
-			.replaceAll(/^ ?\/*\*+[ /]?/gm, '')
+			.replaceAll(JSDOC_PREFIX_STRIPPING_REGEX, '')
 
 		if (fullCommentText === undefined) {
 			console.error(`Class declaration comment not found in ${componentName}`)
@@ -286,7 +291,7 @@ export async function getComponentExampleCodeFromSource(
 
 		// Pull out just the @example code fence
 		// TODO multiple example support (via .exec, /g doesn't work with .match)
-		exampleCommentWithFence = /@example[\s\S]+(```[\s\S]+```)/.exec(fullCommentText)?.at(1)
+		exampleCommentWithFence = EXAMPLE_TAG_EXTRACTION_REGEX.exec(fullCommentText)?.at(1)
 	}
 
 	if (exampleCommentWithFence === undefined) {
@@ -307,7 +312,7 @@ export async function getComponentExampleCodeFromSource(
 
 	// Put the formatted code block back inside the fence
 	const wrappedComment = `${exampleCommentWithFence
-		.split('\n')
+		.split('\n', 1)
 		.at(0)}\n${formattedComment}${exampleCommentWithFence.split('\n').at(-1)}`
 
 	return includeMarkdown ? wrappedComment : formattedComment
@@ -335,7 +340,6 @@ export async function getLastUpdatedDate(filePath: string): Promise<Date | undef
 
 			const date = new Date(stdout.trim())
 			if (Number.isNaN(date.getTime())) {
-				// eslint-disable-next-line unicorn/no-useless-undefined
 				resolve(undefined)
 			} else {
 				resolve(date)
