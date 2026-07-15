@@ -61,6 +61,9 @@ importers:
       tweakpane:
         specifier: 4.0.5
         version: 4.0.5
+      tweakpane-plugin-color-plus:
+        specifier: 0.5.0
+        version: 0.5.0(tweakpane@4.0.5)
     devDependencies:
       '@kitschpatrol/shared-config':
         specifier: ^8.1.0
@@ -78,7 +81,7 @@ importers:
         specifier: ^3.0.10
         version: 3.0.10(@sveltejs/kit@2.69.3(@sveltejs/vite-plugin-svelte@3.1.2(svelte@4.2.20)(vite@5.4.21(@types/node@20.19.43)(lightningcss@1.32.0)))(svelte@4.2.20)(typescript@6.0.3)(vite@5.4.21(@types/node@20.19.43)(lightningcss@1.32.0)))
       '@sveltejs/kit':
-        specifier: ^2.69.1
+        specifier: ^2.69.2
         version: 2.69.3(@sveltejs/vite-plugin-svelte@3.1.2(svelte@4.2.20)(vite@5.4.21(@types/node@20.19.43)(lightningcss@1.32.0)))(svelte@4.2.20)(typescript@6.0.3)(vite@5.4.21(@types/node@20.19.43)(lightningcss@1.32.0))
       '@sveltejs/package':
         specifier: ^2.5.8
@@ -7133,6 +7136,12 @@ packages:
 
   tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
+
+  tweakpane-plugin-color-plus@0.5.0:
+    resolution: {integrity: sha512-I9PMX6eCVgf0EmPpXIAU+5ihzG2pCt/BpAJTx10BjZcXAN6OWfn8l/iWv9KJ/ktwiw1lpXVHNDHJF/nfHU4z5Q==}
+    engines: {node: '>=20.19.0'}
+    peerDependencies:
+      tweakpane: ^4.0.0
 
   tweakpane@4.0.5:
     resolution: {integrity: sha512-rxEXdSI+ArlG1RyO6FghC4ZUX8JkEfz8F3v1JuteXSV0pEtHJzyo07fcDG+NsJfN5L39kSbCYbB9cBGHyuI/tQ==}
@@ -16291,6 +16300,11 @@ snapshots:
   tunnel-agent@0.6.0:
     dependencies:
       safe-buffer: 5.2.1
+
+  tweakpane-plugin-color-plus@0.5.0(tweakpane@4.0.5):
+    dependencies:
+      '@tweakpane/core': 2.0.5
+      tweakpane: 4.0.5
 
   tweakpane@4.0.5: {}
 
