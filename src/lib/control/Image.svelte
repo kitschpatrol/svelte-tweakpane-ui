@@ -124,7 +124,7 @@ An image input control.
 _Important: This component has some rough edges, and should be considered experimental._
 
 Integrates the [tweakpane-image-plugin](https://github.com/metehus/tweakpane-image-plugin),
-incorporating work by [Florian Morel](http://ayamflow.fr), [Matheus
+incorporating work by [Florian Morel](https://ayamflow.fr), [Matheus
 Dias](https://www.linkedin.com/in/matheusdbs/), [Palash Bansal](https://github.com/repalash), and
 others.
 

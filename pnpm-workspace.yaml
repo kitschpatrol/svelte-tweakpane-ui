@@ -2,13 +2,13 @@ packages:
   - .
   - docs
 overrides:
-  '@eslint/plugin-kit': ~0.6.1
+  # Override ancient version from @html-eslint/eslint-plugin
+  '@eslint/plugin-kit': ~0.7.2
+  # Svelte Kit has old insecure version
   cookie: ~1.1.1
   # 0.27.7 is too far...
   # 0.27.6 does not exist?
   esbuild: 0.27.5
-patchedDependencies:
-  '@astrojs/starlight': patches/@astrojs__starlight.patch
 publicHoistPattern:
   - '@kitschpatrol/repo-config'
   - '@kitschpatrol/typescript-config'
@@ -21,6 +21,7 @@ publicHoistPattern:
   - '*remark*'
   - '*stylelint*'
 allowBuilds:
+  canvas: true
   esbuild: true
   puppeteer: true
   sharp: true

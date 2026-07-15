@@ -66,12 +66,14 @@
 	// eslint-disable-next-line ts/no-deprecated
 	beforeUpdate(() => {
 		// Don't let saved draggable props override explicit props in inline and fixed modes
-		if ($$props.position === 'inline' || $$props.position === 'fixed') {
-			x = $$props.x
-			y = $$props.y
-			width = $$props.width
-			expanded = $$props.expanded
+		if ($$props.position !== 'inline' && $$props.position !== 'fixed') {
+			return
 		}
+
+		x = $$props.x
+		y = $$props.y
+		width = $$props.width
+		expanded = $$props.expanded
 	})
 
 	// The below proved more reliable than keying on mode and setting <svelte:component

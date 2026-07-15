@@ -43,7 +43,7 @@ test.describe('Issue #18: Element inside IF block ordering', () => {
 		const count = await blades.count()
 		for (let i = 0; i < count; i++) {
 			const text = await blades.nth(i).textContent()
-			if (text) {
+			if (text !== null && text !== '') {
 				labels.push(text.trim())
 			}
 		}

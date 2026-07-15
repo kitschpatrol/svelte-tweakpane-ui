@@ -1,10 +1,10 @@
 import type { ComponentType } from 'svelte'
+import type { PageLoad } from './$types'
 
 const modules = import.meta.glob<{ default: ComponentType }>('../../examples/**/*.svelte')
 
-export async function load({ data }) {
-	// TODO real type...
-	const { examples } = data as { examples: string[] }
+export const load: PageLoad = async ({ data }) => {
+	const { examples } = data
 
 	const components: Array<{ component: ComponentType; filename: string }> = []
 
@@ -18,14 +18,8 @@ export async function load({ data }) {
 		}
 
 		const { default: component } = await entry[1]()
-
-		components.push({
-			component,
-			filename,
-		})
+		components.push({ component, filename })
 	}
 
-	return {
-		components,
-	}
+	return { components }
 }

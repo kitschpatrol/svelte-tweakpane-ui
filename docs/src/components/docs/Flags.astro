@@ -13,6 +13,7 @@ const { names } = Astro.props
 <style>
 	span.flag-pill-group {
 		display: inline-flex;
+		flex-wrap: wrap;
 		column-gap: 0.5em;
 		align-items: center;
 	}
@@ -21,7 +22,7 @@ const { names } = Astro.props
 		padding: 0.075em 0.7em;
 		border-radius: 1.15em;
 		/* margin-left: auto; */
-		font-family: var(--sl-font-system-mono);
+		font-family: var(--sl-font-system-mono), monospace;
 		font-size: calc(var(--sl-text-code-sm) - 0.1em);
 		background: var(--sl-color-bg-inline-code);
 	}

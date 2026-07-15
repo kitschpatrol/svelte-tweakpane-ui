@@ -1,12 +1,15 @@
 import { docsLoader } from '@astrojs/starlight/loaders'
 import { docsSchema } from '@astrojs/starlight/schema'
-import { defineCollection, z } from 'astro:content'
+import { defineCollection } from 'astro:content'
+import { glob } from 'astro/loaders'
+import { z } from 'astro/zod'
 
 // Acknowledgments schema as delivered from pnpm
 // license-checker-rseidelsohn is a good pnpm-agnostic alternative,
 // but it has a slightly different schema
 // Note changes to the schema in the PNPM 8 --> 9 transition
 const acknowledgmentsSchema = z.record(
+	z.string(),
 	z.array(
 		z.object({
 			author: z.string().optional(),
@@ -23,7 +26,7 @@ const acknowledgmentsSchema = z.record(
 // Component documentation schema
 // must be kept in sync with ./scripts/generate-documentation-data.ts
 
-const componentJsDocRecordSchema = z.record(z.string())
+const componentJsDocRecordSchema = z.record(z.string(), z.string())
 
 const componentPartInfoSchema = z.array(
 	z.object({
@@ -34,7 +37,10 @@ const componentPartInfoSchema = z.array(
 	}),
 )
 
-const componentPropConditionSchema = z.record(z.union([z.boolean(), z.number(), z.string()]))
+const componentPropConditionSchema = z.record(
+	z.string(),
+	z.union([z.boolean(), z.number(), z.string()]),
+)
 
 const componentDocumentSchema = z.object({
 	doc: z.string(),
@@ -57,7 +63,7 @@ const componentDocumentSchema = z.object({
 })
 
 const universalFrontmatter = z.object({
-	sourceUrl: z.string().url().optional(),
+	sourceUrl: z.url().optional(),
 })
 
 const componentFrontmatter = z.object({
@@ -67,13 +73,13 @@ const componentFrontmatter = z.object({
 
 export const collections = {
 	acknowledgments: defineCollection({
+		loader: glob({ base: './src/content/acknowledgments', pattern: '*.json' }),
 		schema: acknowledgmentsSchema,
-		type: 'data',
 	}),
 	docs: defineCollection({
 		loader: docsLoader(),
 		schema: docsSchema({
-			extend: universalFrontmatter.merge(componentFrontmatter),
+			extend: universalFrontmatter.extend(componentFrontmatter.shape),
 		}),
 	}),
 }

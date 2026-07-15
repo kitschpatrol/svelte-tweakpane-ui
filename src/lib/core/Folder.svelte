@@ -64,7 +64,7 @@
 
 	const parentStore: Writable<Container> = getContext('parentStore')
 	const folderStore = writable<FolderRef>()
-	const userCreatedPane = getContext('userCreatedPane')
+	const userCreatedPane = getContext<boolean | undefined>('userCreatedPane')
 
 	let indexElement: HTMLDivElement
 	let index: number
@@ -89,20 +89,20 @@
 	}
 
 	onMount(() => {
-		index = indexElement ? getElementIndex(indexElement) : 0
+		index = indexElement === undefined ? 0 : getElementIndex(indexElement)
 	})
 
 	onDestroy(() => {
 		$folderStore?.dispose()
 	})
 
-	$: $parentStore && !folderRef && index !== undefined && create()
+	$: $parentStore !== undefined && !folderRef && index !== undefined && create()
 	$: folderRef && updateCollapsibility(userExpandable, folderRef.element, 'tp-fldv_b', 'tp-fldv_m')
 	$: folderRef && (folderRef.title = title)
 	$: folderRef && (folderRef.disabled = disabled)
 	$: folderRef && expanded !== undefined && (folderRef.expanded = expanded) // Doing this on $folderStore causes issues
 	$: theme &&
-		$parentStore &&
+		$parentStore !== undefined &&
 		(userCreatedPane ?? !isRootPane($parentStore)) &&
 		console.warn(
 			'Set theme on the <Pane> component, not on its children! (Check nested <Folder> components for a theme prop.)',

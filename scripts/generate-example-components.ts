@@ -8,6 +8,7 @@ import { lintAndFormat } from './ast-tools'
 
 // Leave this on
 const reformat = true
+const IMPORT_LIB_PATH_REGEX = /'\$lib/v
 
 export async function generateExampleComponents(): Promise<void> {
 	await fs.rm('./docs/src/examples', { force: true, recursive: true })
@@ -24,7 +25,7 @@ export async function generateExampleComponents(): Promise<void> {
 
 				// Optionally Re-format and save .svelte file
 				let svelteContent = await fs.readFile(filePath, 'utf8')
-				svelteContent = svelteContent.replace(/'\$lib/, "'svelte-tweakpane-ui")
+				svelteContent = svelteContent.replace(IMPORT_LIB_PATH_REGEX, "'svelte-tweakpane-ui")
 
 				// eslint-disable-next-line ts/no-unnecessary-condition
 				const formattedSvelteContent = reformat

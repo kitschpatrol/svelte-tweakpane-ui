@@ -6,7 +6,7 @@
 </script>
 
 <script lang="ts">
-	import { type ComponentProps } from 'svelte'
+	import type { ComponentProps } from 'svelte'
 	import GenericSlider from '$lib/internal/GenericSlider.svelte'
 
 	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {
@@ -44,17 +44,17 @@
 
 	let ref: GenericSliderRef
 
-	function updateWide(wide: boolean) {
+	function updateWide(isWide: boolean) {
 		const inputField = ref?.element.querySelector<HTMLDivElement>('div.tp-sldtxtv_t')
 
-		if (wide) {
+		if (isWide) {
 			inputField?.style.setProperty('display', 'none')
 		} else {
 			inputField?.style.removeProperty('display')
 		}
 	}
 
-	$: ref && wide !== undefined && updateWide(wide)
+	$: ref !== undefined && wide !== undefined && updateWide(wide)
 </script>
 
 <!--

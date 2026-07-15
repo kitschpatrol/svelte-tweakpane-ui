@@ -55,7 +55,7 @@
 	// Get context from tab
 	const tabGroupStore: Writable<TabGroupRef> = getContext('tabGroupStore')
 	const tabIndexStore: Writable<number> = getContext('tabIndexStore')
-	const userCreatedPane = getContext('userCreatedPane')
+	const userCreatedPane = getContext<boolean | undefined>('userCreatedPane')
 	const initialSelectedIndex: number = getContext('initialSelectedIndex')
 
 	// Save parent context for ourselves
@@ -70,11 +70,11 @@
 	let index: number
 
 	onMount(() => {
-		index = indexElement ? getElementIndex(indexElement) : 0
+		index = indexElement === undefined ? 0 : getElementIndex(indexElement)
 	})
 
 	function create() {
-		if (!$tabGroupStore) {
+		if ($tabGroupStore === undefined) {
 			// Create tab if necessary this will be the tab's parent, not the page's
 			$tabGroupStore = $parentStore.addTab({
 				// Tabs MUST be created with at least one page how to handle tabs with no children?
@@ -91,7 +91,7 @@
 			if (index === initialSelectedIndex) {
 				selected = true
 			}
-		} else if (!$tabPageStore && $tabGroupStore) {
+		} else if ($tabPageStore === undefined && $tabGroupStore !== undefined) {
 			// Add to existing tab
 			$tabPageStore = $tabGroupStore.addPage({ index, title })
 
@@ -102,7 +102,7 @@
 		}
 
 		$tabGroupStore?.on('select', () => {
-			$tabPageStore && (selected = $tabPageStore.selected)
+			$tabPageStore !== undefined && (selected = $tabPageStore.selected)
 		})
 	}
 
@@ -110,12 +110,12 @@
 		$tabPageStore?.dispose()
 	})
 
-	$: index !== undefined && $parentStore && $tabIndexStore !== undefined && create()
-	$: $tabPageStore && ($tabPageStore.title = title)
-	$: $tabPageStore && ($tabPageStore.disabled = disabled)
-	$: $tabPageStore && ($tabPageStore.selected = selected)
+	$: index !== undefined && $parentStore !== undefined && $tabIndexStore !== undefined && create()
+	$: $tabPageStore !== undefined && ($tabPageStore.title = title)
+	$: $tabPageStore !== undefined && ($tabPageStore.disabled = disabled)
+	$: $tabPageStore !== undefined && ($tabPageStore.selected = selected)
 	$: theme &&
-		$parentStore &&
+		$parentStore !== undefined &&
 		(userCreatedPane ?? !isRootPane($parentStore)) &&
 		console.warn(
 			'Set theme on the <Pane> component, not on its children! (Check nested <TabPage> components for a theme prop.)',
@@ -165,7 +165,7 @@ Count B: {countB}
 [TabPage.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/TabPage.svelte)
 -->
 
-{#if parentStore && tabIndexStore !== undefined}
+{#if parentStore !== undefined && tabIndexStore !== undefined}
 	{#if BROWSER}
 		<div bind:this={indexElement} style="display: none;">
 			<slot />

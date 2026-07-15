@@ -9,6 +9,7 @@ export default knipConfig({
 		'@sveltejs/package',
 		'@types/eslint',
 		'astro-html-kit',
+		'canvas',
 		'mdat',
 		'node-addon-api',
 		'node-gyp',

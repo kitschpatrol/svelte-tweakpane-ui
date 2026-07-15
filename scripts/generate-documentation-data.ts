@@ -95,73 +95,82 @@ export async function generateDocumentationData(): Promise<void> {
 			// Pass custom dynamic prop test cases to certain components
 			let testProps: ComponentDynamicPropTest[] | undefined
 
-			if (name === 'Pane') {
-				testProps = [
-					{
-						condition: {
-							position: 'draggable',
+			switch (name) {
+				case 'Monitor': {
+					testProps = [
+						{
+							condition: {
+								value: 1,
+							},
+							description: '`value` is of type `number`',
 						},
-						description: '`position="draggable"`',
-					},
-					{
-						condition: {
-							position: 'inline',
+						{
+							condition: {
+								value: false,
+							},
+							description: '`value` is of type `boolean`',
 						},
-						description: '`position="inline"`',
-					},
-					{
-						condition: {
-							position: 'fixed',
+						{
+							condition: {
+								value: 'string',
+							},
+							description: '`value` is of type `string`',
 						},
-						description: '`position="fixed"`',
-					},
-				]
-			}
+					]
 
-			if (name === 'Monitor') {
-				testProps = [
-					{
-						condition: {
-							value: 1,
-						},
-						description: '`value` is of type `number`',
-					},
-					{
-						condition: {
-							value: false,
-						},
-						description: '`value` is of type `boolean`',
-					},
-					{
-						condition: {
-							value: 'string',
-						},
-						description: '`value` is of type `string`',
-					},
-				]
-			}
+					break
+				}
 
-			if (name === 'Point') {
-				testProps = [
-					{
-						condition: {
-							value: '{[0, 0]}',
+				case 'Pane': {
+					testProps = [
+						{
+							condition: {
+								position: 'draggable',
+							},
+							description: '`position="draggable"`',
 						},
-						description: '`value` is 2D',
-					},
-					{
-						condition: {
-							value: '{[0, 0, 0]}',
+						{
+							condition: {
+								position: 'inline',
+							},
+							description: '`position="inline"`',
 						},
-						description: '`value` is 3D',
-					},
-					{
-						condition: {
-							value: '{[0, 0, 0, 0]}',
+						{
+							condition: {
+								position: 'fixed',
+							},
+							description: '`position="fixed"`',
 						},
-						description: '`value` is 4D',
-					},
-				]
+					]
+
+					break
+				}
+
+				case 'Point': {
+					testProps = [
+						{
+							condition: {
+								value: '{[0, 0]}',
+							},
+							description: '`value` is 2D',
+						},
+						{
+							condition: {
+								value: '{[0, 0, 0]}',
+							},
+							description: '`value` is 3D',
+						},
+						{
+							condition: {
+								value: '{[0, 0, 0, 0]}',
+							},
+							description: '`value` is 4D',
+						},
+					]
+
+					break
+				}
+				// No default
 			}
 
 			const success = await generateComponentData(

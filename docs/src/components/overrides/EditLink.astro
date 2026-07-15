@@ -12,7 +12,7 @@ const { sourceUrl } = Astro.locals.starlightRoute.entry.data
 	<StarlightEditLink />
 
 	{
-		sourceUrl && (
+		sourceUrl !== undefined && sourceUrl !== '' && (
 			<a class="sl-flex" href={sourceUrl}>
 				<Icon name="github" size="1.2em" />
 				View source
@@ -24,6 +24,7 @@ const { sourceUrl } = Astro.locals.starlightRoute.entry.data
 <style>
 	div {
 		display: flex;
+		flex-wrap: wrap;
 		gap: 1rem;
 		justify-content: space-between;
 	}
@@ -36,7 +37,9 @@ const { sourceUrl } = Astro.locals.starlightRoute.entry.data
 		text-decoration: none;
 	}
 
-	a:hover {
-		color: var(--sl-color-white);
+	@media (hover: hover) {
+		a:hover {
+			color: var(--sl-color-white);
+		}
 	}
 </style>

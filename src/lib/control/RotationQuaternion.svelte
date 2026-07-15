@@ -234,7 +234,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 	plugin={pluginModule}
 	{...$$restProps}
 />
-{#if !BROWSER && expanded && $$props.picker === 'inline'}
+{#if !BROWSER && expanded === true && $$props.picker === 'inline'}
 	{#if $$props.label !== undefined}
 		<ClsPad
 			keysAdd={['bladeValueWidth']}

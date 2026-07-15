@@ -90,29 +90,31 @@
 	}
 
 	function updateValueFromMean() {
-		if (meanValue !== undefined) {
-			const r = internalValue.max - internalValue.min
-			const valueFromMean = { min: meanValue - r / 2, max: meanValue + r / 2 }
+		if (meanValue === undefined) {
+			return
+		}
 
-			// Manual difference checks required to prevent Svelte 5 infinite update loops
-			if (!shallowEqual(valueFromMean, internalValue)) {
-				internalValue = valueFromMean
-			}
+		const r = internalValue.max - internalValue.min
+		const valueFromMean = { min: meanValue - r / 2, max: meanValue + r / 2 }
+
+		// Manual difference checks required to prevent Svelte 5 infinite update loops
+		if (!shallowEqual(valueFromMean, internalValue)) {
+			internalValue = valueFromMean
 		}
 	}
 
 	let ref: GenericSliderRef
 
-	function updateWide(wide: boolean) {
+	function updateWide(isWide: boolean) {
 		const inputField = ref?.element.querySelector<HTMLDivElement>('div.tp-rsltxtv_t')
-		if (wide) {
+		if (isWide) {
 			inputField?.style.setProperty('display', 'none')
 		} else {
 			inputField?.style.removeProperty('display')
 		}
 	}
 
-	$: ref && wide !== undefined && updateWide(wide)
+	$: ref !== undefined && wide !== undefined && updateWide(wide)
 
 	$: (value, updateInternalValueFromValue())
 	$: (internalValue, updateValueFromInternalValue())

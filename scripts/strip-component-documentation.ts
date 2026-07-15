@@ -10,7 +10,7 @@ async function removeComponentBlock(filePath: string): Promise<void> {
 	const fileContent = await readFile(filePath, 'utf8')
 
 	// Use regular expression to remove everything between <!-- @component and -->
-	const updatedContent = fileContent.replaceAll(/<!--\s*@component[\s\S]*?-->/g, '')
+	const updatedContent = fileContent.replaceAll(/<!--\s*@component[\s\S]*?-->/gv, '')
 
 	if (fileContent === updatedContent) {
 		// eslint-disable-next-line ts/no-unnecessary-condition

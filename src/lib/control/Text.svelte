@@ -67,13 +67,13 @@
 		event.target?.dispatchEvent(new Event('change'))
 	}
 
-	function updateListeners(live: boolean, destroy: boolean = false) {
+	function updateListeners(isLive: boolean, destroy: boolean = false) {
 		const input = ref?.controller.valueController.view.element.querySelector('input')
 		input?.removeEventListener('input', onInput)
-		!destroy && live && input?.addEventListener('input', onInput)
+		!destroy && isLive && input?.addEventListener('input', onInput)
 	}
 
-	$: ref && live !== undefined && updateListeners(live)
+	$: ref !== undefined && live !== undefined && updateListeners(live)
 </script>
 
 <!--

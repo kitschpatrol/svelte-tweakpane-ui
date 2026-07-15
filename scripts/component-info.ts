@@ -289,7 +289,7 @@ async function getDynamicComponentProps(
 				tsDoc.filePath,
 				tsDoc.offsetAt(tsDoc.getGeneratedPosition(testPosition)),
 				entry.name,
-				// eslint-disable-next-line unicorn/no-useless-undefined
+
 				undefined,
 			)
 

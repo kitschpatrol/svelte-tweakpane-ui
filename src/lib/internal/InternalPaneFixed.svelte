@@ -55,7 +55,9 @@
 
 	let paneContainer: HTMLElement
 
-	$: tpPane?.element.parentElement && (paneContainer = tpPane.element.parentElement)
+	$: tpPane !== undefined &&
+		tpPane.element.parentElement !== null &&
+		(paneContainer = tpPane.element.parentElement)
 
 	$: paneContainer !== undefined &&
 		x !== undefined &&

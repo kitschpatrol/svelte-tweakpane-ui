@@ -26,7 +26,8 @@ export function componentMenu(
 
 	// Would prefer to use `astro:content` here, but there's a chicken / egg problem
 	// since `astro:content` depends on the config to know where to look for content
-	globSync('src/content/docs/docs/components/*.mdx', { posix: true }).map((file) => {
+	const componentFiles = globSync('src/content/docs/docs/components/*.mdx', { posix: true })
+	for (const file of componentFiles) {
 		const { data } = matter.read(file)
 
 		let currentMenu = menu
@@ -37,7 +38,7 @@ export function componentMenu(
 				(item: any) => item.label === capitalize(slug(pathPart)),
 			)
 
-			if (!existingMenu) {
+			if (existingMenu === undefined) {
 				existingMenu = {
 					items: [],
 					label: capitalize(slug(pathPart)),
@@ -53,9 +54,7 @@ export function componentMenu(
 			label: data.title,
 			link: `/docs/components/${slug(data.componentData?.name)}`,
 		})
-
-		return file
-	})
+	}
 
 	// Custom sort order
 	const sortOrder = ['core', 'control', 'monitor', 'extra']
@@ -71,7 +70,7 @@ export function componentMenu(
 			return aIndex - bIndex // Both labels are in sortOrder
 		}
 
-		if (aIndex >= 0) {
+		if (aIndex !== -1) {
 			return -1 // Only aLabel is in sortOrder
 		}
 

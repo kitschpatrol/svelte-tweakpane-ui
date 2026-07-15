@@ -19,9 +19,9 @@
 	import { copy } from 'fast-copy'
 	import { shallowEqual } from 'fast-equals'
 	import { type ComponentProps, createEventDispatcher } from 'svelte'
+	import type { UnwrapCustomEvents } from '$lib/utils.js'
 	import Blade from '$lib/core/Blade.svelte'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import { type UnwrapCustomEvents } from '$lib/utils.js'
 
 	// Use a blade instead of an input to allow for additional value types TODO expose key value
 	// option that lets you bind to the active key?
@@ -84,14 +84,16 @@
 
 	function addEvent() {
 		listBlade.on('change', (event) => {
-			if (!shallowEqual(event.value, value)) {
-				value = event.value
-
-				dispatch('change', {
-					value: copy(value),
-					origin: 'internal',
-				})
+			if (shallowEqual(event.value, value)) {
+				return
 			}
+
+			value = event.value
+
+			dispatch('change', {
+				value: copy(value),
+				origin: 'internal',
+			})
 		})
 	}
 
@@ -111,9 +113,9 @@
 	}
 
 	// Type Guards
-	function isArrayStyleListOptions<T>(
-		object: ListOptions<T>,
-	): object is Array<{ value: T; text: string }> {
+	function isArrayStyleListOptions<Value>(
+		object: ListOptions<Value>,
+	): object is Array<{ value: Value; text: string }> {
 		return (
 			Array.isArray(object) &&
 			object.every(
@@ -122,30 +124,32 @@
 		)
 	}
 
-	function isObjectStyleListOptions<T>(object: ListOptions<T>): object is Record<string, T> {
+	function isObjectStyleListOptions<Value>(
+		object: ListOptions<Value>,
+	): object is Record<string, Value> {
 		return typeof object === 'object' && object !== null && !Array.isArray(object)
 	}
 
-	function getInternalOptions(options: ListOptions<T>): ListParamsOptions<T> {
-		return isArrayStyleListOptions(options)
-			? options
-			: isObjectStyleListOptions(options)
-				? options
-				: options.map((value) => ({
-						value,
-						text: typeof value === 'object' ? JSON.stringify(value) : String(value),
-					}))
+	function getInternalOptions(listOptions: ListOptions<T>): ListParamsOptions<T> {
+		return isArrayStyleListOptions(listOptions) || isObjectStyleListOptions(listOptions)
+			? listOptions
+			: listOptions.map((optionValue) => ({
+					value: optionValue,
+					text: typeof optionValue === 'object' ? JSON.stringify(optionValue) : String(optionValue),
+				}))
 	}
 
 	function setValue() {
-		if (!shallowEqual(listBlade.value, value)) {
-			listBlade.value = value
-
-			dispatch('change', {
-				value: copy(value),
-				origin: 'external',
-			})
+		if (shallowEqual(listBlade.value, value)) {
+			return
 		}
+
+		listBlade.value = value
+
+		dispatch('change', {
+			value: copy(value),
+			origin: 'external',
+		})
 	}
 
 	$: bladeOptions = {
@@ -154,8 +158,8 @@
 		value: getInitialValue(),
 		view: 'list',
 	}
-	$: listBlade && addEvent()
-	$: (value, listBlade && setValue())
+	$: listBlade !== undefined && addEvent()
+	$: (value, listBlade !== undefined && setValue())
 </script>
 
 <!--

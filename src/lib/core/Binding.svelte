@@ -117,7 +117,7 @@
 
 	const registerPlugin = getContext<(plugin: Plugin) => void>('registerPlugin')
 	const parentStore: Writable<Container> = getContext('parentStore')
-	const userCreatedPane = getContext('userCreatedPane')
+	const userCreatedPane = getContext<boolean | undefined>('userCreatedPane')
 
 	let _ref: V // Internal shadow ref
 	let indexElement: HTMLDivElement
@@ -125,7 +125,7 @@
 
 	function create() {
 		// Must destroy to allow a reactive `key` parameter
-		if (_ref) {
+		if (_ref !== undefined) {
 			_ref.dispose()
 		}
 
@@ -148,7 +148,7 @@
 	}
 
 	onMount(() => {
-		index = indexElement ? getElementIndex(indexElement) : 0
+		index = indexElement === undefined ? 0 : getElementIndex(indexElement)
 	})
 
 	onDestroy(() => {
@@ -185,20 +185,20 @@
 	// Switching to <svelte:options immutable={true} />
 	// at this point would be more involved
 
-	function safeCopy<T>(value: T): T {
+	function safeCopy<Value>(value: Value): Value {
 		// Special case for File objects from <File> component to prevent context loss
 		if (value instanceof File) {
 			return new File([value], value.name, {
 				lastModified: value.lastModified,
 				type: value.type,
-			}) as T
+			}) as Value
 		}
 
 		// Special case for <Image> component to prevent context loss
 		if (BROWSER && value instanceof HTMLImageElement) {
-			const copy = new Image()
-			copy.src = value.src
-			return copy as T
+			const imageCopy = new Image()
+			imageCopy.src = value.src
+			return imageCopy as Value
 		}
 
 		// Use fast-copy for everything else
@@ -208,27 +208,27 @@
 	let lastObject: T = object
 	let lastValue: T[keyof T] = safeCopy(object[key])
 	let internalChange = false
-	function onBoundValueChange(object: T) {
+	function onBoundValueChange(newObject: T) {
 		// Check svelte implementation?
 		// TODO primitive checks for optimization?
 		// TODO need deep for anything?
 		// TODO consider completely proxy-ing Tweakpane
 
-		if (lastObject !== object) {
+		if (lastObject !== newObject) {
 			internalChange = false
 		}
 
-		if (!shallowEqual(object[key], lastValue)) {
-			lastValue = safeCopy(object[key])
+		if (!shallowEqual(newObject[key], lastValue)) {
+			lastValue = safeCopy(newObject[key])
 
 			dispatch('change', {
-				value: safeCopy(object[key]),
+				value: safeCopy(newObject[key]),
 				origin: internalChange ? 'internal' : 'external',
 			})
 
 			// Update the value in the pane, but don't fire
 			// a Tweakpane change event
-			if (!internalChange && _ref) {
+			if (!internalChange && _ref !== undefined) {
 				_ref.off('change', onTweakpaneChange)
 				_ref.refresh()
 				_ref.on('change', onTweakpaneChange)
@@ -238,8 +238,8 @@
 		internalChange = false
 
 		// Check for the bound object changing entirely...
-		if (lastObject !== object) {
-			lastObject = object
+		if (lastObject !== newObject) {
+			lastObject = newObject
 			create() // Recreation seems to be only way to re-bind to new object
 		}
 	}

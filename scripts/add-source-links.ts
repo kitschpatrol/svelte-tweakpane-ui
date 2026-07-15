@@ -6,6 +6,7 @@ import path from 'node:path'
 import { getAllLibraryFiles, getGithubUrlForSourceFile } from './ast-tools'
 
 const verbose = false
+const SOURCE_LINK_MARKER_REGEX = /@sourceLink(?:.+\))?\n/sv
 
 async function addLinksToComponentBlock(filePath: string): Promise<void> {
 	const fileContent = await fs.readFile(filePath, 'utf8')
@@ -15,8 +16,8 @@ async function addLinksToComponentBlock(filePath: string): Promise<void> {
 	// If the markdown link is already there, it will work out to a no-op if it needs an update, this
 	// will do it...
 	const updatedContent = fileContent.replace(
-		/@sourceLink(.+\))?\n/s,
-		`@sourceLink\n[${fileName}](${url})\n`,
+		SOURCE_LINK_MARKER_REGEX,
+		() => `@sourceLink\n[${fileName}](${url})\n`,
 	)
 
 	if (fileContent === updatedContent) {

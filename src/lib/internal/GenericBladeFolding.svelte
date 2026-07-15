@@ -54,7 +54,8 @@
 	const initialExpanded = expanded
 	let internalExpanded = initialExpanded
 
-	$: if (!gotBlade && ref) {
+	$: if (!gotBlade && ref !== undefined) {
+		// eslint-disable-next-line no-useless-assignment -- Read again when the reactive statement re-runs
 		gotBlade = true
 		;(ref.controller as any)?.valueController?.foldable_
 			?.value('expanded')
@@ -71,12 +72,12 @@
 		picker,
 	}
 
-	$: ref &&
+	$: ref !== undefined &&
 		buttonClass !== undefined &&
 		updateCollapsibility(userExpandable ?? true, ref.element, buttonClass)
 
 	// Click instead of setting expanded to avoid  animation jankiness
-	$: ref &&
+	$: ref !== undefined &&
 		buttonClass !== undefined &&
 		expanded !== internalExpanded &&
 		ref.element.querySelectorAll(`.${buttonClass}`).length > 0 &&

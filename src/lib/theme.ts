@@ -320,7 +320,7 @@ function expandVariableKey(name: string): string {
 	}
 
 	const variableName = keyToCssVariableMap.get(name)
-	if (variableName) {
+	if (variableName !== undefined) {
 		return variableName
 	}
 
@@ -356,13 +356,17 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 			// then apply it anyway so that any global theme is overridden TODO normalize color
 			// representation for comparison? TODO tests for this logic
 
-			const standardValue = standard[k] || undefined
-			const rootValue = rootDocument.style.getPropertyValue(key) || undefined
+			const standardValue = standard[k] === '' ? undefined : standard[k]
+			const rootPropertyValue = rootDocument.style.getPropertyValue(key)
+			const rootValue = rootPropertyValue === '' ? undefined : rootPropertyValue
 
-			const isDeviationFromRoot = (rootValue && value !== rootValue) ?? false
-			const isDeviationFromStandard = (standardValue && value !== standardValue) ?? false
+			const isDeviationFromRoot = rootValue !== undefined && value !== rootValue
+			const isDeviationFromStandard = standardValue !== undefined && value !== standardValue
 
-			if (value !== undefined && (isDeviationFromRoot || (!rootValue && isDeviationFromStandard))) {
+			if (
+				value !== undefined &&
+				(isDeviationFromRoot || (rootValue === undefined && isDeviationFromStandard))
+			) {
 				element.style.setProperty(key, value)
 			} else if (element.style.getPropertyValue(key).length > 0) {
 				element.style.removeProperty(key)
@@ -378,7 +382,7 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 export function setGlobalDefaultTheme(theme: Theme | undefined) {
 	// Wait for dom ready... better outside?
 	// eslint-disable-next-line unicorn/prefer-global-this, ts/no-unnecessary-condition
-	if (window?.document) {
+	if (window?.document !== undefined) {
 		applyTheme(getWindowDocument().documentElement, theme)
 	}
 }

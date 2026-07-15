@@ -6,18 +6,21 @@
 import { readdirSync, renameSync, rmdirSync } from 'node:fs'
 import { basename, dirname, join, relative, resolve } from 'node:path'
 
+const PATH_SEPARATOR_REGEX = /[\\\/]/v
+
 export function migrateIndex(): void {
 	const distributionDirectory = resolve('dist')
 
 	function findIndexFiles(directory: string): string[] {
 		const results: string[] = []
-		for (const entry of readdirSync(directory, { withFileTypes: true })) {
+		const entries = readdirSync(directory, { withFileTypes: true })
+		for (const entry of entries) {
 			const fullPath = join(directory, entry.name)
 			if (entry.isDirectory()) {
 				results.push(...findIndexFiles(fullPath))
 			} else if (entry.isFile() && entry.name === 'index.html') {
 				// Equivalent to find's -mindepth 2: skip index.html directly inside dist root
-				const depth = relative(distributionDirectory, fullPath).split(/[\\/]/).length
+				const depth = relative(distributionDirectory, fullPath).split(PATH_SEPARATOR_REGEX).length
 				if (depth >= 2) {
 					results.push(fullPath)
 				}
@@ -37,15 +40,18 @@ export function migrateIndex(): void {
 
 	// Remove empty directories
 	function removeEmptyDirectories(directory: string): void {
-		for (const entry of readdirSync(directory, { withFileTypes: true })) {
-			if (entry.isDirectory()) {
-				const fullPath = join(directory, entry.name)
-				removeEmptyDirectories(fullPath)
-				try {
-					rmdirSync(fullPath)
-				} catch {
-					// Directory not empty, skip
-				}
+		const entries = readdirSync(directory, { withFileTypes: true })
+		for (const entry of entries) {
+			if (!entry.isDirectory()) {
+				continue
+			}
+
+			const fullPath = join(directory, entry.name)
+			removeEmptyDirectories(fullPath)
+			try {
+				rmdirSync(fullPath)
+			} catch {
+				// Directory not empty, skip
 			}
 		}
 	}

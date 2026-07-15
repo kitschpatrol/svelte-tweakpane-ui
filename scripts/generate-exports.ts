@@ -27,11 +27,11 @@ function addExports(sourceIndexFile: string, closestPackage: ReadResult) {
 
 	// Extract components from index file
 	for (const component of getExportedComponents(sourceIndexFile)) {
-		const { name, path } = component
+		const { name, path: componentPath } = component
 
 		const key = `./${name}.svelte`
-		const types = `./dist/${path.replace('$lib/', '')}.d.ts`
-		const svelte = `./dist/${path.replace('$lib/', '')}`
+		const types = `./dist/${componentPath.replace('$lib/', '')}.d.ts`
+		const svelte = `./dist/${componentPath.replace('$lib/', '')}`
 		// eslint-disable-next-line perfectionist/sort-objects
 		exports[key] = { types, svelte }
 
@@ -43,11 +43,11 @@ function addExports(sourceIndexFile: string, closestPackage: ReadResult) {
 
 	// Extract JS exports from index file (like Utils, etc.)
 	for (const file of getExportedJs(sourceIndexFile)) {
-		const { name, path } = file
+		const { name, path: filePath } = file
 
 		const key = `./${name}.js`
-		const types = `./dist/${path.replace('.js', '').replace('$lib/', '')}.d.ts`
-		const defaultValue = `./dist/${path.replace('$lib/', '')}`
+		const types = `./dist/${filePath.replace('.js', '').replace('$lib/', '')}.d.ts`
+		const defaultValue = `./dist/${filePath.replace('$lib/', '')}`
 		// eslint-disable-next-line perfectionist/sort-objects
 		exports[key] = { types, default: defaultValue }
 
@@ -81,7 +81,7 @@ export async function generateExports(): Promise<void> {
 
 	if (closestPackage === undefined) {
 		throw new Error('Could not find package.json')
-	} else {
-		addExports('./src/lib/index.ts', closestPackage)
 	}
+
+	addExports('./src/lib/index.ts', closestPackage)
 }

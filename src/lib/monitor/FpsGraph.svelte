@@ -132,7 +132,7 @@
 	}
 
 	function stopInternalLoop() {
-		requestId && cancelAnimationFrame(requestId)
+		requestId !== undefined && cancelAnimationFrame(requestId)
 	}
 
 	function addListeners() {

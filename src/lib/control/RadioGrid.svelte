@@ -17,12 +17,12 @@
 	// TODO allow mixed values? TODO handle records and more complex types? duplicated here because
 	// it's not exported from the plugin...
 	// @tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
-	type RadioGridOptions<T> = GenericInputOptions & {
+	type RadioGridOptions<Value> = GenericInputOptions & {
 		cells: (
 			x: number,
 			y: number,
 		) => {
-			value: T
+			value: Value
 			title: string
 		}
 		groupName: string

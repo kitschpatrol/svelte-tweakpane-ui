@@ -170,14 +170,14 @@
 		setContext('parentStore', writable<boolean>(true))
 	}
 
-	function setScale(scale: number) {
+	function setScale(newScale: number) {
 		if (tpPane) {
-			if (scale === 1) {
+			if (newScale === 1) {
 				tpPane.element.style.removeProperty('transform-origin')
 				tpPane.element.style.removeProperty('transform')
 				tpPane.element.style.removeProperty('width')
 			} else {
-				const clampedScale = Math.max(0, scale)
+				const clampedScale = Math.max(0, newScale)
 				tpPane.element.style.transformOrigin = '0 0'
 				tpPane.element.style.transform = `scale(${clampedScale})`
 
@@ -187,15 +187,15 @@
 		}
 	}
 
-	function updateExpanded(expanded: boolean) {
+	function updateExpanded(newExpanded: boolean) {
 		void tick().then(() => {
 			if (
 				tpPane?.expanded !== undefined &&
-				expanded !== undefined &&
-				tpPane.expanded !== expanded
+				newExpanded !== undefined &&
+				tpPane.expanded !== newExpanded
 			) {
 				// eslint-disable-next-line svelte/infinite-reactive-loop
-				tpPane.expanded = expanded
+				tpPane.expanded = newExpanded
 			}
 		})
 	}
