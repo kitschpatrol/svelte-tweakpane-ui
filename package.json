@@ -1,6 +1,6 @@
 {
 	"name": "svelte-tweakpane-ui",
-	"version": "1.5.19",
+	"version": "1.6.0-preview.10",
 	"description": "A Svelte component library wrapping UI elements from Tweakpane, plus some additional functionality for convenience and flexibility.",
 	"keywords": [
 		"components",
@@ -69,6 +69,10 @@
 		"./Color.svelte": {
 			"types": "./dist/control/Color.svelte.d.ts",
 			"svelte": "./dist/control/Color.svelte"
+		},
+		"./ColorPlus.svelte": {
+			"types": "./dist/control/ColorPlus.svelte.d.ts",
+			"svelte": "./dist/control/ColorPlus.svelte"
 		},
 		"./CubicBezier.svelte": {
 			"types": "./dist/control/CubicBezier.svelte.d.ts",
@@ -192,7 +196,7 @@
 		"kit-dev": "vite dev",
 		"kit-preview": "vite preview",
 		"lint": "ksc lint --skip repo && svelte-kit sync && svelte-check --tsconfig ./tsconfig.build.json",
-		"release": "pnpm build && bumpp --commit 'Release: %s' && NPM_AUTH_TOKEN=$(op read 'op://Personal/npm/token') pnpm publish --ignore-scripts",
+		"release": "pnpm build && bumpp --preid preview --commit 'Release: %s' && NPM_AUTH_TOKEN=$(op read 'op://Personal/npm/token') pnpm publish --tag preview --ignore-scripts",
 		"rewrap": "rewrap -i --column 100 `find src \\( -name '*.svelte' -o -name '*.ts'  -o -name '*.html' \\) -type f | grep -v src/examples`",
 		"test": "pnpm run --sequential /^test:/",
 		"test:integration": "playwright test"
@@ -213,7 +217,8 @@
 		"fast-equals": "^6.0.0",
 		"nanoid": "^6.0.0",
 		"svelte-persisted-store": "0.12.0",
-		"tweakpane": "4.0.5"
+		"tweakpane": "4.0.5",
+		"tweakpane-plugin-color-plus": "0.5.0"
 	},
 	"devDependencies": {
 		"@kitschpatrol/shared-config": "^8.1.0",
@@ -221,7 +226,7 @@
 		"@playwright/test": "^1.61.1",
 		"@stkb/rewrap": "^0.1.0",
 		"@sveltejs/adapter-static": "^3.0.10",
-		"@sveltejs/kit": "^2.69.1",
+		"@sveltejs/kit": "^2.69.2",
 		"@sveltejs/package": "^2.5.8",
 		"@sveltejs/vite-plugin-svelte": "^3.1.2",
 		"@types/node": "^20.19.43",

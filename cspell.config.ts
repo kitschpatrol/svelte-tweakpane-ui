@@ -1,3 +1,6 @@
 import { cspellConfig } from '@kitschpatrol/cspell-config'
 
-export default cspellConfig({ words: ['onwarn', 'Titleless'] })
+export default cspellConfig({
+	ignorePaths: ['./build/**'],
+	words: ['onwarn', 'prophoto', 'Titleless'],
+})
