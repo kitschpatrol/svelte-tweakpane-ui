@@ -10,6 +10,10 @@
 </script>
 
 <Wheel
+	format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
+	label="Wheel 1"
+	pointerScale={-2.5}
+	wide={true}
 	bind:value={angle}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -18,12 +22,12 @@
 			binding1ExternalEventCount++
 		}
 	}}
-	format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
-	label="Wheel 1"
-	pointerScale={-2.5}
-	wide={true}
 />
 <Wheel
+	format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
+	label="Wheel 2"
+	pointerScale={-2.5}
+	wide={true}
 	bind:value={angle}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -32,10 +36,6 @@
 			binding2ExternalEventCount++
 		}
 	}}
-	format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
-	label="Wheel 2"
-	pointerScale={-2.5}
-	wide={true}
 />
 
 <pre>Value: <span>{angle}</span></pre>

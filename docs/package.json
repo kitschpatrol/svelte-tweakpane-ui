@@ -1,6 +1,7 @@
 {
 	"name": "svelte-tweakpane-ui-docs",
 	"version": "1.0.0",
+	"private": true,
 	"description": "Documentation website for Svelte Tweakpane UI.",
 	"repository": {
 		"type": "git",
@@ -15,41 +16,29 @@
 	"sideEffects": false,
 	"type": "module",
 	"scripts": {
-		"build": "tsx ./scripts/build.ts",
-		"check": "astro check --tsconfig tsconfig.build.json",
+		"build": "shx mkdir -p ./src/content/acknowledgments && pnpm licenses list --json > ./src/content/acknowledgments/acknowledgments-docs.json && astro build",
 		"clean": "rm -rf .astro && rm -rf dist",
 		"dev": "astro dev",
 		"preview": "poptab ; open https://localhost:8787/svelte-tweakpane-ui ; wrangler dev --show-interactive-dev-session false --https-cert-path ~/.vite-plugin-mkcert/cert.pem --https-key-path ~/.vite-plugin-mkcert/dev.pem",
 		"start": "astro dev",
-		"sync": "astro sync",
-		"validate-links": "export NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" && pnpx linkinator https://localhost:8787/svelte-tweakpane-ui --recurse --verbosity error --retry-errors-count 2 --retry-errors true --retry true --concurrency 1 --timeout 10000 --retry-errors-jitter 50 --skip www.linkedin.com",
-		"validate-links-live": "pnpx linkinator https://kitschpatrol.com/svelte-tweakpane-ui --recurse --verbosity error --retry-errors-count 2 --retry-errors true --retry true --concurrency 1 --timeout 10000 --retry-errors-jitter 50  --skip www.linkedin.com"
-	},
-	"dependencies": {
-		"@astrojs/check": "^0.9.9",
-		"@astrojs/starlight": "^0.41.3",
-		"@astrojs/svelte": "^9.0.1",
-		"astro": "^7.0.9",
-		"github-slugger": "^2.0.0",
-		"gray-matter": "^4.0.3",
-		"sharp": "^0.35.3",
-		"svelte-tweakpane-ui": "link:.."
+		"sync": "astro sync"
 	},
 	"devDependencies": {
-		"@types/semver": "^7.7.1",
-		"astro-html-kit": "^0.5.0",
+		"@astrojs/check": "^0.9.10",
+		"@astrojs/starlight": "^0.41.7",
+		"@astrojs/svelte": "^9.0.1",
+		"astro": "^7.2.2",
+		"astro-html-kit": "^0.5.1",
 		"canvas": "^3.2.3",
-		"execa": "^9.6.1",
-		"linkinator": "^7.6.1",
-		"marked": "^18.0.5",
-		"poptab": "^1.1.1",
-		"read-package-up": "^12.0.0",
-		"semver": "^7.8.5",
-		"svelte": "^5.56.4",
-		"wrangler": "^4.107.1"
-	},
-	"engines": {
-		"node": ">=22.12.0",
-		"pnpm": ">=10.0.0"
+		"github-slugger": "^2.0.0",
+		"gray-matter": "^4.0.3",
+		"marked": "^18.0.9",
+		"poptab": "^1.1.2",
+		"sharp": "^0.35.3",
+		"shx": "^0.4.0",
+		"svelte": "^5.56.9",
+		"svelte-check": "^4.7.6",
+		"svelte-tweakpane-ui": "link:..",
+		"wrangler": "^4.123.0"
 	}
 }

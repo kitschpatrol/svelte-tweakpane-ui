@@ -77,7 +77,7 @@
 </script>
 
 <!--
-@component  
+@component
 This component is for internal use only.
 
 Documentation retained in case of a return to the non-dynamic component approach.
@@ -95,7 +95,7 @@ the graph's update rate.
 Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane
 position="inline">` component.
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { InternalMonitorNumber } from 'svelte-tweakpane-ui'
@@ -121,7 +121,7 @@ position="inline">` component.
 [InternalMonitorNumber.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalMonitorNumber.svelte)
 -->
 
-<GenericMonitor {value} {options} {...$$restProps} />
+<GenericMonitor {options} {value} {...$$restProps} />
 {#if !BROWSER}
 	{@const totalRows = rowsForMonitor($$props.bufferSize, $$props.rows, graph) - 1}
 	{#if totalRows > 0}

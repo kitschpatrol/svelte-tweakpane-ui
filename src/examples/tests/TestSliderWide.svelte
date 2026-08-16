@@ -6,28 +6,28 @@
 </script>
 
 <Slider
-	bind:value
-	min={-1}
-	max={1}
 	format={(v) => v.toFixed(2)}
 	label="Let it Slide Wide"
+	max={1}
+	min={-1}
 	wide={true}
+	bind:value
 />
 <Slider
-	bind:value
-	min={-1}
-	max={1}
 	format={(v) => v.toFixed(2)}
 	label="Let it Slide"
+	max={1}
+	min={-1}
 	wide={false}
+	bind:value
 />
 <Slider
-	bind:value
-	min={-1}
-	max={1}
 	format={(v) => v.toFixed(2)}
 	label="Let it Slide Wide if Checked"
+	max={1}
+	min={-1}
 	{wide}
+	bind:value
 />
-<Checkbox bind:value={wide} label="Wide" />
+<Checkbox label="Wide" bind:value={wide} />
 <pre>Value: {value}</pre>

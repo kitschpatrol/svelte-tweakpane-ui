@@ -70,7 +70,6 @@
 		change: AutoObjectChangeEvent
 	}
 
-	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	const parentStore: Writable<Container> = getContext('parentStore')
@@ -108,7 +107,7 @@
 </script>
 
 <!--
-@component  
+@component
 Rapid-development component which automatically creates a set of Tweakpane controls for an arbitrary
 object.
 
@@ -139,7 +138,7 @@ Plugin component behavior is not available in `<AutoObject>`.
 
 @emits {AutoObjectChangeEvent} change - When `object` changes. (This event is provided for advanced use cases. Prefer binding to `object`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { AutoObject } from 'svelte-tweakpane-ui'
@@ -193,16 +192,16 @@ Plugin component behavior is not available in `<AutoObject>`.
 			</Folder>
 		{:else if typeof object[key] === 'string'}
 			<Text
+				label={prettify(key, prettyLabels)}
 				bind:value={object[key]}
 				on:change={changeEventAggregator}
-				label={prettify(key, prettyLabels)}
 			/>
 		{:else}
 			<Binding
-				bind:object
-				on:change={changeEventAggregator}
 				{key}
 				label={prettify(key, prettyLabels)}
+				bind:object
+				on:change={changeEventAggregator}
 			/>
 		{/if}
 	{/each}

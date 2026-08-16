@@ -154,7 +154,7 @@
 </script>
 
 <!--
-@component  
+@component
 
 A grid of radio buttons.
 
@@ -184,7 +184,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 
 @emits {RadioGridChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { RadioGrid } from 'svelte-tweakpane-ui'
@@ -239,7 +239,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 [RadioGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/RadioGrid.svelte)
 -->
 
-<GenericInput bind:value on:change {options} plugin={pluginModule} {...$$restProps} />
+<GenericInput {options} plugin={pluginModule} bind:value on:change {...$$restProps} />
 {#if !BROWSER}
 	<ClsPad keysAdd={fillWith('containerUnitSize', gridDimensions.rows - 1)} theme={$$props.theme} />
 	<div style:height={`${2 * (gridDimensions.rows - 1)}px`}></div>

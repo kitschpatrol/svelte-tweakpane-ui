@@ -6,4 +6,4 @@
 	$: console.log(value)
 </script>
 
-<CubicBezier bind:value expanded={true} label="cubicbezier" picker="inline" />
+<CubicBezier expanded={true} label="cubicbezier" picker="inline" bind:value />

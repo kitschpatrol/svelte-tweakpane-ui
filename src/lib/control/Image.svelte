@@ -117,7 +117,7 @@
 </script>
 
 <!--
-@component  
+@component
 
 An image input control.
 
@@ -139,7 +139,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 
 @emits {ImageChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { Button, Image, type ImageValue } from '$lib'
@@ -195,10 +195,10 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 -->
 
 <GenericInput
-	bind:value={internalValue}
-	on:change
 	{options}
 	plugin={pluginModule}
+	bind:value={internalValue}
+	on:change
 	{...$$restProps}
 />
 {#if !BROWSER}

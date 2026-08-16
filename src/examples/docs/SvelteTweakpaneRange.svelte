@@ -4,7 +4,7 @@
 	let speed = 50
 </script>
 
-<Slider bind:value={speed} min={0} max={100} />
+<Slider max={100} min={0} bind:value={speed} />
 <pre>
 {speed}
 </pre>

@@ -5,6 +5,6 @@
 	let wide = false
 </script>
 
-<Ring bind:value label="Ring 1" {wide} />
-<Checkbox bind:value={wide} label="Wide" />
+<Ring label="Ring 1" {wide} bind:value />
+<Checkbox label="Wide" bind:value={wide} />
 <pre>Value: {value}</pre>

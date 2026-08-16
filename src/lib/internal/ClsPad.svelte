@@ -48,7 +48,7 @@
 </script>
 
 <!--
-@component  
+@component
 This component is for internal use only.
 
 It's a utility to assist in estimating the rendered height of Tweakpane components for use during prerendering in an attempt to minimize layout shift upon hydration.

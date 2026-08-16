@@ -10,6 +10,9 @@
 </script>
 
 <RotationEuler
+	expanded={true}
+	label="CSS Rotation 1"
+	picker="inline"
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -18,11 +21,11 @@
 			binding1ExternalEventCount++
 		}
 	}}
-	expanded={true}
-	label="CSS Rotation 1"
-	picker="inline"
 />
 <RotationEuler
+	expanded={true}
+	label="CSS Rotation 2"
+	picker="inline"
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -31,9 +34,6 @@
 			binding2ExternalEventCount++
 		}
 	}}
-	expanded={true}
-	label="CSS Rotation 2"
-	picker="inline"
 />
 
 <pre>Value: <span>{value}</span></pre>

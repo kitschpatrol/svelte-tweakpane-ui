@@ -17,13 +17,15 @@
 </script>
 
 <Button
+	label="Random Placeholder"
+	title="Load Cat"
 	on:click={async () => {
 		source = await getRandomKittenUrl()
 	}}
-	label="Random Placeholder"
-	title="Load Cat"
 />
 <Image
+	fit="contain"
+	label="Image 1"
 	bind:value={source}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -32,10 +34,10 @@
 			binding1ExternalEventCount++
 		}
 	}}
-	fit="contain"
-	label="Image 1"
 />
 <Image
+	fit="contain"
+	label="Image 2"
 	bind:value={source}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -44,8 +46,6 @@
 			binding2ExternalEventCount++
 		}
 	}}
-	fit="contain"
-	label="Image 2"
 />
 
 <pre>Value: <span>{source}</span></pre>

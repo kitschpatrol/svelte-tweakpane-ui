@@ -3,73 +3,47 @@ name: Create GitHub Release
 on:
   push:
     tags:
-      - 'v[0-9]*'
-      - '[0-9]*'
+      - 'v[0-9]*.[0-9]*.[0-9]*'
+      - '[0-9]*.[0-9]*.[0-9]*'
 
 permissions:
   contents: write
 
 jobs:
-  build:
+  release:
     name: Create Release
     runs-on: ubuntu-latest
-    env:
-      ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
-      IS_VALID_COMMIT: false
-      TAG_NAME: ''
+    timeout-minutes: 10
 
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Log Token Type
+      - name: Confirm Tag Is on the Default Branch
         env:
-          TOKEN: ${{ env.ACCESS_TOKEN }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
-          if [ "$TOKEN" = "$GH_TOKEN" ]; then
-            echo "🗝️ Authenticated with GitHub Token"
-          else
-            echo "🔑 Authenticated with Personal Access token"
-          fi
-
-      - name: Validate Tag and Branch
-        id: validation
-        run: |
-          TAG=$(git tag --contains HEAD | grep -E '^v?[0-9]' | head -n 1)
-          echo "🏷️ Tag for commit is: $TAG"
-          BRANCH=$(git branch -r --contains tags/${GITHUB_REF_NAME} | grep 'origin/main' | xargs)
-          if [[ -z "$BRANCH" ]]; then
-            echo "🚨 Tag is not on main branch"
-          else
-            echo "🕊️ Current branch is: $BRANCH"
-          fi
-          if [[ -z "$TAG" || -z "$BRANCH" ]]; then
-            echo "IS_VALID_COMMIT=false" >> "$GITHUB_ENV"
-            echo "TAG_NAME=''" >> "$GITHUB_ENV"
-          else
-            echo "IS_VALID_COMMIT=true" >> "$GITHUB_ENV"
-            echo "TAG_NAME=$TAG" >> "$GITHUB_ENV"
+          if ! git branch -r --contains "tags/${GITHUB_REF_NAME}" | tr -d ' ' | grep -qxF "origin/${DEFAULT_BRANCH}"; then
+            echo "::error::Tag ${GITHUB_REF_NAME} is not on the ${DEFAULT_BRANCH} branch, refusing to release"
+            exit 1
           fi
 
       - name: Release Notes
-        if: env.IS_VALID_COMMIT == 'true'
         id: release-notes
         uses: kitschpatrol/github-action-release-changelog@v2
 
       - name: Release
-        if: env.IS_VALID_COMMIT == 'true'
         id: release
         uses: kitschpatrol/github-action-release@v2
         with:
-          token: ${{ env.ACCESS_TOKEN }}
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
           draft: false
           prerelease: false
-          name: ${{ env.TAG_NAME }}
-          tag_name: ${{ env.TAG_NAME }}
+          name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
           body: |
             ${{ steps.release-notes.outputs.changelog }}
           files: |
@@ -80,14 +54,3 @@ jobs:
             CHANGELOG
             CHANGELOG.md
             changelog.md
-
-      - name: Log Release Details
-        if: env.IS_VALID_COMMIT == 'true'
-        env:
-          TAG: ${{ env.TAG_NAME }}
-          RELEASE_URL: ${{ steps.release.outputs.url }}
-          RELEASE_ID: ${{ steps.release.outputs.id }}
-        run: |
-          echo "📦 Successfully released: $TAG"
-          echo "🔗 Release URL: $RELEASE_URL"
-          echo "🪪 Release ID: $RELEASE_ID"

@@ -2,6 +2,11 @@
 import type { CollectionEntry } from 'astro:content'
 import { getCollection } from 'astro:content'
 
+const AUTHOR_SEPARATOR_REGEX = /\s*(?:\sand\s|,|&)\s*/v
+const CORPORATE_SUFFIX_REGEX = /(?:corp\.|corporation|inc\.)$/v
+const EMOJI_REGEX = /\p{Emoji}/v
+const SPACE_REGEX = / /v
+
 type Props = {
 	scope: 'all' | 'docs' | 'lib'
 }
@@ -60,7 +65,7 @@ const names = data
 	.reduce((acc: string[], { author }) => {
 		if (author !== undefined && author !== '') {
 			// Split compound comma-delimited publishers as needed
-			for (const subItem of author.split(/\s*(?:\sand\s|,|&)\s*/v)) {
+			for (const subItem of author.split(AUTHOR_SEPARATOR_REGEX)) {
 				const subPublisher = titleCase(stopShouting(stripQuotes(getNameFromEmail(subItem.trim()))))
 				if (subPublisher !== '' && !acc.includes(subPublisher)) {
 					acc.push(subPublisher)
@@ -73,7 +78,7 @@ const names = data
 	// Exclude me and some other vague things
 	.filter((name) => !['contributors', 'eric mika', 'inc.', 'llc'].includes(name.toLowerCase()))
 	// No emoji please
-	.filter((name) => !/\p{Emoji}/v.test(name))
+	.filter((name) => !EMOJI_REGEX.test(name))
 	// Filter out case-insensitive duplicates, but keep the version with the most capitalization
 	.filter((name, index, array) => {
 		const lower = name.toLowerCase()
@@ -84,13 +89,12 @@ const names = data
 	.filter((name, index, array) => {
 		const lower = name.toLowerCase()
 		const matchIndex = array.findIndex(
-			// eslint-disable-next-line regexp/no-unused-capturing-group
-			(n) => n.toLowerCase().replace(/(corp\.|corporation|inc\.)$/v, '') === lower,
+			(n) => n.toLowerCase().replace(CORPORATE_SUFFIX_REGEX, '') === lower,
 		)
 		return matchIndex === index
 	})
 	// Don't break names
-	.map((n) => n.replace(/ /v, '\u{A0}'))
+	.map((n) => n.replace(SPACE_REGEX, '\u{A0}'))
 	// Sort by last name
 	.toSorted((a, b) => a.localeCompare(b))
 ---

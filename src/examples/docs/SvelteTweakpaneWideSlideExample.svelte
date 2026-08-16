@@ -1,23 +1,23 @@
 <script lang="ts">
 	import { Checkbox, IntervalSlider, Ring, Separator, Slider, Stepper, Wheel } from '$lib'
 
-	let min = 0
-	let max = 100
+	const min = 0
+	const max = 100
 	let value = 50
 	let wide = true
 </script>
 
-<Checkbox bind:value={wide} label="Wide" />
+<Checkbox label="Wide" bind:value={wide} />
 <Separator />
-<Slider bind:value {min} {max} label="Slider" {wide} />
-<Stepper bind:value {min} {max} label="Stepper" step={10} {wide} />
+<Slider label="Slider" {max} {min} {wide} bind:value />
+<Stepper label="Stepper" {max} {min} step={10} {wide} bind:value />
 <IntervalSlider
-	value={[min, max]}
-	{min}
-	{max}
-	bind:meanValue={value}
 	label="IntervalSlider"
+	{max}
+	{min}
+	value={[min, max]}
 	{wide}
+	bind:meanValue={value}
 />
-<Wheel bind:value {min} {max} label="Wheel" {wide} />
-<Ring bind:value {min} {max} label="Ring" {wide} />
+<Wheel label="Wheel" {max} {min} {wide} bind:value />
+<Ring label="Ring" {max} {min} {wide} bind:value />

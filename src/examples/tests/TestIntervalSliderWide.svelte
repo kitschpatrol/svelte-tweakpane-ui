@@ -5,6 +5,6 @@
 	let wide = false
 </script>
 
-<IntervalSlider bind:value min={0} max={100} format={(v) => `${v.toFixed(0)}%`} {wide} />
-<Checkbox bind:value={wide} label="Wide" />
+<IntervalSlider format={(v) => `${v.toFixed(0)}%`} max={100} min={0} {wide} bind:value />
+<Checkbox label="Wide" bind:value={wide} />
 <pre>Value: {value}</pre>

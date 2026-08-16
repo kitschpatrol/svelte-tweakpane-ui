@@ -10,4 +10,4 @@
 	}
 </script>
 
-<Stepper label="Bla" bind:value={linearValue} min={0} max={10} step={0.5} {format} />
+<Stepper {format} label="Bla" max={10} min={0} step={0.5} bind:value={linearValue} />

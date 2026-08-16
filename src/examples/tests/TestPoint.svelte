@@ -14,6 +14,10 @@
 </script>
 
 <Point
+	expanded={true}
+	label="2D Point Picker 1"
+	picker="inline"
+	userExpandable={false}
 	bind:value={point2d}
 	on:change={listener}
 	on:change={(event) => {
@@ -23,12 +27,12 @@
 			binding1ExternalEventCount++
 		}
 	}}
-	expanded={true}
-	label="2D Point Picker 1"
-	picker="inline"
-	userExpandable={false}
 />
 <Point
+	expanded={true}
+	label="2D Point Picker 2"
+	picker="inline"
+	userExpandable={false}
 	bind:value={point2d}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -37,10 +41,6 @@
 			binding2ExternalEventCount++
 		}
 	}}
-	expanded={true}
-	label="2D Point Picker 2"
-	picker="inline"
-	userExpandable={false}
 />
 
 <pre>Value: <span>{JSON.stringify(point2d, null, 2)}</span></pre>

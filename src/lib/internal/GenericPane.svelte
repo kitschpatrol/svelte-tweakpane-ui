@@ -127,7 +127,7 @@
 	// minor optimization, we track plugin registrations manually to make sure child components
 	// don't redundantly re-register plugins TODO some strategy for plugin removal? not worth it
 	// since loading already happened?
-	let pluginsRegistered: string[] = []
+	const pluginsRegistered: string[] = []
 	const registerPlugin = (plugin: Plugin) => {
 		if (tpPane === undefined) {
 			console.warn(`tpPane is undefined, failed to register plugin "${plugin.id}"`)
@@ -190,8 +190,8 @@
 	function updateExpanded(newExpanded: boolean) {
 		void tick().then(() => {
 			if (
-				tpPane?.expanded !== undefined &&
 				newExpanded !== undefined &&
+				tpPane?.expanded !== undefined &&
 				tpPane.expanded !== newExpanded
 			) {
 				// eslint-disable-next-line svelte/infinite-reactive-loop
@@ -210,7 +210,7 @@
 </script>
 
 <!--
-@component  
+@component
 This component is for internal use only.
 
 @sourceLink
@@ -218,7 +218,7 @@ This component is for internal use only.
 -->
 
 {#if BROWSER}
-	<slot />
+	<slot></slot>
 {:else if expanded}
 	{#if title === undefined}
 		<ClsPad keysAdd={['containerVerticalPadding']} {theme} />
@@ -233,7 +233,7 @@ This component is for internal use only.
 			{theme}
 		/>
 	{/if}
-	<slot />
+	<slot></slot>
 {:else if title === undefined}
 	<!-- Nothing renders -->
 {:else}

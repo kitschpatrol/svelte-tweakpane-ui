@@ -124,7 +124,7 @@
 	let min = 0
 	let max = 1
 	let periodSeconds = 10
-	let interval2: [number, number] = [min, max]
+	const interval2: [number, number] = [min, max]
 	let offsets: PointValue4dTuple = [0, 0, 0, 0]
 	let headingUp: [boolean, boolean, boolean, boolean] = [true, true, true, true]
 
@@ -161,17 +161,16 @@
 	// eslint-disable-next-line svelte/no-immutable-reactive-statements
 	$: [min, max] = interval2
 
-	$: {
-		if (!interacting) {
-			const newValue = offsets.map((offset, index) =>
-				// eslint-disable-next-line ts/restrict-plus-operands
-				map(Math.sin(time + offset + offsetAngle[index]), -1, 1, min, max),
-			) as PointValue4dTuple
+	$: if (!interacting) {
+		const newValue = offsets.map((offset, index) =>
+			// eslint-disable-next-line ts/restrict-plus-operands
+			map(Math.sin(time + offset + offsetAngle[index]), -1, 1, min, max),
+		) as PointValue4dTuple
 
-			setHeadingUp($point4, newValue)
-			$point4 = newValue
-		}
+		setHeadingUp($point4, newValue)
+		$point4 = newValue
 	}
+
 	function setHeadingUp(oldPoint: PointValue4dTuple, newPoint: PointValue4dTuple) {
 		headingUp = headingUp.map((v, index) =>
 			newPoint[index] === oldPoint[index] ? v : newPoint[index] > oldPoint[index],
@@ -187,6 +186,8 @@
 	}
 </script>
 
+<!-- eslint-disable svelte/prefer-destructured-store-props -- Direct store-property binding is behavior under test. -->
+
 <Pane
 	collapseChildrenToFit={true}
 	position="draggable"
@@ -196,29 +197,29 @@
 	{x}
 	{y}
 >
-	<Text bind:value={text} label="<Text> Title" />
-	<List bind:value={themeKey} label="<List> Theme" options={themes} />
+	<Text label="<Text> Title" bind:value={text} />
+	<List label="<List> Theme" options={themes} bind:value={themeKey} />
 	<FpsGraph label="<FpsGraph>" />
 	<Separator />
-	<Checkbox bind:value={playing} label="<Checkbox> Play" />
-	<Button on:click={reset} label="<Button> Reset" title="Reset" />
+	<Checkbox label="<Checkbox> Play" bind:value={playing} />
+	<Button label="<Button> Reset" title="Reset" on:click={reset} />
 	<Slider
-		bind:value={periodSeconds}
-		min={1}
-		max={60}
 		format={(v) => `${v.toFixed(1)}s`}
 		label="<Slider> Period"
+		max={60}
+		min={1}
 		step={1}
+		bind:value={periodSeconds}
 	/>
 	<Separator />
 	<Folder title="<Folder> Axes">
 		{#each keys as k, index}
 			<Slider
-				bind:value={$point4[index]}
-				{min}
-				{max}
 				label={`<Slider> ${k}`}
+				{max}
+				{min}
 				pointerScale={0.002}
+				bind:value={$point4[index]}
 			/>
 		{/each}
 	</Folder>
@@ -230,47 +231,47 @@
 		{#each keys as k, index}
 			<TabPage title={`<TabPage> ${k}`}>
 				<Monitor
-					value={$point4[index]}
-					min={-0.2}
-					max={1.2}
 					bufferSize={300}
 					graph={true}
 					label={`<Monitor> ${k}`}
+					max={1.2}
+					min={-0.2}
+					value={$point4[index]}
 				/>
 			</TabPage>
 		{/each}
 	</TabGroup>
 	<Separator />
 	<Color
-		bind:value={$point4}
 		expanded={false}
 		label="<Color> R G B A"
 		picker="inline"
 		type="float"
+		bind:value={$point4}
 	/>
 	<Separator />
 	<Point
-		bind:value={$point2}
-		{min}
-		{max}
 		expanded={true}
 		label="<Point> X Y"
+		{max}
+		{min}
 		optionsY={{ inverted: true, max, min }}
 		picker="inline"
+		bind:value={$point2}
 	/>
 	<Separator />
 	<RotationEuler
-		bind:value={$point3}
 		expanded={true}
 		label="<RotationEuler> X Y Z"
 		picker="inline"
+		bind:value={$point3}
 	/>
 	{#if cubicBezierEnabled}
 		<CubicBezier
-			bind:value={$point4}
 			expanded={true}
 			label="<CubicBezier> X Y Z W"
 			picker="inline"
+			bind:value={$point4}
 		/>
 	{/if}
 </Pane>

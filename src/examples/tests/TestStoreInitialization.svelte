@@ -1,8 +1,7 @@
 <script lang="ts">
 	// Via https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/15
-	// eslint-disable-next-line import/no-duplicates
+
 	import { onMount, tick } from 'svelte'
-	// eslint-disable-next-line import/no-duplicates
 	import { writable } from 'svelte/store'
 	import { Slider } from '$lib'
 
@@ -19,16 +18,18 @@
 	})
 </script>
 
+<!-- eslint-disable svelte/prefer-destructured-store-props -- Direct store-property binding is behavior under test. -->
+
 <h1>With tick, works in Svelte 4</h1>
 
 <p>Native input</p>
-<input bind:value={$bear.apples} min={0} max={100} step={1} type="range" />
+<input max={100} min={0} step={1} type="range" bind:value={$bear.apples} />
 <p>Svelte Tweakpane UI</p>
-<Slider bind:value={$bear.apples} min={0} max={100} step={1} />
+<Slider max={100} min={0} step={1} bind:value={$bear.apples} />
 
 <h1>Without tick, works in Svelte 5</h1>
 
 <p>Native input</p>
-<input bind:value={$bear2.apples} min={0} max={100} step={1} type="range" />
+<input max={100} min={0} step={1} type="range" bind:value={$bear2.apples} />
 <p>Svelte Tweakpane UI</p>
-<Slider bind:value={$bear2.apples} min={0} max={100} step={1} />
+<Slider max={100} min={0} step={1} bind:value={$bear2.apples} />

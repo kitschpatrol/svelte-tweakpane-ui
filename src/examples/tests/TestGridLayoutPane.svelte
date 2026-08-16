@@ -8,10 +8,10 @@
 
 <div class="layout-wrapper"></div>
 <Pane position="inline" theme={{ bladeValueWidth: '244px' }} width={337}>
-	<Slider bind:value={colors} min={0} max={1} label="Colors" />
-	<Checkbox bind:value={darkMode} label="Dark Mode" />
-	<Checkbox bind:value={numbers} label="Numbers" />
-	<Checkbox bind:value={oneMore} label="One More" />
+	<Slider label="Colors" max={1} min={0} bind:value={colors} />
+	<Checkbox label="Dark Mode" bind:value={darkMode} />
+	<Checkbox label="Numbers" bind:value={numbers} />
+	<Checkbox label="One More" bind:value={oneMore} />
 </Pane>
 
 <style>

@@ -77,7 +77,7 @@
 </script>
 
 <!--
-@component  
+@component
 A text field, in the spirit of the HTML `<input type="text">` element.
 
 Wraps Tweakpane's [string binding](https://tweakpane.github.io/docs/input-bindings/#string).
@@ -92,7 +92,7 @@ position="inline">`.
 
 @emits {TextChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { Text } from 'svelte-tweakpane-ui'
@@ -108,4 +108,4 @@ position="inline">`.
 [Text.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Text.svelte)
 -->
 
-<GenericInput bind:value bind:ref on:change {options} {...$$restProps} />
+<GenericInput {options} bind:value bind:ref on:change {...$$restProps} />

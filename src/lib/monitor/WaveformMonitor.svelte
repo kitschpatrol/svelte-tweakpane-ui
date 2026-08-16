@@ -68,7 +68,7 @@
 </script>
 
 <!--
-@component  
+@component
 Visualize multiple numeric values as a waveform.
 
 Integrates [Simon Schödler's](https://shoedler.github.io)
@@ -81,7 +81,7 @@ position="inline">`.
 
 Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://github.com/kitschpatrol/tweakpane-plugin-waveform) of the plugin with build optimizations.
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { WaveformMonitor } from 'svelte-tweakpane-ui'
@@ -102,7 +102,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 [WaveformMonitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/monitor/WaveformMonitor.svelte)
 -->
 
-<GenericMonitor {value} {options} plugin={pluginModule} {...$$restProps} />
+<GenericMonitor {options} plugin={pluginModule} {value} {...$$restProps} />
 {#if !BROWSER}
 	<ClsPad keysAdd={fillWith('containerUnitSize', 2)} theme={$$props.theme} />
 {/if}

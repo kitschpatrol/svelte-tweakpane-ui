@@ -55,7 +55,7 @@
 	theme={ThemeUtils.presets.light}
 	title="Inline Pane Unbound Variable"
 >
-	<Checkbox bind:value={expanded} label="Expanded" />
+	<Checkbox label="Expanded" bind:value={expanded} />
 </Pane>
 
 <!-- Bound Literal Not Allowed -->
@@ -63,35 +63,35 @@
 <!-- Bound Variable -->
 
 <Pane
-	bind:expanded
 	position="draggable"
 	storePositionLocally={false}
 	theme={ThemeUtils.presets.light}
 	title="Draggable Pane Bound Variable"
 	x={600}
 	y={300}
+	bind:expanded
 >
-	<Checkbox bind:value={expanded} label="Expanded" />
+	<Checkbox label="Expanded" bind:value={expanded} />
 </Pane>
 
 <Pane
-	bind:expanded
 	position="fixed"
 	theme={ThemeUtils.presets.light}
 	title="Fixed Pane Bound Variable"
 	x={600}
 	y={400}
+	bind:expanded
 >
-	<Checkbox bind:value={expanded} label="Expanded" />
+	<Checkbox label="Expanded" bind:value={expanded} />
 </Pane>
 
 <hr />
 
 <Pane
-	bind:expanded
 	position="inline"
 	theme={ThemeUtils.presets.light}
 	title="Inline Pane Bound Variable"
+	bind:expanded
 >
-	<Checkbox bind:value={expanded} label="Expanded" />
+	<Checkbox label="Expanded" bind:value={expanded} />
 </Pane>
