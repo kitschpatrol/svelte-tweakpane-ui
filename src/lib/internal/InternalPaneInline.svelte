@@ -54,7 +54,7 @@
 </script>
 
 <!--
-@component  
+@component
 This component is for internal use only.
 
 @sourceLink
@@ -62,7 +62,7 @@ This component is for internal use only.
 -->
 
 <div bind:this={containerElement} style:width={width === undefined ? null : `${width}px`}>
-	<GenericPane bind:expanded bind:tpPane {theme} {...removeKeys($$restProps, 'position')}>
-		<slot />
+	<GenericPane {theme} bind:expanded bind:tpPane {...removeKeys($$restProps, 'position')}>
+		<slot></slot>
 	</GenericPane>
 </div>

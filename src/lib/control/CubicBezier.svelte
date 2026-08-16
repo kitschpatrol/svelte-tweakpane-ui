@@ -19,7 +19,7 @@
 	/*    :global(div.svelte-tweakpane-ui div.tp-cbzv:not(tp-cbzv-expanded) div.tp-cbzv_p) {
 	/* 	  overflow: hidden !important;
 	/*   }
-  /* </style> 
+  /* </style>
   */
 
 	// TODO calc util already in TP?
@@ -80,7 +80,6 @@
 		change: CubicBezierChangeEvent
 	}
 
-	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	let options: CubicBezierOptions
@@ -151,7 +150,7 @@
 </script>
 
 <!--
-@component  
+@component
 
 A control for editing a bezier curve. Ideal for tweaking animation easing values.
 
@@ -175,7 +174,7 @@ Note that _Svelte Tweakpane UI_ embeds a [fork](https://github.com/kitschpatrol/
 
 @emits {CubicBezierChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import {
@@ -255,11 +254,11 @@ Note that _Svelte Tweakpane UI_ embeds a [fork](https://github.com/kitschpatrol/
 -->
 
 <GenericBladeFolding
-	bind:expanded
-	bind:ref={cubicBezierBlade}
 	{buttonClass}
 	{options}
 	plugin={pluginModule}
+	bind:expanded
+	bind:ref={cubicBezierBlade}
 	{...$$restProps}
 />
 {#if !BROWSER}

@@ -70,7 +70,6 @@
 		change: TextareaChangeEvent
 	}
 
-	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	// eslint-disable-next-line no-useless-assignment -- Defensive init; reactive statement overwrites before first read
@@ -123,7 +122,7 @@
 </script>
 
 <!--
-@component  
+@component
 A multi-line text input field, in the spirit of the HTML `<textarea>`
 element.
 
@@ -143,7 +142,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 @emits {TextareaChangeEvent} change - When `value` changes. (This event is
 provided for advanced use cases. Prefer binding to `value`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { Textarea } from 'svelte-tweakpane-ui'
@@ -159,7 +158,7 @@ provided for advanced use cases. Prefer binding to `value`.)
 [Textarea.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Textarea.svelte)
 -->
 
-<GenericInput value={_value} bind:ref {options} plugin={pluginModule} {...$$restProps} />
+<GenericInput {options} plugin={pluginModule} value={_value} bind:ref {...$$restProps} />
 {#if !BROWSER}
 	<!-- TODO magic numbers -->
 	<div style:height={`calc(${16 * (rows ?? 3)}px - 14px)`}></div>

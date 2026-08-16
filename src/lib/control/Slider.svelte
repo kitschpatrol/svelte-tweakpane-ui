@@ -58,7 +58,7 @@
 </script>
 
 <!--
-@component  
+@component
 A slider component providing fine-grained control over numeric values.
 
 Wraps Tweakpane's [number bindings](https://tweakpane.github.io/docs/input-bindings/#number).
@@ -71,8 +71,8 @@ See the `<Interval>` component for a multi-handle range-defining slider.
 Usage outside of a `<Pane>` component will implicitly wrap the slider in `<Pane position="inline">`.
 
 @emits {SliderChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
-	
-@example  
+
+@example
 ```svelte
 <script lang="ts">
   import { Slider } from 'svelte-tweakpane-ui'

@@ -110,7 +110,6 @@
 		change: FpsGraphChangeEvent
 	}
 
-	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	onMount(() => {
@@ -157,7 +156,7 @@
 </script>
 
 <!--
-@component  
+@component
 A control for monitoring and graphing frame rates over time.
 
 Integrates the [FPS Graph](https://github.com/tweakpane/plugin-essentials#fps-graph) control from
@@ -181,7 +180,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 
 @emits {number} change - When the FPS value changes.
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { onMount } from 'svelte'
@@ -268,7 +267,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 [FpsGraph.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/monitor/FpsGraph.svelte)
 -->
 
-<Blade bind:ref {options} plugin={pluginModule} {...$$restProps} />
+<Blade {options} plugin={pluginModule} bind:ref {...$$restProps} />
 {#if !BROWSER}
 	{#if rows}
 		<ClsPad keysAdd={fillWith('containerUnitSize', rows)} theme={$$props.theme} />

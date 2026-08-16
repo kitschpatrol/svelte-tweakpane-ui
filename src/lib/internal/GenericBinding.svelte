@@ -49,7 +49,7 @@
 </script>
 
 <!--
-@component  
+@component
 This component is for internal use only.
 
 It abstracts the `param` object Tweakpane expects into an interface that looks like a bare value.
@@ -58,4 +58,4 @@ It abstracts the `param` object Tweakpane expects into an interface that looks l
 [GenericBinding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericBinding.svelte)
 -->
 
-<Binding bind:object bind:ref on:change {key} {options} {...$$restProps} />
+<Binding {key} {options} bind:object bind:ref on:change {...$$restProps} />

@@ -3,4 +3,4 @@
 	let value: number = 0
 </script>
 
-<Slider bind:value label="Width" step={1} format={(v) => `${v}px`} />
+<Slider format={(v) => `${v}px`} label="Width" step={1} bind:value />

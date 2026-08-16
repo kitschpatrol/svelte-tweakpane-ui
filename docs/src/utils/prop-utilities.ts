@@ -8,10 +8,7 @@ export type Condition = Omit<
 >
 export type ConditionsRecord = Record<string, Condition[]>
 
-export function uniqueProps(
-	commonProps: ComponentProp[],
-	dynamicProps: ComponentProp[],
-): ComponentProp[] {
+function uniqueProps(commonProps: ComponentProp[], dynamicProps: ComponentProp[]): ComponentProp[] {
 	const filteredProps = dynamicProps.filter((dynamicProp) =>
 		commonProps.every((commonProp) => dynamicProp.name !== commonProp.name),
 	)

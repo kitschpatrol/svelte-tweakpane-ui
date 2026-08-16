@@ -74,7 +74,6 @@
 		change: ListChangeEvent
 	}
 
-	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	let listBlade: ListBladeApi<T>
@@ -163,7 +162,7 @@
 </script>
 
 <!--
-@component  
+@component
 An option list picker, similar to an HTML `<select>` element.
 
 Wraps Tweakpane's list blade. See Tweakpane's documentation for [list
@@ -181,7 +180,7 @@ position="inline">`.
 
 @emits {ListChangeEvent} change - When `value` changes. (For advanced use cases. Prefer binding to `value`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { List, type ListOptions } from 'svelte-tweakpane-ui'
@@ -202,7 +201,7 @@ position="inline">`.
 [List.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/List.svelte)
 -->
 
-<Blade bind:ref={listBlade} options={bladeOptions} {...$$restProps} />
+<Blade options={bladeOptions} bind:ref={listBlade} {...$$restProps} />
 {#if !BROWSER}
 	<ClsPad keysAdd={['containerUnitSize']} theme={$$props.theme} />
 {/if}

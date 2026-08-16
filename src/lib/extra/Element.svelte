@@ -66,7 +66,7 @@
 </script>
 
 <!--
-@component  
+@component
 
 A component for embedding arbitrary HTML elements into a pane.
 
@@ -95,7 +95,7 @@ element embedded in the pane.
 Usage outside of a `<Pane>` component doesn't make a ton of sense, but in such a
 case the `<Element>` will be implicitly wrapped in `<Pane position="inline">`.
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { Button, Element, Pane, Wheel } from 'svelte-tweakpane-ui'
@@ -165,7 +165,7 @@ case the `<Element>` will be implicitly wrapped in `<Pane position="inline">`.
 -->
 
 {#if BROWSER}
-	<Blade bind:ref {options} {...$$restProps} />
+	<Blade {options} bind:ref {...$$restProps} />
 {:else}
 	<ClsPad
 		keysAdd={['containerVerticalPadding', 'containerVerticalPadding']}
@@ -175,13 +175,13 @@ case the `<Element>` will be implicitly wrapped in `<Pane position="inline">`.
 
 <div bind:this={sourceDiv} class="element skip-element-index">
 	<div
-		class="element-container"
 		style:height={BROWSER ? null : `${maxHeight}px`}
 		style:max-height={maxHeight === undefined ? null : `${maxHeight}px`}
 		style:overflow={BROWSER ? null : 'hidden'}
+		class="element-container"
 	>
 		<div class:reset={resetStyle}>
-			<slot />
+			<slot></slot>
 		</div>
 	</div>
 </div>

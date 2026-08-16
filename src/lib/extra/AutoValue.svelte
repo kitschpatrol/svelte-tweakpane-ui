@@ -40,7 +40,7 @@
 </script>
 
 <!--
-@component  
+@component
 Rapid-development component which automatically creates a Tweakpane control for an arbitrary value.
 
 A (reasonably) appropriate Tweakpane control will be used for the value type.
@@ -57,7 +57,7 @@ Plugin component behavior is not available in `<AutoValue>`.
 
 @emits {AutoValueChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { AutoValue } from 'svelte-tweakpane-ui'

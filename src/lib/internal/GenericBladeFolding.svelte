@@ -85,11 +85,11 @@
 </script>
 
 <!--
-@component  
+@component
 This component is for internal use only.
 
 @sourceLink
 [GenericBladeFolding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericBladeFolding.svelte)
 -->
 
-<Blade bind:ref {options} {...$$restProps} />
+<Blade {options} bind:ref {...$$restProps} />

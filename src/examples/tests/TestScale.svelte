@@ -14,7 +14,7 @@
 	})
 
 	$: wave = Math.sin(time * 5)
-	let width = 360
+	const width = 360
 	let scale1 = 1
 	let scale2 = 2
 	$: width1 = width * scale1
@@ -23,9 +23,9 @@
 
 <Pane position="inline" scale={scale1} title="Tweakpane Scale Test" width={width1}>
 	<FpsGraph />
-	<Slider bind:value={scale1} min={0} max={2} label="Scale" />
-	<Monitor value={wave} min={-2} max={2} bufferSize={300} graph={true} label="Monitor" />
-	<CubicBezier value={[0, 0, 0, 0]} expanded={true} picker="inline" />
+	<Slider label="Scale" max={2} min={0} bind:value={scale1} />
+	<Monitor bufferSize={300} graph={true} label="Monitor" max={2} min={-2} value={wave} />
+	<CubicBezier expanded={true} picker="inline" value={[0, 0, 0, 0]} />
 	<Wheel value={1} />
 	<Ring value={1} />
 </Pane>
@@ -33,9 +33,9 @@
 <br />
 <Pane position="inline" scale={scale2} title="Tweakpane Scale Test" width={width2}>
 	<FpsGraph />
-	<Slider bind:value={scale2} min={0} max={2} label="Scale" />
-	<Monitor value={wave} min={-2} max={2} bufferSize={300} graph={true} label="Monitor" />
-	<CubicBezier value={[0, 0, 0, 0]} expanded={true} picker="inline" />
+	<Slider label="Scale" max={2} min={0} bind:value={scale2} />
+	<Monitor bufferSize={300} graph={true} label="Monitor" max={2} min={-2} value={wave} />
+	<CubicBezier expanded={true} picker="inline" value={[0, 0, 0, 0]} />
 	<Wheel value={1} />
 	<Ring value={1} />
 </Pane>

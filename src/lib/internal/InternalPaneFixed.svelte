@@ -77,7 +77,7 @@
 </script>
 
 <!--
-@component  
+@component
 This component is for internal use only.
 
 Implements the default tweakpane behavior... opens in a fixed position.
@@ -86,8 +86,8 @@ Implements the default tweakpane behavior... opens in a fixed position.
 [InternalPaneFixed.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/InternalPaneFixed.svelte)
 -->
 
-<div style="display: none;">
-	<GenericPane bind:expanded bind:tpPane {title} {...removeKeys($$restProps, 'position')}>
-		<slot />
+<div style:display="none">
+	<GenericPane {title} bind:expanded bind:tpPane {...removeKeys($$restProps, 'position')}>
+		<slot></slot>
 	</GenericPane>
 </div>

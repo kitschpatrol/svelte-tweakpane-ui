@@ -15,6 +15,7 @@
 </script>
 
 <Color
+	label="Binding 1"
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -23,9 +24,9 @@
 			binding1ExternalEventCount++
 		}
 	}}
-	label="Binding 1"
 />
 <Color
+	label="Binding 2"
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -34,9 +35,9 @@
 			binding2ExternalEventCount++
 		}
 	}}
-	label="Binding 2"
 />
 <Color
+	label="Binding 3"
 	bind:value={value2}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -45,9 +46,9 @@
 			binding3ExternalEventCount++
 		}
 	}}
-	label="Binding 3"
 />
 <Color
+	label="Binding 4"
 	bind:value={value2}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -56,7 +57,6 @@
 			binding4ExternalEventCount++
 		}
 	}}
-	label="Binding 4"
 />
 
 <hr />

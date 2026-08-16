@@ -170,7 +170,6 @@
 		change: ProfilerChangeEvent
 	}
 
-	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	onDestroy(() => {
@@ -235,7 +234,7 @@
 </script>
 
 <!--
-@component  
+@component
 
 Measure and visualize multiple quantities over time.
 
@@ -252,7 +251,7 @@ position="inline">`.
 
 Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://github.com/kitschpatrol/tweakpane-plugin-profiler) of the plugin with build optimizations.
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { onMount } from 'svelte'
@@ -334,7 +333,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 [Profiler.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/monitor/Profiler.svelte)
 -->
 
-<Blade bind:ref={profilerBlade} {options} plugin={pluginModule} {...$$restProps} />
+<Blade {options} plugin={pluginModule} bind:ref={profilerBlade} {...$$restProps} />
 {#if !BROWSER}
 	<ClsPad keysAdd={fillWith('containerUnitSize', 2)} theme={$$props.theme} />
 	<!-- TODO Magic number for label... -->

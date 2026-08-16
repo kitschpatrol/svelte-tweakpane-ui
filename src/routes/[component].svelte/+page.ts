@@ -1,10 +1,10 @@
 import type { ComponentType } from 'svelte'
+import type { PageLoad } from './$types'
 
 const modules = import.meta.glob<{ default: ComponentType }>('../../examples/**/*.svelte')
 
-export async function load({ data }) {
-	// TODO real type...
-	const { match } = data as { match: string }
+export const load: PageLoad = async ({ data }) => {
+	const { match } = data
 
 	const filename = match.split('/').at(-1)
 

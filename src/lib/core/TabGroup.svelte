@@ -117,7 +117,7 @@
 </script>
 
 <!--
-@component  
+@component
 Contains a collection of `<TabPage>` components to be presented as a tabs.
 
 Wrapper around Tweakpane's [`addTab`](https://tweakpane.github.io/docs/ui-components/#tab) method.
@@ -128,7 +128,7 @@ component.
 
 Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane position="inline">`.
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { Button, TabGroup, TabPage } from 'svelte-tweakpane-ui'
@@ -150,19 +150,19 @@ Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane pos
 
 {#if parentStore}
 	{#if BROWSER}
-		<div bind:this={indexElement} style="display: none;">
-			<slot />
+		<div bind:this={indexElement} style:display="none">
+			<slot></slot>
 		</div>
 	{:else}
 		<ClsPad keysAdd={['containerVerticalPadding', 'containerVerticalPadding']} {theme} />
 		<div>
-			<slot />
+			<slot></slot>
 		</div>
 	{/if}
 {:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
-		<svelte:self bind:selectedIndex {disabled}>
-			<slot />
+		<svelte:self {disabled} bind:selectedIndex>
+			<slot></slot>
 		</svelte:self>
 	</InternalPaneInline>
 {/if}

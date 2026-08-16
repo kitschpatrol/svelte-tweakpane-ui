@@ -105,7 +105,7 @@
 </script>
 
 <!--
-@component  
+@component
 This component is for internal use only.
 
 Note that we go from a regular slider to a range / interval slider (via the essentials plugin) just
@@ -116,4 +116,4 @@ implement as a separate component leveraging this generic implementation.
 [GenericSlider.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericSlider.svelte)
 -->
 
-<GenericInput bind:value bind:ref on:change options={optionsInternal} {...$$restProps} />
+<GenericInput options={optionsInternal} bind:value bind:ref on:change {...$$restProps} />

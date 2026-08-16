@@ -16,7 +16,7 @@
 	<TabGroup bind:selectedIndex={tabIndex}>
 		{#each tabPages as pageTitle}
 			<TabPage title={pageTitle}>
-				<Button on:click={sortTabs} title="Sort Tabs" />
+				<Button title="Sort Tabs" on:click={sortTabs} />
 			</TabPage>
 		{/each}
 	</TabGroup>

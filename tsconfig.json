@@ -1,29 +1,13 @@
 {
-	"extends": "./.svelte-kit/tsconfig.json",
+	"extends": ["@kitschpatrol/typescript-config/svelte", "./.svelte-kit/tsconfig.json"],
 
 	"compilerOptions": {
-		"jsx": "preserve", // Astro
-		"resolveJsonModule": true,
-		"allowImportingTsExtensions": true, // Astro
-		"allowJs": true,
-		"checkJs": true,
-		"strict": true,
-		"noEmit": true,
-		"removeComments": false,
-		"sourceMap": true,
-		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true,
-		"noErrorTruncation": true,
-		"skipLibCheck": true
+		"noImplicitReturns": false,
+		"noUncheckedIndexedAccess": false,
+		"noUnusedLocals": false
 	},
 
-	"include": [
-		"**/*",
-		"**/**.*",
-		".svelte-kit/ambient.d.ts",
-		".svelte-kit/types/**/$types.d.ts",
-		"./docs/.astro/types.d.ts"
-	],
+	"include": ["**/**.*"],
 
-	"exclude": ["**/dist/", "**/build/", "**/bin/"]
+	"exclude": ["**/dist/", "**/build/", "**/bin/", "**/*.timestamp-*.mjs"]
 }

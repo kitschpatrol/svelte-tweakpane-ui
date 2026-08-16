@@ -39,12 +39,12 @@
 <hr />
 <h1>Text Component</h1>
 {#each Object.keys(strings) as key}
-	<Text bind:value={strings[key]} label={key} />
+	<Text label={key} bind:value={strings[key]} />
 {/each}
 <hr />
 <h1>Auto Value</h1>
 {#each Object.keys(strings) as key}
-	<AutoValue bind:value={strings[key]} label={key} />
+	<AutoValue label={key} bind:value={strings[key]} />
 {/each}
 
 <hr />
@@ -53,5 +53,5 @@
 <hr />
 <h1>Color Component</h1>
 {#each Object.keys(strings) as key}
-	<Color bind:value={strings[key]} label={key} />
+	<Color label={key} bind:value={strings[key]} />
 {/each}

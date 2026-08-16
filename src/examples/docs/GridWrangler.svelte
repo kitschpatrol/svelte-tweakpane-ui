@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { Utils } from '$lib'
 
+	type $$Slots = {
+		default: {}
+	}
+
 	/*
 	 * Horizontal space between grid points, in pixels
 	 */
@@ -104,32 +108,31 @@
 	$: paneCount = grid.length
 </script>
 
-<div bind:clientHeight={wrapperHeight} bind:clientWidth={wrapperWidth} class="wrapper">
+<div class="wrapper" bind:clientHeight={wrapperHeight} bind:clientWidth={wrapperWidth}>
 	<div
-		class="grid-group"
-		style={`transform: ${Utils.eulerToCssTransform(rotationExtrinsic)};`}
 		style:background={showBackground
 			? `linear-gradient(45deg, ${backgroundA}, ${backgroundB})`
 			: null}
 		style:height="{groupHeight}px"
 		style:left="{-overdrawX / 2}px"
 		style:top="{-overdrawY / 2}px"
+		style:transform={Utils.eulerToCssTransform(rotationExtrinsic)}
 		style:width="{groupWidth}px"
+		class="grid-group"
 	>
 		{#each grid as [x, y], i (i)}
 			<div
-				class="grid-item"
-				style={`transform: translate(-50%, -50%)
-				${Utils.eulerToCssTransform(rotation)} scale(${scale})`}
 				style:left="{x}px"
 				style:top="{y}px"
+				style:transform={`translate(-50%, -50%) ${Utils.eulerToCssTransform(rotation)} scale(${scale})`}
+				class="grid-item"
 			>
-				<slot />
+				<slot></slot>
 			</div>
 		{/each}
 		{#if drawOrigins}
 			{#each grid as [x, y], i (i)}
-				<div class="grid-marker" style:left="{x}px" style:top="{y}px"></div>
+				<div style:left="{x}px" style:top="{y}px" class="grid-marker"></div>
 			{/each}
 		{/if}
 	</div>

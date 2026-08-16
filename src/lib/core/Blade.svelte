@@ -127,7 +127,7 @@
 </script>
 
 <!--
-@component  
+@component
 Wraps the Tweakpane [`addBlade`](https://tweakpane.github.io/docs/blades/) method.
 
 Important: This component is provided for consistency with Tweakpane's API, but is not recommended
@@ -145,7 +145,7 @@ same is achieved by simply not binding the component's value.
 In the example, a `<Separator>` component would be preferred over `<Blade>`, and would  obviate the
 need for the options param.
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { Blade } from 'svelte-tweakpane-ui'
@@ -164,7 +164,7 @@ need for the options param.
 
 {#if parentStore}
 	{#if BROWSER}
-		<div bind:this={indexElement} style="display: none;"></div>
+		<div bind:this={indexElement} style:display="none"></div>
 	{:else}
 		<ClsPad keysAdd={['containerVerticalPadding']} {theme} />
 	{/if}

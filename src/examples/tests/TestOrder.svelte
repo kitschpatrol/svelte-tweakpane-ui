@@ -11,7 +11,7 @@
 	import Button from '$lib/control/Button.svelte'
 	import Folder from '$lib/core/Folder.svelte'
 
-	let testObject = {
+	const testObject = {
 		someColor: {
 			r: 255,
 			g: 0,
@@ -34,24 +34,24 @@
 		<Folder>
 			{#each Object.keys(testObject) as key}
 				{#if typeof testObject[key] !== 'number' || showNumbers}
-					<AutoValue bind:value={testObject[key]} label={key} />
+					<AutoValue label={key} bind:value={testObject[key]} />
 				{/if}
 			{/each}
 		</Folder>
-		<Slider bind:value={someNumber} label="Some Number" />
+		<Slider label="Some Number" bind:value={someNumber} />
 	{:else}
 		{#each Object.keys(testObject) as key}
 			{#if typeof testObject[key] !== 'number' || showNumbers}
-				<AutoValue bind:value={testObject[key]} label={key} />
+				<AutoValue label={key} bind:value={testObject[key]} />
 			{/if}
 		{/each}
-		<Slider bind:value={someNumber} label="Some Number" />
+		<Slider label="Some Number" bind:value={someNumber} />
 	{/if}
 	<Separator />
 	<ButtonGrid buttons={['Copy', 'Reset']} />
 	<Folder expanded={false} title="Tweakpane CSS Options">
-		<Checkbox bind:value={showNumbers} label="Show Numbers" />
-		<Checkbox bind:value={folderWrap} label="Folder Wrap" />
+		<Checkbox label="Show Numbers" bind:value={showNumbers} />
+		<Checkbox label="Folder Wrap" bind:value={folderWrap} />
 	</Folder>
 	<Button />
 </Pane>

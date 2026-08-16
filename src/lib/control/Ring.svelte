@@ -103,7 +103,7 @@
 </script>
 
 <!--
-@component  
+@component
 
 A control evoking the focus ring on a proper camera lens.
 
@@ -119,7 +119,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 
 @emits {RingChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { Ring, type RingUnit } from 'svelte-tweakpane-ui'
@@ -156,4 +156,4 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 [Ring.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Ring.svelte)
 -->
 
-<GenericSlider bind:value on:change {options} plugin={pluginModule} {...$$restProps} />
+<GenericSlider {options} plugin={pluginModule} bind:value on:change {...$$restProps} />

@@ -95,11 +95,11 @@
 </script>
 
 <!--
-@component  
+@component
 This component is for internal use only.
 
 @sourceLink
 [GenericInputFolding.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericInputFolding.svelte)
 -->
 
-<GenericInput bind:value bind:ref on:change options={optionsInternal} {...$$restProps} />
+<GenericInput options={optionsInternal} bind:value bind:ref on:change {...$$restProps} />

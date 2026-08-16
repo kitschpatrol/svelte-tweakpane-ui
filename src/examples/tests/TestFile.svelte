@@ -10,6 +10,7 @@
 </script>
 
 <File
+	label="File 1"
 	bind:value={file}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -18,9 +19,9 @@
 			binding1ExternalEventCount++
 		}
 	}}
-	label="File 1"
 />
 <File
+	label="File 2"
 	bind:value={file}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -29,7 +30,6 @@
 			binding2ExternalEventCount++
 		}
 	}}
-	label="File 2"
 />
 
 <pre>Value: <span>{file}</span></pre>

@@ -10,6 +10,8 @@
 </script>
 
 <RadioGrid
+	prefix="Color Scheme "
+	values={[1, 2, 3, 4]}
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -18,10 +20,10 @@
 			binding1ExternalEventCount++
 		}
 	}}
-	prefix="Color Scheme "
-	values={[1, 2, 3, 4]}
 />
 <RadioGrid
+	prefix="Color Scheme "
+	values={[1, 2, 3, 4]}
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -30,8 +32,6 @@
 			binding2ExternalEventCount++
 		}
 	}}
-	prefix="Color Scheme "
-	values={[1, 2, 3, 4]}
 />
 
 <pre>Value: <span>{value}</span></pre>

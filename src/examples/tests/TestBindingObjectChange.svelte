@@ -2,7 +2,7 @@
 	import { Binding, List } from '$lib'
 	import AutoObject from '$lib/extra/AutoObject.svelte'
 
-	let testObjectA = {
+	const testObjectA = {
 		someBoolean: true,
 		someColor: {
 			r: 255,
@@ -22,7 +22,7 @@
 		someString: 'test',
 	}
 
-	let testObjectB = {
+	const testObjectB = {
 		someBoolean: false,
 		someFolder: {
 			a: 1,
@@ -51,17 +51,15 @@
 
 	let activeObject = testObjectA
 
-	$: {
-		console.log('activeObject', activeObject)
-	}
+	$: console.log('activeObject', activeObject)
 </script>
 
 // Noticed issues with re-assigning the object when working on Tweakpane CSS with STUI version 1.2.6
 
-<List bind:value={activeObject} options={testOptions} />
+<List options={testOptions} bind:value={activeObject} />
 <hr />
-<Binding bind:object={activeObject} key="someBoolean" />
+<Binding key="someBoolean" bind:object={activeObject} />
 <hr />
-<Binding bind:object={activeObject} key="someNumber" />
+<Binding key="someNumber" bind:object={activeObject} />
 <hr />
 <AutoObject bind:object={activeObject} />

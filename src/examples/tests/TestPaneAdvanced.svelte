@@ -33,14 +33,14 @@
 	let speed = 50
 </script>
 
-<Pane bind:expanded bind:tpPane={tpPane1} position="draggable" {userExpandable}>
-	<Checkbox bind:value={expanded} label="expanded" />
-	<Checkbox bind:value={userExpandable} label="user expandable" />
-	<Slider bind:value={speed} min={0} max={100} />
+<Pane position="draggable" {userExpandable} bind:expanded bind:tpPane={tpPane1}>
+	<Checkbox label="expanded" bind:value={expanded} />
+	<Checkbox label="user expandable" bind:value={userExpandable} />
+	<Slider max={100} min={0} bind:value={speed} />
 </Pane>
-<Pane bind:expanded bind:tpPane={tpPane2} position="inline" {userExpandable}>
-	<Slider bind:value={speed} min={0} max={100} />
+<Pane position="inline" {userExpandable} bind:expanded bind:tpPane={tpPane2}>
+	<Slider max={100} min={0} bind:value={speed} />
 </Pane>
-<Pane bind:expanded bind:tpPane={tpPane3} position="fixed" {userExpandable}>
-	<Slider bind:value={speed} min={0} max={100} />
+<Pane position="fixed" {userExpandable} bind:expanded bind:tpPane={tpPane3}>
+	<Slider max={100} min={0} bind:value={speed} />
 </Pane>

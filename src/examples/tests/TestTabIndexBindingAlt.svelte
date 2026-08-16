@@ -13,13 +13,13 @@
 <p>Draggable: {draggable}</p>
 <p>TabIndex: {tabIndex}</p>
 
-<Pane title="Controls" position={draggable ? 'draggable' : 'fixed'}>
+<Pane position={draggable ? 'draggable' : 'fixed'} title="Controls">
 	<TabGroup bind:selectedIndex={tabIndex}>
 		<TabPage title="A">
-			<Button on:click={toggleDraggable} title="Toggle Draggable" />
+			<Button title="Toggle Draggable" on:click={toggleDraggable} />
 		</TabPage>
 		<TabPage title="B">
-			<Button on:click={toggleDraggable} title="Toggle Draggable" />
+			<Button title="Toggle Draggable" on:click={toggleDraggable} />
 		</TabPage>
 	</TabGroup>
 </Pane>

@@ -10,9 +10,10 @@
 </script>
 
 <Slider
-	bind:value
-	min={0}
+	label="Binding 1"
 	max={100}
+	min={0}
+	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
 			binding1InternalEventCount++
@@ -20,12 +21,12 @@
 			binding1ExternalEventCount++
 		}
 	}}
-	label="Binding 1"
 />
 <Slider
-	bind:value
-	min={0}
+	label="Binding 2"
 	max={100}
+	min={0}
+	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
 			binding2InternalEventCount++
@@ -33,7 +34,6 @@
 			binding2ExternalEventCount++
 		}
 	}}
-	label="Binding 2"
 />
 
 <hr />

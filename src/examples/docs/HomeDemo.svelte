@@ -1,8 +1,6 @@
 <script lang="ts">
-	// eslint-disable-next-line import/no-duplicates
 	import { onMount } from 'svelte'
 	import { derived, type Writable, writable } from 'svelte/store'
-	// eslint-disable-next-line import/no-duplicates
 	import { fade } from 'svelte/transition'
 	import {
 		Checkbox,
@@ -149,7 +147,7 @@
 	let min = 0
 	let max = 1
 	let periodSeconds = 10
-	let interval2: [number, number] = [min, max]
+	const interval2: [number, number] = [min, max]
 	let offsets: PointValue4dTuple = [0, 0, 0, 0]
 	let headingUp: [boolean, boolean, boolean, boolean] = [true, true, true, true]
 
@@ -202,17 +200,16 @@
 	// eslint-disable-next-line svelte/no-immutable-reactive-statements
 	$: [min, max] = interval2
 
-	$: {
-		if (!interacting) {
-			const newValue = offsets.map((offset, index) =>
-				// eslint-disable-next-line ts/restrict-plus-operands
-				map(Math.sin(time + offset + offsetAngle[index]), -1, 1, min, max),
-			) as PointValue4dTuple
+	$: if (!interacting) {
+		const newValue = offsets.map((offset, index) =>
+			// eslint-disable-next-line ts/restrict-plus-operands
+			map(Math.sin(time + offset + offsetAngle[index]), -1, 1, min, max),
+		) as PointValue4dTuple
 
-			setHeadingUp($point4, newValue)
-			$point4 = newValue
-		}
+		setHeadingUp($point4, newValue)
+		$point4 = newValue
 	}
+
 	function setHeadingUp(oldPoint: PointValue4dTuple, newPoint: PointValue4dTuple) {
 		headingUp = headingUp.map((v, index) =>
 			newPoint[index] === oldPoint[index] ? v : newPoint[index] > oldPoint[index],
@@ -227,56 +224,58 @@
 		}) as PointValue4dTuple
 	}
 
-	let scale = 1
+	const scale = 1
 </script>
+
+<!-- eslint-disable svelte/prefer-destructured-store-props -- Legacy -->
 
 <div bind:this={paneDiv}>
 	<!-- {#if mounted} -->
 	<div transition:fade={{ duration: 1500 }}>
 		<Pane position="inline" {scale} {theme} title={`<Pane> ${text}`} {width}>
 			<!-- <Slider bind:value={scale} min={0} max={2} /> -->
-			<List bind:value={themeKey} label="<List> Theme" options={themes} />
-			<Text bind:value={text} label="<Text> Title" />
-			<Checkbox bind:value={playing} label="<Checkbox> Play" />
+			<List label="<List> Theme" options={themes} bind:value={themeKey} />
+			<Text label="<Text> Title" bind:value={text} />
+			<Checkbox label="<Checkbox> Play" bind:value={playing} />
 			<!-- <FpsGraph label="<FpsGraph>" /> -->
 			<Monitor
-				value={$point4[0]}
-				min={-0.2}
-				max={1.2}
 				bufferSize={1800}
 				graph={true}
 				label="<Monitor>"
+				max={1.2}
+				min={-0.2}
+				value={$point4[0]}
 			/>
 			<Separator />
 			<!-- <Button on:click={reset} label="<Button> Reset" title="Reset" /> -->
 			<Slider
-				bind:value={periodSeconds}
-				min={1}
-				max={60}
 				format={(v) => `${v.toFixed(1)}s`}
 				label="<Slider> Period"
+				max={60}
+				min={1}
 				step={1}
+				bind:value={periodSeconds}
 			/>
 			<Separator />
 			<Folder title="<Folder> Axes">
 				{#each keys as k, index}
 					<Slider
-						bind:value={$point4[index]}
-						{min}
-						{max}
 						format={(v) => `${v.toFixed(2)}`}
 						label={`<Slider> ${k}`}
+						{max}
+						{min}
 						pointerScale={0.002}
+						bind:value={$point4[index]}
 					/>
 				{/each}
 			</Folder>
 			{#if cubicBezierEnabled}
 				<Separator />Z
 				<RotationEuler
-					bind:value={$point3}
 					expanded={true}
 					label="<RotationEuler> X Y Z"
 					picker="inline"
+					bind:value={$point3}
 				/>
 				<!-- <IntervalSlider bind:value={interval2} min={0} max={1} label="<IntervalSlider> Min /
 Max"
@@ -287,43 +286,43 @@ Max"
 					{#each keys as k, index}
 						<TabPage title={`<TabPage> ${k}`}>
 							<Monitor
-								value={$point4[index]}
-								min={-0.2}
-								max={1.2}
 								bufferSize={300}
 								graph={true}
 								label={`<Monitor> ${k}`}
+								max={1.2}
+								min={-0.2}
+								value={$point4[index]}
 							/>
 						</TabPage>
 					{/each}
 				</TabGroup>
 				<Separator />
 				<Color
-					bind:value={$point4}
 					expanded={false}
 					label="<Color> R G B A"
 					picker="inline"
 					type="float"
+					bind:value={$point4}
 				/>
 				<Separator />
 				<Point
-					bind:value={$point2}
-					{min}
-					{max}
 					expanded={true}
 					label="<Point> X Y"
+					{max}
+					{min}
 					optionsY={{
 						inverted: true,
 						max,
 						min,
 					}}
 					picker="inline"
+					bind:value={$point2}
 				/>
 				<CubicBezier
-					bind:value={$point4}
 					expanded={true}
 					label="<CubicBezier> X Y Z W"
 					picker="inline"
+					bind:value={$point4}
 				/>
 			{/if}
 		</Pane>

@@ -11,6 +11,8 @@
 </script>
 
 <Binding
+	key="v"
+	label="Binding 1"
 	bind:object
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -19,10 +21,10 @@
 			binding1ExternalEventCount++
 		}
 	}}
-	key="v"
-	label="Binding 1"
 />
 <Binding
+	key="v"
+	label="Binding 2"
 	bind:object
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -31,8 +33,6 @@
 			binding2ExternalEventCount++
 		}
 	}}
-	key="v"
-	label="Binding 2"
 />
 
 <hr />

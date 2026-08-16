@@ -1,0 +1,9 @@
+{
+	"extends": "@kitschpatrol/typescript-config/astro",
+	"compilerOptions": {
+		"noUncheckedIndexedAccess": false
+	},
+
+	"include": ["**/**.*"],
+	"exclude": ["src/examples/tests/**", "**/dist/", "**/bin/"]
+}

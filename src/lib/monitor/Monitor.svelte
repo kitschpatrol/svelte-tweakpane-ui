@@ -58,7 +58,7 @@
 </script>
 
 <!--
-@component  
+@component
 Wraps the Tweakpane [monitor binding](https://tweakpane.github.io/docs/monitor-bindings/)
 functionality for `boolean`, `number`, and `string` values.
 
@@ -80,7 +80,7 @@ See also the `<Waveform>` component for a more advanced number visualization.
 Usage outside of a `<Pane>` component will implicitly wrap the monitor in a `<Pane
 position="inline">` component.
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { Monitor } from 'svelte-tweakpane-ui'

@@ -64,11 +64,11 @@
 </script>
 
 <!--
-@component  
+@component
 This component is for internal use only.
 
 @sourceLink
 [GenericMonitor.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericMonitor.svelte)
 -->
 
-<GenericBinding {value} bind:ref options={optionsInternal} {...$$restProps} />
+<GenericBinding options={optionsInternal} {value} bind:ref {...$$restProps} />
