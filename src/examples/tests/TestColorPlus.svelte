@@ -12,9 +12,9 @@
 </script>
 
 <ColorPlus
+	expanded={true}
 	label="Binding 1"
 	picker="inline"
-	expanded={true}
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -25,9 +25,9 @@
 	}}
 />
 <ColorPlus
+	expanded={true}
 	label="Binding 2"
 	picker="inline"
-	expanded={true}
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -39,16 +39,16 @@
 />
 
 <ColorPlus
-	label="Binding 3"
-	picker="inline"
 	constrain={false}
 	expanded={true}
 	formatLocked={false}
 	gamutLabel={true}
 	gamutLines="all"
 	gamuts={['srgb', 'p3', 'rec2020']}
+	label="Binding 3"
 	paletteChannels="LC_H"
 	paletteProjection="perceptual"
+	picker="inline"
 	swatchFallback="css"
 	textFields={false}
 	bind:value

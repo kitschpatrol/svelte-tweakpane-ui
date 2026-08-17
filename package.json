@@ -195,7 +195,7 @@
 		"fix": "ksc fix --skip repo",
 		"kit-dev": "vite dev",
 		"kit-preview": "vite preview",
-		"lint": "ksc lint --skip repo && svelte-kit sync && svelte-check --tsconfig ./tsconfig.build.json",
+		"lint": "ksc lint --skip repo",
 		"release": "pnpm build && bumpp --preid preview --commit 'Release: %s' && NPM_AUTH_TOKEN=$(op read 'op://Personal/npm/token') pnpm publish --tag preview --ignore-scripts",
 		"rewrap": "rewrap -i --column 100 `find src \\( -name '*.svelte' -o -name '*.ts'  -o -name '*.html' \\) -type f | grep -v src/examples`",
 		"test": "pnpm run --sequential /^test:/",
@@ -218,7 +218,7 @@
 		"nanoid": "^6.0.1",
 		"svelte-persisted-store": "0.12.0",
 		"tweakpane": "4.0.5",
-		"tweakpane-plugin-color-plus": "0.5.0"
+		"tweakpane-plugin-color-plus": "0.5.1"
 	},
 	"devDependencies": {
 		"@kitschpatrol/shared-config": "^8.6.0",

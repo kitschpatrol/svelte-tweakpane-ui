@@ -204,7 +204,7 @@
 </script>
 
 <!--
-@component  
+@component
 
 A color picker with support for additional color value formats.
 
@@ -222,7 +222,7 @@ position="inline">`.
 
 @emits {ColorPlusChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { ColorPlus } from 'svelte-tweakpane-ui'
@@ -250,13 +250,13 @@ position="inline">`.
 -->
 
 <GenericInputFolding
+	{buttonClass}
+	{options}
+	plugin={pluginModule}
 	bind:value
 	bind:expanded
 	bind:ref
 	on:change
-	{buttonClass}
-	{options}
-	plugin={pluginModule}
 	{...$$restProps}
 />
 {#if !BROWSER && expanded && $$props.picker === 'inline'}
