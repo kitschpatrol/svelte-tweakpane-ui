@@ -130,7 +130,7 @@ Position mode overview:
   necessarily need create `<Pane position="inline">` components in most cases.
       \
   This mode's behavior is similar to creating a Pane in the vanilla JS Tweakpane with its
-  [`container`](https://tweakpane.github.io/docs/misc/#containerElement) property set to a specific
+  [`container`](https://tweakpane.github.io/docs/misc/#container) property set to a specific
   element where you want the Pane to appear.
 
 - **`<Pane position="fixed" ...>`**  \

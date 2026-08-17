@@ -96,8 +96,8 @@
 		resizable?: boolean
 		/**
 		 * CSS [padding property
-		 * string](https://developer.mozilla.org/en-US/docs/Web/CSS/padding) to
-		 * apply to the draggable pane container to prevent it from being dragged
+		 * string](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/padding)
+		 * to apply to the draggable pane container to prevent it from being dragged
 		 * all the way to the edge of the window.
 		 *
 		 * Useful for keeping the pane away from of menu bars, etc.
