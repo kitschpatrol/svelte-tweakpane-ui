@@ -32,7 +32,7 @@
 [![CI](https://github.com/kitschpatrol/svelte-tweakpane-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/kitschpatrol/svelte-tweakpane-ui/actions/workflows/ci.yml)
 [![MadeWithSvelte](https://madewithsvelte.com/storage/repo-shields/4860-shield.svg)](https://madewithsvelte.com/p/svelte-tweakpane-ui/shield-link)
 [![NPM Downloads](https://img.shields.io/npm/dm/svelte-tweakpane-ui)](https://www.npmjs.com/package/svelte-tweakpane-ui)
-[![Documentation](https://img.shields.io/badge/-Documentation-ffdd00?logo=readthedocs\&logoColor=222222)](https://kitschpatrol.com/svelte-tweakpane-ui)
+[![Documentation](https://img.shields.io/badge/-Documentation-ffdd00?logo=readthedocs&logoColor=222222)](https://kitschpatrol.com/svelte-tweakpane-ui)
 
 <!-- /badges -->
 

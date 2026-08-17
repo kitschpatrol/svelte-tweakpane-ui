@@ -125,7 +125,7 @@ _Important: This component has some rough edges, and should be considered experi
 
 Integrates the [tweakpane-image-plugin](https://github.com/metehus/tweakpane-image-plugin),
 incorporating work by [Florian Morel](https://ayamflow.fr), [Matheus
-Dias](https://www.linkedin.com/in/matheusdbs/), [Palash Bansal](https://github.com/repalash), and
+Dias](https://www.linkedin.com/in/matheusdbs), [Palash Bansal](https://github.com/repalash), and
 others.
 
 Use the `<File>` control instead if you're working with other file types, or don't wish to display a thumbnail preview of an uploaded image.

@@ -170,7 +170,7 @@ rotation value object or tuple into a CSS transform string.
 
 See also `<RotationEuler>` if you're not into the whole `w` thing.
 
-Usage outside of a `<Pane>` component will implicitly wrap the profiler in `<Pane
+Usage outside of a `<Pane>` component will implicitly wrap the rotation control in `<Pane
 position="inline">`.
 
 Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://github.com/kitschpatrol/tweakpane-plugin-rotation) of the plugin with build optimizations.

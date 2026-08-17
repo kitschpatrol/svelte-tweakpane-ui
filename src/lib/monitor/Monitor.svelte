@@ -72,7 +72,7 @@ the type of the defined `value`
 Note that `interval` is not exposed on `boolean` and `string` monitors because updates are driven by
 reactive changes in the `value`.
 
-However, `interval` _is_ exposed on `number` monitors Note to allow independent control over the
+However, `interval` _is_ exposed on `number` monitors to allow independent control over the
 reactive value's update rate and the graph's update rate.
 
 See also the `<Waveform>` component for a more advanced number visualization.

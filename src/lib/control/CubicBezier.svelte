@@ -158,7 +158,7 @@ Integrates the [Cubic Bezier](https://github.com/tweakpane/plugin-essentials#cub
 from Tweakpane-creator [Hiroki Kokubun's](https://cocopon.me)  [Essentials
 plugin](https://github.com/tweakpane/plugin-essentials).
 
-_Svelte Tweakpane UI_ extends the original implementation to by supporting tuple values in addition
+_Svelte Tweakpane UI_ extends the original implementation to support tuple values in addition
 to object values.
 
 A utility function `Utils.cubicBezierToEaseFunction()` is also provided to easily convert a cubic
