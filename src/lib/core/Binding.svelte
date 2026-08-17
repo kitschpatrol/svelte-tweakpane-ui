@@ -175,7 +175,6 @@
 		change: BindingChangeEvent
 	}
 
-	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	// Good grief...
@@ -272,7 +271,7 @@
 </script>
 
 <!--
-@component  
+@component
 Wraps the Tweakpane [`addBinding`](https://tweakpane.github.io/docs/input-bindings/) method.
 
 Important: This component is provided for consistency with Tweakpane's API, but is not recommended
@@ -286,7 +285,7 @@ position="inline">`.
 
 @emits {BindingChangeEvent} change - When the value of `object[key]` changes. (This event is provided for advanced use cases. Prefer binding to `object`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { Binding, type BindingObject } from 'svelte-tweakpane-ui'
@@ -304,7 +303,7 @@ position="inline">`.
 
 {#if parentStore}
 	{#if BROWSER}
-		<div bind:this={indexElement} style="display: none;"></div>
+		<div bind:this={indexElement} style:display="none"></div>
 	{:else}
 		<ClsPad keysAdd={['containerVerticalPadding', 'containerUnitSize']} {theme} />
 	{/if}

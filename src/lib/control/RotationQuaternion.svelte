@@ -156,7 +156,7 @@
 </script>
 
 <!--
-@component  
+@component
 Integrates the [quaternion
 rotation](https://github.com/0b5vr/tweakpane-plugin-rotation/blob/dev/src/RotationInputPluginQuaternion.ts)
 control from [0b5vr](https://0b5vr.com)'s [tweakpane-plugin-rotation](https://github.com/0b5vr/tweakpane-plugin-rotation).
@@ -169,15 +169,15 @@ A utility function `Utils.quaternionToCssTransform()` is also provided to easily
 rotation value object or tuple into a CSS transform string.
 
 See also `<RotationEuler>` if you're not into the whole `w` thing.
-	
-Usage outside of a `<Pane>` component will implicitly wrap the profiler in `<Pane
+
+Usage outside of a `<Pane>` component will implicitly wrap the rotation control in `<Pane
 position="inline">`.
 
 Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://github.com/kitschpatrol/tweakpane-plugin-rotation) of the plugin with build optimizations.
 
 @emits {RotationQuaternionChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import {
@@ -226,12 +226,12 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 -->
 
 <GenericInputFolding
-	bind:value={internalValue}
-	bind:expanded
-	on:change
 	{buttonClass}
 	{options}
 	plugin={pluginModule}
+	bind:value={internalValue}
+	bind:expanded
+	on:change
 	{...$$restProps}
 />
 {#if !BROWSER && expanded === true && $$props.picker === 'inline'}
@@ -244,6 +244,6 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 	{:else}
 		<!-- Without a label, the grid takes the full width of the control -->
 		<!-- TODO remove magic number -->
-		<div style="aspect-ratio: 1; width: calc(100% - 28px);"></div>
+		<div style:aspect-ratio="1" style:width="calc(100% - 28px)"></div>
 	{/if}
 {/if}

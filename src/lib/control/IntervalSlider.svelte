@@ -123,14 +123,14 @@
 </script>
 
 <!--
-@component  
+@component
 A twin-handled slider control for specifying range values.
 
 Integrates the [Interval](https://github.com/tweakpane/plugin-essentials#interval) control from
 Tweakpane-creator [Hiroki Kokubun's](https://cocopon.me)  [Essentials
 plugin](https://github.com/tweakpane/plugin-essentials).
 
-_Svelte Tweakpane UI_ extends the original implementation to by supporting tuple values in addition
+_Svelte Tweakpane UI_ extends the original implementation to support tuple values in addition
 to object values. It also exposes a `meanValue` prop for reading or setting the midpoint of the
 interval range value.
 
@@ -141,7 +141,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 
 @emits {IntervalSliderChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { IntervalSlider } from 'svelte-tweakpane-ui'
@@ -173,9 +173,9 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 -->
 
 <GenericSlider
+	plugin={pluginModule}
 	bind:value={internalValue}
 	bind:ref
 	on:change
-	plugin={pluginModule}
 	{...$$restProps}
 />

@@ -1,6 +1,5 @@
 /* eslint-disable ts/no-unsafe-call */
 /* eslint-disable ts/no-explicit-any */
-/* eslint-disable node/no-unsupported-features/node-builtins */
 /* eslint-disable ts/no-unnecessary-type-parameters */
 /* eslint-disable ts/no-unsafe-member-access */
 /* eslint-disable ts/no-unnecessary-type-arguments */
@@ -255,7 +254,7 @@ export function getGridDimensions(
 	let rows: number
 	let columns: number
 
-	if (maxColumns !== undefined && maxColumns > 0 && maxRows !== undefined && maxRows > 0) {
+	if (maxColumns !== undefined && maxRows !== undefined && maxColumns > 0 && maxRows > 0) {
 		// No flexing; items can exceed the available slots
 		rows = Math.min(Math.ceil(itemCount / maxColumns), maxRows)
 		columns = Math.min(maxColumns, itemCount)

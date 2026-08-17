@@ -26,6 +26,7 @@
 </script>
 
 <AutoValue
+	label="Number 1"
 	bind:value={number}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -34,9 +35,9 @@
 			number1ExternalEventCount++
 		}
 	}}
-	label="Number 1"
 />
 <AutoValue
+	label="Number 2"
 	bind:value={number}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -45,10 +46,10 @@
 			number2ExternalEventCount++
 		}
 	}}
-	label="Number 2"
 />
 
 <AutoValue
+	label="Color 1"
 	bind:value={color}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -57,9 +58,9 @@
 			color1ExternalEventCount++
 		}
 	}}
-	label="Color 1"
 />
 <AutoValue
+	label="Color 2"
 	bind:value={color}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -68,10 +69,10 @@
 			color2ExternalEventCount++
 		}
 	}}
-	label="Color 2"
 />
 
 <AutoValue
+	label="Point 1"
 	bind:value={point}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -80,9 +81,9 @@
 			point1ExternalEventCount++
 		}
 	}}
-	label="Point 1"
 />
 <AutoValue
+	label="Point 2"
 	bind:value={point}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -91,10 +92,10 @@
 			point2ExternalEventCount++
 		}
 	}}
-	label="Point 2"
 />
 
 <AutoValue
+	label="Text 1"
 	bind:value={text}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -103,9 +104,9 @@
 			text1ExternalEventCount++
 		}
 	}}
-	label="Text 1"
 />
 <AutoValue
+	label="Text 2"
 	bind:value={text}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -114,12 +115,11 @@
 			text2ExternalEventCount++
 		}
 	}}
-	label="Text 2"
 />
 
 <hr />
 
-<AutoValue bind:value={colorArray} label="Color Array" />
+<AutoValue label="Color Array" bind:value={colorArray} />
 
 <pre>Number Value: <span>{number}</span></pre>
 <pre>Number 1 Internal: <span>{number1InternalEventCount}</span></pre>

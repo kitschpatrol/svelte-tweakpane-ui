@@ -20,7 +20,7 @@ The library makes it easy to quickly and declaratively add knobs and dials to yo
 
 The components should be useful for integrating controls and value monitoring in parametrically driven artworks or simulations. For some use cases, it could also present a viable alternative to traditional component libraries altogether.
 
-It's open-source, MIT-licensed, extensively documented, and is compatible with Svelte 4 and Svelte 5. It should work anywhere Svelte works, including [SvelteKit](https://kit.svelte.dev/) and "island" frameworks like [Astro](https://astro.build/). _Svelte Tweakpane UI_ is distributed as an [NPM package](http://npmjs.com/package/svelte-tweakpane-ui), and the source code is available on [GitHub](https://github.com/kitschpatrol/svelte-tweakpane-ui).
+It's open-source, MIT-licensed, extensively documented, and is compatible with Svelte 4 and Svelte 5. It should work anywhere Svelte works, including [SvelteKit](https://svelte.dev/) and "island" frameworks like [Astro](https://astro.build/). _Svelte Tweakpane UI_ is distributed as an [NPM package](https://www.npmjs.com/package/svelte-tweakpane-ui), and the source code is available on [GitHub](https://github.com/kitschpatrol/svelte-tweakpane-ui).
 
 ---
 
@@ -122,7 +122,7 @@ These are misfits and novelties.
 
 ### Batteries included
 
-_Svelte Tweakpane UI_ takes a monolithic approach. A single dependency and import delivers access to all components, plus controls from several Tweakpane Plugins, and additional Svelte-specific functionality. Tree shaking should keep your bundle size in check (but note the [requisite import style](/#importing-components)).
+_Svelte Tweakpane UI_ takes a monolithic approach. A single dependency and import delivers access to all components, plus controls from several Tweakpane Plugins, and additional Svelte-specific functionality. Tree shaking should keep your bundle size in check (but note the [requisite import style](/svelte-tweakpane-ui/docs#importing-components)).
 
 ### Layered API
 
@@ -132,7 +132,7 @@ These more specific components trade some flexibility for ease of use. If that's
 
 ### Let Svelte bind
 
-Vanilla Tweakpane conveniently provides two-way bindings for manipulating object properties, but _Svelte Tweakpane UI_ leaves binding up to the user via [Svelte's conventional approach](https://svelte.dev/docs/element-directives#bind-property). This makes bindings explicit, and allows most components to function either as monitors or inputs depending on whether their value property is bound.
+Vanilla Tweakpane conveniently provides two-way bindings for manipulating object properties, but _Svelte Tweakpane UI_ leaves binding up to the user via [Svelte's conventional approach](https://svelte.dev/docs/svelte/bind#bind:property-for-components). This makes bindings explicit, and allows most components to function either as monitors or inputs depending on whether their value property is bound.
 
 ---
 
@@ -271,7 +271,7 @@ You may see warnings in the console at runtime if you change a dynamic prop on t
 - [dat.gui](https://github.com/dataarts/dat.gui)
 - [leva](https://github.com/pmndrs/leva) _(React)_
 - [svelte-knobby](https://github.com/Rich-Harris/svelte-knobby)
-- [svelte-gui](https://joyofcode.xyz/svelte-gui/)
+- [svelte-gui](https://joyofcode.xyz/svelte-gui)
 
 #### C++
 
@@ -284,7 +284,7 @@ You may see warnings in the console at runtime if you change a dynamic prop on t
 Two other projects provide integration between Tweakpane and Svelte:
 
 - [svelte-tweakpane](https://github.com/pierogis/svelte-tweakpane) by [Karl Moore](https://pierogis.live)
-- [svelte-pane](https://github.com/mattcroat/svelte-pane) by [Matija](https://matia.xyz/)
+- [svelte-pane](https://github.com/matiadev/svelte-pane) by [Matija](https://matia.xyz/)
 
 _Svelte Tweakpane UI_ drew some inspiration from these projects, but was developed independently. The `-ui` suffix in `svelte-tweakpane-ui` is to avoid a naming collision with Karl Moore's work.
 

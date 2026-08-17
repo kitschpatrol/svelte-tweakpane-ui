@@ -6,6 +6,8 @@
 import starlight from '@astrojs/starlight'
 import svelte from '@astrojs/svelte'
 import { defineConfig } from 'astro/config'
+import checkCloudflareCompatibility from './integrations/check-cloudflare-compatibility'
+import saveVersionJson from './integrations/save-version-json'
 import { componentMenu } from './src/utils/config-helpers'
 
 // https://astro.build/config
@@ -89,6 +91,8 @@ export default defineConfig({
 			title: 'Svelte Tweakpane UI',
 		}),
 		svelte({}),
+		saveVersionJson(),
+		checkCloudflareCompatibility(),
 	],
 	outDir: './dist/svelte-tweakpane-ui',
 	server: {

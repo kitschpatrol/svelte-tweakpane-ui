@@ -117,7 +117,7 @@
 </script>
 
 <!--
-@component  
+@component
 
 An image input control.
 
@@ -125,7 +125,7 @@ _Important: This component has some rough edges, and should be considered experi
 
 Integrates the [tweakpane-image-plugin](https://github.com/metehus/tweakpane-image-plugin),
 incorporating work by [Florian Morel](https://ayamflow.fr), [Matheus
-Dias](https://www.linkedin.com/in/matheusdbs/), [Palash Bansal](https://github.com/repalash), and
+Dias](https://www.linkedin.com/in/matheusdbs), [Palash Bansal](https://github.com/repalash), and
 others.
 
 Use the `<File>` control instead if you're working with other file types, or don't wish to display a thumbnail preview of an uploaded image.
@@ -139,7 +139,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 
 @emits {ImageChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { Button, Image, type ImageValue } from '$lib'
@@ -195,10 +195,10 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 -->
 
 <GenericInput
-	bind:value={internalValue}
-	on:change
 	{options}
 	plugin={pluginModule}
+	bind:value={internalValue}
+	on:change
 	{...$$restProps}
 />
 {#if !BROWSER}

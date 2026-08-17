@@ -21,13 +21,13 @@
 	// to value changes! $: console.log(speed);
 </script>
 
-<Slider bind:value={speed} min={0} max={100} on:change={onChange} label="Set Speed Limit:" />
-<Monitor value={internalChangeCount} format={(v) => v.toFixed(0)} label="Internal change events:" />
-<Monitor value={externalChangeCount} format={(v) => v.toFixed(0)} label="External change events:" />
+<Slider label="Set Speed Limit:" max={100} min={0} bind:value={speed} on:change={onChange} />
+<Monitor format={(v) => v.toFixed(0)} label="Internal change events:" value={internalChangeCount} />
+<Monitor format={(v) => v.toFixed(0)} label="External change events:" value={externalChangeCount} />
 <Button
+	label="Change limit externally:"
+	title="Limit: 55"
 	on:click={() => {
 		speed = 55
 	}}
-	label="Change limit externally:"
-	title="Limit: 55"
 />

@@ -6,9 +6,9 @@
 </script>
 
 <Pane title="" userExpandable={false}>
-	<Checkbox bind:value={expanded} label="Expanded" />
+	<Checkbox label="Expanded" bind:value={expanded} />
 	<Folder {expanded}>
-		<Checkbox bind:value={darkMode} label="Dark Mode" />
-		<Checkbox bind:value={numbers} label="Numbers" />
+		<Checkbox label="Dark Mode" bind:value={darkMode} />
+		<Checkbox label="Numbers" bind:value={numbers} />
 	</Folder>
 </Pane>

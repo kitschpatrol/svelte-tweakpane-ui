@@ -14,24 +14,24 @@
 <p>TabIndex: {tabIndex}</p>
 
 {#if mode === 0}
-	<Pane title="Controls" position="draggable" storePositionLocally={false}>
+	<Pane position="draggable" storePositionLocally={false} title="Controls">
 		<TabGroup bind:selectedIndex={tabIndex}>
 			<TabPage title="A">
-				<Button on:click={cycleMode} title="Cycle Mode" />
+				<Button title="Cycle Mode" on:click={cycleMode} />
 			</TabPage>
 			<TabPage title="B">
-				<Button on:click={cycleMode} title="Cycle Mode" />
+				<Button title="Cycle Mode" on:click={cycleMode} />
 			</TabPage>
 		</TabGroup>
 	</Pane>
 {:else if mode === 1}
-	<Pane title="Controls" position="inline">
+	<Pane position="inline" title="Controls">
 		<TabGroup bind:selectedIndex={tabIndex}>
 			<TabPage title="A">
-				<Button on:click={cycleMode} title="Cycle Mode" />
+				<Button title="Cycle Mode" on:click={cycleMode} />
 			</TabPage>
 			<TabPage title="B">
-				<Button on:click={cycleMode} title="Cycle Mode" />
+				<Button title="Cycle Mode" on:click={cycleMode} />
 			</TabPage>
 		</TabGroup>
 	</Pane>

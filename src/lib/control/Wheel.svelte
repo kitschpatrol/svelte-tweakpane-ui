@@ -63,7 +63,7 @@
 </script>
 
 <!--
-@component  
+@component
 
 A control evoking a dial on a proper camera body.
 
@@ -79,7 +79,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 
 @emits {WheelChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { Wheel } from 'svelte-tweakpane-ui'
@@ -107,4 +107,4 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 [Wheel.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Wheel.svelte)
 -->
 
-<GenericSlider bind:value on:change {options} plugin={pluginModule} {...$$restProps} />
+<GenericSlider {options} plugin={pluginModule} bind:value on:change {...$$restProps} />

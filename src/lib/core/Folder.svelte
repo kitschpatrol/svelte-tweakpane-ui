@@ -110,7 +110,7 @@
 </script>
 
 <!--
-@component  
+@component
 Organize multiple controls into a collapsable folder.
 
 Wraps the Tweakpane [`addFolder`](https://tweakpane.github.io/docs/ui-components/#folder) method.
@@ -120,7 +120,7 @@ May also be used to label and group multiple controls without user-collapsibilit
 
 Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane position="inline">`.
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { Button, Checkbox, Folder, Monitor } from 'svelte-tweakpane-ui'
@@ -143,20 +143,20 @@ Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane 
 
 {#if parentStore}
 	{#if BROWSER}
-		<div bind:this={indexElement} style="display: none;">
-			<slot />
+		<div bind:this={indexElement} style:display="none">
+			<slot></slot>
 		</div>
 	{:else}
 		<ClsPad keysAdd={['containerUnitSize']} {theme} />
 		{#if expanded}
 			<ClsPad keysAdd={['containerVerticalPadding', 'containerVerticalPadding']} {theme} />
-			<slot />
+			<slot></slot>
 		{/if}
 	{/if}
 {:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
-		<svelte:self bind:expanded {disabled} {title} {userExpandable}>
-			<slot />
+		<svelte:self {disabled} {title} {userExpandable} bind:expanded>
+			<slot></slot>
 		</svelte:self>
 	</InternalPaneInline>
 {/if}

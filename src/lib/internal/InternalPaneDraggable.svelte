@@ -6,10 +6,8 @@
 </script>
 
 <script lang="ts">
-	// eslint-disable-next-line import/no-duplicates
 	import type { Writable } from 'svelte/store'
 	import type { BladeApi, FolderApi } from 'tweakpane'
-	// eslint-disable-next-line import/no-duplicates
 	import { type ComponentProps, onDestroy, onMount } from 'svelte'
 	import { persisted } from 'svelte-persisted-store'
 	import GenericPane from '$lib/internal/GenericPane.svelte'
@@ -98,8 +96,8 @@
 		resizable?: boolean
 		/**
 		 * CSS [padding property
-		 * string](https://developer.mozilla.org/en-US/docs/Web/CSS/padding) to
-		 * apply to the draggable pane container to prevent it from being dragged
+		 * string](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/padding)
+		 * to apply to the draggable pane container to prevent it from being dragged
 		 * all the way to the edge of the window.
 		 *
 		 * Useful for keeping the pane away from of menu bars, etc.
@@ -274,11 +272,11 @@
 			if (width !== undefined && event.target === widthHandleElement) {
 				width = width < maxAvailablePanelWidth ? maxAvailablePanelWidth : minWidth
 			} else if (
+				tpPane !== undefined &&
 				// Consider pointer movement threshold check...
 				// e.g. if (moveDistance < dragMovementDistanceThreshold && userExpandable)...
 				titlebarWindowShadeDoubleClick &&
-				event.target === dragBarElement &&
-				tpPane !== undefined
+				event.target === dragBarElement
 			) {
 				tpPane.expanded = tpPane.expanded !== true
 			}
@@ -333,11 +331,11 @@
 	// -[ ] Using the native drag / drop API (no reasonable control over drawing and bounds?)
 	const dragMoveListener = (event: PointerEvent) => {
 		if (
-			event.target instanceof HTMLElement &&
 			width !== undefined &&
 			minWidth !== undefined &&
 			x !== undefined &&
-			y !== undefined
+			y !== undefined &&
+			event.target instanceof HTMLElement
 		) {
 			if (event.target === dragBarElement) {
 				moveDistance += Math.hypot(event.movementX, event.movementY)
@@ -396,12 +394,12 @@
 			// Treat as a click if the mouse hasn't moved much
 			// But don't do this for cancellations or focus loss
 			if (
-				event.type === 'pointerup' &&
+				tpPane !== undefined &&
 				titlebarWindowShadeSingleClick &&
-				event.target === dragBarElement &&
-				moveDistance < dragMovementDistanceThreshold &&
 				userExpandable === true &&
-				tpPane !== undefined
+				event.type === 'pointerup' &&
+				event.target === dragBarElement &&
+				moveDistance < dragMovementDistanceThreshold
 			) {
 				tpPane.expanded = tpPane.expanded !== true
 			}
@@ -552,7 +550,7 @@
 	) {
 		// Collapse children if needed TODO progressive collapsing not working because of container
 		// height update delays...
-		if (collapseChildrenToFit && containerHeightScaled > documentHeight && tpPane !== undefined) {
+		if (tpPane !== undefined && collapseChildrenToFit && containerHeightScaled > documentHeight) {
 			recursiveCollapse(tpPane.children)
 		}
 
@@ -581,25 +579,23 @@
 		expanded !== undefined &&
 		positionStore?.set({ x, y, width, expanded })
 
-	$: {
-		if (containerElement !== undefined) {
-			if (scale === undefined || scale === 1) {
-				containerHeightScaled = containerHeight
-			} else {
-				// Padding doesn't scale
-				// eslint-disable-next-line unicorn/prefer-global-this
-				const style = window.getComputedStyle(containerElement)
-				const vPadding =
-					// eslint-disable-next-line unicorn/prefer-number-coercion -- Computed style values have a 'px' suffix that `Number()` can't parse
-					Number.parseFloat(style.paddingTop) + Number.parseFloat(style.paddingBottom)
-				containerHeightScaled = (containerHeight - vPadding) * scale + vPadding
-			}
+	$: if (containerElement !== undefined) {
+		if (scale === undefined || scale === 1) {
+			containerHeightScaled = containerHeight
+		} else {
+			// Padding doesn't scale
+			// eslint-disable-next-line unicorn/prefer-global-this
+			const style = window.getComputedStyle(containerElement)
+			const vPadding =
+				// eslint-disable-next-line unicorn/prefer-number-coercion -- Computed style values have a 'px' suffix that `Number()` can't parse
+				Number.parseFloat(style.paddingTop) + Number.parseFloat(style.paddingBottom)
+			containerHeightScaled = (containerHeight - vPadding) * scale + vPadding
 		}
 	}
 </script>
 
 <!--
-@component  
+@component
 This component is for internal use only.
 
 @sourceLink
@@ -609,27 +605,27 @@ This component is for internal use only.
 <svelte:window on:resize={setDocumentSize} />
 
 <div
+	bind:this={containerElement}
+	style:left="{x}px"
+	style:padding
+	style:top="{y}px"
+	style:width="{width}px"
+	style:z-index={zIndexLocal}
+	class="draggable-container"
+	class:not-collapsable={userExpandable !== true}
+	class:not-resizable={!resizable}
+	role="group"
 	bind:clientHeight={containerHeight}
 	bind:clientWidth={containerWidth}
-	bind:this={containerElement}
 	on:focus|capture={() => {
 		zIndexLocal = ++zIndexGlobal
 	}}
 	on:pointerdown|capture={() => {
 		zIndexLocal = ++zIndexGlobal
 	}}
-	role="group"
-	class="draggable-container"
-	class:not-collapsable={userExpandable !== true}
-	class:not-resizable={!resizable}
-	style:left="{x}px"
-	style:padding
-	style:top="{y}px"
-	style:width="{width}px"
-	style:z-index={zIndexLocal}
 >
-	<GenericPane bind:expanded bind:tpPane {scale} {title} {...removeKeys($$restProps, 'position')}>
-		<slot />
+	<GenericPane {scale} {title} bind:expanded bind:tpPane {...removeKeys($$restProps, 'position')}>
+		<slot></slot>
 	</GenericPane>
 </div>
 

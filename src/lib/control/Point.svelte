@@ -187,6 +187,8 @@
 	export let expanded: boolean | undefined = $$props.expanded ?? undefined //  $$Props['expanded']; not working here?
 
 	// No need to re-export non-bindable props
+	// TODO not sure if these can really be const...
+	/* eslint-disable svelte/prefer-const */
 	let pointerScale: $$Props['pointerScale'] = $$props['pointerScale'] ?? undefined
 	let keyScale: $$Props['keyScale'] = $$props['keyScale'] ?? undefined
 	let min: $$Props['min'] = $$props['min'] ?? undefined
@@ -197,6 +199,7 @@
 	let optionsZ: HasKey<$$Props, 'optionsZ'> = $$props['optionsZ'] ?? undefined
 	let optionsW: HasKey<$$Props, 'optionsW'> = $$props['optionsW'] ?? undefined
 	let format: $$Props['format'] = $$props['format'] ?? undefined
+	/* eslint-enable svelte/prefer-const */
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 
@@ -282,7 +285,7 @@
 </script>
 
 <!--
-@component  
+@component
 Wraps the Tweakpane [point bindings](https://tweakpane.github.io/docs/input-bindings/#point).
 
 Provides a nice cartesian picker for 2D points, and numeric input fields for 3D and 4D points. See
@@ -299,7 +302,7 @@ position="inline">` component.
 
 @emits {PointChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import {
@@ -360,11 +363,11 @@ position="inline">` component.
 -->
 
 <GenericInputFolding
+	{buttonClass}
+	{options}
 	bind:value={internalValue}
 	bind:expanded
 	on:change
-	{buttonClass}
-	{options}
 	{...removeKeys(
 		$$restProps,
 		...Object.keys(options),
@@ -386,7 +389,7 @@ position="inline">` component.
 		{:else}
 			<!-- Without a label, the grid takes the full width of the control -->
 			<!-- TODO remove magic number -->
-			<div style="aspect-ratio: 1; width: calc(100% - 28px);"></div>
+			<div style:aspect-ratio="1" style:width="calc(100% - 28px)"></div>
 		{/if}
 	{/if}
 {/if}

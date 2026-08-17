@@ -100,7 +100,7 @@
 				internalValue = { ...value } satisfies ColorValueRgbaObject | ColorValueRgbObject
 			}
 		} else if (Array.isArray(value)) {
-			let newInternalValue: ColorValueRgbaObject | ColorValueRgbObject | undefined =
+			const newInternalValue: ColorValueRgbaObject | ColorValueRgbObject | undefined =
 				value.length === 4
 					? { r: value[0], g: value[1], b: value[2], a: value[3] }
 					: value.length === 3
@@ -157,7 +157,7 @@
 </script>
 
 <!--
-@component  
+@component
 A color picker.
 
 Wraps Tweakpane's [color input binding](https://tweakpane.github.io/docs/input-bindings/#color).
@@ -167,7 +167,7 @@ position="inline">`.
 
 @emits {ColorChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { Color } from 'svelte-tweakpane-ui'
@@ -195,12 +195,12 @@ position="inline">`.
 -->
 
 <GenericInputFolding
+	{buttonClass}
+	{options}
 	bind:value={internalValue}
 	bind:expanded
 	bind:ref
 	on:change
-	{buttonClass}
-	{options}
 	{...$$restProps}
 />
 {#if !BROWSER && expanded && $$props.picker === 'inline'}

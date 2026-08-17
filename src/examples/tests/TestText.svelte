@@ -10,9 +10,11 @@
 	let binding2ExternalEventCount = 0
 </script>
 
-<Checkbox bind:value={live} label="Live" />
+<Checkbox label="Live" bind:value={live} />
 
 <Text
+	label="The Message"
+	{live}
 	bind:value={text}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -21,10 +23,10 @@
 			binding1ExternalEventCount++
 		}
 	}}
-	label="The Message"
-	{live}
 />
 <Text
+	label="The Message"
+	{live}
 	bind:value={text}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -33,8 +35,6 @@
 			binding2ExternalEventCount++
 		}
 	}}
-	label="The Message"
-	{live}
 />
 
 <pre>Value: <span>{text}</span></pre>

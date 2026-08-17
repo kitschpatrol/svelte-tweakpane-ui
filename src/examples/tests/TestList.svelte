@@ -11,6 +11,8 @@
 </script>
 
 <List
+	label="Alphanumerics 1"
+	{options}
 	bind:value={selection}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -19,10 +21,10 @@
 			binding1ExternalEventCount++
 		}
 	}}
-	label="Alphanumerics 1"
-	{options}
 />
 <List
+	label="Alphanumerics 2"
+	{options}
 	bind:value={selection}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -31,8 +33,6 @@
 			binding2ExternalEventCount++
 		}
 	}}
-	label="Alphanumerics 2"
-	{options}
 />
 
 <pre>Value: <span>{selection}</span></pre>

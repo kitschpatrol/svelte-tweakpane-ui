@@ -9,11 +9,11 @@
 
 <TabGroup>
 	<TabPage title="A">
-		<Checkbox bind:value={check} label="Visibility" />
+		<Checkbox label="Visibility" bind:value={check} />
 		{#if check}
 			<Element>🅱️</Element>
-			<Text bind:value={text} label="C" />
+			<Text label="C" bind:value={text} />
 		{/if}
-		<Text bind:value={text2} label="D" />
+		<Text label="D" bind:value={text2} />
 	</TabPage>
 </TabGroup>

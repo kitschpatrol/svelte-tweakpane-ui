@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import type { ValueChangeEvent } from '$lib/utils.js'
 
-	export type FileValue = File | undefined
+	export type FileValue = globalThis.File | undefined
 	export type FileChangeEvent = ValueChangeEvent<FileValue>
 </script>
 
@@ -16,7 +16,7 @@
 	import { fillWith } from '$lib/utils.js'
 
 	// eslint-disable-next-line ts/no-restricted-types
-	type FileValueInternal = File | null | string
+	type FileValueInternal = globalThis.File | null | string
 
 	type $$Props = Omit<
 		ComponentProps<GenericInput<FileValueInternal>>,
@@ -115,7 +115,7 @@
 </script>
 
 <!--
-@component  
+@component
 
 A file input control.
 
@@ -128,13 +128,13 @@ Use the `<Image>` control instead if you're working with images and want to see 
 There is currently a known bug where change events' `origin` values are sometimes incorrect. (This issue is limited to this component.)
 
 Usage outside of a `<Pane>` component will implicitly wrap the image control in `<Pane position="inline">`.
-	
+
 Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://github.com/kitschpatrol/tweakpane-plugin-file-import) of the plugin with build optimizations.
 
 
 @emits {FileChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { File, type FileValue } from '$lib'
@@ -195,10 +195,10 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 -->
 
 <GenericInput
-	bind:value={internalValue}
-	on:change
 	{options}
 	plugin={pluginModule}
+	bind:value={internalValue}
+	on:change
 	{...$$restProps}
 />
 {#if !BROWSER}

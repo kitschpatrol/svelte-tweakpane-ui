@@ -10,9 +10,12 @@
 	let binding2ExternalEventCount = 0
 </script>
 
-<Checkbox bind:value={live} label="Live" />
+<Checkbox label="Live" bind:value={live} />
 
 <Textarea
+	label="The Message"
+	{live}
+	rows={8}
 	bind:value={text}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -21,11 +24,11 @@
 			binding1ExternalEventCount++
 		}
 	}}
+/>
+<Textarea
 	label="The Message"
 	{live}
 	rows={8}
-/>
-<Textarea
 	bind:value={text}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -34,9 +37,6 @@
 			binding2ExternalEventCount++
 		}
 	}}
-	label="The Message"
-	{live}
-	rows={8}
 />
 
 <pre>Value: <span>{text}</span></pre>

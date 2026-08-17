@@ -10,6 +10,7 @@
 </script>
 
 <CubicBezier
+	label="Binding 1"
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -18,9 +19,9 @@
 			binding1ExternalEventCount++
 		}
 	}}
-	label="Binding 1"
 />
 <CubicBezier
+	label="Binding 2"
 	bind:value
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -29,7 +30,6 @@
 			binding2ExternalEventCount++
 		}
 	}}
-	label="Binding 2"
 />
 
 <hr />

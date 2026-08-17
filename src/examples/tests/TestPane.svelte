@@ -16,5 +16,5 @@
 </script>
 
 <Pane bind:tpPane>
-	<Slider bind:value={speed} min={0} max={100} />
+	<Slider max={100} min={0} bind:value={speed} />
 </Pane>

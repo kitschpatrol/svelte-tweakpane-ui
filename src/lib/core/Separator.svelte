@@ -21,7 +21,7 @@
 </script>
 
 <!--
-@component  
+@component
 A convenience component providing a subtle visual separator between controls, in the spirit of the
 HTML `<hr>` element.
 
@@ -30,7 +30,7 @@ Wraps Tweakpane's [separator blade](https://tweakpane.github.io/docs/blades/#sep
 Usage outside of a `<Pane>` component will implicitly wrap the separator in `<Pane
 position="inline">`.
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { Button, Separator } from 'svelte-tweakpane-ui'

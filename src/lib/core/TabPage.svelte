@@ -123,7 +123,7 @@
 </script>
 
 <!--
-@component  
+@component
 Contains a collection of Tweakpane controls to be presented as a single group inside a `<TabGroup>`
 component.
 
@@ -137,7 +137,7 @@ component.
 Usage outside of a `<TabGroup>` component wouldn't make much sense, but in such cases the
 `<TabPage>` will be implicitly wrapped in a `<TabGroup>` and `<Pane position="inline">`.
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { Button, TabGroup, TabPage } from 'svelte-tweakpane-ui'
@@ -167,21 +167,21 @@ Count B: {countB}
 
 {#if parentStore !== undefined && tabIndexStore !== undefined}
 	{#if BROWSER}
-		<div bind:this={indexElement} style="display: none;">
-			<slot />
+		<div bind:this={indexElement} style:display="none">
+			<slot></slot>
 		</div>
 	{:else}
 		<div class="ssr-tab-page">
 			<!-- Tab bar -->
 			<ClsPad keysAdd={['containerUnitSize']} {theme} />
-			<slot />
+			<slot></slot>
 		</div>
 	{/if}
 {:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
 		<TabGroup>
 			<svelte:self {disabled} {selected} {theme} {title}>
-				<slot />
+				<slot></slot>
 			</svelte:self>
 		</TabGroup>
 	</InternalPaneInline>

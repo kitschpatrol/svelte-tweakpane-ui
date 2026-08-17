@@ -67,79 +67,95 @@ const sharedOverrides: Rules = {
 	],
 	'ts/no-inferrable-types': 'off',
 	'unicorn/no-array-reduce': 'off',
+	'unicorn/prefer-dom-node-html-methods': 'off',
 }
 
-export default eslintConfig(
-	{
-		ignores: [
-			// Generated kit files
-			'src/examples/components/*',
-			// Generated doc files
-			'docs/src/content/docs/docs/components/*',
-			'docs/src/content/acknowledgments/*',
-			'docs/src/examples/*',
-			// Virtual Svelte files from markdown code blocks (not in tsconfig
-			// project)
-			'**/*.md/*.svelte',
-			'**/*.mdx/*.{svelte,js}',
-		],
-		svelte: {
-			overrides: {
-				'import/consistent-type-specifier-style': 'off',
-				'jsdoc/check-tag-names': 'off',
-				'jsdoc/valid-types': 'off',
-				'no-self-assign': 'off',
-				'node/no-unsupported-features/node-builtins': 'off',
-				// The Svelte 4 compiler can't parse the 'v' flag, so require 'u' instead
-				'require-unicode-regexp': ['error', { requireFlag: 'u' }],
-				'svelte/no-navigation-without-resolve': 'off',
-				'svelte/no-reactive-reassign': 'off',
-				'svelte/require-each-key': 'off',
-				// TODO see Binding.svelte... was this a mistake?
-				'svelte/require-store-reactive-access': 'off',
-				'ts/consistent-type-assertions': 'off',
-				'ts/dot-notation': 'off',
-				// Oh no...
-				'ts/no-empty-object-type': 'off',
-				'ts/no-explicit-any': 'off',
-				'ts/no-redundant-type-constituents': 'off',
-				'ts/no-unnecessary-condition': 'off',
-				'ts/no-unsafe-argument': 'off',
-				'ts/no-unsafe-assignment': 'off',
-				'ts/no-unsafe-call': 'off',
-				'ts/no-unsafe-member-access': 'off',
-				'ts/no-unsafe-return': 'off',
-				'ts/no-unused-vars': [
-					'error',
-					{
-						varsIgnorePattern: String.raw`^\$\$|^_`,
-					},
-				],
-				'unicorn/no-null': 'off',
-				// False positives on Svelte's compiler-declared `$store` auto-subscription variables
-				'unicorn/no-optional-chaining-on-undeclared-variable': 'off',
-				...sharedOverrides,
-			},
-		},
-		ts: {
-			overrides: {
-				'depend/ban-dependencies': [
-					'error',
-					{
-						allowed: ['execa', 'glob', 'read-package-up'],
-					},
-				],
-				'jsdoc/require-jsdoc': 'off',
-				...sharedOverrides,
-			},
-		},
-		type: 'lib',
-	},
-	{
-		files: ['docs/package.json'],
-		rules: {
-			'json-package/require-files': 'off',
-			'json-package/require-keywords': 'off',
+export default eslintConfig({
+	astro: {
+		overrides: {
+			'ts/no-unsafe-return': 'off',
 		},
 	},
-)
+	ignores: [
+		'src/examples/components/*', // Generated kit files, error free but redundant
+		'docs/src/content/docs/docs/components/*', // Generated doc files, error free but redundant
+		'docs/src/content/acknowledgments/*', // Generated doc files, error free but redundant
+		'docs/src/examples/*', // Generated doc files, error free but redundant
+		'**/*.md/*.svelte', // Virtual Svelte files in MD code blocks (not in tsconfig)
+		'**/*.mdx/*.{svelte,js}', // Virtual Svelte files in MD code blocks (not in tsconfig)
+	],
+	svelte: {
+		overrides: {
+			'import/consistent-type-specifier-style': 'off',
+			'jsdoc/check-tag-names': 'off',
+			'jsdoc/valid-types': 'off',
+			'no-self-assign': 'off',
+			'node/no-unsupported-features/node-builtins': 'off',
+			'require-unicode-regexp': ['error', { requireFlag: 'u' }], // The Svelte 4 compiler can't parse the 'v' flag, so require 'u' instead
+			'svelte/experimental-require-strict-events': 'off', // Svelte 5 warns that the Svelte 4 strictEvents attribute is unrecognized
+			'svelte/no-navigation-without-resolve': 'off',
+			'svelte/no-reactive-reassign': 'off',
+			'svelte/no-unused-class-name': [
+				'error',
+				{
+					allowedClassNames: [
+						'skip-element-index', // Needed in Element.svelte
+					],
+				},
+			],
+			'svelte/require-each-key': 'off',
+			'svelte/require-store-reactive-access': 'off', // See Binding.svelte... was this a mistake?
+			'svelte/require-stores-init': 'off', // Revisit when confident nothing dependent on detecting uninitialized stores
+			'ts/consistent-type-assertions': 'off',
+			'ts/dot-notation': 'off',
+			'ts/no-deprecated': [
+				'error',
+				{
+					allow: [
+						{
+							from: 'package',
+							name: 'createEventDispatcher',
+							package: 'svelte',
+						},
+						{
+							from: 'package',
+							name: 'beforeUpdate',
+							package: 'svelte',
+						},
+					],
+				},
+			],
+			'ts/no-empty-object-type': 'off', // Oh no...
+			'ts/no-explicit-any': 'off', // Oh no...
+			'ts/no-redundant-type-constituents': 'off', // Oh no...
+			'ts/no-unnecessary-condition': 'off', // Oh no...
+			'ts/no-unsafe-argument': 'off', // Oh no...
+			'ts/no-unsafe-assignment': 'off', // Oh no...
+			'ts/no-unsafe-call': 'off', // Oh no...
+			'ts/no-unsafe-member-access': 'off', // Oh no...
+			'ts/no-unsafe-return': 'off', // Oh no...
+			'ts/no-unused-vars': [
+				'error',
+				{
+					varsIgnorePattern: String.raw`^\$\$|^_`,
+				},
+			],
+			'unicorn/no-null': 'off',
+			'unicorn/no-optional-chaining-on-undeclared-variable': 'off', // False positives on Svelte's compiler-declared `$store` auto-subscription variables
+			...sharedOverrides,
+		},
+	},
+	ts: {
+		overrides: {
+			'depend/ban-dependencies': [
+				'error',
+				{
+					allowed: ['execa', 'glob', 'read-package-up'],
+				},
+			],
+			'jsdoc/require-jsdoc': 'off',
+			...sharedOverrides,
+		},
+	},
+	type: 'lib',
+})

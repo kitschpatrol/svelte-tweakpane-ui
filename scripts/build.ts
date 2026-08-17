@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/prefer-top-level-await */
 
-import { execaCommand } from 'execa'
+import { execa, parseCommandString } from 'execa'
 import { mkdir } from 'node:fs/promises'
 import prettyMs from 'pretty-ms'
 import { addSourceLinks } from './add-source-links'
@@ -87,7 +87,7 @@ console.log(`Build completed. Total build duration: ${prettyMs(performance.now()
 // Run helpers
 
 async function run(command: string): Promise<void> {
-	await execaCommand(command, { shell: true, stdio: 'inherit' })
+	await execa({ shell: true, stdio: 'inherit' })`${parseCommandString(command)}`
 }
 
 type Step = (() => Promise<void> | void) | Promise<void> | string

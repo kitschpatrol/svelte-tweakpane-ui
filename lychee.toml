@@ -1,0 +1,2 @@
+exclude = ['^https://www\.linkedin\.com/']
+exclude_path = ["docs/src/content/*"]

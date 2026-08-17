@@ -75,7 +75,7 @@
 </script>
 
 <!--
-@component  
+@component
 
 A control for simple incremental value changes.
 
@@ -91,7 +91,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 
 @emits {StepperChangeEvent} change - When `value` changes. (This event is provided for advanced use cases. Prefer binding to `value`.)
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { Stepper } from 'svelte-tweakpane-ui'
@@ -115,4 +115,4 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 [Stepper.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/Stepper.svelte)
 -->
 
-<GenericSlider bind:value bind:ref on:change {options} plugin={pluginModule} {...$$restProps} />
+<GenericSlider {options} plugin={pluginModule} bind:value bind:ref on:change {...$$restProps} />

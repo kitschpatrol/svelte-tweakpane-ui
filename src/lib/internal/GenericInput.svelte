@@ -27,11 +27,11 @@
 </script>
 
 <!--
-@component  
+@component
 This component is for internal use only.
 
 @sourceLink
 [GenericInput.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/internal/GenericInput.svelte)
 -->
 
-<GenericBinding bind:value bind:ref on:change options={optionsInternal} {...$$restProps} />
+<GenericBinding options={optionsInternal} bind:value bind:ref on:change {...$$restProps} />

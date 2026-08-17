@@ -12,11 +12,13 @@
 .svelte-kit/
 {tmp,temp}/
 **/*.min.js
+*.timestamp-*.mjs
 /scratch/
 bower_components/
 build/
 coverage/
 dist/
+.lycheecache
 node_modules/
 vendor/
 

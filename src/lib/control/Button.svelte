@@ -63,7 +63,6 @@
 		click: ButtonClickEvent
 	}
 
-	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	let indexElement: HTMLDivElement | undefined
@@ -110,7 +109,7 @@
 </script>
 
 <!--
-@component  
+@component
 A humble but effective push button.
 
 Wraps the Tweakpane [`addButton`](https://tweakpane.github.io/docs/ui-components/#button) method.
@@ -122,7 +121,7 @@ buttons.
 
 @emits {void} click - When the button is clicked.
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import { Button } from 'svelte-tweakpane-ui'
@@ -140,12 +139,12 @@ buttons.
 
 {#if parentStore}
 	{#if BROWSER}
-		<div bind:this={indexElement} style="display: none;"></div>
+		<div bind:this={indexElement} style:display="none"></div>
 	{:else}
 		<ClsPad keysAdd={['containerUnitSize', 'containerVerticalPadding']} {theme} />
 	{/if}
 {:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
-		<svelte:self on:click {disabled} {label} {title} />
+		<svelte:self {disabled} {label} {title} on:click />
 	</InternalPaneInline>
 {/if}

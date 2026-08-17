@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Ring, type RingUnit } from '$lib'
 
-	let unitConfig: RingUnit = {
+	const unitConfig: RingUnit = {
 		value: 20,
 		pixels: 40,
 		ticks: 5,
@@ -16,6 +16,11 @@
 </script>
 
 <Ring
+	format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
+	label="Ring 1"
+	pointerScale={-2.5}
+	unit={unitConfig}
+	wide={true}
 	bind:value={angle}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -24,13 +29,13 @@
 			binding1ExternalEventCount++
 		}
 	}}
+/>
+<Ring
 	format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
-	label="Ring 1"
+	label="Ring 2"
 	pointerScale={-2.5}
 	unit={unitConfig}
 	wide={true}
-/>
-<Ring
 	bind:value={angle}
 	on:change={(event) => {
 		if (event.detail.origin === 'internal') {
@@ -39,11 +44,6 @@
 			binding2ExternalEventCount++
 		}
 	}}
-	format={(v) => `${(Math.abs(v) % 360).toFixed(0)}°`}
-	label="Ring 2"
-	pointerScale={-2.5}
-	unit={unitConfig}
-	wide={true}
 />
 
 <pre>Value: <span>{angle}</span></pre>

@@ -1,0 +1,549 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "ksc lint",
+			"detail": "Lint your project with multiple tools in one go.",
+			"type": "shell",
+			"command": "pnpm exec ksc lint --format machine",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"clear": true,
+				"echo": true,
+				"focus": false,
+				"panel": "dedicated",
+				"reveal": "silent",
+				"revealProblems": "onProblem",
+				"showReuseMessage": false
+			},
+			"problemMatcher": [
+				{
+					"owner": "ksc",
+					"source": "ksc",
+					"fileLocation": ["relative", "${workspaceFolder}"],
+					"pattern": {
+						"regexp": "^(.+?):(\\d+):(\\d+): (error|warning|info): (.+) \\[([^\\]]+)\\]$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5,
+						"code": 6
+					}
+				}
+			]
+		},
+		{
+			"label": "ksc fix",
+			"detail": "Fix your project with multiple tools in one go.",
+			"type": "shell",
+			"command": "pnpm exec ksc fix --format machine",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"clear": true,
+				"echo": true,
+				"focus": false,
+				"panel": "dedicated",
+				"reveal": "silent",
+				"revealProblems": "onProblem",
+				"showReuseMessage": false
+			},
+			"problemMatcher": [
+				{
+					"owner": "ksc",
+					"source": "ksc",
+					"fileLocation": ["relative", "${workspaceFolder}"],
+					"pattern": {
+						"regexp": "^(.+?):(\\d+):(\\d+): (error|warning|info): (.+) \\[([^\\]]+)\\]$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5,
+						"code": 6
+					}
+				}
+			]
+		},
+		{
+			"label": "ksc-repo lint",
+			"detail": "Check the repo for common issues.",
+			"type": "shell",
+			"command": "pnpm exec ksc-repo lint --format machine",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"clear": true,
+				"echo": true,
+				"focus": false,
+				"panel": "dedicated",
+				"reveal": "silent",
+				"revealProblems": "onProblem",
+				"showReuseMessage": false
+			},
+			"problemMatcher": [
+				{
+					"owner": "ksc",
+					"source": "ksc",
+					"fileLocation": ["relative", "${workspaceFolder}"],
+					"pattern": {
+						"regexp": "^(.+?):(\\d+):(\\d+): (error|warning|info): (.+) \\[([^\\]]+)\\]$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5,
+						"code": 6
+					}
+				}
+			]
+		},
+		{
+			"label": "ksc-repo fix",
+			"detail": "Fix common issues like outdated copyright years in license files.",
+			"type": "shell",
+			"command": "pnpm exec ksc-repo fix --format machine",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"clear": true,
+				"echo": true,
+				"focus": false,
+				"panel": "dedicated",
+				"reveal": "silent",
+				"revealProblems": "onProblem",
+				"showReuseMessage": false
+			},
+			"problemMatcher": [
+				{
+					"owner": "ksc",
+					"source": "ksc",
+					"fileLocation": ["relative", "${workspaceFolder}"],
+					"pattern": {
+						"regexp": "^(.+?):(\\d+):(\\d+): (error|warning|info): (.+) \\[([^\\]]+)\\]$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5,
+						"code": 6
+					}
+				}
+			]
+		},
+		{
+			"label": "ksc-mdat lint",
+			"detail": "Validate that all Mdat content placeholders in your readme.md file(s) have been expanded and are up to date.",
+			"type": "shell",
+			"command": "pnpm exec ksc-mdat lint --format machine",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"clear": true,
+				"echo": true,
+				"focus": false,
+				"panel": "dedicated",
+				"reveal": "silent",
+				"revealProblems": "onProblem",
+				"showReuseMessage": false
+			},
+			"problemMatcher": [
+				{
+					"owner": "ksc",
+					"source": "ksc",
+					"fileLocation": ["relative", "${workspaceFolder}"],
+					"pattern": {
+						"regexp": "^(.+?):(\\d+):(\\d+): (error|warning|info): (.+) \\[([^\\]]+)\\]$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5,
+						"code": 6
+					}
+				}
+			]
+		},
+		{
+			"label": "ksc-mdat fix",
+			"detail": "Expand all Mdat content placeholders in your readme.md file(s).",
+			"type": "shell",
+			"command": "pnpm exec ksc-mdat fix --format machine",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"clear": true,
+				"echo": true,
+				"focus": false,
+				"panel": "dedicated",
+				"reveal": "silent",
+				"revealProblems": "onProblem",
+				"showReuseMessage": false
+			},
+			"problemMatcher": [
+				{
+					"owner": "ksc",
+					"source": "ksc",
+					"fileLocation": ["relative", "${workspaceFolder}"],
+					"pattern": {
+						"regexp": "^(.+?):(\\d+):(\\d+): (error|warning|info): (.+) \\[([^\\]]+)\\]$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5,
+						"code": 6
+					}
+				}
+			]
+		},
+		{
+			"label": "ksc-typescript lint",
+			"detail": "Run type checking on your project.",
+			"type": "shell",
+			"command": "pnpm exec ksc-typescript lint --format machine",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"clear": true,
+				"echo": true,
+				"focus": false,
+				"panel": "dedicated",
+				"reveal": "silent",
+				"revealProblems": "onProblem",
+				"showReuseMessage": false
+			},
+			"problemMatcher": [
+				{
+					"owner": "ksc",
+					"source": "ksc",
+					"fileLocation": ["relative", "${workspaceFolder}"],
+					"pattern": {
+						"regexp": "^(.+?):(\\d+):(\\d+): (error|warning|info): (.+) \\[([^\\]]+)\\]$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5,
+						"code": 6
+					}
+				}
+			]
+		},
+		{
+			"label": "ksc-eslint lint",
+			"detail": "Lint your project with ESLint.",
+			"type": "shell",
+			"command": "pnpm exec ksc-eslint lint --format machine",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"clear": true,
+				"echo": true,
+				"focus": false,
+				"panel": "dedicated",
+				"reveal": "silent",
+				"revealProblems": "onProblem",
+				"showReuseMessage": false
+			},
+			"problemMatcher": [
+				{
+					"owner": "ksc",
+					"source": "ksc",
+					"fileLocation": ["relative", "${workspaceFolder}"],
+					"pattern": {
+						"regexp": "^(.+?):(\\d+):(\\d+): (error|warning|info): (.+) \\[([^\\]]+)\\]$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5,
+						"code": 6
+					}
+				}
+			]
+		},
+		{
+			"label": "ksc-eslint fix",
+			"detail": "Fix your project with ESLint.",
+			"type": "shell",
+			"command": "pnpm exec ksc-eslint fix --format machine",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"clear": true,
+				"echo": true,
+				"focus": false,
+				"panel": "dedicated",
+				"reveal": "silent",
+				"revealProblems": "onProblem",
+				"showReuseMessage": false
+			},
+			"problemMatcher": [
+				{
+					"owner": "ksc",
+					"source": "ksc",
+					"fileLocation": ["relative", "${workspaceFolder}"],
+					"pattern": {
+						"regexp": "^(.+?):(\\d+):(\\d+): (error|warning|info): (.+) \\[([^\\]]+)\\]$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5,
+						"code": 6
+					}
+				}
+			]
+		},
+		{
+			"label": "ksc-stylelint lint",
+			"detail": "Lint your project with Stylelint.",
+			"type": "shell",
+			"command": "pnpm exec ksc-stylelint lint --format machine",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"clear": true,
+				"echo": true,
+				"focus": false,
+				"panel": "dedicated",
+				"reveal": "silent",
+				"revealProblems": "onProblem",
+				"showReuseMessage": false
+			},
+			"problemMatcher": [
+				{
+					"owner": "ksc",
+					"source": "ksc",
+					"fileLocation": ["relative", "${workspaceFolder}"],
+					"pattern": {
+						"regexp": "^(.+?):(\\d+):(\\d+): (error|warning|info): (.+) \\[([^\\]]+)\\]$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5,
+						"code": 6
+					}
+				}
+			]
+		},
+		{
+			"label": "ksc-stylelint fix",
+			"detail": "Fix your project with Stylelint.",
+			"type": "shell",
+			"command": "pnpm exec ksc-stylelint fix --format machine",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"clear": true,
+				"echo": true,
+				"focus": false,
+				"panel": "dedicated",
+				"reveal": "silent",
+				"revealProblems": "onProblem",
+				"showReuseMessage": false
+			},
+			"problemMatcher": [
+				{
+					"owner": "ksc",
+					"source": "ksc",
+					"fileLocation": ["relative", "${workspaceFolder}"],
+					"pattern": {
+						"regexp": "^(.+?):(\\d+):(\\d+): (error|warning|info): (.+) \\[([^\\]]+)\\]$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5,
+						"code": 6
+					}
+				}
+			]
+		},
+		{
+			"label": "ksc-cspell lint",
+			"detail": "Check for spelling mistakes.",
+			"type": "shell",
+			"command": "pnpm exec ksc-cspell lint --format machine",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"clear": true,
+				"echo": true,
+				"focus": false,
+				"panel": "dedicated",
+				"reveal": "silent",
+				"revealProblems": "onProblem",
+				"showReuseMessage": false
+			},
+			"problemMatcher": [
+				{
+					"owner": "ksc",
+					"source": "ksc",
+					"fileLocation": ["relative", "${workspaceFolder}"],
+					"pattern": {
+						"regexp": "^(.+?):(\\d+):(\\d+): (error|warning|info): (.+) \\[([^\\]]+)\\]$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5,
+						"code": 6
+					}
+				}
+			]
+		},
+		{
+			"label": "ksc-cspell fix",
+			"detail": "Remove unused words from the local CSpell configuration's \"words\" array and sort it alphabetically.",
+			"type": "shell",
+			"command": "pnpm exec ksc-cspell fix --format machine",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"clear": true,
+				"echo": true,
+				"focus": false,
+				"panel": "dedicated",
+				"reveal": "silent",
+				"revealProblems": "onProblem",
+				"showReuseMessage": false
+			},
+			"problemMatcher": [
+				{
+					"owner": "ksc",
+					"source": "ksc",
+					"fileLocation": ["relative", "${workspaceFolder}"],
+					"pattern": {
+						"regexp": "^(.+?):(\\d+):(\\d+): (error|warning|info): (.+) \\[([^\\]]+)\\]$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5,
+						"code": 6
+					}
+				}
+			]
+		},
+		{
+			"label": "ksc-knip lint",
+			"detail": "Check for unused code and dependencies.",
+			"type": "shell",
+			"command": "pnpm exec ksc-knip lint --format machine",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"clear": true,
+				"echo": true,
+				"focus": false,
+				"panel": "dedicated",
+				"reveal": "silent",
+				"revealProblems": "onProblem",
+				"showReuseMessage": false
+			},
+			"problemMatcher": [
+				{
+					"owner": "ksc",
+					"source": "ksc",
+					"fileLocation": ["relative", "${workspaceFolder}"],
+					"pattern": {
+						"regexp": "^(.+?):(\\d+):(\\d+): (error|warning|info): (.+) \\[([^\\]]+)\\]$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5,
+						"code": 6
+					}
+				}
+			]
+		},
+		{
+			"label": "ksc-prettier lint",
+			"detail": "Check that files are formatted according to your Prettier configuration.",
+			"type": "shell",
+			"command": "pnpm exec ksc-prettier lint --format machine",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"clear": true,
+				"echo": true,
+				"focus": false,
+				"panel": "dedicated",
+				"reveal": "silent",
+				"revealProblems": "onProblem",
+				"showReuseMessage": false
+			},
+			"problemMatcher": [
+				{
+					"owner": "ksc",
+					"source": "ksc",
+					"fileLocation": ["relative", "${workspaceFolder}"],
+					"pattern": {
+						"regexp": "^(.+?):(\\d+):(\\d+): (error|warning|info): (.+) \\[([^\\]]+)\\]$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5,
+						"code": 6
+					}
+				}
+			]
+		},
+		{
+			"label": "ksc-prettier fix",
+			"detail": "Format files according to your Prettier configuration.",
+			"type": "shell",
+			"command": "pnpm exec ksc-prettier fix --format machine",
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"presentation": {
+				"clear": true,
+				"echo": true,
+				"focus": false,
+				"panel": "dedicated",
+				"reveal": "silent",
+				"revealProblems": "onProblem",
+				"showReuseMessage": false
+			},
+			"problemMatcher": [
+				{
+					"owner": "ksc",
+					"source": "ksc",
+					"fileLocation": ["relative", "${workspaceFolder}"],
+					"pattern": {
+						"regexp": "^(.+?):(\\d+):(\\d+): (error|warning|info): (.+) \\[([^\\]]+)\\]$",
+						"file": 1,
+						"line": 2,
+						"column": 3,
+						"severity": 4,
+						"message": 5,
+						"code": 6
+					}
+				}
+			]
+		}
+	]
+}

@@ -76,7 +76,6 @@
 		click: ButtonGridClickEvent
 	}
 
-	// eslint-disable-next-line ts/no-deprecated
 	const dispatch = createEventDispatcher<UnwrapCustomEvents<$$Events>>()
 
 	let options: ButtonGridOptions
@@ -117,7 +116,7 @@
 </script>
 
 <!--
-@component  
+@component
 
 A grid of `<Button>` components.
 
@@ -142,7 +141,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 
 @emits {ButtonGridClickEvent} click - When a button in the grid is clicked.
 
-@example  
+@example
 ```svelte
 <script lang="ts">
   import {
@@ -215,7 +214,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 [ButtonGrid.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/control/ButtonGrid.svelte)
 -->
 
-<Blade bind:ref={gridBlade} {options} plugin={pluginModule} {...$$restProps} />
+<Blade {options} plugin={pluginModule} bind:ref={gridBlade} {...$$restProps} />
 {#if !BROWSER}
 	<ClsPad keysAdd={fillWith('containerUnitSize', gridDimensions.rows)} theme={$$props.theme} />
 	<ClsPad keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} />
