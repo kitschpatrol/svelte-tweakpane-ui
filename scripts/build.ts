@@ -9,12 +9,19 @@ import { generateDocumentationData } from './generate-documentation-data'
 import { generateExampleComponents } from './generate-example-components'
 import { generateExports } from './generate-exports'
 import { generateKitExamples } from './generate-kit-examples'
+import { generateLibAcknowledgments } from './generate-lib-acknowledgments'
 import { healDtsComments } from './heal-dts-comments'
 import { stripComponentDocumentation } from './strip-component-documentation'
 
 // Takes about ~40s locally
 
 const startTime = performance.now()
+
+// Steps that load Svelte configs in-process (e.g. generateDocumentationData via
+// svelte-language-server → vitePreprocess) cause Vite to set NODE_ENV=development
+// process-wide. Spawn child commands with the script's initial value so production
+// builds don't silently inherit a development environment.
+const initialNodeEnv = process.env.NODE_ENV
 
 console.log('Starting build script in ./scripts/build.ts')
 
@@ -68,8 +75,7 @@ await parallel(
 	// Generate component example Markdown for doc site
 	generateExampleComponents,
 	// Use pnpm's built-in licenses command to get data for acknowledgements in docs
-	// Note that this is separate from the docs acknowledgements data generated in the docs package
-	'pnpm licenses list --json > ./docs/src/content/acknowledgments/acknowledgments-lib.json',
+	generateLibAcknowledgments,
 )
 
 // 4. Build doc site + demo project and validate package
@@ -87,7 +93,12 @@ console.log(`Build completed. Total build duration: ${prettyMs(performance.now()
 // Run helpers
 
 async function run(command: string): Promise<void> {
-	await execa({ shell: true, stdio: 'inherit' })`${parseCommandString(command)}`
+	await execa({
+		// eslint-disable-next-line ts/naming-convention
+		env: { NODE_ENV: initialNodeEnv },
+		shell: true,
+		stdio: 'inherit',
+	})`${parseCommandString(command)}`
 }
 
 type Step = (() => Promise<void> | void) | Promise<void> | string
