@@ -86,6 +86,37 @@
 		})
 
 		folderRef = $folderStore
+		$folderStore.controller.view.buttonElement.addEventListener('click', handleTitleBarClick)
+	}
+
+	function handleTitleBarClick(event: MouseEvent) {
+		// Alt-click gives exclusive "accordion" behavior: the clicked folder
+		// becomes the only open folder at its level
+		if (folderRef === undefined || $parentStore === undefined || !event.altKey) {
+			return
+		}
+
+		for (const sibling of $parentStore.children) {
+			if (sibling === folderRef || !('expanded' in sibling)) {
+				continue
+			}
+
+			// Skip folders the user couldn't reopen by clicking, checking DOM
+			// state set by updateCollapsibility and Tweakpane itself
+			const titleBarElement = sibling.element.querySelector<HTMLButtonElement>('.tp-fldv_b')
+			if (
+				titleBarElement !== null &&
+				!titleBarElement.disabled &&
+				titleBarElement.dataset.userExpandable !== 'false'
+			) {
+				;(sibling as FolderRef).expanded = false
+			}
+		}
+
+		// Tweakpane's own toggle already ran by the time this handler is called,
+		// so reopen the folder if the click closed it... alt-click never
+		// collapses its target
+		folderRef.expanded = true
 	}
 
 	onMount(() => {
@@ -93,6 +124,7 @@
 	})
 
 	onDestroy(() => {
+		folderRef?.controller.view.buttonElement.removeEventListener('click', handleTitleBarClick)
 		$folderStore?.dispose()
 	})
 
@@ -117,6 +149,10 @@ Wraps the Tweakpane [`addFolder`](https://tweakpane.github.io/docs/ui-components
 
 May also be used to label and group multiple controls without user-collapsibility by setting
 `userExpandable` to `false` and `expanded` to true.
+
+Holding <kbd>⌥ Option</kbd> (<kbd>Alt</kbd>) while clicking a folder's title bar makes it the
+only expanded folder at its level: sibling folders collapse, and the clicked folder expands or
+stays open. Siblings that are `disabled` or have `userExpandable` set to `false` are unaffected.
 
 Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane position="inline">`.
 

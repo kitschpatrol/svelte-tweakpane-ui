@@ -76,7 +76,11 @@ Folders and inline pickers inside a draggable `<Pane>` can be set to automatical
 
 ### Control user collapsibility
 
-If you want to prevent the user from collapsing chunk of pane, you can set the `userExpandable` prop to `false`. The section will remain programmatically collapsible via the `expanded` property.
+If you want to prevent the user from collapsing a `<Pane>`, `<Folder>`, or any folding control, you can set the `userExpandable` prop to `false`. The section will remain programmatically collapsible via the `expanded` property.
+
+### Exclusive expansion
+
+Holding <kbd>⌥ Option</kbd> (<kbd>Alt</kbd>) while clicking a `<Folder>`'s title bar makes it the only expanded folder at its level: sibling folders collapse, and the clicked folder expands or stays open. Folders that are `disabled` or have `userExpandable` set to `false` are unaffected.
 
 ### Label truncation
 
