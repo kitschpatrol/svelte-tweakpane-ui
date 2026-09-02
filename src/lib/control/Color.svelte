@@ -5,7 +5,6 @@
 	} from '@tweakpane/core/dist/input-binding/color/model/color.js'
 	import type { Simplify, ValueChangeEvent } from '$lib/utils.js'
 
-	// TODO tuples, oklch, etc TODO set default picker mode between rgb, hsl, etc.?
 	export type ColorValueRgbTuple = [r: number, g: number, b: number]
 	export type ColorValueRgbaTuple = [r: number, g: number, b: number, a: number]
 	export type ColorValueRgbObject = Simplify<RgbColorObject>
@@ -35,25 +34,16 @@
 	import { fillWith, objectToTuple, removeKeys } from '$lib/utils.js'
 
 	type ColorValueInternal =
-		| ColorValueNumber
-		| ColorValueRgbaObject
-		| ColorValueRgbObject
-		| ColorValueString
+		ColorValueNumber | ColorValueRgbaObject | ColorValueRgbObject | ColorValueString
 
 	type ColorValueObjectOrTuple =
-		| ColorValueRgbaObject
-		| ColorValueRgbaTuple
-		| ColorValueRgbObject
-		| ColorValueRgbTuple
+		ColorValueRgbaObject | ColorValueRgbaTuple | ColorValueRgbObject | ColorValueRgbTuple
 
 	type PropsForType<U> = (U extends ColorValueNumber
 		? {
 				/**
-				 * Whether to treat the number value as carrying an alpha component
-				 * in its lowest byte (e.g. `0xff00667f`).
-				 *
-				 * Only available when `value` is a number, since string, object,
-				 * and tuple values carry their own alpha information.
+				 * Whether to treat a `number` value as carrying an alpha component in
+				 * its lowest byte (e.g. `0xff00667f`).
 				 *
 				 * @default `false`
 				 */
@@ -63,12 +53,8 @@
 		(U extends ColorValueObjectOrTuple
 			? {
 					/**
-					 * Whether to treat values as floats from 0.0 to 1.0, or integers
-					 * from 0 to 255.
-					 *
-					 * Only available when `value` is an object or tuple, since
-					 * strings carry their own type information and numbers are
-					 * always treated as integers.
+					 * Whether to treat `object` or `tuple` values as floats from 0.0 to
+					 * 1.0, or integers from 0 to 255.
 					 *
 					 * @default `'int'`
 					 */
@@ -88,8 +74,8 @@
 			 * 0xff00ff), an object with `r`, `b`, `g`, and optional `a` keys, or a
 			 * tuple.
 			 *
-			 * The type of this value will determine the availability of the
-			 * `alpha` and `type` props.
+			 * The type of this value will determine the availability of the `alpha`
+			 * and `type` props.
 			 *
 			 * @bindable
 			 */

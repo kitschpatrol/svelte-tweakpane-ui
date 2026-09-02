@@ -102,7 +102,8 @@ export async function generateDocumentationData(): Promise<void> {
 							condition: {
 								value: 1,
 							},
-							description: '`value` is of type `number`',
+							description:
+								'`value` is of type `number`, since `string`, `object`, and `tuple` values carry their own alpha information',
 						},
 						{
 							condition: {
@@ -114,13 +115,14 @@ export async function generateDocumentationData(): Promise<void> {
 							condition: {
 								value: '{{ r: 0, g: 0, b: 0 }}',
 							},
-							description: '`value` is an object',
+							description: '`value` is an `object`',
 						},
 						{
 							condition: {
 								value: '{[0, 0, 0]}',
 							},
-							description: '`value` is a tuple',
+							description:
+								'`value` is a `tuple`, since `string` values carry their own type information and `number` values are always treated as integers',
 						},
 					]
 
