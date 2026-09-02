@@ -96,6 +96,37 @@ export async function generateDocumentationData(): Promise<void> {
 			let testProps: ComponentDynamicPropTest[] | undefined
 
 			switch (name) {
+				case 'Color': {
+					testProps = [
+						{
+							condition: {
+								value: 1,
+							},
+							description: '`value` is of type `number`',
+						},
+						{
+							condition: {
+								value: '#ff00ff',
+							},
+							description: '`value` is of type `string`',
+						},
+						{
+							condition: {
+								value: '{{ r: 0, g: 0, b: 0 }}',
+							},
+							description: '`value` is an object',
+						},
+						{
+							condition: {
+								value: '{[0, 0, 0]}',
+							},
+							description: '`value` is a tuple',
+						},
+					]
+
+					break
+				}
+
 				case 'Monitor': {
 					testProps = [
 						{
