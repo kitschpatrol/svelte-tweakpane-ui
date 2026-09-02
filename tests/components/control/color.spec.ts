@@ -21,6 +21,30 @@ test.describe('Color component', () => {
 		})
 	})
 
+	test.describe('number values', () => {
+		test('number-bound picker renders and expands', async ({ page }) => {
+			await page.goto('/TestColor.svelte')
+
+			const row = page.locator('.tp-lblv').filter({ hasText: 'Binding 5' })
+			await row.locator('.tp-colswv').click()
+			await expect(row.locator('.tp-colv')).toBeVisible()
+		})
+
+		test('alpha prop adds an alpha slider for number values', async ({ page }) => {
+			await page.goto('/TestColor.svelte')
+
+			const withAlpha = page.locator('.tp-lblv').filter({ hasText: 'Binding 6' })
+			await withAlpha.locator('.tp-colswv').click()
+			await expect(withAlpha.locator('.tp-colv')).toBeVisible()
+			await expect(withAlpha.locator('.tp-aplv')).toHaveCount(1)
+
+			const withoutAlpha = page.locator('.tp-lblv').filter({ hasText: 'Binding 5' })
+			await withoutAlpha.locator('.tp-colswv').click()
+			await expect(withoutAlpha.locator('.tp-colv')).toBeVisible()
+			await expect(withoutAlpha.locator('.tp-aplv')).toHaveCount(0)
+		})
+	})
+
 	test.describe('change events', () => {
 		test('changing color fires internal event', async ({ page }) => {
 			await page.goto('/TestColor.svelte')
