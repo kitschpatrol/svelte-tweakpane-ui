@@ -40,7 +40,13 @@
 		| ColorValueRgbObject
 		| ColorValueString
 
-	type PropsForType<U> = U extends ColorValueNumber
+	type ColorValueObjectOrTuple =
+		| ColorValueRgbaObject
+		| ColorValueRgbaTuple
+		| ColorValueRgbObject
+		| ColorValueRgbTuple
+
+	type PropsForType<U> = (U extends ColorValueNumber
 		? {
 				/**
 				 * Whether to treat the number value as carrying an alpha component
@@ -53,7 +59,22 @@
 				 */
 				alpha?: boolean
 			}
-		: unknown
+		: unknown) &
+		(U extends ColorValueObjectOrTuple
+			? {
+					/**
+					 * Whether to treat values as floats from 0.0 to 1.0, or integers
+					 * from 0 to 255.
+					 *
+					 * Only available when `value` is an object or tuple, since
+					 * strings carry their own type information and numbers are
+					 * always treated as integers.
+					 *
+					 * @default `'int'`
+					 */
+					type?: 'float' | 'int'
+				}
+			: unknown)
 
 	type $$Props = Omit<
 		ComponentProps<GenericInputFolding<T, ColorOptions>>,
@@ -68,20 +89,11 @@
 			 * tuple.
 			 *
 			 * The type of this value will determine the availability of the
-			 * `alpha` prop.
+			 * `alpha` and `type` props.
 			 *
 			 * @bindable
 			 */
 			value: T
-			/**
-			 * Whether to treat values as floats from 0.0 to 1.0, or integers from
-			 * 0 to 255.
-			 *
-			 * Number values are always treated as integers.
-			 *
-			 * @default `'int'`
-			 */
-			type?: 'float' | 'int'
 		}
 
 	// Must redeclare for bindability
@@ -89,11 +101,12 @@
 	// conditional type resolution, see similar in Point.svelte
 	export let value: T
 	export let expanded: boolean | undefined = undefined
-	export let type: 'float' | 'int' | undefined = undefined
 
-	// Dynamic non-bindable prop, only available for number values
+	// Dynamic non-bindable props, availability gated on the type of `value`
 	let alpha: boolean | undefined
 	$: alpha = ($$props['alpha'] as boolean | undefined) ?? undefined
+	let type: 'float' | 'int' | undefined
+	$: type = ($$props['type'] as 'float' | 'int' | undefined) ?? undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 
@@ -199,8 +212,9 @@ A color picker.
 
 Wraps Tweakpane's [color input binding](https://tweakpane.github.io/docs/input-bindings/#color).
 
-`<Color>` is a dynamic component, and the `alpha` prop is only available when `value` is a number.
-(Other value types carry their own alpha information.)
+`<Color>` is a dynamic component: the `alpha` prop is only available when `value` is a number, and
+the `type` prop is only available when `value` is an object or tuple. (Other value types carry
+their own alpha and type information.)
 
 Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane
 position="inline">`.
@@ -241,7 +255,7 @@ position="inline">`.
 	bind:expanded
 	bind:ref
 	on:change
-	{...removeKeys($$restProps, 'alpha')}
+	{...removeKeys($$restProps, 'alpha', 'type')}
 />
 {#if !BROWSER && expanded && $$props.picker === 'inline'}
 	<!-- Main swatch -->
