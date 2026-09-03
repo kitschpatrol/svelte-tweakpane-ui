@@ -23,6 +23,24 @@ export type {
 	ColorValueString,
 } from '$lib/control/Color.svelte'
 
+export { default as ColorPlus } from '$lib/control/ColorPlus.svelte'
+
+export type {
+	ColorPlusChangeEvent,
+	ColorPlusGamutLines,
+	ColorPlusPaletteChannels,
+	ColorPlusPaletteProjection,
+	ColorPlusSwatchFallback,
+	ColorPlusType,
+	ColorPlusValue,
+	ColorPlusValueNumber,
+	ColorPlusValueObject,
+	ColorPlusValueRgbaTuple,
+	ColorPlusValueRgbTuple,
+	ColorPlusValueString,
+	ColorPlusValueTuple,
+} from '$lib/control/ColorPlus.svelte'
+
 export { default as CubicBezier } from '$lib/control/CubicBezier.svelte'
 
 export type {

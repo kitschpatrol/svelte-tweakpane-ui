@@ -28,6 +28,7 @@ allowBuilds:
   unrs-resolver: true
   workerd: true
 minimumReleaseAgeExclude:
+  - tweakpane-plugin-color-plus@0.6.1
   - '@astrojs/starlight@0.41.10'
   - '@cloudflare/workerd-darwin-64@1.20260828.1'
   - '@cloudflare/workerd-darwin-arm64@1.20260828.1'
