@@ -251,20 +251,20 @@
 
 A color picker with support for additional color value formats.
 
-_Important: This component is still under development and should be considered experimental. The API is subject to change until the Svelte Tweakpane UI 2.0 release._
+_Important: This component is still under development and should be considered experimental. The API is subject to breaking changes outside of the wider library's semver until the Svelte Tweakpane UI 2.0 release._
 
-Integrates the color control from the [Color Plus
+Wraps the color control from the [Color Plus
 plugin](https://github.com/kitschpatrol/tweakpane-plugin-color-plus).
 
-This component looks very similar to the Tweakpane-native `<Color>` control, but it adds support for all [CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/) color formats, [named-color](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/named-color) strings, packed numbers, RGB(A) tuples, a wider range of color objects, and a revised color picker with wide-gamut support.
+This component looks very similar to the Tweakpane-native `<Color>` control, but it adds support for all [CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/) color formats, [named-color](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/named-color) strings, color arrays / tuples, a wider range of color objects, and a revised color picker with support for wide-gamut color spaces.
 
-Its API is a superset of Tweakpane's built-in color input, so `<ColorPlus>` can generally be used as a drop-in replacement for `<Color>`. Please report any issues you encounter.
+Its API is a superset of Tweakpane's built-in color input, so `<ColorPlus>` can generally be used as a drop-in replacement for `<Color>`.
 
 `<ColorPlus>` is a dynamic component. The `alpha` prop is available for number values, while the `type` prop is available for object and tuple / array values. Other props are shared by every supported value type.
 
 The `gamuts` and `gamutLabel` defaults adapt to the initially bound color's model: sRGB-bound models get a simple sRGB picker, while wide and perceptual models get Display P3 boundaries and a gamut label. The text fields also open in a mode appropriate to that model.
 
-`<ColorPlus>` might replace the `<Color>` control entirely in the next major version of `svelte-tweakpane-ui`.
+`<ColorPlus>` might replace the `<Color>` control entirely in the next major version of `svelte-tweakpane-ui`. Please [report any issues](https://github.com/kitschpatrol/svelte-tweakpane-ui/issues) you encounter.
 
 Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane
 position="inline">`.
