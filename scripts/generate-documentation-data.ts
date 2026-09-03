@@ -96,37 +96,6 @@ export async function generateDocumentationData(): Promise<void> {
 			let testProps: ComponentDynamicPropTest[] | undefined
 
 			switch (name) {
-				case 'ColorPlus': {
-					testProps = [
-						{
-							condition: {
-								value: '#ff0066',
-							},
-							description: '`value` is a `string`',
-						},
-						{
-							condition: {
-								value: 0xff_00_66,
-							},
-							description: '`value` is a `number`',
-						},
-						{
-							condition: {
-								value: '{({ r: 255, g: 0, b: 102 })}',
-							},
-							description: '`value` is an object',
-						},
-						{
-							condition: {
-								value: '{[255, 0, 102]}',
-							},
-							description: '`value` is a tuple / array',
-              },
-					]
-
-					break
-				}
-
 				case 'Color': {
 					testProps = [
 						{
@@ -154,6 +123,37 @@ export async function generateDocumentationData(): Promise<void> {
 							},
 							description:
 								'`value` is a `tuple`, since `string` values carry their own type information and `number` values are always treated as integers',
+						},
+					]
+
+					break
+				}
+
+				case 'ColorPlus': {
+					testProps = [
+						{
+							condition: {
+								value: '#ff0066',
+							},
+							description: '`value` is a `string`',
+						},
+						{
+							condition: {
+								value: 0xff_00_66,
+							},
+							description: '`value` is a `number`',
+						},
+						{
+							condition: {
+								value: '{({ r: 255, g: 0, b: 102 })}',
+							},
+							description: '`value` is an object',
+						},
+						{
+							condition: {
+								value: '{[255, 0, 102]}',
+							},
+							description: '`value` is a tuple / array',
 						},
 					]
 
