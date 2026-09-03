@@ -1,33 +1,65 @@
 <script context="module" lang="ts">
-	import type { ColorPlusValue } from 'tweakpane-plugin-color-plus/lite'
+	import type {
+		ColorPlusInputParams as ColorPlusOptions,
+		ColorPlusValue,
+	} from 'tweakpane-plugin-color-plus/lite'
 	import type { ValueChangeEvent } from '$lib/utils.js'
+
+	type ColorPlusColorOptions = NonNullable<ColorPlusOptions['color']>
+
 	export type { ColorPlusValue } from 'tweakpane-plugin-color-plus/lite'
 	export type ColorPlusChangeEvent = ValueChangeEvent<ColorPlusValue>
+	export type ColorPlusGamutLines = NonNullable<ColorPlusOptions['gamutLines']>
+	export type ColorPlusPaletteChannels = NonNullable<ColorPlusOptions['paletteChannels']>
+	export type ColorPlusPaletteProjection = NonNullable<ColorPlusOptions['paletteProjection']>
+	export type ColorPlusSwatchFallback = NonNullable<ColorPlusOptions['swatchFallback']>
+	export type ColorPlusType = NonNullable<ColorPlusColorOptions['type']>
+	export type ColorPlusValueNumber = Extract<ColorPlusValue, number>
+	export type ColorPlusValueObject = Exclude<
+		ColorPlusValue,
+		ColorPlusValueNumber | ColorPlusValueString | ColorPlusValueTuple
+	>
+	export type ColorPlusValueString = Extract<ColorPlusValue, string>
+	export type ColorPlusValueTuple = Extract<ColorPlusValue, unknown[]>
 </script>
 
-<script lang="ts">
+<script generics="T extends ColorPlusValue" lang="ts">
 	import type { ComponentProps } from 'svelte'
 	import type { InputBindingApi as ColorPlusRef } from 'tweakpane'
-	import type { ColorPlusInputParams as ColorPlusOptions } from 'tweakpane-plugin-color-plus/lite'
 	import { BROWSER } from 'esm-env'
 	import * as pluginModule from 'tweakpane-plugin-color-plus/lite'
 	import { ColorPlusModel } from 'tweakpane-plugin-color-plus/lite'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
-	import { fillWith } from '$lib/utils.js'
+	import { fillWith, removeKeys } from '$lib/utils.js'
 
-	type $$Props = Omit<
-		ComponentProps<GenericInputFolding<ColorPlusValue, ColorPlusOptions>>,
+	type PropsForType<U> = (U extends ColorPlusValueObject | ColorPlusValueTuple
+		? {
+				/**
+				 * Whether coordinate channels are floats from 0.0 to 1.0 or integers
+				 * from 0 to 255. Alpha channels always use the 0.0 to 1.0 range.
+				 *
+				 * @default `'int'`
+				 */
+				type?: ColorPlusType
+			}
+		: unknown) &
+		(U extends number
+			? {
+					/**
+					 * Treat the number as carrying an alpha component in its lowest byte
+					 * (e.g. `0xff00667f`).
+					 *
+					 * @default `false`
+					 */
+					alpha?: ColorPlusColorOptions['alpha']
+				}
+			: unknown)
+
+	type CommonProps<U extends ColorPlusValue> = Omit<
+		ComponentProps<GenericInputFolding<U, ColorPlusOptions>>,
 		'buttonClass' | 'options' | 'plugin' | 'ref'
 	> & {
-		/**
-		 * For number values only: Whether to treat the number as carrying an alpha
-		 * component in its lowest byte (e.g. `0xff00667f`). (TODO not sure this is
-		 * a good idea to expose...)
-		 *
-		 * @default `false`
-		 */
-		alpha?: boolean
 		/**
 		 * Keep the color inside the widest gamut configured in `gamuts`.
 		 *
@@ -39,27 +71,27 @@
 		 *
 		 * @default `true`
 		 */
-		constrain?: boolean
+		constrain?: ColorPlusOptions['constrain']
 		/**
 		 * Whether a valid color entered in the picker's text field is converted
 		 * back to the bound value's original format.
 		 *
 		 * Set to `false` to let a typed value switch the binding's format to match
-		 * what was typed. _(Experimental!)_
+		 * what was typed, provided the new format has the same value type and
+		 * shape. _(Experimental!)_
 		 *
 		 * @default `true`
 		 */
-		formatLocked?: boolean
+		formatLocked?: ColorPlusColorOptions['formatLocked']
 		/**
 		 * Draw the name of the narrowest configured gamut that holds the current
 		 * color in the picker plane's bottom-left corner.
 		 *
-		 * The default adapts to the bound color's model: `true` when it's wide or
-		 * perceptual, `false` when it's sRGB-bound.
+		 * The default adapts to the initially bound color's model.
 		 *
-		 * @default `true` (`false` for sRGB-bound color models)
+		 * @default `false` for sRGB-bound models; `true` for wide / perceptual models
 		 */
-		gamutLabel?: boolean
+		gamutLabel?: ColorPlusOptions['gamutLabel']
 		/**
 		 * Which configured gamut boundaries are stroked over the picker plane.
 		 *
@@ -69,7 +101,7 @@
 		 *
 		 * @default `'inner'`
 		 */
-		gamutLines?: 'all' | 'inner' | 'none' | 'outer'
+		gamutLines?: ColorPlusGamutLines
 		/**
 		 * RGB gamuts whose boundaries the OKLCH picker draws, as an array of ids.
 		 *
@@ -77,19 +109,18 @@
 		 * `'display-p3'`, `'a98rgb'` / `'a98-rgb'`, `'rec2020'`, and `'prophoto'` /
 		 * `'prophoto-rgb'`.
 		 *
-		 * The default adapts to the bound color's model: `['srgb', 'p3']` when it's
-		 * wide or perceptual, `['srgb']` when it's sRGB-bound.
+		 * The default adapts to the initially bound color's model.
 		 *
-		 * @default `['srgb', 'p3']` (`['srgb']` for sRGB-bound color models)
+		 * @default `['srgb']` for sRGB-bound models; `['srgb', 'p3']` for wide / perceptual models
 		 */
-		gamuts?: string[]
+		gamuts?: ColorPlusOptions['gamuts']
 		/**
 		 * Which OKLCH channels map to the picker plane's axes and the slider, as
 		 * `[X][Y]_[slider]`.
 		 *
 		 * @default `'CL_H'`
 		 */
-		paletteChannels?: 'CH_L' | 'CL_H' | 'HC_L' | 'HL_C' | 'LC_H' | 'LH_C'
+		paletteChannels?: ColorPlusPaletteChannels
 		/**
 		 * How the picker plane projects the gamut volume onto its rectangle.
 		 *
@@ -102,7 +133,7 @@
 		 *
 		 * @default `'okhsv'`
 		 */
-		paletteProjection?: 'okhsv' | 'perceptual' | 'stretch'
+		paletteProjection?: ColorPlusPaletteProjection
 		/**
 		 * How the swatch preview's fallback triangle forces an out-of-gamut color
 		 * into sRGB.
@@ -117,7 +148,7 @@
 		 *
 		 * @default `'clip'`
 		 */
-		swatchFallback?: 'clip' | 'css'
+		swatchFallback?: ColorPlusSwatchFallback
 		/**
 		 * Show the color model drop-down and per-channel text inputs below the
 		 * picker palette.
@@ -127,39 +158,42 @@
 		 *
 		 * @default `true`
 		 */
-		textFields?: boolean
-		/**
-		 * Whether to treat values as floats from 0.0 to 1.0, or integers from 0 to
-		 * 255.
-		 *
-		 * @default `'int'`
-		 */
-		type?: 'float' | 'int'
+		textFields?: ColorPlusOptions['textFields']
 		/**
 		 * A color value to control.
 		 *
-		 * Use either a color-like string (e.g. #ff00ff), a number, an object with
-		 * `r`, `b`, `g`, and optional `a` keys, or a tuple.
+		 * Use a CSS color or named-color string, a packed number, a three- or
+		 * four-item RGB(A) tuple, or a supported RGB, HSL, HSV / HSB, HWB, Lab, or
+		 * LCH object shape.
+		 *
+		 * The value's type determines whether the `alpha` or `type` prop is
+		 * available.
 		 *
 		 * @bindable
 		 */
-		value: ColorPlusValue
+		value: U
 	}
 
+	type $$Props = CommonProps<T> & PropsForType<T>
+
 	// Must redeclare for bindability
-	export let value: $$Props['value']
-	export let expanded: $$Props['expanded'] = undefined
-	export let type: $$Props['type'] = undefined
-	export let alpha: $$Props['alpha'] = undefined
-	export let constrain: $$Props['constrain'] = undefined
-	export let formatLocked: $$Props['formatLocked'] = undefined
-	export let gamutLabel: $$Props['gamutLabel'] = undefined
-	export let gamutLines: $$Props['gamutLines'] = undefined
-	export let gamuts: $$Props['gamuts'] = undefined
-	export let paletteChannels: $$Props['paletteChannels'] = undefined
-	export let paletteProjection: $$Props['paletteProjection'] = undefined
-	export let swatchFallback: $$Props['swatchFallback'] = undefined
-	export let textFields: $$Props['textFields'] = undefined
+	export let value: T
+	export let expanded: boolean | undefined = undefined
+	export let constrain: ColorPlusOptions['constrain'] = undefined
+	export let formatLocked: ColorPlusColorOptions['formatLocked'] = undefined
+	export let gamutLabel: ColorPlusOptions['gamutLabel'] = undefined
+	export let gamutLines: ColorPlusGamutLines | undefined = undefined
+	export let gamuts: ColorPlusOptions['gamuts'] = undefined
+	export let paletteChannels: ColorPlusPaletteChannels | undefined = undefined
+	export let paletteProjection: ColorPlusPaletteProjection | undefined = undefined
+	export let swatchFallback: ColorPlusSwatchFallback | undefined = undefined
+	export let textFields: ColorPlusOptions['textFields'] = undefined
+
+	let alpha: ColorPlusColorOptions['alpha']
+	let type: ColorPlusType | undefined
+
+	$: alpha = $$props['alpha'] ?? undefined
+	$: type = $$props['type'] ?? undefined
 
 	type $$Events = {
 		/**
@@ -213,9 +247,13 @@ _Important: This component is still under development and should be considered e
 Integrates the color control from the [Color Plus
 plugin](https://github.com/kitschpatrol/tweakpane-plugin-color-plus).
 
-This component looks very similar to the Tweakpane-native `<Color>` control, but it adds support for all [CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/) color formats, [named-color](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/named-color) strings, color arrays, a wider range of color objects, and a revised color picker with support for wide-gamut color spaces.
+This component looks very similar to the Tweakpane-native `<Color>` control, but it adds support for all [CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/) color formats, [named-color](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/named-color) strings, packed numbers, RGB(A) tuples, a wider range of color objects, and a revised color picker with wide-gamut support.
 
-The plugin on which `<ColorPlus>` is based is still under active development, but can generally be used as a drop-in replacement for the `Color` control. Please report any issues you might encountered.
+Its API is a superset of Tweakpane's built-in color input, so `<ColorPlus>` can generally be used as a drop-in replacement for `<Color>`. Please report any issues you encounter.
+
+`<ColorPlus>` is a dynamic component. The `alpha` prop is available for number values, while the `type` prop is available for object and tuple / array values. Other props are shared by every supported value type.
+
+The `gamuts` and `gamutLabel` defaults adapt to the initially bound color's model: sRGB-bound models get a simple sRGB picker, while wide and perceptual models get Display P3 boundaries and a gamut label. The text fields also open in a mode appropriate to that model.
 
 `<ColorPlus>` might replace the `<Color>` control entirely in the next major version of `svelte-tweakpane-ui`.
 
@@ -259,7 +297,7 @@ position="inline">`.
 	bind:expanded
 	bind:ref
 	on:change
-	{...$$restProps}
+	{...removeKeys($$restProps, 'alpha', 'type')}
 />
 {#if !BROWSER && expanded && $$props.picker === 'inline'}
 	<!-- Main swatch -->

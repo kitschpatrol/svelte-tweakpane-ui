@@ -24,7 +24,19 @@ export type {
 
 export { default as ColorPlus } from '$lib/control/ColorPlus.svelte'
 
-export type { ColorPlusChangeEvent, ColorPlusValue } from '$lib/control/ColorPlus.svelte'
+export type {
+	ColorPlusChangeEvent,
+	ColorPlusGamutLines,
+	ColorPlusPaletteChannels,
+	ColorPlusPaletteProjection,
+	ColorPlusSwatchFallback,
+	ColorPlusType,
+	ColorPlusValue,
+	ColorPlusValueNumber,
+	ColorPlusValueObject,
+	ColorPlusValueString,
+	ColorPlusValueTuple,
+} from '$lib/control/ColorPlus.svelte'
 
 export { default as CubicBezier } from '$lib/control/CubicBezier.svelte'
 
