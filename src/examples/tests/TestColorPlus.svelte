@@ -68,7 +68,5 @@
 <pre>Binding 1 External: <span>{binding1ExternalEventCount}</span></pre>
 <pre>Binding 2 Internal: <span>{binding2InternalEventCount}</span></pre>
 <pre>Binding 2 External: <span>{binding2ExternalEventCount}</span></pre>
-<pre>Binding 2 Internal: <span>{binding2InternalEventCount}</span></pre>
-<pre>Binding 2 External: <span>{binding2ExternalEventCount}</span></pre>
 <pre>Binding 3 Internal: <span>{binding3InternalEventCount}</span></pre>
 <pre>Binding 3 External: <span>{binding3ExternalEventCount}</span></pre>

@@ -267,6 +267,10 @@
 <ColorPlus expanded={true} label="Start Color" picker="inline" bind:value={startColorA} />
 <h1>Color Plus</h1>
 <ColorPlus expanded={true} picker="inline" bind:value={startColorA} />
+<h1>Color Plus</h1>
+<ColorPlus expanded={true} picker="inline" textFields={false} bind:value={startColor} />
+<h1>Color Plus</h1>
+<ColorPlus expanded={true} picker="inline" textFields={false} bind:value={startColorA} />
 
 <h1>Text</h1>
 <Text label="The Message" bind:value={text} />

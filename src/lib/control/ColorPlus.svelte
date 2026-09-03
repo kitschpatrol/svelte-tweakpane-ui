@@ -56,8 +56,9 @@
 		(U extends ColorPlusValueObject | ColorPlusValueTuple
 			? {
 					/**
-					 * Whether coordinate channels are floats from 0.0 to 1.0 or integers
-					 * from 0 to 255. Alpha channels always use the 0.0 to 1.0 range.
+					 * Whether coordinate channels are floats from 0.0 to 1.0, or integers
+					 * in their native ranges (0 to 255 for RGB, 0 to 360 for hue, and so
+					 * on). Alpha channels always use the 0.0 to 1.0 range.
 					 *
 					 * @default `'int'`
 					 */
