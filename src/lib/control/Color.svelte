@@ -5,13 +5,14 @@
 	} from '@tweakpane/core/dist/input-binding/color/model/color.js'
 	import type { Simplify, ValueChangeEvent } from '$lib/utils.js'
 
-	// TODO tuples, oklch, etc TODO set default picker mode between rgb, hsl, etc.?
 	export type ColorValueRgbTuple = [r: number, g: number, b: number]
 	export type ColorValueRgbaTuple = [r: number, g: number, b: number, a: number]
 	export type ColorValueRgbObject = Simplify<RgbColorObject>
 	export type ColorValueRgbaObject = Simplify<RgbaColorObject>
 	export type ColorValueString = string
+	export type ColorValueNumber = number
 	export type ColorValue = Simplify<
+		| ColorValueNumber
 		| ColorValueRgbaObject
 		| ColorValueRgbaTuple
 		| ColorValueRgbObject
@@ -22,7 +23,7 @@
 	export type ColorChangeEvent = ValueChangeEvent<ColorValue>
 </script>
 
-<script lang="ts">
+<script generics="T extends ColorValue" lang="ts">
 	import type { ComponentProps } from 'svelte'
 	import type { ColorInputParams as ColorOptions, InputBindingApi as ColorRef } from 'tweakpane'
 	import { isColorObject, isRgbaColorObject, isRgbColorObject } from '@tweakpane/core'
@@ -30,36 +31,68 @@
 	import { shallowEqual } from 'fast-equals'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
-	import { fillWith, objectToTuple } from '$lib/utils.js'
+	import { fillWith, objectToTuple, removeKeys } from '$lib/utils.js'
 
-	type ColorValueInternal = ColorValueRgbaObject | ColorValueRgbObject | ColorValueString
+	type ColorValueInternal =
+		ColorValueNumber | ColorValueRgbaObject | ColorValueRgbObject | ColorValueString
+
+	type ColorValueObjectOrTuple =
+		ColorValueRgbaObject | ColorValueRgbaTuple | ColorValueRgbObject | ColorValueRgbTuple
+
+	type PropsForType<U> = (U extends ColorValueNumber
+		? {
+				/**
+				 * Whether to treat a `number` value as carrying an alpha component in
+				 * its lowest byte (e.g. `0xff00667f`).
+				 *
+				 * @default `false`
+				 */
+				alpha?: boolean
+			}
+		: unknown) &
+		(U extends ColorValueObjectOrTuple
+			? {
+					/**
+					 * Whether to treat `object` or `tuple` values as floats from 0.0 to
+					 * 1.0, or integers from 0 to 255.
+					 *
+					 * @default `'int'`
+					 */
+					type?: 'float' | 'int'
+				}
+			: unknown)
 
 	type $$Props = Omit<
-		ComponentProps<GenericInputFolding<ColorValue, ColorOptions>>,
+		ComponentProps<GenericInputFolding<T, ColorOptions>>,
 		'buttonClass' | 'options' | 'plugin' | 'ref'
-	> & {
-		/**
-		 * A color value to control.
-		 *
-		 * Use either a color-like string (e.g. #ff00ff), or an object with `r`,
-		 * `b`, `g`, and optional `a` keys.
-		 *
-		 * @bindable
-		 */
-		value: ColorValue
-		/**
-		 * Whether to treat values as floats from 0.0 to 1.0, or integers from 0 to
-		 * 255.
-		 *
-		 * @default `'int'`
-		 */
-		type?: 'float' | 'int'
-	}
+	> &
+		PropsForType<T> & {
+			/**
+			 * A color value to control.
+			 *
+			 * Use either a color-like string (e.g. #ff00ff), a number (e.g.
+			 * 0xff00ff), an object with `r`, `b`, `g`, and optional `a` keys, or a
+			 * tuple.
+			 *
+			 * The type of this value will determine the availability of the `alpha`
+			 * and `type` props.
+			 *
+			 * @bindable
+			 */
+			value: T
+		}
 
 	// Must redeclare for bindability
-	export let value: $$Props['value']
-	export let expanded: $$Props['expanded'] = undefined
-	export let type: $$Props['type'] = undefined
+	// Concrete types instead of $$Props indexes to work around deferred
+	// conditional type resolution, see similar in Point.svelte
+	export let value: T
+	export let expanded: boolean | undefined = undefined
+
+	// Dynamic non-bindable props, availability gated on the type of `value`
+	let alpha: boolean | undefined
+	$: alpha = ($$props['alpha'] as boolean | undefined) ?? undefined
+	let type: 'float' | 'int' | undefined
+	$: type = ($$props['type'] as 'float' | 'int' | undefined) ?? undefined
 
 	// Inheriting here with ComponentEvents makes a documentation mess
 
@@ -90,8 +123,8 @@
 
 	function updateInternalValueFromValue() {
 		// External value can change internal type on the fly, but internal value can never change external value type!
-		// Internal value must be string or object for Tweakpane compatibility
-		if (typeof value === 'string') {
+		// Internal value must be a string, number, or object for Tweakpane compatibility
+		if (typeof value === 'string' || typeof value === 'number') {
 			if (internalValue !== value) {
 				internalValue = value
 			}
@@ -117,9 +150,13 @@
 	}
 
 	function updateValueFromInternalValue() {
-		if (typeof value === 'string' && typeof internalValue === 'string') {
+		if (
+			(typeof value === 'string' && typeof internalValue === 'string') ||
+			(typeof value === 'number' && typeof internalValue === 'number')
+		) {
 			if (internalValue !== value) {
-				value = internalValue
+				// eslint-disable-next-line ts/no-unnecessary-type-assertion
+				value = internalValue as T
 			}
 		} else if (Array.isArray(value) && isColorObject(internalValue)) {
 			const newValue = isRgbaColorObject(internalValue)
@@ -131,25 +168,24 @@
 			if (newValue === undefined) {
 				console.error('Unreachable color type mismatch')
 			} else if (!shallowEqual(newValue, value)) {
-				value = newValue
+				// eslint-disable-next-line ts/no-unnecessary-type-assertion
+				value = newValue as T
 			}
 		} else if (isColorObject(value) && isColorObject(internalValue)) {
 			if (!shallowEqual(internalValue, value)) {
-				value = { ...internalValue }
+				// eslint-disable-next-line ts/no-unnecessary-type-assertion
+				value = { ...internalValue } as T
 			}
 		} else {
 			console.error('Unreachable color type mismatch')
 		}
 	}
 
-	// TODO does this do anything? passing channel like 0x00ffd644 adds alpha automatically setting
-	// alpha to true on 0x00ffd6 doesn't add the control... were these both deprecated in 4.0?
-	// https://github.com/cocopon/tweakpane/issues/450 options.color.alpha, options.color.type
-
 	$: (value, updateInternalValueFromValue())
 	$: (internalValue, updateValueFromInternalValue())
 	$: options = {
 		color: {
+			alpha,
 			type,
 		},
 		view: 'color',
@@ -161,6 +197,10 @@
 A color picker.
 
 Wraps Tweakpane's [color input binding](https://tweakpane.github.io/docs/input-bindings/#color).
+
+`<Color>` is a dynamic component: the `alpha` prop is only available when `value` is a number, and
+the `type` prop is only available when `value` is an object or tuple. (Other value types carry
+their own alpha and type information.)
 
 Usage outside of a `<Pane>` component will implicitly wrap the color picker in `<Pane
 position="inline">`.
@@ -201,13 +241,13 @@ position="inline">`.
 	bind:expanded
 	bind:ref
 	on:change
-	{...$$restProps}
+	{...removeKeys($$restProps, 'alpha', 'type')}
 />
 {#if !BROWSER && expanded && $$props.picker === 'inline'}
 	<!-- Main swatch -->
 	<ClsPad keysAdd={fillWith('containerUnitSize', 6)} theme={$$props.theme} />
 	<ClsPad keysAdd={fillWith('containerUnitSpacing', 3)} theme={$$props.theme} />
-	{#if isRgbaColorObject(internalValue)}
+	{#if alpha === true || isRgbaColorObject(internalValue)}
 		<ClsPad keysAdd={fillWith('containerUnitSize', 1)} theme={$$props.theme} />
 		<ClsPad extra={2} keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} />
 	{/if}

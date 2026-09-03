@@ -252,7 +252,7 @@ The vanilla tweakpane API is highly dynamic, and the availability of various opt
 
 Svelte's component API is comparatively static, and the availability of props is typically fixed at compile time... but several _Svelte Tweakpane UI_ components feature dynamic properties that are added / removed from the component depending on the presence or type of other props.
 
-Dynamic props are used in cases where the clarity of a component's purpose isn't compromised by a bit of dynamism (e.g. `<Pane>`), or where the alternative would be to create a large number of very similar components (e.g. `<Monitor>`).
+Dynamic props are used in cases where the clarity of a component's purpose isn't compromised by a bit of dynamism (e.g. `<Pane>`), where the alternative would be to create a large number of very similar components (e.g. `<Monitor>`), or where a prop would otherwise be [silently ignored](https://github.com/cocopon/tweakpane/issues/626) for certain value types (e.g. `<Color>`'s `alpha` prop, which only applies to number values).
 
 Svelte's approach to supporting dynamic props is still evolving, and the right balance between flexibility and predictability is subject to reconsideration in subsequent versions of Svelte Tweakpane UI.
 
