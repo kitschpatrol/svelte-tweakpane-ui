@@ -28,4 +28,4 @@ allowBuilds:
   unrs-resolver: true
   workerd: true
 minimumReleaseAgeExclude:
-  - tweakpane-plugin-color-plus@0.6.0
+  - tweakpane-plugin-color-plus@0.6.1

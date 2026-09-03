@@ -1,26 +1,35 @@
 <script context="module" lang="ts">
 	import type {
+		ColorPlusGamutLines,
 		ColorPlusInputParams as ColorPlusOptions,
+		ColorPlusPaletteChannels,
+		ColorPlusPaletteProjection,
+		ColorPlusSwatchFallback,
+		ColorPlusType,
 		ColorPlusValue,
+		ColorPlusValueNumber,
+		ColorPlusValueObject,
+		ColorPlusValueTuple,
 	} from 'tweakpane-plugin-color-plus/lite'
 	import type { ValueChangeEvent } from '$lib/utils.js'
 
 	type ColorPlusColorOptions = NonNullable<ColorPlusOptions['color']>
 
-	export type { ColorPlusValue } from 'tweakpane-plugin-color-plus/lite'
-	export type ColorPlusChangeEvent = ValueChangeEvent<ColorPlusValue>
-	export type ColorPlusGamutLines = NonNullable<ColorPlusOptions['gamutLines']>
-	export type ColorPlusPaletteChannels = NonNullable<ColorPlusOptions['paletteChannels']>
-	export type ColorPlusPaletteProjection = NonNullable<ColorPlusOptions['paletteProjection']>
-	export type ColorPlusSwatchFallback = NonNullable<ColorPlusOptions['swatchFallback']>
-	export type ColorPlusType = NonNullable<ColorPlusColorOptions['type']>
-	export type ColorPlusValueNumber = Extract<ColorPlusValue, number>
-	export type ColorPlusValueObject = Exclude<
+	export type {
+		ColorPlusGamutLines,
+		ColorPlusPaletteChannels,
+		ColorPlusPaletteProjection,
+		ColorPlusSwatchFallback,
+		ColorPlusType,
 		ColorPlusValue,
-		ColorPlusValueNumber | ColorPlusValueString | ColorPlusValueTuple
-	>
-	export type ColorPlusValueString = Extract<ColorPlusValue, string>
-	export type ColorPlusValueTuple = Extract<ColorPlusValue, unknown[]>
+		ColorPlusValueNumber,
+		ColorPlusValueObject,
+		ColorPlusValueRgbaTuple,
+		ColorPlusValueRgbTuple,
+		ColorPlusValueString,
+		ColorPlusValueTuple,
+	} from 'tweakpane-plugin-color-plus/lite'
+	export type ColorPlusChangeEvent = ValueChangeEvent<ColorPlusValue>
 </script>
 
 <script generics="T extends ColorPlusValue" lang="ts">
@@ -33,26 +42,26 @@
 	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
 	import { fillWith, removeKeys } from '$lib/utils.js'
 
-	type PropsForType<U> = (U extends ColorPlusValueObject | ColorPlusValueTuple
+	type PropsForType<U> = (U extends ColorPlusValueNumber
 		? {
 				/**
-				 * Whether coordinate channels are floats from 0.0 to 1.0 or integers
-				 * from 0 to 255. Alpha channels always use the 0.0 to 1.0 range.
+				 * Treat the number as carrying an alpha component in its lowest byte
+				 * (e.g. `0xff00667f`).
 				 *
-				 * @default `'int'`
+				 * @default `false`
 				 */
-				type?: ColorPlusType
+				alpha?: ColorPlusColorOptions['alpha']
 			}
 		: unknown) &
-		(U extends number
+		(U extends ColorPlusValueObject | ColorPlusValueTuple
 			? {
 					/**
-					 * Treat the number as carrying an alpha component in its lowest byte
-					 * (e.g. `0xff00667f`).
+					 * Whether coordinate channels are floats from 0.0 to 1.0 or integers
+					 * from 0 to 255. Alpha channels always use the 0.0 to 1.0 range.
 					 *
-					 * @default `false`
+					 * @default `'int'`
 					 */
-					alpha?: ColorPlusColorOptions['alpha']
+					type?: ColorPlusType
 				}
 			: unknown)
 

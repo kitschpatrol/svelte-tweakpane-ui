@@ -62,8 +62,8 @@ importers:
         specifier: 4.0.5
         version: 4.0.5
       tweakpane-plugin-color-plus:
-        specifier: 0.6.0
-        version: 0.6.0(tweakpane@4.0.5)
+        specifier: 0.6.1
+        version: 0.6.1(tweakpane@4.0.5)
     devDependencies:
       '@kitschpatrol/shared-config':
         specifier: ^8.6.0
@@ -7256,8 +7256,8 @@ packages:
   tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
 
-  tweakpane-plugin-color-plus@0.6.0:
-    resolution: {integrity: sha512-hVYTkJXOLFX5XZqBQvvQghI4TUFUb6faQKPHPEKuyF6r3Vn6lWRRfCpi/GZp2uwop2i1fDG8OD92ywBaR8J7gQ==}
+  tweakpane-plugin-color-plus@0.6.1:
+    resolution: {integrity: sha512-iRQmLgnFhN+kgSP9SD0qJqSAuBcOHponykPjIaF5aefClKt9wFiEO/Nl6EQU1r3rdFPg6KAZdjSMVDeVddvoqA==}
     engines: {node: '>=20.19.0'}
     peerDependencies:
       tweakpane: ^4.0.0
@@ -16579,7 +16579,7 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  tweakpane-plugin-color-plus@0.6.0(tweakpane@4.0.5):
+  tweakpane-plugin-color-plus@0.6.1(tweakpane@4.0.5):
     dependencies:
       '@tweakpane/core': 2.0.5
       tweakpane: 4.0.5

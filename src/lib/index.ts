@@ -34,6 +34,8 @@ export type {
 	ColorPlusValue,
 	ColorPlusValueNumber,
 	ColorPlusValueObject,
+	ColorPlusValueRgbaTuple,
+	ColorPlusValueRgbTuple,
 	ColorPlusValueString,
 	ColorPlusValueTuple,
 } from '$lib/control/ColorPlus.svelte'
