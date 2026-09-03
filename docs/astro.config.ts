@@ -1,8 +1,6 @@
 /* eslint-disable ts/naming-convention */
 // @case-police-ignore blueSky
 
-// @case-police-ignore blueSky
-
 import starlight from '@astrojs/starlight'
 import svelte from '@astrojs/svelte'
 import { defineConfig } from 'astro/config'

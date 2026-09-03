@@ -208,10 +208,12 @@
 
 A color picker with support for additional color value formats.
 
+_Important: This component is still under development and should be considered experimental. The API is subject to change until the Svelte Tweakpane UI 2.0 release._
+
 Integrates the color control from the [Color Plus
 plugin](https://github.com/kitschpatrol/tweakpane-plugin-color-plus).
 
-This component looks very similar to the Tweakpane-native `<Color>` control, but it adds support for all [CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/) color string formats, color arrays, a wider range of color objects, and a revised color picker with support for wide-gamut color spaces.
+This component looks very similar to the Tweakpane-native `<Color>` control, but it adds support for all [CSS Color Module Level 4](https://www.w3.org/TR/css-color-4/) color formats, [named-color](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/named-color) strings, color arrays, a wider range of color objects, and a revised color picker with support for wide-gamut color spaces.
 
 The plugin on which `<ColorPlus>` is based is still under active development, but can generally be used as a drop-in replacement for the `Color` control. Please report any issues you might encountered.
 
