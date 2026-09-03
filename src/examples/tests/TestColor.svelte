@@ -1,8 +1,15 @@
 <script lang="ts">
-	import { Color, type ColorValueRgbaTuple, type ColorValueRgbObject } from '$lib'
+	import {
+		Color,
+		type ColorValueNumber,
+		type ColorValueRgbaTuple,
+		type ColorValueRgbObject,
+	} from '$lib'
 
 	let value: ColorValueRgbObject = { r: 0, g: 0, b: 0 }
 	let value2: ColorValueRgbaTuple = [0, 0, 0, 0]
+	let value3: ColorValueNumber = 0xff_66_00
+	let value4: ColorValueNumber = 0x00_ff_d6_44
 
 	let binding1InternalEventCount = 0
 	let binding1ExternalEventCount = 0
@@ -59,6 +66,9 @@
 	}}
 />
 
+<Color label="Binding 5" bind:value={value3} />
+<Color alpha={true} label="Binding 6" bind:value={value4} />
+
 <hr />
 
 <pre>Value Object: <span>{JSON.stringify(value, undefined, 2)}</span></pre>
@@ -71,4 +81,7 @@
 <pre>Binding 3 Internal: <span>{binding3InternalEventCount}</span></pre>
 <pre>Binding 3 External: <span>{binding3ExternalEventCount}</span></pre>
 <pre>Binding 4 Internal: <span>{binding4InternalEventCount}</span></pre>
-<pre>Binding 5 External: <span>{binding4ExternalEventCount}</span></pre>
+<pre>Binding 4 External: <span>{binding4ExternalEventCount}</span></pre>
+
+<pre>Value Number: <span>{value3}</span></pre>
+<pre>Value Number Alpha: <span>{value4}</span></pre>

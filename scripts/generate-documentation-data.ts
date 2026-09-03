@@ -121,6 +121,39 @@ export async function generateDocumentationData(): Promise<void> {
 								value: '{[255, 0, 102]}',
 							},
 							description: '`value` is a tuple / array',
+              },
+					]
+
+					break
+				}
+
+				case 'Color': {
+					testProps = [
+						{
+							condition: {
+								value: 1,
+							},
+							description:
+								'`value` is of type `number`, since `string`, `object`, and `tuple` values carry their own alpha information',
+						},
+						{
+							condition: {
+								value: '#ff00ff',
+							},
+							description: '`value` is of type `string`',
+						},
+						{
+							condition: {
+								value: '{{ r: 0, g: 0, b: 0 }}',
+							},
+							description: '`value` is an `object`',
+						},
+						{
+							condition: {
+								value: '{[0, 0, 0]}',
+							},
+							description:
+								'`value` is a `tuple`, since `string` values carry their own type information and `number` values are always treated as integers',
 						},
 					]
 

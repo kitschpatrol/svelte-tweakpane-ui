@@ -15,6 +15,7 @@ export { default as Color } from '$lib/control/Color.svelte'
 export type {
 	ColorChangeEvent,
 	ColorValue,
+	ColorValueNumber,
 	ColorValueRgbaObject,
 	ColorValueRgbaTuple,
 	ColorValueRgbObject,

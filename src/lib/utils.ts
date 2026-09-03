@@ -208,6 +208,10 @@ export function updateCollapsibility(
 		const titleBarElement = element.querySelector<HTMLButtonElement>(`.${titleBarClass}`)
 
 		if (titleBarElement) {
+			// Lets the alt-click accordion handler in Folder.svelte check a
+			// sibling's user-expandability at click time
+			titleBarElement.dataset.userExpandable = String(isUserExpandableEnabled)
+
 			const iconElement =
 				iconClass === undefined || iconClass === ''
 					? undefined

@@ -29,3 +29,12 @@ allowBuilds:
   workerd: true
 minimumReleaseAgeExclude:
   - tweakpane-plugin-color-plus@0.6.1
+  - '@astrojs/starlight@0.41.10'
+  - '@cloudflare/workerd-darwin-64@1.20260828.1'
+  - '@cloudflare/workerd-darwin-arm64@1.20260828.1'
+  - '@cloudflare/workerd-linux-64@1.20260828.1'
+  - '@cloudflare/workerd-linux-arm64@1.20260828.1'
+  - '@cloudflare/workerd-windows-64@1.20260828.1'
+  - miniflare@5.20260828.0-alpha
+  - workerd@1.20260828.1
+  - wrangler@4.127.1
