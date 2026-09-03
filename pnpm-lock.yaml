@@ -62,8 +62,8 @@ importers:
         specifier: 4.0.5
         version: 4.0.5
       tweakpane-plugin-color-plus:
-        specifier: 0.5.1
-        version: 0.5.1(tweakpane@4.0.5)
+        specifier: 0.6.0
+        version: 0.6.0(tweakpane@4.0.5)
     devDependencies:
       '@kitschpatrol/shared-config':
         specifier: ^8.6.0
@@ -3163,10 +3163,12 @@ packages:
   '@xmldom/xmldom@0.8.14':
     resolution: {integrity: sha512-T4EDRUBVZYRldYApjEJiU0e1stYWaRAX7CuSnKzrpwdZKo53zGV8/pqfzV6FfwNl9YThD2OumQYvqtvjvgG7aQ==}
     engines: {node: '>=10.0.0'}
+    deprecated: this version has critical issues, please update to the latest version
 
   '@xmldom/xmldom@0.9.11':
     resolution: {integrity: sha512-tW8bcK3hsG0/uqSnNz6TK4BkcuZSezoU7DlnYssILmZDktPnSHHuDJJFM0AJv+13gz2r0iGdrj6qqKeUnxXEDg==}
     engines: {node: '>=14.6'}
+    deprecated: this version has critical issues, please update to the latest version
 
   '@zkochan/js-yaml@0.0.11':
     resolution: {integrity: sha512-SO+h5Jg079r2JvGle0jbdtk1EY7ppu6TGzmfWTp3Gy61IEb1OVKBocJ6ydTn4++nYFNfRKYenI2MniZQwsM9KQ==}
@@ -7254,8 +7256,8 @@ packages:
   tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
 
-  tweakpane-plugin-color-plus@0.5.1:
-    resolution: {integrity: sha512-lNIO5HqRSW+4gF51iXpTwXC+TnS3y88pLWAQou1D38epTZdGqposnUAqe1JBtd1T6+Y520bwQGUx8Hh62Lkw8g==}
+  tweakpane-plugin-color-plus@0.6.0:
+    resolution: {integrity: sha512-hVYTkJXOLFX5XZqBQvvQghI4TUFUb6faQKPHPEKuyF6r3Vn6lWRRfCpi/GZp2uwop2i1fDG8OD92ywBaR8J7gQ==}
     engines: {node: '>=20.19.0'}
     peerDependencies:
       tweakpane: ^4.0.0
@@ -16577,7 +16579,7 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  tweakpane-plugin-color-plus@0.5.1(tweakpane@4.0.5):
+  tweakpane-plugin-color-plus@0.6.0(tweakpane@4.0.5):
     dependencies:
       '@tweakpane/core': 2.0.5
       tweakpane: 4.0.5
