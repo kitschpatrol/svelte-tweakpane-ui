@@ -5,9 +5,9 @@ import { nanoid } from 'nanoid'
 const INTERACTIVE_SELECTOR = 'button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
 const CARET_EDGE_INSET_PX = 4
 const CARET_OFFSET_PX = 8
+const DEFAULT_POINTER_GAP_PX = 16
 const HOVER_DELAY_MS = 500
-const LABELED_POINTER_GAP_PX = 16
-const UNLABELED_POINTER_GAP_PX = 24
+const POINTER_CURSOR_GAP_PX = 24
 const VIEWPORT_MARGIN_PX = 8
 const WHITESPACE_PATTERN = /\s+/v
 
@@ -304,7 +304,10 @@ export class DescriptionController {
 		}
 
 		const { x, y } = this.pointerPosition
-		const pointerGap = this.anchor === this.root ? UNLABELED_POINTER_GAP_PX : LABELED_POINTER_GAP_PX
+		const hoveredElement = this.descriptionElement.ownerDocument.elementFromPoint(x, y)
+		const cursor = hoveredElement === null ? '' : window.getComputedStyle(hoveredElement).cursor
+		const cursorKeyword = cursor.slice(cursor.lastIndexOf(',') + 1).trim()
+		const pointerGap = cursorKeyword === 'pointer' ? POINTER_CURSOR_GAP_PX : DEFAULT_POINTER_GAP_PX
 		this.descriptionElement.dataset.stuiPointer = ''
 		this.descriptionElement.style.left = `${x}px`
 		this.descriptionElement.style.top = `${y + pointerGap}px`

@@ -7,15 +7,15 @@ const WHITESPACE_PATTERN = /\s+/v
 test.describe('Control descriptions', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/TestDescription.svelte')
-		await expect(page.locator('[role="tooltip"]')).toHaveCount(4)
+		await expect(page.locator('[role="tooltip"]')).toHaveCount(12)
 	})
 
 	test('adds descriptions to bindings, blades, and buttons', async ({ page }) => {
 		const describedBlades = page.locator('[data-stui-description]')
 		const tooltips = page.locator('[role="tooltip"]')
 
-		await expect(describedBlades).toHaveCount(4)
-		await expect(tooltips).toHaveCount(4)
+		await expect(describedBlades).toHaveCount(12)
+		await expect(tooltips).toHaveCount(12)
 		await expect(tooltips.first()).toHaveText('Adjusts the amount of glow.\nUse sparingly.')
 		await expect(tooltips.first()).toHaveAttribute('popover', 'hint')
 		await expect(describedBlades.first().locator('.tp-lblv_l')).toHaveAttribute(
@@ -157,6 +157,50 @@ test.describe('Control descriptions', () => {
 		const tooltipBounds = await tooltip.boundingBox()
 		expect(tooltipBounds).not.toBeNull()
 		expect(tooltipBounds?.y).toBeCloseTo((actionBounds?.y ?? 0) + 8 + 24, 0)
+	})
+
+	test('adapts the gap to the cursor independently of label and wide states', async ({ page }) => {
+		const labeledWideTooltip = page.locator('[role="tooltip"]').filter({
+			hasText: 'Adjusts a labeled wide slider.',
+		})
+		const labeledWideLabel = labeledWideTooltip.locator('..').locator('.tp-lblv_l')
+		const labeledWideBounds = await labeledWideLabel.boundingBox()
+		expect(labeledWideBounds).not.toBeNull()
+
+		await labeledWideLabel.hover({ position: { x: 12, y: 8 } })
+		await expect(labeledWideTooltip).toBeVisible()
+		const labeledWideTooltipBounds = await labeledWideTooltip.boundingBox()
+		expect(labeledWideTooltipBounds).not.toBeNull()
+		expect(labeledWideTooltipBounds?.y).toBeCloseTo((labeledWideBounds?.y ?? 0) + 8 + 16, 0)
+
+		const wideTooltip = page.locator('[role="tooltip"]').filter({
+			hasText: 'Adjusts an unlabeled wide slider.',
+		})
+		const wideRow = wideTooltip.locator('..')
+		const sliderTrack = wideRow.locator('.tp-sldv_t')
+		const sliderBounds = await sliderTrack.boundingBox()
+		expect(sliderBounds).not.toBeNull()
+		await expect(sliderTrack).toHaveCSS('cursor', 'pointer')
+
+		await sliderTrack.hover({ position: { x: 12, y: 8 } })
+		await expect(wideTooltip).toBeVisible()
+		const wideTooltipBounds = await wideTooltip.boundingBox()
+		expect(wideTooltipBounds).not.toBeNull()
+		expect(wideTooltipBounds?.y).toBeCloseTo((sliderBounds?.y ?? 0) + 8 + 24, 0)
+
+		const textTooltip = page.locator('[role="tooltip"]').filter({
+			hasText: 'Edits unlabeled text.',
+		})
+		const textInput = textTooltip.locator('..').locator('input')
+		const textBounds = await textInput.boundingBox()
+		expect(textBounds).not.toBeNull()
+		await expect(textInput).not.toHaveCSS('cursor', 'pointer')
+
+		await textInput.hover({ position: { x: 24, y: 8 } })
+		await expect(textTooltip).toBeVisible()
+		const textTooltipBounds = await textTooltip.boundingBox()
+		expect(textTooltipBounds).not.toBeNull()
+		expect(textTooltipBounds?.y).toBeCloseTo((textBounds?.y ?? 0) + 8 + 16, 0)
 	})
 
 	test('follows a reactively updated label', async ({ page }) => {
