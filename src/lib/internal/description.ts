@@ -3,6 +3,8 @@ import { nanoid } from 'nanoid'
 // cspell:words describedby
 
 const INTERACTIVE_SELECTOR = 'button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+const CARET_EDGE_INSET_PX = 4
+const CARET_OFFSET_PX = 8
 const HOVER_DELAY_MS = 500
 const POINTER_GAP_PX = 16
 const VIEWPORT_MARGIN_PX = 8
@@ -214,6 +216,19 @@ export class DescriptionController {
 		}
 	}
 
+	private positionCaret(originX: number, placement: 'above' | 'below') {
+		if (this.descriptionElement === undefined) {
+			return
+		}
+
+		const bounds = this.descriptionElement.getBoundingClientRect()
+		const maximumOffset = Math.max(CARET_EDGE_INSET_PX, bounds.width - CARET_EDGE_INSET_PX)
+		const offset = Math.min(Math.max(CARET_EDGE_INSET_PX, originX - bounds.left), maximumOffset)
+
+		this.descriptionElement.dataset.stuiPlacement = placement
+		this.descriptionElement.style.setProperty('--stui-description-caret-offset', `${offset}px`)
+	}
+
 	private removeManagedTitle() {
 		if (this.managedTitle === undefined) {
 			return
@@ -263,6 +278,13 @@ export class DescriptionController {
 		this.descriptionElement.style.removeProperty('left')
 		this.descriptionElement.style.removeProperty('top')
 		this.descriptionElement.showPopover({ source })
+
+		const descriptionBounds = this.descriptionElement.getBoundingClientRect()
+		const sourceBounds = source.getBoundingClientRect()
+		this.positionCaret(
+			sourceBounds.left + sourceBounds.width / 2,
+			descriptionBounds.top >= sourceBounds.bottom ? 'below' : 'above',
+		)
 	}
 
 	private showAtPointer() {
@@ -295,16 +317,18 @@ export class DescriptionController {
 			VIEWPORT_MARGIN_PX,
 			window.innerHeight - bounds.height - VIEWPORT_MARGIN_PX,
 		)
-		const left = Math.min(Math.max(VIEWPORT_MARGIN_PX, x), maximumLeft)
+		const left = Math.min(Math.max(VIEWPORT_MARGIN_PX, x - CARET_OFFSET_PX), maximumLeft)
 		const preferredTop = y + POINTER_GAP_PX
 		const flippedTop = y - bounds.height - POINTER_GAP_PX
+		const placement = preferredTop > maximumTop ? 'above' : 'below'
 		const top = Math.min(
-			Math.max(VIEWPORT_MARGIN_PX, preferredTop > maximumTop ? flippedTop : preferredTop),
+			Math.max(VIEWPORT_MARGIN_PX, placement === 'above' ? flippedTop : preferredTop),
 			maximumTop,
 		)
 
 		this.descriptionElement.style.left = `${left}px`
 		this.descriptionElement.style.top = `${top}px`
+		this.positionCaret(x, placement)
 	}
 
 	private syncAnchor() {

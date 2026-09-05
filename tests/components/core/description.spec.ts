@@ -61,7 +61,18 @@ test.describe('Control descriptions', () => {
 
 		const tooltipBounds = await tooltip.boundingBox()
 		expect(tooltipBounds).not.toBeNull()
-		expect(tooltipBounds?.x).toBeCloseTo((labelBounds?.x ?? 0) + 12, 0)
+		const pointerX = (labelBounds?.x ?? 0) + 12
+		const caret = await tooltip.evaluate((element) => {
+			const style = getComputedStyle(element, '::before')
+			return {
+				borderBottomColor: style.borderBottomColor,
+				left: Number(style.left.replace('px', '')),
+			}
+		})
+		expect((tooltipBounds?.x ?? 0) + caret.left).toBeCloseTo(pointerX, 0)
+		expect(caret.borderBottomColor).toBe(
+			await tooltip.evaluate((element) => getComputedStyle(element).backgroundColor),
+		)
 		expect(tooltipBounds?.y).toBeGreaterThan((labelBounds?.y ?? 0) + 8)
 		await expect(tooltip).toHaveCSS('overflow', 'visible')
 		await expect(tooltip).toHaveCSS('text-align', 'left')
@@ -152,6 +163,41 @@ test.describe('Control descriptions', () => {
 
 		await row.locator('.tp-lblv_l').hover()
 		await expect(tooltip).toBeVisible()
+	})
+
+	test('flips the caret when the tooltip opens above its origin', async ({ page }) => {
+		const row = page.locator('.tp-lblv').filter({
+			has: page.getByText('Glow', { exact: true }),
+		})
+		const tooltip = row.locator('[role="tooltip"]')
+		const viewport = page.viewportSize()
+		expect(viewport).not.toBeNull()
+
+		const origin = {
+			x: (viewport?.width ?? 0) / 2,
+			y: (viewport?.height ?? 0) - 2,
+		}
+		await row.locator('.tp-lblv_l').evaluate((element, eventOrigin) => {
+			element.dispatchEvent(
+				new MouseEvent('mouseenter', {
+					clientX: eventOrigin.x,
+					clientY: eventOrigin.y,
+				}),
+			)
+		}, origin)
+		await expect(tooltip).toBeVisible()
+		await expect(tooltip).toHaveAttribute('data-stui-placement', 'above')
+
+		const placement = await tooltip.evaluate((element) => {
+			const caretStyle = getComputedStyle(element, '::before')
+			return {
+				background: getComputedStyle(element).backgroundColor,
+				borderTopColor: caretStyle.borderTopColor,
+				bottom: element.getBoundingClientRect().bottom,
+			}
+		})
+		expect(placement.borderTopColor).toBe(placement.background)
+		expect(placement.bottom).toBeLessThan(origin.y)
 	})
 
 	test('reactively updates and removes a description', async ({ page }) => {

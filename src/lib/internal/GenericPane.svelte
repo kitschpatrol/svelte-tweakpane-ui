@@ -291,6 +291,30 @@ This component is for internal use only.
 		opacity: 1;
 	}
 
+	/* Match Tweakpane's slider value caret, while allowing it to follow the
+	 * pointer and flip with the description. */
+	:global(div.svelte-tweakpane-ui .stui-description::before) {
+		content: '';
+		position: absolute;
+		left: var(--stui-description-caret-offset, 50%);
+		box-sizing: border-box;
+		width: 4px;
+		height: 4px;
+		margin-left: -2px;
+		border-style: solid;
+		border-width: 2px;
+	}
+
+	:global(div.svelte-tweakpane-ui .stui-description[data-stui-placement='above']::before) {
+		top: 100%;
+		border-color: var(--in-fg) transparent transparent;
+	}
+
+	:global(div.svelte-tweakpane-ui .stui-description[data-stui-placement='below']::before) {
+		bottom: 100%;
+		border-color: transparent transparent var(--in-fg);
+	}
+
 	/* Extend the hover target across the visual gap between a label and its hint. */
 	:global(div.svelte-tweakpane-ui .stui-description::after) {
 		content: '';
