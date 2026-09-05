@@ -86,6 +86,83 @@ Holding <kbd>⌥ Option</kbd> (<kbd>Alt</kbd>) while clicking a `<Folder>`'s tit
 
 Pane titles and blade labels are truncated with ellipses if they're too long to fit in their containers.
 
+### Control descriptions
+
+Controls accept a `description` prop for additional context without adding persistent visual clutter.
+The description appears in a compact, theme-aware hint after a short delay when text in the
+control's label is hovered, positioned beside the pointer. When the control receives keyboard
+focus, the hint is anchored to the control instead. For an unlabeled control, the whole blade is the
+hover target. It uses the active theme's built-in slider value tooltip styling and the Popover API's
+top layer, so it won't be clipped by the pane. A theme-matched caret points back to the originating
+label or focused control:
+
+```svelte
+<Slider
+  bind:value
+  min={0}
+  max={1}
+  label="Exposure"
+  description="Controls the overall scene brightness."
+/>
+```
+
+The default hover delay is 500ms. Hints appear without a fade and fade out over 500ms. Appearance
+defaults inherit from the active Tweakpane theme, but every value can be overridden independently
+with an STUI theme key:
+
+```svelte
+<script lang="ts">
+  import { Pane, type Theme, ThemeUtils } from 'svelte-tweakpane-ui'
+
+  const theme: Theme = {
+    ...ThemeUtils.presets.iceberg,
+    stuiDescriptionMaxWidth: '20rem',
+    stuiDescriptionDelay: '350ms',
+    stuiDescriptionFadeInDuration: '0ms',
+    stuiDescriptionFadeOutDuration: '500ms',
+  }
+</script>
+
+<Pane {theme}>…</Pane>
+```
+
+The corresponding inherited CSS custom properties can also be set directly on a pane or any of
+its ancestors:
+
+| Theme key                        | CSS custom property                    | Default                          |
+| -------------------------------- | -------------------------------------- | -------------------------------- |
+| `stuiDescriptionMaxWidth`        | `--stui-description-max-width`         | `min(16rem, calc(100vw - 16px))` |
+| `stuiDescriptionDelay`           | `--stui-description-delay`             | `500ms`                          |
+| `stuiDescriptionFadeInDuration`  | `--stui-description-fade-in-duration`  | `0ms`                            |
+| `stuiDescriptionFadeOutDuration` | `--stui-description-fade-out-duration` | `500ms`                          |
+
+For more extensive styling, target the `.stui-description` class or an individual description's
+generated `stui-description-*` ID.
+
+Descriptions are plain text, and line breaks are preserved.
+
+Described controls receive a `data-stui-description` attribute. If you want a visible affordance,
+you can add one for an entire application without adding configuration to each component:
+
+```css
+:global(.svelte-tweakpane-ui [data-stui-description] > .tp-lblv_l) {
+  position: relative;
+  padding-right: calc(var(--cnt-hp) + 1em);
+  white-space: nowrap;
+}
+
+:global(.svelte-tweakpane-ui [data-stui-description] > .tp-lblv_l)::after {
+  content: '🛈';
+  position: absolute;
+  right: var(--cnt-hp);
+  width: 1em;
+  text-align: right;
+}
+```
+
+The reserved padding keeps the indicator visible after an ellipsis. Its generated box is included in
+the description's hover target alongside the visible label text.
+
 ### Value change event origins
 
 Though binding to a component's `value` is generally the best way to react to changes, sometimes you need to know _how_ a value's change originated.

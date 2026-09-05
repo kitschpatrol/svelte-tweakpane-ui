@@ -42,6 +42,11 @@ type ThemeKeys = {
 	pluginImageDraggingColor?: ThemeColorValue
 	// PluginThumbnailListHeight?: string; pluginThumbnailListThumbSize?: string;
 	// pluginThumbnailListWidth?: string;
+	// Svelte Tweakpane UI
+	stuiDescriptionDelay?: string
+	stuiDescriptionFadeInDuration?: string
+	stuiDescriptionFadeOutDuration?: string
+	stuiDescriptionMaxWidth?: string
 }
 
 type CustomThemeKeys = Record<string, ThemeColorValue>
@@ -83,6 +88,10 @@ const standard: Theme = {
 	pluginImageDraggingColor: 'hsla(230, 100%, 66%, 1)',
 	// PluginThumbnailListHeight: '400px', pluginThumbnailListThumbSize: '20px',
 	// pluginThumbnailListWidth: '200px'
+	stuiDescriptionDelay: '500ms',
+	stuiDescriptionFadeInDuration: '0ms',
+	stuiDescriptionFadeOutDuration: '500ms',
+	stuiDescriptionMaxWidth: 'min(16rem, calc(100vw - 16px))',
 }
 
 export const keys = Object.keys(standard).reduce<Record<string, string>>((acc, key) => {
@@ -289,6 +298,11 @@ const keyToCssVariableMap = new Map([
 	// ['pluginThumbnailListHeight', '--tp-plugin-thumbnail-list-height'],
 	// ['pluginThumbnailListThumbSize', '--tp-plugin-thumbnail-list-thumb-size'],
 	// ['pluginThumbnailListWidth', '--tp-plugin-thumbnail-list-width']
+	// Svelte Tweakpane UI
+	['stuiDescriptionDelay', '--stui-description-delay'],
+	['stuiDescriptionFadeInDuration', '--stui-description-fade-in-duration'],
+	['stuiDescriptionFadeOutDuration', '--stui-description-fade-out-duration'],
+	['stuiDescriptionMaxWidth', '--stui-description-max-width'],
 ])
 
 // Just do it dynamically instead of the map? function transformToCustomProperty(str: string):
@@ -315,7 +329,7 @@ function stringToCssValue(v: string | ThemeColorValue | undefined): string | und
 
 function expandVariableKey(name: string): string {
 	// Pass explicit variables through
-	if (name.startsWith('--tp-')) {
+	if (name.startsWith('--stui-') || name.startsWith('--tp-')) {
 		return name
 	}
 
@@ -324,7 +338,7 @@ function expandVariableKey(name: string): string {
 		return variableName
 	}
 
-	throw new Error(`Unknown Tweakpane CSS theme map variable key: "${name}"`)
+	throw new Error(`Unknown CSS theme map variable key: "${name}"`)
 }
 
 /**
@@ -348,6 +362,17 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 			}
 		}
 	} else {
+		for (const k of Object.keys(standard)) {
+			if (Object.hasOwn(theme, k)) {
+				continue
+			}
+
+			const key = expandVariableKey(k)
+			if (element.style.getPropertyValue(key).length > 0) {
+				element.style.removeProperty(key)
+			}
+		}
+
 		for (const [k, v] of Object.entries(theme)) {
 			const key = expandVariableKey(k)
 			const value = stringToCssValue(v)

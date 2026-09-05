@@ -171,19 +171,23 @@
 	}
 
 	function setScale(newScale: number) {
-		if (tpPane) {
-			if (newScale === 1) {
-				tpPane.element.style.removeProperty('transform-origin')
-				tpPane.element.style.removeProperty('transform')
-				tpPane.element.style.removeProperty('width')
-			} else {
-				const clampedScale = Math.max(0, newScale)
-				tpPane.element.style.transformOrigin = '0 0'
-				tpPane.element.style.transform = `scale(${clampedScale})`
+		if (tpPane === undefined) {
+			return
+		}
 
-				// Jitters a bit, but resizeObserver + rounding wasn't better
-				tpPane.element.style.width = `${100 / clampedScale}%`
-			}
+		const clampedScale = Math.max(0, newScale)
+		tpPane.element.style.setProperty('--stui-pane-scale', `${clampedScale}`)
+
+		if (newScale === 1) {
+			tpPane.element.style.removeProperty('transform-origin')
+			tpPane.element.style.removeProperty('transform')
+			tpPane.element.style.removeProperty('width')
+		} else {
+			tpPane.element.style.transformOrigin = '0 0'
+			tpPane.element.style.transform = `scale(${clampedScale})`
+
+			// Jitters a bit, but resizeObserver + rounding wasn't better
+			tpPane.element.style.width = `${100 / clampedScale}%`
 		}
 	}
 
@@ -252,5 +256,116 @@ This component is for internal use only.
 	:global(div.svelte-tweakpane-ui div.tp-rotv_t) {
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	/* Control descriptions */
+	:global(div.svelte-tweakpane-ui .stui-description) {
+		position: fixed;
+		inset: auto;
+		transform-origin: top center;
+		scale: var(--stui-pane-scale, 1);
+		position-area: block-end;
+		position-try-fallbacks:
+			flip-block,
+			flip-inline,
+			flip-block flip-inline;
+		overflow: visible;
+		justify-self: anchor-center;
+		box-sizing: border-box;
+		width: max-content;
+		max-width: min(
+			var(--stui-description-max-width, 16rem),
+			var(--stui-description-viewport-max-width, calc(100vw - 16px))
+		);
+		margin: var(--cnt-usp);
+		padding: 2px 4px;
+		border: 0;
+		border-radius: var(--bld-br);
+		font: inherit;
+		color: var(--bs-bg);
+		text-align: left;
+		text-wrap: balance;
+		white-space: pre-line;
+		opacity: 0;
+		background-color: var(--in-fg);
+		box-shadow: none;
+	}
+
+	:global(div.svelte-tweakpane-ui .stui-description[data-stui-pointer]) {
+		transform-origin: top left;
+		position-area: none;
+		justify-self: auto;
+		margin: 0;
+	}
+
+	:global(
+		div.svelte-tweakpane-ui .stui-description:not([data-stui-pointer])[data-stui-placement='above']
+	) {
+		transform-origin: bottom center;
+	}
+
+	:global(div.svelte-tweakpane-ui .stui-description:popover-open) {
+		opacity: 1;
+	}
+
+	/* Match Tweakpane's slider value caret, while allowing it to follow the
+	 * pointer and flip with the description. */
+	:global(div.svelte-tweakpane-ui .stui-description::before) {
+		content: '';
+		position: absolute;
+		left: var(--stui-description-caret-offset, 50%);
+		box-sizing: border-box;
+		width: 4px;
+		height: 4px;
+		margin-left: -2px;
+		border-style: solid;
+		border-width: 2px;
+	}
+
+	:global(div.svelte-tweakpane-ui .stui-description[data-stui-placement='above']::before) {
+		top: 100%;
+		border-color: var(--in-fg) transparent transparent;
+	}
+
+	:global(div.svelte-tweakpane-ui .stui-description[data-stui-placement='below']::before) {
+		bottom: 100%;
+		border-color: transparent transparent var(--in-fg);
+	}
+
+	/* Extend the hover target across the visual gap between a label and its hint. */
+	:global(div.svelte-tweakpane-ui .stui-description::after) {
+		content: '';
+		position: absolute;
+		inset: -4px 0;
+	}
+
+	:global(div.svelte-tweakpane-ui .stui-description::backdrop) {
+		background: transparent;
+	}
+
+	/* Tweakpane disables pointer events on the entire blade. Keep only a
+	 * described disabled blade's label able to receive hover events. */
+	:global(div.svelte-tweakpane-ui [data-stui-description].tp-v-disabled > .tp-lblv_l) {
+		pointer-events: auto;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		:global(div.svelte-tweakpane-ui .stui-description) {
+			transition:
+				opacity var(--stui-description-fade-out-duration, 500ms) ease-out,
+				display var(--stui-description-fade-out-duration, 500ms) allow-discrete,
+				overlay var(--stui-description-fade-out-duration, 500ms) allow-discrete;
+		}
+
+		:global(div.svelte-tweakpane-ui .stui-description:popover-open) {
+			transition-timing-function: ease-in;
+			transition-duration: var(--stui-description-fade-in-duration, 0ms);
+		}
+
+		@starting-style {
+			:global(div.svelte-tweakpane-ui .stui-description:popover-open) {
+				opacity: 0;
+			}
+		}
 	}
 </style>
