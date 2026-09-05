@@ -18,6 +18,7 @@ test.describe('Control descriptions', () => {
 		await expect(tooltips).toHaveCount(4)
 		await expect(tooltips.first()).toHaveText('Adjusts the amount of glow.\nUse sparingly.')
 		await expect(tooltips.first()).toHaveAttribute('popover', 'hint')
+		await expect(describedBlades.first()).not.toHaveAttribute('title')
 	})
 
 	test('connects interactive controls to their descriptions', async ({ page }) => {
@@ -126,6 +127,41 @@ test.describe('Control descriptions', () => {
 		await expect(row).not.toHaveAttribute('data-stui-description')
 		await expect(row.locator('[role="tooltip"]')).toHaveCount(0)
 		await expect(describedControl).toHaveAttribute('aria-describedby', 'external-description')
+	})
+
+	test('uses a non-destructive title fallback without the Popover API', async ({ page }) => {
+		await page.addInitScript(() => {
+			Object.defineProperties(HTMLElement.prototype, {
+				hidePopover: {
+					configurable: true,
+					value: undefined,
+				},
+				showPopover: {
+					configurable: true,
+					value: undefined,
+				},
+			})
+		})
+		await page.reload()
+
+		const glowRow = page.locator('.tp-lblv').filter({
+			has: page.getByText('Glow', { exact: true }),
+		})
+		const settingsRow = page.locator('.tp-lblv').filter({
+			has: page.getByText('Settings', { exact: true }),
+		})
+
+		await expect(glowRow).toHaveAttribute('title', 'Adjusts the amount of glow.\nUse sparingly.')
+		await expect(glowRow.locator('[role="tooltip"]')).toBeHidden()
+		await expect(glowRow.locator('[role="tooltip"]')).not.toHaveAttribute('popover')
+
+		await page.getByRole('button', { name: 'Update description' }).click()
+		await expect(glowRow).toHaveAttribute('title', 'Updated description')
+
+		await settingsRow.evaluate((element) => element.setAttribute('title', 'Application title'))
+		await page.getByRole('button', { name: 'Remove description' }).click()
+		await expect(glowRow).not.toHaveAttribute('title')
+		await expect(settingsRow).toHaveAttribute('title', 'Application title')
 	})
 
 	test('inherits the active Tweakpane theme', async ({ page }) => {
