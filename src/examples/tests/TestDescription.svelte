@@ -88,7 +88,17 @@
 <output data-testid="description-state">{description}</output>
 
 <style>
+	.show-description-icons :global([data-stui-description] > .tp-lblv_l) {
+		position: relative;
+		padding-right: calc(var(--cnt-hp) + 1em);
+		white-space: nowrap;
+	}
+
 	.show-description-icons :global([data-stui-description] > .tp-lblv_l)::after {
-		content: ' 🛈';
+		content: '🛈';
+		position: absolute;
+		right: var(--cnt-hp);
+		width: 1em;
+		text-align: right;
 	}
 </style>

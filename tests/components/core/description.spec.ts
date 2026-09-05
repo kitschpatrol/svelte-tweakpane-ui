@@ -18,10 +18,7 @@ test.describe('Control descriptions', () => {
 		await expect(tooltips).toHaveCount(12)
 		await expect(tooltips.first()).toHaveText('Adjusts the amount of glow.\nUse sparingly.')
 		await expect(tooltips.first()).toHaveAttribute('popover', 'hint')
-		await expect(describedBlades.first().locator('.tp-lblv_l')).toHaveAttribute(
-			'title',
-			'Adjusts the amount of glow.\nUse sparingly.',
-		)
+		await expect(describedBlades.first().locator('.tp-lblv_l')).not.toHaveAttribute('title')
 		await expect(describedBlades.first()).not.toHaveAttribute('title')
 	})
 
@@ -40,23 +37,74 @@ test.describe('Control descriptions', () => {
 		}
 	})
 
-	test('optionally shows a label affordance', async ({ page }) => {
+	test('supports an affordance after truncated label text', async ({ page }) => {
 		const row = page.locator('.tp-lblv').filter({
-			has: page.getByText('Glow', { exact: true }),
+			has: page.getByText('Labeled Wide Slider', { exact: true }),
 		})
 		const label = row.locator('.tp-lblv_l')
+		const tooltip = row.locator('[role="tooltip"]')
 		const checkbox = page
 			.locator('.tp-lblv')
 			.filter({ hasText: 'Show description icons' })
 			.locator('.tp-ckbv_w')
-		const affordance = async () =>
+		const affordanceContent = async () =>
 			label.evaluate((element) => getComputedStyle(element, '::after').content)
 
-		expect(await affordance()).toBe('none')
+		expect(await affordanceContent()).toBe('none')
 		await checkbox.click()
-		expect(await affordance()).toBe('" 🛈"')
+		expect(await affordanceContent()).toBe('"🛈"')
+
+		const labelBounds = await label.boundingBox()
+		expect(labelBounds).not.toBeNull()
+		await label.hover({ position: { x: (labelBounds?.width ?? 0) - 8, y: 8 } })
+		await expect(tooltip).toBeVisible()
+
+		await label.evaluate((element) => {
+			element.style.flex = '0 0 48px'
+		})
+		await expect
+			.poll(async () => label.evaluate((element) => element.scrollWidth > element.clientWidth))
+			.toBe(true)
+		expect(await affordanceContent()).toBe('"🛈"')
+		const layout = await label.evaluate((element) => {
+			const bounds = element.getBoundingClientRect()
+			const style = getComputedStyle(element)
+			const affordanceStyle = getComputedStyle(element, '::after')
+			const text = element.firstChild
+			if (!(text instanceof Text)) {
+				throw new TypeError('Label text node not found')
+			}
+
+			const range = document.createRange()
+			range.selectNodeContents(text)
+			const contentRight =
+				bounds.right -
+				Number(style.borderRightWidth.slice(0, -2)) -
+				Number(style.paddingRight.slice(0, -2))
+			const affordanceRight = bounds.right - Number(affordanceStyle.right.slice(0, -2))
+			const affordanceLeft = affordanceRight - Number(affordanceStyle.width.slice(0, -2))
+
+			return {
+				affordanceLeft,
+				affordanceRight,
+				contentRight,
+				labelRight: bounds.right,
+				textRight: range.getBoundingClientRect().right,
+			}
+		})
+		expect(layout.textRight).toBeGreaterThan(layout.contentRight)
+		expect(layout.affordanceLeft).toBeCloseTo(layout.contentRight, 0)
+		expect(layout.affordanceRight).toBeLessThanOrEqual(layout.labelRight)
+		await checkbox.hover()
+		await expect(tooltip).toBeHidden()
+
+		const truncatedBounds = await label.boundingBox()
+		expect(truncatedBounds).not.toBeNull()
+		await label.hover({ position: { x: (truncatedBounds?.width ?? 0) - 8, y: 8 } })
+		await expect(tooltip).toBeVisible()
+
 		await checkbox.click()
-		expect(await affordance()).toBe('none')
+		expect(await affordanceContent()).toBe('none')
 	})
 
 	test('shows beside the pointer after a hover delay and remains open while hovered', async ({
@@ -106,7 +154,7 @@ test.describe('Control descriptions', () => {
 		await expect(tooltip).toBeVisible()
 	})
 
-	test('uses a larger gap over label whitespace than over its text', async ({ page }) => {
+	test('opens only over rendered label text', async ({ page }) => {
 		const row = page.locator('.tp-lblv').filter({
 			has: page.getByText('Glow', { exact: true }),
 		})
@@ -120,11 +168,11 @@ test.describe('Control descriptions', () => {
 			y: 8,
 		}
 		await label.hover({ position })
-		await expect(tooltip).toBeVisible()
+		await page.waitForTimeout(600)
+		await expect(tooltip).toBeHidden()
 
-		const tooltipBounds = await tooltip.boundingBox()
-		expect(tooltipBounds).not.toBeNull()
-		expect(tooltipBounds?.y).toBeCloseTo((labelBounds?.y ?? 0) + position.y + 24, 0)
+		await label.hover({ position: { x: 12, y: 8 } })
+		await expect(tooltip).toBeVisible()
 	})
 
 	test('dismisses when the control is pressed', async ({ page }) => {
@@ -133,7 +181,7 @@ test.describe('Control descriptions', () => {
 		})
 		const tooltip = row.locator('[role="tooltip"]')
 
-		await row.locator('.tp-lblv_l').hover()
+		await row.locator('.tp-lblv_l').hover({ position: { x: 12, y: 8 } })
 		await expect(tooltip).toBeVisible()
 		await tooltip.dispatchEvent('mousedown')
 		await expect(tooltip).toBeVisible()
@@ -157,7 +205,7 @@ test.describe('Control descriptions', () => {
 		await row.evaluate((element) => {
 			element.style.setProperty('--stui-description-fade-out-duration', '50ms')
 		})
-		await row.locator('.tp-lblv_l').hover()
+		await row.locator('.tp-lblv_l').hover({ position: { x: 12, y: 8 } })
 		await expect(tooltip).toBeVisible()
 		await expect(tooltip).toHaveCSS('opacity', '1')
 		await row.locator('[aria-describedby]').first().dispatchEvent('mousedown')
@@ -183,7 +231,7 @@ test.describe('Control descriptions', () => {
 		})
 		expect(variables).toEqual({ delay: '50ms', fadeIn: '75ms', fadeOut: '60ms' })
 
-		await row.locator('.tp-lblv_l').hover()
+		await row.locator('.tp-lblv_l').hover({ position: { x: 12, y: 8 } })
 		await page.waitForTimeout(25)
 		await expect(tooltip).toBeHidden()
 		await expect(tooltip).toBeVisible()
@@ -221,7 +269,7 @@ test.describe('Control descriptions', () => {
 		})
 		const tooltip = row.locator('[role="tooltip"]')
 
-		await row.locator('.tp-lblv_l').hover()
+		await row.locator('.tp-lblv_l').hover({ position: { x: 12, y: 8 } })
 		await expect(tooltip).toBeVisible()
 		await expect(row.getByRole('button', { name: 'Reset' })).toBeDisabled()
 	})
@@ -235,7 +283,7 @@ test.describe('Control descriptions', () => {
 		const actionBounds = await action.boundingBox()
 		expect(actionBounds).not.toBeNull()
 
-		await expect(row).toHaveAttribute('title', 'Performs an unlabeled action.')
+		await expect(row).not.toHaveAttribute('title')
 		await action.hover({ position: { x: 12, y: 8 } })
 		await expect(tooltip).toBeVisible()
 
@@ -296,7 +344,7 @@ test.describe('Control descriptions', () => {
 		})
 		const tooltip = row.locator('[role="tooltip"]')
 
-		await row.locator('.tp-lblv_l').hover()
+		await row.locator('.tp-lblv_l').hover({ position: { x: 12, y: 8 } })
 		await expect(tooltip).toBeVisible()
 	})
 
@@ -304,22 +352,24 @@ test.describe('Control descriptions', () => {
 		const row = page.locator('.tp-lblv').filter({
 			has: page.getByText('Glow', { exact: true }),
 		})
+		const label = row.locator('.tp-lblv_l')
 		const tooltip = row.locator('[role="tooltip"]')
-		const viewport = page.viewportSize()
-		expect(viewport).not.toBeNull()
 
+		await row.evaluate((element) => {
+			Object.assign(element.style, {
+				bottom: '0',
+				left: '100px',
+				position: 'fixed',
+				width: '300px',
+			})
+		})
+		const labelBounds = await label.boundingBox()
+		expect(labelBounds).not.toBeNull()
 		const origin = {
-			x: (viewport?.width ?? 0) / 2,
-			y: (viewport?.height ?? 0) - 2,
+			x: (labelBounds?.x ?? 0) + 12,
+			y: (labelBounds?.y ?? 0) + 8,
 		}
-		await row.locator('.tp-lblv_l').evaluate((element, eventOrigin) => {
-			element.dispatchEvent(
-				new MouseEvent('mouseenter', {
-					clientX: eventOrigin.x,
-					clientY: eventOrigin.y,
-				}),
-			)
-		}, origin)
+		await label.hover({ position: { x: 12, y: 8 } })
 		await expect(tooltip).toBeVisible()
 		await expect(tooltip).toHaveAttribute('data-stui-placement', 'above')
 
@@ -343,7 +393,7 @@ test.describe('Control descriptions', () => {
 		await page.getByRole('button', { name: 'Update description' }).click()
 		await expect(page.getByTestId('description-state')).toHaveText('Updated description')
 		await expect(row.locator('[role="tooltip"]')).toHaveText('Updated description')
-		await expect(row.locator('.tp-lblv_l')).toHaveAttribute('title', 'Updated description')
+		await expect(row.locator('.tp-lblv_l')).not.toHaveAttribute('title')
 		await expect(
 			page.locator('.tp-lblv').filter({ hasText: 'Settings' }).locator('[role="tooltip"]'),
 		).toHaveText('Updated description')
@@ -360,9 +410,7 @@ test.describe('Control descriptions', () => {
 		await expect(describedControl).toHaveAttribute('aria-describedby', 'external-description')
 	})
 
-	test('retains the non-destructive title when the Popover API is unavailable', async ({
-		page,
-	}) => {
+	test('keeps the accessible description when the Popover API is unavailable', async ({ page }) => {
 		await page.addInitScript(() => {
 			Object.defineProperties(HTMLElement.prototype, {
 				hidePopover: {
@@ -380,24 +428,24 @@ test.describe('Control descriptions', () => {
 		const glowRow = page.locator('.tp-lblv').filter({
 			has: page.getByText('Glow', { exact: true }),
 		})
-		const settingsRow = page.locator('.tp-lblv').filter({
-			has: page.getByText('Settings', { exact: true }),
-		})
-
 		const glowLabel = glowRow.locator('.tp-lblv_l')
-		const settingsLabel = settingsRow.locator('.tp-lblv_l')
+		const tooltip = glowRow.locator('[role="tooltip"]')
+		const descriptionId = await tooltip.getAttribute('id')
+		const describedControl = glowRow.locator('[aria-describedby]').first()
 
-		await expect(glowLabel).toHaveAttribute('title', 'Adjusts the amount of glow.\nUse sparingly.')
-		await expect(glowRow.locator('[role="tooltip"]')).toBeHidden()
-		await expect(glowRow.locator('[role="tooltip"]')).not.toHaveAttribute('popover')
+		await expect(glowLabel).not.toHaveAttribute('title')
+		await expect(tooltip).toBeHidden()
+		await expect(tooltip).not.toHaveAttribute('popover')
+
+		if (descriptionId === null) {
+			throw new Error('Description is missing an ID')
+		}
+
+		await expect(describedControl).toHaveAttribute('aria-describedby', descriptionId)
 
 		await page.getByRole('button', { name: 'Update description' }).click()
-		await expect(glowLabel).toHaveAttribute('title', 'Updated description')
-
-		await settingsLabel.evaluate((element) => element.setAttribute('title', 'Application title'))
-		await page.getByRole('button', { name: 'Remove description' }).click()
 		await expect(glowLabel).not.toHaveAttribute('title')
-		await expect(settingsLabel).toHaveAttribute('title', 'Application title')
+		await expect(tooltip).toHaveText('Updated description')
 	})
 
 	test('inherits the active Tweakpane theme', async ({ page }) => {
@@ -406,7 +454,7 @@ test.describe('Control descriptions', () => {
 		})
 		const tooltip = row.locator('[role="tooltip"]')
 
-		await row.locator('.tp-lblv_l').hover()
+		await row.locator('.tp-lblv_l').hover({ position: { x: 12, y: 8 } })
 		await expect(tooltip).toBeVisible()
 
 		const styles = await tooltip.evaluate((element) => {

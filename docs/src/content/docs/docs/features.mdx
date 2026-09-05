@@ -89,13 +89,12 @@ Pane titles and blade labels are truncated with ellipses if they're too long to 
 ### Control descriptions
 
 Controls accept a `description` prop for additional context without adding persistent visual clutter.
-The description appears in a compact, theme-aware hint after a short delay when the control's label
-is hovered, positioned beside the pointer. When the control receives keyboard focus, the hint is
-anchored to the control instead. For an unlabeled control, the whole blade is the hover target. It
-uses the active theme's built-in slider value tooltip styling and the Popover API's top layer, so it
-won't be clipped by the pane. A theme-matched caret points back to the originating label or focused
-control. The label—or the whole blade when unlabeled—also receives the same text as a native
-`title` tooltip:
+The description appears in a compact, theme-aware hint after a short delay when text in the
+control's label is hovered, positioned beside the pointer. When the control receives keyboard
+focus, the hint is anchored to the control instead. For an unlabeled control, the whole blade is the
+hover target. It uses the active theme's built-in slider value tooltip styling and the Popover API's
+top layer, so it won't be clipped by the pane. A theme-matched caret points back to the originating
+label or focused control:
 
 ```svelte
 <Slider
@@ -146,10 +145,23 @@ Described controls receive a `data-stui-description` attribute. If you want a vi
 you can add one for an entire application without adding configuration to each component:
 
 ```css
-:global([data-stui-description] > .tp-lblv_l)::after {
-  content: ' 🛈';
+:global(.svelte-tweakpane-ui [data-stui-description] > .tp-lblv_l) {
+  position: relative;
+  padding-right: calc(var(--cnt-hp) + 1em);
+  white-space: nowrap;
+}
+
+:global(.svelte-tweakpane-ui [data-stui-description] > .tp-lblv_l)::after {
+  content: '🛈';
+  position: absolute;
+  right: var(--cnt-hp);
+  width: 1em;
+  text-align: right;
 }
 ```
+
+The reserved padding keeps the indicator visible after an ellipsis. Its generated box is included in
+the description's hover target alongside the visible label text.
 
 ### Value change event origins
 

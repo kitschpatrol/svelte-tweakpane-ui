@@ -32,6 +32,25 @@ function parseCssDuration(value: string, fallback: number) {
 	return duration.endsWith('ms') ? parsed : parsed * 1000
 }
 
+function parseCssPixels(value: string) {
+	return value.endsWith('px') ? Number(value.slice(0, -2)) : NaN
+}
+
+function visibleInlineBounds(element: HTMLElement) {
+	const window = element.ownerDocument.defaultView
+	const style = window?.getComputedStyle(element)
+	if (style === undefined || style.overflowX === 'visible') {
+		return
+	}
+
+	const bounds = element.getBoundingClientRect()
+	return {
+		left: bounds.left + parseCssPixels(style.borderLeftWidth) + parseCssPixels(style.paddingLeft),
+		right:
+			bounds.right - parseCssPixels(style.borderRightWidth) - parseCssPixels(style.paddingRight),
+	}
+}
+
 function removeDescriptionId(element: HTMLElement, id: string) {
 	const ids =
 		element.getAttribute('aria-describedby')?.split(WHITESPACE_PATTERN).filter(Boolean) ?? []
@@ -50,7 +69,6 @@ export class DescriptionController {
 	private describedElements = new Set<HTMLElement>()
 	private descriptionElement: HTMLElement | undefined
 	private hoverTimer: number | undefined
-	private managedTitle?: { element: HTMLElement; originalTitle?: string; value: string }
 	private observer: MutationObserver | undefined
 	private pointerPosition: undefined | { x: number; y: number }
 	private root: HTMLElement | undefined
@@ -77,8 +95,6 @@ export class DescriptionController {
 			delete this.root.dataset.stuiDescription
 		}
 
-		this.removeManagedTitle()
-
 		this.anchor = undefined
 		this.describedElements.clear()
 		this.descriptionElement = undefined
@@ -86,7 +102,6 @@ export class DescriptionController {
 		this.observer = undefined
 		this.pointerPosition = undefined
 		this.root = undefined
-		this.managedTitle = undefined
 	}
 
 	public update(root: HTMLElement, description: string | undefined) {
@@ -105,7 +120,6 @@ export class DescriptionController {
 		} else {
 			this.descriptionElement.textContent = description
 			this.syncAnchor()
-			this.setManagedTitle(description)
 		}
 	}
 
@@ -196,25 +210,12 @@ export class DescriptionController {
 
 	private readonly handleMouseEnter = (event: MouseEvent) => {
 		this.pointerPosition = { x: event.clientX, y: event.clientY }
-		this.clearHoverTimer()
-
-		const window = this.root?.ownerDocument.defaultView
-		if (window === null || window === undefined) {
+		if (!this.isPointerOverAnchorText(event.clientX, event.clientY)) {
+			this.hide()
 			return
 		}
 
-		const delay =
-			this.root === undefined
-				? HOVER_DELAY_MS
-				: parseCssDuration(
-						window.getComputedStyle(this.root).getPropertyValue('--stui-description-delay'),
-						HOVER_DELAY_MS,
-					)
-
-		this.hoverTimer = window.setTimeout(() => {
-			this.hoverTimer = undefined
-			this.showAtPointer()
-		}, delay)
+		this.startHoverTimer()
 	}
 
 	private readonly handleMouseLeave = (event: MouseEvent) => {
@@ -229,8 +230,17 @@ export class DescriptionController {
 	}
 
 	private readonly handleMouseMove = (event: MouseEvent) => {
-		if (this.descriptionElement?.matches(':popover-open') !== true) {
-			this.pointerPosition = { x: event.clientX, y: event.clientY }
+		this.pointerPosition = { x: event.clientX, y: event.clientY }
+		if (!this.isPointerOverAnchorText(event.clientX, event.clientY)) {
+			this.hide()
+			return
+		}
+
+		if (
+			this.descriptionElement?.matches(':popover-open') !== true &&
+			this.hoverTimer === undefined
+		) {
+			this.startHoverTimer()
 		}
 	}
 
@@ -244,6 +254,65 @@ export class DescriptionController {
 		) {
 			this.descriptionElement.hidePopover()
 		}
+	}
+
+	private isPointerOverAnchorText(x: number, y: number) {
+		return (
+			this.anchor === this.root ||
+			this.isPointerOverGeneratedContent(this.anchor, x, y) ||
+			this.isPointerOverText(this.anchor, x, y)
+		)
+	}
+
+	private isPointerOverGeneratedContent(element: HTMLElement | undefined, x: number, y: number) {
+		const window = element?.ownerDocument.defaultView
+		if (element === undefined || window === null || window === undefined) {
+			return false
+		}
+
+		const style = window.getComputedStyle(element, '::after')
+		const inset = parseCssPixels(style.right)
+		const width = parseCssPixels(style.width)
+		if (
+			!Number.isFinite(inset) ||
+			!Number.isFinite(width) ||
+			style.content === 'none' ||
+			style.position !== 'absolute'
+		) {
+			return false
+		}
+
+		const bounds = element.getBoundingClientRect()
+		const right = bounds.right - inset
+		return x >= right - width && x <= right && y >= bounds.top && y <= bounds.bottom
+	}
+
+	private isPointerOverText(element: HTMLElement | undefined, x: number, y: number) {
+		if (element === undefined) {
+			return false
+		}
+
+		const clipBounds = visibleInlineBounds(element)
+		const walker = element.ownerDocument.createTreeWalker(element, NodeFilter.SHOW_TEXT)
+		while (walker.nextNode()) {
+			const node = walker.currentNode
+			if (node.textContent?.trim().length === 0) {
+				continue
+			}
+
+			const range = element.ownerDocument.createRange()
+			range.selectNodeContents(node)
+			for (const bounds of range.getClientRects()) {
+				const left = clipBounds === undefined ? bounds.left : Math.max(bounds.left, clipBounds.left)
+				const right =
+					clipBounds === undefined ? bounds.right : Math.min(bounds.right, clipBounds.right)
+				if (x >= left && x <= right && y >= bounds.top && y <= bounds.bottom) {
+					return true
+				}
+			}
+		}
+
+		return false
 	}
 
 	private pointerGapAt(element: Element | undefined, cursor: string, x: number, y: number) {
@@ -265,29 +334,11 @@ export class DescriptionController {
 			return TEXT_CURSOR_GAP_PX
 		}
 
-		if (this.anchor === undefined) {
-			return TOP_HOTSPOT_CURSOR_GAP_PX
-		}
-
 		// `cursor: auto` resolves to an I-beam only over rendered text, even when
 		// the surrounding label box displays an arrow cursor.
-		const walker = this.anchor.ownerDocument.createTreeWalker(this.anchor, NodeFilter.SHOW_TEXT)
-		while (walker.nextNode()) {
-			const node = walker.currentNode
-			if (node.textContent?.trim().length === 0) {
-				continue
-			}
-
-			const range = this.anchor.ownerDocument.createRange()
-			range.selectNodeContents(node)
-			for (const bounds of range.getClientRects()) {
-				if (x >= bounds.left && x <= bounds.right && y >= bounds.top && y <= bounds.bottom) {
-					return TEXT_CURSOR_GAP_PX
-				}
-			}
-		}
-
-		return TOP_HOTSPOT_CURSOR_GAP_PX
+		return this.isPointerOverText(this.anchor, x, y)
+			? TEXT_CURSOR_GAP_PX
+			: TOP_HOTSPOT_CURSOR_GAP_PX
 	}
 
 	private positionCaret(originX: number, placement: 'above' | 'below') {
@@ -301,39 +352,6 @@ export class DescriptionController {
 
 		this.descriptionElement.dataset.stuiPlacement = placement
 		this.descriptionElement.style.setProperty('--stui-description-caret-offset', `${offset}px`)
-	}
-
-	private removeManagedTitle() {
-		if (this.managedTitle === undefined) {
-			return
-		}
-
-		const { element, originalTitle, value } = this.managedTitle
-		// Leave a title alone if application code replaced the fallback while the
-		// description was active.
-		if (element.getAttribute('title') !== value) {
-			return
-		}
-
-		if (originalTitle === undefined) {
-			element.toggleAttribute('title', false)
-		} else {
-			element.setAttribute('title', originalTitle)
-		}
-	}
-
-	private setManagedTitle(description: string) {
-		if (this.anchor === undefined) {
-			return
-		}
-
-		this.managedTitle ??= {
-			element: this.anchor,
-			originalTitle: this.anchor.getAttribute('title') ?? undefined,
-			value: description,
-		}
-		this.managedTitle.value = description
-		this.managedTitle.element.setAttribute('title', description)
 	}
 
 	private show(source: HTMLElement | undefined) {
@@ -408,6 +426,28 @@ export class DescriptionController {
 		this.positionCaret(x, placement)
 	}
 
+	private startHoverTimer() {
+		this.clearHoverTimer()
+
+		const window = this.root?.ownerDocument.defaultView
+		if (window === null || window === undefined) {
+			return
+		}
+
+		const delay =
+			this.root === undefined
+				? HOVER_DELAY_MS
+				: parseCssDuration(
+						window.getComputedStyle(this.root).getPropertyValue('--stui-description-delay'),
+						HOVER_DELAY_MS,
+					)
+
+		this.hoverTimer = window.setTimeout(() => {
+			this.hoverTimer = undefined
+			this.showAtPointer()
+		}, delay)
+	}
+
 	private syncAnchor() {
 		if (this.root === undefined) {
 			return
@@ -422,16 +462,10 @@ export class DescriptionController {
 			this.anchor?.removeEventListener('mouseenter', this.handleMouseEnter)
 			this.anchor?.removeEventListener('mouseleave', this.handleMouseLeave)
 			this.anchor?.removeEventListener('mousemove', this.handleMouseMove)
-			this.removeManagedTitle()
-			this.managedTitle = undefined
 			this.anchor = nextAnchor
 			this.anchor.addEventListener('mouseenter', this.handleMouseEnter)
 			this.anchor.addEventListener('mouseleave', this.handleMouseLeave)
 			this.anchor.addEventListener('mousemove', this.handleMouseMove)
-
-			if (this.descriptionElement !== undefined) {
-				this.setManagedTitle(this.descriptionElement.textContent)
-			}
 		}
 	}
 
