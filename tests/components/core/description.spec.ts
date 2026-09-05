@@ -18,10 +18,11 @@ test.describe('Control descriptions', () => {
 		await expect(tooltips).toHaveCount(4)
 		await expect(tooltips.first()).toHaveText('Adjusts the amount of glow.\nUse sparingly.')
 		await expect(tooltips.first()).toHaveAttribute('popover', 'hint')
-		await expect(describedBlades.first()).toHaveAttribute(
+		await expect(describedBlades.first().locator('.tp-lblv_l')).toHaveAttribute(
 			'title',
 			'Adjusts the amount of glow.\nUse sparingly.',
 		)
+		await expect(describedBlades.first()).not.toHaveAttribute('title')
 	})
 
 	test('connects interactive controls to their descriptions', async ({ page }) => {
@@ -45,6 +46,8 @@ test.describe('Control descriptions', () => {
 		})
 		const tooltip = row.locator('[role="tooltip"]')
 
+		await row.locator('[aria-describedby]').first().hover()
+		await expect(tooltip).toBeHidden()
 		await row.locator('.tp-lblv_l').hover()
 		await expect(tooltip).toBeVisible()
 		await tooltip.hover()
@@ -58,7 +61,7 @@ test.describe('Control descriptions', () => {
 		})
 		const tooltip = row.locator('[role="tooltip"]')
 
-		await row.hover()
+		await row.locator('.tp-lblv_l').hover()
 		await expect(tooltip).toBeVisible()
 		await tooltip.dispatchEvent('mousedown')
 		await expect(tooltip).toBeVisible()
@@ -89,9 +92,12 @@ test.describe('Control descriptions', () => {
 
 	test('uses the whole blade as the hover target when there is no label', async ({ page }) => {
 		const action = page.getByRole('button', { name: 'Action' })
-		const row = action.locator('xpath=ancestor::div[contains(@class, "tp-lblv")]')
+		const row = action.locator(
+			'xpath=ancestor::div[contains(concat(" ", normalize-space(@class), " "), " tp-lblv ")]',
+		)
 		const tooltip = row.locator('[role="tooltip"]')
 
+		await expect(row).toHaveAttribute('title', 'Performs an unlabeled action.')
 		await action.hover()
 		await expect(tooltip).toBeVisible()
 	})
@@ -116,6 +122,7 @@ test.describe('Control descriptions', () => {
 		await page.getByRole('button', { name: 'Update description' }).click()
 		await expect(page.getByTestId('description-state')).toHaveText('Updated description')
 		await expect(row.locator('[role="tooltip"]')).toHaveText('Updated description')
+		await expect(row.locator('.tp-lblv_l')).toHaveAttribute('title', 'Updated description')
 		await expect(
 			page.locator('.tp-lblv').filter({ hasText: 'Settings' }).locator('[role="tooltip"]'),
 		).toHaveText('Updated description')
@@ -156,17 +163,20 @@ test.describe('Control descriptions', () => {
 			has: page.getByText('Settings', { exact: true }),
 		})
 
-		await expect(glowRow).toHaveAttribute('title', 'Adjusts the amount of glow.\nUse sparingly.')
+		const glowLabel = glowRow.locator('.tp-lblv_l')
+		const settingsLabel = settingsRow.locator('.tp-lblv_l')
+
+		await expect(glowLabel).toHaveAttribute('title', 'Adjusts the amount of glow.\nUse sparingly.')
 		await expect(glowRow.locator('[role="tooltip"]')).toBeHidden()
 		await expect(glowRow.locator('[role="tooltip"]')).not.toHaveAttribute('popover')
 
 		await page.getByRole('button', { name: 'Update description' }).click()
-		await expect(glowRow).toHaveAttribute('title', 'Updated description')
+		await expect(glowLabel).toHaveAttribute('title', 'Updated description')
 
-		await settingsRow.evaluate((element) => element.setAttribute('title', 'Application title'))
+		await settingsLabel.evaluate((element) => element.setAttribute('title', 'Application title'))
 		await page.getByRole('button', { name: 'Remove description' }).click()
-		await expect(glowRow).not.toHaveAttribute('title')
-		await expect(settingsRow).toHaveAttribute('title', 'Application title')
+		await expect(glowLabel).not.toHaveAttribute('title')
+		await expect(settingsLabel).toHaveAttribute('title', 'Application title')
 	})
 
 	test('inherits the active Tweakpane theme', async ({ page }) => {

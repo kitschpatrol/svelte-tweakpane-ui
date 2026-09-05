@@ -27,11 +27,12 @@ export class DescriptionController {
 	private root: HTMLElement | undefined
 
 	public destroy() {
+		this.anchor?.removeEventListener('mouseenter', this.handleMouseEnter)
+		this.anchor?.removeEventListener('mouseleave', this.handleMouseLeave)
+		this.descriptionElement?.removeEventListener('mouseleave', this.handleDescriptionMouseLeave)
 		this.root?.removeEventListener('focusin', this.handleFocusIn)
 		this.root?.removeEventListener('focusout', this.handleFocusOut)
 		this.root?.removeEventListener('mousedown', this.handleMouseDown)
-		this.root?.removeEventListener('mouseenter', this.handleMouseEnter)
-		this.root?.removeEventListener('mouseleave', this.handleMouseLeave)
 		this.observer?.disconnect()
 
 		if (this.descriptionElement !== undefined) {
@@ -70,9 +71,8 @@ export class DescriptionController {
 			this.create(description)
 		} else {
 			this.descriptionElement.textContent = description
-			this.setManagedTitle(description)
-
 			this.syncAnchor()
+			this.setManagedTitle(description)
 		}
 	}
 
@@ -86,7 +86,6 @@ export class DescriptionController {
 		descriptionElement.id = `stui-description-${nanoid()}`
 		descriptionElement.setAttribute('role', 'tooltip')
 		descriptionElement.textContent = description
-		this.setManagedTitle(description)
 
 		if (typeof descriptionElement.showPopover === 'function') {
 			descriptionElement.setAttribute('popover', 'hint')
@@ -101,11 +100,10 @@ export class DescriptionController {
 		this.descriptionElement = descriptionElement
 
 		this.syncAnchor()
+		descriptionElement.addEventListener('mouseleave', this.handleDescriptionMouseLeave)
 		this.root.addEventListener('focusin', this.handleFocusIn)
 		this.root.addEventListener('focusout', this.handleFocusOut)
 		this.root.addEventListener('mousedown', this.handleMouseDown)
-		this.root.addEventListener('mouseenter', this.handleMouseEnter)
-		this.root.addEventListener('mouseleave', this.handleMouseLeave)
 
 		this.syncDescribedElements()
 		this.observer = new MutationObserver(() => {
@@ -113,6 +111,14 @@ export class DescriptionController {
 			this.syncDescribedElements()
 		})
 		this.observer.observe(this.root, { childList: true, subtree: true })
+	}
+
+	private readonly handleDescriptionMouseLeave = (event: MouseEvent) => {
+		if (event.relatedTarget instanceof Node && this.anchor?.contains(event.relatedTarget)) {
+			return
+		}
+
+		this.hide()
 	}
 
 	private readonly handleFocusIn = (event: FocusEvent) => {
@@ -150,7 +156,14 @@ export class DescriptionController {
 		this.show(this.anchor)
 	}
 
-	private readonly handleMouseLeave = () => {
+	private readonly handleMouseLeave = (event: MouseEvent) => {
+		if (
+			event.relatedTarget instanceof Node &&
+			this.descriptionElement?.contains(event.relatedTarget) === true
+		) {
+			return
+		}
+
 		this.hide()
 	}
 
@@ -184,13 +197,13 @@ export class DescriptionController {
 	}
 
 	private setManagedTitle(description: string) {
-		if (this.root === undefined) {
+		if (this.anchor === undefined) {
 			return
 		}
 
 		this.managedTitle ??= {
-			element: this.root,
-			originalTitle: this.root.getAttribute('title') ?? undefined,
+			element: this.anchor,
+			originalTitle: this.anchor.getAttribute('title') ?? undefined,
 			value: description,
 		}
 		this.managedTitle.value = description
@@ -217,13 +230,21 @@ export class DescriptionController {
 
 		const label = this.root.querySelector<HTMLElement>('.tp-lblv_l')
 		const hasLabel = label !== null && label.textContent.length > 0
-		const nextAnchor = hasLabel
-			? label
-			: (this.root.querySelector<HTMLElement>(INTERACTIVE_SELECTOR) ?? this.root)
+		const nextAnchor = hasLabel ? label : this.root
 
 		if (nextAnchor !== this.anchor) {
 			this.hide()
+			this.anchor?.removeEventListener('mouseenter', this.handleMouseEnter)
+			this.anchor?.removeEventListener('mouseleave', this.handleMouseLeave)
+			this.removeManagedTitle()
+			this.managedTitle = undefined
 			this.anchor = nextAnchor
+			this.anchor.addEventListener('mouseenter', this.handleMouseEnter)
+			this.anchor.addEventListener('mouseleave', this.handleMouseLeave)
+
+			if (this.descriptionElement !== undefined) {
+				this.setManagedTitle(this.descriptionElement.textContent)
+			}
 		}
 	}
 

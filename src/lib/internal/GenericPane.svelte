@@ -285,6 +285,13 @@ This component is for internal use only.
 		opacity: 1;
 	}
 
+	/* Extend the hover target across the visual gap between a label and its hint. */
+	:global(div.svelte-tweakpane-ui .stui-description::after) {
+		content: '';
+		position: absolute;
+		inset: -4px 0;
+	}
+
 	:global(div.svelte-tweakpane-ui .stui-description::backdrop) {
 		background: transparent;
 	}
