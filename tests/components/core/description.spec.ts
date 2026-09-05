@@ -81,8 +81,32 @@ test.describe('Control descriptions', () => {
 		await expect(tooltip).toBeVisible()
 		await tooltip.dispatchEvent('mousedown')
 		await expect(tooltip).toBeVisible()
+		await expect(tooltip).toHaveCSS('opacity', '1')
 		await row.locator('[aria-describedby]').first().dispatchEvent('mousedown')
+		await page.waitForTimeout(250)
+		const fadingOpacity = Number(
+			await tooltip.evaluate((element) => getComputedStyle(element).opacity),
+		)
+		expect(fadingOpacity).toBeGreaterThan(0)
+		expect(fadingOpacity).toBeLessThan(1)
 		await expect(tooltip).toBeHidden()
+	})
+
+	test('allows the fade-out duration to be configured with CSS', async ({ page }) => {
+		const row = page.locator('.tp-lblv').filter({
+			has: page.getByText('Glow', { exact: true }),
+		})
+		const tooltip = row.locator('[role="tooltip"]')
+
+		await row.evaluate((element) => {
+			element.style.setProperty('--stui-description-fade-out-duration', '50ms')
+		})
+		await row.locator('.tp-lblv_l').hover()
+		await expect(tooltip).toBeVisible()
+		await expect(tooltip).toHaveCSS('opacity', '1')
+		await row.locator('[aria-describedby]').first().dispatchEvent('mousedown')
+		await page.waitForTimeout(100)
+		expect(await tooltip.isVisible()).toBe(false)
 	})
 
 	test('shows on control focus and dismisses with Escape', async ({ page }) => {

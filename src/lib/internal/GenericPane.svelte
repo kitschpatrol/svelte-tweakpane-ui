@@ -310,19 +310,23 @@ This component is for internal use only.
 		pointer-events: auto;
 	}
 
-	@keyframes stui-description-appear {
-		from {
-			opacity: 0;
-		}
-
-		to {
-			opacity: 1;
-		}
-	}
-
 	@media (prefers-reduced-motion: no-preference) {
+		:global(div.svelte-tweakpane-ui .stui-description) {
+			transition:
+				opacity var(--stui-description-fade-out-duration, 500ms) ease-out,
+				display var(--stui-description-fade-out-duration, 500ms) allow-discrete,
+				overlay var(--stui-description-fade-out-duration, 500ms) allow-discrete;
+		}
+
 		:global(div.svelte-tweakpane-ui .stui-description:popover-open) {
-			animation: stui-description-appear 100ms ease-in forwards;
+			transition-timing-function: ease-in;
+			transition-duration: 100ms;
+		}
+
+		@starting-style {
+			:global(div.svelte-tweakpane-ui .stui-description:popover-open) {
+				opacity: 0;
+			}
 		}
 	}
 </style>
