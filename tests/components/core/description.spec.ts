@@ -165,7 +165,7 @@ test.describe('Control descriptions', () => {
 		expect(await tooltip.isVisible()).toBe(false)
 	})
 
-	test('accepts appearance and timing overrides from an STUI theme', async ({ page }) => {
+	test('accepts layout and timing overrides from an STUI theme', async ({ page }) => {
 		await page.goto('/TestDescriptionTheme.svelte')
 
 		const pane = page.locator('.svelte-tweakpane-ui')
@@ -191,20 +191,12 @@ test.describe('Control descriptions', () => {
 		const styles = await tooltip.evaluate((element) => {
 			const style = getComputedStyle(element)
 			return {
-				backgroundColor: style.backgroundColor,
-				color: style.color,
-				fontSize: style.fontSize,
 				maxWidth: style.maxWidth,
-				padding: style.padding,
 				transitionDuration: style.transitionDuration.split(',', 1)[0],
 			}
 		})
 		expect(styles).toEqual({
-			backgroundColor: 'rgb(12, 34, 56)',
-			color: 'rgb(234, 235, 236)',
-			fontSize: '14px',
 			maxWidth: '120px',
-			padding: '6px 8px',
 			transitionDuration: '0.075s',
 		})
 

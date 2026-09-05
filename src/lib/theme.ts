@@ -43,14 +43,10 @@ type ThemeKeys = {
 	// PluginThumbnailListHeight?: string; pluginThumbnailListThumbSize?: string;
 	// pluginThumbnailListWidth?: string;
 	// Svelte Tweakpane UI
-	stuiDescriptionBackgroundColor?: ThemeColorValue
 	stuiDescriptionDelay?: string
 	stuiDescriptionFadeInDuration?: string
 	stuiDescriptionFadeOutDuration?: string
-	stuiDescriptionFontSize?: string
-	stuiDescriptionForegroundColor?: ThemeColorValue
 	stuiDescriptionMaxWidth?: string
-	stuiDescriptionPadding?: string
 }
 
 type CustomThemeKeys = Record<string, ThemeColorValue>
@@ -92,14 +88,10 @@ const standard: Theme = {
 	pluginImageDraggingColor: 'hsla(230, 100%, 66%, 1)',
 	// PluginThumbnailListHeight: '400px', pluginThumbnailListThumbSize: '20px',
 	// pluginThumbnailListWidth: '200px'
-	stuiDescriptionBackgroundColor: 'var(--in-fg)',
 	stuiDescriptionDelay: '500ms',
 	stuiDescriptionFadeInDuration: '0ms',
 	stuiDescriptionFadeOutDuration: '500ms',
-	stuiDescriptionFontSize: 'inherit',
-	stuiDescriptionForegroundColor: 'var(--bs-bg)',
 	stuiDescriptionMaxWidth: 'min(16rem, calc(100vw - 16px))',
-	stuiDescriptionPadding: '2px 4px',
 }
 
 export const keys = Object.keys(standard).reduce<Record<string, string>>((acc, key) => {
@@ -307,14 +299,10 @@ const keyToCssVariableMap = new Map([
 	// ['pluginThumbnailListThumbSize', '--tp-plugin-thumbnail-list-thumb-size'],
 	// ['pluginThumbnailListWidth', '--tp-plugin-thumbnail-list-width']
 	// Svelte Tweakpane UI
-	['stuiDescriptionBackgroundColor', '--stui-description-background-color'],
 	['stuiDescriptionDelay', '--stui-description-delay'],
 	['stuiDescriptionFadeInDuration', '--stui-description-fade-in-duration'],
 	['stuiDescriptionFadeOutDuration', '--stui-description-fade-out-duration'],
-	['stuiDescriptionFontSize', '--stui-description-font-size'],
-	['stuiDescriptionForegroundColor', '--stui-description-foreground-color'],
 	['stuiDescriptionMaxWidth', '--stui-description-max-width'],
-	['stuiDescriptionPadding', '--stui-description-padding'],
 ])
 
 // Just do it dynamically instead of the map? function transformToCustomProperty(str: string):

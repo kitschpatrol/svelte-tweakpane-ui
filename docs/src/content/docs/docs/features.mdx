@@ -117,8 +117,7 @@ with an STUI theme key:
 
   const theme: Theme = {
     ...ThemeUtils.presets.iceberg,
-    stuiDescriptionBackgroundColor: 'navy',
-    stuiDescriptionForegroundColor: 'white',
+    stuiDescriptionMaxWidth: '20rem',
     stuiDescriptionDelay: '350ms',
     stuiDescriptionFadeInDuration: '0ms',
     stuiDescriptionFadeOutDuration: '500ms',
@@ -133,11 +132,7 @@ its ancestors:
 
 | Theme key                        | CSS custom property                    | Default                          |
 | -------------------------------- | -------------------------------------- | -------------------------------- |
-| `stuiDescriptionBackgroundColor` | `--stui-description-background-color`  | Tweakpane input foreground       |
-| `stuiDescriptionForegroundColor` | `--stui-description-foreground-color`  | Tweakpane base background        |
-| `stuiDescriptionFontSize`        | `--stui-description-font-size`         | Inherited Tweakpane font size    |
 | `stuiDescriptionMaxWidth`        | `--stui-description-max-width`         | `min(16rem, calc(100vw - 16px))` |
-| `stuiDescriptionPadding`         | `--stui-description-padding`           | `2px 4px`                        |
 | `stuiDescriptionDelay`           | `--stui-description-delay`             | `500ms`                          |
 | `stuiDescriptionFadeInDuration`  | `--stui-description-fade-in-duration`  | `0ms`                            |
 | `stuiDescriptionFadeOutDuration` | `--stui-description-fade-out-duration` | `500ms`                          |

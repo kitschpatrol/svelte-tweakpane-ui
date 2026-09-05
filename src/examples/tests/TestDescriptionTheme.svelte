@@ -5,14 +5,10 @@
 
 	const theme: Theme = {
 		...ThemeUtils.presets.iceberg,
-		stuiDescriptionBackgroundColor: 'rgb(12, 34, 56)',
 		stuiDescriptionDelay: '50ms',
 		stuiDescriptionFadeInDuration: '75ms',
 		stuiDescriptionFadeOutDuration: '60ms',
-		stuiDescriptionFontSize: '14px',
-		stuiDescriptionForegroundColor: 'rgb(234, 235, 236)',
 		stuiDescriptionMaxWidth: '120px',
-		stuiDescriptionPadding: '6px 8px',
 	}
 </script>
 
