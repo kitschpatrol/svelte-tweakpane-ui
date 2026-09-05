@@ -82,6 +82,27 @@ test.describe('Control descriptions', () => {
 		await expect(tooltip).toBeVisible()
 	})
 
+	test('uses a larger gap over label whitespace than over its text', async ({ page }) => {
+		const row = page.locator('.tp-lblv').filter({
+			has: page.getByText('Glow', { exact: true }),
+		})
+		const label = row.locator('.tp-lblv_l')
+		const tooltip = row.locator('[role="tooltip"]')
+		const labelBounds = await label.boundingBox()
+		expect(labelBounds).not.toBeNull()
+
+		const position = {
+			x: (labelBounds?.width ?? 0) - 4,
+			y: 8,
+		}
+		await label.hover({ position })
+		await expect(tooltip).toBeVisible()
+
+		const tooltipBounds = await tooltip.boundingBox()
+		expect(tooltipBounds).not.toBeNull()
+		expect(tooltipBounds?.y).toBeCloseTo((labelBounds?.y ?? 0) + position.y + 24, 0)
+	})
+
 	test('dismisses when the control is pressed', async ({ page }) => {
 		const row = page.locator('.tp-lblv').filter({
 			has: page.getByText('Glow', { exact: true }),

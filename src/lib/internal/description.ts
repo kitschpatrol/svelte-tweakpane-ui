@@ -1,15 +1,17 @@
 import { nanoid } from 'nanoid'
 
-// cspell:words describedby
+// cspell:words contenteditable describedby
 
 const INTERACTIVE_SELECTOR = 'button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
 const CARET_EDGE_INSET_PX = 4
 const CARET_OFFSET_PX = 8
-const DEFAULT_POINTER_GAP_PX = 16
 const HOVER_DELAY_MS = 500
-const POINTER_CURSOR_GAP_PX = 24
+const TEXT_CURSOR_GAP_PX = 16
+const TOP_HOTSPOT_CURSOR_GAP_PX = 24
 const VIEWPORT_MARGIN_PX = 8
 const WHITESPACE_PATTERN = /\s+/v
+
+const TEXT_INPUT_TYPES = new Set(['email', 'number', 'password', 'search', 'tel', 'text', 'url'])
 
 function removeDescriptionId(element: HTMLElement, id: string) {
 	const ids =
@@ -217,6 +219,50 @@ export class DescriptionController {
 		}
 	}
 
+	private pointerGapAt(element: Element | undefined, cursor: string, x: number, y: number) {
+		const cursorKeyword = cursor.slice(cursor.lastIndexOf(',') + 1).trim()
+		if (cursorKeyword === 'text' || cursorKeyword === 'vertical-text') {
+			return TEXT_CURSOR_GAP_PX
+		}
+
+		if (cursorKeyword !== 'auto' || element === undefined) {
+			return TOP_HOTSPOT_CURSOR_GAP_PX
+		}
+
+		const inputType = element.localName === 'input' ? (element.getAttribute('type') ?? 'text') : ''
+		if (
+			element.localName === 'textarea' ||
+			TEXT_INPUT_TYPES.has(inputType.toLowerCase()) ||
+			element.closest('[contenteditable]:not([contenteditable="false"])') !== null
+		) {
+			return TEXT_CURSOR_GAP_PX
+		}
+
+		if (this.anchor === undefined) {
+			return TOP_HOTSPOT_CURSOR_GAP_PX
+		}
+
+		// `cursor: auto` resolves to an I-beam only over rendered text, even when
+		// the surrounding label box displays an arrow cursor.
+		const walker = this.anchor.ownerDocument.createTreeWalker(this.anchor, NodeFilter.SHOW_TEXT)
+		while (walker.nextNode()) {
+			const node = walker.currentNode
+			if (node.textContent?.trim().length === 0) {
+				continue
+			}
+
+			const range = this.anchor.ownerDocument.createRange()
+			range.selectNodeContents(node)
+			for (const bounds of range.getClientRects()) {
+				if (x >= bounds.left && x <= bounds.right && y >= bounds.top && y <= bounds.bottom) {
+					return TEXT_CURSOR_GAP_PX
+				}
+			}
+		}
+
+		return TOP_HOTSPOT_CURSOR_GAP_PX
+	}
+
 	private positionCaret(originX: number, placement: 'above' | 'below') {
 		if (this.descriptionElement === undefined) {
 			return
@@ -306,8 +352,7 @@ export class DescriptionController {
 		const { x, y } = this.pointerPosition
 		const hoveredElement = this.descriptionElement.ownerDocument.elementFromPoint(x, y)
 		const cursor = hoveredElement === null ? '' : window.getComputedStyle(hoveredElement).cursor
-		const cursorKeyword = cursor.slice(cursor.lastIndexOf(',') + 1).trim()
-		const pointerGap = cursorKeyword === 'pointer' ? POINTER_CURSOR_GAP_PX : DEFAULT_POINTER_GAP_PX
+		const pointerGap = this.pointerGapAt(hoveredElement ?? undefined, cursor, x, y)
 		this.descriptionElement.dataset.stuiPointer = ''
 		this.descriptionElement.style.left = `${x}px`
 		this.descriptionElement.style.top = `${y + pointerGap}px`
