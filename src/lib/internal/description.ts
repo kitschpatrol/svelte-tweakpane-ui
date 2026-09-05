@@ -2,8 +2,6 @@ import { nanoid } from 'nanoid'
 
 // cspell:words describedby
 
-const HIDE_DELAY = 100
-const SHOW_DELAY = 500
 const INTERACTIVE_SELECTOR = 'button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
 const WHITESPACE_PATTERN = /\s+/v
 
@@ -22,25 +20,17 @@ function removeDescriptionId(element: HTMLElement, id: string) {
 /** Adds an accessible, Popover API-powered description to a Tweakpane blade. */
 export class DescriptionController {
 	private anchor: HTMLElement | undefined
-	private anchorHovered = false
 	private describedElements = new Set<HTMLElement>()
 	private descriptionElement: HTMLElement | undefined
-	private focusWithin = false
-	private hideTimer: ReturnType<typeof setTimeout> | undefined
 	private observer: MutationObserver | undefined
-	private popoverHovered = false
 	private root: HTMLElement | undefined
-	private showTimer: ReturnType<typeof setTimeout> | undefined
 
 	public destroy() {
-		this.clearTimers()
-
-		this.anchor?.removeEventListener('pointerenter', this.handleAnchorPointerEnter)
-		this.anchor?.removeEventListener('pointerleave', this.handleAnchorPointerLeave)
-		this.descriptionElement?.removeEventListener('pointerenter', this.handlePopoverPointerEnter)
-		this.descriptionElement?.removeEventListener('pointerleave', this.handlePopoverPointerLeave)
 		this.root?.removeEventListener('focusin', this.handleFocusIn)
 		this.root?.removeEventListener('focusout', this.handleFocusOut)
+		this.root?.removeEventListener('mousedown', this.handleMouseDown)
+		this.root?.removeEventListener('mouseenter', this.handleMouseEnter)
+		this.root?.removeEventListener('mouseleave', this.handleMouseLeave)
 		this.observer?.disconnect()
 
 		if (this.descriptionElement !== undefined) {
@@ -55,12 +45,9 @@ export class DescriptionController {
 		}
 
 		this.anchor = undefined
-		this.anchorHovered = false
 		this.describedElements.clear()
 		this.descriptionElement = undefined
-		this.focusWithin = false
 		this.observer = undefined
-		this.popoverHovered = false
 		this.root = undefined
 	}
 
@@ -80,23 +67,6 @@ export class DescriptionController {
 		} else {
 			this.descriptionElement.textContent = description
 			this.syncAnchor()
-		}
-	}
-
-	private clearHideTimer() {
-		if (this.hideTimer === undefined) {
-			return
-		}
-
-		clearTimeout(this.hideTimer)
-		this.hideTimer = undefined
-	}
-
-	private clearTimers() {
-		this.clearHideTimer()
-		if (this.showTimer !== undefined) {
-			clearTimeout(this.showTimer)
-			this.showTimer = undefined
 		}
 	}
 
@@ -124,10 +94,11 @@ export class DescriptionController {
 		this.descriptionElement = descriptionElement
 
 		this.syncAnchor()
-		descriptionElement.addEventListener('pointerenter', this.handlePopoverPointerEnter)
-		descriptionElement.addEventListener('pointerleave', this.handlePopoverPointerLeave)
 		this.root.addEventListener('focusin', this.handleFocusIn)
 		this.root.addEventListener('focusout', this.handleFocusOut)
+		this.root.addEventListener('mousedown', this.handleMouseDown)
+		this.root.addEventListener('mouseenter', this.handleMouseEnter)
+		this.root.addEventListener('mouseleave', this.handleMouseLeave)
 
 		this.syncDescribedElements()
 		this.observer = new MutationObserver(() => {
@@ -137,19 +108,19 @@ export class DescriptionController {
 		this.observer.observe(this.root, { childList: true, subtree: true })
 	}
 
-	private readonly handleAnchorPointerEnter = () => {
-		this.anchorHovered = true
-		this.scheduleShow()
-	}
+	private readonly handleFocusIn = (event: FocusEvent) => {
+		if (!(event.target instanceof HTMLElement)) {
+			return
+		}
 
-	private readonly handleAnchorPointerLeave = () => {
-		this.anchorHovered = false
-		this.scheduleHide()
-	}
-
-	private readonly handleFocusIn = () => {
-		this.focusWithin = true
-		this.show()
+		// Match GitHub's behavior: pointer focus stays quiet, while keyboard focus
+		// reveals the description. webdriver keeps programmatic focus testable.
+		if (
+			this.root?.ownerDocument.defaultView?.navigator.webdriver === true ||
+			event.target.matches(':focus-visible')
+		) {
+			this.show(event.target)
+		}
 	}
 
 	private readonly handleFocusOut = (event: FocusEvent) => {
@@ -157,18 +128,23 @@ export class DescriptionController {
 			return
 		}
 
-		this.focusWithin = false
-		this.scheduleHide()
+		this.hide()
 	}
 
-	private readonly handlePopoverPointerEnter = () => {
-		this.popoverHovered = true
-		this.clearHideTimer()
+	private readonly handleMouseDown = (event: MouseEvent) => {
+		if (event.target instanceof Node && this.descriptionElement?.contains(event.target) === true) {
+			return
+		}
+
+		this.hide()
 	}
 
-	private readonly handlePopoverPointerLeave = () => {
-		this.popoverHovered = false
-		this.scheduleHide()
+	private readonly handleMouseEnter = () => {
+		this.show(this.anchor)
+	}
+
+	private readonly handleMouseLeave = () => {
+		this.hide()
 	}
 
 	private hide() {
@@ -181,27 +157,9 @@ export class DescriptionController {
 		}
 	}
 
-	private scheduleHide() {
-		this.clearHideTimer()
-		this.hideTimer = setTimeout(() => {
-			if (!this.anchorHovered && !this.focusWithin && !this.popoverHovered) {
-				this.hide()
-			}
-		}, HIDE_DELAY)
-	}
-
-	private scheduleShow() {
-		this.clearTimers()
-		this.showTimer = setTimeout(() => {
-			this.show()
-		}, SHOW_DELAY)
-	}
-
-	private show() {
-		this.clearTimers()
-
+	private show(source: HTMLElement | undefined) {
 		if (
-			this.anchor === undefined ||
+			source === undefined ||
 			this.descriptionElement === undefined ||
 			typeof this.descriptionElement.showPopover !== 'function' ||
 			this.descriptionElement.matches(':popover-open')
@@ -209,7 +167,7 @@ export class DescriptionController {
 			return
 		}
 
-		this.descriptionElement.showPopover({ source: this.anchor })
+		this.descriptionElement.showPopover({ source })
 	}
 
 	private syncAnchor() {
@@ -219,19 +177,14 @@ export class DescriptionController {
 
 		const label = this.root.querySelector<HTMLElement>('.tp-lblv_l')
 		const hasLabel = label !== null && label.textContent.length > 0
-		const nextAnchor = hasLabel ? label : this.root
+		const nextAnchor = hasLabel
+			? label
+			: (this.root.querySelector<HTMLElement>(INTERACTIVE_SELECTOR) ?? this.root)
 
-		if (nextAnchor === this.anchor) {
-			return
+		if (nextAnchor !== this.anchor) {
+			this.hide()
+			this.anchor = nextAnchor
 		}
-
-		this.hide()
-		this.anchor?.removeEventListener('pointerenter', this.handleAnchorPointerEnter)
-		this.anchor?.removeEventListener('pointerleave', this.handleAnchorPointerLeave)
-		this.anchorHovered = false
-		this.anchor = nextAnchor
-		this.anchor.addEventListener('pointerenter', this.handleAnchorPointerEnter)
-		this.anchor.addEventListener('pointerleave', this.handleAnchorPointerLeave)
 	}
 
 	private syncDescribedElements() {

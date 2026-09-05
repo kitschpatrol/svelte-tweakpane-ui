@@ -257,25 +257,32 @@ This component is for internal use only.
 	/* Control descriptions */
 	:global(div.svelte-tweakpane-ui .stui-description) {
 		position: fixed;
-		position-area: block-start;
+		position-area: block-end;
 		position-try-fallbacks:
 			flip-block,
 			flip-inline,
 			flip-block flip-inline;
-		justify-self: start;
+		justify-self: anchor-center;
 		box-sizing: border-box;
-		max-width: min(24rem, calc(100vw - 16px));
+		width: max-content;
+		max-width: min(16rem, calc(100vw - 16px));
 		margin: 4px;
-		padding: 4px 6px;
+		padding: 4px 8px;
 		border: 0;
 		border-radius: var(--bld-br);
 		font: inherit;
 		line-height: 1.4;
 		color: var(--bs-bg);
-		text-align: left;
-		white-space: pre-wrap;
+		text-align: center;
+		text-wrap: balance;
+		white-space: pre-line;
+		opacity: 0;
 		background-color: var(--in-fg);
 		box-shadow: 0 2px 4px var(--bs-sh);
+	}
+
+	:global(div.svelte-tweakpane-ui .stui-description:popover-open) {
+		opacity: 1;
 	}
 
 	:global(div.svelte-tweakpane-ui .stui-description::backdrop) {
@@ -286,5 +293,21 @@ This component is for internal use only.
 	 * described disabled blade's label able to receive hover events. */
 	:global(div.svelte-tweakpane-ui [data-stui-description].tp-v-disabled > .tp-lblv_l) {
 		pointer-events: auto;
+	}
+
+	@keyframes stui-description-appear {
+		from {
+			opacity: 0;
+		}
+
+		to {
+			opacity: 1;
+		}
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		:global(div.svelte-tweakpane-ui .stui-description:popover-open) {
+			animation: stui-description-appear 100ms ease-in forwards;
+		}
 	}
 </style>

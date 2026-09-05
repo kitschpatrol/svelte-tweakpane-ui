@@ -17,6 +17,7 @@ test.describe('Control descriptions', () => {
 		await expect(describedBlades).toHaveCount(4)
 		await expect(tooltips).toHaveCount(4)
 		await expect(tooltips.first()).toHaveText('Adjusts the amount of glow.\nUse sparingly.')
+		await expect(tooltips.first()).toHaveAttribute('popover', 'hint')
 	})
 
 	test('connects interactive controls to their descriptions', async ({ page }) => {
@@ -45,6 +46,20 @@ test.describe('Control descriptions', () => {
 		await tooltip.hover()
 		await page.waitForTimeout(150)
 		await expect(tooltip).toBeVisible()
+	})
+
+	test('dismisses when the control is pressed', async ({ page }) => {
+		const row = page.locator('.tp-lblv').filter({
+			has: page.getByText('Glow', { exact: true }),
+		})
+		const tooltip = row.locator('[role="tooltip"]')
+
+		await row.hover()
+		await expect(tooltip).toBeVisible()
+		await tooltip.dispatchEvent('mousedown')
+		await expect(tooltip).toBeVisible()
+		await row.locator('[aria-describedby]').first().dispatchEvent('mousedown')
+		await expect(tooltip).toBeHidden()
 	})
 
 	test('shows on control focus and dismisses with Escape', async ({ page }) => {

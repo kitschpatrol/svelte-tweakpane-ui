@@ -89,8 +89,9 @@ Pane titles and blade labels are truncated with ellipses if they're too long to 
 ### Control descriptions
 
 Controls accept a `description` prop for additional context without adding persistent visual clutter.
-The description appears in a theme-aware tooltip when the control's label is hovered or the control
-receives focus:
+The description appears in a compact, theme-aware hint when the control is hovered or receives
+keyboard focus. It uses the Popover API's top layer and CSS anchor positioning, so it stays attached
+to its control without being clipped by the pane:
 
 ```svelte
 <Slider
