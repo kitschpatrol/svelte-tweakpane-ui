@@ -3,6 +3,9 @@ import { nanoid } from 'nanoid'
 // cspell:words describedby
 
 const INTERACTIVE_SELECTOR = 'button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+const HOVER_DELAY_MS = 500
+const POINTER_GAP_PX = 16
+const VIEWPORT_MARGIN_PX = 8
 const WHITESPACE_PATTERN = /\s+/v
 
 function removeDescriptionId(element: HTMLElement, id: string) {
@@ -22,13 +25,17 @@ export class DescriptionController {
 	private anchor: HTMLElement | undefined
 	private describedElements = new Set<HTMLElement>()
 	private descriptionElement: HTMLElement | undefined
+	private hoverTimer: number | undefined
 	private managedTitle?: { element: HTMLElement; originalTitle?: string; value: string }
 	private observer: MutationObserver | undefined
+	private pointerPosition: undefined | { x: number; y: number }
 	private root: HTMLElement | undefined
 
 	public destroy() {
+		this.clearHoverTimer()
 		this.anchor?.removeEventListener('mouseenter', this.handleMouseEnter)
 		this.anchor?.removeEventListener('mouseleave', this.handleMouseLeave)
+		this.anchor?.removeEventListener('mousemove', this.handleMouseMove)
 		this.descriptionElement?.removeEventListener('mouseleave', this.handleDescriptionMouseLeave)
 		this.root?.removeEventListener('focusin', this.handleFocusIn)
 		this.root?.removeEventListener('focusout', this.handleFocusOut)
@@ -51,7 +58,9 @@ export class DescriptionController {
 		this.anchor = undefined
 		this.describedElements.clear()
 		this.descriptionElement = undefined
+		this.hoverTimer = undefined
 		this.observer = undefined
+		this.pointerPosition = undefined
 		this.root = undefined
 		this.managedTitle = undefined
 	}
@@ -74,6 +83,15 @@ export class DescriptionController {
 			this.syncAnchor()
 			this.setManagedTitle(description)
 		}
+	}
+
+	private clearHoverTimer() {
+		if (this.hoverTimer === undefined) {
+			return
+		}
+
+		this.root?.ownerDocument.defaultView?.clearTimeout(this.hoverTimer)
+		this.hoverTimer = undefined
 	}
 
 	private create(description: string) {
@@ -152,8 +170,19 @@ export class DescriptionController {
 		this.hide()
 	}
 
-	private readonly handleMouseEnter = () => {
-		this.show(this.anchor)
+	private readonly handleMouseEnter = (event: MouseEvent) => {
+		this.pointerPosition = { x: event.clientX, y: event.clientY }
+		this.clearHoverTimer()
+
+		const window = this.root?.ownerDocument.defaultView
+		if (window === null || window === undefined) {
+			return
+		}
+
+		this.hoverTimer = window.setTimeout(() => {
+			this.hoverTimer = undefined
+			this.showAtPointer()
+		}, HOVER_DELAY_MS)
 	}
 
 	private readonly handleMouseLeave = (event: MouseEvent) => {
@@ -167,7 +196,15 @@ export class DescriptionController {
 		this.hide()
 	}
 
+	private readonly handleMouseMove = (event: MouseEvent) => {
+		if (this.descriptionElement?.matches(':popover-open') !== true) {
+			this.pointerPosition = { x: event.clientX, y: event.clientY }
+		}
+	}
+
 	private hide() {
+		this.clearHoverTimer()
+
 		if (
 			this.descriptionElement !== undefined &&
 			typeof this.descriptionElement.hidePopover === 'function' &&
@@ -211,6 +248,8 @@ export class DescriptionController {
 	}
 
 	private show(source: HTMLElement | undefined) {
+		this.clearHoverTimer()
+
 		if (
 			source === undefined ||
 			this.descriptionElement === undefined ||
@@ -220,7 +259,52 @@ export class DescriptionController {
 			return
 		}
 
+		this.descriptionElement.toggleAttribute('data-stui-pointer', false)
+		this.descriptionElement.style.removeProperty('left')
+		this.descriptionElement.style.removeProperty('top')
 		this.descriptionElement.showPopover({ source })
+	}
+
+	private showAtPointer() {
+		if (
+			this.descriptionElement === undefined ||
+			this.pointerPosition === undefined ||
+			typeof this.descriptionElement.showPopover !== 'function' ||
+			this.descriptionElement.matches(':popover-open')
+		) {
+			return
+		}
+
+		const window = this.descriptionElement.ownerDocument.defaultView
+		if (window === null) {
+			return
+		}
+
+		const { x, y } = this.pointerPosition
+		this.descriptionElement.dataset.stuiPointer = ''
+		this.descriptionElement.style.left = `${x}px`
+		this.descriptionElement.style.top = `${y + POINTER_GAP_PX}px`
+		this.descriptionElement.showPopover()
+
+		const bounds = this.descriptionElement.getBoundingClientRect()
+		const maximumLeft = Math.max(
+			VIEWPORT_MARGIN_PX,
+			window.innerWidth - bounds.width - VIEWPORT_MARGIN_PX,
+		)
+		const maximumTop = Math.max(
+			VIEWPORT_MARGIN_PX,
+			window.innerHeight - bounds.height - VIEWPORT_MARGIN_PX,
+		)
+		const left = Math.min(Math.max(VIEWPORT_MARGIN_PX, x), maximumLeft)
+		const preferredTop = y + POINTER_GAP_PX
+		const flippedTop = y - bounds.height - POINTER_GAP_PX
+		const top = Math.min(
+			Math.max(VIEWPORT_MARGIN_PX, preferredTop > maximumTop ? flippedTop : preferredTop),
+			maximumTop,
+		)
+
+		this.descriptionElement.style.left = `${left}px`
+		this.descriptionElement.style.top = `${top}px`
 	}
 
 	private syncAnchor() {
@@ -236,11 +320,13 @@ export class DescriptionController {
 			this.hide()
 			this.anchor?.removeEventListener('mouseenter', this.handleMouseEnter)
 			this.anchor?.removeEventListener('mouseleave', this.handleMouseLeave)
+			this.anchor?.removeEventListener('mousemove', this.handleMouseMove)
 			this.removeManagedTitle()
 			this.managedTitle = undefined
 			this.anchor = nextAnchor
 			this.anchor.addEventListener('mouseenter', this.handleMouseEnter)
 			this.anchor.addEventListener('mouseleave', this.handleMouseLeave)
+			this.anchor.addEventListener('mousemove', this.handleMouseMove)
 
 			if (this.descriptionElement !== undefined) {
 				this.setManagedTitle(this.descriptionElement.textContent)

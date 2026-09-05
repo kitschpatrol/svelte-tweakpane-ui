@@ -40,16 +40,31 @@ test.describe('Control descriptions', () => {
 		}
 	})
 
-	test('shows on label hover and remains open while hovered', async ({ page }) => {
+	test('shows beside the pointer after a hover delay and remains open while hovered', async ({
+		page,
+	}) => {
 		const row = page.locator('.tp-lblv').filter({
 			has: page.getByText('Glow', { exact: true }),
 		})
+		const label = row.locator('.tp-lblv_l')
 		const tooltip = row.locator('[role="tooltip"]')
 
 		await row.locator('[aria-describedby]').first().hover()
 		await expect(tooltip).toBeHidden()
-		await row.locator('.tp-lblv_l').hover()
+
+		const labelBounds = await label.boundingBox()
+		expect(labelBounds).not.toBeNull()
+		await label.hover({ position: { x: 12, y: 8 } })
+		await page.waitForTimeout(400)
+		await expect(tooltip).toBeHidden()
 		await expect(tooltip).toBeVisible()
+
+		const tooltipBounds = await tooltip.boundingBox()
+		expect(tooltipBounds).not.toBeNull()
+		expect(tooltipBounds?.x).toBeCloseTo((labelBounds?.x ?? 0) + 12, 0)
+		expect(tooltipBounds?.y).toBeGreaterThan((labelBounds?.y ?? 0) + 8)
+		await expect(tooltip).toHaveCSS('overflow', 'visible')
+
 		await tooltip.hover()
 		await page.waitForTimeout(150)
 		await expect(tooltip).toBeVisible()

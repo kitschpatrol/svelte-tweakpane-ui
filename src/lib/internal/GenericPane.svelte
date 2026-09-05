@@ -257,11 +257,13 @@ This component is for internal use only.
 	/* Control descriptions */
 	:global(div.svelte-tweakpane-ui .stui-description) {
 		position: fixed;
+		inset: auto;
 		position-area: block-end;
 		position-try-fallbacks:
 			flip-block,
 			flip-inline,
 			flip-block flip-inline;
+		overflow: visible;
 		justify-self: anchor-center;
 		box-sizing: border-box;
 		width: max-content;
@@ -279,6 +281,12 @@ This component is for internal use only.
 		opacity: 0;
 		background-color: var(--in-fg);
 		box-shadow: 0 2px 4px var(--bs-sh);
+	}
+
+	:global(div.svelte-tweakpane-ui .stui-description[data-stui-pointer]) {
+		position-area: none;
+		justify-self: auto;
+		margin: 0;
 	}
 
 	:global(div.svelte-tweakpane-ui .stui-description:popover-open) {
