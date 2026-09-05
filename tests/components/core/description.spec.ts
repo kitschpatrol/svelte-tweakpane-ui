@@ -64,6 +64,7 @@ test.describe('Control descriptions', () => {
 		expect(tooltipBounds?.x).toBeCloseTo((labelBounds?.x ?? 0) + 12, 0)
 		expect(tooltipBounds?.y).toBeGreaterThan((labelBounds?.y ?? 0) + 8)
 		await expect(tooltip).toHaveCSS('overflow', 'visible')
+		await expect(tooltip).toHaveCSS('text-align', 'left')
 
 		await tooltip.hover()
 		await page.waitForTimeout(150)

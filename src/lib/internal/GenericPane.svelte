@@ -275,7 +275,7 @@ This component is for internal use only.
 		font: inherit;
 		line-height: 1.4;
 		color: var(--bs-bg);
-		text-align: center;
+		text-align: left;
 		text-wrap: balance;
 		white-space: pre-line;
 		opacity: 0;
