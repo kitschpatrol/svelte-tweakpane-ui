@@ -22,7 +22,7 @@
 	let ring = 0
 	let showDescriptionIcons = false
 	let stepper = 0
-	let themeKey: keyof typeof presets = 'iceberg'
+	let themeKey: keyof typeof presets = 'light'
 	let wheel = 0
 
 	function removeDescription() {
@@ -39,7 +39,7 @@
 </script>
 
 <div class:show-description-icons={showDescriptionIcons}>
-	<Pane position="inline" scale={2} theme={presets[themeKey]} title="Descriptions">
+	<Pane position="inline" scale={1} theme={presets[themeKey]} title="Descriptions">
 		<List label="Theme" options={Object.keys(presets)} bind:value={themeKey} />
 		<Checkbox label="Show description icons" bind:value={showDescriptionIcons} />
 		<Slider {description} label={glowLabel} max={1} min={0} bind:value={glow} />
