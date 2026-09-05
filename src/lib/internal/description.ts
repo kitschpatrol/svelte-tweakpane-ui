@@ -6,7 +6,8 @@ const INTERACTIVE_SELECTOR = 'button, input, select, textarea, [tabindex]:not([t
 const CARET_EDGE_INSET_PX = 4
 const CARET_OFFSET_PX = 8
 const HOVER_DELAY_MS = 500
-const POINTER_GAP_PX = 16
+const LABELED_POINTER_GAP_PX = 16
+const UNLABELED_POINTER_GAP_PX = 24
 const VIEWPORT_MARGIN_PX = 8
 const WHITESPACE_PATTERN = /\s+/v
 
@@ -303,9 +304,10 @@ export class DescriptionController {
 		}
 
 		const { x, y } = this.pointerPosition
+		const pointerGap = this.anchor === this.root ? UNLABELED_POINTER_GAP_PX : LABELED_POINTER_GAP_PX
 		this.descriptionElement.dataset.stuiPointer = ''
 		this.descriptionElement.style.left = `${x}px`
-		this.descriptionElement.style.top = `${y + POINTER_GAP_PX}px`
+		this.descriptionElement.style.top = `${y + pointerGap}px`
 		this.descriptionElement.showPopover()
 
 		const bounds = this.descriptionElement.getBoundingClientRect()
@@ -318,8 +320,8 @@ export class DescriptionController {
 			window.innerHeight - bounds.height - VIEWPORT_MARGIN_PX,
 		)
 		const left = Math.min(Math.max(VIEWPORT_MARGIN_PX, x - CARET_OFFSET_PX), maximumLeft)
-		const preferredTop = y + POINTER_GAP_PX
-		const flippedTop = y - bounds.height - POINTER_GAP_PX
+		const preferredTop = y + pointerGap
+		const flippedTop = y - bounds.height - pointerGap
 		const placement = preferredTop > maximumTop ? 'above' : 'below'
 		const top = Math.min(
 			Math.max(VIEWPORT_MARGIN_PX, placement === 'above' ? flippedTop : preferredTop),

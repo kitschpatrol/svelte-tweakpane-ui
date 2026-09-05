@@ -73,7 +73,7 @@ test.describe('Control descriptions', () => {
 		expect(caret.borderBottomColor).toBe(
 			await tooltip.evaluate((element) => getComputedStyle(element).backgroundColor),
 		)
-		expect(tooltipBounds?.y).toBeGreaterThan((labelBounds?.y ?? 0) + 8)
+		expect(tooltipBounds?.y).toBeCloseTo((labelBounds?.y ?? 0) + 8 + 16, 0)
 		await expect(tooltip).toHaveCSS('overflow', 'visible')
 		await expect(tooltip).toHaveCSS('text-align', 'left')
 
@@ -147,10 +147,16 @@ test.describe('Control descriptions', () => {
 			'xpath=ancestor::div[contains(concat(" ", normalize-space(@class), " "), " tp-lblv ")]',
 		)
 		const tooltip = row.locator('[role="tooltip"]')
+		const actionBounds = await action.boundingBox()
+		expect(actionBounds).not.toBeNull()
 
 		await expect(row).toHaveAttribute('title', 'Performs an unlabeled action.')
-		await action.hover()
+		await action.hover({ position: { x: 12, y: 8 } })
 		await expect(tooltip).toBeVisible()
+
+		const tooltipBounds = await tooltip.boundingBox()
+		expect(tooltipBounds).not.toBeNull()
+		expect(tooltipBounds?.y).toBeCloseTo((actionBounds?.y ?? 0) + 8 + 24, 0)
 	})
 
 	test('follows a reactively updated label', async ({ page }) => {
