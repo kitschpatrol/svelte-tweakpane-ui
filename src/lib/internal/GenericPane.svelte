@@ -267,18 +267,20 @@ This component is for internal use only.
 		justify-self: anchor-center;
 		box-sizing: border-box;
 		width: max-content;
-		max-width: min(16rem, calc(100vw - 16px));
-		margin: 4px;
-		padding: 2px 4px;
+		max-width: var(--stui-description-max-width, min(16rem, calc(100vw - 16px)));
+		margin: var(--cnt-usp);
+		padding: var(--stui-description-padding, 2px 4px);
 		border: 0;
 		border-radius: var(--bld-br);
 		font: inherit;
-		color: var(--bs-bg);
+		font-size: var(--stui-description-font-size, inherit);
+		color: var(--stui-description-foreground-color, var(--bs-bg));
 		text-align: left;
 		text-wrap: balance;
 		white-space: pre-line;
 		opacity: 0;
-		background-color: var(--in-fg);
+		background-color: var(--stui-description-background-color, var(--in-fg));
+		box-shadow: none;
 	}
 
 	:global(div.svelte-tweakpane-ui .stui-description[data-stui-pointer]) {
@@ -307,12 +309,12 @@ This component is for internal use only.
 
 	:global(div.svelte-tweakpane-ui .stui-description[data-stui-placement='above']::before) {
 		top: 100%;
-		border-color: var(--in-fg) transparent transparent;
+		border-color: var(--stui-description-background-color, var(--in-fg)) transparent transparent;
 	}
 
 	:global(div.svelte-tweakpane-ui .stui-description[data-stui-placement='below']::before) {
 		bottom: 100%;
-		border-color: transparent transparent var(--in-fg);
+		border-color: transparent transparent var(--stui-description-background-color, var(--in-fg));
 	}
 
 	/* Extend the hover target across the visual gap between a label and its hint. */
@@ -342,7 +344,7 @@ This component is for internal use only.
 
 		:global(div.svelte-tweakpane-ui .stui-description:popover-open) {
 			transition-timing-function: ease-in;
-			transition-duration: 100ms;
+			transition-duration: var(--stui-description-fade-in-duration, 0ms);
 		}
 
 		@starting-style {

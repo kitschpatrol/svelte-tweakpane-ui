@@ -40,6 +40,25 @@ test.describe('Control descriptions', () => {
 		}
 	})
 
+	test('optionally shows a label affordance', async ({ page }) => {
+		const row = page.locator('.tp-lblv').filter({
+			has: page.getByText('Glow', { exact: true }),
+		})
+		const label = row.locator('.tp-lblv_l')
+		const checkbox = page
+			.locator('.tp-lblv')
+			.filter({ hasText: 'Show description icons' })
+			.locator('.tp-ckbv_w')
+		const affordance = async () =>
+			label.evaluate((element) => getComputedStyle(element, '::after').content)
+
+		expect(await affordance()).toBe('none')
+		await checkbox.click()
+		expect(await affordance()).toBe('" 🛈"')
+		await checkbox.click()
+		expect(await affordance()).toBe('none')
+	})
+
 	test('shows beside the pointer after a hover delay and remains open while hovered', async ({
 		page,
 	}) => {
@@ -76,6 +95,11 @@ test.describe('Control descriptions', () => {
 		expect(tooltipBounds?.y).toBeCloseTo((labelBounds?.y ?? 0) + 8 + 16, 0)
 		await expect(tooltip).toHaveCSS('overflow', 'visible')
 		await expect(tooltip).toHaveCSS('text-align', 'left')
+		expect(
+			await tooltip.evaluate(
+				(element) => getComputedStyle(element).transitionDuration.split(',', 1)[0],
+			),
+		).toBe('0s')
 
 		await tooltip.hover()
 		await page.waitForTimeout(150)
@@ -136,6 +160,54 @@ test.describe('Control descriptions', () => {
 		await row.locator('.tp-lblv_l').hover()
 		await expect(tooltip).toBeVisible()
 		await expect(tooltip).toHaveCSS('opacity', '1')
+		await row.locator('[aria-describedby]').first().dispatchEvent('mousedown')
+		await page.waitForTimeout(100)
+		expect(await tooltip.isVisible()).toBe(false)
+	})
+
+	test('accepts appearance and timing overrides from an STUI theme', async ({ page }) => {
+		await page.goto('/TestDescriptionTheme.svelte')
+
+		const pane = page.locator('.svelte-tweakpane-ui')
+		const row = page.locator('.tp-lblv').filter({
+			has: page.getByText('Themed', { exact: true }),
+		})
+		const tooltip = row.locator('[role="tooltip"]')
+		const variables = await pane.evaluate((element) => {
+			const style = getComputedStyle(element)
+			return {
+				delay: style.getPropertyValue('--stui-description-delay').trim(),
+				fadeIn: style.getPropertyValue('--stui-description-fade-in-duration').trim(),
+				fadeOut: style.getPropertyValue('--stui-description-fade-out-duration').trim(),
+			}
+		})
+		expect(variables).toEqual({ delay: '50ms', fadeIn: '75ms', fadeOut: '60ms' })
+
+		await row.locator('.tp-lblv_l').hover()
+		await page.waitForTimeout(25)
+		await expect(tooltip).toBeHidden()
+		await expect(tooltip).toBeVisible()
+
+		const styles = await tooltip.evaluate((element) => {
+			const style = getComputedStyle(element)
+			return {
+				backgroundColor: style.backgroundColor,
+				color: style.color,
+				fontSize: style.fontSize,
+				maxWidth: style.maxWidth,
+				padding: style.padding,
+				transitionDuration: style.transitionDuration.split(',', 1)[0],
+			}
+		})
+		expect(styles).toEqual({
+			backgroundColor: 'rgb(12, 34, 56)',
+			color: 'rgb(234, 235, 236)',
+			fontSize: '14px',
+			maxWidth: '120px',
+			padding: '6px 8px',
+			transitionDuration: '0.075s',
+		})
+
 		await row.locator('[aria-describedby]').first().dispatchEvent('mousedown')
 		await page.waitForTimeout(100)
 		expect(await tooltip.isVisible()).toBe(false)
@@ -379,5 +451,29 @@ test.describe('Control descriptions', () => {
 		for (const style of styles) {
 			expect(style.description, style.property).toBe(style.reference)
 		}
+
+		const initialBackground = await tooltip.evaluate(
+			(element) => getComputedStyle(element).backgroundColor,
+		)
+		const themeRow = page.locator('.tp-lblv').filter({
+			has: page.getByText('Theme', { exact: true }),
+		})
+		await themeRow.getByRole('combobox').selectOption('light')
+		await expect
+			.poll(async () => tooltip.evaluate((element) => getComputedStyle(element).backgroundColor))
+			.not.toBe(initialBackground)
+
+		const updatedColors = await tooltip.evaluate((element) => {
+			const reference = element.closest('.tp-rotv')?.querySelector<HTMLElement>('.tp-ttv')
+			if (reference === null || reference === undefined) {
+				throw new Error('Tweakpane slider tooltip not found')
+			}
+
+			return {
+				description: getComputedStyle(element).backgroundColor,
+				reference: getComputedStyle(reference).backgroundColor,
+			}
+		})
+		expect(updatedColors.description).toBe(updatedColors.reference)
 	})
 })

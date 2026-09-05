@@ -107,9 +107,43 @@ control. The label—or the whole blade when unlabeled—also receives the same 
 />
 ```
 
-Hints fade out over 500ms by default. Set the inherited
-`--stui-description-fade-out-duration` CSS custom property on the pane or one of its ancestors to
-adjust the duration.
+The default hover delay is 500ms. Hints appear without a fade and fade out over 500ms. Appearance
+defaults inherit from the active Tweakpane theme, but every value can be overridden independently
+with an STUI theme key:
+
+```svelte
+<script lang="ts">
+  import { Pane, type Theme, ThemeUtils } from 'svelte-tweakpane-ui'
+
+  const theme: Theme = {
+    ...ThemeUtils.presets.iceberg,
+    stuiDescriptionBackgroundColor: 'navy',
+    stuiDescriptionForegroundColor: 'white',
+    stuiDescriptionDelay: '350ms',
+    stuiDescriptionFadeInDuration: '0ms',
+    stuiDescriptionFadeOutDuration: '500ms',
+  }
+</script>
+
+<Pane {theme}>…</Pane>
+```
+
+The corresponding inherited CSS custom properties can also be set directly on a pane or any of
+its ancestors:
+
+| Theme key                        | CSS custom property                    | Default                          |
+| -------------------------------- | -------------------------------------- | -------------------------------- |
+| `stuiDescriptionBackgroundColor` | `--stui-description-background-color`  | Tweakpane input foreground       |
+| `stuiDescriptionForegroundColor` | `--stui-description-foreground-color`  | Tweakpane base background        |
+| `stuiDescriptionFontSize`        | `--stui-description-font-size`         | Inherited Tweakpane font size    |
+| `stuiDescriptionMaxWidth`        | `--stui-description-max-width`         | `min(16rem, calc(100vw - 16px))` |
+| `stuiDescriptionPadding`         | `--stui-description-padding`           | `2px 4px`                        |
+| `stuiDescriptionDelay`           | `--stui-description-delay`             | `500ms`                          |
+| `stuiDescriptionFadeInDuration`  | `--stui-description-fade-in-duration`  | `0ms`                            |
+| `stuiDescriptionFadeOutDuration` | `--stui-description-fade-out-duration` | `500ms`                          |
+
+For more extensive styling, target the `.stui-description` class or an individual description's
+generated `stui-description-*` ID.
 
 Descriptions are plain text, and line breaks are preserved.
 
@@ -118,7 +152,7 @@ you can add one for an entire application without adding configuration to each c
 
 ```css
 :global([data-stui-description] > .tp-lblv_l)::after {
-  content: ' ?';
+  content: ' 🛈';
 }
 ```
 

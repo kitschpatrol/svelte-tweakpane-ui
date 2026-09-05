@@ -13,6 +13,25 @@ const WHITESPACE_PATTERN = /\s+/v
 
 const TEXT_INPUT_TYPES = new Set(['email', 'number', 'password', 'search', 'tel', 'text', 'url'])
 
+function parseCssDuration(value: string, fallback: number) {
+	const duration = value.trim()
+	if (duration === '0') {
+		return 0
+	}
+
+	const unitLength = duration.endsWith('ms') ? 2 : duration.endsWith('s') ? 1 : 0
+	if (unitLength === 0) {
+		return fallback
+	}
+
+	const parsed = Number(duration.slice(0, -unitLength))
+	if (!Number.isFinite(parsed) || parsed < 0) {
+		return fallback
+	}
+
+	return duration.endsWith('ms') ? parsed : parsed * 1000
+}
+
 function removeDescriptionId(element: HTMLElement, id: string) {
 	const ids =
 		element.getAttribute('aria-describedby')?.split(WHITESPACE_PATTERN).filter(Boolean) ?? []
@@ -184,10 +203,18 @@ export class DescriptionController {
 			return
 		}
 
+		const delay =
+			this.root === undefined
+				? HOVER_DELAY_MS
+				: parseCssDuration(
+						window.getComputedStyle(this.root).getPropertyValue('--stui-description-delay'),
+						HOVER_DELAY_MS,
+					)
+
 		this.hoverTimer = window.setTimeout(() => {
 			this.hoverTimer = undefined
 			this.showAtPointer()
-		}, HOVER_DELAY_MS)
+		}, delay)
 	}
 
 	private readonly handleMouseLeave = (event: MouseEvent) => {
