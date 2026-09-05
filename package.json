@@ -189,14 +189,14 @@
 	],
 	"scripts": {
 		"build": "tsx ./scripts/build.ts",
-		"clean": "shx rm -f pnpm-lock.yaml && git clean -fdX -e !.claude/",
+		"clean-deep": "shx rm -f pnpm-lock.yaml && git clean -fdX -e !.claude/",
 		"docs-dev": "pnpm -C ./docs run dev",
 		"docs-preview": "pnpm -C ./docs run preview",
 		"fix": "ksc fix --skip repo",
 		"kit-dev": "vite dev",
 		"kit-preview": "vite preview",
 		"lint": "ksc lint --skip repo",
-		"release": "pnpm build && bumpp --commit 'Release: %s' && NPM_TOKEN=$(op read 'op://Personal/npm/token') pnpm publish --ignore-scripts --otp $(op item get npm --otp)",
+		"release": "pnpm build && bumpp --preid preview --commit 'Release: %s' && pnpm publish --tag preview --ignore-scripts --otp $(op item get npm --otp)",
 		"rewrap": "rewrap -i --column 100 `find src \\( -name '*.svelte' -o -name '*.ts'  -o -name '*.html' \\) -type f | grep -v src/examples`",
 		"test": "pnpm run --sequential /^test:/",
 		"test:integration": "playwright test"
@@ -214,23 +214,23 @@
 		"@tweakpane/core": "2.0.5",
 		"esm-env": "^1.2.2",
 		"fast-copy": "^4.1.1",
-		"fast-equals": "^6.0.2",
+		"fast-equals": "^6.0.3",
 		"nanoid": "^6.0.1",
 		"svelte-persisted-store": "0.12.0",
 		"tweakpane": "4.0.5",
-		"tweakpane-plugin-color-plus": "0.6.1"
+		"tweakpane-plugin-color-plus": "0.6.2"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^8.7.0",
+		"@kitschpatrol/shared-config": "^8.8.0",
 		"@phenomnomnominal/tsquery": "^6.2.0",
-		"@playwright/test": "^1.62.1",
+		"@playwright/test": "^1.63.0",
 		"@stkb/rewrap": "^0.1.0",
 		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/kit": "^2.70.3",
 		"@sveltejs/package": "^2.5.8",
 		"@sveltejs/vite-plugin-svelte": "^3.1.2",
 		"@types/node": "~24.13.3",
-		"bumpp": "^12.2.2",
+		"bumpp": "^12.3.0",
 		"execa": "^10.0.1",
 		"glob": "^13.0.6",
 		"node-addon-api": "^8.9.2",
@@ -254,7 +254,7 @@
 	"peerDependencies": {
 		"svelte": "^4.0.0 || ^5.0.0"
 	},
-	"packageManager": "pnpm@11.24.0",
+	"packageManager": "pnpm@12.3.4",
 	"devEngines": {
 		"runtime": {
 			"name": "node",

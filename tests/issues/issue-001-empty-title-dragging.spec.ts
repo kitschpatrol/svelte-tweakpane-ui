@@ -23,7 +23,7 @@ test.describe('Issue #1: Empty titles break dragging behavior', () => {
 		await page.goto('/TestTitlelessDraggable.svelte')
 
 		// Title should be visible
-		await expect(page.getByText('Title')).toBeVisible()
+		await expect(page.getByText('Title', { exact: true })).toBeVisible()
 	})
 
 	test('pane title can be changed dynamically via binding', async ({ page }) => {
