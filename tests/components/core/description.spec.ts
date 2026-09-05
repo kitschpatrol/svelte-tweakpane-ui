@@ -228,27 +228,39 @@ test.describe('Control descriptions', () => {
 		await row.locator('.tp-lblv_l').hover()
 		await expect(tooltip).toBeVisible()
 
-		const colors = await tooltip.evaluate((element) => {
-			const pane = element.closest<HTMLElement>('.tp-rotv')
-			const probe = document.createElement('div')
-			probe.style.backgroundColor = 'var(--in-fg)'
-			probe.style.color = 'var(--bs-bg)'
-			pane?.append(probe)
-
-			const style = getComputedStyle(element)
-			const probeStyle = getComputedStyle(probe)
-			const result = {
-				background: style.backgroundColor,
-				expectedBackground: probeStyle.backgroundColor,
-				expectedForeground: probeStyle.color,
-				foreground: style.color,
+		const styles = await tooltip.evaluate((element) => {
+			const reference = element.closest('.tp-rotv')?.querySelector<HTMLElement>('.tp-ttv')
+			if (reference === null || reference === undefined) {
+				throw new Error('Tweakpane slider tooltip not found')
 			}
-			probe.remove()
 
-			return result
+			const descriptionStyle = getComputedStyle(element)
+			const referenceStyle = getComputedStyle(reference)
+			const properties = [
+				'backgroundColor',
+				'borderTopColor',
+				'borderTopLeftRadius',
+				'boxShadow',
+				'color',
+				'fontFamily',
+				'fontSize',
+				'fontWeight',
+				'lineHeight',
+				'paddingBottom',
+				'paddingLeft',
+				'paddingRight',
+				'paddingTop',
+			] as const
+
+			return properties.map((property) => ({
+				description: descriptionStyle[property],
+				property,
+				reference: referenceStyle[property],
+			}))
 		})
 
-		expect(colors.background).toBe(colors.expectedBackground)
-		expect(colors.foreground).toBe(colors.expectedForeground)
+		for (const style of styles) {
+			expect(style.description, style.property).toBe(style.reference)
+		}
 	})
 })

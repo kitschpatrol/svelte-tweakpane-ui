@@ -269,18 +269,16 @@ This component is for internal use only.
 		width: max-content;
 		max-width: min(16rem, calc(100vw - 16px));
 		margin: 4px;
-		padding: 4px 8px;
+		padding: 2px 4px;
 		border: 0;
 		border-radius: var(--bld-br);
 		font: inherit;
-		line-height: 1.4;
 		color: var(--bs-bg);
 		text-align: left;
 		text-wrap: balance;
 		white-space: pre-line;
 		opacity: 0;
 		background-color: var(--in-fg);
-		box-shadow: 0 2px 4px var(--bs-sh);
 	}
 
 	:global(div.svelte-tweakpane-ui .stui-description[data-stui-pointer]) {
