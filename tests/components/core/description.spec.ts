@@ -197,6 +197,54 @@ test.describe('Control descriptions', () => {
 		await expect(tooltip).toBeVisible()
 	})
 
+	test('keeps the pointer gap stable when browser zoom changes', async ({ page }) => {
+		const row = page.locator('.tp-lblv').filter({
+			has: page.getByText('Glow', { exact: true }),
+		})
+		const label = row.locator('.tp-lblv_l')
+		const tooltip = row.locator('[role="tooltip"]')
+		const initialDevicePixelRatio = await page.evaluate(() => window.devicePixelRatio)
+
+		await page.evaluate((initialRatio) => {
+			Object.defineProperty(globalThis, 'devicePixelRatio', {
+				configurable: true,
+				value: initialRatio * 2,
+			})
+		}, initialDevicePixelRatio)
+		const labelBounds = await label.boundingBox()
+		expect(labelBounds).not.toBeNull()
+		await label.hover({ position: { x: 12, y: 8 } })
+		await expect(tooltip).toBeVisible()
+
+		const tooltipBounds = await tooltip.boundingBox()
+		expect(tooltipBounds).not.toBeNull()
+		expect(tooltipBounds?.y).toBeCloseTo((labelBounds?.y ?? 0) + 8 + 16 / 2, 0)
+
+		await page.reload()
+		await expect(page.locator('[role="tooltip"]')).toHaveCount(12)
+		const reloadedDevicePixelRatio = await page.evaluate(() => window.devicePixelRatio)
+		await page.evaluate((initialRatio) => {
+			Object.defineProperty(globalThis, 'devicePixelRatio', {
+				configurable: true,
+				value: initialRatio / 2,
+			})
+		}, reloadedDevicePixelRatio)
+
+		const qualityRow = page.locator('.tp-lblv').filter({
+			has: page.getByText('Quality', { exact: true }),
+		})
+		const qualityLabel = qualityRow.locator('.tp-lblv_l')
+		const qualityTooltip = qualityRow.locator('[role="tooltip"]')
+		const qualityLabelBounds = await qualityLabel.boundingBox()
+		expect(qualityLabelBounds).not.toBeNull()
+		await qualityLabel.hover({ position: { x: 12, y: 8 } })
+		await expect(qualityTooltip).toBeVisible()
+
+		const qualityTooltipBounds = await qualityTooltip.boundingBox()
+		expect(qualityTooltipBounds).not.toBeNull()
+		expect(qualityTooltipBounds?.y).toBeCloseTo((qualityLabelBounds?.y ?? 0) + 8 + 16 / 0.5, 0)
+	})
+
 	test('dismisses when the control is pressed', async ({ page }) => {
 		const row = page.locator('.tp-lblv').filter({
 			has: page.getByText('Glow', { exact: true }),

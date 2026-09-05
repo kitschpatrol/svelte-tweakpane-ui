@@ -12,6 +12,18 @@ const VIEWPORT_MARGIN_PX = 8
 const WHITESPACE_PATTERN = /\s+/v
 
 const TEXT_INPUT_TYPES = new Set(['email', 'number', 'password', 'search', 'tel', 'text', 'url'])
+const initialDevicePixelRatios = new WeakMap<Window, number>()
+
+function browserZoom(window: Window) {
+	let initialRatio = initialDevicePixelRatios.get(window)
+	if (initialRatio === undefined) {
+		initialRatio = window.devicePixelRatio
+		initialDevicePixelRatios.set(window, initialRatio)
+	}
+
+	const ratio = window.devicePixelRatio / initialRatio
+	return Number.isFinite(ratio) && ratio > 0 ? ratio : 1
+}
 
 function parseCssDuration(value: string, fallback: number) {
 	const duration = value.trim()
@@ -148,6 +160,14 @@ export class DescriptionController {
 	private create(description: string) {
 		if (this.root === undefined) {
 			return
+		}
+
+		const window = this.root.ownerDocument.defaultView
+		if (window !== null) {
+			// Desktop page zoom changes devicePixelRatio. Remember its value at
+			// mount so cursor-relative gaps can remain visually stable as the user
+			// zooms in or out without conflating Retina density with page zoom.
+			browserZoom(window)
 		}
 
 		const descriptionElement = this.root.ownerDocument.createElement('div')
@@ -432,7 +452,8 @@ export class DescriptionController {
 		const { x, y } = this.pointerPosition
 		const hoveredElement = this.descriptionElement.ownerDocument.elementFromPoint(x, y)
 		const cursor = hoveredElement === null ? '' : window.getComputedStyle(hoveredElement).cursor
-		const pointerGap = this.pointerGapAt(hoveredElement ?? undefined, cursor, x, y)
+		const pointerGap =
+			this.pointerGapAt(hoveredElement ?? undefined, cursor, x, y) / browserZoom(window)
 		const scale = paneScale(this.descriptionElement)
 		this.descriptionElement.dataset.stuiPointer = ''
 		this.descriptionElement.style.left = `${x - CARET_OFFSET_PX * scale}px`
