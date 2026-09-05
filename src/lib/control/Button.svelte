@@ -10,6 +10,7 @@
 	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte'
 	import type { Theme } from '$lib/theme.js'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { DescriptionController } from '$lib/internal/description.js'
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
 	import {
 		type Container,
@@ -31,6 +32,16 @@
 	 * @default `undefined`
 	 */
 	export let label: string | undefined = undefined
+
+	/**
+	 * Additional context about what the button does.
+	 *
+	 * Displayed in a tooltip when the label is hovered or the button receives
+	 * focus.
+	 *
+	 * @default `undefined`
+	 */
+	export let description: string | undefined = undefined
 
 	/**
 	 * Prevent interactivity and gray out the control.
@@ -67,6 +78,7 @@
 
 	let indexElement: HTMLDivElement | undefined
 	let button: ButtonRef | undefined
+	const descriptionController = new DescriptionController()
 	let index: number | undefined
 
 	function create() {
@@ -93,13 +105,15 @@
 	})
 
 	onDestroy(() => {
+		descriptionController.destroy()
 		button?.dispose()
 	})
 
 	$: index !== undefined && $parentStore && !button && create()
 	$: button && (button.title = title)
-	$: button && (button.label = label)
 	$: button && (button.disabled = disabled)
+	$: button && (button.label = label)
+	$: button && descriptionController.update(button.element, description)
 	$: theme &&
 		$parentStore &&
 		(userCreatedPane ?? !isRootPane($parentStore)) &&
@@ -145,6 +159,6 @@ buttons.
 	{/if}
 {:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
-		<svelte:self {disabled} {label} {title} on:click />
+		<svelte:self {description} {disabled} {label} {title} on:click />
 	</InternalPaneInline>
 {/if}

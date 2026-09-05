@@ -11,6 +11,7 @@
 	import { getContext, onDestroy, onMount } from 'svelte'
 	import type { Theme } from '$lib/theme.js'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { DescriptionController } from '$lib/internal/description.js'
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
 	import {
 		type Container,
@@ -32,6 +33,16 @@
 	 * @default `false`
 	 */
 	export let disabled: boolean = false
+
+	/**
+	 * Additional context about what the control does.
+	 *
+	 * Displayed in a tooltip when the label is hovered or the control receives
+	 * focus.
+	 *
+	 * @default `undefined`
+	 */
+	export let description: string | undefined = undefined
 
 	/**
 	 * Custom color scheme.
@@ -82,6 +93,7 @@
 	let indexElement: HTMLDivElement
 	let index: number
 	let _ref: V // Readonly shadow
+	const descriptionController = new DescriptionController()
 
 	function create() {
 		// Must destroy to allow reactive parameters
@@ -110,6 +122,7 @@
 	})
 
 	onDestroy(() => {
+		descriptionController.destroy()
 		_ref?.dispose()
 	})
 
@@ -118,6 +131,7 @@
 
 	$: options !== undefined && $parentStore !== undefined && index !== undefined && create()
 	$: _ref !== undefined && (_ref.disabled = disabled)
+	$: _ref !== undefined && descriptionController.update(_ref.element, description)
 	$: theme &&
 		$parentStore !== undefined &&
 		(userCreatedPane ?? !isRootPane($parentStore)) &&
@@ -170,6 +184,6 @@ need for the options param.
 	{/if}
 {:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
-		<svelte:self bind:disabled bind:options bind:plugin bind:ref />
+		<svelte:self bind:description bind:disabled bind:options bind:plugin bind:ref />
 	</InternalPaneInline>
 {/if}

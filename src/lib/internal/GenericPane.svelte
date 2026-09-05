@@ -253,4 +253,38 @@ This component is for internal use only.
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
+
+	/* Control descriptions */
+	:global(div.svelte-tweakpane-ui .stui-description) {
+		position: fixed;
+		position-area: block-start;
+		position-try-fallbacks:
+			flip-block,
+			flip-inline,
+			flip-block flip-inline;
+		justify-self: start;
+		box-sizing: border-box;
+		max-width: min(24rem, calc(100vw - 16px));
+		margin: 4px;
+		padding: 4px 6px;
+		border: 0;
+		border-radius: var(--bld-br);
+		font: inherit;
+		line-height: 1.4;
+		color: var(--bs-bg);
+		text-align: left;
+		white-space: pre-wrap;
+		background-color: var(--in-fg);
+		box-shadow: 0 2px 4px var(--bs-sh);
+	}
+
+	:global(div.svelte-tweakpane-ui .stui-description::backdrop) {
+		background: transparent;
+	}
+
+	/* Tweakpane disables pointer events on the entire blade. Keep only a
+	 * described disabled blade's label able to receive hover events. */
+	:global(div.svelte-tweakpane-ui [data-stui-description].tp-v-disabled > .tp-lblv_l) {
+		pointer-events: auto;
+	}
 </style>

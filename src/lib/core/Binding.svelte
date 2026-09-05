@@ -19,6 +19,7 @@
 	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte'
 	import type { Theme } from '$lib/theme.js'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { DescriptionController } from '$lib/internal/description.js'
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
 	import {
 		type Container,
@@ -55,6 +56,16 @@
 	 * @default `undefined`
 	 */
 	export let label: string | undefined = undefined
+
+	/**
+	 * Additional context about what the control does.
+	 *
+	 * Displayed in a tooltip when the label is hovered or the control receives
+	 * focus.
+	 *
+	 * @default `undefined`
+	 */
+	export let description: string | undefined = undefined
 
 	/**
 	 * Tweakpane's internal options object.
@@ -120,6 +131,7 @@
 	const userCreatedPane = getContext<boolean | undefined>('userCreatedPane')
 
 	let _ref: V // Internal shadow ref
+	const descriptionController = new DescriptionController()
 	let indexElement: HTMLDivElement
 	let index: number
 
@@ -152,6 +164,7 @@
 	})
 
 	onDestroy(() => {
+		descriptionController.destroy()
 		_ref?.dispose()
 	})
 
@@ -256,6 +269,7 @@
 	$: (options, $parentStore !== undefined && index !== undefined && create())
 	$: _ref !== undefined && (_ref.disabled = disabled)
 	$: _ref !== undefined && (_ref.label = label)
+	$: _ref !== undefined && descriptionController.update(_ref.element, description)
 
 	// A refresh alone doesn't seem to be enough when the object itself (not
 	// just its values) has changed, so it's handled in onBoundValueChange
@@ -311,6 +325,7 @@ position="inline">`.
 	<InternalPaneInline {theme} userCreatedPane={false}>
 		<svelte:self
 			bind:disabled
+			bind:description
 			bind:key
 			bind:label
 			bind:object
