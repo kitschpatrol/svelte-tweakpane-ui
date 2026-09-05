@@ -36,6 +36,15 @@ function parseCssPixels(value: string) {
 	return value.endsWith('px') ? Number(value.slice(0, -2)) : NaN
 }
 
+function paneScale(element: HTMLElement) {
+	const value = Number(
+		element.ownerDocument.defaultView
+			?.getComputedStyle(element)
+			.getPropertyValue('--stui-pane-scale'),
+	)
+	return Number.isFinite(value) && value > 0 ? value : 1
+}
+
 function visibleInlineBounds(element: HTMLElement) {
 	const window = element.ownerDocument.defaultView
 	const style = window?.getComputedStyle(element)
@@ -44,10 +53,14 @@ function visibleInlineBounds(element: HTMLElement) {
 	}
 
 	const bounds = element.getBoundingClientRect()
+	const scale = paneScale(element)
 	return {
-		left: bounds.left + parseCssPixels(style.borderLeftWidth) + parseCssPixels(style.paddingLeft),
+		left:
+			bounds.left +
+			(parseCssPixels(style.borderLeftWidth) + parseCssPixels(style.paddingLeft)) * scale,
 		right:
-			bounds.right - parseCssPixels(style.borderRightWidth) - parseCssPixels(style.paddingRight),
+			bounds.right -
+			(parseCssPixels(style.borderRightWidth) + parseCssPixels(style.paddingRight)) * scale,
 	}
 }
 
@@ -283,8 +296,9 @@ export class DescriptionController {
 		}
 
 		const bounds = element.getBoundingClientRect()
-		const right = bounds.right - inset
-		return x >= right - width && x <= right && y >= bounds.top && y <= bounds.bottom
+		const scale = paneScale(element)
+		const right = bounds.right - inset * scale
+		return x >= right - width * scale && x <= right && y >= bounds.top && y <= bounds.bottom
 	}
 
 	private isPointerOverText(element: HTMLElement | undefined, x: number, y: number) {
@@ -347,11 +361,31 @@ export class DescriptionController {
 		}
 
 		const bounds = this.descriptionElement.getBoundingClientRect()
-		const maximumOffset = Math.max(CARET_EDGE_INSET_PX, bounds.width - CARET_EDGE_INSET_PX)
-		const offset = Math.min(Math.max(CARET_EDGE_INSET_PX, originX - bounds.left), maximumOffset)
+		const scale = paneScale(this.descriptionElement)
+		const maximumOffset = Math.max(CARET_EDGE_INSET_PX, bounds.width / scale - CARET_EDGE_INSET_PX)
+		const originOffset = (originX - bounds.left) / scale
+		const offset = Math.min(Math.max(CARET_EDGE_INSET_PX, originOffset), maximumOffset)
 
 		this.descriptionElement.dataset.stuiPlacement = placement
 		this.descriptionElement.style.setProperty('--stui-description-caret-offset', `${offset}px`)
+	}
+
+	private setViewportMaxWidth() {
+		if (this.descriptionElement === undefined) {
+			return
+		}
+
+		const window = this.descriptionElement.ownerDocument.defaultView
+		if (window === null) {
+			return
+		}
+
+		const availableWidth =
+			(window.innerWidth - VIEWPORT_MARGIN_PX * 2) / paneScale(this.descriptionElement)
+		this.descriptionElement.style.setProperty(
+			'--stui-description-viewport-max-width',
+			`${availableWidth}px`,
+		)
 	}
 
 	private show(source: HTMLElement | undefined) {
@@ -369,6 +403,7 @@ export class DescriptionController {
 		this.descriptionElement.toggleAttribute('data-stui-pointer', false)
 		this.descriptionElement.style.removeProperty('left')
 		this.descriptionElement.style.removeProperty('top')
+		this.setViewportMaxWidth()
 		this.descriptionElement.showPopover({ source })
 
 		const descriptionBounds = this.descriptionElement.getBoundingClientRect()
@@ -398,9 +433,11 @@ export class DescriptionController {
 		const hoveredElement = this.descriptionElement.ownerDocument.elementFromPoint(x, y)
 		const cursor = hoveredElement === null ? '' : window.getComputedStyle(hoveredElement).cursor
 		const pointerGap = this.pointerGapAt(hoveredElement ?? undefined, cursor, x, y)
+		const scale = paneScale(this.descriptionElement)
 		this.descriptionElement.dataset.stuiPointer = ''
-		this.descriptionElement.style.left = `${x}px`
+		this.descriptionElement.style.left = `${x - CARET_OFFSET_PX * scale}px`
 		this.descriptionElement.style.top = `${y + pointerGap}px`
+		this.setViewportMaxWidth()
 		this.descriptionElement.showPopover()
 
 		const bounds = this.descriptionElement.getBoundingClientRect()
@@ -412,7 +449,7 @@ export class DescriptionController {
 			VIEWPORT_MARGIN_PX,
 			window.innerHeight - bounds.height - VIEWPORT_MARGIN_PX,
 		)
-		const left = Math.min(Math.max(VIEWPORT_MARGIN_PX, x - CARET_OFFSET_PX), maximumLeft)
+		const left = Math.min(Math.max(VIEWPORT_MARGIN_PX, x - CARET_OFFSET_PX * scale), maximumLeft)
 		const preferredTop = y + pointerGap
 		const flippedTop = y - bounds.height - pointerGap
 		const placement = preferredTop > maximumTop ? 'above' : 'below'

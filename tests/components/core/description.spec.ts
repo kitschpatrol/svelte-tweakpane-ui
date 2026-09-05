@@ -37,6 +37,26 @@ test.describe('Control descriptions', () => {
 		}
 	})
 
+	test('matches the pane scale after entering the top layer', async ({ page }) => {
+		const pane = page.locator('.svelte-tweakpane-ui')
+		const row = page.locator('.tp-lblv').filter({
+			has: page.getByText('Glow', { exact: true }),
+		})
+		const tooltip = row.locator('[role="tooltip"]')
+
+		await row.locator('.tp-lblv_l').hover({ position: { x: 12, y: 8 } })
+		await expect(tooltip).toBeVisible()
+
+		const paneRenderScale = await pane.evaluate(
+			(element) => element.getBoundingClientRect().width / (element as HTMLElement).offsetWidth,
+		)
+		const tooltipRenderScale = await tooltip.evaluate(
+			(element) => element.getBoundingClientRect().width / (element as HTMLElement).offsetWidth,
+		)
+		expect(paneRenderScale).toBeCloseTo(2, 1)
+		expect(tooltipRenderScale).toBeCloseTo(paneRenderScale, 1)
+	})
+
 	test('supports an affordance after truncated label text', async ({ page }) => {
 		const row = page.locator('.tp-lblv').filter({
 			has: page.getByText('Labeled Wide Slider', { exact: true }),
@@ -68,6 +88,7 @@ test.describe('Control descriptions', () => {
 		expect(await affordanceContent()).toBe('"🛈"')
 		const layout = await label.evaluate((element) => {
 			const bounds = element.getBoundingClientRect()
+			const scale = bounds.width / (element as HTMLElement).offsetWidth
 			const style = getComputedStyle(element)
 			const affordanceStyle = getComputedStyle(element, '::after')
 			const text = element.firstChild
@@ -79,10 +100,10 @@ test.describe('Control descriptions', () => {
 			range.selectNodeContents(text)
 			const contentRight =
 				bounds.right -
-				Number(style.borderRightWidth.slice(0, -2)) -
-				Number(style.paddingRight.slice(0, -2))
-			const affordanceRight = bounds.right - Number(affordanceStyle.right.slice(0, -2))
-			const affordanceLeft = affordanceRight - Number(affordanceStyle.width.slice(0, -2))
+				(Number(style.borderRightWidth.slice(0, -2)) + Number(style.paddingRight.slice(0, -2))) *
+					scale
+			const affordanceRight = bounds.right - Number(affordanceStyle.right.slice(0, -2)) * scale
+			const affordanceLeft = affordanceRight - Number(affordanceStyle.width.slice(0, -2)) * scale
 
 			return {
 				affordanceLeft,
@@ -134,9 +155,10 @@ test.describe('Control descriptions', () => {
 			return {
 				borderBottomColor: style.borderBottomColor,
 				left: Number(style.left.replace('px', '')),
+				scale: element.getBoundingClientRect().width / (element as HTMLElement).offsetWidth,
 			}
 		})
-		expect((tooltipBounds?.x ?? 0) + caret.left).toBeCloseTo(pointerX, 0)
+		expect((tooltipBounds?.x ?? 0) + caret.left * caret.scale).toBeCloseTo(pointerX, 0)
 		expect(caret.borderBottomColor).toBe(
 			await tooltip.evaluate((element) => getComputedStyle(element).backgroundColor),
 		)
@@ -293,6 +315,8 @@ test.describe('Control descriptions', () => {
 	})
 
 	test('adapts the gap to the cursor independently of label and wide states', async ({ page }) => {
+		await page.setViewportSize({ height: 1600, width: 1280 })
+
 		const labeledWideTooltip = page.locator('[role="tooltip"]').filter({
 			hasText: 'Adjusts a labeled wide slider.',
 		})
@@ -337,7 +361,7 @@ test.describe('Control descriptions', () => {
 	})
 
 	test('follows a reactively updated label', async ({ page }) => {
-		await page.getByRole('button', { name: 'Update label' }).click()
+		await page.getByRole('button', { name: 'Update label' }).dispatchEvent('click')
 
 		const row = page.locator('.tp-lblv').filter({
 			has: page.getByText('Bloom', { exact: true }),
@@ -349,6 +373,12 @@ test.describe('Control descriptions', () => {
 	})
 
 	test('flips the caret when the tooltip opens above its origin', async ({ page }) => {
+		await page.locator('.svelte-tweakpane-ui').evaluate((element) => {
+			element.style.removeProperty('transform')
+			element.style.removeProperty('transform-origin')
+			element.style.removeProperty('width')
+			element.style.setProperty('--stui-pane-scale', '1')
+		})
 		const row = page.locator('.tp-lblv').filter({
 			has: page.getByText('Glow', { exact: true }),
 		})
@@ -390,7 +420,7 @@ test.describe('Control descriptions', () => {
 			has: page.getByText('Glow', { exact: true }),
 		})
 
-		await page.getByRole('button', { name: 'Update description' }).click()
+		await page.getByRole('button', { name: 'Update description' }).dispatchEvent('click')
 		await expect(page.getByTestId('description-state')).toHaveText('Updated description')
 		await expect(row.locator('[role="tooltip"]')).toHaveText('Updated description')
 		await expect(row.locator('.tp-lblv_l')).not.toHaveAttribute('title')
@@ -404,7 +434,7 @@ test.describe('Control descriptions', () => {
 			element.setAttribute('aria-describedby', `${ids} external-description`)
 		})
 
-		await page.getByRole('button', { name: 'Remove description' }).click()
+		await page.getByRole('button', { name: 'Remove description' }).dispatchEvent('click')
 		await expect(row).not.toHaveAttribute('data-stui-description')
 		await expect(row.locator('[role="tooltip"]')).toHaveCount(0)
 		await expect(describedControl).toHaveAttribute('aria-describedby', 'external-description')
@@ -443,7 +473,7 @@ test.describe('Control descriptions', () => {
 
 		await expect(describedControl).toHaveAttribute('aria-describedby', descriptionId)
 
-		await page.getByRole('button', { name: 'Update description' }).click()
+		await page.getByRole('button', { name: 'Update description' }).dispatchEvent('click')
 		await expect(glowLabel).not.toHaveAttribute('title')
 		await expect(tooltip).toHaveText('Updated description')
 	})

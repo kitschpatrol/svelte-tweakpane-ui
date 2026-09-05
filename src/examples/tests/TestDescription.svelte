@@ -39,7 +39,7 @@
 </script>
 
 <div class:show-description-icons={showDescriptionIcons}>
-	<Pane position="inline" theme={presets[themeKey]} title="Descriptions">
+	<Pane position="inline" scale={2} theme={presets[themeKey]} title="Descriptions">
 		<List label="Theme" options={Object.keys(presets)} bind:value={themeKey} />
 		<Checkbox label="Show description icons" bind:value={showDescriptionIcons} />
 		<Slider {description} label={glowLabel} max={1} min={0} bind:value={glow} />

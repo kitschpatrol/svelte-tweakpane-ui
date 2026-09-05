@@ -171,19 +171,23 @@
 	}
 
 	function setScale(newScale: number) {
-		if (tpPane) {
-			if (newScale === 1) {
-				tpPane.element.style.removeProperty('transform-origin')
-				tpPane.element.style.removeProperty('transform')
-				tpPane.element.style.removeProperty('width')
-			} else {
-				const clampedScale = Math.max(0, newScale)
-				tpPane.element.style.transformOrigin = '0 0'
-				tpPane.element.style.transform = `scale(${clampedScale})`
+		if (tpPane === undefined) {
+			return
+		}
 
-				// Jitters a bit, but resizeObserver + rounding wasn't better
-				tpPane.element.style.width = `${100 / clampedScale}%`
-			}
+		const clampedScale = Math.max(0, newScale)
+		tpPane.element.style.setProperty('--stui-pane-scale', `${clampedScale}`)
+
+		if (newScale === 1) {
+			tpPane.element.style.removeProperty('transform-origin')
+			tpPane.element.style.removeProperty('transform')
+			tpPane.element.style.removeProperty('width')
+		} else {
+			tpPane.element.style.transformOrigin = '0 0'
+			tpPane.element.style.transform = `scale(${clampedScale})`
+
+			// Jitters a bit, but resizeObserver + rounding wasn't better
+			tpPane.element.style.width = `${100 / clampedScale}%`
 		}
 	}
 
@@ -258,6 +262,8 @@ This component is for internal use only.
 	:global(div.svelte-tweakpane-ui .stui-description) {
 		position: fixed;
 		inset: auto;
+		transform-origin: top center;
+		scale: var(--stui-pane-scale, 1);
 		position-area: block-end;
 		position-try-fallbacks:
 			flip-block,
@@ -267,7 +273,10 @@ This component is for internal use only.
 		justify-self: anchor-center;
 		box-sizing: border-box;
 		width: max-content;
-		max-width: var(--stui-description-max-width, min(16rem, calc(100vw - 16px)));
+		max-width: min(
+			var(--stui-description-max-width, 16rem),
+			var(--stui-description-viewport-max-width, calc(100vw - 16px))
+		);
 		margin: var(--cnt-usp);
 		padding: 2px 4px;
 		border: 0;
@@ -283,9 +292,16 @@ This component is for internal use only.
 	}
 
 	:global(div.svelte-tweakpane-ui .stui-description[data-stui-pointer]) {
+		transform-origin: top left;
 		position-area: none;
 		justify-self: auto;
 		margin: 0;
+	}
+
+	:global(
+		div.svelte-tweakpane-ui .stui-description:not([data-stui-pointer])[data-stui-placement='above']
+	) {
+		transform-origin: bottom center;
 	}
 
 	:global(div.svelte-tweakpane-ui .stui-description:popover-open) {
