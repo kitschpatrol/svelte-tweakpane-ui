@@ -22,9 +22,9 @@ export class DescriptionController {
 	private anchor: HTMLElement | undefined
 	private describedElements = new Set<HTMLElement>()
 	private descriptionElement: HTMLElement | undefined
+	private managedTitle?: { element: HTMLElement; originalTitle?: string; value: string }
 	private observer: MutationObserver | undefined
 	private root: HTMLElement | undefined
-	private titleFallback?: { element: HTMLElement; originalTitle?: string; value: string }
 
 	public destroy() {
 		this.root?.removeEventListener('focusin', this.handleFocusIn)
@@ -45,14 +45,14 @@ export class DescriptionController {
 			delete this.root.dataset.stuiDescription
 		}
 
-		this.removeTitleFallback()
+		this.removeManagedTitle()
 
 		this.anchor = undefined
 		this.describedElements.clear()
 		this.descriptionElement = undefined
 		this.observer = undefined
 		this.root = undefined
-		this.titleFallback = undefined
+		this.managedTitle = undefined
 	}
 
 	public update(root: HTMLElement, description: string | undefined) {
@@ -70,9 +70,7 @@ export class DescriptionController {
 			this.create(description)
 		} else {
 			this.descriptionElement.textContent = description
-			if (this.titleFallback !== undefined) {
-				this.setTitleFallback(description)
-			}
+			this.setManagedTitle(description)
 
 			this.syncAnchor()
 		}
@@ -88,6 +86,7 @@ export class DescriptionController {
 		descriptionElement.id = `stui-description-${nanoid()}`
 		descriptionElement.setAttribute('role', 'tooltip')
 		descriptionElement.textContent = description
+		this.setManagedTitle(description)
 
 		if (typeof descriptionElement.showPopover === 'function') {
 			descriptionElement.setAttribute('popover', 'hint')
@@ -95,7 +94,6 @@ export class DescriptionController {
 			// Keep the text available to aria-describedby without displaying a
 			// misplaced element in browsers that do not support the Popover API.
 			descriptionElement.hidden = true
-			this.setTitleFallback(description)
 		}
 
 		this.root.dataset.stuiDescription = ''
@@ -166,12 +164,12 @@ export class DescriptionController {
 		}
 	}
 
-	private removeTitleFallback() {
-		if (this.titleFallback === undefined) {
+	private removeManagedTitle() {
+		if (this.managedTitle === undefined) {
 			return
 		}
 
-		const { element, originalTitle, value } = this.titleFallback
+		const { element, originalTitle, value } = this.managedTitle
 		// Leave a title alone if application code replaced the fallback while the
 		// description was active.
 		if (element.getAttribute('title') !== value) {
@@ -185,18 +183,18 @@ export class DescriptionController {
 		}
 	}
 
-	private setTitleFallback(description: string) {
+	private setManagedTitle(description: string) {
 		if (this.root === undefined) {
 			return
 		}
 
-		this.titleFallback ??= {
+		this.managedTitle ??= {
 			element: this.root,
 			originalTitle: this.root.getAttribute('title') ?? undefined,
 			value: description,
 		}
-		this.titleFallback.value = description
-		this.titleFallback.element.setAttribute('title', description)
+		this.managedTitle.value = description
+		this.managedTitle.element.setAttribute('title', description)
 	}
 
 	private show(source: HTMLElement | undefined) {

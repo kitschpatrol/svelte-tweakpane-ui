@@ -18,7 +18,10 @@ test.describe('Control descriptions', () => {
 		await expect(tooltips).toHaveCount(4)
 		await expect(tooltips.first()).toHaveText('Adjusts the amount of glow.\nUse sparingly.')
 		await expect(tooltips.first()).toHaveAttribute('popover', 'hint')
-		await expect(describedBlades.first()).not.toHaveAttribute('title')
+		await expect(describedBlades.first()).toHaveAttribute(
+			'title',
+			'Adjusts the amount of glow.\nUse sparingly.',
+		)
 	})
 
 	test('connects interactive controls to their descriptions', async ({ page }) => {
@@ -129,7 +132,9 @@ test.describe('Control descriptions', () => {
 		await expect(describedControl).toHaveAttribute('aria-describedby', 'external-description')
 	})
 
-	test('uses a non-destructive title fallback without the Popover API', async ({ page }) => {
+	test('retains the non-destructive title when the Popover API is unavailable', async ({
+		page,
+	}) => {
 		await page.addInitScript(() => {
 			Object.defineProperties(HTMLElement.prototype, {
 				hidePopover: {
