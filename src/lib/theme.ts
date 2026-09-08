@@ -46,7 +46,7 @@ type ThemeKeys = {
 	stuiDescriptionDelay?: string
 	stuiDescriptionFadeInDuration?: string
 	stuiDescriptionFadeOutDuration?: string
-	stuiDescriptionHintDisplay?: string
+	stuiDescriptionHint?: string
 	stuiDescriptionMaxWidth?: string
 }
 
@@ -92,7 +92,7 @@ const standard: Theme = {
 	stuiDescriptionDelay: '500ms',
 	stuiDescriptionFadeInDuration: '50ms',
 	stuiDescriptionFadeOutDuration: '250ms',
-	stuiDescriptionHintDisplay: 'none',
+	stuiDescriptionHint: '',
 	stuiDescriptionMaxWidth: 'min(16rem, calc(100vw - 16px))',
 }
 
@@ -304,7 +304,7 @@ const keyToCssVariableMap = new Map([
 	['stuiDescriptionDelay', '--stui-description-delay'],
 	['stuiDescriptionFadeInDuration', '--stui-description-fade-in-duration'],
 	['stuiDescriptionFadeOutDuration', '--stui-description-fade-out-duration'],
-	['stuiDescriptionHintDisplay', '--stui-description-hint-display'],
+	['stuiDescriptionHint', '--stui-description-hint'],
 	['stuiDescriptionMaxWidth', '--stui-description-max-width'],
 ])
 
@@ -378,7 +378,12 @@ export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 
 		for (const [k, v] of Object.entries(theme)) {
 			const key = expandVariableKey(k)
-			const value = stringToCssValue(v)
+			let value = stringToCssValue(v)
+			if (k === 'stuiDescriptionHint' && value !== undefined) {
+				// Encode plain text as decorative CSS content; an empty hint generates no box.
+				value = value.length === 0 ? 'none' : `"${CSS.escape(value)}" / ""`
+			}
+
 			// Only set the variable if it deviates from the standard theme or  the root theme (set
 			// by setGlobalDefaultTheme).... but if theme is explicitly standard and not undefined,
 			// then apply it anyway so that any global theme is overridden TODO normalize color

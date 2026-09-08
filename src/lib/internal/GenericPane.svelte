@@ -242,22 +242,15 @@ This component is for internal use only.
 	}
 
 	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-lblv_l) {
-		/* Only the text and generated hint are hover targets, including on disabled controls. */
-		pointer-events: none;
+		/* Labels can show help even when Tweakpane disables the control's pointer events. */
+		pointer-events: auto;
 		white-space: nowrap;
 	}
 
-	:global(div.svelte-tweakpane-ui .stui-description-label-text) {
-		pointer-events: auto;
-	}
-
 	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-lblv_l::after) {
-		pointer-events: auto;
 		cursor: default;
-		/* The hint is decorative; the description is already available through aria-describedby. */
-		content: 'ⓘ' / '';
+		content: var(--stui-description-hint, none);
 		user-select: none;
-		display: var(--stui-description-hint-display, none);
 		padding-inline-start: 0.35em;
 	}
 

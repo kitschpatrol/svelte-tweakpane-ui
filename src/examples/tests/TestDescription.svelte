@@ -1,7 +1,6 @@
 <script lang="ts">
 	import {
 		Button,
-		Checkbox,
 		IntervalSlider,
 		List,
 		Pane,
@@ -15,13 +14,13 @@
 	import { presets } from '$lib/theme.js'
 
 	let description: string | undefined = 'Adjusts the amount of glow.\nUse sparingly.'
+	let descriptionHint = ''
 	let glow = 0.5
 	let glowLabel = 'Glow'
 	let interval: [number, number] = [0.25, 0.75]
 	let notes = 'Notes'
 	let quality = 'High'
 	let ring = 0
-	let showDescriptionIcons = false
 	let stepper = 0
 	let theme: Theme
 	let themeKey: keyof typeof presets = 'light'
@@ -29,7 +28,7 @@
 
 	$: theme = {
 		...presets[themeKey],
-		stuiDescriptionHintDisplay: showDescriptionIcons ? 'inline' : 'none',
+		stuiDescriptionHint: descriptionHint,
 	}
 
 	function removeDescription() {
@@ -48,7 +47,7 @@
 <div>
 	<Pane position="inline" scale={1} {theme} title="Descriptions">
 		<List label="Theme" options={Object.keys(presets)} bind:value={themeKey} />
-		<Checkbox label="Show description icons" bind:value={showDescriptionIcons} />
+		<List label="Hint" options={['', '(i)', 'ⓘ', '"?"']} bind:value={descriptionHint} />
 		<Slider {description} label={glowLabel} max={1} min={0} bind:value={glow} />
 		<List
 			description="Balances rendering speed and detail."

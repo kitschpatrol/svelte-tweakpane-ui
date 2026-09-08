@@ -1,6 +1,5 @@
 import { nanoid } from 'nanoid'
 
-const LABEL_TEXT_CLASS = 'stui-description-label-text'
 const INTERACTIVE_SELECTOR = 'button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
 const WHITESPACE_PATTERN = /\s+/v
 const TIME_UNIT_PATTERN = /m?s$/v
@@ -32,7 +31,6 @@ function createDescription(root: HTMLElement, text: string) {
 	root.dataset.stuiDescription = ''
 
 	let label: HTMLElement | undefined
-	let labelText: HTMLElement | undefined
 	let describedElements = new Set<HTMLElement>()
 	let hovered = false
 	let dismissed = false
@@ -186,15 +184,6 @@ function createDescription(root: HTMLElement, text: string) {
 	document.addEventListener('scroll', positionCaret, { ...options, capture: true })
 	document.defaultView?.addEventListener('resize', positionCaret, options)
 
-	function restoreLabel() {
-		if (labelText?.parentElement === label) {
-			labelText?.replaceWith(...labelText.childNodes)
-		}
-
-		label = undefined
-		labelText = undefined
-	}
-
 	function sync() {
 		// Tweakpane retains the old text when it hides a label by changing this class.
 		const nextLabel = root.classList.contains('tp-lblv-nol')
@@ -203,16 +192,9 @@ function createDescription(root: HTMLElement, text: string) {
 		const labelContent = nextLabel?.textContent
 		const anchor =
 			labelContent === undefined || labelContent.length === 0 ? undefined : (nextLabel ?? undefined)
-		if (label !== anchor || (label !== undefined && labelText?.parentElement !== label)) {
+		if (label !== anchor) {
 			hide()
-			restoreLabel()
 			label = anchor
-			if (label !== undefined) {
-				labelText = document.createElement('span')
-				labelText.className = LABEL_TEXT_CLASS
-				labelText.append(...label.childNodes)
-				label.append(labelText)
-			}
 		}
 
 		const nextElements = new Set(root.querySelectorAll<HTMLElement>(INTERACTIVE_SELECTOR))
@@ -264,7 +246,6 @@ function createDescription(root: HTMLElement, text: string) {
 			resizeObserver.disconnect()
 			listeners.abort()
 			hide()
-			restoreLabel()
 			for (const control of describedElements) {
 				removeDescriptionId(control, element.id)
 			}

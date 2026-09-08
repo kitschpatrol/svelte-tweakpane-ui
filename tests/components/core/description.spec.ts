@@ -105,49 +105,46 @@ test.describe('Control descriptions', () => {
 			has: page.getByText('Labeled Wide Slider', { exact: true }),
 		})
 		const label = row.locator('.tp-lblv_l')
-		const labelText = label.locator('.stui-description-label-text')
-		const hintDisplay = async () =>
-			label.evaluate((element) => getComputedStyle(element, '::after').display)
+		const hintContent = async () =>
+			label.evaluate((element) => getComputedStyle(element, '::after').content)
 		const tooltip = row.locator('[role="tooltip"]')
-		const checkbox = page
+		const hintSelect = page
 			.locator('.tp-lblv')
-			.filter({ hasText: 'Show description icons' })
-			.locator('.tp-ckbv_w')
+			.filter({ has: page.getByText('Hint', { exact: true }) })
+			.getByRole('combobox')
 
-		await expect.poll(hintDisplay).toBe('none')
-		await checkbox.click()
-		await expect.poll(hintDisplay).toBe('inline')
+		await expect(label.locator('*')).toHaveCount(0)
+		await expect.poll(hintContent).toBe('none')
+		await hintSelect.selectOption('(i)')
+		await expect.poll(hintContent).toBe('"(i)" / ""')
 		await expect(label).toMatchAriaSnapshot('- text: Labeled Wide Slider')
-		expect(
-			await label.evaluate((element) => getComputedStyle(element, '::after').content),
-		).toContain('ⓘ')
 
-		const initialTextBounds = await boundingBox(labelText)
-		await labelText.hover({ position: { x: initialTextBounds.width - 1, y: 8 } })
-		await expect(tooltip).toBeVisible()
-		await page.mouse.move(
-			initialTextBounds.x + initialTextBounds.width + 2,
-			initialTextBounds.y + initialTextBounds.height / 2,
-		)
-		await page.waitForTimeout(500)
+		const hintPosition = await label.evaluate((element) => {
+			const range = document.createRange()
+			range.selectNodeContents(element)
+			const bounds = range.getBoundingClientRect()
+			return { x: bounds.right + 2, y: bounds.top + bounds.height / 2 }
+		})
+		await page.mouse.move(hintPosition.x, hintPosition.y)
 		await expect(tooltip).toBeVisible()
 
 		await label.evaluate((element) => {
 			element.style.flex = '0 0 48px'
 		})
-		const labelBounds = await boundingBox(label)
-		const textBounds = await boundingBox(labelText)
-		expect(textBounds.x + textBounds.width).toBeGreaterThan(labelBounds.x + labelBounds.width)
+		expect(await label.evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(true)
 		await expect(label).toHaveCSS('overflow-x', 'hidden')
 		await expect(label).toHaveCSS('text-overflow', 'ellipsis')
-		await checkbox.hover()
+		await hintSelect.hover()
 		await expect(tooltip).toBeHidden()
 
 		await label.hover({ position: { x: 12, y: 8 } })
 		await expect(tooltip).toBeVisible()
 
-		await checkbox.click()
-		await expect.poll(hintDisplay).toBe('none')
+		await hintSelect.selectOption('"?"')
+		await expect.poll(hintContent).toBe(String.raw`"\"?\"" / ""`)
+		await expect(label).toMatchAriaSnapshot('- text: Labeled Wide Slider')
+		await hintSelect.selectOption('')
+		await expect.poll(hintContent).toBe('none')
 	})
 
 	test('opens after a delay and stays open while crossing into the tooltip', async ({ page }) => {
@@ -200,7 +197,7 @@ test.describe('Control descriptions', () => {
 		page,
 	}) => {
 		const label = page.getByText('Labeled Wide Slider', { exact: true })
-		const tooltip = label.locator('../..').locator('[role="tooltip"]')
+		const tooltip = label.locator('..').locator('[role="tooltip"]')
 		const source = await boundingBox(label)
 		await page.mouse.move(source.x + 8, source.y + source.height / 2)
 		await page.waitForTimeout(200)
@@ -350,7 +347,7 @@ test.describe('Control descriptions', () => {
 		await expect(tooltip).toBeVisible()
 	})
 
-	test('opens only over rendered label text', async ({ page }) => {
+	test('opens over the whole label, including empty space', async ({ page }) => {
 		const row = page.locator('.tp-lblv').filter({
 			has: page.getByText('Glow', { exact: true }),
 		})
@@ -358,8 +355,7 @@ test.describe('Control descriptions', () => {
 		const tooltip = row.locator('[role="tooltip"]')
 		const labelBounds = await boundingBox(label)
 		await page.mouse.move(labelBounds.x + labelBounds.width - 4, labelBounds.y + 8)
-		await page.waitForTimeout(600)
-		await expect(tooltip).toBeHidden()
+		await expect(tooltip).toBeVisible()
 
 		await label.hover({ position: { x: 12, y: 8 } })
 		await expect(tooltip).toBeVisible()
@@ -626,7 +622,7 @@ test.describe('Control descriptions', () => {
 			has: page.getByText('Bloom', { exact: true }),
 		})
 		const tooltip = row.locator('[role="tooltip"]')
-		await expect(row.locator('.stui-description-label-text')).toHaveText('Bloom')
+		await expect(row.locator('.tp-lblv_l')).toHaveText('Bloom')
 
 		await row.locator('.tp-lblv_l').hover({ position: { x: 12, y: 8 } })
 		await expect(tooltip).toBeVisible()
@@ -738,7 +734,7 @@ test.describe('Control descriptions', () => {
 		await page.getByRole('button', { name: 'Remove description' }).dispatchEvent('click')
 		await expect(row).not.toHaveAttribute('data-stui-description')
 		await expect(row.locator('[role="tooltip"]')).toHaveCount(0)
-		await expect(row.locator('.stui-description-label-text')).toHaveCount(0)
+		await expect(label).toHaveText('Glow')
 		expect(await label.evaluate((element) => getComputedStyle(element, '::after').content)).toBe(
 			'none',
 		)
@@ -829,7 +825,7 @@ test.describe('Control descriptions', () => {
 	})
 	test('keeps Escape dismissal until the pointer leaves and re-enters', async ({ page }) => {
 		const label = page.getByText('Glow', { exact: true })
-		const tooltip = label.locator('../..').locator('[role="tooltip"]')
+		const tooltip = label.locator('..').locator('[role="tooltip"]')
 		await label.hover()
 		await expect(tooltip).toBeVisible()
 		await page.keyboard.press('Escape')
@@ -854,7 +850,7 @@ test.describe('Control descriptions', () => {
 		})
 		const existing = page.locator('#existing-hint')
 		const label = page.getByText('Glow', { exact: true })
-		const tooltip = label.locator('../..').locator('[role="tooltip"]')
+		const tooltip = label.locator('..').locator('[role="tooltip"]')
 		await label.hover()
 		await page.waitForTimeout(200)
 		await expect(existing).toBeVisible()
@@ -878,7 +874,7 @@ test.describe('Control descriptions', () => {
 		})
 		await page.reload()
 		const label = page.getByText('Glow', { exact: true })
-		const tooltip = label.locator('../..').locator('[role="tooltip"]')
+		const tooltip = label.locator('..').locator('[role="tooltip"]')
 		await expect(tooltip).toHaveAttribute('popover', 'manual')
 		await page.evaluate(() => {
 			const popover = document.createElement('div')
@@ -904,7 +900,7 @@ test.describe('Control descriptions', () => {
 	test('keeps the hover bridge with reduced motion and a disabled control', async ({ page }) => {
 		await page.emulateMedia({ reducedMotion: 'reduce' })
 		const label = page.getByText('Settings', { exact: true })
-		const tooltip = label.locator('../..').locator('[role="tooltip"]')
+		const tooltip = label.locator('..').locator('[role="tooltip"]')
 		await label.hover({ position: { x: 12, y: 8 } })
 		await expect(tooltip).toBeVisible()
 		const source = await boundingBox(label)
@@ -922,7 +918,7 @@ test.describe('Control descriptions', () => {
 
 	test('resolves CSS time expressions for the opening delay', async ({ page }) => {
 		const label = page.getByText('Glow', { exact: true })
-		const row = label.locator('../..')
+		const row = label.locator('..')
 		const tooltip = row.locator('[role="tooltip"]')
 		await row.evaluate((element) => {
 			element.style.setProperty('--stui-description-delay', 'calc(0.25s + 350ms)')
@@ -938,7 +934,7 @@ test.describe('Control descriptions', () => {
 	}) => {
 		await page.goto('/TestDescriptionScale.svelte')
 		const label = page.getByText('Scaled', { exact: true })
-		const tooltip = label.locator('../..').locator('[role="tooltip"]')
+		const tooltip = label.locator('..').locator('[role="tooltip"]')
 		await label.waitFor()
 		await page.locator('.svelte-tweakpane-ui').evaluate((element) => {
 			Object.assign(element.parentElement!.style, {

@@ -99,7 +99,7 @@ Requests for tooltips have come up a lot both in Svelte Tweakpane UI and the ups
 
 Tweakpane components accept an optional `description` prop which populates a tooltip-esque popover on your control's label.
 
-If your control is unlabeled, then the whole blade becomes the hover target.
+The whole label is the hover target. If your control is unlabeled, then the whole blade becomes the hover target.
 
 These are defined to function much like native `title`-style hover tooltips, but they're styled to match your Tweakpane theme, and have pulled their design language from existing tooltip like pop-up elements in Tweakpane, such as those shown when scrubbing over graph views or slider values.
 
@@ -121,7 +121,7 @@ The default hover delay is 500ms, but this and several other aspects of their be
 
   const theme: Theme = {
     ...ThemeUtils.presets.iceberg,
-    stuiDescriptionHintDisplay: 'inline',
+    stuiDescriptionHint: 'ⓘ',
     stuiDescriptionMaxWidth: '20rem',
     stuiDescriptionDelay: '350ms',
     stuiDescriptionFadeInDuration: '50ms',
@@ -136,13 +136,15 @@ The corresponding inherited CSS custom properties can also be set directly on a 
 
 | Theme key                        | CSS custom property                    | Default                          |
 | -------------------------------- | -------------------------------------- | -------------------------------- |
-| `stuiDescriptionHintDisplay`     | `--stui-description-hint-display`      | `none`                           |
+| `stuiDescriptionHint`            | `--stui-description-hint`              | `''` (CSS: `none`)               |
 | `stuiDescriptionMaxWidth`        | `--stui-description-max-width`         | `min(16rem, calc(100vw - 16px))` |
 | `stuiDescriptionDelay`           | `--stui-description-delay`             | `500ms`                          |
 | `stuiDescriptionFadeInDuration`  | `--stui-description-fade-in-duration`  | `50ms`                           |
 | `stuiDescriptionFadeOutDuration` | `--stui-description-fade-out-duration` | `250ms`                          |
 
-Set `stuiDescriptionHintDisplay` to `inline` to append ⓘ to described labels with a CSS `::after` pseudo-element. The hint follows the text and can disappear behind the ellipsis when the label is truncated. Its padding is part of the hover target. This is a CSS `display` value, so use `none` and `inline` rather than booleans.
+Set `stuiDescriptionHint` to plain text such as `'(i)'` or `'ⓘ'` to append a hint with the label's CSS `::after` pseudo-element. It defaults to `''`, which shows no hint at all.
+
+When setting the CSS variable directly, use CSS content syntax: `--stui-description-hint: "(i)" / "";`, or `none` to hide it. The empty alternative text keeps the decorative hint out of accessible label text.
 
 For more extensive styling intervention, target `.stui-description` or `[data-stui-description] > .tp-lblv_l::after`. Described controls receive a `data-stui-description` attribute.
 
