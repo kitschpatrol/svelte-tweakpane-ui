@@ -100,61 +100,54 @@ test.describe('Control descriptions', () => {
 		)
 	})
 
-	test('supports an affordance after truncated label text', async ({ page }) => {
+	test('appends an optional CSS hint that truncates with the label', async ({ page }) => {
 		const row = page.locator('.tp-lblv').filter({
 			has: page.getByText('Labeled Wide Slider', { exact: true }),
 		})
 		const label = row.locator('.tp-lblv_l')
 		const labelText = label.locator('.stui-description-label-text')
-		const affordance = label.locator('.stui-description-hint')
+		const hintDisplay = async () =>
+			label.evaluate((element) => getComputedStyle(element, '::after').display)
 		const tooltip = row.locator('[role="tooltip"]')
 		const checkbox = page
 			.locator('.tp-lblv')
 			.filter({ hasText: 'Show description icons' })
 			.locator('.tp-ckbv_w')
 
-		await expect(affordance).toHaveCount(1)
-		await expect(affordance).toHaveAttribute('aria-hidden', 'true')
-		await expect(affordance).toBeHidden()
+		await expect.poll(hintDisplay).toBe('none')
 		await checkbox.click()
-		await expect(affordance).toBeVisible()
-		await expect(affordance).toHaveText('🛈')
+		await expect.poll(hintDisplay).toBe('inline')
+		await expect(label).toMatchAriaSnapshot('- text: Labeled Wide Slider')
 		expect(
-			await row.evaluate((element) =>
-				getComputedStyle(element).getPropertyValue('--stui-description-hint-display').trim(),
-			),
-		).toBe('block')
+			await label.evaluate((element) => getComputedStyle(element, '::after').content),
+		).toContain('ⓘ')
 
 		const initialTextBounds = await boundingBox(labelText)
-		const initialAffordanceBounds = await boundingBox(affordance)
-		expect(initialAffordanceBounds.x).toBeCloseTo(initialTextBounds.x + initialTextBounds.width, 0)
 		await labelText.hover({ position: { x: initialTextBounds.width - 1, y: 8 } })
 		await expect(tooltip).toBeVisible()
-		await affordance.hover({ position: { x: 2, y: 8 } })
-		await page.waitForTimeout(300)
+		await page.mouse.move(
+			initialTextBounds.x + initialTextBounds.width + 2,
+			initialTextBounds.y + initialTextBounds.height / 2,
+		)
+		await page.waitForTimeout(500)
 		await expect(tooltip).toBeVisible()
 
 		await label.evaluate((element) => {
 			element.style.flex = '0 0 48px'
 		})
-		await expect
-			.poll(async () => labelText.evaluate((element) => element.scrollWidth > element.clientWidth))
-			.toBe(true)
 		const labelBounds = await boundingBox(label)
 		const textBounds = await boundingBox(labelText)
-		const affordanceBounds = await boundingBox(affordance)
-		expect(affordanceBounds.x).toBeCloseTo(textBounds.x + textBounds.width, 0)
-		expect(affordanceBounds.x + affordanceBounds.width).toBeLessThanOrEqual(
-			labelBounds.x + labelBounds.width,
-		)
+		expect(textBounds.x + textBounds.width).toBeGreaterThan(labelBounds.x + labelBounds.width)
+		await expect(label).toHaveCSS('overflow-x', 'hidden')
+		await expect(label).toHaveCSS('text-overflow', 'ellipsis')
 		await checkbox.hover()
 		await expect(tooltip).toBeHidden()
 
-		await affordance.hover({ position: { x: 2, y: 8 } })
+		await label.hover({ position: { x: 12, y: 8 } })
 		await expect(tooltip).toBeVisible()
 
 		await checkbox.click()
-		await expect(affordance).toBeHidden()
+		await expect.poll(hintDisplay).toBe('none')
 	})
 
 	test('opens after a delay and stays open while crossing into the tooltip', async ({ page }) => {
@@ -363,14 +356,8 @@ test.describe('Control descriptions', () => {
 		})
 		const label = row.locator('.tp-lblv_l')
 		const tooltip = row.locator('[role="tooltip"]')
-		const labelBounds = await label.boundingBox()
-		expect(labelBounds).not.toBeNull()
-
-		const position = {
-			x: (labelBounds?.width ?? 0) - 4,
-			y: 8,
-		}
-		await label.hover({ position })
+		const labelBounds = await boundingBox(label)
+		await page.mouse.move(labelBounds.x + labelBounds.width - 4, labelBounds.y + 8)
 		await page.waitForTimeout(600)
 		await expect(tooltip).toBeHidden()
 
@@ -640,7 +627,6 @@ test.describe('Control descriptions', () => {
 		})
 		const tooltip = row.locator('[role="tooltip"]')
 		await expect(row.locator('.stui-description-label-text')).toHaveText('Bloom')
-		await expect(row.locator('.stui-description-hint')).toHaveCount(1)
 
 		await row.locator('.tp-lblv_l').hover({ position: { x: 12, y: 8 } })
 		await expect(tooltip).toBeVisible()
@@ -753,7 +739,9 @@ test.describe('Control descriptions', () => {
 		await expect(row).not.toHaveAttribute('data-stui-description')
 		await expect(row.locator('[role="tooltip"]')).toHaveCount(0)
 		await expect(row.locator('.stui-description-label-text')).toHaveCount(0)
-		await expect(row.locator('.stui-description-hint')).toHaveCount(0)
+		expect(await label.evaluate((element) => getComputedStyle(element, '::after').content)).toBe(
+			'none',
+		)
 		await expect(describedControl).toHaveAttribute('aria-describedby', 'external-description')
 		expect(
 			await label.evaluate((element) =>

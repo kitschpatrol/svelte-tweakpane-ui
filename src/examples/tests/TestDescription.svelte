@@ -29,7 +29,7 @@
 
 	$: theme = {
 		...presets[themeKey],
-		stuiDescriptionHintDisplay: showDescriptionIcons ? 'block' : 'none',
+		stuiDescriptionHintDisplay: showDescriptionIcons ? 'inline' : 'none',
 	}
 
 	function removeDescription() {

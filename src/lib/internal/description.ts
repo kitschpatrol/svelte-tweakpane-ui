@@ -1,6 +1,5 @@
 import { nanoid } from 'nanoid'
 
-const AFFORDANCE_CLASS = 'stui-description-hint'
 const LABEL_TEXT_CLASS = 'stui-description-label-text'
 const INTERACTIVE_SELECTOR = 'button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
 const WHITESPACE_PATTERN = /\s+/v
@@ -34,7 +33,6 @@ function createDescription(root: HTMLElement, text: string) {
 
 	let label: HTMLElement | undefined
 	let labelText: HTMLElement | undefined
-	let affordance: HTMLElement | undefined
 	let describedElements = new Set<HTMLElement>()
 	let hovered = false
 	let dismissed = false
@@ -74,13 +72,7 @@ function createDescription(root: HTMLElement, text: string) {
 	}
 
 	function isHoverTarget(target: EventTarget | undefined) {
-		return (
-			target instanceof Node &&
-			(element.contains(target) ||
-				(label === undefined
-					? root.contains(target)
-					: labelText?.contains(target) === true || affordance?.contains(target) === true))
-		)
+		return target instanceof Node && (element.contains(target) || (label ?? root).contains(target))
 	}
 
 	function leave() {
@@ -199,10 +191,8 @@ function createDescription(root: HTMLElement, text: string) {
 			labelText?.replaceWith(...labelText.childNodes)
 		}
 
-		affordance?.remove()
 		label = undefined
 		labelText = undefined
-		affordance = undefined
 	}
 
 	function sync() {
@@ -210,8 +200,7 @@ function createDescription(root: HTMLElement, text: string) {
 		const nextLabel = root.classList.contains('tp-lblv-nol')
 			? undefined
 			: root.querySelector<HTMLElement>('.tp-lblv_l')
-		const labelContent =
-			nextLabel?.querySelector(`.${LABEL_TEXT_CLASS}`)?.textContent ?? nextLabel?.textContent
+		const labelContent = nextLabel?.textContent
 		const anchor =
 			labelContent === undefined || labelContent.length === 0 ? undefined : (nextLabel ?? undefined)
 		if (label !== anchor || (label !== undefined && labelText?.parentElement !== label)) {
@@ -222,11 +211,7 @@ function createDescription(root: HTMLElement, text: string) {
 				labelText = document.createElement('span')
 				labelText.className = LABEL_TEXT_CLASS
 				labelText.append(...label.childNodes)
-				affordance = document.createElement('span')
-				affordance.className = AFFORDANCE_CLASS
-				affordance.setAttribute('aria-hidden', 'true')
-				affordance.textContent = '🛈'
-				label.append(labelText, affordance)
+				label.append(labelText)
 			}
 		}
 

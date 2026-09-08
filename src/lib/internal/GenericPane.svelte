@@ -242,28 +242,23 @@ This component is for internal use only.
 	}
 
 	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-lblv_l) {
-		/* The text child handles overflow; wrapping would separate it from the hint. */
-		/* stylelint-disable-next-line defensive-css/require-flex-wrap */
-		display: flex;
-		align-items: center;
-	}
-
-	:global(div.svelte-tweakpane-ui .stui-description-label-text) {
-		overflow: hidden;
-		min-width: 0;
-		text-overflow: ellipsis;
+		/* Only the text and generated hint are hover targets, including on disabled controls. */
+		pointer-events: none;
 		white-space: nowrap;
 	}
 
-	:global(div.svelte-tweakpane-ui .stui-description-hint) {
+	:global(div.svelte-tweakpane-ui .stui-description-label-text) {
+		pointer-events: auto;
+	}
+
+	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-lblv_l::after) {
+		pointer-events: auto;
 		cursor: default;
+		/* The hint is decorative; the description is already available through aria-describedby. */
+		content: 'ⓘ' / '';
 		user-select: none;
 		display: var(--stui-description-hint-display, none);
-		flex: 0 0 auto;
-		box-sizing: border-box;
-		width: 1.25em;
-		padding-left: 0.25em;
-		font-size: 1.2em;
+		padding-inline-start: 0.35em;
 	}
 
 	/* Pane title label */
@@ -348,11 +343,6 @@ This component is for internal use only.
 		content: '';
 		position: absolute;
 		inset: calc(-1 * var(--stui-description-gap)) 0;
-	}
-
-	/* Tweakpane disables pointer events on the blade. Its label can still show help. */
-	:global(div.svelte-tweakpane-ui [data-stui-description].tp-v-disabled > .tp-lblv_l) {
-		pointer-events: auto;
 	}
 
 	@media (prefers-reduced-motion: no-preference) {

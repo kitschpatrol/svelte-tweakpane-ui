@@ -121,7 +121,7 @@ The default hover delay is 500ms, but this and several other aspects of their be
 
   const theme: Theme = {
     ...ThemeUtils.presets.iceberg,
-    stuiDescriptionHintDisplay: 'block',
+    stuiDescriptionHintDisplay: 'inline',
     stuiDescriptionMaxWidth: '20rem',
     stuiDescriptionDelay: '350ms',
     stuiDescriptionFadeInDuration: '50ms',
@@ -142,9 +142,9 @@ The corresponding inherited CSS custom properties can also be set directly on a 
 | `stuiDescriptionFadeInDuration`  | `--stui-description-fade-in-duration`  | `50ms`                           |
 | `stuiDescriptionFadeOutDuration` | `--stui-description-fade-out-duration` | `250ms`                          |
 
-Set `stuiDescriptionHintDisplay` to `block` to show the built-in 🛈 after described labels. The hint participates in label layout only while displayed, so it follows short text directly and remains visible after an ellipsis when text is truncated. Its padded gap is part of the hover target. This is a CSS `display` value, so use `none` and `block` rather than booleans.
+Set `stuiDescriptionHintDisplay` to `inline` to append ⓘ to described labels with a CSS `::after` pseudo-element. The hint follows the text and can disappear behind the ellipsis when the label is truncated. Its padding is part of the hover target. This is a CSS `display` value, so use `none` and `inline` rather than booleans.
 
-For more extensive styling intervention, target `.stui-description` or `.stui-description-hint`. Described controls receive a `data-stui-description` attribute.
+For more extensive styling intervention, target `.stui-description` or `[data-stui-description] > .tp-lblv_l::after`. Described controls receive a `data-stui-description` attribute.
 
 Descriptions are currently treated as plain text, and line breaks are preserved.
 
