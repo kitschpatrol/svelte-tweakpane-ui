@@ -121,7 +121,7 @@ The default hover delay is 500ms, but this and several other aspects of their be
 
   const theme: Theme = {
     ...ThemeUtils.presets.iceberg,
-    stuiDescriptionHint: '"ⓘ" / ""',
+    stuiDescriptionHint: '"ⓘ"',
     stuiDescriptionMaxWidth: '20rem',
     stuiDescriptionDelay: '350ms',
     stuiDescriptionFadeInDuration: '50ms',
@@ -142,7 +142,7 @@ The corresponding inherited CSS custom properties can also be set directly on a 
 | `stuiDescriptionFadeInDuration`  | `--stui-description-fade-in-duration`  | `50ms`                           |
 | `stuiDescriptionFadeOutDuration` | `--stui-description-fade-out-duration` | `250ms`                          |
 
-The theme key and CSS variable accept the same CSS `content` value. For example, `stuiDescriptionHint: '"(i)" / ""'` is equivalent to `--stui-description-hint: "(i)" / "";`. The empty alternative text keeps the decorative hint out of accessible label text.
+The theme key and CSS variable accept the same CSS `content` value. For example, `stuiDescriptionHint: '"(i)"'` is equivalent to `--stui-description-hint: "(i)";`. The hint is included in accessible label text, and the description itself is connected to the control with `aria-describedby`.
 
 Both default to `none`, which generates no hint or padding. To hide it explicitly, use `stuiDescriptionHint: 'none'` or `--stui-description-hint: none;`. A CSS empty string (`""`) still generates an empty pseudo-element with padding.
 

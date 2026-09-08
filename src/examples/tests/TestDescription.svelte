@@ -49,7 +49,7 @@
 		<List label="Theme" options={Object.keys(presets)} bind:value={themeKey} />
 		<List
 			label="Hint"
-			options={['none', '"(i)" / ""', '"ⓘ" / ""', String.raw`"\"?\"" / ""`]}
+			options={['none', '"(i)"', '"ⓘ"', String.raw`"\"?\""`]}
 			bind:value={descriptionHint}
 		/>
 		<Slider {description} label={glowLabel} max={1} min={0} bind:value={glow} />
