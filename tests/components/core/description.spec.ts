@@ -237,6 +237,8 @@ test.describe('Control descriptions', () => {
 	test('keeps cursor-positioned tooltips inside viewport corners at different scales', async ({
 		page,
 	}) => {
+		// Allow subpixel rounding between measured widths and zoomed CSS positioning.
+		const edgeTolerance = 0.1
 		await page.goto('/TestDescriptionScale.svelte')
 		await page.setViewportSize({ height: 600, width: 800 })
 		const pane = page.locator('.svelte-tweakpane-ui')
@@ -263,7 +265,7 @@ test.describe('Control descriptions', () => {
 			const source = await boundingBox(label)
 			const corner = await boundingBox(tooltip)
 			expect(corner.x).toBeLessThan(source.x)
-			expect(corner.x + corner.width).toBeLessThanOrEqual(800 - 8 * scale)
+			expect(corner.x + corner.width).toBeLessThanOrEqual(800 - 8 * scale + edgeTolerance)
 			expect(corner.y + corner.height).toBeLessThan(source.y)
 			const caret = await caretStyle(tooltip)
 			expect(caret.topColor).toBe(caret.background)
@@ -283,7 +285,7 @@ test.describe('Control descriptions', () => {
 					const bounds = await boundingBox(tooltip)
 					return bounds.x + bounds.width
 				})
-				.toBeLessThanOrEqual(800 - 8 * scale)
+				.toBeLessThanOrEqual(800 - 8 * scale + edgeTolerance)
 
 			await page.mouse.move(400, 100)
 			await expect(tooltip).toBeHidden()
