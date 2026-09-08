@@ -113,9 +113,13 @@ test.describe('Control descriptions', () => {
 			.filter({ has: page.getByText('Hint', { exact: true }) })
 			.getByRole('combobox')
 
+		// An explicit default must override inherited CSS, just like a direct declaration.
+		await page.locator('body').evaluate((element) => {
+			element.style.setProperty('--stui-description-hint', '"Inherited" / ""')
+		})
 		await expect(label.locator('*')).toHaveCount(0)
 		await expect.poll(hintContent).toBe('none')
-		await hintSelect.selectOption('(i)')
+		await hintSelect.selectOption('"(i)" / ""')
 		await expect.poll(hintContent).toBe('"(i)" / ""')
 		await expect(label).toMatchAriaSnapshot('- text: Labeled Wide Slider')
 
@@ -140,10 +144,10 @@ test.describe('Control descriptions', () => {
 		await label.hover({ position: { x: 12, y: 8 } })
 		await expect(tooltip).toBeVisible()
 
-		await hintSelect.selectOption('"?"')
+		await hintSelect.selectOption(String.raw`"\"?\"" / ""`)
 		await expect.poll(hintContent).toBe(String.raw`"\"?\"" / ""`)
 		await expect(label).toMatchAriaSnapshot('- text: Labeled Wide Slider')
-		await hintSelect.selectOption('')
+		await hintSelect.selectOption('none')
 		await expect.poll(hintContent).toBe('none')
 	})
 

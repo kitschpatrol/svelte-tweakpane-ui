@@ -121,7 +121,7 @@ The default hover delay is 500ms, but this and several other aspects of their be
 
   const theme: Theme = {
     ...ThemeUtils.presets.iceberg,
-    stuiDescriptionHint: 'ⓘ',
+    stuiDescriptionHint: '"ⓘ" / ""',
     stuiDescriptionMaxWidth: '20rem',
     stuiDescriptionDelay: '350ms',
     stuiDescriptionFadeInDuration: '50ms',
@@ -136,15 +136,15 @@ The corresponding inherited CSS custom properties can also be set directly on a 
 
 | Theme key                        | CSS custom property                    | Default                          |
 | -------------------------------- | -------------------------------------- | -------------------------------- |
-| `stuiDescriptionHint`            | `--stui-description-hint`              | `''` (CSS: `none`)               |
+| `stuiDescriptionHint`            | `--stui-description-hint`              | `none`                           |
 | `stuiDescriptionMaxWidth`        | `--stui-description-max-width`         | `min(16rem, calc(100vw - 16px))` |
 | `stuiDescriptionDelay`           | `--stui-description-delay`             | `500ms`                          |
 | `stuiDescriptionFadeInDuration`  | `--stui-description-fade-in-duration`  | `50ms`                           |
 | `stuiDescriptionFadeOutDuration` | `--stui-description-fade-out-duration` | `250ms`                          |
 
-Set `stuiDescriptionHint` to plain text such as `'(i)'` or `'ⓘ'` to append a hint with the label's CSS `::after` pseudo-element. It defaults to `''`, which shows no hint at all.
+The theme key and CSS variable accept the same CSS `content` value. For example, `stuiDescriptionHint: '"(i)" / ""'` is equivalent to `--stui-description-hint: "(i)" / "";`. The empty alternative text keeps the decorative hint out of accessible label text.
 
-When setting the CSS variable directly, use CSS content syntax: `--stui-description-hint: "(i)" / "";`, or `none` to hide it. The empty alternative text keeps the decorative hint out of accessible label text.
+Both default to `none`, which generates no hint or padding. To hide it explicitly, use `stuiDescriptionHint: 'none'` or `--stui-description-hint: none;`. A CSS empty string (`""`) still generates an empty pseudo-element with padding.
 
 For more extensive styling intervention, target `.stui-description` or `[data-stui-description] > .tp-lblv_l::after`. Described controls receive a `data-stui-description` attribute.
 

@@ -92,7 +92,7 @@ const standard: Theme = {
 	stuiDescriptionDelay: '500ms',
 	stuiDescriptionFadeInDuration: '50ms',
 	stuiDescriptionFadeOutDuration: '250ms',
-	stuiDescriptionHint: '',
+	stuiDescriptionHint: 'none',
 	stuiDescriptionMaxWidth: 'min(16rem, calc(100vw - 16px))',
 }
 
@@ -354,56 +354,22 @@ export function getValueOrFallback(theme: Theme | undefined, key: keyof ThemeKey
 }
 
 export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
-	const rootDocument = getWindowDocument().documentElement
-
-	if (theme === undefined) {
-		for (const k of Object.keys(standard)) {
-			const key = expandVariableKey(k)
-
-			if (element.style.getPropertyValue(key).length > 0) {
-				element.style.removeProperty(key)
-			}
-		}
-	} else {
-		for (const k of Object.keys(standard)) {
-			if (Object.hasOwn(theme, k)) {
-				continue
-			}
-
-			const key = expandVariableKey(k)
-			if (element.style.getPropertyValue(key).length > 0) {
-				element.style.removeProperty(key)
-			}
+	for (const k of Object.keys(standard)) {
+		if (theme !== undefined && Object.hasOwn(theme, k)) {
+			continue
 		}
 
-		for (const [k, v] of Object.entries(theme)) {
-			const key = expandVariableKey(k)
-			let value = stringToCssValue(v)
-			if (k === 'stuiDescriptionHint' && value !== undefined) {
-				// Encode plain text as decorative CSS content; an empty hint generates no box.
-				value = value.length === 0 ? 'none' : `"${CSS.escape(value)}" / ""`
-			}
+		element.style.removeProperty(expandVariableKey(k))
+	}
 
-			// Only set the variable if it deviates from the standard theme or  the root theme (set
-			// by setGlobalDefaultTheme).... but if theme is explicitly standard and not undefined,
-			// then apply it anyway so that any global theme is overridden TODO normalize color
-			// representation for comparison? TODO tests for this logic
-
-			const standardValue = standard[k] === '' ? undefined : standard[k]
-			const rootPropertyValue = rootDocument.style.getPropertyValue(key)
-			const rootValue = rootPropertyValue === '' ? undefined : rootPropertyValue
-
-			const isDeviationFromRoot = rootValue !== undefined && value !== rootValue
-			const isDeviationFromStandard = value !== standardValue
-
-			if (
-				value !== undefined &&
-				(isDeviationFromRoot || (rootValue === undefined && isDeviationFromStandard))
-			) {
-				element.style.setProperty(key, value)
-			} else if (element.style.getPropertyValue(key).length > 0) {
-				element.style.removeProperty(key)
-			}
+	const entries = Object.entries(theme ?? {})
+	for (const [k, v] of entries) {
+		const key = expandVariableKey(k)
+		const value = stringToCssValue(v)
+		if (value === undefined) {
+			element.style.removeProperty(key)
+		} else if (element.style.getPropertyValue(key) !== value) {
+			element.style.setProperty(key, value)
 		}
 	}
 }

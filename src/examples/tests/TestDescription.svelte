@@ -14,7 +14,7 @@
 	import { presets } from '$lib/theme.js'
 
 	let description: string | undefined = 'Adjusts the amount of glow.\nUse sparingly.'
-	let descriptionHint = ''
+	let descriptionHint = 'none'
 	let glow = 0.5
 	let glowLabel = 'Glow'
 	let interval: [number, number] = [0.25, 0.75]
@@ -47,7 +47,11 @@
 <div>
 	<Pane position="inline" scale={1} {theme} title="Descriptions">
 		<List label="Theme" options={Object.keys(presets)} bind:value={themeKey} />
-		<List label="Hint" options={['', '(i)', 'ⓘ', '"?"']} bind:value={descriptionHint} />
+		<List
+			label="Hint"
+			options={['none', '"(i)" / ""', '"ⓘ" / ""', String.raw`"\"?\"" / ""`]}
+			bind:value={descriptionHint}
+		/>
 		<Slider {description} label={glowLabel} max={1} min={0} bind:value={glow} />
 		<List
 			description="Balances rendering speed and detail."
