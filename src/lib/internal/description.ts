@@ -16,18 +16,18 @@ function removeDescriptionId(element: HTMLElement, id: string) {
 
 function createDescription(root: HTMLElement, text: string) {
 	const document = root.ownerDocument
-	const element = document.createElement('div')
-	element.className = 'stui-description'
-	element.id = `stui-description-${nanoid()}`
-	element.setAttribute('role', 'tooltip')
-	element.textContent = text
-	element.popover = 'hint'
-	if (element.popover !== 'hint') {
+	const tooltip = document.createElement('div')
+	tooltip.className = 'stui-description'
+	tooltip.id = `stui-description-${nanoid()}`
+	tooltip.setAttribute('role', 'tooltip')
+	tooltip.textContent = text
+	tooltip.popover = 'hint'
+	if (tooltip.popover !== 'hint') {
 		// An auto popover could close unrelated popovers just by hovering a label.
-		element.popover = 'manual'
+		tooltip.popover = 'manual'
 	}
 
-	root.append(element)
+	root.append(tooltip)
 	root.dataset.stuiDescription = ''
 
 	let label: HTMLElement | undefined
@@ -48,29 +48,29 @@ function createDescription(root: HTMLElement, text: string) {
 	function hide() {
 		cancelShow()
 		clearTimeout(hideTimer)
-		if (element.matches(':popover-open')) {
-			element.hidePopover()
+		if (tooltip.matches(':popover-open')) {
+			tooltip.hidePopover()
 		}
 	}
 
 	function positionCaret() {
-		if (!element.matches(':popover-open')) {
+		if (!tooltip.matches(':popover-open')) {
 			return
 		}
 
-		const bounds = element.getBoundingClientRect()
+		const bounds = tooltip.getBoundingClientRect()
 		const sourceBounds = (label ?? root).getBoundingClientRect()
-		const paneScale = Number(getComputedStyle(element).getPropertyValue('--stui-pane-scale'))
+		const paneScale = Number(getComputedStyle(tooltip).getPropertyValue('--stui-pane-scale'))
 		const scale = paneScale > 0 ? paneScale : 1
-		element.dataset.stuiPlacement = bounds.top >= sourceBounds.bottom ? 'below' : 'above'
-		element.style.setProperty(
+		tooltip.dataset.stuiPlacement = bounds.top >= sourceBounds.bottom ? 'below' : 'above'
+		tooltip.style.setProperty(
 			'--stui-description-caret-offset',
 			`${(cursorX - bounds.left) / scale}px`,
 		)
 	}
 
 	function isHoverTarget(target: EventTarget | undefined) {
-		return target instanceof Node && (element.contains(target) || (label ?? root).contains(target))
+		return target instanceof Node && (tooltip.contains(target) || (label ?? root).contains(target))
 	}
 
 	function leave() {
@@ -99,7 +99,7 @@ function createDescription(root: HTMLElement, text: string) {
 			return
 		}
 
-		if (dismissed || element.matches(':popover-open')) {
+		if (dismissed || tooltip.matches(':popover-open')) {
 			return
 		}
 
@@ -109,7 +109,7 @@ function createDescription(root: HTMLElement, text: string) {
 		}
 
 		// The registered CSS time property resolves calc() and var() before parsing.
-		const delay = getComputedStyle(element).getPropertyValue('--stui-description-delay').trim()
+		const delay = getComputedStyle(tooltip).getPropertyValue('--stui-description-delay').trim()
 		const milliseconds =
 			Number(delay.replace(TIME_UNIT_PATTERN, '')) * (delay.endsWith('ms') ? 1 : 1000)
 		showTimer = setTimeout(() => {
@@ -126,8 +126,8 @@ function createDescription(root: HTMLElement, text: string) {
 			}
 
 			// Pin the horizontal offset to the pointer's position when the tooltip opens.
-			element.style.setProperty('--stui-description-cursor-x', `${cursorX}px`)
-			element.showPopover({ source: label ?? root })
+			tooltip.style.setProperty('--stui-description-cursor-x', `${cursorX}px`)
+			tooltip.showPopover({ source: label ?? root })
 			positionCaret()
 		}, milliseconds)
 	}
@@ -146,7 +146,7 @@ function createDescription(root: HTMLElement, text: string) {
 	document.addEventListener(
 		'mousedown',
 		(event) => {
-			if (event.target instanceof Node && element.contains(event.target)) {
+			if (event.target instanceof Node && tooltip.contains(event.target)) {
 				return
 			}
 
@@ -164,7 +164,7 @@ function createDescription(root: HTMLElement, text: string) {
 
 			dismissed = hovered
 			cancelShow()
-			if (element.popover === 'manual' && element.matches(':popover-open')) {
+			if (tooltip.popover === 'manual' && tooltip.matches(':popover-open')) {
 				event.preventDefault()
 				hide()
 			}
@@ -200,15 +200,15 @@ function createDescription(root: HTMLElement, text: string) {
 		const nextElements = new Set(root.querySelectorAll<HTMLElement>(INTERACTIVE_SELECTOR))
 		for (const control of describedElements) {
 			if (!nextElements.has(control)) {
-				removeDescriptionId(control, element.id)
+				removeDescriptionId(control, tooltip.id)
 			}
 		}
 
 		for (const control of nextElements) {
 			const ids =
 				control.getAttribute('aria-describedby')?.split(WHITESPACE_PATTERN).filter(Boolean) ?? []
-			if (!ids.includes(element.id)) {
-				control.setAttribute('aria-describedby', [...ids, element.id].join(' '))
+			if (!ids.includes(tooltip.id)) {
+				control.setAttribute('aria-describedby', [...ids, tooltip.id].join(' '))
 			}
 		}
 
@@ -227,8 +227,8 @@ function createDescription(root: HTMLElement, text: string) {
 	// CSS needs the tooltip's own width to clamp the cursor offset to the viewport.
 	const resizeObserver = new ResizeObserver((entries) => {
 		for (const entry of entries) {
-			if (entry.target === element) {
-				element.style.setProperty(
+			if (entry.target === tooltip) {
+				tooltip.style.setProperty(
 					'--stui-description-width',
 					`${entry.borderBoxSize[0].inlineSize}px`,
 				)
@@ -237,7 +237,7 @@ function createDescription(root: HTMLElement, text: string) {
 
 		positionCaret()
 	})
-	resizeObserver.observe(element, { box: 'border-box' })
+	resizeObserver.observe(tooltip, { box: 'border-box' })
 	resizeObserver.observe(root.closest('.svelte-tweakpane-ui') ?? root)
 
 	return {
@@ -247,13 +247,13 @@ function createDescription(root: HTMLElement, text: string) {
 			listeners.abort()
 			hide()
 			for (const control of describedElements) {
-				removeDescriptionId(control, element.id)
+				removeDescriptionId(control, tooltip.id)
 			}
 
-			element.remove()
+			tooltip.remove()
 			delete root.dataset.stuiDescription
 		},
-		element,
+		tooltip,
 	}
 }
 
@@ -282,7 +282,7 @@ export class DescriptionController {
 		if (this.description === undefined) {
 			this.description = createDescription(root, description)
 		} else {
-			this.description.element.textContent = description
+			this.description.tooltip.textContent = description
 		}
 	}
 }
