@@ -86,6 +86,68 @@ Holding <kbd>⌥ Option</kbd> (<kbd>Alt</kbd>) while clicking a `<Folder>`'s tit
 
 Pane titles and blade labels are truncated with ellipses if they're too long to fit in their containers.
 
+### Tooltips
+
+_Experimental! Descriptions require a modern browser with the Popover API and CSS anchor positioning._
+
+Requests for tooltips have come up a lot both in Svelte Tweakpane UI and the upstream project:
+
+- https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/28
+- https://github.com/cocopon/tweakpane/issues/391
+- https://github.com/cocopon/tweakpane/issues/559
+- https://github.com/cocopon/tweakpane/pull/659
+
+Tweakpane components accept an optional `description` prop which populates a tooltip-esque popover on your control's label.
+
+The whole label is the hover target. If your control is unlabeled, then the whole blade becomes the hover target.
+
+These are defined to function much like native `title`-style hover tooltips, but they're styled to match your Tweakpane theme, and have pulled their design language from existing tooltip like pop-up elements in Tweakpane, such as those shown when scrubbing over graph views or slider values.
+
+```svelte
+<Slider
+  bind:value
+  min={0}
+  max={1}
+  label="Exposure"
+  description="Controls the overall scene brightness."
+/>
+```
+
+The default hover delay is 500ms, but this and several other aspects of their behavior can be overridden with via theme keys or their corresponding CSS variables:
+
+```svelte
+<script lang="ts">
+  import { Pane, type Theme, ThemeUtils } from 'svelte-tweakpane-ui'
+
+  const theme: Theme = {
+    ...ThemeUtils.presets.iceberg,
+    stuiDescriptionHint: '"ⓘ"',
+    stuiDescriptionMaxWidth: '20rem',
+    stuiDescriptionDelay: '350ms',
+    stuiDescriptionFadeInDuration: '50ms',
+    stuiDescriptionFadeOutDuration: '250ms',
+  }
+</script>
+
+<Pane {theme}>…</Pane>
+```
+
+The corresponding inherited CSS custom properties can also be set directly on a pane or any of its ancestors:
+
+| Theme key                        | CSS custom property                    | Default                          |
+| -------------------------------- | -------------------------------------- | -------------------------------- |
+| `stuiDescriptionHint`            | `--stui-description-hint`              | `none`                           |
+| `stuiDescriptionMaxWidth`        | `--stui-description-max-width`         | `min(16rem, calc(100vw - 16px))` |
+| `stuiDescriptionDelay`           | `--stui-description-delay`             | `500ms`                          |
+| `stuiDescriptionFadeInDuration`  | `--stui-description-fade-in-duration`  | `50ms`                           |
+| `stuiDescriptionFadeOutDuration` | `--stui-description-fade-out-duration` | `250ms`                          |
+
+The theme key and CSS variable accept the same CSS `content` value. For example, `stuiDescriptionHint: '"ⓘ"'` is equivalent to `--stui-description-hint: "ⓘ";`. (The nested quotes in the theme value are required!)
+
+The hint, if defined, is included at the end of the label text. It's hidden by default with the CSS value `none`.
+
+Description values are currently treated as plain text, and line breaks are preserved.
+
 ### Value change event origins
 
 Though binding to a component's `value` is generally the best way to react to changes, sometimes you need to know _how_ a value's change originated.

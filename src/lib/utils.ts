@@ -133,6 +133,7 @@ export function enforceReadonly(
 	propertyName?: string,
 	allowAssignmentToUndefined?: boolean,
 ) {
+	// eslint-disable-next-line unicorn/prefer-default-parameters
 	allowAssignmentToUndefined ??= false
 
 	if (

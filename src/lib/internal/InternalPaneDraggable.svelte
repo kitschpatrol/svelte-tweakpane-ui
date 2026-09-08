@@ -178,7 +178,6 @@
 	let dragBarElement: HTMLElement // Added dynamically to tweakpane DOM
 	let widthHandleElement: HTMLDivElement | undefined
 	let containerHeight: number // Driven by tweakpane's internal layout
-	let containerHeightScaled: number // Derived
 	let containerWidth: number // For padding
 	let documentWidth: number
 	let documentHeight: number
@@ -241,7 +240,7 @@
 
 		// Ensure we "stick" to the correct quadrant
 		const centerPercentX = (x + width / 2) / documentWidth
-		const centerPercentY = (y + containerHeightScaled / 2) / documentHeight
+		const centerPercentY = (y + containerHeight / 2) / documentHeight
 
 		if (!Number.isNaN(dx) && centerPercentX >= 0.5) {
 			x += dx
@@ -539,7 +538,7 @@
 
 	// Ensure the tweakpane panel is within the viewport additional checks in the width drag handler
 	$: if (
-		containerHeightScaled !== undefined &&
+		containerHeight !== undefined &&
 		documentWidth !== undefined &&
 		documentHeight !== undefined &&
 		x !== undefined &&
@@ -550,13 +549,13 @@
 	) {
 		// Collapse children if needed TODO progressive collapsing not working because of container
 		// height update delays...
-		if (tpPane !== undefined && collapseChildrenToFit && containerHeightScaled > documentHeight) {
+		if (tpPane !== undefined && collapseChildrenToFit && containerHeight > documentHeight) {
 			recursiveCollapse(tpPane.children)
 		}
 
 		// Prioritize visibility of the top / left corner
 		x = clamp(x, 0, Math.max(0, documentWidth - containerWidth))
-		y = clamp(y, 0, Math.max(0, documentHeight - containerHeightScaled))
+		y = clamp(y, 0, Math.max(0, documentHeight - containerHeight))
 
 		if (documentWidth < containerWidth) {
 			width = Math.max(minWidth, Math.min(maxWidth, documentWidth))
@@ -578,20 +577,6 @@
 		width !== undefined &&
 		expanded !== undefined &&
 		positionStore?.set({ x, y, width, expanded })
-
-	$: if (containerElement !== undefined) {
-		if (scale === undefined || scale === 1) {
-			containerHeightScaled = containerHeight
-		} else {
-			// Padding doesn't scale
-			// eslint-disable-next-line unicorn/prefer-global-this
-			const style = window.getComputedStyle(containerElement)
-			const vPadding =
-				// eslint-disable-next-line unicorn/prefer-number-coercion -- Computed style values have a 'px' suffix that `Number()` can't parse
-				Number.parseFloat(style.paddingTop) + Number.parseFloat(style.paddingBottom)
-			containerHeightScaled = (containerHeight - vPadding) * scale + vPadding
-		}
-	}
 </script>
 
 <!--
