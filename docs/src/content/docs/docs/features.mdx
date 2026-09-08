@@ -142,13 +142,11 @@ The corresponding inherited CSS custom properties can also be set directly on a 
 | `stuiDescriptionFadeInDuration`  | `--stui-description-fade-in-duration`  | `50ms`                           |
 | `stuiDescriptionFadeOutDuration` | `--stui-description-fade-out-duration` | `250ms`                          |
 
-The theme key and CSS variable accept the same CSS `content` value. For example, `stuiDescriptionHint: '"(i)"'` is equivalent to `--stui-description-hint: "(i)";`. The hint is included in accessible label text, and the description itself is connected to the control with `aria-describedby`.
+The theme key and CSS variable accept the same CSS `content` value. For example, `stuiDescriptionHint: '"ⓘ"'` is equivalent to `--stui-description-hint: "ⓘ";`. (The nested quotes in the theme value are required!)
 
-Both default to `none`, which generates no hint or padding. To hide it explicitly, use `stuiDescriptionHint: 'none'` or `--stui-description-hint: none;`. A CSS empty string (`""`) still generates an empty pseudo-element with padding.
+The hint, if defined, is included at the end of the label text. It's hidden by default with the CSS value `none`.
 
-For more extensive styling intervention, target `.stui-description` or `[data-stui-description] > .tp-lblv_l::after`. Described controls receive a `data-stui-description` attribute.
-
-Descriptions are currently treated as plain text, and line breaks are preserved.
+Description values are currently treated as plain text, and line breaks are preserved.
 
 ### Value change event origins
 
