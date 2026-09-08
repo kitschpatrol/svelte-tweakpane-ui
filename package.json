@@ -1,6 +1,6 @@
 {
 	"name": "svelte-tweakpane-ui",
-	"version": "1.6.0",
+	"version": "1.7.0-preview.1",
 	"description": "A Svelte component library wrapping UI elements from Tweakpane, plus some additional functionality for convenience and flexibility.",
 	"keywords": [
 		"components",
@@ -38,22 +38,6 @@
 			"types": "./dist/index.d.ts",
 			"svelte": "./dist/index.js"
 		},
-		"./AutoObject.svelte": {
-			"types": "./dist/extra/AutoObject.svelte.d.ts",
-			"svelte": "./dist/extra/AutoObject.svelte"
-		},
-		"./AutoValue.svelte": {
-			"types": "./dist/extra/AutoValue.svelte.d.ts",
-			"svelte": "./dist/extra/AutoValue.svelte"
-		},
-		"./Binding.svelte": {
-			"types": "./dist/core/Binding.svelte.d.ts",
-			"svelte": "./dist/core/Binding.svelte"
-		},
-		"./Blade.svelte": {
-			"types": "./dist/core/Blade.svelte.d.ts",
-			"svelte": "./dist/core/Blade.svelte"
-		},
 		"./Button.svelte": {
 			"types": "./dist/control/Button.svelte.d.ts",
 			"svelte": "./dist/control/Button.svelte"
@@ -78,21 +62,9 @@
 			"types": "./dist/control/CubicBezier.svelte.d.ts",
 			"svelte": "./dist/control/CubicBezier.svelte"
 		},
-		"./Element.svelte": {
-			"types": "./dist/extra/Element.svelte.d.ts",
-			"svelte": "./dist/extra/Element.svelte"
-		},
 		"./File.svelte": {
 			"types": "./dist/control/File.svelte.d.ts",
 			"svelte": "./dist/control/File.svelte"
-		},
-		"./Folder.svelte": {
-			"types": "./dist/core/Folder.svelte.d.ts",
-			"svelte": "./dist/core/Folder.svelte"
-		},
-		"./FpsGraph.svelte": {
-			"types": "./dist/monitor/FpsGraph.svelte.d.ts",
-			"svelte": "./dist/monitor/FpsGraph.svelte"
 		},
 		"./Image.svelte": {
 			"types": "./dist/control/Image.svelte.d.ts",
@@ -106,21 +78,9 @@
 			"types": "./dist/control/List.svelte.d.ts",
 			"svelte": "./dist/control/List.svelte"
 		},
-		"./Monitor.svelte": {
-			"types": "./dist/monitor/Monitor.svelte.d.ts",
-			"svelte": "./dist/monitor/Monitor.svelte"
-		},
-		"./Pane.svelte": {
-			"types": "./dist/core/Pane.svelte.d.ts",
-			"svelte": "./dist/core/Pane.svelte"
-		},
 		"./Point.svelte": {
 			"types": "./dist/control/Point.svelte.d.ts",
 			"svelte": "./dist/control/Point.svelte"
-		},
-		"./Profiler.svelte": {
-			"types": "./dist/monitor/Profiler.svelte.d.ts",
-			"svelte": "./dist/monitor/Profiler.svelte"
 		},
 		"./RadioGrid.svelte": {
 			"types": "./dist/control/RadioGrid.svelte.d.ts",
@@ -138,10 +98,6 @@
 			"types": "./dist/control/RotationQuaternion.svelte.d.ts",
 			"svelte": "./dist/control/RotationQuaternion.svelte"
 		},
-		"./Separator.svelte": {
-			"types": "./dist/core/Separator.svelte.d.ts",
-			"svelte": "./dist/core/Separator.svelte"
-		},
 		"./Slider.svelte": {
 			"types": "./dist/control/Slider.svelte.d.ts",
 			"svelte": "./dist/control/Slider.svelte"
@@ -149,14 +105,6 @@
 		"./Stepper.svelte": {
 			"types": "./dist/control/Stepper.svelte.d.ts",
 			"svelte": "./dist/control/Stepper.svelte"
-		},
-		"./TabGroup.svelte": {
-			"types": "./dist/core/TabGroup.svelte.d.ts",
-			"svelte": "./dist/core/TabGroup.svelte"
-		},
-		"./TabPage.svelte": {
-			"types": "./dist/core/TabPage.svelte.d.ts",
-			"svelte": "./dist/core/TabPage.svelte"
 		},
 		"./Text.svelte": {
 			"types": "./dist/control/Text.svelte.d.ts",
@@ -166,6 +114,66 @@
 			"types": "./dist/control/Textarea.svelte.d.ts",
 			"svelte": "./dist/control/Textarea.svelte"
 		},
+		"./Wheel.svelte": {
+			"types": "./dist/control/Wheel.svelte.d.ts",
+			"svelte": "./dist/control/Wheel.svelte"
+		},
+		"./Binding.svelte": {
+			"types": "./dist/core/Binding.svelte.d.ts",
+			"svelte": "./dist/core/Binding.svelte"
+		},
+		"./Blade.svelte": {
+			"types": "./dist/core/Blade.svelte.d.ts",
+			"svelte": "./dist/core/Blade.svelte"
+		},
+		"./Folder.svelte": {
+			"types": "./dist/core/Folder.svelte.d.ts",
+			"svelte": "./dist/core/Folder.svelte"
+		},
+		"./Pane.svelte": {
+			"types": "./dist/core/Pane.svelte.d.ts",
+			"svelte": "./dist/core/Pane.svelte"
+		},
+		"./Separator.svelte": {
+			"types": "./dist/core/Separator.svelte.d.ts",
+			"svelte": "./dist/core/Separator.svelte"
+		},
+		"./TabGroup.svelte": {
+			"types": "./dist/core/TabGroup.svelte.d.ts",
+			"svelte": "./dist/core/TabGroup.svelte"
+		},
+		"./TabPage.svelte": {
+			"types": "./dist/core/TabPage.svelte.d.ts",
+			"svelte": "./dist/core/TabPage.svelte"
+		},
+		"./AutoObject.svelte": {
+			"types": "./dist/extra/AutoObject.svelte.d.ts",
+			"svelte": "./dist/extra/AutoObject.svelte"
+		},
+		"./AutoValue.svelte": {
+			"types": "./dist/extra/AutoValue.svelte.d.ts",
+			"svelte": "./dist/extra/AutoValue.svelte"
+		},
+		"./Element.svelte": {
+			"types": "./dist/extra/Element.svelte.d.ts",
+			"svelte": "./dist/extra/Element.svelte"
+		},
+		"./FpsGraph.svelte": {
+			"types": "./dist/monitor/FpsGraph.svelte.d.ts",
+			"svelte": "./dist/monitor/FpsGraph.svelte"
+		},
+		"./Monitor.svelte": {
+			"types": "./dist/monitor/Monitor.svelte.d.ts",
+			"svelte": "./dist/monitor/Monitor.svelte"
+		},
+		"./Profiler.svelte": {
+			"types": "./dist/monitor/Profiler.svelte.d.ts",
+			"svelte": "./dist/monitor/Profiler.svelte"
+		},
+		"./WaveformMonitor.svelte": {
+			"types": "./dist/monitor/WaveformMonitor.svelte.d.ts",
+			"svelte": "./dist/monitor/WaveformMonitor.svelte"
+		},
 		"./ThemeUtils.js": {
 			"types": "./dist/theme.d.ts",
 			"default": "./dist/theme.js"
@@ -173,14 +181,6 @@
 		"./Utils.js": {
 			"types": "./dist/utils.d.ts",
 			"default": "./dist/utils.js"
-		},
-		"./WaveformMonitor.svelte": {
-			"types": "./dist/monitor/WaveformMonitor.svelte.d.ts",
-			"svelte": "./dist/monitor/WaveformMonitor.svelte"
-		},
-		"./Wheel.svelte": {
-			"types": "./dist/control/Wheel.svelte.d.ts",
-			"svelte": "./dist/control/Wheel.svelte"
 		}
 	},
 	"types": "./dist/index.d.ts",
