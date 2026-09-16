@@ -1,6 +1,8 @@
 import { nanoid } from 'nanoid'
 
 const INTERACTIVE_SELECTOR = 'button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+// Folder title bars and tab buttons serve as both the label and the only control.
+const TITLE_BAR_SELECTOR = ':scope > :is(.tp-fldv_b, .tp-tbiv_b)'
 const WHITESPACE_PATTERN = /\s+/v
 const TIME_UNIT_PATTERN = /m?s$/v
 
@@ -12,6 +14,15 @@ function removeDescriptionId(element: HTMLElement, id: string) {
 	} else {
 		element.toggleAttribute('aria-describedby', false)
 	}
+}
+
+function findLabel(root: HTMLElement) {
+	// Tweakpane retains the old text when it hides a label by changing this class.
+	const label = root.classList.contains('tp-lblv-nol')
+		? undefined
+		: root.querySelector<HTMLElement>(':scope > .tp-lblv_l')
+	const content = label?.textContent
+	return content === undefined || content.length === 0 ? undefined : (label ?? undefined)
 }
 
 function createDescription(root: HTMLElement, text: string) {
@@ -185,19 +196,19 @@ function createDescription(root: HTMLElement, text: string) {
 	document.defaultView?.addEventListener('resize', positionCaret, options)
 
 	function sync() {
-		// Tweakpane retains the old text when it hides a label by changing this class.
-		const nextLabel = root.classList.contains('tp-lblv-nol')
-			? undefined
-			: root.querySelector<HTMLElement>('.tp-lblv_l')
-		const labelContent = nextLabel?.textContent
-		const anchor =
-			labelContent === undefined || labelContent.length === 0 ? undefined : (nextLabel ?? undefined)
+		const titleBar = root.querySelector<HTMLElement>(TITLE_BAR_SELECTOR) ?? undefined
+		const anchor = titleBar ?? findLabel(root)
 		if (label !== anchor) {
 			hide()
 			label = anchor
 		}
 
-		const nextElements = new Set(root.querySelectorAll<HTMLElement>(INTERACTIVE_SELECTOR))
+		// A title bar describes itself, not the blades nested inside its container.
+		const nextElements = new Set<HTMLElement>(
+			titleBar === undefined
+				? root.querySelectorAll<HTMLElement>(INTERACTIVE_SELECTOR)
+				: [titleBar],
+		)
 		for (const control of describedElements) {
 			if (!nextElements.has(control)) {
 				removeDescriptionId(control, tooltip.id)

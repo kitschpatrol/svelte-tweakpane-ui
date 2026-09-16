@@ -5,6 +5,7 @@
 	import { writable, type Writable } from 'svelte/store'
 	import type { Theme } from '$lib/theme.js'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { DescriptionController } from '$lib/internal/description.js'
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
 	import { type Container, getElementIndex, isRootPane, updateCollapsibility } from '$lib/utils.js'
 
@@ -18,6 +19,17 @@
 	 * @default `'Folder'`
 	 */
 	export let title: string = 'Folder'
+
+	/**
+	 * Additional context about what the folder contains.
+	 *
+	 * Displayed in a tooltip when hovering the title bar. Also available to
+	 * assistive technology when the title bar is focused, without opening a
+	 * visual tooltip.
+	 *
+	 * @default `undefined`
+	 */
+	export let description: string | undefined = undefined
 
 	/**
 	 * Prevent interactivity and gray out the control.
@@ -69,6 +81,7 @@
 	let indexElement: HTMLDivElement
 	let index: number
 	let folderRef: FolderRef | undefined = undefined
+	const descriptionController = new DescriptionController()
 
 	// Overwrite the context for our children
 	setContext('parentStore', folderStore)
@@ -124,6 +137,7 @@
 	})
 
 	onDestroy(() => {
+		descriptionController.destroy()
 		folderRef?.controller.view.buttonElement.removeEventListener('click', handleTitleBarClick)
 		$folderStore?.dispose()
 	})
@@ -132,6 +146,7 @@
 	$: folderRef && updateCollapsibility(userExpandable, folderRef.element, 'tp-fldv_b', 'tp-fldv_m')
 	$: folderRef && (folderRef.title = title)
 	$: folderRef && (folderRef.disabled = disabled)
+	$: folderRef && descriptionController.update(folderRef.element, description)
 	$: folderRef && expanded !== undefined && (folderRef.expanded = expanded) // Doing this on $folderStore causes issues
 	$: theme &&
 		$parentStore !== undefined &&
@@ -191,7 +206,7 @@ Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane 
 	{/if}
 {:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
-		<svelte:self {disabled} {title} {userExpandable} bind:expanded>
+		<svelte:self {description} {disabled} {title} {userExpandable} bind:expanded>
 			<slot></slot>
 		</svelte:self>
 	</InternalPaneInline>

@@ -2,6 +2,9 @@ import type { Locator } from '@playwright/test'
 import { expect, test } from '@playwright/test'
 
 const WHITESPACE_PATTERN = /\s+/v
+const FOLDER_CLASS = /tp-fldv/v
+const FOLDER_EXPANDED_CLASS = /tp-fldv-expanded/v
+const TAB_ITEM_CLASS = /tp-tbiv/v
 
 async function boundingBox(locator: Locator) {
 	const bounds = await locator.boundingBox()
@@ -1024,5 +1027,259 @@ test.describe('Control descriptions', () => {
 			.toBeLessThanOrEqual(480)
 		const finalBounds = await boundingBox(pane)
 		expect(finalBounds.y + finalBounds.height).toBeGreaterThan(460)
+	})
+})
+
+test.describe('Folder and tab page descriptions', () => {
+	test.beforeEach(async ({ page }) => {
+		await page.goto('/TestDescriptionContainers.svelte')
+		await expect(page.locator('[role="tooltip"]')).toHaveCount(6)
+	})
+
+	test('describes title bars and tab buttons, not the controls they contain', async ({ page }) => {
+		const titleBar = page.getByRole('button', { exact: true, name: 'Lighting' })
+		const folder = titleBar.locator('..')
+		const tooltip = folder.locator(':scope > [role="tooltip"]')
+		const tooltipId = await tooltip.getAttribute('id')
+
+		expect(tooltipId).not.toBeNull()
+		await expect(page.locator('[data-stui-description]')).toHaveCount(6)
+		await expect(folder).toHaveClass(FOLDER_CLASS)
+		await expect(folder).toHaveAttribute('data-stui-description', '')
+		await expect(tooltip).toHaveText('Groups the lighting controls.')
+		await expect(titleBar).toHaveAttribute('aria-describedby', tooltipId ?? '')
+		await expect(titleBar).toHaveAccessibleDescription('Groups the lighting controls.')
+
+		const keyInput = folder
+			.locator('.tp-lblv')
+			.filter({ has: page.getByText('Key', { exact: true }) })
+			.locator('input')
+		const fillInput = folder
+			.locator('.tp-lblv')
+			.filter({ has: page.getByText('Fill', { exact: true }) })
+			.locator('input')
+		await expect(keyInput).toHaveAccessibleDescription('Adjusts the key light.')
+		await expect(fillInput).not.toHaveAttribute('aria-describedby')
+
+		const sceneTab = page.getByRole('button', { exact: true, name: 'Scene' })
+		await expect(sceneTab.locator('..')).toHaveClass(TAB_ITEM_CLASS)
+		await expect(sceneTab.locator('..')).toHaveAttribute('data-stui-description', '')
+		await expect(sceneTab).toHaveAccessibleDescription('Shows scene settings.')
+		await expect(page.getByRole('button', { exact: true, name: 'Plain' })).not.toHaveAttribute(
+			'aria-describedby',
+		)
+	})
+
+	test('opens below the title bar independently of nested controls', async ({ page }) => {
+		const titleBar = page.getByRole('button', { exact: true, name: 'Lighting' })
+		const tooltip = titleBar.locator('..').locator(':scope > [role="tooltip"]')
+		const keyLabel = page.getByText('Key', { exact: true })
+		const keyTooltip = keyLabel.locator('..').locator('[role="tooltip"]')
+
+		await keyLabel.hover({ position: { x: 12, y: 8 } })
+		await expect(keyTooltip).toBeVisible()
+		await expect(tooltip).toBeHidden()
+		await page.mouse.move(900, 600)
+		await expect(keyTooltip).toBeHidden()
+
+		await titleBar.hover({ position: { x: 12, y: 8 } })
+		await expect(tooltip).toBeVisible()
+		await expect(keyTooltip).toBeHidden()
+		const source = await boundingBox(titleBar)
+		const target = await boundingBox(tooltip)
+		expect(target.y).toBeGreaterThanOrEqual(source.y + source.height)
+		expect(target.x).toBeCloseTo(source.x + 12 - 8, 0)
+		const caret = await caretStyle(tooltip)
+		expect(caret.bottomColor).toBe(caret.background)
+	})
+
+	test('opens from the tab button', async ({ page }) => {
+		const tab = page.getByRole('button', { exact: true, name: 'Scene' })
+		const tooltip = tab.locator('..').locator('[role="tooltip"]')
+
+		await tab.hover({ position: { x: 12, y: 8 } })
+		await expect(tooltip).toBeVisible()
+		const source = await boundingBox(tab)
+		const target = await boundingBox(tooltip)
+		expect(target.y).toBeGreaterThanOrEqual(source.y + source.height)
+	})
+
+	test('dismisses when the title bar is clicked and still folds', async ({ page }) => {
+		const titleBar = page.getByRole('button', { exact: true, name: 'Lighting' })
+		const tooltip = titleBar.locator('..').locator(':scope > [role="tooltip"]')
+
+		await titleBar.hover({ position: { x: 12, y: 8 } })
+		await expect(tooltip).toBeVisible()
+		await titleBar.click({ position: { x: 12, y: 8 } })
+		await expect(tooltip).toBeHidden()
+		await expect(page.getByTestId('expanded-state')).toHaveText('false')
+		await expect(titleBar.locator('..')).not.toHaveClass(FOLDER_EXPANDED_CLASS)
+	})
+
+	test('targets the title bar of locked and untitled folders', async ({ page }) => {
+		const locked = page.getByRole('button', { exact: true, name: 'Locked' })
+		const lockedTooltip = locked.locator('..').locator(':scope > [role="tooltip"]')
+		await locked.hover({ position: { x: 12, y: 8 } })
+		await expect(lockedTooltip).toBeVisible()
+		await page.mouse.move(900, 600)
+		await expect(lockedTooltip).toBeHidden()
+
+		const untitledTooltip = page.locator('[role="tooltip"]').filter({ hasText: 'Has no title.' })
+		const untitledBar = untitledTooltip.locator('..').locator(':scope > .tp-fldv_b')
+		await expect(untitledBar).toHaveAccessibleDescription('Has no title.')
+		await expect(
+			page.getByRole('button', { exact: true, name: 'Untitled action' }),
+		).not.toHaveAttribute('aria-describedby')
+		await untitledBar.hover({ position: { x: 12, y: 8 } })
+		await expect(untitledTooltip).toBeVisible()
+	})
+
+	test('stays available on a disabled title bar without hover styling', async ({ page }) => {
+		const titleBar = page.getByRole('button', { exact: true, name: 'Lighting' })
+		const tooltip = titleBar.locator('..').locator(':scope > [role="tooltip"]')
+		const restingBackground = await titleBar.evaluate(
+			(element) => getComputedStyle(element).backgroundColor,
+		)
+
+		await page.getByRole('button', { name: 'Toggle disabled' }).click()
+		await expect(titleBar).toBeDisabled()
+
+		await titleBar.hover({ position: { x: 12, y: 8 } })
+		await expect(tooltip).toBeVisible()
+		await expect(titleBar).toHaveCSS('cursor', 'default')
+		await expect(titleBar).toHaveCSS('background-color', restingBackground)
+		await page.mouse.move(900, 600)
+		await expect(tooltip).toBeHidden()
+	})
+
+	test('appends the hint to folder and tab titles', async ({ page }) => {
+		await page.locator('.svelte-tweakpane-ui').evaluate((element) => {
+			element.style.setProperty('--stui-description-hint', '"(i)"')
+		})
+		const hintContent = async (locator: Locator) =>
+			locator.evaluate((element) => getComputedStyle(element, '::after').content)
+		const folderTitle = page.locator('.tp-fldv_b', { hasText: 'Lighting' }).locator('.tp-fldv_t')
+		const tabTitle = page.locator('.tp-tbiv_b', { hasText: 'Scene' }).locator('.tp-tbiv_t')
+		const plainTabTitle = page.locator('.tp-tbiv_b', { hasText: 'Plain' }).locator('.tp-tbiv_t')
+
+		await expect.poll(async () => hintContent(folderTitle)).toBe('"(i)"')
+		await expect.poll(async () => hintContent(tabTitle)).toBe('"(i)"')
+		await expect.poll(async () => hintContent(plainTabTitle)).toBe('none')
+	})
+
+	test('follows title, description, and lifecycle changes', async ({ page }) => {
+		const errors: Error[] = []
+		page.on('pageerror', (error) => {
+			errors.push(error)
+		})
+
+		await page.getByRole('button', { name: 'Update title' }).click()
+		const titleBar = page.getByRole('button', { exact: true, name: 'Lights' })
+		const folder = titleBar.locator('..')
+		const tooltip = folder.locator(':scope > [role="tooltip"]')
+		await titleBar.hover({ position: { x: 12, y: 8 } })
+		await expect(tooltip).toBeVisible()
+
+		await page.getByRole('button', { name: 'Update description' }).dispatchEvent('click')
+		await expect(tooltip).toHaveText('Updated description')
+		await expect(titleBar).toHaveAccessibleDescription('Updated description')
+
+		await page.getByRole('button', { name: 'Remove description' }).dispatchEvent('click')
+		await expect(folder).not.toHaveAttribute('data-stui-description')
+		await expect(tooltip).toHaveCount(0)
+		await expect(titleBar).not.toHaveAttribute('aria-describedby')
+		await expect(page.locator('[role="tooltip"]')).toHaveCount(5)
+
+		await page.getByRole('button', { name: 'Toggle mounted' }).dispatchEvent('click')
+		await expect(page.locator('[role="tooltip"]')).toHaveCount(0)
+		await page.getByRole('button', { name: 'Toggle mounted' }).dispatchEvent('click')
+		await expect(page.locator('[role="tooltip"]')).toHaveCount(5)
+		expect(errors).toEqual([])
+	})
+})
+
+test.describe('Folding control descriptions', () => {
+	const pickerButtons = '.tp-colswv_b, .tp-p2dv_b, .tp-cbzv_b, .tp-rotationswatchv_b'
+
+	test.beforeEach(async ({ page }) => {
+		await page.goto('/TestDescriptionFolding.svelte')
+		await expect(page.locator('[role="tooltip"]')).toHaveCount(9)
+	})
+
+	test('shares one description with the swatch, text fields, and picker controls', async ({
+		page,
+	}) => {
+		for (const [label, controls] of [
+			['Tint', ['.tp-colswv_b', '.tp-txtv_i', '.tp-svpv', '.tp-hplv']],
+			['Light', ['.tp-p2dv_b', '.tp-txtv_i', '.tp-p2dpv_p']],
+			['Easing', ['.tp-cbzv_b', '.tp-txtv_i', '.tp-cbzgv']],
+			['Rotation', ['.tp-rotationswatchv_b', '.tp-txtv_i', '.tp-rotationgizmov_p']],
+		] as const) {
+			const row = page.locator('.tp-lblv').filter({ has: page.getByText(label, { exact: true }) })
+			const tooltipId = await row.locator('[role="tooltip"]').getAttribute('id')
+			expect(tooltipId).not.toBeNull()
+			for (const control of controls) {
+				await expect(row.locator(control).first()).toHaveAttribute(
+					'aria-describedby',
+					tooltipId ?? '',
+				)
+			}
+
+			const describedControls = await row.locator('[aria-describedby]').all()
+			for (const described of describedControls) {
+				await expect(described).toHaveAttribute('aria-describedby', tooltipId ?? '')
+			}
+		}
+	})
+
+	test('dismisses when the picker opens and ignores the open picker', async ({ page }) => {
+		const row = page.locator('.tp-lblv').filter({ has: page.getByText('Tint', { exact: true }) })
+		const label = row.locator('.tp-lblv_l')
+		const tooltip = row.locator('[role="tooltip"]')
+		const popup = row.locator('.tp-popv')
+
+		await label.hover({ position: { x: 12, y: 8 } })
+		await expect(tooltip).toBeVisible()
+		await row.locator('.tp-colswv_b').click()
+		await expect(page.getByTestId('expanded-state')).toHaveText('true')
+		await expect(tooltip).toBeHidden()
+		await expect(popup).toBeVisible()
+
+		await page.mouse.move(900, 700)
+		await popup.hover({ position: { x: 20, y: 60 } })
+		await page.waitForTimeout(700)
+		await expect(tooltip).toBeHidden()
+
+		await label.hover({ position: { x: 12, y: 8 } })
+		await expect(tooltip).toBeVisible()
+		await expect(popup).toBeVisible()
+	})
+
+	test('keeps the label as the target beside an inline picker', async ({ page }) => {
+		const row = page.locator('.tp-lblv').filter({
+			has: page.getByText('Inline tint', { exact: true }),
+		})
+		const label = row.locator('.tp-lblv_l')
+		const tooltip = row.locator('[role="tooltip"]')
+
+		await row.locator('.tp-colpv').hover({ position: { x: 30, y: 30 } })
+		await page.waitForTimeout(700)
+		await expect(tooltip).toBeHidden()
+
+		await label.hover({ position: { x: 12, y: 8 } })
+		await expect(tooltip).toBeVisible()
+		const source = await boundingBox(label)
+		const target = await boundingBox(tooltip)
+		expect(target.y).toBeGreaterThanOrEqual(source.y + source.height)
+	})
+
+	test('keeps the pointer cursor on picker buttons', async ({ page }) => {
+		const buttons = page.locator(pickerButtons)
+		await expect(buttons).toHaveCount(9)
+		const pickerButtonElements = await buttons.all()
+		for (const button of pickerButtonElements) {
+			await expect(button).toHaveCSS('cursor', 'pointer')
+			expect(await button.evaluate((element) => element.style.cursor)).toBe('')
+		}
 	})
 })

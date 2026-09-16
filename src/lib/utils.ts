@@ -220,7 +220,9 @@ export function updateCollapsibility(
 
 			if (isUserExpandableEnabled) {
 				titleBarElement.removeEventListener('click', clickBlocker, { capture: true })
-				titleBarElement.style.cursor = 'pointer'
+				// Tweakpane's stylesheet already provides the pointer, and leaving it
+				// there lets description styles override it on disabled title bars
+				titleBarElement.style.removeProperty('cursor')
 
 				if (iconElement) {
 					iconElement.style.display = 'block'

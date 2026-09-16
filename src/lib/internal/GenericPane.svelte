@@ -241,17 +241,36 @@ This component is for internal use only.
 		text-overflow: ellipsis;
 	}
 
-	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-lblv_l) {
-		/* Labels can show help even when Tweakpane disables the control's pointer events. */
-		pointer-events: auto;
+	:global(
+		div.svelte-tweakpane-ui [data-stui-description] > :is(.tp-lblv_l, .tp-fldv_b, .tp-tbiv_b)
+	) {
 		white-space: nowrap;
 	}
 
-	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-lblv_l::after) {
+	:global(div.svelte-tweakpane-ui [data-stui-description] > :is(.tp-lblv_l, .tp-fldv_b)) {
+		/* Labels and folder title bars can show help even when Tweakpane disables their pointer
+		events. Tab buttons stay inert because Tweakpane never marks them disabled, so a click would
+		still switch tabs. */
+		pointer-events: auto;
+	}
+
+	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-lblv_l::after),
+	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-fldv_b > .tp-fldv_t::after),
+	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-tbiv_b > .tp-tbiv_t::after) {
 		cursor: default;
 		content: var(--stui-description-hint, none);
 		user-select: none;
 		padding-inline-start: 0.35em;
+	}
+
+	/* Disabled folder title bars keep showing help on hover without looking interactive. */
+	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-fldv_b:disabled) {
+		cursor: default;
+		background-color: var(--cnt-bg);
+	}
+
+	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-fldv_b:disabled + .tp-fldv_i) {
+		color: var(--cnt-bg);
 	}
 
 	/* Pane title label */
