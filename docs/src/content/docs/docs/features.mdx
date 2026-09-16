@@ -4,6 +4,10 @@ description: Features unique to Svelte Tweakpane UI.
 ---
 
 import ExampleWrapper from '../../../components/docs/ExampleWrapper.astro'
+import SvelteTweakpaneDescriptionExampleCode from '../../../examples/docs/SvelteTweakpaneDescriptionExample.md'
+import SvelteTweakpaneDescriptionExample from '../../../examples/docs/SvelteTweakpaneDescriptionExample.svelte'
+import SvelteTweakpaneDescriptionThemeExampleCode from '../../../examples/docs/SvelteTweakpaneDescriptionThemeExample.md'
+import SvelteTweakpaneDescriptionThemeExample from '../../../examples/docs/SvelteTweakpaneDescriptionThemeExample.svelte'
 import SvelteTweakpaneEventExampleCode from '../../../examples/docs/SvelteTweakpaneEventExample.md'
 import SvelteTweakpaneEventExample from '../../../examples/docs/SvelteTweakpaneEventExample.svelte'
 import SvelteTweakpaneWideSlideExampleCode from '../../../examples/docs/SvelteTweakpaneWideSlideExample.md'
@@ -105,34 +109,27 @@ The whole label is the hover target. If your control is unlabeled, then the whol
 
 These are defined to function much like native `title`-style hover tooltips, but they're styled to match your Tweakpane theme, and have pulled their design language from existing tooltip like pop-up elements in Tweakpane, such as those shown when scrubbing over graph views or slider values.
 
-```svelte
-<Slider
-  bind:value
-  min={0}
-  max={1}
-  label="Exposure"
-  description="Controls the overall scene brightness."
-/>
-```
+<ExampleWrapper>
+  <SvelteTweakpaneDescriptionExample client:load />
+</ExampleWrapper>
 
-The default hover delay is 500ms, but this and several other aspects of their behavior can be overridden with via theme keys or their corresponding CSS variables:
+<details>
+  <summary>See example code</summary>
 
-```svelte
-<script lang="ts">
-  import { Pane, type Theme, ThemeUtils } from 'svelte-tweakpane-ui'
+  <SvelteTweakpaneDescriptionExampleCode />
+</details>
 
-  const theme: Theme = {
-    ...ThemeUtils.presets.iceberg,
-    stuiDescriptionHint: '"ⓘ"',
-    stuiDescriptionMaxWidth: '20rem',
-    stuiDescriptionDelay: '350ms',
-    stuiDescriptionFadeInDuration: '50ms',
-    stuiDescriptionFadeOutDuration: '250ms',
-  }
-</script>
+The default hover delay is 500ms, but this and several other aspects of their behavior can be overridden via theme keys or their corresponding CSS variables:
 
-<Pane {theme}>…</Pane>
-```
+<ExampleWrapper>
+  <SvelteTweakpaneDescriptionThemeExample client:load />
+</ExampleWrapper>
+
+<details>
+  <summary>See example code</summary>
+
+  <SvelteTweakpaneDescriptionThemeExampleCode />
+</details>
 
 The corresponding inherited CSS custom properties can also be set directly on a pane or any of its ancestors:
 
