@@ -48,6 +48,7 @@ function createDescription(root: HTMLElement, text: string) {
 	let cursorX = 0
 	let showTimer: ReturnType<typeof setTimeout> | undefined
 	let hideTimer: ReturnType<typeof setTimeout> | undefined
+	let layoutFrame: number | undefined
 	const listeners = new AbortController()
 	const options = { signal: listeners.signal }
 
@@ -59,6 +60,11 @@ function createDescription(root: HTMLElement, text: string) {
 	function hide() {
 		cancelShow()
 		clearTimeout(hideTimer)
+		if (layoutFrame !== undefined) {
+			cancelAnimationFrame(layoutFrame)
+			layoutFrame = undefined
+		}
+
 		if (tooltip.matches(':popover-open')) {
 			tooltip.hidePopover()
 		}
@@ -78,6 +84,37 @@ function createDescription(root: HTMLElement, text: string) {
 			'--stui-description-caret-offset',
 			`${(cursorX - bounds.left) / scale}px`,
 		)
+	}
+
+	function fitTooltip() {
+		if (!tooltip.matches(':popover-open')) {
+			return
+		}
+
+		// Let CSS balance the text at its natural/max width before fitting the box to its lines.
+		tooltip.style.removeProperty('--stui-description-width')
+		const style = getComputedStyle(tooltip)
+		const naturalWidth = Number(style.width.replace('px', ''))
+		const scale = tooltip.getBoundingClientRect().width / naturalWidth
+		const range = document.createRange()
+		range.selectNodeContents(tooltip)
+		const textWidth = range.getBoundingClientRect().width / scale
+		const padding =
+			Number(style.paddingLeft.replace('px', '')) + Number(style.paddingRight.replace('px', ''))
+		// Round up so fractional glyph widths cannot cause an extra line, but keep CSS's width cap.
+		const width = Math.min(naturalWidth, Math.ceil(textWidth + padding))
+		tooltip.style.setProperty('--stui-description-width', `${width}px`)
+		positionCaret()
+	}
+
+	function scheduleLayout() {
+		if (layoutFrame === undefined && tooltip.matches(':popover-open')) {
+			// ResizeObserver callbacks must not resize their own observed element in the same frame.
+			layoutFrame = requestAnimationFrame(() => {
+				layoutFrame = undefined
+				fitTooltip()
+			})
+		}
 	}
 
 	function isHoverTarget(target: EventTarget | undefined) {
@@ -139,7 +176,7 @@ function createDescription(root: HTMLElement, text: string) {
 			// Pin the horizontal offset to the pointer's position when the tooltip opens.
 			tooltip.style.setProperty('--stui-description-cursor-x', `${cursorX}px`)
 			tooltip.showPopover({ source: label ?? root })
-			positionCaret()
+			fitTooltip()
 		}, milliseconds)
 	}
 
@@ -193,7 +230,8 @@ function createDescription(root: HTMLElement, text: string) {
 	)
 	// eslint-disable-next-line unicorn/prefer-observer-apis -- Intersection changes do not detect every anchor-position flip.
 	document.addEventListener('scroll', positionCaret, { ...options, capture: true })
-	document.defaultView?.addEventListener('resize', positionCaret, options)
+	document.defaultView?.addEventListener('resize', scheduleLayout, options)
+	document.fonts.addEventListener('loadingdone', scheduleLayout, options)
 
 	function sync() {
 		const titleBar = root.querySelector<HTMLElement>(TITLE_BAR_SELECTOR) ?? undefined
@@ -228,26 +266,27 @@ function createDescription(root: HTMLElement, text: string) {
 
 	sync()
 	// Tweakpane can replace label text and plugin controls without recreating the blade.
-	const observer = new MutationObserver(sync)
+	const observer = new MutationObserver((records) => {
+		// Ignore our own sizing and caret styles, while still handling description text changes.
+		if (records.every((record) => record.type === 'attributes' && record.target === tooltip)) {
+			return
+		}
+
+		sync()
+		scheduleLayout()
+	})
 	observer.observe(root, {
-		attributeFilter: ['class'],
+		attributeFilter: ['class', 'style'],
 		characterData: true,
 		childList: true,
 		subtree: true,
 	})
-	// CSS needs the tooltip's own width to clamp the cursor offset to the viewport.
-	const resizeObserver = new ResizeObserver((entries) => {
-		for (const entry of entries) {
-			if (entry.target === tooltip) {
-				tooltip.style.setProperty(
-					'--stui-description-width',
-					`${entry.borderBoxSize[0].inlineSize}px`,
-				)
-			}
-		}
+	// A larger inherited width limit or a new font may not resize an already fitted tooltip.
+	for (let ancestor = root.parentElement; ancestor !== null; ancestor = ancestor.parentElement) {
+		observer.observe(ancestor, { attributeFilter: ['class', 'style'] })
+	}
 
-		positionCaret()
-	})
+	const resizeObserver = new ResizeObserver(scheduleLayout)
 	resizeObserver.observe(tooltip, { box: 'border-box' })
 	resizeObserver.observe(root.closest('.svelte-tweakpane-ui') ?? root)
 

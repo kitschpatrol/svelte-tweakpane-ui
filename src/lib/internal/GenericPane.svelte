@@ -324,7 +324,7 @@ This component is for internal use only.
 		position-try-fallbacks: flip-block;
 		overflow: visible;
 		box-sizing: border-box;
-		width: max-content;
+		width: var(--stui-description-width, max-content);
 		max-width: min(
 			var(--stui-description-max-width, 16rem),
 			calc(100vw / var(--stui-pane-scale, 1) - 16px)
