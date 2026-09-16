@@ -1283,3 +1283,87 @@ test.describe('Folding control descriptions', () => {
 		}
 	})
 })
+
+test.describe('Pane descriptions', () => {
+	test.beforeEach(async ({ page }) => {
+		await page.goto('/TestDescriptionPane.svelte')
+		await expect(page.locator('[role="tooltip"]')).toHaveCount(3)
+	})
+
+	test('describes the title bar and stays dormant without a title', async ({ page }) => {
+		const draggableBar = page.getByRole('button', { name: 'Draggable' })
+		const inlineBar = page.getByRole('button', { exact: true, name: 'Inline' })
+		await expect(page.locator('.tp-rotv[data-stui-description]')).toHaveCount(3)
+		await expect(draggableBar).toHaveAccessibleDescription('Controls the demo scene.')
+		await expect(inlineBar).toHaveAccessibleDescription('Controls the demo scene.')
+		const inputs = await page.locator('.tp-lblv input').all()
+		for (const input of inputs) {
+			await expect(input).not.toHaveAttribute('aria-describedby')
+		}
+
+		const untitled = page.locator('.tp-rotv').filter({ hasText: 'Untitled slider' })
+		const untitledTooltip = untitled.locator('[role="tooltip"]')
+		await expect(untitled.locator('.tp-rotv_b')).toBeHidden()
+		await untitled.locator('.tp-lblv_l').hover({ position: { x: 12, y: 8 } })
+		await page.waitForTimeout(700)
+		await expect(untitledTooltip).toBeHidden()
+
+		await draggableBar.locator('..').evaluate((element) => {
+			element.style.setProperty('--stui-description-hint', '"(i)"')
+		})
+		const title = draggableBar.locator('.tp-rotv_t')
+		await expect
+			.poll(async () => title.evaluate((element) => getComputedStyle(element, '::after').content))
+			.toBe('"(i)"')
+		await expect
+			.poll(async () => title.evaluate((element) => getComputedStyle(element, '::after').cursor))
+			.toBe('grab')
+	})
+
+	test('opens from the draggable title bar and hides while dragging', async ({ page }) => {
+		const titleBar = page.getByRole('button', { name: 'Draggable' })
+		const tooltip = titleBar.locator('..').locator(':scope > [role="tooltip"]')
+		const initialPosition = await page.getByTestId('position-state').textContent()
+
+		await titleBar.hover()
+		await expect(tooltip).toBeVisible()
+		const source = await boundingBox(titleBar)
+		const target = await boundingBox(tooltip)
+		expect(target.y).toBeGreaterThanOrEqual(source.y + source.height)
+
+		await page.mouse.down()
+		await page.mouse.move(source.x + source.width / 2 + 80, source.y + source.height / 2 + 60, {
+			steps: 5,
+		})
+		await expect(tooltip).toBeHidden()
+		await page.mouse.up()
+		await expect(page.getByTestId('position-state')).not.toHaveText(initialPosition ?? '')
+		await page.waitForTimeout(700)
+		await expect(tooltip).toBeHidden()
+
+		await page.mouse.move(900, 700)
+		await titleBar.hover()
+		await expect(tooltip).toBeVisible()
+	})
+
+	test('follows title and description changes', async ({ page }) => {
+		const untitled = page.locator('.tp-rotv').filter({ hasText: 'Untitled slider' })
+		const untitledBar = untitled.locator('.tp-rotv_b')
+		const untitledTooltip = untitled.locator('[role="tooltip"]')
+
+		await page.getByRole('button', { name: 'Toggle title' }).click()
+		await expect(untitledBar).toBeVisible()
+		await expect(untitledBar).toHaveText('Added title')
+		await untitledBar.hover()
+		await expect(untitledTooltip).toBeVisible()
+		await page.mouse.move(900, 700)
+		await expect(untitledTooltip).toBeHidden()
+
+		const inlineBar = page.getByRole('button', { exact: true, name: 'Inline' })
+		await page.getByRole('button', { name: 'Update description' }).dispatchEvent('click')
+		await expect(inlineBar).toHaveAccessibleDescription('Updated description')
+		await page.getByRole('button', { name: 'Remove description' }).dispatchEvent('click')
+		await expect(inlineBar).not.toHaveAttribute('aria-describedby')
+		await expect(page.locator('[role="tooltip"]')).toHaveCount(1)
+	})
+})

@@ -101,7 +101,7 @@ Tweakpane components accept an optional `description` prop which populates a too
 
 The whole label is the hover target. If your control is unlabeled, then the whole blade becomes the hover target.
 
-`<Folder>` and `<TabPage>` components accept a `description` as well, with the folder's title bar or the tab's button as the hover target. Like other disabled controls, a disabled folder still shows its description.
+`<Pane>`, `<Folder>`, and `<TabPage>` components accept a `description` as well, with the title bar or the tab's button as the hover target. A pane needs a `title` for its description to show. Like other disabled controls, a disabled folder still shows its description.
 
 These are defined to function much like native `title`-style hover tooltips, but they're styled to match your Tweakpane theme, and have pulled their design language from existing tooltip like pop-up elements in Tweakpane, such as those shown when scrubbing over graph views or slider values.
 

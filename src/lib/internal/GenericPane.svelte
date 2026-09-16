@@ -4,6 +4,7 @@
 	import { type Writable, writable } from 'svelte/store'
 	import { Pane as TpPane } from 'tweakpane'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { DescriptionController } from '$lib/internal/description.js'
 	import { applyTheme, type Theme } from '$lib/theme.js'
 	import { type Container, type Plugin, updateCollapsibility } from '$lib/utils.js'
 
@@ -18,6 +19,17 @@
 	 * @default `Tweakpane`
 	 */
 	export let title: string | undefined = undefined
+
+	/**
+	 * Additional context about what the pane contains.
+	 *
+	 * Displayed in a tooltip when hovering the title bar, so it has no visible
+	 * effect on a pane without a `title`. Also available to assistive technology
+	 * when the title bar is focused, without opening a visual tooltip.
+	 *
+	 * @default `undefined`
+	 */
+	export let description: string | undefined = undefined
 
 	/**
 	 * Allow users to interactively expand / contract the pane by clicking its
@@ -121,6 +133,7 @@
 	}
 
 	const parentStore = writable<TpPane>()
+	const descriptionController = new DescriptionController()
 	const existingParentStore: Writable<Container | undefined> = getContext('parentStore') // Sanity checks
 
 	// the raw pane.registerPlugin function doesn't seem to prevent duplicate registrations as a
@@ -162,6 +175,7 @@
 		setContext('parentStore', parentStore)
 
 		onDestroy(() => {
+			descriptionController.destroy()
 			$parentStore.dispose()
 		})
 	} else {
@@ -198,6 +212,7 @@
 	$: tpPane && updateCollapsibility(userExpandable, tpPane.element, 'tp-rotv_b', 'tp-rotv_m')
 	$: tpPane && title !== undefined && (tpPane.title = title.length > 0 ? title : ' ')
 	$: tpPane && applyTheme(tpPane.element, theme)
+	$: tpPane && descriptionController.update(tpPane.element, description)
 	// eslint-disable-next-line svelte/infinite-reactive-loop
 	$: tpPane && updateExpanded(expanded)
 </script>
@@ -241,6 +256,8 @@ This component is for internal use only.
 		text-overflow: ellipsis;
 	}
 
+	/* A pane root is the .svelte-tweakpane-ui element itself, so it takes a compound selector. */
+	:global(div.svelte-tweakpane-ui[data-stui-description] > .tp-rotv_b),
 	:global(
 		div.svelte-tweakpane-ui [data-stui-description] > :is(.tp-lblv_l, .tp-fldv_b, .tp-tbiv_b)
 	) {
@@ -254,13 +271,18 @@ This component is for internal use only.
 		pointer-events: auto;
 	}
 
+	:global(div.svelte-tweakpane-ui[data-stui-description] > .tp-rotv_b > .tp-rotv_t::after),
 	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-lblv_l::after),
 	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-fldv_b > .tp-fldv_t::after),
 	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-tbiv_b > .tp-tbiv_t::after) {
-		cursor: default;
 		content: var(--stui-description-hint, none);
 		user-select: none;
 		padding-inline-start: 0.35em;
+	}
+
+	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-lblv_l::after) {
+		/* Labels show a text cursor, but the hint is not text. Title bar hints keep their bar's cursor. */
+		cursor: default;
 	}
 
 	/* Disabled folder title bars keep showing help on hover without looking interactive. */

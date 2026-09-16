@@ -1,8 +1,8 @@
 import { nanoid } from 'nanoid'
 
 const INTERACTIVE_SELECTOR = 'button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
-// Folder title bars and tab buttons serve as both the label and the only control.
-const TITLE_BAR_SELECTOR = ':scope > :is(.tp-fldv_b, .tp-tbiv_b)'
+// Pane and folder title bars and tab buttons serve as both the label and the only control.
+const TITLE_BAR_SELECTOR = ':scope > :is(.tp-rotv_b, .tp-fldv_b, .tp-tbiv_b)'
 const WHITESPACE_PATTERN = /\s+/v
 const TIME_UNIT_PATTERN = /m?s$/v
 
