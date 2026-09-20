@@ -11,9 +11,7 @@
 		 * If undefined, the pane will fill the width of its container. (This
 		 * behavior is unique to `position="inline"`.)
 		 *
-		 * This value is particularly important in combination with `scale`, since a
-		 * scaled inline pane will grow indefinitely wider if an intrinsic width is
-		 * not specified and a containing element is not provided.
+		 * Use this prop or a containing element to control the pane's width.
 		 *
 		 * @default `undefined`
 		 */

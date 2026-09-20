@@ -4,6 +4,7 @@
 	import { type Writable, writable } from 'svelte/store'
 	import { Pane as TpPane } from 'tweakpane'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { DescriptionController } from '$lib/internal/description.js'
 	import { applyTheme, type Theme } from '$lib/theme.js'
 	import { type Container, type Plugin, updateCollapsibility } from '$lib/utils.js'
 
@@ -18,6 +19,17 @@
 	 * @default `Tweakpane`
 	 */
 	export let title: string | undefined = undefined
+
+	/**
+	 * Additional context about what the pane contains.
+	 *
+	 * Displayed in a tooltip when hovering the title bar, so it has no visible
+	 * effect on a pane without a `title`. Also available to assistive technology
+	 * when the title bar is focused, without opening a visual tooltip.
+	 *
+	 * @default `undefined`
+	 */
+	export let description: string | undefined = undefined
 
 	/**
 	 * Allow users to interactively expand / contract the pane by clicking its
@@ -121,6 +133,7 @@
 	}
 
 	const parentStore = writable<TpPane>()
+	const descriptionController = new DescriptionController()
 	const existingParentStore: Writable<Container | undefined> = getContext('parentStore') // Sanity checks
 
 	// the raw pane.registerPlugin function doesn't seem to prevent duplicate registrations as a
@@ -162,6 +175,7 @@
 		setContext('parentStore', parentStore)
 
 		onDestroy(() => {
+			descriptionController.destroy()
 			$parentStore.dispose()
 		})
 	} else {
@@ -171,20 +185,13 @@
 	}
 
 	function setScale(newScale: number) {
-		if (tpPane) {
-			if (newScale === 1) {
-				tpPane.element.style.removeProperty('transform-origin')
-				tpPane.element.style.removeProperty('transform')
-				tpPane.element.style.removeProperty('width')
-			} else {
-				const clampedScale = Math.max(0, newScale)
-				tpPane.element.style.transformOrigin = '0 0'
-				tpPane.element.style.transform = `scale(${clampedScale})`
-
-				// Jitters a bit, but resizeObserver + rounding wasn't better
-				tpPane.element.style.width = `${100 / clampedScale}%`
-			}
+		if (tpPane === undefined || newScale <= 0) {
+			return
 		}
+
+		tpPane.element.style.setProperty('--stui-pane-scale', `${newScale}`)
+		// Zoom participates in layout and also applies to descendants in the top layer.
+		tpPane.element.style.setProperty('zoom', `${newScale}`)
 	}
 
 	function updateExpanded(newExpanded: boolean) {
@@ -205,6 +212,7 @@
 	$: tpPane && updateCollapsibility(userExpandable, tpPane.element, 'tp-rotv_b', 'tp-rotv_m')
 	$: tpPane && title !== undefined && (tpPane.title = title.length > 0 ? title : ' ')
 	$: tpPane && applyTheme(tpPane.element, theme)
+	$: tpPane && descriptionController.update(tpPane.element, description)
 	// eslint-disable-next-line svelte/infinite-reactive-loop
 	$: tpPane && updateExpanded(expanded)
 </script>
@@ -248,9 +256,146 @@ This component is for internal use only.
 		text-overflow: ellipsis;
 	}
 
+	/* A pane root is the .svelte-tweakpane-ui element itself, so it takes a compound selector. */
+	:global(div.svelte-tweakpane-ui[data-stui-description] > .tp-rotv_b),
+	:global(
+		div.svelte-tweakpane-ui [data-stui-description] > :is(.tp-lblv_l, .tp-fldv_b, .tp-tbiv_b)
+	) {
+		white-space: nowrap;
+	}
+
+	:global(div.svelte-tweakpane-ui [data-stui-description] > :is(.tp-lblv_l, .tp-fldv_b)) {
+		/* Labels and folder title bars can show help even when Tweakpane disables their pointer
+		events. Tab buttons stay inert because Tweakpane never marks them disabled, so a click would
+		still switch tabs. */
+		pointer-events: auto;
+	}
+
+	:global(div.svelte-tweakpane-ui[data-stui-description] > .tp-rotv_b > .tp-rotv_t::after),
+	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-lblv_l::after),
+	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-fldv_b > .tp-fldv_t::after),
+	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-tbiv_b > .tp-tbiv_t::after) {
+		content: var(--stui-description-hint, none);
+		user-select: none;
+		padding-inline-start: 0.35em;
+	}
+
+	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-lblv_l::after) {
+		/* Labels show a text cursor, but the hint is not text. Title bar hints keep their bar's cursor. */
+		cursor: default;
+	}
+
+	/* Disabled folder title bars keep showing help on hover without looking interactive. */
+	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-fldv_b:disabled) {
+		cursor: default;
+		background-color: var(--cnt-bg);
+	}
+
+	:global(div.svelte-tweakpane-ui [data-stui-description] > .tp-fldv_b:disabled + .tp-fldv_i) {
+		color: var(--cnt-bg);
+	}
+
 	/* Pane title label */
 	:global(div.svelte-tweakpane-ui div.tp-rotv_t) {
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	/* A typed time lets JavaScript read the resolved hover delay, including calc(). */
+	@property --stui-description-delay {
+		inherits: true;
+		initial-value: 500ms;
+		syntax: '<time>';
+	}
+
+	/* Control descriptions */
+	:global(div.svelte-tweakpane-ui .stui-description) {
+		--stui-description-gap: max(var(--cnt-usp), 0.55rem);
+		pointer-events: none;
+		position: fixed;
+		inset: auto;
+		top: anchor(bottom);
+		left: clamp(
+			8px,
+			calc(var(--stui-description-cursor-x) / var(--stui-pane-scale, 1) - 8px),
+			calc(100% - var(--stui-description-width, 0px) - 8px)
+		);
+		position-anchor: auto;
+		position-try-fallbacks: flip-block;
+		overflow: visible;
+		box-sizing: border-box;
+		width: var(--stui-description-width, max-content);
+		max-width: min(
+			var(--stui-description-max-width, 16rem),
+			calc(100vw / var(--stui-pane-scale, 1) - 16px)
+		);
+		margin: var(--stui-description-gap) 0;
+		padding: var(--tp-container-vertical-padding, 4px) var(--tp-container-horizontal-padding, 4px);
+		border: 0;
+		border-radius: var(--bld-br);
+		font: inherit;
+		line-height: 1.4;
+		color: var(--bs-bg);
+		text-align: left;
+		text-wrap: balance;
+		overflow-wrap: anywhere;
+		white-space: pre-line;
+		visibility: hidden;
+		opacity: 0;
+		background-color: var(--in-fg);
+		box-shadow: 0 2px 4px var(--bs-sh);
+	}
+
+	:global(div.svelte-tweakpane-ui .stui-description:popover-open) {
+		pointer-events: auto;
+		visibility: visible;
+		opacity: 1;
+	}
+
+	/* Match Tweakpane's value-tooltip caret and keep it inside rounded corners. */
+	:global(div.svelte-tweakpane-ui .stui-description::before) {
+		content: '';
+		position: absolute;
+		bottom: 100%;
+		left: clamp(4px, var(--stui-description-caret-offset, 8px), calc(100% - 4px));
+		box-sizing: border-box;
+		width: 4px;
+		height: 4px;
+		margin-left: -2px;
+		border: 2px solid transparent;
+		border-bottom-color: var(--in-fg);
+	}
+
+	:global(div.svelte-tweakpane-ui .stui-description[data-stui-placement='above']::before) {
+		top: 100%;
+		bottom: auto;
+		border-color: var(--in-fg) transparent transparent;
+	}
+
+	/* Bridge the entire gap on either side, including when placement flips. */
+	:global(div.svelte-tweakpane-ui .stui-description::after) {
+		content: '';
+		position: absolute;
+		inset: calc(-1 * var(--stui-description-gap)) 0;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		:global(div.svelte-tweakpane-ui .stui-description) {
+			transition:
+				opacity var(--stui-description-fade-out-duration, 250ms) ease-out,
+				visibility var(--stui-description-fade-out-duration, 250ms) allow-discrete,
+				display var(--stui-description-fade-out-duration, 250ms) allow-discrete,
+				overlay var(--stui-description-fade-out-duration, 250ms) allow-discrete;
+		}
+
+		:global(div.svelte-tweakpane-ui .stui-description:popover-open) {
+			transition-duration: var(--stui-description-fade-in-duration, 50ms);
+		}
+
+		@starting-style {
+			:global(div.svelte-tweakpane-ui .stui-description:popover-open) {
+				opacity: 0;
+			}
+		}
 	}
 </style>

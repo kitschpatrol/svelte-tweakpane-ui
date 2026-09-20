@@ -6,7 +6,7 @@ import path from 'node:path'
 import { getAllLibraryFiles, getGithubUrlForSourceFile } from './ast-tools'
 
 const verbose = false
-const SOURCE_LINK_MARKER_REGEX = /@sourceLink(?:.+\))?\n/sv
+const SOURCE_LINK_MARKER_REGEX = /@sourceLink(?:\n[^\n]*\))?\n/v
 
 async function addLinksToComponentBlock(filePath: string): Promise<void> {
 	const fileContent = await fs.readFile(filePath, 'utf8')

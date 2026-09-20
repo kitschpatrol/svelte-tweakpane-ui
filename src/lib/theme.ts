@@ -42,6 +42,12 @@ type ThemeKeys = {
 	pluginImageDraggingColor?: ThemeColorValue
 	// PluginThumbnailListHeight?: string; pluginThumbnailListThumbSize?: string;
 	// pluginThumbnailListWidth?: string;
+	// Svelte Tweakpane UI
+	stuiDescriptionDelay?: string
+	stuiDescriptionFadeInDuration?: string
+	stuiDescriptionFadeOutDuration?: string
+	stuiDescriptionHint?: string
+	stuiDescriptionMaxWidth?: string
 }
 
 type CustomThemeKeys = Record<string, ThemeColorValue>
@@ -83,6 +89,11 @@ const standard: Theme = {
 	pluginImageDraggingColor: 'hsla(230, 100%, 66%, 1)',
 	// PluginThumbnailListHeight: '400px', pluginThumbnailListThumbSize: '20px',
 	// pluginThumbnailListWidth: '200px'
+	stuiDescriptionDelay: '500ms',
+	stuiDescriptionFadeInDuration: '50ms',
+	stuiDescriptionFadeOutDuration: '250ms',
+	stuiDescriptionHint: 'none',
+	stuiDescriptionMaxWidth: 'min(16rem, calc(100vw - 16px))',
 }
 
 export const keys = Object.keys(standard).reduce<Record<string, string>>((acc, key) => {
@@ -289,6 +300,12 @@ const keyToCssVariableMap = new Map([
 	// ['pluginThumbnailListHeight', '--tp-plugin-thumbnail-list-height'],
 	// ['pluginThumbnailListThumbSize', '--tp-plugin-thumbnail-list-thumb-size'],
 	// ['pluginThumbnailListWidth', '--tp-plugin-thumbnail-list-width']
+	// Svelte Tweakpane UI
+	['stuiDescriptionDelay', '--stui-description-delay'],
+	['stuiDescriptionFadeInDuration', '--stui-description-fade-in-duration'],
+	['stuiDescriptionFadeOutDuration', '--stui-description-fade-out-duration'],
+	['stuiDescriptionHint', '--stui-description-hint'],
+	['stuiDescriptionMaxWidth', '--stui-description-max-width'],
 ])
 
 // Just do it dynamically instead of the map? function transformToCustomProperty(str: string):
@@ -315,7 +332,7 @@ function stringToCssValue(v: string | ThemeColorValue | undefined): string | und
 
 function expandVariableKey(name: string): string {
 	// Pass explicit variables through
-	if (name.startsWith('--tp-')) {
+	if (name.startsWith('--stui-') || name.startsWith('--tp-')) {
 		return name
 	}
 
@@ -324,7 +341,7 @@ function expandVariableKey(name: string): string {
 		return variableName
 	}
 
-	throw new Error(`Unknown Tweakpane CSS theme map variable key: "${name}"`)
+	throw new Error(`Unknown CSS theme map variable key: "${name}"`)
 }
 
 /**
@@ -337,40 +354,22 @@ export function getValueOrFallback(theme: Theme | undefined, key: keyof ThemeKey
 }
 
 export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
-	const rootDocument = getWindowDocument().documentElement
-
-	if (theme === undefined) {
-		for (const k of Object.keys(standard)) {
-			const key = expandVariableKey(k)
-
-			if (element.style.getPropertyValue(key).length > 0) {
-				element.style.removeProperty(key)
-			}
+	for (const k of Object.keys(standard)) {
+		if (theme !== undefined && Object.hasOwn(theme, k)) {
+			continue
 		}
-	} else {
-		for (const [k, v] of Object.entries(theme)) {
-			const key = expandVariableKey(k)
-			const value = stringToCssValue(v)
-			// Only set the variable if it deviates from the standard theme or  the root theme (set
-			// by setGlobalDefaultTheme).... but if theme is explicitly standard and not undefined,
-			// then apply it anyway so that any global theme is overridden TODO normalize color
-			// representation for comparison? TODO tests for this logic
 
-			const standardValue = standard[k] === '' ? undefined : standard[k]
-			const rootPropertyValue = rootDocument.style.getPropertyValue(key)
-			const rootValue = rootPropertyValue === '' ? undefined : rootPropertyValue
+		element.style.removeProperty(expandVariableKey(k))
+	}
 
-			const isDeviationFromRoot = rootValue !== undefined && value !== rootValue
-			const isDeviationFromStandard = standardValue !== undefined && value !== standardValue
-
-			if (
-				value !== undefined &&
-				(isDeviationFromRoot || (rootValue === undefined && isDeviationFromStandard))
-			) {
-				element.style.setProperty(key, value)
-			} else if (element.style.getPropertyValue(key).length > 0) {
-				element.style.removeProperty(key)
-			}
+	const entries = Object.entries(theme ?? {})
+	for (const [k, v] of entries) {
+		const key = expandVariableKey(k)
+		const value = stringToCssValue(v)
+		if (value === undefined) {
+			element.style.removeProperty(key)
+		} else if (element.style.getPropertyValue(key) !== value) {
+			element.style.setProperty(key, value)
 		}
 	}
 }

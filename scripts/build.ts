@@ -1,15 +1,14 @@
 /* eslint-disable unicorn/prefer-top-level-await */
 
 import { execa, parseCommandString } from 'execa'
-import { mkdir } from 'node:fs/promises'
 import prettyMs from 'pretty-ms'
 import { addSourceLinks } from './add-source-links'
 import { formatEmbeddedCode } from './format-embedded-code'
+import { generateAcknowledgments } from './generate-acknowledgments'
 import { generateDocumentationData } from './generate-documentation-data'
 import { generateExampleComponents } from './generate-example-components'
 import { generateExports } from './generate-exports'
 import { generateKitExamples } from './generate-kit-examples'
-import { generateLibAcknowledgments } from './generate-lib-acknowledgments'
 import { healDtsComments } from './heal-dts-comments'
 import { stripComponentDocumentation } from './strip-component-documentation'
 
@@ -26,7 +25,8 @@ const initialNodeEnv = process.env.NODE_ENV
 console.log('Starting build script in ./scripts/build.ts')
 
 // 1. Sync and package the Svelte component library (~14s)
-await mkdir('./docs/src/content/acknowledgments', { recursive: true })
+// Astro's content sync parses the acknowledgments data, so generate it first
+await generateAcknowledgments()
 await parallel(
 	// Generate library types
 	'svelte-kit sync',
@@ -66,7 +66,7 @@ await run(
 	'prettier --ignore-path --plugin prettier-plugin-svelte --write ./dist',
 )
 
-// 3. Generate content + acknowledgments for doc site and demo project
+// 3. Generate content for doc site and demo project
 await parallel(
 	// Extract type info from components for doc site
 	generateDocumentationData,
@@ -74,8 +74,6 @@ await parallel(
 	generateKitExamples,
 	// Generate component example Markdown for doc site
 	generateExampleComponents,
-	// Use pnpm's built-in licenses command to get data for acknowledgements in docs
-	generateLibAcknowledgments,
 )
 
 // 4. Build doc site + demo project and validate package
