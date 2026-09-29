@@ -1000,6 +1000,20 @@ test.describe('Control descriptions', () => {
 		expect(errors).toEqual([])
 	})
 
+	test('keeps its tooltip after an element replaces the blade contents', async ({ page }) => {
+		const errors: Error[] = []
+		page.on('pageerror', (error) => {
+			errors.push(error)
+		})
+		await page.goto('/TestDescriptionElement.svelte')
+		const tooltip = page.locator('[role="tooltip"]')
+		await expect(tooltip).toHaveCount(1)
+		await page.getByText('Element content').hover()
+		await expect(tooltip).toBeVisible()
+		await expect(tooltip).toHaveText('An embedded element description.')
+		expect(errors).toEqual([])
+	})
+
 	test('keeps pane width stable while scaling and clamps scaled draggable panes', async ({
 		page,
 	}) => {

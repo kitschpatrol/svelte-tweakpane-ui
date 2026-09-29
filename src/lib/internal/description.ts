@@ -38,7 +38,6 @@ function createDescription(root: HTMLElement, text: string) {
 		tooltip.popover = 'manual'
 	}
 
-	root.append(tooltip)
 	root.dataset.stuiDescription = ''
 
 	let label: HTMLElement | undefined
@@ -234,6 +233,11 @@ function createDescription(root: HTMLElement, text: string) {
 	document.fonts.addEventListener('loadingdone', scheduleLayout, options)
 
 	function sync() {
+		// Components such as <Element> replace the blade's children after the tooltip is attached.
+		if (tooltip.parentElement !== root) {
+			root.append(tooltip)
+		}
+
 		const titleBar = root.querySelector<HTMLElement>(TITLE_BAR_SELECTOR) ?? undefined
 		const anchor = titleBar ?? findLabel(root)
 		if (label !== anchor) {
