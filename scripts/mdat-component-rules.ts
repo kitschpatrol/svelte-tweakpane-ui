@@ -5,6 +5,7 @@ import { defineConfig } from 'mdat'
 import { getExportedComponents } from './ast-tools'
 import { getComponentInfo } from './component-info'
 
+// eslint-disable-next-line unicorn/no-top-level-side-effects -- defineConfig is a typing helper, and this config default export is the module's purpose
 export default defineConfig({
 	'component-count': {
 		// eslint-disable-next-line ts/require-await

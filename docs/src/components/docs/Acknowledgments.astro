@@ -21,14 +21,10 @@ function titleCase(text: string) {
 function stopShouting(text: string) {
 	// If between 50% and 75% of the letters are uppercase,
 	// then lowercase the whole text
-	if (
-		text.replaceAll(/[^A-Z]/gv, '').length > text.length * 0.5 &&
+	return text.replaceAll(/[^A-Z]/gv, '').length > text.length * 0.5 &&
 		text.replaceAll(/[^A-Z]/gv, '').length < text.length * 0.75
-	) {
-		return text.toLowerCase()
-	}
-
-	return text
+		? text.toLowerCase()
+		: text
 }
 
 function stripQuotes(text: string) {
@@ -36,11 +32,7 @@ function stripQuotes(text: string) {
 }
 
 function getNameFromEmail(name: string) {
-	if (name.includes('@')) {
-		return name.split('@', 1)[0].replaceAll(/[_\-]/gv, ' ')
-	}
-
-	return name
+	return name.includes('@') ? name.split('@', 1)[0].replaceAll(/[_\-]/gv, ' ') : name
 }
 
 type LicenseEntry = CollectionEntry<'acknowledgments'>['data'][string][number]

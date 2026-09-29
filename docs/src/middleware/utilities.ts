@@ -18,13 +18,15 @@ export function linkifyTerms(node: Node, termDictionary: Record<string, string>,
 	// eslint-disable-next-line ts/no-unnecessary-condition
 	const text = (node as HTMLElement).textContent ?? ''
 
-	if (Object.keys(termDictionary).includes(text)) {
-		const link = node.ownerDocument.createElement('a')
-		// TODO use Astro path functions...
-		link.href = `${base.length > 0 ? base + '/' : ''}${termDictionary[text]}`
-
-		// Wrap the node in the link
-		node.parentNode.insertBefore(link, node)
-		link.append(node)
+	if (!Object.keys(termDictionary).includes(text)) {
+		return
 	}
+
+	const link = node.ownerDocument.createElement('a')
+	// TODO use Astro path functions...
+	link.href = `${base.length > 0 ? base + '/' : ''}${termDictionary[text]}`
+
+	// Wrap the node in the link
+	node.parentNode.insertBefore(link, node)
+	link.append(node)
 }

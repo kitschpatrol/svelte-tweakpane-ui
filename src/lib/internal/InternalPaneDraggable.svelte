@@ -373,41 +373,43 @@
 	const dragEndListener = (event: PointerEvent) => {
 		event.stopImmediatePropagation()
 
-		if (event.target instanceof HTMLElement) {
-			// Release capture no matter what
-			if (event.target.hasPointerCapture(event.pointerId)) {
-				event.target.releasePointerCapture(event.pointerId)
-			}
-
-			// Only way to get Firefox to react while blurred
-			if (event.target === dragBarElement) {
-				dragBarElement.style.removeProperty('cursor')
-			}
-
-			// Reset scroll tracking
-			startScrollY = 0
-			startScrollX = 0
-
-			/* Have to do this in JS due to single ":active" element in multi-pane situations */
-			containerElement.style.removeProperty('transition')
-
-			// Treat as a click if the mouse hasn't moved much
-			// But don't do this for cancellations or focus loss
-			if (
-				tpPane !== undefined &&
-				titlebarWindowShadeSingleClick &&
-				userExpandable === true &&
-				event.type === 'pointerup' &&
-				event.target === dragBarElement &&
-				moveDistance < dragMovementDistanceThreshold
-			) {
-				tpPane.expanded = tpPane.expanded !== true
-			}
-
-			initialDragEvent = undefined
-			removeDragMoveAndEndListeners()
-			addDragStartListeners()
+		if (!(event.target instanceof HTMLElement)) {
+			return
 		}
+
+		// Release capture no matter what
+		if (event.target.hasPointerCapture(event.pointerId)) {
+			event.target.releasePointerCapture(event.pointerId)
+		}
+
+		// Only way to get Firefox to react while blurred
+		if (event.target === dragBarElement) {
+			dragBarElement.style.removeProperty('cursor')
+		}
+
+		// Reset scroll tracking
+		startScrollY = 0
+		startScrollX = 0
+
+		/* Have to do this in JS due to single ":active" element in multi-pane situations */
+		containerElement.style.removeProperty('transition')
+
+		// Treat as a click if the mouse hasn't moved much
+		// But don't do this for cancellations or focus loss
+		if (
+			tpPane !== undefined &&
+			titlebarWindowShadeSingleClick &&
+			userExpandable === true &&
+			event.type === 'pointerup' &&
+			event.target === dragBarElement &&
+			moveDistance < dragMovementDistanceThreshold
+		) {
+			tpPane.expanded = tpPane.expanded !== true
+		}
+
+		initialDragEvent = undefined
+		removeDragMoveAndEndListeners()
+		addDragStartListeners()
 	}
 
 	const addDragStartListeners = () => {
@@ -465,24 +467,26 @@
 		// to manage events directly through the DOM... click blocking and handling collapse in
 		// pointerup was most reliable cross-browser approach
 		const dragBarElementCheck = containerElement.querySelector<HTMLElement>('.tp-rotv_t')
-		if (dragBarElementCheck) {
-			dragBarElement = dragBarElementCheck
-			dragBarElement.addEventListener('click', clickBlocker)
-			dragBarElement.addEventListener('dblclick', doubleClickListener)
-
-			// Add width adjuster handle
-			// eslint-disable-next-line unicorn/prefer-dom-node-append
-			widthHandleElement = dragBarElement.parentElement?.appendChild(document.createElement('div'))
-			if (widthHandleElement) {
-				widthHandleElement.className = 'tp-custom-width-handle'
-				widthHandleElement.textContent = '↔'
-				widthHandleElement.addEventListener('click', clickBlocker)
-				widthHandleElement.addEventListener('dblclick', doubleClickListener)
-			}
-
-			// Adds to both
-			addDragStartListeners()
+		if (!dragBarElementCheck) {
+			return
 		}
+
+		dragBarElement = dragBarElementCheck
+		dragBarElement.addEventListener('click', clickBlocker)
+		dragBarElement.addEventListener('dblclick', doubleClickListener)
+
+		// Add width adjuster handle
+		// eslint-disable-next-line unicorn/prefer-dom-node-append
+		widthHandleElement = dragBarElement.parentElement?.appendChild(document.createElement('div'))
+		if (widthHandleElement) {
+			widthHandleElement.className = 'tp-custom-width-handle'
+			widthHandleElement.textContent = '↔'
+			widthHandleElement.addEventListener('click', clickBlocker)
+			widthHandleElement.addEventListener('dblclick', doubleClickListener)
+		}
+
+		// Adds to both
+		addDragStartListeners()
 	})
 
 	onDestroy(() => {

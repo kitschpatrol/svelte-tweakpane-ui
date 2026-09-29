@@ -9,15 +9,12 @@
   <img alt="Svelte Tweakpane UI Banner" src="./assets/banner-light.webp">
 </picture>
 
-<!-- badges ({
+<!-- badges({
+  npmDownloads: true,
   custom: {
     MadeWithSvelte: {
       image: "https://madewithsvelte.com/storage/repo-shields/4860-shield.svg",
       link: "https://madewithsvelte.com/p/svelte-tweakpane-ui/shield-link",
-    },
-    "NPM Downloads": {
-      image: "https://img.shields.io/npm/dm/svelte-tweakpane-ui",
-      link: "https://www.npmjs.com/package/svelte-tweakpane-ui",
     },
     Documentation: {
       image:
@@ -30,8 +27,8 @@
 [![NPM Package svelte-tweakpane-ui](https://img.shields.io/npm/v/svelte-tweakpane-ui.svg)](https://www.npmjs.com/package/svelte-tweakpane-ui)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/license/mit)
 [![CI](https://github.com/kitschpatrol/svelte-tweakpane-ui/actions/workflows/ci.yml/badge.svg)](https://github.com/kitschpatrol/svelte-tweakpane-ui/actions/workflows/ci.yml)
+[![NPM Downloads svelte-tweakpane-ui](https://img.shields.io/npm/dm/svelte-tweakpane-ui)](https://www.npmjs.com/package/svelte-tweakpane-ui)
 [![MadeWithSvelte](https://madewithsvelte.com/storage/repo-shields/4860-shield.svg)](https://madewithsvelte.com/p/svelte-tweakpane-ui/shield-link)
-[![NPM Downloads](https://img.shields.io/npm/dm/svelte-tweakpane-ui)](https://www.npmjs.com/package/svelte-tweakpane-ui)
 [![Documentation](https://img.shields.io/badge/-Documentation-ffdd00?logo=readthedocs&logoColor=222222)](https://kitschpatrol.com/svelte-tweakpane-ui)
 
 <!-- /badges -->

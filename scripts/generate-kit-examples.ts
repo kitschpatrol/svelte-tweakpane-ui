@@ -18,12 +18,14 @@ export async function generateKitExamples(): Promise<void> {
 	await Promise.all(
 		components.map(async ({ name }) => {
 			const code = await getComponentExampleCodeFromSource(name, false)
-			if (code !== undefined && code !== '') {
-				const codeWithFixedImport = code.replace(IMPORT_TWEAKPANE_PATH_REGEX, "'$lib")
-				// eslint-disable-next-line ts/no-unnecessary-condition
-				const formattedCode = reformat ? await lintAndFormat(codeWithFixedImport) : code
-				fs.writeFileSync(`./src/examples/components/${name}Example.svelte`, formattedCode)
+			if (code === undefined || code === '') {
+				return
 			}
+
+			const codeWithFixedImport = code.replace(IMPORT_TWEAKPANE_PATH_REGEX, "'$lib")
+			// eslint-disable-next-line ts/no-unnecessary-condition
+			const formattedCode = reformat ? await lintAndFormat(codeWithFixedImport) : code
+			fs.writeFileSync(`./src/examples/components/${name}Example.svelte`, formattedCode)
 		}),
 	)
 }

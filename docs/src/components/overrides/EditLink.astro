@@ -11,14 +11,12 @@ const { sourceUrl } = Astro.locals.starlightRoute.entry.data
 <div>
 	<StarlightEditLink />
 
-	{
-		sourceUrl !== undefined && sourceUrl !== '' && (
-			<a class="sl-flex" href={sourceUrl}>
-				<Icon name="github" size="1.2em" />
-				View source
-			</a>
-		)
-	}
+	{sourceUrl !== undefined && sourceUrl !== '' && (
+		<a class="sl-flex" href={sourceUrl}>
+			<Icon name="github" size="1.2em" />
+			View source
+		</a>
+	)}
 </div>
 
 <style>

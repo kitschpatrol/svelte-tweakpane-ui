@@ -50,23 +50,17 @@ export function healDtsComments(): void {
 	// looks at use of ComponentProps in $$Props type to find the name of the component that is extended
 	function getParentComponentNames(componentName: string): string[] {
 		const sourceFile = sourceFiles.get(componentName)
-		if (!sourceFile) {
-			return []
-		}
-
-		return queryTree<PropNode>(
-			sourceFile,
-			':matches(ExpressionWithTypeArguments[expression.name="ComponentProps"], TypeReference[typeName.name="ComponentProps"]) > TypeReference > Identifier',
-		).map((node) => node.getText())
+		return sourceFile
+			? queryTree<PropNode>(
+					sourceFile,
+					':matches(ExpressionWithTypeArguments[expression.name="ComponentProps"], TypeReference[typeName.name="ComponentProps"]) > TypeReference > Identifier',
+				).map((node) => node.getText())
+			: []
 	}
 
 	function getCommentForProp(componentName: string, propName: string): JSDoc[] | undefined {
 		const definitionFile = definitionFiles.get(componentName)
-		if (!definitionFile) {
-			return undefined
-		}
-
-		return getProp(definitionFile, propName, 'commented')?.getJsDocs()
+		return definitionFile ? getProp(definitionFile, propName, 'commented')?.getJsDocs() : undefined
 	}
 
 	// Recursively walks up the component inheritance chain to find a comment for a prop

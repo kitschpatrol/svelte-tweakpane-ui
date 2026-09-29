@@ -76,14 +76,10 @@
 		fromHigh: number,
 		toLow: number,
 		toHigh: number,
-		clamp: boolean = true,
 	): number {
 		return Math.min(
-			Math.max(
-				toLow + ((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow),
-				clamp ? toLow : Number.MIN_VALUE,
-			),
-			clamp ? toHigh : Number.MAX_VALUE,
+			Math.max(toLow + ((value - fromLow) * (toHigh - toLow)) / (fromHigh - fromLow), toLow),
+			toHigh,
 		)
 	}
 

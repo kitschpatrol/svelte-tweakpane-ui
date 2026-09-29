@@ -3,28 +3,32 @@
 
 # @kitschpatrol/repo-config boilerplate
 !.env.example
+.agents/
 .astro/
+.claude/
 .DS_Store
 .env
 .env.*
 .eslint-config-inspector
 .pnpm-store/
 .svelte-kit/
+.vitest/
+.worktrees/
 {tmp,temp}/
 **/*.min.js
-*.timestamp-*.mjs
 /scratch/
 bower_components/
 build/
 coverage/
 dist/
-.lycheecache
 node_modules/
+skills-lock.json
 vendor/
 
 # Customizations
+*.timestamp-*.mjs
+.lycheecache
 /test-results
-.claude/
 
 # Generated kit files
 src/examples/components

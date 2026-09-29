@@ -2,13 +2,11 @@ packages:
   - .
   - docs
 overrides:
-  # Override ancient version from @html-eslint/eslint-plugin
-  '@eslint/plugin-kit': ~0.7.2
-  # Svelte Kit has old insecure version
-  cookie: ~1.1.1
-  # 0.27.7 is too far...
-  # 0.27.6 does not exist?
-  esbuild: 0.27.5
+  # Svelte Kit 2 declares cookie ^0.6.0 (GHSA-pxg6-pf52-xh8x); 1.1.x keeps the parse/serialize aliases Kit 2 imports
+  '@sveltejs/kit@2>cookie': ~1.1.1
+  # Vite 5 declares esbuild ^0.21.3 (GHSA-67mh-4wv8-2f99); esbuild 0.27.7+ fails Vite 5 builds
+  # with "Transforming destructuring to the configured target environment is not supported yet"
+  'vite@5>esbuild': 0.27.5
 publicHoistPattern:
   - '@kitschpatrol/repo-config'
   - '@kitschpatrol/typescript-config'
@@ -23,11 +21,15 @@ publicHoistPattern:
 allowBuilds:
   canvas: true
   esbuild: true
-  puppeteer: true
-  sharp: true
   unrs-resolver: true
   workerd: true
 minimumReleaseAgeExclude:
-  - tweakpane-plugin-color-plus@0.6.1
-  - '@kitschpatrol/*'
-  - astro@7.3.1
+  - astro-html-kit@0.5.3
+  - poptab@1.2.2
+  - tweakpane-plugin-color-plus@0.7.0
+peerDependencyRules:
+  allowedVersions:
+    # Remove once the installed version declares ESLint 10 support.
+    # https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/issues/1075
+    # https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/pull/1081
+    eslint-plugin-jsx-a11y@6>eslint: ^10.0.0

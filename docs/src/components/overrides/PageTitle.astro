@@ -5,13 +5,11 @@ import { capitalize } from '../../utils/string-utilities.ts'
 const { componentData } = Astro.locals.starlightRoute.entry.data
 ---
 
-{
-	componentData && (
-		<strong class="component-section-heading">
-			{capitalize(componentData.pathParts[0])} Components
-		</strong>
-	)
-}
+{componentData && (
+	<strong class="component-section-heading">
+		{capitalize(componentData.pathParts[0])} Components
+	</strong>
+)}
 
 <StarlightPageTitle />
 

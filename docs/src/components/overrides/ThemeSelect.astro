@@ -8,13 +8,11 @@ const { BASE_URL } = import.meta.env
 ---
 
 {/* Only show documentation link on home page */}
-{
-	Astro.locals.starlightRoute.id === '' && (
-		<div>
-			<a href={BASE_URL + '/docs'}>Documentation</a>
-		</div>
-	)
-}
+{Astro.locals.starlightRoute.id === '' && (
+	<div>
+		<a href={BASE_URL + '/docs'}>Documentation</a>
+	</div>
+)}
 <StarlightThemeSelect>
 	<slot />
 </StarlightThemeSelect>

@@ -24,50 +24,48 @@ const hasEvents = Boolean(data?.events.length)
 const hasSlots = Boolean(data?.slots.length)
 ---
 
-{
-	data && (
-		<>
-			<Fragment set:html={marked.parse(data.doc)} />
-			{hasExample && (
-				<>
-					<hr />
-					<AnchorHeading id="example" level={2} set:text="Example" />
-					<AnchorHeading id="demo" level={3} set:text="Demo" />
-					<ExampleWrapper>
-						<slot />
-					</ExampleWrapper>
-					<AnchorHeading id="code" level={3} set:text="Code" />
-					<ExampleCode />
-				</>
-			)}
-			{hasProps && (
-				<>
-					<hr />
-					<AnchorHeading id="props" level={2} set:text="Props" />
-					{hasDynamicProps ? (
-						<>
-							<DynamicPropAdmonition />
-							<PropTable conditionData={allPropConditions(data)} data={allProps(data)} />
-						</>
-					) : (
-						<PropTable data={data.props} />
-					)}
-				</>
-			)}
-			{hasEvents && (
-				<>
-					<hr />
-					<AnchorHeading id="events" level={2} set:text="Events" />
-					<PropTable data={data.events} showDefault={false} showFlags={false} />
-				</>
-			)}
-			{hasSlots && (
-				<>
-					<hr />
-					<AnchorHeading id="slots" level={2} set:text="Slots" />
-					<PropTable data={data.slots} showDefault={false} showFlags={false} />
-				</>
-			)}
-		</>
-	)
-}
+{data && (
+	<>
+		<Fragment set:html={marked.parse(data.doc)} />
+		{hasExample && (
+			<>
+				<hr />
+				<AnchorHeading id="example" level={2} set:text="Example" />
+				<AnchorHeading id="demo" level={3} set:text="Demo" />
+				<ExampleWrapper>
+					<slot />
+				</ExampleWrapper>
+				<AnchorHeading id="code" level={3} set:text="Code" />
+				<ExampleCode />
+			</>
+		)}
+		{hasProps && (
+			<>
+				<hr />
+				<AnchorHeading id="props" level={2} set:text="Props" />
+				{hasDynamicProps ? (
+					<>
+						<DynamicPropAdmonition />
+						<PropTable conditionData={allPropConditions(data)} data={allProps(data)} />
+					</>
+				) : (
+					<PropTable data={data.props} />
+				)}
+			</>
+		)}
+		{hasEvents && (
+			<>
+				<hr />
+				<AnchorHeading id="events" level={2} set:text="Events" />
+				<PropTable data={data.events} showDefault={false} showFlags={false} />
+			</>
+		)}
+		{hasSlots && (
+			<>
+				<hr />
+				<AnchorHeading id="slots" level={2} set:text="Slots" />
+				<PropTable data={data.slots} showDefault={false} showFlags={false} />
+			</>
+		)}
+	</>
+)}

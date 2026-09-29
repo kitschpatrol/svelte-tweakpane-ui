@@ -131,25 +131,25 @@ export function enforceReadonly(
 	external: unknown,
 	componentName?: string,
 	propertyName?: string,
-	allowAssignmentToUndefined?: boolean,
+	allowAssignmentToUndefined = false,
 ) {
-	allowAssignmentToUndefined ??= false
-
 	if (
-		external !== internal &&
-		(!allowAssignmentToUndefined || internal !== undefined || external === undefined)
+		external === internal ||
+		(allowAssignmentToUndefined && internal === undefined && external !== undefined)
 	) {
-		const componentString =
-			componentName === undefined || componentName === '' ? '' : `<${componentName}> `
-		const propertyString =
-			propertyName === undefined || propertyName === '' ? '' : `property "${propertyName}" `
-
-		console.error(
-			`Svelte component "${componentString}" property "${propertyString}" is intended for readonly use.\nAssigning\n"${String(
-				external,
-			)}"\nto\n"${String(internal)}"\nis not allowed.`,
-		)
+		return
 	}
+
+	const componentString =
+		componentName === undefined || componentName === '' ? '' : `<${componentName}> `
+	const propertyString =
+		propertyName === undefined || propertyName === '' ? '' : `property "${propertyName}" `
+
+	console.error(
+		`Svelte component "${componentString}" property "${propertyString}" is intended for readonly use.\nAssigning\n"${String(
+			external,
+		)}"\nto\n"${String(internal)}"\nis not allowed.`,
+	)
 }
 
 export function isRootPane(container: Container): boolean {
