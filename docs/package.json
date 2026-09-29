@@ -16,8 +16,8 @@
 	"sideEffects": false,
 	"type": "module",
 	"scripts": {
-		"build": "shx mkdir -p ./src/content/acknowledgments && pnpm licenses list --json > ./src/content/acknowledgments/acknowledgments-docs.json.tmp && shx mv ./src/content/acknowledgments/acknowledgments-docs.json.tmp ./src/content/acknowledgments/acknowledgments-docs.json && astro build",
-		"clean": "rm -rf .astro && rm -rf dist",
+		"build": "astro build",
+		"clean-deep": "rm -rf .astro && rm -rf dist",
 		"dev": "astro dev",
 		"preview": "poptab ; open https://localhost:8787/svelte-tweakpane-ui ; wrangler dev --show-interactive-dev-session false --https-cert-path ~/.vite-plugin-mkcert/cert.pem --https-key-path ~/.vite-plugin-mkcert/dev.pem",
 		"start": "astro dev",
@@ -35,7 +35,6 @@
 		"marked": "^18.0.11",
 		"poptab": "^1.2.0",
 		"sharp": "^0.35.4",
-		"shx": "^0.4.0",
 		"svelte": "^5.57.0",
 		"svelte-check": "^4.7.6",
 		"svelte-tweakpane-ui": "link:..",

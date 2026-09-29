@@ -7,6 +7,7 @@
 	import type { Theme } from '$lib/theme.js'
 	import TabGroup from '$lib/core/TabGroup.svelte'
 	import ClsPad from '$lib/internal/ClsPad.svelte'
+	import { DescriptionController } from '$lib/internal/description.js'
 	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
 	import { type Container, getElementIndex, isRootPane } from '$lib/utils.js'
 
@@ -16,6 +17,16 @@
 	 * @default `'Tab Page'`
 	 */
 	export let title: string = 'Tab Page'
+
+	/**
+	 * Additional context about what the tab page contains.
+	 *
+	 * Displayed in a tooltip when hovering the tab. Also available to assistive
+	 * technology when the tab is focused, without opening a visual tooltip.
+	 *
+	 * @default `undefined`
+	 */
+	export let description: string | undefined = undefined
 
 	/**
 	 * Prevent interactivity and gray out the control.
@@ -68,6 +79,7 @@
 	// Index not actually used, page order established by array order on tab
 	let indexElement: HTMLDivElement
 	let index: number
+	const descriptionController = new DescriptionController()
 
 	onMount(() => {
 		index = indexElement === undefined ? 0 : getElementIndex(indexElement)
@@ -107,6 +119,7 @@
 	}
 
 	onDestroy(() => {
+		descriptionController.destroy()
 		$tabPageStore?.dispose()
 	})
 
@@ -114,6 +127,8 @@
 	$: $tabPageStore !== undefined && ($tabPageStore.title = title)
 	$: $tabPageStore !== undefined && ($tabPageStore.disabled = disabled)
 	$: $tabPageStore !== undefined && ($tabPageStore.selected = selected)
+	$: $tabPageStore !== undefined &&
+		descriptionController.update($tabPageStore.controller.itemController.view.element, description)
 	$: theme &&
 		$parentStore !== undefined &&
 		(userCreatedPane ?? !isRootPane($parentStore)) &&
@@ -180,7 +195,7 @@ Count B: {countB}
 {:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
 		<TabGroup>
-			<svelte:self {disabled} {selected} {theme} {title}>
+			<svelte:self {description} {disabled} {selected} {theme} {title}>
 				<slot></slot>
 			</svelte:self>
 		</TabGroup>
