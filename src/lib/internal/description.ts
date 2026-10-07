@@ -211,10 +211,12 @@ function createDescription(root: HTMLElement, text: string) {
 
 			dismissed = hovered
 			cancelShow()
-			if (tooltip.popover === 'manual' && tooltip.matches(':popover-open')) {
-				event.preventDefault()
-				hide()
+			if (tooltip.popover !== 'manual' || !tooltip.matches(':popover-open')) {
+				return
 			}
+
+			event.preventDefault()
+			hide()
 		},
 		options,
 	)
