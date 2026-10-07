@@ -139,9 +139,9 @@
 	const loopExponent = 1
 
 	// Helper to test Math functions
-	function hardWork(functionToMeasure: (n: number) => number, exponent: number): void {
+	function hardWork(functionToMeasure: (n: number) => number): void {
 		measure(functionToMeasure.name, () => {
-			for (let sum = 0; sum < Number('1e' + exponent); sum++) {
+			for (let sum = 0; sum < Number('1e' + loopExponent); sum++) {
 				functionToMeasure(sum)
 			}
 		})
@@ -153,24 +153,24 @@
 			// Nesting measurements creates a hierarchy in the Profile visualization
 			measure('Tick', () => {
 				measure('Trigonometry', () => {
-					hardWork(Math.sin, loopExponent)
-					hardWork(Math.cos, loopExponent)
-					hardWork(Math.tan, loopExponent)
-					hardWork(Math.atan, loopExponent)
-					hardWork(Math.acos, loopExponent)
-					hardWork(Math.acosh, loopExponent)
+					hardWork(Math.sin)
+					hardWork(Math.cos)
+					hardWork(Math.tan)
+					hardWork(Math.atan)
+					hardWork(Math.acos)
+					hardWork(Math.acosh)
 				})
 				measure('Logarithms', () => {
-					hardWork(Math.log, loopExponent)
-					hardWork(Math.log10, loopExponent)
-					hardWork(Math.log1p, loopExponent)
-					hardWork(Math.log2, loopExponent)
+					hardWork(Math.log)
+					hardWork(Math.log10)
+					hardWork(Math.log1p)
+					hardWork(Math.log2)
 				})
 				measure('Rounding', () => {
-					hardWork(Math.round, loopExponent)
-					hardWork(Math.floor, loopExponent)
-					hardWork(Math.ceil, loopExponent)
-					hardWork(Math.fround, loopExponent)
+					hardWork(Math.round)
+					hardWork(Math.floor)
+					hardWork(Math.ceil)
+					hardWork(Math.fround)
 				})
 			})
 

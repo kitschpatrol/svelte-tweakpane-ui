@@ -250,10 +250,12 @@
 		internalChange = false
 
 		// Check for the bound object changing entirely...
-		if (lastObject !== newObject) {
-			lastObject = newObject
-			create() // Recreation seems to be only way to re-bind to new object
+		if (lastObject === newObject) {
+			return
 		}
+
+		lastObject = newObject
+		create() // Recreation seems to be only way to re-bind to new object
 	}
 
 	function onTweakpaneChange() {

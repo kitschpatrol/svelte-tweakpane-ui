@@ -85,11 +85,7 @@ function parsePrerelease(version: null | string | undefined): string[] {
 
 	// E.g. "1.2.3-beta.1" → ["beta", "1"]
 	const hyphen = version.indexOf('-')
-	if (hyphen === -1) {
-		return []
-	}
-
-	return version.slice(hyphen + 1).split('.')
+	return hyphen === -1 ? [] : version.slice(hyphen + 1).split('.')
 }
 
 async function getPackageInfo(startDirectory: string): Promise<PackageInfo> {

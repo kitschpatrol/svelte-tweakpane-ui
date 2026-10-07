@@ -33,11 +33,11 @@ jobs:
 
       - name: Release Notes
         id: release-notes
-        uses: kitschpatrol/github-action-release-changelog@v2
+        uses: kitschpatrol/github-action-release-changelog@12279a22cf9d0b432dca8ff189d82ad0dd393345 # v2.0.9
 
       - name: Release
         id: release
-        uses: kitschpatrol/github-action-release@v2
+        uses: kitschpatrol/github-action-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2.6.1
         with:
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
           draft: false

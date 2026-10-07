@@ -7,7 +7,9 @@ const { names } = Astro.props
 ---
 
 <span class="flag-pill-group">
-	{names.map((name) => <span class={`flag-pill flag-name-${name}`}>{name}</span>)}
+	{names.map((name) => (
+		<span class={`flag-pill flag-name-${name}`}>{name}</span>
+	))}
 </span>
 
 <style>

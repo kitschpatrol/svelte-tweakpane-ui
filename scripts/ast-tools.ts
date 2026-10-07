@@ -52,7 +52,7 @@ function findFile(
 	return path.resolve(files[0])
 }
 
-async function getRepoUrl(): Promise<string | undefined> {
+async function getRepositoryUrl(): Promise<string | undefined> {
 	const closestPackageJson = await readPackageUp({ normalize: false })
 	const { repository } = closestPackageJson?.packageJson ?? {}
 	if (repository === undefined || repository === '') {
@@ -64,16 +64,12 @@ async function getRepoUrl(): Promise<string | undefined> {
 		return repository
 	}
 
-	if (typeof repository === 'object' && repository.url !== '') {
-		return repository.url
-	}
-
-	return undefined
+	return typeof repository === 'object' && repository.url !== '' ? repository.url : undefined
 }
 
 export async function getGithubUrlForSourceFile(filePath: string): Promise<string> {
 	// Gonna be slow
-	const url = await getRepoUrl()
+	const url = await getRepositoryUrl()
 	if (url === undefined || url === '') {
 		throw new Error('No repository url found in package.json')
 	}
@@ -84,7 +80,7 @@ export async function getGithubUrlForSourceFile(filePath: string): Promise<strin
 
 export async function getEditUrlForSourceFile(filePath: string): Promise<string> {
 	// Gonna be slow
-	const url = await getRepoUrl()
+	const url = await getRepositoryUrl()
 	if (url === undefined || url === '') {
 		throw new Error('No repository url found in package.json')
 	}

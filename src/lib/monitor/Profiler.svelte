@@ -194,11 +194,13 @@
 
 				// Parse float ignore the deltaUnit suffix
 				const fpsText = (mutation.target as HTMLElement).textContent
-				if (fpsText !== null) {
-					// eslint-disable-next-line unicorn/prefer-number-coercion -- Text has a deltaUnit suffix that `Number()` can't parse
-					const delta = Number.parseFloat(fpsText)
-					!Number.isNaN(delta) && dispatch('change', delta)
+				if (fpsText === null) {
+					continue
 				}
+
+				// eslint-disable-next-line unicorn/prefer-number-coercion -- Text has a deltaUnit suffix that `Number()` can't parse
+				const delta = Number.parseFloat(fpsText)
+				!Number.isNaN(delta) && dispatch('change', delta)
 			}
 		})
 

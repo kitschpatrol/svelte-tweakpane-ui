@@ -71,11 +71,6 @@ const sharedOverrides: Rules = {
 }
 
 export default eslintConfig({
-	astro: {
-		overrides: {
-			'ts/no-unsafe-return': 'off',
-		},
-	},
 	ignores: [
 		'src/examples/components/*', // Generated kit files, error free but redundant
 		'docs/src/content/docs/docs/components/*', // Generated doc files, error free but redundant
@@ -89,8 +84,6 @@ export default eslintConfig({
 			'import/consistent-type-specifier-style': 'off',
 			'jsdoc/check-tag-names': 'off',
 			'jsdoc/valid-types': 'off',
-			'no-self-assign': 'off',
-			'node/no-unsupported-features/node-builtins': 'off',
 			'require-unicode-regexp': ['error', { requireFlag: 'u' }], // The Svelte 4 compiler can't parse the 'v' flag, so require 'u' instead
 			'svelte/experimental-require-strict-events': 'off', // Svelte 5 warns that the Svelte 4 strictEvents attribute is unrecognized
 			'svelte/no-navigation-without-resolve': 'off',

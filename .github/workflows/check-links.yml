@@ -107,10 +107,10 @@ jobs:
         env:
           HOMEPAGE: ${{ steps.homepage.outputs.url }}
         run: |
-          sitemap_url="$(
+          sitemap_url="$({
             curl --fail --silent --show-error --location "$HOMEPAGE" |
               htmlq --base "$HOMEPAGE" --attribute href 'link[rel~="sitemap"]'
-          )" 2> "$RUNNER_TEMP/htmlq.log" || true
+          } 2> "$RUNNER_TEMP/htmlq.log")" || true
           sitemap_url="${sitemap_url:-$HOMEPAGE}"
 
           pipx run --spec 'trafilatura==2.1.0' trafilatura --sitemap "$sitemap_url" --list \

@@ -8,13 +8,11 @@ const { componentData } = Astro.locals.starlightRoute.entry.data
 ---
 
 <StarlightMarkdownContent>
-	{
-		componentData ? (
-			<Component {componentData}>
-				<slot />
-			</Component>
-		) : (
+	{componentData ? (
+		<Component {componentData}>
 			<slot />
-		)
-	}
+		</Component>
+	) : (
+		<slot />
+	)}
 </StarlightMarkdownContent>

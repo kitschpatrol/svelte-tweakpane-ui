@@ -1,7 +1,7 @@
 import { knipConfig } from '@kitschpatrol/knip-config'
 
 export default knipConfig({
-	entry: ['src/examples/**/*.svelte', 'docs/src/middleware/index.ts', 'tests/**/*.ts'],
+	entry: ['src/examples/**/*.svelte', 'tests/**/*.ts'],
 	ignoreDependencies: [
 		'@astrojs/check',
 		'canvas',
@@ -9,7 +9,6 @@ export default knipConfig({
 		'@sveltejs/package',
 		'postcss-html',
 		'publint',
-		'svelte-check',
 		'tslib',
 		'mdat',
 	],

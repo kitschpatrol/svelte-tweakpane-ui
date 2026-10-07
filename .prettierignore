@@ -3,6 +3,7 @@
 
 # @kitschpatrol/prettier-config boilerplate
 .claude/
+.agents/
 package-lock.json
 pnpm-lock.yaml
 skills-lock.json
