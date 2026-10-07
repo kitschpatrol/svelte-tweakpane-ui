@@ -631,6 +631,8 @@ This component is for internal use only.
 
 <style>
 	div.draggable-container {
+		/* Floats over the page, so it must not inherit `pointer-events: none` from it */
+		pointer-events: auto;
 		position: fixed;
 		z-index: auto;
 		padding: 20px;

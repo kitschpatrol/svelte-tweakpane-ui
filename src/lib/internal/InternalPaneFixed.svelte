@@ -59,6 +59,9 @@
 		tpPane.element.parentElement !== null &&
 		(paneContainer = tpPane.element.parentElement)
 
+	// Floats over the page, so it must not inherit `pointer-events: none` from it
+	$: paneContainer?.style.setProperty('pointer-events', 'auto')
+
 	$: paneContainer !== undefined &&
 		x !== undefined &&
 		(paneContainer.style.setProperty('right', 'unset'),

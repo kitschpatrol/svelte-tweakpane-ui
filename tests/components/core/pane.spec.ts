@@ -56,6 +56,35 @@ test.describe('Pane component', () => {
 		})
 	})
 
+	test.describe('host page styles', () => {
+		for (const position of ['Draggable', 'Fixed']) {
+			test(`${position.toLowerCase()} pane stays interactive when the page disables pointer events`, async ({
+				page,
+			}) => {
+				await page.goto('/TestPanePointerEvents.svelte')
+
+				// Pages with a background that tracks the pointer do this, re-enabling
+				// pointer events only for their own interactive elements
+				await page.addStyleTag({ content: 'body { pointer-events: none; }' })
+
+				const track = page
+					.locator('.tp-lblv', { hasText: `${position} Slider` })
+					.locator('.tp-sldv_t')
+				await expect(track).toBeVisible()
+				const box = await track.boundingBox()
+				if (box === null) {
+					throw new Error(`The ${position} Slider track is not rendered`)
+				}
+
+				// Mouse coordinates bypass Playwright's own hit-target check, so the
+				// assertion below reports the failure instead of a click timeout
+				await page.mouse.click(box.x + box.width * 0.9, box.y + box.height / 2)
+
+				await expect(page.getByText(`${position} value: 0`, { exact: true })).toBeHidden()
+			})
+		}
+	})
+
 	test.describe('grid layout', () => {
 		test('pane renders with grid layout', async ({ page }) => {
 			await page.goto('/TestGridLayoutPane.svelte')
