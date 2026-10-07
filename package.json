@@ -1,6 +1,6 @@
 {
 	"name": "svelte-tweakpane-ui",
-	"version": "1.6.1",
+	"version": "1.7.0-preview.4",
 	"description": "Svelte component library wrapping UI elements from Tweakpane, plus some additional functionality for convenience and flexibility.",
 	"keywords": [
 		"components",
@@ -197,7 +197,7 @@
 		"kit-preview": "vite preview",
 		"lint": "ksc lint --skip repo",
 		"prepare": "skills experimental_sync -y -f",
-		"release": "pnpm build && bumpp --commit 'Release: %s' && NPM_TOKEN=$(op read 'op://Personal/npm/token') pnpm publish --ignore-scripts --otp $(op item get npm --otp)",
+		"release": "pnpm build && bumpp --preid preview --commit 'Release: %s' && pnpm publish --tag preview --ignore-scripts --otp $(op item get npm --otp)",
 		"rewrap": "rewrap -i --column 100 `find src \\( -name '*.svelte' -o -name '*.ts'  -o -name '*.html' \\) -type f | grep -v src/examples`",
 		"test": "pnpm run --sequential /^test:/",
 		"test:integration": "playwright test"
