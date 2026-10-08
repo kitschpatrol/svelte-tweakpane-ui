@@ -1,12 +1,35 @@
-packages:
-  - .
-  - docs
+allowBuilds:
+  canvas: true
+  esbuild: true
+  unrs-resolver: true
+  workerd: true
+minimumReleaseAgeExclude:
+  - '@kitschpatrol/cspell-config@8.13.1'
+  - '@kitschpatrol/eslint-config@8.13.1'
+  - '@kitschpatrol/knip-config@8.13.1'
+  - '@kitschpatrol/mdat-config@8.13.1'
+  - '@kitschpatrol/prettier-config@8.13.1'
+  - '@kitschpatrol/remark-config@8.13.1'
+  - '@kitschpatrol/repo-config@8.13.1'
+  - '@kitschpatrol/shared-config@8.13.1'
+  - '@kitschpatrol/stylelint-config@8.13.1'
+  - '@kitschpatrol/typescript-config@8.13.1'
+  - astro-html-kit@0.5.3
 overrides:
   # Svelte Kit 2 declares cookie ^0.6.0 (GHSA-pxg6-pf52-xh8x); 1.1.x keeps the parse/serialize aliases Kit 2 imports
   '@sveltejs/kit@2>cookie': ~1.1.1
   # Vite 5 declares esbuild ^0.21.3 (GHSA-67mh-4wv8-2f99); esbuild 0.27.7+ fails Vite 5 builds
   # with "Transforming destructuring to the configured target environment is not supported yet"
   'vite@5>esbuild': 0.27.5
+packages:
+  - .
+  - docs
+peerDependencyRules:
+  allowedVersions:
+    # Remove once the installed version declares ESLint 10 support.
+    # https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/issues/1075
+    # https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/pull/1081
+    eslint-plugin-jsx-a11y@6>eslint: ^10.0.0
 publicHoistPattern:
   - '@kitschpatrol/repo-config'
   - '@kitschpatrol/typescript-config'
@@ -18,18 +41,3 @@ publicHoistPattern:
   - '*prettier*'
   - '*remark*'
   - '*stylelint*'
-allowBuilds:
-  canvas: true
-  esbuild: true
-  unrs-resolver: true
-  workerd: true
-minimumReleaseAgeExclude:
-  - astro-html-kit@0.5.3
-  - poptab@1.2.2
-  - tweakpane-plugin-color-plus@0.7.0
-peerDependencyRules:
-  allowedVersions:
-    # Remove once the installed version declares ESLint 10 support.
-    # https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/issues/1075
-    # https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/pull/1081
-    eslint-plugin-jsx-a11y@6>eslint: ^10.0.0

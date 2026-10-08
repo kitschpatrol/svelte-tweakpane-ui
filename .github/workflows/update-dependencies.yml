@@ -36,6 +36,7 @@ jobs:
           skill: ksc-update
           claude-code-oauth-token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          instructions: Preserve Svelte 4 compatibility
           model: claude-opus-5-5
           effort: high
           max-turns: 400

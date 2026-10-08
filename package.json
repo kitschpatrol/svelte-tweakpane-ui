@@ -196,7 +196,7 @@
 		"kit-dev": "vite dev",
 		"kit-preview": "vite preview",
 		"lint": "ksc lint --skip repo",
-		"prepare": "skills experimental_sync -y -f",
+		"prepare": "svelte-kit sync && skills experimental_sync -y -f",
 		"release": "pnpm build && bumpp --commit 'Release: %s' && NPM_TOKEN=$(op read 'op://Personal/npm/token') pnpm publish --ignore-scripts --otp $(op item get npm --otp)",
 		"rewrap": "rewrap -i --column 100 `find src \\( -name '*.svelte' -o -name '*.ts'  -o -name '*.html' \\) -type f | grep -v src/examples`",
 		"test": "pnpm run --sequential /^test:/",
@@ -222,7 +222,7 @@
 		"tweakpane-plugin-color-plus": "0.7.0"
 	},
 	"devDependencies": {
-		"@kitschpatrol/shared-config": "^8.12.1",
+		"@kitschpatrol/shared-config": "^8.13.1",
 		"@phenomnomnominal/tsquery": "^6.2.0",
 		"@playwright/test": "^1.63.0",
 		"@stkb/rewrap": "^0.1.0",
@@ -230,7 +230,7 @@
 		"@sveltejs/kit": "^2.70.3",
 		"@sveltejs/package": "^2.5.8",
 		"@sveltejs/vite-plugin-svelte": "^3.1.2",
-		"@types/node": "~24.13.3",
+		"@types/node": "~24.13.6",
 		"bumpp": "^12.3.0",
 		"execa": "^10.1.0",
 		"glob": "^13.0.6",
@@ -241,7 +241,7 @@
 		"publint": "^0.3.25",
 		"read-package-up": "^12.0.0",
 		"shx": "^0.4.0",
-		"skills": "^1.7.0",
+		"skills": "^1.7.1",
 		"svelte": "^4.2.20",
 		"svelte-check": "^4.7.6",
 		"svelte-language-server": "^0.18.4",
@@ -260,7 +260,7 @@
 	"devEngines": {
 		"runtime": {
 			"name": "node",
-			"version": ">=24.16.0"
+			"version": "^24.16.0 || >=26.3.0"
 		}
 	}
 }
