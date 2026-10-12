@@ -3,7 +3,7 @@ name: Update Dependencies
 on:
   workflow_dispatch: {}
   schedule:
-    - cron: '0 3 * * 1'
+    - cron: '0 9 1 * *'
 
 permissions:
   contents: read
