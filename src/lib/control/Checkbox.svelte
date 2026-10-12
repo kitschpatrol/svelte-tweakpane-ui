@@ -1,12 +1,12 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { ValueChangeEvent } from '#lib/utils.js'
 
 	export type CheckboxChangeEvent = ValueChangeEvent<boolean>
 </script>
 
 <script lang="ts">
 	import type { ComponentProps } from 'svelte'
-	import GenericInput from '$lib/internal/GenericInput.svelte'
+	import GenericInput from '#lib/internal/GenericInput.svelte'
 
 	type $$Props = Omit<ComponentProps<GenericInput<boolean>>, 'options' | 'plugin' | 'ref'>
 

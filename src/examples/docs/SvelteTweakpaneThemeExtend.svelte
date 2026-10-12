@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, type Theme, ThemeUtils } from '$lib'
+	import { Button, type Theme, ThemeUtils } from '#lib'
 
 	const customizedTheme: Theme = {
 		...ThemeUtils.presets.iceberg,

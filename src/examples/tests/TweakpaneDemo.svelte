@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte'
-	import { derived, type Writable, writable } from 'svelte/store'
 	import {
 		Button,
 		Checkbox,
@@ -23,7 +21,9 @@
 		Text,
 		type Theme,
 		ThemeUtils,
-	} from '$lib'
+	} from '#lib'
+	import { onMount } from 'svelte'
+	import { derived, type Writable, writable } from 'svelte/store'
 
 	function onPointerDown(event: PointerEvent) {
 		if (event.target && !hasParentWithClassName(event.target as HTMLElement, 'tp-rotv_b')) {

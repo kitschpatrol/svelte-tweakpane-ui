@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Monitor, Slider, type SliderChangeEvent } from '$lib'
+	import { Button, Monitor, Slider, type SliderChangeEvent } from '#lib'
 
 	let speed = 50
 

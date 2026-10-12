@@ -6,8 +6,8 @@
 
 // Type aliases and utility functions
 
+import type { Theme } from '#lib/theme.js'
 import type { FolderApi, Pane, TabPageApi } from 'tweakpane'
-import type { Theme } from '$lib/theme.js'
 
 // Internal types
 export type Container = FolderApi | Pane | TabPageApi
@@ -341,9 +341,9 @@ export function getSwatchButton(
 // exposed under the Utils namespace alternative might be to scope these under the related
 // component's module as static methods?
 
-import type { CubicBezierValue } from '$lib/control/CubicBezier.svelte'
-import type { RotationEulerUnit, RotationEulerValue } from '$lib/control/RotationEuler.svelte'
-import type { RotationQuaternionValue } from '$lib/control/RotationQuaternion.svelte'
+import type { CubicBezierValue } from '#lib/control/CubicBezier.svelte'
+import type { RotationEulerUnit, RotationEulerValue } from '#lib/control/RotationEuler.svelte'
+import type { RotationQuaternionValue } from '#lib/control/RotationQuaternion.svelte'
 
 // Utility functions
 

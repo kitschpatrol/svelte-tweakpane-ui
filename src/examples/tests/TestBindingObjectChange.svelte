@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Binding, List } from '$lib'
-	import AutoObject from '$lib/extra/AutoObject.svelte'
+	import { Binding, List } from '#lib'
+	import AutoObject from '#lib/extra/AutoObject.svelte'
 
 	const testObjectA = {
 		someBoolean: true,

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Checkbox, Element, Pane, ThemeUtils } from '$lib'
+	import { Checkbox, Element, Pane, ThemeUtils } from '#lib'
 	let expanded = false
 
 	// Related to https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/4

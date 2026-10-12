@@ -7,9 +7,9 @@
 		Pane,
 		Separator,
 		Slider,
-	} from '$lib'
-	import Button from '$lib/control/Button.svelte'
-	import Folder from '$lib/core/Folder.svelte'
+	} from '#lib'
+	import Button from '#lib/control/Button.svelte'
+	import Folder from '#lib/core/Folder.svelte'
 
 	const testObject = {
 		someColor: {

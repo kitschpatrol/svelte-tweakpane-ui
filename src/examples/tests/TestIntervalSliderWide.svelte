@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Checkbox, IntervalSlider } from '$lib'
+	import { Checkbox, IntervalSlider } from '#lib'
 
 	let value: [number, number] = [25, 75]
 	let wide = false

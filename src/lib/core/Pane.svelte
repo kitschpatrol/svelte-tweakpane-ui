@@ -3,12 +3,12 @@
 </script>
 
 <script lang="ts">
+	import InternalPaneDraggable from '#lib/internal/InternalPaneDraggable.svelte'
+	import InternalPaneFixed from '#lib/internal/InternalPaneFixed.svelte'
+	import InternalPaneInline from '#lib/internal/InternalPaneInline.svelte'
+	import { removeKeys } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { beforeUpdate, type ComponentProps } from 'svelte'
-	import InternalPaneDraggable from '$lib/internal/InternalPaneDraggable.svelte'
-	import InternalPaneFixed from '$lib/internal/InternalPaneFixed.svelte'
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
-	import { removeKeys } from '$lib/utils.js'
 
 	type $$Props = (
 		| (ComponentProps<InternalPaneFixed> & {

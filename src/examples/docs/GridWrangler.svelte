@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Utils } from '$lib'
+	import { Utils } from '#lib'
 
 	type $$Slots = {
 		default: {}

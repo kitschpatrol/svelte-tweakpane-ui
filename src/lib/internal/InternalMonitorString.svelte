@@ -5,10 +5,10 @@
 
 <script lang="ts">
 	import type { ComponentProps } from 'svelte'
+	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import GenericMonitor from '#lib/internal/GenericMonitor.svelte'
+	import { fillWith, rowsForMonitor } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import GenericMonitor from '$lib/internal/GenericMonitor.svelte'
-	import { fillWith, rowsForMonitor } from '$lib/utils.js'
 
 	// Multi-file structure is legacy of previous non-dynamic component approach TODO consolidate
 	// eventually if dynamic components prove reliable

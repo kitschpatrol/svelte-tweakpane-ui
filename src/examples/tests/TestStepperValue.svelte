@@ -1,7 +1,7 @@
 <script lang="ts">
 	// See https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/24
 
-	import { Stepper } from '$lib'
+	import { Stepper } from '#lib'
 
 	let linearValue = 1
 

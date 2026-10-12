@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import type { BindingApi, BindingParams } from '@tweakpane/core'
-	import type { BindingObject, ValueChangeEvent } from '$lib/utils.js'
+	import type { BindingObject, ValueChangeEvent } from '#lib/utils.js'
 
 	export type BindingOptions = BindingParams
 	export type BindingRef = BindingApi
@@ -12,14 +12,10 @@
 	generics="T extends BindingObject, U extends BindingOptions, V extends BindingRef"
 	lang="ts"
 >
+	import type { Theme } from '#lib/theme.js'
 	import type { Writable } from 'svelte/store'
-	import { BROWSER, DEV } from 'esm-env'
-	import { copy } from 'fast-copy'
-	import { shallowEqual } from 'fast-equals'
-	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte'
-	import type { Theme } from '$lib/theme.js'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
+	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import InternalPaneInline from '#lib/internal/InternalPaneInline.svelte'
 	import {
 		type Container,
 		enforceReadonly,
@@ -27,7 +23,11 @@
 		isRootPane,
 		type Plugin,
 		type UnwrapCustomEvents,
-	} from '$lib/utils.js'
+	} from '#lib/utils.js'
+	import { BROWSER, DEV } from 'esm-env'
+	import { copy } from 'fast-copy'
+	import { shallowEqual } from 'fast-equals'
+	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte'
 
 	/**
 	 * The binding's target object with values to manipulate.

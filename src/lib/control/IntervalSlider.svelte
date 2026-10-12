@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
+	import type { Simplify, ValueChangeEvent } from '#lib/utils.js'
 	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane'
-	import type { Simplify, ValueChangeEvent } from '$lib/utils.js'
 
 	export type IntervalSliderValueTuple = [min: number, max: number]
 	export type IntervalSliderValueObject = {
@@ -16,8 +16,8 @@
 	import type { IntervalObject } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/interval/model/interval.js'
 	import type { ComponentProps } from 'svelte'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
+	import GenericSlider from '#lib/internal/GenericSlider.svelte'
 	import { shallowEqual } from 'fast-equals'
-	import GenericSlider from '$lib/internal/GenericSlider.svelte'
 
 	type $$Props = Omit<
 		ComponentProps<GenericSlider<IntervalSliderValue>>,

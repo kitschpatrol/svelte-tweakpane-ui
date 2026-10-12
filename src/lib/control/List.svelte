@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { Simplify, ValueChangeEvent } from '$lib/utils.js'
+	import type { Simplify, ValueChangeEvent } from '#lib/utils.js'
 
 	// Extends tweakpane to take arbitrary arrays of values
 	export type ListOptionsArray<T> = T[]
@@ -14,14 +14,14 @@
 </script>
 
 <script generics="T extends any" lang="ts">
+	import type { UnwrapCustomEvents } from '#lib/utils.js'
 	import type { ListBladeApi, ListBladeParams, ListParamsOptions } from 'tweakpane'
+	import Blade from '#lib/core/Blade.svelte'
+	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import { BROWSER } from 'esm-env'
 	import { copy } from 'fast-copy'
 	import { shallowEqual } from 'fast-equals'
 	import { type ComponentProps, createEventDispatcher } from 'svelte'
-	import type { UnwrapCustomEvents } from '$lib/utils.js'
-	import Blade from '$lib/core/Blade.svelte'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
 
 	// Use a blade instead of an input to allow for additional value types TODO expose key value
 	// option that lets you bind to the active key?

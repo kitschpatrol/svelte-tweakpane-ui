@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Stepper } from '$lib'
+	import { Stepper } from '#lib'
 
 	let binding1InternalEventCount = 0
 	let binding1ExternalEventCount = 0

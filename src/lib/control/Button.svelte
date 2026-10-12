@@ -5,18 +5,18 @@
 
 <script lang="ts">
 	import type { ButtonApi as ButtonRef } from '@tweakpane/core'
+	import type { Theme } from '#lib/theme.js'
 	import type { Writable } from 'svelte/store'
-	import { BROWSER } from 'esm-env'
-	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte'
-	import type { Theme } from '$lib/theme.js'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
+	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import InternalPaneInline from '#lib/internal/InternalPaneInline.svelte'
 	import {
 		type Container,
 		getElementIndex,
 		isRootPane,
 		type UnwrapCustomEvents,
-	} from '$lib/utils.js'
+	} from '#lib/utils.js'
+	import { BROWSER } from 'esm-env'
+	import { createEventDispatcher, getContext, onDestroy, onMount } from 'svelte'
 
 	/**
 	 * Text inside of the button.

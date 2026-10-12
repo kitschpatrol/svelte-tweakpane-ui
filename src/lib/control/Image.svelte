@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { ValueChangeEvent } from '#lib/utils.js'
 
 	export type ImageValue = string | undefined
 	export type ImageChangeEvent = ValueChangeEvent<ImageValue>
@@ -12,11 +12,11 @@
 	import type { PluginInputParams as ImageOptions } from '@kitschpatrol/tweakpane-plugin-image/dist/types/plugin.d.ts'
 	import type { ComponentProps } from 'svelte'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-image'
+	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import GenericInput from '#lib/internal/GenericInput.svelte'
+	import { fillWith } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { shallowEqual } from 'fast-equals'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import GenericInput from '$lib/internal/GenericInput.svelte'
-	import { fillWith } from '$lib/utils.js'
 
 	type ImageValueInternal = 'placeholder' | File | HTMLImageElement | string | undefined
 
@@ -142,7 +142,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 @example
 ```svelte
 <script lang="ts">
-  import { Button, Image, type ImageValue } from '$lib'
+  import { Button, Image, type ImageValue } from 'svelte-tweakpane-ui'
 
   let source: ImageValue
 </script>

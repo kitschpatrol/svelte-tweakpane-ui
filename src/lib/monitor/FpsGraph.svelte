@@ -6,14 +6,14 @@
 <script lang="ts">
 	import type { FpsGraphBladeApi as FpsGraphRef } from '@kitschpatrol/tweakpane-plugin-essentials'
 	import type { FpsGraphBladeParams as FpsGraphOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/fps-graph/plugin.js'
+	import type { UnwrapCustomEvents } from '#lib/utils.js'
 	import type { ComponentProps } from 'svelte'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
+	import Blade from '#lib/core/Blade.svelte'
+	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import { fillWith } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte'
-	import type { UnwrapCustomEvents } from '$lib/utils.js'
-	import Blade from '$lib/core/Blade.svelte'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import { fillWith } from '$lib/utils.js'
 
 	type $$Props = Omit<
 		ComponentProps<Blade<FpsGraphOptions, FpsGraphRef>>,

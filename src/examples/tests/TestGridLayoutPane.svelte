@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Checkbox, Pane, Slider } from '$lib'
+	import { Checkbox, Pane, Slider } from '#lib'
 	let colors = 0.95
 	let darkMode = true
 	let numbers = true

@@ -33,6 +33,11 @@
 	},
 	"sideEffects": false,
 	"type": "module",
+	"imports": {
+		"#lib": "./src/lib/index.ts",
+		"#lib/*.js": "./src/lib/*.ts",
+		"#lib/*": "./src/lib/*"
+	},
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",

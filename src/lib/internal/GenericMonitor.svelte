@@ -9,7 +9,7 @@
 	lang="ts"
 >
 	import type { ComponentProps } from 'svelte'
-	import GenericBinding from '$lib/internal/GenericBinding.svelte'
+	import GenericBinding from '#lib/internal/GenericBinding.svelte'
 
 	type $$Props = ComponentProps<GenericBinding<T, U, V>> & {
 		/**

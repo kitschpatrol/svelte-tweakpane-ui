@@ -1,23 +1,23 @@
 <script context="module" lang="ts">
-	import type { BindingObject, ValueChangeEvent } from '$lib/utils.js'
+	import type { BindingObject, ValueChangeEvent } from '#lib/utils.js'
 
 	export type AutoObjectChangeEvent = ValueChangeEvent<BindingObject>
 </script>
 
 <script lang="ts">
+	import type { Theme } from '#lib/theme.js'
+	import type { Container, UnwrapCustomEvents } from '#lib/utils.js'
 	import type { Writable } from 'svelte/store'
 	import { isColorObject } from '@tweakpane/core'
 	import { Point2d } from '@tweakpane/core/dist/input-binding/point-2d/model/point-2d.js'
 	import { Point3d } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js'
 	import { Point4d } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d.js'
+	import Text from '#lib/control/Text.svelte'
+	import Binding from '#lib/core/Binding.svelte'
+	import Folder from '#lib/core/Folder.svelte'
+	import InternalPaneInline from '#lib/internal/InternalPaneInline.svelte'
 	import { copy } from 'fast-copy'
 	import { createEventDispatcher, getContext } from 'svelte'
-	import type { Theme } from '$lib/theme.js'
-	import type { Container, UnwrapCustomEvents } from '$lib/utils.js'
-	import Text from '$lib/control/Text.svelte'
-	import Binding from '$lib/core/Binding.svelte'
-	import Folder from '$lib/core/Folder.svelte'
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
 
 	// TODO what about the onchange event?
 

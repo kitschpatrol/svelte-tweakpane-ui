@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Checkbox, Folder, Pane } from '$lib'
+	import { Checkbox, Folder, Pane } from '#lib'
 	let expandedA = true
 	let expandedB = true
 	let expandedC = true

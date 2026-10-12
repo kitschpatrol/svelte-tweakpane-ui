@@ -4,6 +4,7 @@ import { execa, parseCommandString } from 'execa'
 import { mkdir } from 'node:fs/promises'
 import prettyMs from 'pretty-ms'
 import { addSourceLinks } from './add-source-links'
+import { checkPackagedImports } from './check-packaged-imports'
 import { formatEmbeddedCode } from './format-embedded-code'
 import { generateDocumentationData } from './generate-documentation-data'
 import { generateExampleComponents } from './generate-example-components'
@@ -50,7 +51,7 @@ await parallel(
 )
 await run(
 	// Create the Svelte component package
-	'svelte-package',
+	'svelte-package --tsconfig tsconfig.build.json',
 )
 
 // 2. Clean up Svelte component library
@@ -65,6 +66,8 @@ await run(
 	// Clean up the now-mangled component library files
 	'prettier --ignore-path --plugin prettier-plugin-svelte --write ./dist',
 )
+// Fail if svelte-package left any #lib alias unresolved
+await checkPackagedImports()
 
 // 3. Generate content + acknowledgments for doc site and demo project
 await parallel(

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { RotationQuaternion, type RotationQuaternionValueTuple } from '$lib'
+	import { RotationQuaternion, type RotationQuaternionValueTuple } from '#lib'
 
 	let binding1InternalEventCount = 0
 	let binding1ExternalEventCount = 0

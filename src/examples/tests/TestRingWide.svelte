@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Checkbox, Ring } from '$lib'
+	import { Checkbox, Ring } from '#lib'
 
 	let value = 0
 	let wide = false

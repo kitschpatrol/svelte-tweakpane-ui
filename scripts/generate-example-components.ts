@@ -4,11 +4,11 @@
 import { globSync } from 'glob'
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { lintAndFormat } from './ast-tools'
+import { getExportedComponents, getExportedJs, lintAndFormat } from './ast-tools'
 
 // Leave this on
 const reformat = true
-const IMPORT_LIB_PATH_REGEX = /'\$lib/v
+const IMPORT_LIB_PATH_REGEX = /(['"])(#lib(?:\/[^'"]*)?)\1/gv
 
 export async function generateExampleComponents(): Promise<void> {
 	await fs.rm('./docs/src/examples', { force: true, recursive: true })
@@ -16,6 +16,15 @@ export async function generateExampleComponents(): Promise<void> {
 	await fs.cp('./src/examples', './docs/src/examples', { recursive: true })
 
 	const files = globSync('./docs/src/examples/**/*.svelte', { posix: true })
+	const libraryImports = new Map([
+		['#lib', 'svelte-tweakpane-ui'],
+		...getExportedComponents('./src/lib/index.ts').map(
+			({ name, path: sourcePath }) => [sourcePath, `svelte-tweakpane-ui/${name}.svelte`] as const,
+		),
+		...getExportedJs('./src/lib/index.ts').map(
+			({ name, path: sourcePath }) => [sourcePath, `svelte-tweakpane-ui/${name}.js`] as const,
+		),
+	])
 
 	await Promise.all(
 		files.map(async (filePath) => {
@@ -25,7 +34,17 @@ export async function generateExampleComponents(): Promise<void> {
 
 				// Optionally Re-format and save .svelte file
 				let svelteContent = await fs.readFile(filePath, 'utf8')
-				svelteContent = svelteContent.replace(IMPORT_LIB_PATH_REGEX, "'svelte-tweakpane-ui")
+				svelteContent = svelteContent.replaceAll(
+					IMPORT_LIB_PATH_REGEX,
+					(_match: string, quote: string, importPath: string) => {
+						const publicImportPath = libraryImports.get(importPath)
+						if (publicImportPath === undefined) {
+							throw new Error(`No public export found for ${importPath}`)
+						}
+
+						return `${quote}${publicImportPath}${quote}`
+					},
+				)
 
 				// eslint-disable-next-line ts/no-unnecessary-condition
 				const formattedSvelteContent = reformat

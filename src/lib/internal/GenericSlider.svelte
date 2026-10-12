@@ -1,11 +1,11 @@
 <script generics="T extends IntervalSliderValue | number" lang="ts">
+	import type { IntervalSliderValue } from '#lib/control/IntervalSlider.svelte'
 	import type { ComponentProps } from 'svelte'
 	import type {
 		NumberInputParams as GenericSliderOptions,
 		SliderInputBindingApi as GenericSliderRef,
 	} from 'tweakpane'
-	import type { IntervalSliderValue } from '$lib/control/IntervalSlider.svelte'
-	import GenericInput from '$lib/internal/GenericInput.svelte'
+	import GenericInput from '#lib/internal/GenericInput.svelte'
 
 	type $$Props = ComponentProps<GenericInput<T, GenericSliderOptions, GenericSliderRef>> & {
 		/**

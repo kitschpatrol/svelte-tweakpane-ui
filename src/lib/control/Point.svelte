@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
+	import type { Simplify, ValueChangeEvent } from '#lib/utils.js'
 	import type { Point2dInputParams, Point3dInputParams, Point4dInputParams } from 'tweakpane'
-	import type { Simplify, ValueChangeEvent } from '$lib/utils.js'
 
 	// Extends Tweakpane's implementation to support tuples
 	export type PointValue2dObject = { x: number; y: number }
@@ -35,11 +35,11 @@
 
 <script generics="T extends PointValue2d | PointValue3d | PointValue4d" lang="ts">
 	import type { ComponentProps } from 'svelte'
+	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import GenericInputFolding from '#lib/internal/GenericInputFolding.svelte'
+	import { type HasKey, removeKeys } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { shallowEqual } from 'fast-equals'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
-	import { type HasKey, removeKeys } from '$lib/utils.js'
 
 	type PointOptions<U> = U extends PointValue4d
 		? Point4dInputParams

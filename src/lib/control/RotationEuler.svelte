@@ -2,7 +2,7 @@
 	import type { EulerOrder } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerOrder.js'
 	import type { EulerUnit } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/EulerUnit.js'
 	import type { PointDimensionParams } from '@tweakpane/core'
-	import type { Simplify, ValueChangeEvent } from '$lib/utils.js'
+	import type { Simplify, ValueChangeEvent } from '#lib/utils.js'
 
 	export type RotationEulerOptions = Simplify<PointDimensionParams>
 	export type RotationEulerOrder = EulerOrder
@@ -25,10 +25,10 @@
 	import type { Point3dObject } from '@tweakpane/core/dist/input-binding/point-3d/model/point-3d.js'
 	import type { ComponentProps } from 'svelte' // Note name collision with options params
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation'
+	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import GenericInputFolding from '#lib/internal/GenericInputFolding.svelte'
 	import { BROWSER } from 'esm-env'
 	import { shallowEqual } from 'fast-equals'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
 
 	type $$Props = Omit<
 		ComponentProps<GenericInputFolding<RotationEulerValue, RotationEulerOptionsInternal>>,

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AutoObject } from '$lib'
+	import { AutoObject } from '#lib'
 
 	let binding1InternalEventCount = 0
 	let binding1ExternalEventCount = 0

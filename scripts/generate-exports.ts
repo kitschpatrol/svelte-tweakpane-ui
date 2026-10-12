@@ -30,8 +30,8 @@ function addExports(sourceIndexFile: string, closestPackage: ReadResult) {
 		const { name, path: componentPath } = component
 
 		const key = `./${name}.svelte`
-		const types = `./dist/${componentPath.replace('$lib/', '')}.d.ts`
-		const svelte = `./dist/${componentPath.replace('$lib/', '')}`
+		const types = `./dist/${componentPath.replace('#lib/', '')}.d.ts`
+		const svelte = `./dist/${componentPath.replace('#lib/', '')}`
 		// eslint-disable-next-line perfectionist/sort-objects
 		exports[key] = { types, svelte }
 
@@ -46,8 +46,8 @@ function addExports(sourceIndexFile: string, closestPackage: ReadResult) {
 		const { name, path: filePath } = file
 
 		const key = `./${name}.js`
-		const types = `./dist/${filePath.replace('.js', '').replace('$lib/', '')}.d.ts`
-		const defaultValue = `./dist/${filePath.replace('$lib/', '')}`
+		const types = `./dist/${filePath.replace('.js', '').replace('#lib/', '')}.d.ts`
+		const defaultValue = `./dist/${filePath.replace('#lib/', '')}`
 		// eslint-disable-next-line perfectionist/sort-objects
 		exports[key] = { types, default: defaultValue }
 

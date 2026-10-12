@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Wheel } from '$lib'
+	import { Wheel } from '#lib'
 
 	let angle = 45
 

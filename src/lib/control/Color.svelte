@@ -3,7 +3,7 @@
 		RgbaColorObject,
 		RgbColorObject,
 	} from '@tweakpane/core/dist/input-binding/color/model/color.js'
-	import type { Simplify, ValueChangeEvent } from '$lib/utils.js'
+	import type { Simplify, ValueChangeEvent } from '#lib/utils.js'
 
 	export type ColorValueRgbTuple = [r: number, g: number, b: number]
 	export type ColorValueRgbaTuple = [r: number, g: number, b: number, a: number]
@@ -27,11 +27,11 @@
 	import type { ComponentProps } from 'svelte'
 	import type { ColorInputParams as ColorOptions, InputBindingApi as ColorRef } from 'tweakpane'
 	import { isColorObject, isRgbaColorObject, isRgbColorObject } from '@tweakpane/core'
+	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import GenericInputFolding from '#lib/internal/GenericInputFolding.svelte'
+	import { fillWith, objectToTuple, removeKeys } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { shallowEqual } from 'fast-equals'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
-	import { fillWith, objectToTuple, removeKeys } from '$lib/utils.js'
 
 	type ColorValueInternal =
 		ColorValueNumber | ColorValueRgbaObject | ColorValueRgbObject | ColorValueString

@@ -4,13 +4,13 @@
 
 <script lang="ts">
 	import type { WaveformStyles as WaveformMonitorLineStyle } from '@kitschpatrol/tweakpane-plugin-waveform/dist/types/view/waveform.js'
+	import type { GenericMonitorOptions } from '#lib/internal/GenericMonitor.svelte'
 	import type { ComponentProps } from 'svelte'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-waveform'
+	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import GenericMonitor from '#lib/internal/GenericMonitor.svelte'
+	import { fillWith } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
-	import type { GenericMonitorOptions } from '$lib/internal/GenericMonitor.svelte'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import GenericMonitor from '$lib/internal/GenericMonitor.svelte'
-	import { fillWith } from '$lib/utils.js'
 
 	// Direct prop import is wrapped in some extra stuff we don't want import type { WaveformProps }
 	// from 'tweakpane-plugin-waveform/dist/types/view/waveform.js';

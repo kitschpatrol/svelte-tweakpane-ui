@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { File, type FileValue } from '$lib'
+	import { File, type FileValue } from '#lib'
 
 	let file: FileValue
 
