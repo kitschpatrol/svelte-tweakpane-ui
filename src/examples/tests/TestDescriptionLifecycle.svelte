@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Slider } from '$lib'
+	import { Button, Slider } from '#lib'
 
 	let value = 0.5
 	let min = 0

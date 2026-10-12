@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Pane, Slider } from '$lib'
+	import { Pane, Slider } from '#lib'
 
 	let description: string | undefined = 'Controls the demo scene.'
 	let title: string | undefined = undefined

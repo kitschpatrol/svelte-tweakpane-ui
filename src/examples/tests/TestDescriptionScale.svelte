@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Pane, Slider } from '$lib'
+	import { Pane, Slider } from '#lib'
 
 	let value = 0.5
 	let scale = 2

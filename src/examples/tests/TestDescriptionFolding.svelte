@@ -9,7 +9,7 @@
 		type PointValue2d,
 		RotationEuler,
 		type RotationEulerValue,
-	} from '$lib'
+	} from '#lib'
 
 	let color = '#ff8800'
 	let colorPlus = 'oklch(70% 0.2 50deg)'

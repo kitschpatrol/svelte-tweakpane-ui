@@ -201,7 +201,7 @@
 		"kit-dev": "vite dev",
 		"kit-preview": "vite preview",
 		"lint": "ksc lint --skip repo",
-		"prepare": "skills experimental_sync -y -f",
+		"prepare": "svelte-kit sync && skills experimental_sync -y -f",
 		"release": "pnpm build && bumpp --preid preview --commit 'Release: %s' && pnpm publish --tag preview --ignore-scripts --otp $(op item get npm --otp)",
 		"rewrap": "rewrap -i --column 100 `find src \\( -name '*.svelte' -o -name '*.ts'  -o -name '*.html' \\) -type f | grep -v src/examples`",
 		"test": "pnpm run --sequential /^test:/",

@@ -4,6 +4,7 @@
 	import type { TabApi as TabGroupRef } from 'tweakpane'
 	import TabGroup from '#lib/core/TabGroup.svelte'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import { DescriptionController } from '#lib/internal/description.js'
 	import InternalPaneInline from '#lib/internal/InternalPaneInline.svelte'
 	import { type Container, getElementIndex, isRootPane } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'

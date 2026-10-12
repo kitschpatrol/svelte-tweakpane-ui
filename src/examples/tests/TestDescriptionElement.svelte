@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Element, Pane } from '$lib'
+	import { Element, Pane } from '#lib'
 </script>
 
 <Pane position="inline" title="Element">

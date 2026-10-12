@@ -10,8 +10,8 @@
 		Text,
 		type Theme,
 		Wheel,
-	} from '$lib'
-	import { presets } from '$lib/theme.js'
+	} from '#lib'
+	import { presets } from '#lib/theme.js'
 
 	let description: string | undefined = 'Adjusts the amount of glow.\nUse sparingly.'
 	let descriptionHint = 'none'

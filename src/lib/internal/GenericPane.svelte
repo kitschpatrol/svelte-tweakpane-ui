@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import { DescriptionController } from '#lib/internal/description.js'
 	import { applyTheme, type Theme } from '#lib/theme.js'
 	import { type Container, type Plugin, updateCollapsibility } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'

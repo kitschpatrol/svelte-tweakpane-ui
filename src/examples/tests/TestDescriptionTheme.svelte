@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Pane, Slider, type Theme, ThemeUtils } from '$lib'
+	import { Pane, Slider, type Theme, ThemeUtils } from '#lib'
 
 	let value = 0.5
 

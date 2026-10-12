@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Folder, Pane, Slider, TabGroup, TabPage } from '$lib'
+	import { Button, Folder, Pane, Slider, TabGroup, TabPage } from '#lib'
 
 	let description: string | undefined = 'Groups the lighting controls.'
 	let disabled = false

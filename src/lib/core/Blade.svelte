@@ -9,6 +9,7 @@
 	import type { Theme } from '#lib/theme.js'
 	import type { Writable } from 'svelte/store'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import { DescriptionController } from '#lib/internal/description.js'
 	import InternalPaneInline from '#lib/internal/InternalPaneInline.svelte'
 	import {
 		type Container,
