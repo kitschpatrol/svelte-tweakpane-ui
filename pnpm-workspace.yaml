@@ -3,18 +3,6 @@ allowBuilds:
   esbuild: true
   unrs-resolver: true
   workerd: true
-minimumReleaseAgeExclude:
-  - '@kitschpatrol/cspell-config@8.13.1'
-  - '@kitschpatrol/eslint-config@8.13.1'
-  - '@kitschpatrol/knip-config@8.13.1'
-  - '@kitschpatrol/mdat-config@8.13.1'
-  - '@kitschpatrol/prettier-config@8.13.1'
-  - '@kitschpatrol/remark-config@8.13.1'
-  - '@kitschpatrol/repo-config@8.13.1'
-  - '@kitschpatrol/shared-config@8.13.1'
-  - '@kitschpatrol/stylelint-config@8.13.1'
-  - '@kitschpatrol/typescript-config@8.13.1'
-  - astro-html-kit@0.5.3
 overrides:
   # Svelte Kit 2 declares cookie ^0.6.0 (GHSA-pxg6-pf52-xh8x); 1.1.x keeps the parse/serialize aliases Kit 2 imports
   '@sveltejs/kit@2>cookie': ~1.1.1

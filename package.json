@@ -215,7 +215,7 @@
 		"@tweakpane/core": "2.0.5",
 		"esm-env": "^1.2.2",
 		"fast-copy": "^4.1.2",
-		"fast-equals": "^6.1.0",
+		"fast-equals": "^6.1.1",
 		"nanoid": "^6.0.2",
 		"svelte-persisted-store": "0.12.0",
 		"tweakpane": "4.0.5",
@@ -224,11 +224,11 @@
 	"devDependencies": {
 		"@kitschpatrol/shared-config": "^8.13.1",
 		"@phenomnomnominal/tsquery": "^6.2.0",
-		"@playwright/test": "^1.63.0",
+		"@playwright/test": "^1.64.0",
 		"@stkb/rewrap": "^0.1.0",
 		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/kit": "^2.70.3",
-		"@sveltejs/package": "^2.5.8",
+		"@sveltejs/package": "^3.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.1.2",
 		"@types/node": "~24.13.6",
 		"bumpp": "^12.3.0",
@@ -241,7 +241,7 @@
 		"publint": "^0.3.25",
 		"read-package-up": "^12.0.0",
 		"shx": "^0.4.0",
-		"skills": "^1.7.1",
+		"skills": "^1.7.2",
 		"svelte": "^4.2.20",
 		"svelte-check": "^4.7.6",
 		"svelte-language-server": "^0.18.4",
@@ -256,7 +256,7 @@
 	"peerDependencies": {
 		"svelte": "^4.0.0 || ^5.0.0"
 	},
-	"packageManager": "pnpm@12.9.1",
+	"packageManager": "pnpm@12.11.2",
 	"devEngines": {
 		"runtime": {
 			"name": "node",
