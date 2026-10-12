@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte'
 	import {
 		AutoObject,
 		Binding,
@@ -41,7 +40,8 @@
 		ThemeUtils,
 		WaveformMonitor,
 		Wheel,
-	} from '$lib'
+	} from '#lib'
+	import { onMount } from 'svelte'
 	let text = 'Cosmic Manifold'
 	let waveData = [5, 6, 7, 8, 9, 3, 9, 8, 7, 6, 5]
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { RadioGrid } from '$lib'
+	import { RadioGrid } from '#lib'
 
 	let value = 1
 

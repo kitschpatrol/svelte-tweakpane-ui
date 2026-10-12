@@ -1,4 +1,5 @@
 <script context="module" lang="ts">
+	import type { ValueChangeEvent } from '#lib/utils.js'
 	import type {
 		ColorPlusGamutLines,
 		ColorPlusInputParams as ColorPlusOptions,
@@ -11,7 +12,6 @@
 		ColorPlusValueObject,
 		ColorPlusValueTuple,
 	} from 'tweakpane-plugin-color-plus/lite'
-	import type { ValueChangeEvent } from '$lib/utils.js'
 
 	type ColorPlusColorOptions = NonNullable<ColorPlusOptions['color']>
 
@@ -35,12 +35,12 @@
 <script generics="T extends ColorPlusValue" lang="ts">
 	import type { ComponentProps } from 'svelte'
 	import type { InputBindingApi as ColorPlusRef } from 'tweakpane'
+	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import GenericInputFolding from '#lib/internal/GenericInputFolding.svelte'
+	import { fillWith, removeKeys } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import * as pluginModule from 'tweakpane-plugin-color-plus/lite'
 	import { ColorPlusModel } from 'tweakpane-plugin-color-plus/lite'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
-	import { fillWith, removeKeys } from '$lib/utils.js'
 
 	type PropsForType<U> = (U extends ColorPlusValueNumber
 		? {

@@ -1,13 +1,12 @@
 <script lang="ts">
 	import type { FolderApi as FolderRef } from '@tweakpane/core'
+	import type { Theme } from '#lib/theme.js'
+	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import InternalPaneInline from '#lib/internal/InternalPaneInline.svelte'
+	import { type Container, getElementIndex, isRootPane, updateCollapsibility } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { getContext, onDestroy, onMount, setContext } from 'svelte'
 	import { writable, type Writable } from 'svelte/store'
-	import type { Theme } from '$lib/theme.js'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import { DescriptionController } from '$lib/internal/description.js'
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
-	import { type Container, getElementIndex, isRootPane, updateCollapsibility } from '$lib/utils.js'
 
 	/**
 	 * Text in folder title bar.

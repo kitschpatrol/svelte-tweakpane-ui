@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import type { PointDimensionParams } from '@tweakpane/core'
-	import type { Simplify, ValueChangeEvent } from '$lib/utils.js'
+	import type { Simplify, ValueChangeEvent } from '#lib/utils.js'
 
 	export type RotationQuaternionOptions = Simplify<PointDimensionParams>
 	export type RotationQuaternionValueObject = {
@@ -21,10 +21,10 @@
 	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d'
 	import type { ComponentProps } from 'svelte' // Note name collision with options params
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation'
+	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import GenericInputFolding from '#lib/internal/GenericInputFolding.svelte'
 	import { BROWSER } from 'esm-env'
 	import { shallowEqual } from 'fast-equals'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import GenericInputFolding from '$lib/internal/GenericInputFolding.svelte'
 
 	// TODO add some utility functions to get matrices etc. from quaternions?
 	type $$Props = Omit<

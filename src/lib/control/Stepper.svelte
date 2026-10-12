@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
+	import type { ValueChangeEvent } from '#lib/utils.js'
 	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane'
-	import type { ValueChangeEvent } from '$lib/utils.js'
 
 	export type StepperChangeEvent = ValueChangeEvent<number>
 </script>
@@ -9,7 +9,7 @@
 	import type { StepperInputParams } from '@kitschpatrol/tweakpane-plugin-inputs/dist/types/stepper/plugin.d.ts'
 	import type { ComponentProps } from 'svelte'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-inputs'
-	import GenericSlider from '$lib/internal/GenericSlider.svelte'
+	import GenericSlider from '#lib/internal/GenericSlider.svelte'
 
 	type $$Props = Omit<
 		ComponentProps<GenericSlider<number>>,

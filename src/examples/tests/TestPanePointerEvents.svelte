@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Pane, Slider } from '$lib'
+	import { Pane, Slider } from '#lib'
 
 	let draggableValue = 0
 	let fixedValue = 0

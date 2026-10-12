@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { ValueChangeEvent } from '#lib/utils.js'
 
 	export type WheelChangeEvent = ValueChangeEvent<number>
 </script>
@@ -8,7 +8,7 @@
 	import type { WheelInputParams } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.d.ts'
 	import type { ComponentProps } from 'svelte'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-camerakit'
-	import GenericSlider from '$lib/internal/GenericSlider.svelte'
+	import GenericSlider from '#lib/internal/GenericSlider.svelte'
 
 	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {
 		/**

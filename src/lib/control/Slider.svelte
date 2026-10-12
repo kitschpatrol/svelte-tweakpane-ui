@@ -1,13 +1,13 @@
 <script context="module" lang="ts">
+	import type { ValueChangeEvent } from '#lib/utils.js'
 	import type { SliderInputBindingApi as GenericSliderRef } from 'tweakpane'
-	import type { ValueChangeEvent } from '$lib/utils.js'
 
 	export type SliderChangeEvent = ValueChangeEvent<number>
 </script>
 
 <script lang="ts">
 	import type { ComponentProps } from 'svelte'
-	import GenericSlider from '$lib/internal/GenericSlider.svelte'
+	import GenericSlider from '#lib/internal/GenericSlider.svelte'
 
 	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {
 		/**

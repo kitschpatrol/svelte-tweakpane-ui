@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { getValueOrFallback, type Theme } from '#lib/theme.js'
 	import { DEV } from 'esm-env'
-	import { getValueOrFallback, type Theme } from '$lib/theme.js'
 
 	/**
 	 * The theme to use when estimating the height of the pane.

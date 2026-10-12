@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AutoValue } from '$lib'
+	import { AutoValue } from '#lib'
 
 	let number = 0
 	let color = '#ff00ff'

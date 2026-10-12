@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ColorPlus, type ColorPlusValue } from '$lib'
+	import { ColorPlus, type ColorPlusValue } from '#lib'
 
 	let value: ColorPlusValue = 'oklch(60% 0.26 11deg / 0.5)'
 

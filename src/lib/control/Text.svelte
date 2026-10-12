@@ -1,12 +1,12 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { ValueChangeEvent } from '#lib/utils.js'
 
 	export type TextChangeEvent = ValueChangeEvent<string>
 </script>
 
 <script lang="ts">
+	import GenericInput, { type GenericInputRef } from '#lib/internal/GenericInput.svelte'
 	import { type ComponentProps, onDestroy } from 'svelte'
-	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte'
 
 	type $$Props = Omit<ComponentProps<GenericInput<string>>, 'options' | 'plugin' | 'ref'> & {
 		/**

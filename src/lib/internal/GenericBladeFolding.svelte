@@ -1,11 +1,11 @@
 <script context="module" lang="ts">
-	import type { BladeOptions, BladeRef } from '$lib/core/Blade.svelte'
+	import type { BladeOptions, BladeRef } from '#lib/core/Blade.svelte'
 </script>
 
 <script generics="T extends BladeOptions, U extends BladeRef" lang="ts">
 	import type { ComponentProps } from 'svelte'
-	import Blade from '$lib/core/Blade.svelte'
-	import { updateCollapsibility } from '$lib/utils.js'
+	import Blade from '#lib/core/Blade.svelte'
+	import { updateCollapsibility } from '#lib/utils.js'
 
 	type $$Props = ComponentProps<Blade<T, U>> & {
 		/**

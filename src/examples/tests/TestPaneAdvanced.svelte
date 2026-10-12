@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { Pane as TpPane } from 'tweakpane'
+	import { Pane, Slider } from '#lib'
+	import Checkbox from '#lib/control/Checkbox.svelte'
 	import { onMount } from 'svelte'
-	import { Pane, Slider } from '$lib'
-	import Checkbox from '$lib/control/Checkbox.svelte'
 
 	let tpPane1: TpPane
 	let tpPane2: TpPane

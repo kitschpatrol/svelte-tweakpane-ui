@@ -1,6 +1,6 @@
 <script lang="ts">
 	// https://github.com/kitschpatrol/svelte-tweakpane-ui/issues/31
-	import { Button, Pane, TabGroup, TabPage } from '$lib'
+	import { Button, Pane, TabGroup, TabPage } from '#lib'
 
 	let mode = 0
 	let tabIndex: number = 1

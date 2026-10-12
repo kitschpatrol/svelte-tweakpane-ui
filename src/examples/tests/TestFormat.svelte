@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Slider } from '$lib'
+	import { Slider } from '#lib'
 	let value: number = 0
 </script>
 

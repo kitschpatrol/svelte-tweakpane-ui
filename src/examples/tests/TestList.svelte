@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { List, type ListOptions } from '$lib'
+	import { List, type ListOptions } from '#lib'
 
 	const options: ListOptions<number> = { a: 1, b: 2, c: 3 }
 	let selection: number = 1

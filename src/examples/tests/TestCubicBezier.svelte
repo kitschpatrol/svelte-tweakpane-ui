@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CubicBezier, type CubicBezierValueObject } from '$lib'
+	import { CubicBezier, type CubicBezierValueObject } from '#lib'
 
 	let value: CubicBezierValueObject = { x1: 0, y1: 0, x2: 0, y2: 0 }
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Checkbox, type ValueChangeEvent } from '$lib'
+	import { Checkbox, type ValueChangeEvent } from '#lib'
 
 	let value: boolean = false
 

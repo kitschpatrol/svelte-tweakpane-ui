@@ -1,12 +1,12 @@
 <script lang="ts">
+	import type { Theme } from '#lib/theme.js'
 	import type { TabApi as TabGroupRef } from 'tweakpane'
+	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import InternalPaneInline from '#lib/internal/InternalPaneInline.svelte'
+	import { type Container, getElementIndex, isRootPane } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { getContext, onDestroy, onMount, setContext, tick } from 'svelte'
 	import { writable, type Writable } from 'svelte/store'
-	import type { Theme } from '$lib/theme.js'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
-	import { type Container, getElementIndex, isRootPane } from '$lib/utils.js'
 
 	/**
 	 * Prevent interactivity and gray out the control.

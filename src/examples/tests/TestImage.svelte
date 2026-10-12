@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, Image } from '$lib'
+	import { Button, Image } from '#lib'
 
 	let source = 'placeholder'
 

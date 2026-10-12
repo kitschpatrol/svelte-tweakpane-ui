@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Checkbox, Text } from '$lib'
+	import { Checkbox, Text } from '#lib'
 
 	let text = 'Cosmic Manifold'
 	let live = true

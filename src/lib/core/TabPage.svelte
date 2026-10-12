@@ -1,15 +1,14 @@
 <script lang="ts">
 	import type { TabPageApi as TabPageRef } from '@tweakpane/core'
+	import type { Theme } from '#lib/theme.js'
 	import type { TabApi as TabGroupRef } from 'tweakpane'
+	import TabGroup from '#lib/core/TabGroup.svelte'
+	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import InternalPaneInline from '#lib/internal/InternalPaneInline.svelte'
+	import { type Container, getElementIndex, isRootPane } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { getContext, onDestroy, onMount, setContext } from 'svelte'
 	import { writable, type Writable } from 'svelte/store'
-	import type { Theme } from '$lib/theme.js'
-	import TabGroup from '$lib/core/TabGroup.svelte'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import { DescriptionController } from '$lib/internal/description.js'
-	import InternalPaneInline from '$lib/internal/InternalPaneInline.svelte'
-	import { type Container, getElementIndex, isRootPane } from '$lib/utils.js'
 
 	/**
 	 * Text in the tab.

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button, type Theme } from '$lib'
+	import { Button, type Theme } from '#lib'
 
 	const customTheme: Theme = {
 		baseBackgroundColor: 'hsl(230, 70%, 27%)',

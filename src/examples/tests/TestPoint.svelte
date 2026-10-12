@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Point, type PointChangeEvent, type PointValue2d } from '$lib'
+	import { Point, type PointChangeEvent, type PointValue2d } from '#lib'
 
 	let point2d: PointValue2d = { x: 0, y: 0 }
 

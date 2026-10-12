@@ -25,9 +25,9 @@
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.10",
-		"@astrojs/starlight": "^0.42.5",
+		"@astrojs/starlight": "^0.42.6",
 		"@astrojs/svelte": "^9.0.1",
-		"astro": "^7.3.6",
+		"astro": "^7.3.8",
 		"astro-html-kit": "^0.5.3",
 		"canvas": "^3.2.3",
 		"github-slugger": "^2.0.0",
@@ -39,6 +39,6 @@
 		"svelte": "^5.57.2",
 		"svelte-check": "^4.7.6",
 		"svelte-tweakpane-ui": "link:..",
-		"wrangler": "^4.148.0"
+		"wrangler": "^4.149.0"
 	}
 }

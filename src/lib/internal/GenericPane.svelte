@@ -1,12 +1,11 @@
 <script lang="ts">
+	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import { applyTheme, type Theme } from '#lib/theme.js'
+	import { type Container, type Plugin, updateCollapsibility } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { getContext, onDestroy, setContext, tick } from 'svelte'
 	import { type Writable, writable } from 'svelte/store'
 	import { Pane as TpPane } from 'tweakpane'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import { DescriptionController } from '$lib/internal/description.js'
-	import { applyTheme, type Theme } from '$lib/theme.js'
-	import { type Container, type Plugin, updateCollapsibility } from '$lib/utils.js'
 
 	// Import type { BladeState } from '@tweakpane/core';
 

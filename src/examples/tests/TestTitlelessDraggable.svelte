@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Pane, Text } from '$lib'
+	import { Pane, Text } from '#lib'
 	let title = ''
 	let title2 = 'Title'
 </script>

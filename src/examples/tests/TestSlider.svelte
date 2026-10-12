@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Slider } from '$lib'
+	import { Slider } from '#lib'
 
 	let binding1InternalEventCount = 0
 	let binding1ExternalEventCount = 0

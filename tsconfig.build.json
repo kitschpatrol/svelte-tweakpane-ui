@@ -1,4 +1,13 @@
 {
 	"extends": "./tsconfig.json",
+
+	"compilerOptions": {
+		// svelte2tsx 0.7 needs a path mapping to resolve virtual .svelte.ts files during declaration emission
+		"paths": {
+			"#lib/*": ["./src/lib/*"]
+		}
+	},
+
+	// Only used by svelte-package, which narrows the include to src/lib itself
 	"include": ["src/**/*", "./.svelte-kit/ambient.d.ts", "./.svelte-kit/types/**/$types.d.ts"]
 }

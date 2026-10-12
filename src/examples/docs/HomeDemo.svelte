@@ -1,7 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte'
-	import { derived, type Writable, writable } from 'svelte/store'
-	import { fade } from 'svelte/transition'
 	import {
 		Checkbox,
 		Color,
@@ -22,7 +19,10 @@
 		Text,
 		type Theme,
 		ThemeUtils,
-	} from '$lib'
+	} from '#lib'
+	import { onMount } from 'svelte'
+	import { derived, type Writable, writable } from 'svelte/store'
+	import { fade } from 'svelte/transition'
 
 	const themeDataKey = 'data-theme'
 	let astroTheme: 'dark' | 'light'

@@ -1,18 +1,18 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { ValueChangeEvent } from '#lib/utils.js'
 
 	export type RadioGridChangeEvent = ValueChangeEvent<boolean | number | string>
 </script>
 
 <script generics="T extends boolean | number | string" lang="ts">
+	import type { GenericInputOptions } from '#lib/internal/GenericInput.svelte'
 	import type { ComponentProps } from 'svelte'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
+	import ClsPad from '#lib/internal/ClsPad.svelte'
+	import GenericInput from '#lib/internal/GenericInput.svelte'
+	import { fillWith, getGridDimensions } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { nanoid } from 'nanoid'
-	import type { GenericInputOptions } from '$lib/internal/GenericInput.svelte'
-	import ClsPad from '$lib/internal/ClsPad.svelte'
-	import GenericInput from '$lib/internal/GenericInput.svelte'
-	import { fillWith, getGridDimensions } from '$lib/utils.js'
 
 	// TODO allow mixed values? TODO handle records and more complex types? duplicated here because
 	// it's not exported from the plugin...

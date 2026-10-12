@@ -22,7 +22,7 @@ export default defineConfig({
 			for (const component of components) {
 				const { name, path } = component
 
-				const resolvePath = path.replace('$lib', './src/lib')
+				const resolvePath = path.replace('#lib', './src/lib')
 				const componentInfo = await getComponentInfo(resolvePath)
 
 				if (componentInfo === undefined) {

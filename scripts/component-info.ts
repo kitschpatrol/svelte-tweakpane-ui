@@ -239,7 +239,7 @@ async function getDynamicComponentProps(
 	const componentName = componentPath.split('/').pop()!.replace('.svelte', '')
 	const testComponentSourceRows = [
 		'<script lang="ts">',
-		`import ${componentName} from '${componentPath.replace('./src/lib/', '$lib/')}';`,
+		`import ${componentName} from '${componentPath.replace('./src/lib/', '#lib/')}';`,
 		'</script>',
 		`<${componentName} ${generateStringFromPropObject(testProps)} />`,
 	]

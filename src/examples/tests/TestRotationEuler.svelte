@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { RotationEuler, type RotationEulerValueObject } from '$lib'
+	import { RotationEuler, type RotationEulerValueObject } from '#lib'
 
 	let binding1InternalEventCount = 0
 	let binding1ExternalEventCount = 0

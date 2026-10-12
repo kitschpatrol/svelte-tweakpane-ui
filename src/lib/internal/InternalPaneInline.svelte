@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { ComponentProps } from 'svelte'
+	import GenericPane from '#lib/internal/GenericPane.svelte'
+	import { removeKeys } from '#lib/utils.js'
 	import { onMount } from 'svelte'
-	import GenericPane from '$lib/internal/GenericPane.svelte'
-	import { removeKeys } from '$lib/utils.js'
 
 	type $$Props = ComponentProps<GenericPane> & {
 		/**

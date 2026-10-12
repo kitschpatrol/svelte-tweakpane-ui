@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { ValueChangeEvent } from '#lib/utils.js'
 
 	// eslint-disable-next-line ts/no-restricted-types
 	export type AutoValueChangeEvent = ValueChangeEvent<boolean | number | object | string>
@@ -7,8 +7,8 @@
 
 <script lang="ts">
 	import type { ComponentProps } from 'svelte'
-	import Text from '$lib/control/Text.svelte'
-	import GenericBinding from '$lib/internal/GenericBinding.svelte'
+	import Text from '#lib/control/Text.svelte'
+	import GenericBinding from '#lib/internal/GenericBinding.svelte'
 
 	type $$Props = Omit<
 		// eslint-disable-next-line ts/no-restricted-types

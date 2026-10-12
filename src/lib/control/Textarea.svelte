@@ -1,16 +1,16 @@
 <script context="module" lang="ts">
-	import type { ValueChangeEvent } from '$lib/utils.js'
+	import type { ValueChangeEvent } from '#lib/utils.js'
 
 	export type TextareaChangeEvent = ValueChangeEvent<string>
 </script>
 
 <script lang="ts">
 	import type { TextareaPluginInputParams } from '@kitschpatrol/tweakpane-plugin-textarea/dist/types/plugin.js'
+	import type { UnwrapCustomEvents } from '#lib/utils.js'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-textarea'
+	import GenericInput, { type GenericInputRef } from '#lib/internal/GenericInput.svelte'
 	import { BROWSER } from 'esm-env'
 	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte'
-	import type { UnwrapCustomEvents } from '$lib/utils.js'
-	import GenericInput, { type GenericInputRef } from '$lib/internal/GenericInput.svelte'
 
 	type $$Props = Omit<
 		ComponentProps<GenericInput<string, TextareaPluginInputParams>>,

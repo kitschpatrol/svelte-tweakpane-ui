@@ -20,7 +20,7 @@ async function generateComponentData(
 	outputFormat: 'json' | 'mdx', // Must match file extension
 	testProps?: ComponentDynamicPropTest[],
 ): Promise<boolean> {
-	const expandedPath = componentPath.replace('$lib', './src/lib')
+	const expandedPath = componentPath.replace('#lib', './src/lib')
 
 	const componentInfo = await getComponentInfo(expandedPath, testProps)
 

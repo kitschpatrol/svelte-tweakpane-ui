@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Checkbox, IntervalSlider, Ring, Separator, Slider, Stepper, Wheel } from '$lib'
+	import { Checkbox, IntervalSlider, Ring, Separator, Slider, Stepper, Wheel } from '#lib'
 
 	const min = 0
 	const max = 100

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Ring, type RingUnit } from '$lib'
+	import { Ring, type RingUnit } from '#lib'
 
 	const unitConfig: RingUnit = {
 		value: 20,

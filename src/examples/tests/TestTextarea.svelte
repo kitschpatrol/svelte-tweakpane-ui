@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Checkbox, Textarea } from '$lib'
+	import { Checkbox, Textarea } from '#lib'
 
 	let text = 'Cosmic Manifold'
 	let live = true

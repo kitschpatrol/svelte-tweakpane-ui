@@ -4,7 +4,7 @@
 		type ColorValueNumber,
 		type ColorValueRgbaTuple,
 		type ColorValueRgbObject,
-	} from '$lib'
+	} from '#lib'
 
 	let value: ColorValueRgbObject = { r: 0, g: 0, b: 0 }
 	let value2: ColorValueRgbaTuple = [0, 0, 0, 0]
