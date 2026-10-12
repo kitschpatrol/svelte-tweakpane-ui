@@ -20,7 +20,7 @@
 
 	type $$Props = Omit<
 		ComponentProps<GenericInput<FileValueInternal>>,
-		'plugin' | 'ref' | 'value'
+		'options' | 'plugin' | 'ref' | 'value'
 	> & {
 		/**
 		 * File data, or `undefined` to clear the file input.

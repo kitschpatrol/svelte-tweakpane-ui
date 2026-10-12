@@ -22,7 +22,7 @@
 
 	type $$Props = Omit<
 		ComponentProps<GenericInput<ImageValueInternal>>,
-		'plugin' | 'ref' | 'value'
+		'options' | 'plugin' | 'ref' | 'value'
 	> & {
 		/**
 		 * Image data as Base64-encoded string, or `undefined` to clear.
