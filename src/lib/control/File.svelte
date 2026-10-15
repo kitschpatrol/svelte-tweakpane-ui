@@ -121,7 +121,7 @@ A file input control.
 
 _Important: This component has some rough edges, and should be considered experimental._
 
-Integrates the [File Input](https://github.com/LuchoTurtle/tweakpane-plugin-file-import/blob/main/src/plugin.ts) control from [LuchoTurtle's](https://github.com/LuchoTurtle) [tweakpane-plugin-file-import](https://github.com/LuchoTurtle/tweakpane-plugin-file-import) plugin. Some of the control's parameter names have been changed for consistency with the `<Image>` CompositionEvent.
+Integrates the [File Input](https://github.com/LuchoTurtle/tweakpane-plugin-file-import/blob/main/src/plugin.ts) control from [Luís Arteiro's](https://github.com/LuchoTurtle) [tweakpane-plugin-file-import](https://github.com/LuchoTurtle/tweakpane-plugin-file-import) plugin. Some of the control's parameter names have been changed for consistency with the `<Image>` CompositionEvent.
 
 Use the `<Image>` control instead if you're working with images and want to see a thumbnail preview of the image.
 

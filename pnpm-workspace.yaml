@@ -3,6 +3,16 @@ allowBuilds:
   esbuild: true
   unrs-resolver: true
   workerd: true
+minimumReleaseAgeExclude:
+  - '@kitschpatrol/tweakpane-plugin-camerakit@0.3.1-fork.1'
+  - '@kitschpatrol/tweakpane-plugin-essentials@0.2.2-fork.1'
+  - '@kitschpatrol/tweakpane-plugin-file-import@1.2.0-fork.1'
+  - '@kitschpatrol/tweakpane-plugin-image@2.0.1-fork.1'
+  - '@kitschpatrol/tweakpane-plugin-inputs@1.0.4-fork.1'
+  - '@kitschpatrol/tweakpane-plugin-profiler@0.4.2-fork.1'
+  - '@kitschpatrol/tweakpane-plugin-rotation@0.2.1-fork.1'
+  - '@kitschpatrol/tweakpane-plugin-textarea@2.0.1-fork.1'
+  - '@kitschpatrol/tweakpane-plugin-waveform@1.0.4-fork.1'
 overrides:
   # Svelte Kit 2 declares cookie ^0.6.0 (GHSA-pxg6-pf52-xh8x); 1.1.x keeps the parse/serialize aliases Kit 2 imports
   '@sveltejs/kit@2>cookie': ~1.1.1
