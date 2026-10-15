@@ -7,10 +7,16 @@ const config: PlaywrightTestConfig = {
 	retries: process.env.CI !== undefined && process.env.CI !== '' ? 2 : 0,
 	testDir: 'tests',
 	testMatch: /(.+\.)?(test|spec)\.[jt]s/v,
+	use: {
+		baseURL: 'http://127.0.0.1:4173',
+	},
 	webServer: {
-		command: 'vite dev',
-		port: 5173,
-		reuseExistingServer: true,
+		// Keep tests separate from other projects using Vite's default dev port.
+		command: 'vite dev --host 127.0.0.1 --port 4173 --strictPort',
+		// eslint-disable-next-line ts/naming-convention -- Vite's environment variable is uppercase.
+		env: { BROWSER: 'none' },
+		reuseExistingServer: false,
+		url: 'http://127.0.0.1:4173',
 	},
 }
 
