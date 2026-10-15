@@ -34,6 +34,7 @@ jobs:
         uses: kitschpatrol/github-action-skill-to-pr@fe3e8b4aea5851133d8b064a68e92f7b7e4de1e4 # v1.1.1
         with:
           skill: ksc-update
+          title: Update dependencies.
           claude-code-oauth-token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           instructions: Preserve Svelte 4 compatibility
