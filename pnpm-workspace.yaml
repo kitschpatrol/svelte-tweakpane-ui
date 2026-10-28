@@ -4,6 +4,15 @@ allowBuilds:
   unrs-resolver: true
   workerd: true
 minimumReleaseAgeExclude:
+  - '@kitschpatrol/cspell-config@8.14.0'
+  - '@kitschpatrol/eslint-config@8.14.0'
+  - '@kitschpatrol/knip-config@8.14.0'
+  - '@kitschpatrol/mdat-config@8.14.0'
+  - '@kitschpatrol/prettier-config@8.14.0'
+  - '@kitschpatrol/remark-config@8.14.0'
+  - '@kitschpatrol/repo-config@8.14.0'
+  - '@kitschpatrol/shared-config@8.14.0'
+  - '@kitschpatrol/stylelint-config@8.14.0'
   - '@kitschpatrol/tweakpane-plugin-camerakit@0.3.1-fork.1'
   - '@kitschpatrol/tweakpane-plugin-essentials@0.2.2-fork.1'
   - '@kitschpatrol/tweakpane-plugin-file-import@1.2.0-fork.1'
@@ -13,6 +22,9 @@ minimumReleaseAgeExclude:
   - '@kitschpatrol/tweakpane-plugin-rotation@0.2.1-fork.1'
   - '@kitschpatrol/tweakpane-plugin-textarea@2.0.1-fork.1'
   - '@kitschpatrol/tweakpane-plugin-waveform@1.0.4-fork.1'
+  - '@kitschpatrol/typescript-config@8.14.0'
+  - mdat@3.6.6
+  - remark-mdat@3.1.2
 overrides:
   # Svelte Kit 2 declares cookie ^0.6.0 (GHSA-pxg6-pf52-xh8x); 1.1.x keeps the parse/serialize aliases Kit 2 imports
   '@sveltejs/kit@2>cookie': ~1.1.1
@@ -28,6 +40,9 @@ peerDependencyRules:
     # https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/issues/1075
     # https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/pull/1081
     eslint-plugin-jsx-a11y@6>eslint: ^10.0.0
+permissions:
+  '@kitschpatrol/shared-config':
+    skills: true
 publicHoistPattern:
   - '@kitschpatrol/repo-config'
   - '@kitschpatrol/typescript-config'
@@ -39,3 +54,7 @@ publicHoistPattern:
   - '*prettier*'
   - '*remark*'
   - '*stylelint*'
+skills:
+  dirs:
+    - .agents/skills
+    - .claude/skills

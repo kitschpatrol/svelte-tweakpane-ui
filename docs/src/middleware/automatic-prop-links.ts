@@ -1,5 +1,4 @@
 /* eslint-disable ts/no-unsafe-member-access */
-/* eslint-disable ts/no-unsafe-argument */
 import { defineDomMiddleware } from 'astro-html-kit/middleware'
 import { slug } from 'github-slugger'
 import type { ComponentData } from '../utils/prop-utilities'
@@ -9,7 +8,7 @@ import { linkifyTerms } from './utilities'
 export const automaticPropLinks = defineDomMiddleware((context, document) => {
 	const componentData = context.props.entry?.data?.componentData as ComponentData
 	if (componentData) {
-		const props = allProps(context.props.entry.data.componentData)
+		const props = allProps(componentData)
 
 		const propLinks = props.reduce<Record<string, string>>((acc, prop) => {
 			acc[prop.name] = `#${slug(prop.name)}`

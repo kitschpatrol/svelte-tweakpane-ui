@@ -7,9 +7,6 @@ import { getExportedComponents, getExportedJs } from './ast-tools'
 
 const verbose = false
 
-type Export = { default?: string; svelte?: string; types: string }
-type Exports = Record<string, Export>
-
 // Gets all props for a given component from its definition file
 function addExports(sourceIndexFile: string, closestPackage: ReadResult) {
 	const { path } = closestPackage
@@ -17,7 +14,7 @@ function addExports(sourceIndexFile: string, closestPackage: ReadResult) {
 	console.log(`Adding Svelte components found in ${sourceIndexFile} to ${path}`)
 
 	// Default export
-	const exports: Exports = {
+	const exports: Record<string, { default?: string; svelte?: string; types: string }> = {
 		'.': {
 			types: './dist/index.d.ts',
 			// eslint-disable-next-line perfectionist/sort-objects

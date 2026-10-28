@@ -25,11 +25,9 @@ async function formatEmbeddedCodeInFile(file: string): Promise<number> {
 				// Using the original opening and closing backticks
 				formattedData += `${opening}${formattedCode.trimEnd()}${closing}`
 			} catch (error) {
-				if (error instanceof Error) {
-					console.error(`Error formatting code: ${error.message}`)
-				} else {
-					console.error(`Error formatting code: ${String(error)}`)
-				}
+				console.error(
+					`Error formatting code: ${error instanceof Error ? error.message : String(error)}`,
+				)
 
 				formattedData += fullMatch
 			}
@@ -47,11 +45,7 @@ async function formatEmbeddedCodeInFile(file: string): Promise<number> {
 			await fs.writeFile(file, formattedData, 'utf8')
 		}
 	} catch (error) {
-		if (error instanceof Error) {
-			console.error(`Error: ${error.message}`)
-		} else {
-			console.error(`Error: ${String(error)}`)
-		}
+		console.error(`Error: ${error instanceof Error ? error.message : String(error)}`)
 	}
 
 	return embedsFormatted
@@ -69,11 +63,9 @@ export async function formatEmbeddedCode(): Promise<void> {
 	const totalFilesTouched = results.filter((count) => count > 0).length
 	const totalEmbedsFormatted = results.reduce((sum, count) => sum + count, 0)
 
-	if (totalFilesTouched === 0) {
-		console.log(`Embedded formatting is correct in all files.`)
-	} else {
-		console.log(
-			`Formatted ${totalEmbedsFormatted} embedded code blocks across ${totalFilesTouched} files.`,
-		)
-	}
+	console.log(
+		totalFilesTouched === 0
+			? 'Embedded formatting is correct in all files.'
+			: `Formatted ${totalEmbedsFormatted} embedded code blocks across ${totalFilesTouched} files.`,
+	)
 }
