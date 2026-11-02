@@ -33,7 +33,7 @@
 	{#if folderWrap}
 		<Folder>
 			{#each Object.keys(testObject) as key}
-				{#if typeof testObject[key] !== 'number' || showNumbers}
+				{#if showNumbers || typeof testObject[key] !== 'number'}
 					<AutoValue label={key} bind:value={testObject[key]} />
 				{/if}
 			{/each}
@@ -41,7 +41,7 @@
 		<Slider label="Some Number" bind:value={someNumber} />
 	{:else}
 		{#each Object.keys(testObject) as key}
-			{#if typeof testObject[key] !== 'number' || showNumbers}
+			{#if showNumbers || typeof testObject[key] !== 'number'}
 				<AutoValue label={key} bind:value={testObject[key]} />
 			{/if}
 		{/each}

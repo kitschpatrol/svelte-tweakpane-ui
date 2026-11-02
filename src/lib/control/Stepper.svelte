@@ -82,8 +82,7 @@ A control for simple incremental value changes.
 Similar in functionality to a `<Slider>`, but with nice big buttons to increment and decrement the value.
 
 Integrates the [Stepper](https://github.com/tallneil/tweakpane-plugin-inputs/blob/main/src/stepper/plugin.ts)
-control from [Neil Shankar's](https://tallneil.io/) ["Inputs for Tweakpane
-" plugin](https://github.com/tallneil/tweakpane-plugin-inputs).
+control from [Neil Shankar's](https://tallneil.io/) ["Inputs for Tweakpane" plugin](https://github.com/tallneil/tweakpane-plugin-inputs).
 
 Usage outside of a `<Pane>` component will implicitly wrap the stepper in `<Pane position="inline">`.
 

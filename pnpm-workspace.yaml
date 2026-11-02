@@ -3,6 +3,8 @@ allowBuilds:
   esbuild: true
   unrs-resolver: true
   workerd: true
+minimumReleaseAgeExclude:
+  - tweakpane-plugin-color-plus@0.7.1
 overrides:
   # Svelte Kit 2 declares cookie ^0.6.0 (GHSA-pxg6-pf52-xh8x); 1.1.x keeps the parse/serialize aliases Kit 2 imports
   '@sveltejs/kit@2>cookie': ~1.1.1
@@ -18,6 +20,9 @@ peerDependencyRules:
     # https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/issues/1075
     # https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/pull/1081
     eslint-plugin-jsx-a11y@6>eslint: ^10.0.0
+permissions:
+  '@kitschpatrol/shared-config':
+    skills: true
 publicHoistPattern:
   - '@kitschpatrol/repo-config'
   - '@kitschpatrol/typescript-config'
@@ -29,3 +34,7 @@ publicHoistPattern:
   - '*prettier*'
   - '*remark*'
   - '*stylelint*'
+skills:
+  dirs:
+    - .agents/skills
+    - .claude/skills

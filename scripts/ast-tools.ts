@@ -335,11 +335,7 @@ export async function getLastUpdatedDate(filePath: string): Promise<Date | undef
 			}
 
 			const date = new Date(stdout.trim())
-			if (Number.isNaN(date.getTime())) {
-				resolve(undefined)
-			} else {
-				resolve(date)
-			}
+			resolve(Number.isNaN(date.getTime()) ? undefined : date)
 		})
 	})
 }
