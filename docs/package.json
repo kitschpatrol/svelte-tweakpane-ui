@@ -17,7 +17,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "shx mkdir -p ./src/content/acknowledgments && pnpm licenses list --json > ./src/content/acknowledgments/acknowledgments-docs.json.tmp && shx mv ./src/content/acknowledgments/acknowledgments-docs.json.tmp ./src/content/acknowledgments/acknowledgments-docs.json && astro build",
-		"clean": "rm -rf .astro && rm -rf dist",
+		"clean-deep": "rm -rf .astro && rm -rf dist",
 		"dev": "astro dev",
 		"preview": "poptab ; open https://localhost:8787/svelte-tweakpane-ui ; wrangler dev --show-interactive-dev-session false --https-cert-path ~/.vite-plugin-mkcert/cert.pem --https-key-path ~/.vite-plugin-mkcert/dev.pem",
 		"start": "astro dev",
