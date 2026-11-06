@@ -1,6 +1,6 @@
 import { cspellConfig } from '@kitschpatrol/cspell-config'
 
 export default cspellConfig({
-	ignorePaths: ['./build/**'],
-	words: ['onwarn', 'prophoto'],
+	ignorePaths: ['./build/**', '**/changelog.md'],
+	words: ['chagent', 'onwarn', 'prophoto'],
 })

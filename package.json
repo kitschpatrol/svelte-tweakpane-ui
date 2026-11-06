@@ -202,7 +202,7 @@
 		"kit-preview": "vite preview",
 		"lint": "pnpm build && ksc lint --skip repo",
 		"prepare": "svelte-kit sync",
-		"release": "pnpm build && bumpp --commit 'Release: %s' && pnpm publish --otp $(op item get npm --otp) --ignore-scripts",
+		"release": "pnpm build && bumpp --commit 'Release: %s' --all --execute 'chagent --root-changelog package --skip-package docs' && pnpm publish --otp $(op item get npm --otp) --ignore-scripts",
 		"rewrap": "rewrap -i --column 100 `find src \\( -name '*.svelte' -o -name '*.ts'  -o -name '*.html' \\) -type f | grep -v src/examples`",
 		"test": "pnpm run --sequential /^test:/",
 		"test:integration": "playwright test"
@@ -227,6 +227,7 @@
 		"tweakpane-plugin-color-plus": "0.7.1"
 	},
 	"devDependencies": {
+		"@kitschpatrol/chagent": "0.4.0",
 		"@kitschpatrol/shared-config": "^8.14.0",
 		"@phenomnomnominal/tsquery": "^6.2.0",
 		"@playwright/test": "^1.64.1",

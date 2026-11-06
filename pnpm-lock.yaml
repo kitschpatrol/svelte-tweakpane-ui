@@ -222,6 +222,9 @@ importers:
         specifier: 0.7.1
         version: 0.7.1(tweakpane@4.0.5)
     devDependencies:
+      '@kitschpatrol/chagent':
+        specifier: 0.4.0
+        version: 0.4.0(bumpp@12.3.0)
       '@kitschpatrol/shared-config':
         specifier: ^8.14.0
         version: 8.14.0(@pnpm/logger@1100.0.0)(@types/estree@1.0.10)(@types/node@24.13.6)(@types/unist@3.0.3)(@typescript-eslint/utils@8.72.1(eslint@10.14.0(jiti@2.7.0)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3))(jiti@2.7.0)(mdast-util-from-markdown@2.1.0(supports-color@10.2.2))(mdast-util-mdx@3.0.0(supports-color@10.2.2))(micromark-util-types@2.0.3)(postcss-html@2.0.0(postcss@8.5.32))(remark-parse@11.0.0(supports-color@10.2.2))(stylelint-order@8.1.2(stylelint@17.16.0(supports-color@10.2.2)(typescript@6.0.3)))(supports-color@10.2.2)(svelte@4.2.20)(typescript@6.0.3)
@@ -1709,6 +1712,16 @@ packages:
   '@keyv/serialize@1.1.1':
     resolution: {integrity: sha512-dXn3FZhPv0US+7dtJsIi2R+c7qWYiReoEh5zUntWCf4oSpMNib8FDhSoed6m3QyZdx5hK7iLFkYk3rNxwt8vTA==}
 
+  '@kitschpatrol/chagent@0.4.0':
+    resolution: {integrity: sha512-qOH2lhy5M04LE47WuXbi/N9bTeKXA4ZgGHGDm3z6iutCMk7m//M7/mjibiwRDBa/wiV9bqrRhq7Nj3iY4Jaqdg==}
+    engines: {node: ^24.16.0 || >=26.3.0}
+    hasBin: true
+    peerDependencies:
+      bumpp: '>=12.3.0'
+    peerDependenciesMeta:
+      bumpp:
+        optional: true
+
   '@kitschpatrol/cspell-config@8.14.0':
     resolution: {integrity: sha512-/M9c+Bx8dHZve2tFQg75bwInPZp75+9z9N3zQgffoRcpok9BMuWly8DO2hu9am/sNmm5pSrKvj1ZWCH6P4Jxdw==}
     engines: {node: ^24.15.0 || >=26.0.0}
@@ -1731,6 +1744,10 @@ packages:
 
   '@kitschpatrol/node-inspect-extracted@3.3.3-fork.1':
     resolution: {integrity: sha512-LD2KVtWqIXRNwi/uMbc/KUmt9lOSWu5zXo40sd/aFYbAAr6lNqY0dFJ8ObZkcyrptOkqVWXPs3FvG6wXG0nKEw==}
+    engines: {node: '>=14.6.0'}
+
+  '@kitschpatrol/node-inspect-extracted@3.3.4-fork.1':
+    resolution: {integrity: sha512-XU0fJz2C6eYRGc2EIaNdbrMH0Y7TJvWouAp0kpl2DZnsgql2Mjz0ccOkIdCVu5MFmnpLYGqWXW6A4DSXHZDEPg==}
     engines: {node: '>=14.6.0'}
 
   '@kitschpatrol/prettier-config@8.14.0':
@@ -5426,6 +5443,15 @@ packages:
       electron:
         optional: true
 
+  lognow@0.8.8:
+    resolution: {integrity: sha512-KXBuDk0HKgUkvTsgs3gXbmIu+/8wvjaVFrQLhJo4wvopAaAva7nrOJ7fQpTjSluoV5RBBZC9teveg1IHJV1seA==}
+    engines: {node: ^20.19.0 || ^22.0.0 || ^24.0.0 || >=26.0.0}
+    peerDependencies:
+      electron: '>=39.8.10'
+    peerDependenciesMeta:
+      electron:
+        optional: true
+
   longest-streak@3.1.0:
     resolution: {integrity: sha512-9Ri+o0JYgehTaVBBDoMqIl8GXtbWg711O3srftcHhZ0dqnETqLaoIK0x17fUw9rFSlK/0NlsKe0Ahhyl5pXE2g==}
 
@@ -6711,6 +6737,11 @@ packages:
 
   semver@7.8.5:
     resolution: {integrity: sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
+  semver@7.8.6:
+    resolution: {integrity: sha512-9lpSSU4Mly3mrtruwLs1eLK6+gzbzqeBFwRNjIjE+9LuDpWdYctrQlQ3ej1Ilgi7gknpsTRnPoLP8DpCHqHIJw==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -9105,6 +9136,22 @@ snapshots:
 
   '@keyv/serialize@1.1.1': {}
 
+  '@kitschpatrol/chagent@0.4.0(bumpp@12.3.0)':
+    dependencies:
+      '@clack/prompts': 1.8.1
+      '@types/node': 24.13.6
+      cosmiconfig: 10.0.1
+      cross-spawn: 7.0.6
+      lognow: 0.8.8
+      semver: 7.8.6
+      yaml: 2.9.1
+      yargs: 18.2.0
+      zod: 4.6.7
+    optionalDependencies:
+      bumpp: 12.3.0
+    transitivePeerDependencies:
+      - electron
+
   '@kitschpatrol/cspell-config@8.14.0(@types/node@24.13.6)(typescript@6.0.3)':
     dependencies:
       '@cspell/cspell-types': 10.4.0
@@ -9251,6 +9298,8 @@ snapshots:
       - typescript
 
   '@kitschpatrol/node-inspect-extracted@3.3.3-fork.1': {}
+
+  '@kitschpatrol/node-inspect-extracted@3.3.4-fork.1': {}
 
   '@kitschpatrol/prettier-config@8.14.0(@types/node@24.13.6)(supports-color@10.2.2)(svelte@4.2.20)(typescript@6.0.3)':
     dependencies:
@@ -13366,6 +13415,25 @@ snapshots:
       untildify: 6.0.0
       wrap-ansi: 10.0.2
 
+  lognow@0.8.8:
+    dependencies:
+      '@kitschpatrol/node-inspect-extracted': 3.3.4-fork.1
+      '@kitschpatrol/safe-stable-stringify': 2.5.0-fork.2
+      '@loglayer/context-manager': 2.3.0
+      '@loglayer/transport': 3.3.0
+      '@loglayer/transport-log-file-rotation': 3.3.0
+      '@types/node': 20.19.43
+      defu: 6.1.7
+      filenamify: 7.0.3
+      loglayer: 9.4.0
+      next-json: 0.5.1
+      read-package-up: 12.0.0
+      serialize-error: 13.0.2
+      terminal-size: 4.0.1
+      tinyrainbow: 3.2.0
+      untildify: 6.0.0
+      wrap-ansi: 10.0.2
+
   longest-streak@3.1.0: {}
 
   lru-cache@10.4.3: {}
@@ -15326,6 +15394,8 @@ snapshots:
   semver@5.7.2: {}
 
   semver@7.8.5: {}
+
+  semver@7.8.6: {}
 
   serialize-error@13.0.2:
     dependencies:

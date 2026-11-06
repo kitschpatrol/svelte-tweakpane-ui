@@ -4,6 +4,7 @@ allowBuilds:
   unrs-resolver: true
   workerd: true
 minimumReleaseAgeExclude:
+  - '@kitschpatrol/chagent@0.4.0'
   - tweakpane-plugin-color-plus@0.7.1
 overrides:
   # Svelte Kit 2 declares cookie ^0.6.0 (GHSA-pxg6-pf52-xh8x); 1.1.x keeps the parse/serialize aliases Kit 2 imports

@@ -33,7 +33,7 @@ jobs:
 
       - name: Release Notes
         id: release-notes
-        uses: kitschpatrol/github-action-release-changelog@5cc343b830037ae77937e9e66c31be0da5798efe # v2.0.10
+        uses: kitschpatrol/github-action-release-changelog@e28d84e79b74ee3d1745010c69aafc0f07864ce5 # v3.0.0
 
       - name: Release
         id: release

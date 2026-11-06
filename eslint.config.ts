@@ -78,6 +78,7 @@ export default eslintConfig({
 		'docs/src/examples/*', // Generated doc files, error free but redundant
 		'**/*.md/*.svelte', // Virtual Svelte files in MD code blocks (not in tsconfig)
 		'**/*.mdx/*.{svelte,js}', // Virtual Svelte files in MD code blocks (not in tsconfig)
+		'**/changelog.md',
 	],
 	svelte: {
 		overrides: {
