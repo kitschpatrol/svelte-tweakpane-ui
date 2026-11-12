@@ -9,9 +9,9 @@
 	// TODO CLS prerendering slightly broken because component has fractional heights
 	// TODO minor issues with internal vs. external event count
 
-	import type { PluginInputParams as ImageOptions } from '@kitschpatrol/tweakpane-plugin-image/dist/types/plugin.d.ts'
+	import type { PluginInputParams as ImageOptions } from '@kitschpatrol/tweakpane-plugin-image/lite'
 	import type { ComponentProps } from 'svelte'
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-image'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-image/lite'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import GenericInput from '#lib/internal/GenericInput.svelte'
 	import { fillWith } from '#lib/utils.js'

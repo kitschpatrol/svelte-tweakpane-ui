@@ -171,32 +171,32 @@ importers:
   .:
     dependencies:
       '@kitschpatrol/tweakpane-plugin-camerakit':
-        specifier: 0.3.1-fork.1
-        version: 0.3.1-fork.1(tweakpane@4.0.5)
+        specifier: 0.3.1-fork.2
+        version: 0.3.1-fork.2(tweakpane@4.0.5)
       '@kitschpatrol/tweakpane-plugin-essentials':
-        specifier: 0.2.2-fork.1
-        version: 0.2.2-fork.1(tweakpane@4.0.5)
+        specifier: 0.2.2-fork.2
+        version: 0.2.2-fork.2(tweakpane@4.0.5)
       '@kitschpatrol/tweakpane-plugin-file-import':
-        specifier: 1.2.0-fork.1
-        version: 1.2.0-fork.1(tweakpane@4.0.5)
+        specifier: 1.2.0-fork.2
+        version: 1.2.0-fork.2(tweakpane@4.0.5)
       '@kitschpatrol/tweakpane-plugin-image':
-        specifier: 2.0.1-fork.1
-        version: 2.0.1-fork.1(tweakpane@4.0.5)
+        specifier: 2.0.1-fork.2
+        version: 2.0.1-fork.2(tweakpane@4.0.5)
       '@kitschpatrol/tweakpane-plugin-inputs':
-        specifier: 1.0.4-fork.1
-        version: 1.0.4-fork.1(tweakpane@4.0.5)
+        specifier: 1.0.4-fork.2
+        version: 1.0.4-fork.2(tweakpane@4.0.5)
       '@kitschpatrol/tweakpane-plugin-profiler':
-        specifier: 0.4.2-fork.1
-        version: 0.4.2-fork.1(tweakpane@4.0.5)
+        specifier: 0.4.2-fork.2
+        version: 0.4.2-fork.2(tweakpane@4.0.5)
       '@kitschpatrol/tweakpane-plugin-rotation':
-        specifier: 0.2.1-fork.1
-        version: 0.2.1-fork.1(tweakpane@4.0.5)
+        specifier: 0.2.1-fork.2
+        version: 0.2.1-fork.2(tweakpane@4.0.5)
       '@kitschpatrol/tweakpane-plugin-textarea':
-        specifier: 2.0.1-fork.1
-        version: 2.0.1-fork.1(tweakpane@4.0.5)
+        specifier: 2.0.1-fork.2
+        version: 2.0.1-fork.2(tweakpane@4.0.5)
       '@kitschpatrol/tweakpane-plugin-waveform':
-        specifier: 1.0.4-fork.1
-        version: 1.0.4-fork.1(tweakpane@4.0.5)
+        specifier: 1.0.4-fork.2
+        version: 1.0.4-fork.2(tweakpane@4.0.5)
       '@tweakpane/core':
         specifier: 2.0.5
         version: 2.0.5
@@ -1853,57 +1853,57 @@ packages:
     resolution: {integrity: sha512-/UdaJwpTWTAK/UInXWEzNdn1oMt4uF+IJn1QNRlIGnOXHBmJXVgOaBOT6AgqScd55X9+suchmRFcZCDIA1IFag==}
     engines: {node: '>= 18'}
 
-  '@kitschpatrol/tweakpane-plugin-camerakit@0.3.1-fork.1':
-    resolution: {integrity: sha512-1TIJ0yDbN46v1rnRXIPhlEaDCiF7BpnQw6sCM7bhFnZZcI15/rjVI8kJsHSfpS4Cq91vWji41SV/a65h+/HQdw==}
-    engines: {node: '>=18.0.0'}
+  '@kitschpatrol/tweakpane-plugin-camerakit@0.3.1-fork.2':
+    resolution: {integrity: sha512-xH2iwVZAeRhJg6a0JJbNcBfdci1YIMwdxXzKfO3XsmBuJM/ZwLD/aaaPHnOGiOlFfsyH4H1pVfokKEXA0FFuAQ==}
+    engines: {node: ^18.0.0 || ^20.0.0 || ^22.0.0 || ^24.0.0 || >=26.0.0}
     peerDependencies:
       tweakpane: ^4.0.0
 
-  '@kitschpatrol/tweakpane-plugin-essentials@0.2.2-fork.1':
-    resolution: {integrity: sha512-YTGmJDgQTurZILH2Th+MTiZoVnYQZE+TyuQBKjCBu9a4pxNxUc1fl3wKwXtXOa6W93e0NOEotBf1HitgkoJIMQ==}
-    engines: {node: '>=18.0.0'}
+  '@kitschpatrol/tweakpane-plugin-essentials@0.2.2-fork.2':
+    resolution: {integrity: sha512-5cdybYjNWocmfhZAkIaaX383D6RfexJDbJ2pG0wcvNz/j6VkpsRFFxsb75H6ZrZxAjH5gZDPCCqrz6AvAyqQqQ==}
+    engines: {node: ^18.0.0 || ^20.0.0 || ^22.0.0 || ^24.0.0 || >=26.0.0}
     peerDependencies:
       tweakpane: ^4.0.0
 
-  '@kitschpatrol/tweakpane-plugin-file-import@1.2.0-fork.1':
-    resolution: {integrity: sha512-1/Lngyo/Mtrq3aQA1xqZY/JQehM2n0oqPh86+m1dXS2dmf2lGeSTpMHVg0UW2HLBNIeYMdRh2tmhz9IpognIWA==}
-    engines: {node: '>=18.0.0'}
+  '@kitschpatrol/tweakpane-plugin-file-import@1.2.0-fork.2':
+    resolution: {integrity: sha512-CDDmZhWzrHDsMXtQEuOMbq2hJlgkJST1QXAKE7+nhZLElITQVTy0EWB9U6J0wgck8qKWaWqqBP3JLxK1vy5KjA==}
+    engines: {node: ^18.0.0 || ^20.0.0 || ^22.0.0 || ^24.0.0 || >=26.0.0}
     peerDependencies:
       tweakpane: ^4.0.0
 
-  '@kitschpatrol/tweakpane-plugin-image@2.0.1-fork.1':
-    resolution: {integrity: sha512-0/15JfvjAJNVK55MXksvjov1ACR2bIm0a9aRrdKvQ97ZUawKMYEfcKQbDkycBRYH6XbFJgILnTHTixkRSb09aQ==}
-    engines: {node: '>=18.0.0'}
+  '@kitschpatrol/tweakpane-plugin-image@2.0.1-fork.2':
+    resolution: {integrity: sha512-CEOklWcJHB3kfj5goxjjs0S4ssZwuQ3+ixAtpXTnvGGQFDytk6TICr/rTz+K4JW4Y67BchiqjAVwrCVO0j31UA==}
+    engines: {node: ^18.0.0 || ^20.0.0 || ^22.0.0 || ^24.0.0 || >=26.0.0}
     peerDependencies:
       tweakpane: ^4.0.0
 
-  '@kitschpatrol/tweakpane-plugin-inputs@1.0.4-fork.1':
-    resolution: {integrity: sha512-s1GW92gdYJmDYvlHuIpkyyFxfgzPQixt0eM8xEL2gox7xHOTHiFgiyed/MvsqSgt/+4WdkrdDt73Rl816K4TRQ==}
-    engines: {node: '>=18.0.0'}
+  '@kitschpatrol/tweakpane-plugin-inputs@1.0.4-fork.2':
+    resolution: {integrity: sha512-/65MQvmamnuvxmwW6vKcW4ZgufCKmTZH8hF5plZkBIkmr521YpGM2J+N00K9vZbDnfbw6i26Z2FGI/F4NUdnAQ==}
+    engines: {node: ^18.0.0 || ^20.0.0 || ^22.0.0 || ^24.0.0 || >=26.0.0}
     peerDependencies:
       tweakpane: ^4.0.0
 
-  '@kitschpatrol/tweakpane-plugin-profiler@0.4.2-fork.1':
-    resolution: {integrity: sha512-FXQbOq5xt0kl383e9iuEMTdvfgepRx2y9mE66OJVSBERf4zdaofomaGdD2+Z6/B7h7VsKZiLt2ly0ZYmI85T2g==}
-    engines: {node: '>=18.0.0'}
+  '@kitschpatrol/tweakpane-plugin-profiler@0.4.2-fork.2':
+    resolution: {integrity: sha512-iIDifYUXURh6CXnOp+3QeSCfR6KzYRDETIoNzknuC70HpkOMxFTwzXFKogdhTAj3wtjNOo/Z232PbgU5AtJBFA==}
+    engines: {node: ^18.0.0 || ^20.0.0 || ^22.0.0 || ^24.0.0 || >=26.0.0}
     peerDependencies:
       tweakpane: ^4.0.0
 
-  '@kitschpatrol/tweakpane-plugin-rotation@0.2.1-fork.1':
-    resolution: {integrity: sha512-UyNMKtzEeLbQ6AVeBCHrxgoP/32o409hSg2hSPWMnhi2y3rXnDOcbF3RI0VNcYxbpYRmzlFUwMruZDqT8VrgTw==}
-    engines: {node: '>=18.0.0'}
+  '@kitschpatrol/tweakpane-plugin-rotation@0.2.1-fork.2':
+    resolution: {integrity: sha512-fIMdHNGiXXbkWFC/ZLVIchSev1eXvJFeIAizzQPx+B96TUgH4QoUNTLuChB+rSholuhX2YYNFXknmMNo7pBy5w==}
+    engines: {node: ^18.0.0 || ^20.0.0 || ^22.0.0 || ^24.0.0 || >=26.0.0}
     peerDependencies:
       tweakpane: ^4.0.0
 
-  '@kitschpatrol/tweakpane-plugin-textarea@2.0.1-fork.1':
-    resolution: {integrity: sha512-KAKg7kK++Mj1MXVE8Eol6oSYtyzHf/LKposbasqng+H2aS94cDz4FE6xKRkebAf0AEKE9mGNfwgY9hoVSgNUGA==}
-    engines: {node: '>=18.0.0'}
+  '@kitschpatrol/tweakpane-plugin-textarea@2.0.1-fork.2':
+    resolution: {integrity: sha512-P/DUhpBKxEC3MoBFM+LLDPaM0W6Urg1Yfh/PWX3Y7f2fuySOb4V+DZCLrer9x29hnLAFLWR+509AWNoKAWpiSA==}
+    engines: {node: ^18.0.0 || ^20.0.0 || ^22.0.0 || ^24.0.0 || >=26.0.0}
     peerDependencies:
       tweakpane: ^4.0.0
 
-  '@kitschpatrol/tweakpane-plugin-waveform@1.0.4-fork.1':
-    resolution: {integrity: sha512-/pqa1rXebqbMPrVID5rhWlrGh0h/v0zMlcNK9Vc5in+mvaXkqk7kdOVHW75AaDzfZRXhCvkwCLT5IKNuZlxXQw==}
-    engines: {node: '>=18.0.0'}
+  '@kitschpatrol/tweakpane-plugin-waveform@1.0.4-fork.2':
+    resolution: {integrity: sha512-1JNDp2C8uhHH6ypZYusN8G39Qd/FtXcdfTjtiGs2olOFc2wAd5lrHFSgH7gsvBVud3emjIXo0QMo9/rQw44xLg==}
+    engines: {node: ^18.0.0 || ^20.0.0 || ^22.0.0 || ^24.0.0 || >=26.0.0}
     peerDependencies:
       tweakpane: ^4.0.0
 
@@ -9588,47 +9588,47 @@ snapshots:
       '@kitschpatrol/tokei-win32-ia32-msvc': 2.1.0
       '@kitschpatrol/tokei-win32-x64-msvc': 2.1.0
 
-  '@kitschpatrol/tweakpane-plugin-camerakit@0.3.1-fork.1(tweakpane@4.0.5)':
+  '@kitschpatrol/tweakpane-plugin-camerakit@0.3.1-fork.2(tweakpane@4.0.5)':
     dependencies:
       '@tweakpane/core': 2.0.5
       tweakpane: 4.0.5
 
-  '@kitschpatrol/tweakpane-plugin-essentials@0.2.2-fork.1(tweakpane@4.0.5)':
+  '@kitschpatrol/tweakpane-plugin-essentials@0.2.2-fork.2(tweakpane@4.0.5)':
     dependencies:
       '@tweakpane/core': 2.0.5
       tweakpane: 4.0.5
 
-  '@kitschpatrol/tweakpane-plugin-file-import@1.2.0-fork.1(tweakpane@4.0.5)':
+  '@kitschpatrol/tweakpane-plugin-file-import@1.2.0-fork.2(tweakpane@4.0.5)':
     dependencies:
       '@tweakpane/core': 2.0.5
       tweakpane: 4.0.5
 
-  '@kitschpatrol/tweakpane-plugin-image@2.0.1-fork.1(tweakpane@4.0.5)':
+  '@kitschpatrol/tweakpane-plugin-image@2.0.1-fork.2(tweakpane@4.0.5)':
     dependencies:
       '@tweakpane/core': 2.0.5
       tweakpane: 4.0.5
 
-  '@kitschpatrol/tweakpane-plugin-inputs@1.0.4-fork.1(tweakpane@4.0.5)':
+  '@kitschpatrol/tweakpane-plugin-inputs@1.0.4-fork.2(tweakpane@4.0.5)':
     dependencies:
       '@tweakpane/core': 2.0.5
       tweakpane: 4.0.5
 
-  '@kitschpatrol/tweakpane-plugin-profiler@0.4.2-fork.1(tweakpane@4.0.5)':
+  '@kitschpatrol/tweakpane-plugin-profiler@0.4.2-fork.2(tweakpane@4.0.5)':
     dependencies:
       '@tweakpane/core': 2.0.5
       tweakpane: 4.0.5
 
-  '@kitschpatrol/tweakpane-plugin-rotation@0.2.1-fork.1(tweakpane@4.0.5)':
+  '@kitschpatrol/tweakpane-plugin-rotation@0.2.1-fork.2(tweakpane@4.0.5)':
     dependencies:
       '@tweakpane/core': 2.0.5
       tweakpane: 4.0.5
 
-  '@kitschpatrol/tweakpane-plugin-textarea@2.0.1-fork.1(tweakpane@4.0.5)':
+  '@kitschpatrol/tweakpane-plugin-textarea@2.0.1-fork.2(tweakpane@4.0.5)':
     dependencies:
       '@tweakpane/core': 2.0.5
       tweakpane: 4.0.5
 
-  '@kitschpatrol/tweakpane-plugin-waveform@1.0.4-fork.1(tweakpane@4.0.5)':
+  '@kitschpatrol/tweakpane-plugin-waveform@1.0.4-fork.2(tweakpane@4.0.5)':
     dependencies:
       '@tweakpane/core': 2.0.5
       tweakpane: 4.0.5

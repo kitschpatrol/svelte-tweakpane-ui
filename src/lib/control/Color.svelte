@@ -1,8 +1,5 @@
 <script context="module" lang="ts">
-	import type {
-		RgbaColorObject,
-		RgbColorObject,
-	} from '@tweakpane/core/dist/input-binding/color/model/color.js'
+	import type { RgbaColorObject, RgbColorObject } from '@tweakpane/core'
 	import type { Simplify, ValueChangeEvent } from '#lib/utils.js'
 
 	export type ColorValueRgbTuple = [r: number, g: number, b: number]

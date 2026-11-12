@@ -6,9 +6,9 @@
 </script>
 
 <script lang="ts">
-	import type { StepperInputParams } from '@kitschpatrol/tweakpane-plugin-inputs/dist/types/stepper/plugin.d.ts'
+	import type { StepperInputParams } from '@kitschpatrol/tweakpane-plugin-inputs/lite'
 	import type { ComponentProps } from 'svelte'
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-inputs'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-inputs/lite'
 	import GenericSlider from '#lib/internal/GenericSlider.svelte'
 
 	type $$Props = Omit<

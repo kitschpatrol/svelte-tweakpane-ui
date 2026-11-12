@@ -4,11 +4,13 @@
 </script>
 
 <script lang="ts">
-	import type { FpsGraphBladeApi as FpsGraphRef } from '@kitschpatrol/tweakpane-plugin-essentials'
-	import type { FpsGraphBladeParams as FpsGraphOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/fps-graph/plugin.js'
+	import type {
+		FpsGraphBladeParams as FpsGraphOptions,
+		FpsGraphBladeApi as FpsGraphRef,
+	} from '@kitschpatrol/tweakpane-plugin-essentials/lite'
 	import type { UnwrapCustomEvents } from '#lib/utils.js'
 	import type { ComponentProps } from 'svelte'
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials/lite'
 	import Blade from '#lib/core/Blade.svelte'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import { fillWith } from '#lib/utils.js'

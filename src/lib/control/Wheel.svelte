@@ -5,9 +5,9 @@
 </script>
 
 <script lang="ts">
-	import type { WheelInputParams } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.d.ts'
+	import type { WheelInputParams } from '@kitschpatrol/tweakpane-plugin-camerakit/lite'
 	import type { ComponentProps } from 'svelte'
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-camerakit'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-camerakit/lite'
 	import GenericSlider from '#lib/internal/GenericSlider.svelte'
 
 	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {

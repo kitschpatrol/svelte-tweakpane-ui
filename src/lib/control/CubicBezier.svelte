@@ -23,10 +23,12 @@
   */
 
 	// TODO calc util already in TP?
-	import type { CubicBezierApi as CubicBezierRef } from '@kitschpatrol/tweakpane-plugin-essentials'
-	import type { CubicBezierBladeParams as CubicBezierOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/cubic-bezier/plugin.d.ts'
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
-	import { CubicBezier } from '@kitschpatrol/tweakpane-plugin-essentials'
+	import type {
+		CubicBezierBladeParams as CubicBezierOptions,
+		CubicBezierApi as CubicBezierRef,
+	} from '@kitschpatrol/tweakpane-plugin-essentials/lite'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials/lite'
+	import { CubicBezier } from '@kitschpatrol/tweakpane-plugin-essentials/lite'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import GenericBladeFolding from '#lib/internal/GenericBladeFolding.svelte'
 	import { fillWith, type UnwrapCustomEvents } from '#lib/utils.js'

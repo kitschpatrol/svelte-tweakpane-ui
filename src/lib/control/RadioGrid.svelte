@@ -5,30 +5,16 @@
 </script>
 
 <script generics="T extends boolean | number | string" lang="ts">
-	import type { GenericInputOptions } from '#lib/internal/GenericInput.svelte'
+	import type { RadioGridInputParams as RadioGridOptions } from '@kitschpatrol/tweakpane-plugin-essentials/lite'
 	import type { ComponentProps } from 'svelte'
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials/lite'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import GenericInput from '#lib/internal/GenericInput.svelte'
 	import { fillWith, getGridDimensions } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { nanoid } from 'nanoid'
 
-	// TODO allow mixed values? TODO handle records and more complex types? duplicated here because
-	// it's not exported from the plugin...
-	// @tweakpane/plugin-essentials/dist/types/radio-grid/input-plugin.d.ts
-	type RadioGridOptions<Value> = GenericInputOptions & {
-		cells: (
-			x: number,
-			y: number,
-		) => {
-			value: Value
-			title: string
-		}
-		groupName: string
-		size: [number, number]
-		view: 'radiogrid'
-	}
+	// TODO allow mixed values? TODO handle records and more complex types?
 
 	type $$Props = Omit<
 		ComponentProps<GenericInput<T, RadioGridOptions<T>>>,

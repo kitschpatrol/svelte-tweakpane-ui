@@ -17,10 +17,10 @@
 </script>
 
 <script lang="ts">
-	import type { RotationInputPluginQuaternionParams as RotationQuaternionOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/dist/types/RotationInputPluginQuaternionParams'
+	import type { RotationInputPluginQuaternionParams as RotationQuaternionOptionsInternal } from '@kitschpatrol/tweakpane-plugin-rotation/lite'
 	import type { Point4dObject } from '@tweakpane/core/dist/input-binding/point-4d/model/point-4d'
 	import type { ComponentProps } from 'svelte' // Note name collision with options params
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-rotation/lite'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import GenericInputFolding from '#lib/internal/GenericInputFolding.svelte'
 	import { BROWSER } from 'esm-env'

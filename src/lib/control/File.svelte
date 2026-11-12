@@ -6,9 +6,9 @@
 </script>
 
 <script lang="ts">
-	import type { PluginInputParams } from '@kitschpatrol/tweakpane-plugin-file-import/dist/types/plugin.d.ts'
+	import type { PluginInputParams } from '@kitschpatrol/tweakpane-plugin-file-import/lite'
 	import type { ComponentProps } from 'svelte'
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-file-import'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-file-import/lite'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import GenericInput from '#lib/internal/GenericInput.svelte'
 	import { fillWith } from '#lib/utils.js'

@@ -10,10 +10,12 @@
 </script>
 
 <script lang="ts">
-	import type { ButtonGridApi as ButtonGridRef } from '@kitschpatrol/tweakpane-plugin-essentials'
-	import type { ButtonGridBladeParams as ButtonGridOptions } from '@kitschpatrol/tweakpane-plugin-essentials/dist/types/button-grid/plugin.d.ts'
+	import type {
+		ButtonGridBladeParams as ButtonGridOptions,
+		ButtonGridApi as ButtonGridRef,
+	} from '@kitschpatrol/tweakpane-plugin-essentials/lite'
 	import type { UnwrapCustomEvents } from '#lib/utils.js'
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials/lite'
 	import Blade from '#lib/core/Blade.svelte'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import { fillWith, getGridDimensions } from '#lib/utils.js'

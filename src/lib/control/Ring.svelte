@@ -1,11 +1,10 @@
 <script context="module" lang="ts">
-	import type { RingSeries } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.js'
+	import type { RingSeries } from '@kitschpatrol/tweakpane-plugin-camerakit/lite'
 	import type { ValueChangeEvent } from '#lib/utils.js'
 
 	// TODO maybe spread RingUnit into the top level props?
 
-	//  import type { RingUnit } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/view/ring.d.ts';
-	// redefine RingUnit with additional documentation
+	// Redefine the plugin's RingUnit with additional documentation
 	type RingUnit = {
 		/**
 		 * The value for the unit.
@@ -40,9 +39,9 @@
 </script>
 
 <script lang="ts">
-	import type { RingInputParams } from '@kitschpatrol/tweakpane-plugin-camerakit/dist/types/util.d.ts'
+	import type { RingInputParams } from '@kitschpatrol/tweakpane-plugin-camerakit/lite'
 	import type { ComponentProps } from 'svelte'
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-camerakit'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-camerakit/lite'
 	import GenericSlider from '#lib/internal/GenericSlider.svelte'
 
 	type $$Props = Omit<ComponentProps<GenericSlider<number>>, 'options' | 'plugin' | 'ref'> & {

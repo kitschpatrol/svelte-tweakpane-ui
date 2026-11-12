@@ -5,9 +5,9 @@
 </script>
 
 <script lang="ts">
-	import type { TextareaPluginInputParams } from '@kitschpatrol/tweakpane-plugin-textarea/dist/types/plugin.js'
+	import type { TextareaPluginInputParams } from '@kitschpatrol/tweakpane-plugin-textarea/lite'
 	import type { UnwrapCustomEvents } from '#lib/utils.js'
-	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-textarea'
+	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-textarea/lite'
 	import GenericInput, { type GenericInputRef } from '#lib/internal/GenericInput.svelte'
 	import { BROWSER } from 'esm-env'
 	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte'

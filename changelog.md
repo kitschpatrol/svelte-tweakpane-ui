@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Block clicks on ButtonGrid and RadioGrid cells while the component is disabled, instead of only dimming the grid.
+- Draw the latest WaveformMonitor value instead of the oldest one in its buffer, which made the graph lag behind updates.
+- Apply the WaveformMonitor `lineStyle` prop, which was previously ignored.
+- Keep ColorPlus colors on the gamut edge, such as `#0000ff`, instead of shifting them when bound.
+- Accept negative y values typed into the CubicBezier text field instead of resetting the curve.
+- Show a custom File `invalidExtensionMessage` as plain text instead of rendering it as HTML.
+- Load an image dropped onto Image from another document, such as an iframe, popup window, or shadow root, from its URL instead of clearing the value.
+
 ### Maintenance
 
 - Remove explicit npm token injection from the release command.
