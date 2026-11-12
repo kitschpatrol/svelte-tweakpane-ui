@@ -17,8 +17,6 @@
 	import type { UnwrapCustomEvents } from '#lib/utils.js'
 	import type { ListBladeApi, ListBladeParams, ListParamsOptions } from 'tweakpane'
 	import Blade from '#lib/core/Blade.svelte'
-	import ClsPad from '#lib/internal/ClsPad.svelte'
-	import { BROWSER } from 'esm-env'
 	import { copy } from 'fast-copy'
 	import { shallowEqual } from 'fast-equals'
 	import { type ComponentProps, createEventDispatcher } from 'svelte'
@@ -202,6 +200,3 @@ position="inline">`.
 -->
 
 <Blade options={bladeOptions} bind:ref={listBlade} {...$$restProps} />
-{#if !BROWSER}
-	<ClsPad keysAdd={['containerUnitSize']} theme={$$props.theme} />
-{/if}

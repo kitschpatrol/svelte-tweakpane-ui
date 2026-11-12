@@ -6,7 +6,10 @@ import path from 'node:path'
 import { getAllLibraryFiles, getGithubUrlForSourceFile } from './ast-tools'
 
 const verbose = false
-const SOURCE_LINK_MARKER_REGEX = /@sourceLink(?:.+\))?\n/sv
+// Matches the marker and, when already present, the Markdown link on the line
+// after it. Nothing here may run past that line: the rest of the file can hold
+// brackets and parentheses of its own.
+const SOURCE_LINK_MARKER_REGEX = /@sourceLink(?:\s*\[[^\]\n]*\]\([^\)\n]*\))?\n/v
 
 async function addLinksToComponentBlock(filePath: string): Promise<void> {
 	const fileContent = await fs.readFile(filePath, 'utf8')

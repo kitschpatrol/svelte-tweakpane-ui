@@ -155,8 +155,7 @@ Usage outside of a `<TabGroup>` component wouldn't make much sense, but in such 
   </TabPage>
 </TabGroup>
 
-<pre>
-Count A: {countA}
+<pre>Count A: {countA}
 Count B: {countB}
 </pre>
 ```
@@ -171,11 +170,13 @@ Count B: {countB}
 			<slot></slot>
 		</div>
 	{:else}
-		<div class="ssr-tab-page">
-			<!-- Tab bar -->
-			<ClsPad keysAdd={['containerUnitSize']} {theme} />
-			<slot></slot>
-		</div>
+		<!-- Stands in for the tab group's tab bar and this page -->
+		<ClsPad kind="tab">
+			<ClsPad kind="title" />
+			<ClsPad kind="content">
+				<slot></slot>
+			</ClsPad>
+		</ClsPad>
 	{/if}
 {:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>
@@ -186,11 +187,3 @@ Count B: {countB}
 		</TabGroup>
 	</InternalPaneInline>
 {/if}
-
-<style>
-	/* Measure only the first (most likely active) tab */
-	div.ssr-tab-page:not(:first-child) {
-		overflow: hidden;
-		display: none;
-	}
-</style>

@@ -18,7 +18,7 @@
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials/lite'
 	import Blade from '#lib/core/Blade.svelte'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
-	import { fillWith, getGridDimensions } from '#lib/utils.js'
+	import { getGridDimensions } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { type ComponentProps, createEventDispatcher } from 'svelte'
 
@@ -218,6 +218,10 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 
 <Blade {options} plugin={pluginModule} bind:ref={gridBlade} {...$$restProps} />
 {#if !BROWSER}
-	<ClsPad keysAdd={fillWith('containerUnitSize', gridDimensions.rows)} theme={$$props.theme} />
-	<ClsPad keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} />
+	<!-- The plugin's grid has a fixed 2px gap between rows -->
+	<ClsPad
+		pixels={2 * (gridDimensions.rows - 1)}
+		theme={$$props.theme}
+		unitSize={gridDimensions.rows - 1}
+	/>
 {/if}

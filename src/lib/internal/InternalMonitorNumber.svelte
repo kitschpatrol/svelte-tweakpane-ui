@@ -7,7 +7,7 @@
 	import type { ComponentProps } from 'svelte'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import GenericMonitor from '#lib/internal/GenericMonitor.svelte'
-	import { fillWith, rowsForMonitor } from '#lib/utils.js'
+	import { rowsForMonitor } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 
 	// Multi-file structure is legacy of previous non-dynamic component approach TODO consolidate
@@ -125,6 +125,6 @@ position="inline">` component.
 {#if !BROWSER}
 	{@const totalRows = rowsForMonitor($$props.bufferSize, $$props.rows, graph) - 1}
 	{#if totalRows > 0}
-		<ClsPad keysAdd={fillWith('containerUnitSize', totalRows)} theme={$$props.theme} />
+		<ClsPad theme={$$props.theme} unitSize={totalRows} />
 	{/if}
 {/if}

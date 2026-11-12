@@ -327,15 +327,6 @@ function expandVariableKey(name: string): string {
 	throw new Error(`Unknown Tweakpane CSS theme map variable key: "${name}"`)
 }
 
-/**
- * Used during SSR to calculate metrics Returns CSS string.
- */
-export function getValueOrFallback(theme: Theme | undefined, key: keyof ThemeKeys): string {
-	return theme?.[key] === undefined
-		? stringToCssValue(standard[key])!
-		: stringToCssValue(theme[key])!
-}
-
 export function applyTheme(element: HTMLElement, theme: Theme | undefined) {
 	const rootDocument = getWindowDocument().documentElement
 

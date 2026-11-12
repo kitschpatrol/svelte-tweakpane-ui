@@ -94,13 +94,6 @@ export function rowsForMonitor(buffer?: number, rows?: number, graph?: boolean) 
 }
 
 /**
- * Fills an array of length `quantity` with a `value`
- */
-export function fillWith<T>(value: T, quantity: number): T[] {
-	return Array.from({ length: quantity }, () => value)
-}
-
-/**
  * There's no way to enforce readonly properties in Svelte components, so this
  * is a workaround. See [general
  * approach](https://github.com/sveltejs/svelte/issues/7712#issuecomment-1642470141)

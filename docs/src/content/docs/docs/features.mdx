@@ -68,7 +68,9 @@ Wrapping Tweakpane components in `<Pane>` components is optional. If you don't w
 
 ### SSR Support _(experimental)_
 
-Very, very, early and experimental support around SSR pre-rendering of pane width and height _only_. This is not true SSR, just some calculations to minimize CLS after hydration.
+Tweakpane builds its interface in the browser, so this is not true SSR. Instead, when a page is server-rendered or prerendered, each inline pane renders an empty placeholder with the height the pane will have once it hydrates, so the rest of the page doesn't shift.
+
+The placeholder is sized with Tweakpane's own CSS variables, so it follows themes set through the `theme` prop or in your stylesheets. A few controls depend on font metrics and may still be off by a fraction of a pixel. A tab group reserves the height of its first page, whichever page is selected.
 
 ### Automatic collapsibility
 

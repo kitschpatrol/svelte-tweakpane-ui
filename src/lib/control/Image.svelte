@@ -14,7 +14,6 @@
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-image/lite'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import GenericInput from '#lib/internal/GenericInput.svelte'
-	import { fillWith } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { shallowEqual } from 'fast-equals'
 
@@ -202,5 +201,6 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 	{...$$restProps}
 />
 {#if !BROWSER}
-	<ClsPad keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} />
+	<!-- The plugin's image area is three units tall -->
+	<ClsPad theme={$$props.theme} unitSize={2} />
 {/if}

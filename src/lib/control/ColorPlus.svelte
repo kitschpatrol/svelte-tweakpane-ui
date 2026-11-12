@@ -37,7 +37,7 @@
 	import type { InputBindingApi as ColorPlusRef } from 'tweakpane'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import GenericInputFolding from '#lib/internal/GenericInputFolding.svelte'
-	import { fillWith, removeKeys } from '#lib/utils.js'
+	import { removeKeys } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import * as pluginModule from 'tweakpane-plugin-color-plus/lite'
 	import { ColorPlusModel } from 'tweakpane-plugin-color-plus/lite'
@@ -309,19 +309,17 @@ position="inline">`.
 	on:change
 	{...removeKeys($$restProps, 'alpha', 'type')}
 />
-{#if !BROWSER && expanded && $$props.picker === 'inline'}
-	<!-- Main swatch -->
-	<ClsPad
-		keysAdd={fillWith('containerUnitSize', textFields === false ? 5 : 6)}
-		theme={$$props.theme}
-	/>
-	<ClsPad
-		keysAdd={fillWith('containerUnitSpacing', textFields === false ? 2 : 3)}
-		theme={$$props.theme}
-	/>
-	<!-- Detect alpha slider... -->
-	{#if alpha === true || ColorPlusModel.getFormat(value, alpha, type)?.alpha}
-		<ClsPad keysAdd={fillWith('containerUnitSize', 1)} theme={$$props.theme} />
-		<ClsPad extra={2} keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} />
+{#if !BROWSER}
+	{#if expanded && $$props.picker === 'inline'}
+		<!-- Main swatch -->
+		<ClsPad
+			theme={$$props.theme}
+			unitSize={textFields === false ? 5 : 6}
+			unitSpacing={textFields === false ? 2 : 3}
+		/>
+		<!-- Detect alpha slider... -->
+		{#if alpha === true || ColorPlusModel.getFormat(value, alpha, type)?.alpha}
+			<ClsPad pixels={2} theme={$$props.theme} unitSize={1} verticalPadding={2} />
+		{/if}
 	{/if}
 {/if}

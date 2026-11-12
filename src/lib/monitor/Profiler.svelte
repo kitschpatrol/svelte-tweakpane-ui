@@ -23,7 +23,6 @@
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-profiler/lite'
 	import Blade from '#lib/core/Blade.svelte'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
-	import { fillWith } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte'
 
@@ -339,7 +338,7 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 
 <Blade {options} plugin={pluginModule} bind:ref={profilerBlade} {...$$restProps} />
 {#if !BROWSER}
-	<ClsPad keysAdd={fillWith('containerUnitSize', 2)} theme={$$props.theme} />
-	<!-- TODO Magic number for label... -->
-	<ClsPad extra={14.287} keysAdd={fillWith('containerVerticalPadding', 1)} theme={$$props.theme} />
+	<!-- The plugin's graph is two units tall. Below it sit the 14.3px label line and the baseline gap
+		of the inline graph, which is about 4px depending on the font and pixel density -->
+	<ClsPad pixels={18.34} theme={$$props.theme} unitSize={1} />
 {/if}

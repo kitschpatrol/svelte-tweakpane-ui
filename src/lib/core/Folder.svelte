@@ -183,11 +183,14 @@ Usage outside of a `<Pane>` component will implicitly wrap the folder in `<Pane 
 			<slot></slot>
 		</div>
 	{:else}
-		<ClsPad keysAdd={['containerUnitSize']} {theme} />
-		{#if expanded}
-			<ClsPad keysAdd={['containerVerticalPadding', 'containerVerticalPadding']} {theme} />
-			<slot></slot>
-		{/if}
+		<ClsPad kind="container">
+			<ClsPad kind="title" />
+			{#if expanded}
+				<ClsPad kind="content">
+					<slot></slot>
+				</ClsPad>
+			{/if}
+		</ClsPad>
 	{/if}
 {:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>

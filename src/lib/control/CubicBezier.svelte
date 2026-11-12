@@ -27,11 +27,11 @@
 		CubicBezierBladeParams as CubicBezierOptions,
 		CubicBezierApi as CubicBezierRef,
 	} from '@kitschpatrol/tweakpane-plugin-essentials/lite'
+	import type { UnwrapCustomEvents } from '#lib/utils.js'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials/lite'
 	import { CubicBezier } from '@kitschpatrol/tweakpane-plugin-essentials/lite'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import GenericBladeFolding from '#lib/internal/GenericBladeFolding.svelte'
-	import { fillWith, type UnwrapCustomEvents } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { copy } from 'fast-copy'
 	import { shallowEqual } from 'fast-equals'
@@ -264,9 +264,7 @@ Note that _Svelte Tweakpane UI_ embeds a [fork](https://github.com/kitschpatrol/
 	{...$$restProps}
 />
 {#if !BROWSER}
-	<ClsPad keysAdd={fillWith('containerUnitSize', 1)} theme={$$props.theme} />
 	{#if expanded === true && $$props.picker === 'inline'}
-		<ClsPad keysAdd={fillWith('containerUnitSize', 6)} theme={$$props.theme} />
-		<ClsPad keysAdd={fillWith('containerUnitSpacing', 2)} theme={$$props.theme} />
+		<ClsPad theme={$$props.theme} unitSize={6} unitSpacing={2} />
 	{/if}
 {/if}

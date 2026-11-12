@@ -4,6 +4,7 @@
 	import Blade from '#lib/core/Blade.svelte'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import { BROWSER } from 'esm-env'
+	import { getContext } from 'svelte'
 
 	// TODO more specific escape that just removes tweakpane css? TODO maybe expose scrollable prop?
 	// TODO sanitize?
@@ -53,6 +54,8 @@
 	const options: BladeOptions = {
 		view: 'separator',
 	}
+
+	const isInsidePane = getContext('parentStore') !== undefined
 
 	let ref: BladeRef
 	let sourceDiv: HTMLDivElement
@@ -166,18 +169,27 @@ case the `<Element>` will be implicitly wrapped in `<Pane position="inline">`.
 
 {#if BROWSER}
 	<Blade {options} bind:ref {...$$restProps} />
-{:else}
-	<ClsPad
-		keysAdd={['containerVerticalPadding', 'containerVerticalPadding']}
-		theme={$$props.theme}
-	/>
+{:else if !isInsidePane}
+	<!-- Stands in for the padding of the implicit pane -->
+	<ClsPad theme={$$props.theme} verticalPadding={2} />
 {/if}
 
-<div bind:this={sourceDiv} class="element skip-element-index">
+<!-- When prerendered, this element takes a separator placeholder's class itself. Outside of a pane
+	it is kept through hydration, so it can't be wrapped in a ClsPad that hydration would discard, and
+	takes the theme's horizontal padding itself instead of inheriting it from a pane placeholder. -->
+<div
+	bind:this={sourceDiv}
+	style:--tp-container-horizontal-padding={BROWSER || isInsidePane
+		? null
+		: $$props.theme?.containerHorizontalPadding}
+	class="element skip-element-index"
+	class:cls-pad-separator={!BROWSER}
+>
+	<!-- As documented for the maxHeight prop, a max height is reserved in full when prerendered,
+		since the slot content may only appear, or reach its final size, in the browser -->
 	<div
-		style:height={BROWSER ? null : `${maxHeight}px`}
+		style:height={BROWSER || maxHeight === undefined ? null : `${maxHeight}px`}
 		style:max-height={maxHeight === undefined ? null : `${maxHeight}px`}
-		style:overflow={BROWSER ? null : 'hidden'}
 		class="element-container"
 	>
 		<div class:reset={resetStyle}>
@@ -187,9 +199,10 @@ case the `<Element>` will be implicitly wrapped in `<Pane position="inline">`.
 </div>
 
 <style>
+	/* The fallback applies when prerendered, before Tweakpane's stylesheet defines its variables */
 	div.element {
-		padding-right: var(--cnt-hp);
-		padding-left: var(--cnt-hp);
+		padding-right: var(--cnt-hp, var(--tp-container-horizontal-padding, 4px));
+		padding-left: var(--cnt-hp, var(--tp-container-horizontal-padding, 4px));
 	}
 
 	div.element-container {

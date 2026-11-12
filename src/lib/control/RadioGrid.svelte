@@ -10,7 +10,7 @@
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials/lite'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import GenericInput from '#lib/internal/GenericInput.svelte'
-	import { fillWith, getGridDimensions } from '#lib/utils.js'
+	import { getGridDimensions } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { nanoid } from 'nanoid'
 
@@ -227,6 +227,9 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 
 <GenericInput {options} plugin={pluginModule} bind:value on:change {...$$restProps} />
 {#if !BROWSER}
-	<ClsPad keysAdd={fillWith('containerUnitSize', gridDimensions.rows - 1)} theme={$$props.theme} />
-	<div style:height={`${2 * (gridDimensions.rows - 1)}px`}></div>
+	<ClsPad
+		pixels={2 * (gridDimensions.rows - 1)}
+		theme={$$props.theme}
+		unitSize={gridDimensions.rows - 1}
+	/>
 {/if}

@@ -94,6 +94,7 @@ export default eslintConfig({
 				{
 					allowedClassNames: [
 						'skip-element-index', // Needed in Element.svelte
+						'cls-pad-separator', // Styled by GenericPane.svelte, applied in Element.svelte
 					],
 				},
 			],

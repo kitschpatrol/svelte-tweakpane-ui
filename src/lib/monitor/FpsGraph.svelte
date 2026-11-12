@@ -13,7 +13,6 @@
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-essentials/lite'
 	import Blade from '#lib/core/Blade.svelte'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
-	import { fillWith } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte'
 
@@ -271,9 +270,5 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 
 <Blade {options} plugin={pluginModule} bind:ref {...$$restProps} />
 {#if !BROWSER}
-	{#if rows}
-		<ClsPad keysAdd={fillWith('containerUnitSize', rows)} theme={$$props.theme} />
-	{:else}
-		<ClsPad keysAdd={fillWith('containerUnitSize', 2)} theme={$$props.theme} />
-	{/if}
+	<ClsPad theme={$$props.theme} unitSize={(rows ?? 2) - 1} />
 {/if}

@@ -8,7 +8,6 @@
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-waveform/lite'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import GenericMonitor from '#lib/internal/GenericMonitor.svelte'
-	import { fillWith } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 
 	type $$Props = Omit<
@@ -95,5 +94,5 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 
 <GenericMonitor {options} plugin={pluginModule} {value} {...$$restProps} />
 {#if !BROWSER}
-	<ClsPad keysAdd={fillWith('containerUnitSize', 2)} theme={$$props.theme} />
+	<ClsPad theme={$$props.theme} unitSize={2} />
 {/if}

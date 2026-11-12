@@ -346,8 +346,7 @@ position="inline">` component.
 />
 <Point bind:value={point4d} min={0} max={100} label="4D Point Picker" />
 
-<pre>
-2D Value:
+<pre>2D Value:
 {JSON.stringify(point2d, null, 2)}
 
 3D Value:
@@ -377,19 +376,16 @@ position="inline">` component.
 		'optionsW',
 	)}
 />
-{#if !BROWSER && !('z' in internalValue)}
+{#if !BROWSER}
 	<!-- 2D points only -->
-	{#if expanded && $$props.picker === 'inline'}
+	{#if expanded && $$props.picker === 'inline' && !('z' in internalValue)}
 		{#if $$props.label !== undefined}
-			<ClsPad
-				keysAdd={['bladeValueWidth']}
-				keysSubtract={[`containerUnitSize`]}
-				theme={$$props.theme}
-			/>
+			<!-- One unit spacing, then a square as wide as the value column less an indent of one unit
+				plus 4px -->
+			<ClsPad pixels={-4} theme={$$props.theme} unitSize={-1} unitSpacing={1} valueWidth={1} />
 		{:else}
-			<!-- Without a label, the grid takes the full width of the control -->
-			<!-- TODO remove magic number -->
-			<div style:aspect-ratio="1" style:width="calc(100% - 28px)"></div>
+			<!-- Without a label, the value column spans the blade -->
+			<ClsPad bladeWidth={1} pixels={-4} theme={$$props.theme} unitSize={-1} unitSpacing={1} />
 		{/if}
 	{/if}
 {/if}

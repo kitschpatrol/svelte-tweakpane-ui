@@ -255,16 +255,15 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 	on:change
 	{...$$restProps}
 />
-{#if !BROWSER && expanded === true && $$props.picker === 'inline'}
-	{#if $$props.label !== undefined}
-		<ClsPad
-			keysAdd={['bladeValueWidth']}
-			keysSubtract={[`containerUnitSize`]}
-			theme={$$props.theme}
-		/>
-	{:else}
-		<!-- Without a label, the grid takes the full width of the control -->
-		<!-- TODO remove magic number -->
-		<div style:aspect-ratio="1" style:width="calc(100% - 28px)"></div>
+{#if !BROWSER}
+	{#if expanded === true && $$props.picker === 'inline'}
+		{#if $$props.label !== undefined}
+			<!-- One unit spacing, then a square as wide as the value column less an indent of one unit
+				plus 4px -->
+			<ClsPad pixels={-4} theme={$$props.theme} unitSize={-1} unitSpacing={1} valueWidth={1} />
+		{:else}
+			<!-- Without a label, the value column spans the blade -->
+			<ClsPad bladeWidth={1} pixels={-4} theme={$$props.theme} unitSize={-1} unitSpacing={1} />
+		{/if}
 	{/if}
 {/if}

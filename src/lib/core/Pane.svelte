@@ -8,7 +8,8 @@
 	import InternalPaneInline from '#lib/internal/InternalPaneInline.svelte'
 	import { removeKeys } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
-	import { beforeUpdate, type ComponentProps } from 'svelte'
+	import { beforeUpdate, type ComponentProps, setContext } from 'svelte'
+	import { writable } from 'svelte/store'
 
 	type $$Props = (
 		| (ComponentProps<InternalPaneFixed> & {
@@ -74,6 +75,14 @@
 		width = $$props.width
 		expanded = $$props.expanded
 	})
+
+	// Fixed and draggable panes aren't prerendered, but their hidden children are.
+	// Give them the context a pane provides on the server, so each doesn't take
+	// itself for a stand-alone component and prerender a pane of its own.
+	if (!BROWSER && position !== 'inline') {
+		setContext('parentStore', writable(true))
+		setContext('userCreatedPane', true)
+	}
 
 	// The below proved more reliable than keying on mode and setting <svelte:component
 	// this={props.mode} {...$$restProps} />

@@ -219,25 +219,17 @@ This component is for internal use only.
 
 {#if BROWSER}
 	<slot></slot>
-{:else if expanded}
-	{#if title === undefined}
-		<ClsPad keysAdd={['containerVerticalPadding']} {theme} />
-	{:else}
-		<ClsPad
-			keysAdd={[
-				'containerVerticalPadding',
-				'containerVerticalPadding',
-				'containerVerticalPadding',
-				'containerUnitSize',
-			]}
-			{theme}
-		/>
-	{/if}
-	<slot></slot>
-{:else if title === undefined}
-	<!-- Nothing renders -->
 {:else}
-	<ClsPad keysAdd={['containerVerticalPadding', 'containerUnitSize']} {theme} />
+	<ClsPad kind="root" {theme} titled={title !== undefined}>
+		{#if title !== undefined}
+			<ClsPad kind="title" />
+		{/if}
+		{#if expanded}
+			<ClsPad kind="content">
+				<slot></slot>
+			</ClsPad>
+		{/if}
+	</ClsPad>
 {/if}
 
 <style>
@@ -252,5 +244,222 @@ This component is for internal use only.
 	:global(div.svelte-tweakpane-ui div.tp-rotv_t) {
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+
+	/*
+	 * Prerendered skeleton
+	 *
+	 * These rules lay out the placeholders that ClsPad.svelte renders on the
+	 * server, mirroring the layout rules of Tweakpane's stylesheet that decide
+	 * a pane's height.
+	 *
+	 * Everything that depends on a placeholder's position is decided here, by
+	 * the browser, from the final HTML. It can't be worked out while rendering,
+	 * because Svelte renders parts of a page more than once on the server and
+	 * discards all but the last attempt.
+	 *
+	 * They live here instead of in ClsPad because ClsPad never runs in the
+	 * browser, so a bundler may drop its styles as unused, while every pane
+	 * runs this component. They are global because they relate placeholders
+	 * rendered by different component instances.
+	 *
+	 * | Skeleton class      | Tweakpane equivalent                  |
+	 * | ------------------- | ------------------------------------- |
+	 * | `cls-pad-root`      | `tp-rotv`                             |
+	 * | `cls-pad-title`     | `tp-rotv_b`, `tp-fldv_b`, `tp-tabv_t` |
+	 * | `cls-pad-content`   | `tp-rotv_c`, `tp-fldv_c`, `tp-tbpv_c` |
+	 * | `cls-pad-container` | `tp-cntv` (folders and tab groups)    |
+	 * | `cls-pad-tab`       | One page of a `tp-tabv`, with its bar |
+	 * | `cls-pad-separator` | `tp-sprv`                             |
+	 * | `cls-pad-blade`     | Any other blade                       |
+	 *
+	 * A `cls-pad-spacer` adds the height a control has beyond one blade.
+	 */
+	:global(.cls-pad-root) {
+		--cls-pad-unit-size: var(--tp-container-unit-size, 20px);
+		--cls-pad-unit-spacing: var(--tp-container-unit-spacing, 4px);
+		--cls-pad-vertical-padding: var(--tp-container-vertical-padding, 4px);
+
+		/* The margin on both sides of a blade, explained with the spacing rules */
+		--cls-pad-blade-margin: min(var(--cls-pad-unit-spacing), var(--cls-pad-vertical-padding));
+	}
+
+	/* Tweakpane sets its own font size, which theme sizes given in em resolve
+	   against. A spacer and an element's separator need it too, since they can
+	   sit outside of a root. */
+	:global(.cls-pad-root),
+	:global(.cls-pad-spacer),
+	:global(.cls-pad-separator) {
+		font-size: 11px;
+	}
+
+	:global(.cls-pad-title) {
+		height: calc(var(--cls-pad-unit-size) + 4px);
+	}
+
+	/* Folder and tab page content is indented, as are containers nested in it.
+	   This keeps placeholders that are sized by their width the right height. */
+	:global(.cls-pad-container > .cls-pad-content),
+	:global(.cls-pad-tab > .cls-pad-content) {
+		padding-left: 4px;
+	}
+
+	:global(.cls-pad-container .cls-pad-container) {
+		margin-left: 4px;
+	}
+
+	/* A tab group shows one page, and which one is only known in the browser, so
+	   the first stands in. A group whose content renders no pages is never
+	   created at all, so it takes no space. */
+	:global(.cls-pad-tab ~ .cls-pad-tab),
+	:global(.cls-pad-container:not(:has(*))) {
+		display: none;
+	}
+
+	/*
+	 * Vertical spacing
+	 *
+	 * Tweakpane decides the space between blades from their order: a unit of
+	 * spacing between plain blades, the vertical padding around a separator,
+	 * folder or tab group, and the vertical padding at both ends.
+	 *
+	 * Here every placeholder carries a margin on both sides and adjoining
+	 * margins collapse into the larger one, which gives the same result without
+	 * a placeholder knowing its neighbors. Margins also collapse through
+	 * wrapper elements at any depth and through empty elements, so elements a
+	 * page puts around or between a pane's children don't change the result.
+	 *
+	 * Selectors that do look at a neighbor only cover what collapsing can't
+	 * express. They are built from placeholder classes alone, never from
+	 * attribute selectors or an unanchored `:has()`, because the browser would
+	 * re-check those on every class change anywhere on the page, long after the
+	 * placeholders are gone.
+	 */
+
+	/* The content establishes the vertical padding as margins of its own, at
+	   both ends, for the first and last placeholder's margins to collapse into */
+	:global(.cls-pad-content) {
+		display: flow-root;
+		min-height: calc(2 * var(--cls-pad-vertical-padding));
+	}
+
+	:global(.cls-pad-content::before),
+	:global(.cls-pad-content::after) {
+		content: '';
+		display: block;
+	}
+
+	:global(.cls-pad-content::before) {
+		margin-bottom: var(--cls-pad-vertical-padding);
+	}
+
+	:global(.cls-pad-content::after) {
+		margin-top: var(--cls-pad-vertical-padding);
+	}
+
+	/* A blade's margin is the smaller of the two sizes, so that it never
+	   exceeds the padding it collapses into */
+	:global(.cls-pad-blade) {
+		height: var(--cls-pad-unit-size);
+		margin-top: var(--cls-pad-blade-margin);
+		margin-bottom: var(--cls-pad-blade-margin);
+	}
+
+	/* A spacer extends the blade before it, taking over its bottom margin. It is
+	   as wide as a blade's contents, inside the pane's horizontal padding. The
+	   two are separate declarations because the first is dropped outside of a
+	   root, where its variable is not defined, and the second must stay. */
+	:global(.cls-pad-spacer) {
+		margin-block: calc(-1 * var(--cls-pad-blade-margin)) var(--cls-pad-blade-margin);
+		margin-inline: var(--tp-container-horizontal-padding, 4px);
+	}
+
+	/* Its height, which ClsPad sets as a custom property, is applied as padding
+	   on a pseudo-element, because a percentage in padding resolves against the
+	   width of the containing box. That is what a height taken from the value
+	   column's width needs, including a width a theme gives as a percentage. */
+	:global(.cls-pad-spacer::before) {
+		content: '';
+		display: block;
+		padding-top: var(--cls-pad-spacer-size);
+	}
+
+	/* When the unit spacing is the larger size, neighboring blades need it in full */
+	:global(.cls-pad-blade + .cls-pad-blade),
+	:global(.cls-pad-spacer + .cls-pad-blade) {
+		margin-top: var(--cls-pad-unit-spacing);
+	}
+
+	/* An empty separator is as tall as its rule */
+	:global(.cls-pad-separator) {
+		min-height: 2px;
+	}
+
+	:global(.cls-pad-separator),
+	:global(.cls-pad-container) {
+		margin-top: var(--cls-pad-vertical-padding);
+		margin-bottom: var(--cls-pad-vertical-padding);
+	}
+
+	/* Two separators in a row touch, as do two folders or tab groups, also
+	   across a hidden tab group or an empty element between them */
+	:global(.cls-pad-separator + .cls-pad-separator),
+	:global(.cls-pad-container:has(*) + .cls-pad-container),
+	:global(
+		.cls-pad-separator
+			+ :is(.cls-pad-container:not(:has(*)), :empty:not(.cls-pad-blade, .cls-pad-separator))
+			+ .cls-pad-separator
+	),
+	:global(
+		.cls-pad-container:has(*)
+			+ :is(.cls-pad-container:not(:has(*)), :empty:not(.cls-pad-blade, .cls-pad-separator))
+			+ .cls-pad-container
+	) {
+		margin-top: calc(-1 * var(--cls-pad-vertical-padding));
+	}
+
+	/* A folder or tab group at the end of its content sits flush with the edge,
+	   when nothing but hidden tab groups and empty elements comes after it.
+	   The `:has()` lists the siblings that do take up space: blades,
+	   separators, folders and tab groups with children, and any other element
+	   with content. (Unlike the opposite rule below, it can't name hidden tab
+	   groups by their own `:has()`, because `:has()` can't be nested.)
+
+	   Inside wrapper elements, it is only at the end if each wrapper is last
+	   too. A selector can't tell a wrapper within the same content from one
+	   around an enclosing folder, so this checks up to three wrappers, from
+	   the placeholder up to its content. Deeper wrappers are taken to be last. */
+	:global(
+		.cls-pad-container:not(
+			:has(
+				~ .cls-pad-blade,
+				~ .cls-pad-separator,
+				~ .cls-pad-container > *,
+				~ :not(:empty, .cls-pad-container)
+			),
+			:not(.cls-pad-content, :last-child) > *,
+			:not(.cls-pad-content, :last-child) > :not(.cls-pad-content) > *,
+			:not(.cls-pad-content, :last-child) > :not(.cls-pad-content) > :not(.cls-pad-content) > *
+		)
+	) {
+		margin-bottom: calc(-1 * var(--cls-pad-vertical-padding));
+	}
+
+	/* A folder or tab group also sits flush with the top of a pane that has no
+	   title bar, when nothing but hidden tab groups and empty elements comes
+	   before it. This covers one directly in the pane's content or inside
+	   wrapper elements that are each first too, but not one nested in another
+	   folder or tab group. Every wrapper around such a placeholder is within
+	   the pane's content, so all of them are checked. */
+	:global(
+		.cls-pad-root:not(.cls-pad-titled)
+			> .cls-pad-content
+			.cls-pad-container:not(
+				.cls-pad-container *,
+				:not(.cls-pad-container:not(:has(*)), :empty:not(.cls-pad-blade, .cls-pad-separator)) ~ *,
+				.cls-pad-content :not(:first-child) *
+			)
+	) {
+		margin-top: calc(-1 * var(--cls-pad-vertical-padding));
 	}
 </style>

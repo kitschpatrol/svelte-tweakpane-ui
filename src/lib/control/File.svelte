@@ -11,7 +11,6 @@
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-file-import/lite'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import GenericInput from '#lib/internal/GenericInput.svelte'
-	import { fillWith } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { shallowEqual } from 'fast-equals'
 
@@ -185,7 +184,6 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
     line-height: 1.2;
     color: white;
     word-break: break-all;
-    white-space: pre-wrap;
   }
 </style>
 ```
@@ -202,9 +200,6 @@ Note that _Svelte Tweakpane UI_ embeds a functionally identical [fork](https://g
 	{...$$restProps}
 />
 {#if !BROWSER}
-	{#if rows}
-		<ClsPad keysAdd={fillWith('containerUnitSize', rows)} theme={$$props.theme} />
-	{:else}
-		<ClsPad keysAdd={fillWith('containerUnitSize', 3)} theme={$$props.theme} />
-	{/if}
+	<!-- The plugin sizes its drop zone at a fixed 20px per row, plus a 1px border -->
+	<ClsPad pixels={20 * (rows ?? 3) + 2} theme={$$props.theme} unitSize={-1} />
 {/if}

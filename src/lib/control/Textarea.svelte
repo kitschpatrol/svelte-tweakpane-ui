@@ -8,6 +8,7 @@
 	import type { TextareaPluginInputParams } from '@kitschpatrol/tweakpane-plugin-textarea/lite'
 	import type { UnwrapCustomEvents } from '#lib/utils.js'
 	import * as pluginModule from '@kitschpatrol/tweakpane-plugin-textarea/lite'
+	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import GenericInput, { type GenericInputRef } from '#lib/internal/GenericInput.svelte'
 	import { BROWSER } from 'esm-env'
 	import { type ComponentProps, createEventDispatcher, onDestroy } from 'svelte'
@@ -160,7 +161,7 @@ provided for advanced use cases. Prefer binding to `value`.)
 
 <GenericInput {options} plugin={pluginModule} value={_value} bind:ref {...$$restProps} />
 {#if !BROWSER}
-	<!-- TODO magic numbers -->
-	<div style:height={`calc(${16 * (rows ?? 3)}px - 14px)`}></div>
-	<!-- <ClsPad keysAdd={fillWith('containerUnitSize', 1)} theme={$$props.theme} /> -->
+	<!-- The plugin's textarea has 16px lines, and sits on the baseline of a line one unit tall, which
+		leaves half a unit less about 3px (depending on the font) below it -->
+	<ClsPad pixels={16 * (rows ?? 3) - 3.25} theme={$$props.theme} unitSize={-0.5} />
 {/if}

@@ -153,11 +153,13 @@ Usage outside of a `<Pane>` component will implicitly wrap the tab in `<Pane pos
 		<div bind:this={indexElement} style:display="none">
 			<slot></slot>
 		</div>
-	{:else}
-		<ClsPad keysAdd={['containerVerticalPadding', 'containerVerticalPadding']} {theme} />
-		<div>
+	{:else if $$slots.default}
+		<!-- Each page renders its own placeholder, and the stylesheet shows the first. Without any
+			content there can be no pages, and Tweakpane creates no tab group, so nothing is rendered:
+			even a hidden element would change which sibling counts as first or as following a group. -->
+		<ClsPad kind="container">
 			<slot></slot>
-		</div>
+		</ClsPad>
 	{/if}
 {:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>

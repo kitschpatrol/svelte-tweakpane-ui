@@ -26,7 +26,7 @@
 	import { isColorObject, isRgbaColorObject, isRgbColorObject } from '@tweakpane/core'
 	import ClsPad from '#lib/internal/ClsPad.svelte'
 	import GenericInputFolding from '#lib/internal/GenericInputFolding.svelte'
-	import { fillWith, objectToTuple, removeKeys } from '#lib/utils.js'
+	import { objectToTuple, removeKeys } from '#lib/utils.js'
 	import { BROWSER } from 'esm-env'
 	import { shallowEqual } from 'fast-equals'
 
@@ -240,12 +240,12 @@ position="inline">`.
 	on:change
 	{...removeKeys($$restProps, 'alpha', 'type')}
 />
-{#if !BROWSER && expanded && $$props.picker === 'inline'}
-	<!-- Main swatch -->
-	<ClsPad keysAdd={fillWith('containerUnitSize', 6)} theme={$$props.theme} />
-	<ClsPad keysAdd={fillWith('containerUnitSpacing', 3)} theme={$$props.theme} />
-	{#if alpha === true || isRgbaColorObject(internalValue)}
-		<ClsPad keysAdd={fillWith('containerUnitSize', 1)} theme={$$props.theme} />
-		<ClsPad extra={2} keysAdd={fillWith('containerVerticalPadding', 2)} theme={$$props.theme} />
+{#if !BROWSER}
+	{#if expanded && $$props.picker === 'inline'}
+		<!-- Main swatch -->
+		<ClsPad theme={$$props.theme} unitSize={6} unitSpacing={3} />
+		{#if alpha === true || isRgbaColorObject(internalValue)}
+			<ClsPad pixels={2} theme={$$props.theme} unitSize={1} verticalPadding={2} />
+		{/if}
 	{/if}
 {/if}

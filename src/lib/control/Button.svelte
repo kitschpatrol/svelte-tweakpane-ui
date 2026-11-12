@@ -141,7 +141,7 @@ buttons.
 	{#if BROWSER}
 		<div bind:this={indexElement} style:display="none"></div>
 	{:else}
-		<ClsPad keysAdd={['containerUnitSize', 'containerVerticalPadding']} {theme} />
+		<ClsPad kind="blade" />
 	{/if}
 {:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>

@@ -211,7 +211,7 @@
 	"dependencies": {
 		"@kitschpatrol/tweakpane-plugin-camerakit": "0.3.1-fork.2",
 		"@kitschpatrol/tweakpane-plugin-essentials": "0.2.2-fork.2",
-		"@kitschpatrol/tweakpane-plugin-file-import": "1.2.0-fork.2",
+		"@kitschpatrol/tweakpane-plugin-file-import": "1.2.0-fork.3",
 		"@kitschpatrol/tweakpane-plugin-image": "2.0.1-fork.2",
 		"@kitschpatrol/tweakpane-plugin-inputs": "1.0.4-fork.2",
 		"@kitschpatrol/tweakpane-plugin-profiler": "0.4.2-fork.2",

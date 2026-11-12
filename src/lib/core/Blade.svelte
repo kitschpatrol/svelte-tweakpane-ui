@@ -166,7 +166,7 @@ need for the options param.
 	{#if BROWSER}
 		<div bind:this={indexElement} style:display="none"></div>
 	{:else}
-		<ClsPad keysAdd={['containerVerticalPadding']} {theme} />
+		<ClsPad kind={options?.view === 'separator' ? 'separator' : 'blade'} />
 	{/if}
 {:else}
 	<InternalPaneInline {theme} userCreatedPane={false}>

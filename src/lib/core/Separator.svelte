@@ -5,10 +5,6 @@
 		SeparatorBladeParams as SeparatorOptions,
 	} from 'tweakpane'
 	import Blade from '#lib/core/Blade.svelte'
-	import ClsPad from '#lib/internal/ClsPad.svelte'
-	import { BROWSER } from 'esm-env'
-
-	// Note stacking multiple separators breaks SSR?
 
 	type $$Props = Omit<
 		ComponentProps<Blade<SeparatorOptions, SeparatorBladeRef>>,
@@ -45,8 +41,4 @@ position="inline">`.
 [Separator.svelte](https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/src/lib/core/Separator.svelte)
 -->
 
-{#if BROWSER}
-	<Blade {options} {...$$restProps} />
-{:else}
-	<ClsPad extra={2} keysAdd={['containerVerticalPadding']} theme={$$props.theme} />
-{/if}
+<Blade {options} {...$$restProps} />
