@@ -1,6 +1,7 @@
 {
 	"extends": "@kitschpatrol/typescript-config/astro",
 	"compilerOptions": {
+		// Docs components and prop utilities index arrays and records without undefined checks
 		"noUncheckedIndexedAccess": false
 	},
 

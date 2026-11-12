@@ -2,8 +2,11 @@
 	"extends": ["@kitschpatrol/typescript-config/svelte", "./.svelte-kit/tsconfig.json"],
 
 	"compilerOptions": {
+		// Some component functions return only on certain code paths
 		"noImplicitReturns": false,
+		// Components and examples index arrays and records without undefined checks
 		"noUncheckedIndexedAccess": false,
+		// Svelte `export const` props, such as Profiler's measure helpers, read as unused locals
 		"noUnusedLocals": false
 	},
 

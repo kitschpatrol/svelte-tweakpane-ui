@@ -26,20 +26,20 @@
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.12",
-		"@astrojs/starlight": "^0.42.8",
-		"@astrojs/svelte": "^9.1.2",
-		"astro": "^7.4.4",
-		"astro-html-kit": "^0.5.3",
+		"@astrojs/starlight": "^0.42.10",
+		"@astrojs/svelte": "^9.1.4",
+		"astro": "^7.4.10",
+		"astro-html-kit": "^0.6.1",
 		"canvas": "^3.2.3",
 		"github-slugger": "^2.0.0",
 		"gray-matter": "^4.0.3",
-		"marked": "^18.1.2",
-		"poptab": "^1.2.2",
+		"marked": "^18.2.0",
+		"poptab": "^1.2.3",
 		"sharp": "^0.35.5",
 		"shx": "^0.4.0",
 		"svelte": "^5.57.3",
-		"svelte-check": "^4.7.7",
+		"svelte-check": "^4.7.8",
 		"svelte-tweakpane-ui": "link:..",
-		"wrangler": "^4.156.0"
+		"wrangler": "^4.160.0"
 	}
 }

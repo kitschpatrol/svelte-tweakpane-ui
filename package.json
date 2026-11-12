@@ -221,17 +221,17 @@
 		"@tweakpane/core": "2.0.5",
 		"esm-env": "^1.2.2",
 		"fast-copy": "^4.3.1",
-		"fast-equals": "^6.2.1",
+		"fast-equals": "^6.2.2",
 		"nanoid": "^6.0.2",
 		"svelte-persisted-store": "0.12.0",
 		"tweakpane": "4.0.5",
-		"tweakpane-plugin-color-plus": "0.7.1"
+		"tweakpane-plugin-color-plus": "0.7.2"
 	},
 	"devDependencies": {
 		"@kitschpatrol/chagent": "^0.5.0",
-		"@kitschpatrol/shared-config": "^8.14.0",
+		"@kitschpatrol/shared-config": "^8.14.1",
 		"@phenomnomnominal/tsquery": "^6.2.0",
-		"@playwright/test": "^1.64.1",
+		"@playwright/test": "^1.65.0",
 		"@stkb/rewrap": "^0.1.0",
 		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/kit": "^2.70.3",
@@ -240,7 +240,7 @@
 		"@types/node": "~24.13.6",
 		"bumpp": "^12.3.0",
 		"execa": "^10.2.1",
-		"glob": "^14.0.3",
+		"glob": "^14.0.4",
 		"node-addon-api": "^8.9.2",
 		"node-gyp": "^13.1.0",
 		"postcss-html": "^2.0.0",
@@ -249,9 +249,9 @@
 		"read-package-up": "^12.0.0",
 		"shx": "^0.4.0",
 		"svelte": "^4.2.20",
-		"svelte-check": "^4.7.7",
-		"svelte-language-server": "^0.18.5",
-		"svelte2tsx": "^0.7.62",
+		"svelte-check": "^4.7.8",
+		"svelte-language-server": "^0.18.6",
+		"svelte2tsx": "^0.7.63",
 		"ts-morph": "^28.0.0",
 		"tslib": "^2.9.1",
 		"tsx": "^4.23.15",
@@ -262,7 +262,7 @@
 	"peerDependencies": {
 		"svelte": "^4.0.0 || ^5.0.0"
 	},
-	"packageManager": "pnpm@12.16.1",
+	"packageManager": "pnpm@12.18.0",
 	"devEngines": {
 		"runtime": {
 			"name": "node",
