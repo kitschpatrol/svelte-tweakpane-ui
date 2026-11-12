@@ -36,5 +36,6 @@ src/examples/components
 # Generated doc files
 docs/src/content/docs/docs/components
 docs/src/content/acknowledgments
+docs/src/content/changelog.md
 docs/src/examples
 docs/.wrangler

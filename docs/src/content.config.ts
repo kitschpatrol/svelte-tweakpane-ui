@@ -3,6 +3,7 @@ import { docsSchema } from '@astrojs/starlight/schema'
 import { defineCollection } from 'astro:content'
 import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
+import { changelogLoader } from './utils/changelog-loader'
 
 // Acknowledgments schema as delivered from pnpm
 // license-checker-rseidelsohn is a good pnpm-agnostic alternative,
@@ -75,6 +76,9 @@ export const collections = {
 	acknowledgments: defineCollection({
 		loader: glob({ base: './src/content/acknowledgments', pattern: '*.json' }),
 		schema: acknowledgmentsSchema,
+	}),
+	changelog: defineCollection({
+		loader: changelogLoader(),
 	}),
 	docs: defineCollection({
 		loader: docsLoader(),

@@ -1,0 +1,27 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+import { getEntry, render } from 'astro:content'
+
+const changelog = await getEntry('changelog', 'changelog')
+
+if (changelog === undefined) {
+	throw new Error(
+		'Changelog entry is missing, run the docs build script to copy ../changelog.md to src/content/changelog.md',
+	)
+}
+
+const { Content, headings } = await render(changelog)
+---
+
+<StarlightPage
+	frontmatter={{
+		description: 'Release history for Svelte Tweakpane UI.',
+		sourceUrl: 'https://github.com/kitschpatrol/svelte-tweakpane-ui/blob/main/changelog.md',
+		// Version headings only, the change type headings under each would swamp the table of contents
+		tableOfContents: { maxHeadingLevel: 2 },
+		title: 'Changelog',
+	}}
+	headings={headings}
+>
+	<Content />
+</StarlightPage>

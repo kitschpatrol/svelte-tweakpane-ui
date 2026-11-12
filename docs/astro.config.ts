@@ -74,6 +74,10 @@ export default defineConfig({
 				// eslint-disable-next-line ts/no-unsafe-assignment
 				...componentMenu(),
 				{
+					label: 'Changelog',
+					link: '/docs/changelog',
+				},
+				{
 					label: 'Acknowledgments',
 					link: '/docs/acknowledgments',
 				},

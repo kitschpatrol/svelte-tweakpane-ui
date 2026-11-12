@@ -195,6 +195,7 @@
 	"scripts": {
 		"build": "tsx ./scripts/build.ts",
 		"clean-deep": "shx rm -f pnpm-lock.yaml && git clean -fdX",
+		"docs-deploy": "pnpm -C ./docs run deploy",
 		"docs-dev": "pnpm -C ./docs run dev",
 		"docs-preview": "pnpm -C ./docs run preview",
 		"fix": "pnpm build && ksc fix --skip repo",
@@ -202,7 +203,7 @@
 		"kit-preview": "vite preview",
 		"lint": "pnpm build && ksc lint --skip repo",
 		"prepare": "svelte-kit sync",
-		"release": "pnpm build && bumpp --commit 'Release: %s' --all --execute 'chagent --root-changelog package --skip-package docs' && pnpm publish --otp $(op item get npm --otp) --ignore-scripts",
+		"release": "pnpm build && bumpp --commit 'Release: %s' --all --execute 'chagent --root-changelog package --skip-package docs' && pnpm publish --otp $(op item get npm --otp) --ignore-scripts && pnpm docs-deploy",
 		"rewrap": "rewrap -i --column 100 `find src \\( -name '*.svelte' -o -name '*.ts'  -o -name '*.html' \\) -type f | grep -v src/examples`",
 		"test": "pnpm run --sequential /^test:/",
 		"test:integration": "playwright test"

@@ -245,6 +245,16 @@ html:not([data-has-hero]) main .sl-markdown-content a[data-external-link]::after
 	transition: opacity 0.25s ease;
 }
 
+/* Percentage offsets track the arrow's line box, which is shorter in headings */
+html:not([data-has-hero])
+	main
+	.sl-markdown-content
+	:is(h1, h2, h3, h4, h5, h6)
+	a[data-external-link]::after {
+	transform: scale(0.75)
+		translate(-100%, calc(-55% * var(--sl-line-height) / var(--sl-line-height-headings)));
+}
+
 @media (hover: hover) {
 	html:not([data-has-hero]) main .sl-markdown-content a[data-external-link]:hover::after {
 		opacity: 0.5;
