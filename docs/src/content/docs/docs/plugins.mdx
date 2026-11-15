@@ -94,21 +94,23 @@ The following plugins are included with _Svelte Tweakpane UI_, and are ready to 
 | [Textarea](https://github.com/panGenerator/tweakpane-textarea-plugin)      | `<Textarea>`                                                                     | [GitHub](https://github.com/kitschpatrol/tweakpane-plugin-textarea)    |
 | [Waveform](https://github.com/shoedler/tweakpane-plugin-waveform)          | `<WaveformMonitor>`                                                              | [GitHub](https://github.com/kitschpatrol/tweakpane-plugin-waveform)    |
 
-\*_Tweakpane version 4 is a relatively recent release, and it introduced a number of breaking changes for plugin developers. I've ported the asterisked plugins above from Tweakpane 3 to Tweakpane 4, and and submitted PRs to the project owners. As soon as the PRs are merged, I will update the dependencies in Svelte Tweakpane UI to point to the source instead of my fork._
-
 ---
 
 ## Optimized forks
 
 Each of the included third-party Tweakpane plugins has been forked to incorporate build process tweaks that dramatically reduce the final bundle size of projects using _Svelte Tweakpane UI_.
 
-The forks will be kept in sync with the upstream version of the plugin, with minimal changes other than the build optimizations.
+The forks will be kept in sync with the upstream version of the plugin, with minimal changes other than the build optimizations and bug fixes.
+
+Recently, all the forks have been migrated form the official [Tweakpane plugin template](https://github.com/tweakpane/plugin-template) to my [`@kitschpatrol/create-project`](https://github.com/kitschpatrol/create-project) `tweakpane-plugin` template for ease of maintenance and a consistent approach to bundle optimization.
 
 The optimization involves externalizing certain dependencies to prevent duplication and ensure that code can be shared effectively in the final build of a project.
 
 Specifically, the Rollup configuration provided in the [Tweakpane plugin template](https://github.com/tweakpane/plugin-template) does not externalize [`@tweakpane/core`](https://github.com/cocopon/tweakpane/tree/main/packages/core) as a production dependency. Instead, it's embedded into the single-file plugin artifact, which is what's published to NPM and imported by plugin consumers.
 
-Externalizing this dependency allows build to share a single instance of the `@tweakpane/core` code across multiple plugins, which amounts to savings of about 75% (\~780 K) in a SvelteKit project production build incorporating all available components.
+Externalizing this dependency in exports available via the `/lite` suffix allows build to share a single instance of the `@tweakpane/core` code across multiple plugins, which amounts to savings of about 75% (\~780 K) in a SvelteKit project production build incorporating all available components.
+
+More aggressive tree-shaking available in bundlers like [tsdown](https://tsdown.dev/) can do a better job of stripping unused parts of `@tweakpane/core` from plugin releases than Rollup does, but it's still worth externalizing for projects like _Svelte Tweakpane UI_ that incorporate many plugins.
 
 For more on bundle size optimization, please see the section on [importing components](/svelte-tweakpane-ui/docs#importing-components).
 
@@ -116,7 +118,7 @@ For more on bundle size optimization, please see the section on [importing compo
 
 ## Candidates
 
-If you'd like to see additional Tweakpane plugins either integrated with _Svelte Tweakpane UI_ or added to the list of candidates below, please open an [issue](https://github.com/kitschpatrol/svelte-tweakpane-ui/issues) or a pull request:
+If you'd like to see additional Tweakpane plugins either integrated with _Svelte Tweakpane UI_ or added to the list of candidates below, please open an [issue](https://github.com/kitschpatrol/svelte-tweakpane-ui/issues):
 
 - [tweakpane-plugin-thumbnail-list](https://github.com/kitschpatrol/tweakpane-plugin-thumbnail-list) (forked from [donmccurdy](https://github.com/donmccurdy/tweakpane-plugin-thumbnail-list) and ported to v4) <InlineImage alt="Tweakpane Logo" src="/svelte-tweakpane-ui/tweakpane-logo.svg" />v4
 - [tweakpane-plugin-infodump](https://github.com/doersino/tweakpane-plugin-infodump) <InlineImage alt="Tweakpane Logo" src="/svelte-tweakpane-ui/tweakpane-logo.svg" />v3
